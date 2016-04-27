@@ -1,0 +1,98 @@
+#############################################################
+########## Main file that loads and processes data ##########
+########## and produces the national fact sheet    ##########
+#############################################################
+
+library(reshape2)   # melt
+library(data.table) # setnames
+library(dplyr)      # %>%
+
+#source configuration file for region-specific data
+source("settings/config.R")
+#source file with plot functions
+source("functions/plot_functions.R")
+
+# Create plot directory
+if(!file.exists(cfg$outdir)) {
+  dir.create(cfg$outdir, recursive = TRUE)
+}
+
+#############################################################
+####################### Load data ###########################
+#############################################################
+
+if (file.exists(paste0("data/",cfg$infile,".Rdata"))) {
+    cat("Loading file", paste0("data/",cfg$infile,".Rdata"),"\n")
+    load(paste0("data/",cfg$infile,".csv")) 
+  } else {
+    cat("Reading data from file",paste0("data/",cfg$infile,".csv"),"\n")
+    all <- invisible(fread(paste0("data/",cfg$infile,".csv"),header=TRUE))
+    save("all",file = paste0("data/",cfg$infile,".Rdata"))  
+}
+
+#############################################################
+####################### Process data ########################
+#############################################################
+cat("Processing data\n")
+
+# move years from rows to a new column
+all <- invisible(melt(all,measure.vars=names(all)[grep("[0-9]+",names(all))],variable.name = "Year",variable.factor=FALSE))
+all$Year <- as.numeric(all$Year)
+# Rename columns
+setnames(all, "MODEL", "Model")
+setnames(all, "SCENARIO", "Scenario")
+setnames(all, "REGION", "Region")
+setnames(all, "VARIABLE", "Variable")
+setnames(all, "UNIT", "Unit")
+
+# Add new column "Category" and fill with name according to Scenario-to-Categroy-mapping in "scens"
+scens <- fread("settings/scen_categ_cdlinks.csv", header=TRUE)
+all   <- merge(scens, all, by=c("Scenario"), all=TRUE)
+all   <- all %>% filter (Category!="Limited")
+
+# Understanding R: Equivalents:
+#a <- subset(all, subset=!Category=="Limited")
+#b <- filter(all,Category!="Limited")
+#c <- all %>% filter (Category!="Limited")
+
+# Select variables defined in variables.csv
+vars <- fread("settings/variables.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
+all  <- all[Variable %in% vars$Variable]
+all  <- na.omit(all) # remove rows containing NAs
+
+#add column for sorting into national and global models
+all$Scope <- factor("global",levels = c("global","national"))
+all[all$Model %in% cfg$model_nat,]$Scope <- "national"
+#make variables a factor, so that the order in facets can be manipulated easily
+all$Variable <- factor(all$Variable)
+#to be able to not loop over "Baselines of baselines"
+all[all$Baseline=="-",]$Baseline <- NA
+
+# For EU keep data only that has CO2 emissions in 2010 in right range
+mods <- unique(all[Year=="2010" & Variable=="Emissions|CO2" & Region=="EU" & value>1000, Model, with=TRUE])
+dat2 <- subset(all, Model %in% mods & Region=="EU")
+all  <- rbind(subset(all, !Region=="EU"),dat2)
+
+####Additional variables
+#source functions for creation of additional variables
+source("functions/calcVariable.R")
+source("functions/calcRel2Base.R")
+all <- calcVariable(all,'`Emissions Intensity of GDP|MER` ~ `Emissions|CO2`/`GDP|MER` ' , newUnit='kg CO2/$US 2005')
+all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2`/`GDP|PPP` ' , newUnit='kg CO2/$US 2005')
+all <- calcVariable(all,'`Emissions per capita` ~ `Emissions|CO2`/`Population` ' , newUnit='t CO2/cap')
+all <- calcVariable(all,'`Carbon Intensity of FE` ~ `Emissions|CO2`/`Final Energy` ' , newUnit='kg CO2/GJ')
+all <- calcVariable(all,'`Energy Intensity of GDP|MER` ~ `Final Energy`/`GDP|MER` ' , newUnit='kg CO2/GJ')
+all <- calcVariable(all,'`Energy Intensity of GDP|PPP` ~ `Final Energy`/`GDP|PPP` ' , newUnit='kg CO2/GJ')
+all <- calcVariable(all,'`GDP per capita|MER` ~ `GDP|MER`/`Population` ' , newUnit='1000 $US 2005/cap')
+all <- calcVariable(all,'`GDP per capita|PPP` ~ `GDP|PPP`/`Population` ' , newUnit='1000 $US 2005/cap')
+all <- calcRel2Base(all,var="Emissions|CO2",baseEq1=F,"relative Abatement|CO2")
+all <- calcRel2Base(all,var="Carbon Intensity of FE",baseEq1=T,"Carbon intensity reduction rel. to Base")
+all <- calcRel2Base(all,var="Energy Intensity of GDP|MER",baseEq1=T,"Energy intensity reduction rel. to Base")
+
+#############################################################
+################## Produce fact sheet #######################
+#############################################################
+
+library(rmarkdown)  # render
+cat("Producing graphs in graphs folder and pdf in main folder\n")
+render("fact_sheet.rmd",output_file=paste0("Fact_sheet_",cfg$r,".pdf"))

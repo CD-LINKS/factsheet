@@ -1,0 +1,51 @@
+######################################################
+################ Configuration file         ##########
+################ with user defined settings ##########
+######################################################
+
+cfg <- list()
+
+######################################################
+################ General settings ####################
+######################################################
+
+# csv file that contains input data and will be read (only file name, without folder and extension)
+cfg$infile    <- "CDLINKS_stocktaking_compare_regions_2016-03-29"
+
+# Region for which fact sheet will be produced
+cfg$r         <- "CHN"
+cfg$rname     <- "China"
+
+# Name of corresponding national model(s)
+cfg$model_nat <- c("China TIMES")
+
+# Name of directory plots are stored in
+cfg$outdir    <- "graphs"
+
+#set standard theme for plots
+theme_set(theme_bw())
+
+######################################################
+############### Define plot styles ###################
+######################################################
+
+# Color palette
+cfg$colors <- c("#0072B2","#000000","#D55E00","#33cc00","#cc0000","#999999")
+
+# Shapes
+cfg$man_shapes=c("POLES 2014"        =  1, 
+                 "REMIND 1.5"        =  2, 
+                 "MESSAGE V.4"       =  3,
+                 "DNE21+ V.12A"      =  4, 
+                 "WITCH2013"         =  5, 
+                 "IMAGE 2.4"         =  6, 
+                 "GEM-E3_V1"         =  7, 
+                 "GEM-E3_IPTS_World" =  8, 
+                 "DNE21+ V.12E"      =  9,
+                 "GCAM4"             = 10, 
+                 "GCAM_LAMP"         = 11, 
+                 "POLES AMPERE"      = 12, 
+                 "POLES EMF27"       = 13)
+
+# Linestyles         
+cfg$man_lines=c("China TIMES"="dotdash")
