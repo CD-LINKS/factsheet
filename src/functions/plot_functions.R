@@ -3,6 +3,10 @@
 #############################################################
 library(tidyr)   # spread
 library(ggplot2) # ggplot
+library(ggtern)  # ggtern
+
+#set standard theme for plots
+theme_set(theme_bw())
 
 source("functions/plotstyle.R") # load plotstyle() function that provides colors etc. for entities
 
@@ -144,7 +148,7 @@ plot_area <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre
 #############################################################
 ####################### plot_ternary ########################
 #############################################################
-library(ggtern)
+
 plot_ternary <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre="tern",yearmax=2100){
   dtt <- dt[Region==reg & Category%in% cats & Variable%in% vars & Year<=yearmax]
   ggtern(mapping = aes(x = "Primary Energy|Coal", y = "Primary Energy|Oil", z = "Primary Energy|Non-Biomass Renewables")) + 

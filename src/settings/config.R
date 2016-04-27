@@ -25,9 +25,6 @@ cfg$outdir    <- "graphs"
 # file format for plots
 cfg$format <- ".png"
 
-#set standard theme for plots
-theme_set(theme_bw())
-
 ######################################################
 ############### Define plot styles ###################
 ######################################################
