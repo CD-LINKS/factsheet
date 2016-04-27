@@ -4,6 +4,7 @@
 library(tidyr)   # spread
 library(ggplot2) # ggplot
 
+source("functions/plotstyle.R") # load plotstyle() function that provides colors etc. for entities
 
 #############################################################
 ####################### plot_line ###########################
@@ -25,16 +26,17 @@ plot_line <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_p
   minmax<-minmax[order(Region, Category, Year),]
 
   p = ggplot()
-  p = p + geom_line(data=dt,aes(x=Year,y=value,color=Model,group=paste(Model,Scenario),size=Scope)) #& Model=="REMIND 1.5"
+  p = p + geom_ribbon(data=minmax,aes(x=Year,ymin=ymin,ymax=ymax),alpha=.3,fill='grey')
+  p = p + geom_path(data=dt,aes(x=Year,y=value,color=Model,group=paste(Model,Scenario),size=Scope))
   p = p + scale_shape_manual(values=man_shapes)
   p = p + scale_size_manual(values=c("national"=2, "global"=1))
-  p = p + geom_ribbon(data=minmax,aes(x=Year,ymin=ymin,ymax=ymax),alpha=.3,fill='grey')
-  #p = p + ylab(paste("Carbon Price"))#add unit, unit exists on miles db (different for each facet grid plot...)
+  p = p + geom_path(data=dt[Scope=="national"],aes(x=Year,y=value,color=Model,group=paste(Model,Scenario),size=Scope))
+  #p = p + ylab(paste("Carbon Price"))#add unit (different for each facet grid plot...)
   p = p + ylim(0,NA)
   p = p + facet_grid(Variable~Region, scales="free_y")
   #p = p + theme(strip.text.y=element_text(angle=45))
   p = p + ggtitle(title)
-  ggsave(file=paste0(out,"/",file_pre,"_",reg,".png"),p, width=7, height=8, dpi=120)
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
 
@@ -43,7 +45,7 @@ plot_line <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_p
 ####################### plot_funnel #########################
 #############################################################
 
-plot_funnel <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="def"){
+plot_funnel <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA,glob_lines=F){
   
   dt <- dt[Region==reg & Category%in% cats & Variable%in% vars]
   
@@ -58,15 +60,18 @@ plot_funnel <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file
   minmax<-minmax[order(Region, Category, Year),]
   
   p = ggplot()
-  # Plot lines for national models
-  p = p + geom_line(data=dt[Region==reg & Scope=="national"],aes(x=Year,y=value,color=Scenario,linetype=Model),size=1)
-  p = p + scale_linetype_manual(values=cfg$man_lines)
   # Plot funnel for global models
   p = p + geom_ribbon(data=minmax,aes(x=Year,ymin=ymin,ymax=ymax,fill=Category),alpha=.3)
-  p = p + ylim(0,NA)
+  #optional: plot individual model-scenario lines
+  if (glob_lines){p = p + geom_path(data=dt[Region==reg & Scope=="global"],aes(x=Year,y=value,group = interaction(Scenario,Model),color=Category,linetype=Model),size=.25)}
+  # Plot lines for national models
+  p = p + geom_path(data=dt[Region==reg & Scope=="national"],aes(x=Year,y=value,color=Category,linetype=Model),size=1,show.legend = FALSE)
+  p = p + scale_linetype_manual(values=cfg$man_lines)
+if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
+if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + facet_grid(Variable ~ Region,scales="free_y")
   p = p + ggtitle(title)
-  ggsave(file=paste0(out,"/",file_pre,"_",reg,".png"),p, width=7, height=8, dpi=120)
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
 
@@ -75,7 +80,7 @@ plot_funnel <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file
 ####################### plot_scatter ########################
 #############################################################
 
-plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="Title", file_pre="scatter",ylim=NA,xlim=NA,xlog=F,ylog=F) {
+plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="Title", file_pre="scatter",connect=T,ylim=NA,xlim=NA,xlog=F,ylog=F) {
 
   if (length(vars_to_spread) != 2) stop("Scatter plot requires exactly two variables")
   
@@ -86,14 +91,65 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
   setnames(dt,vars_to_spread["y"],"y")
   
   p = ggplot()
-  p = p + geom_point(data=dt,aes(x=x,y=y,color=Category,shape=Model))
+  #big points for national models
+  p = p + geom_point(data=dt[Scope=="national"],aes(x=x,y=y,color=Category,shape=Model),size=4,show_guide = FALSE)
+  #normal points for global models
+  p = p + geom_point(data=dt[Scope=="global"],aes(x=x,y=y,color=Category,shape=Model))
+  #optional: connection lines for each model-scenario
+  if (connect){p = p + geom_path(data=dt,aes(x=x,y=y,color=Category,shape=Model,linetype=Scope,group=interaction(Scenario,Model)),size=.1)}
   p = p + xlab(vars_to_spread["x"]) + ylab(vars_to_spread["y"])
-  if (ylog){p = p + scale_y_log10()} #y-axis logarithmic
-  if (xlog){p = p + scale_x_log10()} #x-axis logarithmic
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
-  ggsave(file=paste0(out,"/",file_pre,"_",reg,".png"),p, width=7, height=8, dpi=120)
+  if (ylog){p = p + scale_y_log10(limits=ylim)} #y-axis logarithmic
+  if (xlog){p = p + scale_x_log10(limits=xlim)} #x-axis logarithmic
+  p = p + theme(legend.position = "bottom")
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
 
+#############################################################
+####################### plot_area ########################
+#############################################################
 
+plot_area <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre="area",ylim=NA,ybreaks=NA,xlim=c(2000,2050),xbreaks=c(2010,2030,2050)){
+  #dataframe for area plots: use first scenario of each category-model combination, if multiple exists
+  dta <- dt[Region==reg & Category%in% cats & Variable%in% vars[2:length(vars)]]
+  for (cat in cats){
+  for (mod in unique(dta[dta$Category==cat,]$Model)){
+    if(length(unique(dta[dta$Category==cat & dta$Model == mod,]$Scenario))==1){
+      } else {
+        dta <- dta[!(dta$Scenario %in% unique(dta[dta$Category==cat & dta$Model == mod,]$Scenario)[seq(2,length(unique(dta[dta$Category==cat & dta$Model == mod,]$Scenario)))] & dta$Category==cat & dta$Model == mod),]
+      } 
+  }
+  }
+  #build data frame for overlaid line plots showing totals for all scenarios in each category-model group
+  dtl <- dt[Region==reg & Category%in% cats & Variable%in% vars[1]]
+  #build data.frame to display respective scenario names in the panels
+  scens <- dta[dta$Year==2010 & dta$Variable == vars[2],]
+  scens$value <- 0.99*max(dtl$value)
+  p = ggplot()
+  p = p + geom_area(data=dta,aes(Year, value, group = interaction(Variable, Region, Scenario), fill = Variable)) 
+  p = p + geom_path(data=dtl,aes(Year, value, group = interaction(Variable, Region, Scenario))) 
+  p = p + geom_path(data=dtl,aes(Year, value, group = interaction(Variable, Region, Scenario)), colour = "#ffffff",linetype=2) 
+  p = p + facet_grid(Category ~ Model) 
+  p = p + ylab(lab) + xlab("")
+  p = p + geom_text(data=scens,aes(x=Year,y=value,label=Scenario,angle=90,hjust=1))
+  if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
+  if (!all(is.na(xlim))){p = p + scale_x_continuous(limits=xlim,breaks=xbreaks)} #manual x-axis limits
+  p = p + scale_fill_manual(values=plotstyle(vars), labels=plotstyle(vars,out="legend"), name=strsplit(vars[1], "|", fixed=T)[[1]][1])
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}
+
+#############################################################
+####################### plot_ternary ########################
+#############################################################
+library(ggtern)
+plot_ternary <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre="tern",yearmax=2100){
+  dtt <- dt[Region==reg & Category%in% cats & Variable%in% vars & Year<=yearmax]
+  ggtern(mapping = aes(x = "Primary Energy|Coal", y = "Primary Energy|Oil", z = "Primary Energy|Non-Biomass Renewables")) + 
+    geom_path(data = dtt,
+              mapping = aes(linetype = Scenario, colour = Model))
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}

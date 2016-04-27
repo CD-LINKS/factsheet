@@ -23,7 +23,7 @@ if(!file.exists(cfg$outdir)) {
 
 if (file.exists(paste0("data/",cfg$infile,".Rdata"))) {
     cat("Loading file", paste0("data/",cfg$infile,".Rdata"),"\n")
-    load(paste0("data/",cfg$infile,".csv")) 
+    load(paste0("data/",cfg$infile,".Rdata")) 
   } else {
     cat("Reading data from file",paste0("data/",cfg$infile,".csv"),"\n")
     all <- invisible(fread(paste0("data/",cfg$infile,".csv"),header=TRUE))
@@ -49,6 +49,9 @@ setnames(all, "UNIT", "Unit")
 scens <- fread("settings/scen_categ_cdlinks.csv", header=TRUE)
 all   <- merge(scens, all, by=c("Scenario"), all=TRUE)
 all   <- all %>% filter (Category!="Limited")
+#for the moment, remove SSP scenarios, to reduce spread
+all <- all %>% filter(Model!="MESSAGE-GLOBIOM_1.0")
+
 
 # Understanding R: Equivalents:
 #a <- subset(all, subset=!Category=="Limited")

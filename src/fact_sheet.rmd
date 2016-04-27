@@ -28,7 +28,7 @@ invisible(dev.off())
 vars <- c('Final Energy','Primary Energy','Emissions|CO2')#'Population')
 cats <- c("Baseline","Optimal 450")
 
-plot_funnel(reg=cfg$r,dt=all,vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel")   
+plot_funnel(reg=cfg$r,dt=all,vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel",glob_lines=T)   
 
 
 invisible(dev.off())
@@ -41,7 +41,7 @@ invisible(dev.off())
 vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
 cats <- c("Baseline","Optimal 450")
 
-plot_funnel(reg=cfg$r,dt=all,vars=vars,cats=cats,title="Kaya factors",file_pre="kaya_funnel")   
+plot_funnel(reg=cfg$r,dt=all,vars=vars,cats=cats,title="Kaya factors",file_pre="kaya_funnel",glob_lines=T)   
 
 invisible(dev.off())
 
@@ -53,7 +53,7 @@ invisible(dev.off())
 # Please specify exactly two variables and assign them to x and y
 vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
 cats <- c("Baseline","Optimal 450")
-plot_scatter(reg=cfg$r,dt=all,vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T)   
+plot_scatter(reg=cfg$r,dt=all,vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T,xlim=c(10,1000))   
 
 invisible(dev.off())
 
@@ -72,7 +72,7 @@ invisible(dev.off())
 
 ```
 
-\subsection{Emissions over GDP}
+\subsection{Final Energy over GDP}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
@@ -80,6 +80,71 @@ invisible(dev.off())
 vars <- c(x="GDP|MER",y="Final Energy")
 cats <- c("Baseline","Optimal 450")
 plot_scatter(reg=cfg$r,dt=all,vars_to_spread=vars,cats=cats,title="Socio-Economic Indicators",file_pre="gdp_fe_scatter")   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Primary Energy}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# Please specify exactly two variables and assign them to x and y
+vars <- c("Primary Energy","Primary Energy|Coal|w/o CCS","Primary Energy|Coal|w/ CCS","Primary Energy|Gas|w/o CCS","Primary Energy|Gas|w/ CCS","Primary Energy|Oil|w/o CCS","Primary Energy|Oil|w/ CCS","Primary Energy|Biomass|w/o CCS","Primary Energy|Biomass|w/ CCS","Primary Energy|Nuclear","Primary Energy|Hydro","Primary Energy|Wind","Primary Energy|Solar","Primary Energy|Geothermal","Primary Energy|Other")
+cats <- c("Baseline","Optimal 450")
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Primary Energy (EJ/yr)",file_pre="pe_area",xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Electricity}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# Please specify exactly two variables and assign them to x and y
+vars <- c("Secondary Energy|Electricity","Secondary Energy|Electricity|Coal|w/o CCS","Secondary Energy|Electricity|Coal|w/ CCS","Secondary Energy|Electricity|Gas|w/o CCS","Secondary Energy|Electricity|Gas|w/ CCS","Secondary Energy|Electricity|Oil|w/o CCS","Secondary Energy|Electricity|Oil|w/ CCS","Secondary Energy|Electricity|Biomass|w/o CCS","Secondary Energy|Electricity|Biomass|w/ CCS","Secondary Energy|Electricity|Nuclear","Secondary Energy|Electricity|Hydro","Secondary Energy|Electricity|Wind","Secondary Energy|Electricity|Solar","Secondary Energy|Electricity|Geothermal","Secondary Energy|Electricity|Other")
+cats <- c("Baseline","Optimal 450")
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Electricity Generation (EJ/yr)",file_pre="ele_area",xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy by carrier}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy","Final Energy|Electricity","Final Energy|Gases","Final Energy|Heat","Final Energy|Hydrogen","Final Energy|Liquids","Final Energy|Other","Final Energy|Solids")
+cats <- c("Baseline","Optimal 450")
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_c_area",xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy by sector}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy","Final Energy|Transportation","Final Energy|Residential and Commercial","Final Energy|Industry","Final Energy|Other Sector")
+cats <- c("Baseline","Optimal 450")
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_s_area")   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Primary Energy shares}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For ternary plots, 
+vars <- c("Primary Energy|Coal","Primary Energy|Gas","Primary Energy|Oil","Primary Energy|Biomass","Primary Energy|Nuclear","Primary Energy|Non-Biomass Renewables")
+cats <- c("Baseline","Optimal 450")
+#plot_ternary(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="pe_tern",yearmax=2050)   
 
 invisible(dev.off())
 
