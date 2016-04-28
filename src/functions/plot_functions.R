@@ -145,19 +145,18 @@ plot_area <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre
 ####################### plot_ternary ########################
 #############################################################
 plot_ternary <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, lab="Title", file_pre="tern",yearmax=2100){
-  dtt <- dt[Region==reg & Category%in% cats & Variable%in% vars & Year<=yearmax]
-  if (length(vars_to_spread) != 3) stop("Scatter plot requires exactly two variables")
+ if (length(vars_to_spread) != 3) stop("Ternary plot requires exactly 3 variable")
+ 
+ # remove Unit column because it has different entrie for the two vars_to_spread 
+ # and causes spread to replace some of the existing values with NA
+  dtt <- spread(subset(dt[Region==reg & Category%in% cats & Variable %in% vars_to_spread & Year<=yearmax],select=-Unit),Variable,value)
+ setnames(dtt,vars_to_spread["x"],"x")
+ setnames(dtt,vars_to_spread["y"],"y")
+ setnames(dtt,vars_to_spread["z"],"z")
   
-  # remove Unit column because it has different entrie for the two vars_to_spread 
-  # and causes spread to replace some of the existing values with NA
-  dt <- spread(subset(dt[Region==reg & Category%in% cats & Variable %in% vars_to_spread],select=-Unit),Variable,value)
-  setnames(dt,vars_to_spread["x"],"x")
-  setnames(dt,vars_to_spread["y"],"y")
-  
-  
-  ggtern(mapping = aes(x = "Primary Energy|Coal", y = "Primary Energy|Oil", z = "Primary Energy|Non-Biomass Renewables")) + 
+  ggtern(mapping = aes(x = x, y = y, z = z)) + 
     geom_path(data = dtt,
-              mapping = aes(linetype = Scenario, colour = Model))
+              mapping = aes(linetype = Scope, colour = Category, group = Scenario))
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }

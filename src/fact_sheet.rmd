@@ -137,15 +137,15 @@ invisible(dev.off())
 
 ```
 
-\subsection{Energy Mix - Primary Energy shares}
+
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-
+# \subsection{Energy Mix - Primary Energy shares}
 # For ternary plots, 
-vars <- c("Primary Energy|Coal","Primary Energy|Gas","Primary Energy|Oil","Primary Energy|Biomass","Primary Energy|Nuclear","Primary Energy|Non-Biomass Renewables")
-cats <- c("Baseline","Optimal 450")
+#vars_to_spread <- c(x="Primary Energy|Coal",y="Primary Energy|Oil",z="Primary Energy|Non-Biomass Renewables")
+#cats <- c("Baseline","Optimal 450")
 #plot_ternary(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="pe_tern",yearmax=2050)   
 
-invisible(dev.off())
+#invisible(dev.off())
 
 ```
