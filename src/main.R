@@ -4,11 +4,14 @@
 #############################################################
 
 library(reshape2)   # melt
-library(data.table) # setnames
+library(data.table) # setnames, nice view option
 library(dplyr)      # %>%
+library(tidyr)      # spread
+library(ggplot2)    # ggplot
+library(ggtern)     # ternary plots
 
 #source configuration file for region-specific data
-source("settings/config.R")
+source("settings/config_CHN.R")
 #source file with plot functions
 source("functions/plot_functions.R")
 
@@ -21,6 +24,14 @@ if(!file.exists(cfg$outdir)) {
 ####################### Load data ###########################
 #############################################################
 
+#if processed data is already available, just load it. To redo processing (e.g. after adding new calculated variable, please delete the ..._proc.Rdata file)
+if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata"))){
+  cat("Loading processed data from file", paste0("data/",cfg$infile,".Rdata"),"\n",
+      "delete this file and re-run if you want to do the data processing again", "\n")
+  load(paste0("data/",cfg$infile,"_proc.Rdata")) 
+  Sys.sleep(3)#give everybody the chance to read the above message
+} else {
+  
 if (file.exists(paste0("data/",cfg$infile,".Rdata"))) {
     cat("Loading file", paste0("data/",cfg$infile,".Rdata"),"\n")
     load(paste0("data/",cfg$infile,".Rdata")) 
@@ -47,6 +58,8 @@ setnames(all, "UNIT", "Unit")
 
 # Add new column "Category" and fill with name according to Scenario-to-Categroy-mapping in "scens"
 scens <- fread("settings/scen_categ_cdlinks.csv", header=TRUE)
+#get rid of duplicated scenarios
+scens <- scens[!duplicated(scens$Scenario)]
 all   <- merge(scens, all, by=c("Scenario"), all=TRUE)
 all   <- all %>% filter (Category!="Limited")
 #for the moment, remove SSP scenarios, to reduce spread
@@ -91,6 +104,10 @@ all <- calcVariable(all,'`GDP per capita|PPP` ~ `GDP|PPP`/`Population` ' , newUn
 all <- calcRel2Base(all,var="Emissions|CO2",baseEq1=F,"relative Abatement|CO2")
 all <- calcRel2Base(all,var="Carbon Intensity of FE",baseEq1=T,"Carbon intensity reduction rel. to Base")
 all <- calcRel2Base(all,var="Energy Intensity of GDP|MER",baseEq1=T,"Energy intensity reduction rel. to Base")
+
+save("all",file = paste0("data/",cfg$infile,"_proc.Rdata"))  
+
+}
 
 #############################################################
 ################## Produce fact sheet #######################

@@ -25,20 +25,20 @@ calcVariable = function(data,formula,newUnit='None'){
     stop("Error: The dataframe does not contain all variables found in the formula provided!")
   }
   #filter out variables in forumla
-  res = data[data$Variable %in% vars_rhs,]
+  res <- data[data$Variable %in% vars_rhs,]
   #delete units
   res$Unit <- NULL
   #convert to wide format
-  res = dcast(res,... ~ Variable)
+  res <- dcast(res,... ~ Variable)
   #convert to years for the calculation:
  
   #do the actual calculation. split among model,scenario,region (FIXME: Who knows how to group_by for all but some specified column name(s)? Please do tell Anselm. Thanks.), then apply formula to the vector (of values at different time-steps):
-  res = res %>%
+  res <- res %>%
     group_by(Model,Scenario,Region) %>%                    
     mutate_(result = formula[[3]]  ) %>% ungroup()
   
   #label new unit
-  res$Unit = newUnit  
+  res$Unit <- newUnit  
   res <- res[, !vars_rhs, with=F] # drop redundant variables
   res$Variable = as.character(formula[[2]]) #rename new variable correctly
   names(res)[names(res) == 'result'] = 'value'
