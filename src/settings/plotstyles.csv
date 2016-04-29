@@ -34,7 +34,7 @@ Final Energy|Solar;Solar;#7f7f00;1;2;dotted
 Final Energy|Solids;Solids;#191919;1;2;dotted
 Final Energy|Solids|Biomass;Biomass;#00b219;1;2;dotted
 Final Energy|Solids|Coal;Coal;#191919;1;2;dotted
-Final Energy|Transportation;Total;#000000;1;2;dotted
+Final Energy|Transportation;Transport;#000000;1;2;dotted
 Final Energy|Transportation|Diesel;Diesel;#0000cc;1;2;dotted
 Final Energy|Transportation|Electricity;Electricity;#ffb200;1;2;dotted
 Final Energy|Transportation|Gases;Gases;#999966;1;2;dotted
@@ -126,3 +126,8 @@ Price|Final Energy|Petrol;Petrol;#29b1da;1;2;dotted
 Price|Final Energy|Diesel;Diesel;#08262f;1;2;dotted
 Secondary Energy|Electricity|w/o CCS;Coal w/o CCS;#0c0c0c;1;2;dotted
 Secondary Energy|Electricity|Coal|w/o CCS;Coal w/o CCS;#0c0c0c;1;2;dotted
+Baseline;Baseline;#333333;1;2;dotted
+Reference;Reference;#992222;1;2;dotted
+Global 450;Global 450;#229922;1;2;dotted
+Global 500;Global 500;#222299;1;2;dotted
+Optimal 450;Optimal 450;#00ff00;1;2;dotted

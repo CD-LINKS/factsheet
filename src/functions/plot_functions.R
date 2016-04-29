@@ -28,14 +28,14 @@ plot_line <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_p
   p = p + geom_ribbon(data=minmax,aes(x=Year,ymin=ymin,ymax=ymax),alpha=.3,fill='grey')
   p = p + geom_path(data=dt,aes(x=Year,y=value,color=Model,group=paste(Model,Scenario),size=Scope))
   p = p + scale_shape_manual(values=man_shapes)
-  p = p + scale_size_manual(values=c("national"=2, "global"=1))
+  p = p + scale_size_manual(values=c("national"=2, "global"=.2))
   p = p + geom_path(data=dt[Scope=="national"],aes(x=Year,y=value,color=Model,group=paste(Model,Scenario),size=Scope))
   #p = p + ylab(paste("Carbon Price"))#add unit (different for each facet grid plot...)
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + facet_grid(Variable~Region, scales="free_y")
   #p = p + theme(strip.text.y=element_text(angle=45))
-  p = p + ggtitle(title)
+  p = p + ggtitle(title) + theme_bw() 
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
@@ -67,10 +67,12 @@ plot_funnel <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file
   # Plot lines for national models
   p = p + geom_path(data=dt[Region==reg & Scope=="national"],aes(x=Year,y=value,color=Category,linetype=Model),size=1,show.legend = FALSE)
   p = p + scale_linetype_manual(values=cfg$man_lines)
+  p = p + scale_colour_manual(values=plotstyle(cats))
+  p = p + scale_fill_manual(values=plotstyle(cats))
 if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
 if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + facet_grid(Variable ~ Region,scales="free_y")
-  p = p + ggtitle(title)
+  p = p + ggtitle(title) + theme_bw()
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
@@ -96,13 +98,15 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
   #normal points for global models
   p = p + geom_point(data=dt[Scope=="global"],aes(x=x,y=y,color=Category,shape=Model))
   #optional: connection lines for each model-scenario
-  if (connect){p = p + geom_path(data=dt,aes(x=x,y=y,color=Category,shape=Model,linetype=Scope,group=interaction(Scenario,Model)),size=.1)}
+  if (connect){p = p + geom_path(data=dt,aes(x=x,y=y,color=Category,shape=Model,linetype=Scope,group=interaction(Scenario,Model),size=Scope))}
+  p = p + scale_size_manual(values=c("national"=1, "global"=.2))
+  p = p + scale_colour_manual(values=plotstyle(cats))
   p = p + xlab(vars_to_spread["x"]) + ylab(vars_to_spread["y"])
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   if (ylog){p = p + scale_y_log10(limits=ylim)} #y-axis logarithmic
   if (xlog){p = p + scale_x_log10(limits=xlim)} #x-axis logarithmic
-  p = p + theme(legend.position = "bottom")
+  p = p + theme(legend.position = "bottom") + theme_bw()
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
@@ -137,6 +141,7 @@ plot_area <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + scale_x_continuous(limits=xlim,breaks=xbreaks)} #manual x-axis limits
   p = p + scale_fill_manual(values=plotstyle(vars), labels=plotstyle(vars,out="legend"), name=strsplit(vars[1], "|", fixed=T)[[1]][1])
+  p = p + theme_bw()
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
@@ -156,7 +161,7 @@ plot_ternary <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, lab="Tit
   
   ggtern(mapping = aes(x = x, y = y, z = z)) + 
     geom_path(data = dtt,
-              mapping = aes(linetype = Scope, colour = Category, group = Scenario))
+              mapping = aes(linetype = Scope, colour = Category, group = Scenario))  + theme_bw()
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }

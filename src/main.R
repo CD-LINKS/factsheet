@@ -78,7 +78,6 @@ all  <- na.omit(all) # remove rows containing NAs
 
 #add column for sorting into national and global models
 all$Scope <- factor("global",levels = c("global","national"))
-all[all$Model %in% cfg$model_nat,]$Scope <- "national"
 #make variables a factor, so that the order in facets can be manipulated easily
 all$Variable <- factor(all$Variable)
 #to be able to not loop over "Baselines of baselines"
@@ -108,6 +107,8 @@ all <- calcRel2Base(all,var="Energy Intensity of GDP|MER",baseEq1=T,"Energy inte
 save("all",file = paste0("data/",cfg$infile,"_proc.Rdata"))  
 
 }
+#this has to be executed every time
+all[all$Model %in% cfg$model_nat,]$Scope <- "national"
 
 #############################################################
 ################## Produce fact sheet #######################
