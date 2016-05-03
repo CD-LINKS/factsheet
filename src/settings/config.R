@@ -65,4 +65,4 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "GCAM_LAMP"         = "dashed", 
                 "POLES AMPERE"      = "dotted", 
                 "POLES EMF27"       = "dotted",
-                "China TIMES"="solid") #"dotdash"
+                "China TIMES"="solid")
