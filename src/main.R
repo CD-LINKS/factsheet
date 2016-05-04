@@ -88,6 +88,9 @@ mods <- unique(all[Year=="2010" & Variable=="Emissions|CO2" & Region=="EU" & val
 dat2 <- subset(all, Model %in% mods & Region=="EU")
 all  <- rbind(subset(all, !Region=="EU"),dat2)
 
+# Multiplying Brazil GDP for COPPE by 1000 because reported differently (factor 1000 different from global models)
+all[Model=="COPPE-MSB_v1.3.2"&Variable=="GDP|MER"&Region=="BRA"]$value=all[Model=="COPPE-MSB_v1.3.2"&Variable=="GDP|MER"&Region=="BRA"]$value*1000
+
 ####Additional variables
 #source functions for creation of additional variables
 source("functions/calcVariable.R")
