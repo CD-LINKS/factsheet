@@ -10,14 +10,14 @@ cfg <- list()
 ######################################################
 
 # csv file that contains input data and will be read (only file name, without folder and extension)
-cfg$infile    <- "CDLINKS_stocktaking_compare_regions_2016-03-29"
+cfg$infile    <- "cdlinks_compare_20160429-133226"
 
 # Region for which fact sheet will be produced
 cfg$r         <- "JPN"
 cfg$rname     <- "Japan"
 
 # Name of corresponding national model(s)
-cfg$model_nat <- c("AIM/Enduse[Japan]")
+cfg$model_nat <- c("AIM/Enduse[Japan]","DNE21+ V.14")
 
 # Name of directory plots are stored in
 cfg$outdir    <- "graphs"
@@ -52,7 +52,8 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "China TIMES"       = 1,
                  "PRIMES_V1"         = 1,
                  "COPPE-MSB_v1.3.2"  = 1,
-                 "AIM/Enduse[Japan]" = 1)
+                 "AIM/Enduse[Japan]" = 1,
+                 "DNE21+ V.14" = 1)
 
 # Linestyles         
 cfg$man_lines=c("POLES 2014"        =  "solid", 
@@ -73,4 +74,5 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "China TIMES"       = "solid",
                 "PRIMES_V1"         = "solid",
                 "COPPE-MSB_v1.3.2"  = "solid",
-                "AIM/Enduse[Japan]" = "solid") #"dotdash"
+                "AIM/Enduse[Japan]" = "solid",
+                "DNE21+ V.14" = "dashed") #"dotdash"
