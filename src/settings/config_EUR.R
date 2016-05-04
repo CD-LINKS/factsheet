@@ -75,4 +75,4 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "China TIMES"       = "solid",
                 "PRIMES_V1"         = "solid",
                 "COPPE-MSB_v1.3.2"  = "solid",
-                "AIM/Enduse[Japan]" = "solid") #"dotdash"
+                "AIM/Enduse[Japan]" = "solid")
