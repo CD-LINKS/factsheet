@@ -9,6 +9,7 @@ library(dplyr)      # %>%
 library(tidyr)      # spread
 library(ggplot2)    # ggplot
 library(ggtern)     # ternary plots
+library(rmarkdown)  # render
 
 #source configuration file for region-specific data
 source("settings/config_CHN.R")
@@ -114,6 +115,5 @@ all[all$Model %in% cfg$model_nat,]$Scope <- "national"
 ################## Produce fact sheet #######################
 #############################################################
 
-library(rmarkdown)  # render
 cat("Producing graphs in graphs folder and pdf in main folder\n")
 render("fact_sheet.rmd",output_file=paste0("Fact_sheet_",cfg$r,".pdf"))
