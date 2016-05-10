@@ -13,20 +13,17 @@ cfg <- list()
 cfg$infile    <- "cdlinks_compare_20160429-133226"
 
 # Region for which fact sheet will be produced
-cfg$r         <- "EU"
-cfg$rname     <- "Europe"
+cfg$r         <- "IND"
+cfg$rname     <- "India"
 
 # Name of corresponding national model(s)
-cfg$model_nat <- c("PRIMES_V1")
+cfg$model_nat <- c("") # fill in the same model name(s) as used in the database
 
 # Name of directory plots are stored in
 cfg$outdir    <- "graphs"
 
 # file format for plots
 cfg$format <- ".png"
-
-#set standard theme for plots
-theme_set(theme_bw())
 
 ######################################################
 ############### Define plot styles ###################
@@ -54,7 +51,7 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "China TIMES"       = 1,
                  "PRIMES_V1"         = 1,
                  "COPPE-MSB_v1.3.2"  = 1,
-                 "AIM/Enduse[Japan]" = 1)
+                 "AIM/Enduse[Japan]" = 1) # add national models for India
 
 # Linestyles         
 cfg$man_lines=c("POLES 2014"        =  "solid", 
@@ -64,7 +61,7 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "DNE21+ V.12A"      =  "dotdash", 
                 "DNE21+ V.12E"      =  "dotdash",
                 "WITCH2013"         =  "longdash", 
-                "WITCH"             =  "longdash", 
+                "WITCH"         =  "longdash", 
                 "IMAGE 2.4"         =  "twodash", 
                 "GEM-E3_V1"         =  "solid", 
                 "GEM-E3_IPTS_World" =  "solid", 
@@ -75,4 +72,4 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "China TIMES"       = "solid",
                 "PRIMES_V1"         = "solid",
                 "COPPE-MSB_v1.3.2"  = "solid",
-                "AIM/Enduse[Japan]" = "solid") # test commit
+                "AIM/Enduse[Japan]" = "solid") # add national models for India
