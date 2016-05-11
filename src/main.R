@@ -9,10 +9,10 @@ library(dplyr)      # %>%
 library(tidyr)      # spread
 library(ggplot2)    # ggplot
 library(ggtern)     # ternary plots
-library(directlabels) # year labels for scatter plots
+library(rmarkdown)  # render
 
 #source configuration file for region-specific data
-source("settings/config_BRA.R ")
+source("settings/config_CHN.R")
 #source file with plot functions
 source("functions/plot_functions.R")
 
@@ -92,27 +92,19 @@ all  <- rbind(subset(all, !Region=="EU"),dat2)
 # Multiplying Brazil GDP for COPPE by 1000 because reported differently (factor 1000 different from global models)
 all[Model=="COPPE-MSB_v1.3.2"&Variable=="GDP|MER"&Region=="BRA"]$value=all[Model=="COPPE-MSB_v1.3.2"&Variable=="GDP|MER"&Region=="BRA"]$value*1000
 
-#Adding "Emissions|CO2|Energy and Industrial Processes" to models that don't report them, but have "Emissions|CO2"
-tmp1 <- all[Model %in% setdiff(unique(all[Variable=="Emissions|CO2"]$Model),unique(all[Variable=="Emissions|CO2|Energy and Industrial Processes"]$Model)) & 
-              Variable == "Emissions|CO2"]
-tmp1$Variable <- "Emissions|CO2|Energy and Industrial Processes"
-
-all <- rbind(all,tmp1)
-
 ####Additional variables
 #source functions for creation of additional variables
 source("functions/calcVariable.R")
 source("functions/calcRel2Base.R")
-all <- calcVariable(all,'`Emissions|CO2|FFI` ~ `Emissions|CO2|Energy and Industrial Processes` ' , newUnit='Mt CO2/yr')
-all <- calcVariable(all,'`Emissions Intensity of GDP|MER` ~ `Emissions|CO2|FFI`/`GDP|MER` ' , newUnit='kg CO2/$US 2005')
-all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2|FFI`/`GDP|PPP` ' , newUnit='kg CO2/$US 2005')
-all <- calcVariable(all,'`Emissions per capita` ~ `Emissions|CO2|FFI`/`Population` ' , newUnit='t CO2/cap')
-all <- calcVariable(all,'`Carbon Intensity of FE` ~ `Emissions|CO2|FFI`/`Final Energy` ' , newUnit='kg CO2/GJ')
-all <- calcVariable(all,'`Energy Intensity of GDP|MER` ~ `Final Energy`/`GDP|MER` ' , newUnit='GJ/$2005')
-all <- calcVariable(all,'`Energy Intensity of GDP|PPP` ~ `Final Energy`/`GDP|PPP` ' , newUnit='GJ/$2005')
+all <- calcVariable(all,'`Emissions Intensity of GDP|MER` ~ `Emissions|CO2`/`GDP|MER` ' , newUnit='kg CO2/$US 2005')
+all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2`/`GDP|PPP` ' , newUnit='kg CO2/$US 2005')
+all <- calcVariable(all,'`Emissions per capita` ~ `Emissions|CO2`/`Population` ' , newUnit='t CO2/cap')
+all <- calcVariable(all,'`Carbon Intensity of FE` ~ `Emissions|CO2`/`Final Energy` ' , newUnit='kg CO2/GJ')
+all <- calcVariable(all,'`Energy Intensity of GDP|MER` ~ `Final Energy`/`GDP|MER` ' , newUnit='kg CO2/GJ')
+all <- calcVariable(all,'`Energy Intensity of GDP|PPP` ~ `Final Energy`/`GDP|PPP` ' , newUnit='kg CO2/GJ')
 all <- calcVariable(all,'`GDP per capita|MER` ~ `GDP|MER`/`Population` ' , newUnit='1000 $US 2005/cap')
 all <- calcVariable(all,'`GDP per capita|PPP` ~ `GDP|PPP`/`Population` ' , newUnit='1000 $US 2005/cap')
-all <- calcRel2Base(all,var="Emissions|CO2|FFI",baseEq1=F,"relative Abatement|CO2")
+all <- calcRel2Base(all,var="Emissions|CO2",baseEq1=F,"relative Abatement|CO2")
 all <- calcRel2Base(all,var="Carbon Intensity of FE",baseEq1=T,"Carbon intensity reduction rel. to Base")
 all <- calcRel2Base(all,var="Energy Intensity of GDP|MER",baseEq1=T,"Energy intensity reduction rel. to Base")
 
@@ -120,19 +112,11 @@ save("all",file = paste0("data/",cfg$infile,"_proc.Rdata"))
 
 }
 #this has to be executed every time
-#set scope to "national" for national models
 all[all$Model %in% cfg$model_nat,]$Scope <- "national"
-#chnage Model name for national models, so that they appear first
-if(!substr(cfg$model_nat[1],1,1)=="*"){
-all[all$Model %in% cfg$model_nat,]$Model <- paste0("*",all[all$Model %in% cfg$model_nat,]$Model)
-cfg$model_nat <- paste0("*",cfg$model_nat)
-
-}
 
 #############################################################
 ################## Produce fact sheet #######################
 #############################################################
 
-library(rmarkdown)  # render
 cat("Producing graphs in graphs folder and pdf in main folder\n")
 render("fact_sheet.rmd",output_file=paste0("Fact_sheet_",cfg$r,".pdf"))
