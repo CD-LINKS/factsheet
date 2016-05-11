@@ -12,9 +12,11 @@ source("functions/plotstyle.R") # load plotstyle() function that provides colors
 # Standard function for plotting any variable that is left (not having its own function).
 # In this case, it shows drivers (population and GDP)
 plot_line <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA){
-  
-  dt <- dt[Region==reg & Category%in% cats & Variable%in% vars]
-  
+  #select data  
+  dt <- dt[Region==reg & Category %in% cats & Variable %in% vars]
+  #create string with y-axis units for axis label
+  unitsy <- paste0("(",unique(dt[Variable%in%vars]$Unit),")    ")
+  unitsy <- paste(rev(unitsy),sep='',collapse='')
   # For each variable count models and add to data and variable name
   models=dt[,list(number=length(unique(Model))),by=c('Region','Variable')]
   dt=merge(dt, models, by=c('Region','Variable'))
@@ -35,6 +37,7 @@ plot_line <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_p
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + facet_grid(Variable~Region, scales="free_y")
   #p = p + theme(strip.text.y=element_text(angle=45))
+  p = p + ylab(paste(unitsy))
   p = p + ggtitle(title) + theme_bw() 
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
@@ -46,9 +49,11 @@ plot_line <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_p
 #############################################################
 
 plot_funnel <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA,glob_lines=F){
-  
+  #select data  
   dt <- dt[Region==reg & Category%in% cats & Variable%in% vars]
-  
+  #create string with y-axis units for axis label
+  unitsy <- paste0("(",unique(dt[Variable%in%vars]$Unit),")    ")
+  unitsy <- paste(rev(unitsy),sep='',collapse='')
   # For each variable count models and add to data and variable name
   models=dt[,list(number=length(unique(Model))),by=c('Region','Variable','Category')]
   dt=merge(dt, models, by=c('Region','Variable','Category'))
@@ -71,6 +76,7 @@ plot_funnel <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file
   p = p + scale_fill_manual(values=plotstyle(cats))
 if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
 if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
+  p = p + ylab(paste(unitsy))
   p = p + facet_grid(Variable ~ Region,scales="free_y")
   p = p + ggtitle(title) + theme_bw()
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
@@ -82,10 +88,12 @@ if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
 ####################### plot_scatter ########################
 #############################################################
 
-plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="Title", file_pre="scatter",connect=T,ylim=NA,xlim=NA,xlog=F,ylog=F) {
+plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="Title", file_pre="scatter",connect=T,ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T) {
 
   if (length(vars_to_spread) != 2) stop("Scatter plot requires exactly two variables")
-  
+  #create strings with axis units for axis labels
+  unitx <- paste0("(",unique(dt[Variable==vars_to_spread["x"]]$Unit),")")
+  unity <- paste0("(",unique(dt[Variable==vars_to_spread["y"]]$Unit),")")
   # remove Unit column because it has different entrie for the two vars_to_spread 
   # and causes spread to replace some of the existing values with NA
   dt <- spread(subset(dt[Region==reg & Category%in% cats & Variable %in% vars_to_spread],select=-Unit),Variable,value)
@@ -97,11 +105,13 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
   p = p + geom_point(data=dt[Scope=="national"],aes(x=x,y=y,color=Category,shape=Model),size=4,show.legend = FALSE)
   #normal points for global models
   p = p + geom_point(data=dt[Scope=="global"],aes(x=x,y=y,color=Category,shape=Model))
+  #label for some years
+  if(yearlab){p = p + geom_dl(data=dt[Year %in% c(2010,2030,2050)],aes(x=x,y=y,label=Year),method=list( cex = 0.9, offset=1))}
   #optional: connection lines for each model-scenario
   if (connect){p = p + geom_path(data=dt,aes(x=x,y=y,color=Category,shape=Model,linetype=Scope,group=interaction(Scenario,Model),size=Scope))}
   p = p + scale_size_manual(values=c("national"=1, "global"=.2))
   p = p + scale_colour_manual(values=plotstyle(cats))
-  p = p + xlab(vars_to_spread["x"]) + ylab(vars_to_spread["y"])
+  p = p + xlab(paste(vars_to_spread["x"],unitx)) + ylab(paste(vars_to_spread["y"],unity))
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   if (ylog){p = p + scale_y_log10(limits=ylim)} #y-axis logarithmic

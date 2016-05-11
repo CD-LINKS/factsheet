@@ -128,6 +128,6 @@ Secondary Energy|Electricity|w/o CCS;Coal w/o CCS;#0c0c0c;1;2;dotted
 Secondary Energy|Electricity|Coal|w/o CCS;Coal w/o CCS;#0c0c0c;1;2;dotted
 Baseline;Baseline;#333333;1;2;dotted
 Reference;Reference;#992222;1;2;dotted
-Global 450;Global 450;#229922;1;2;dotted
+Global 450 / S3;Global 450 / S3;#229922;1;2;dotted
 Global 500;Global 500;#222299;1;2;dotted
 Optimal 450;Optimal 450;#00ff00;1;2;dotted
