@@ -10,14 +10,14 @@ cfg <- list()
 ######################################################
 
 # csv file that contains input data and will be read (only file name, without folder and extension)
-cfg$infile    <- "CDLINKS_stocktaking_compare_regions_2016-03-29"
+cfg$infile    <- "cdlinks_compare_20160506-141059"
 
 # Region for which fact sheet will be produced
 cfg$r         <- "CHN"
 cfg$rname     <- "China"
 
 # Name of corresponding national model(s)
-cfg$model_nat <- c("China TIMES")
+cfg$model_nat <- c("China TIMES","IPAC-AIM/technology V1.0")
 
 # Name of directory plots are stored in
 cfg$outdir    <- "graphs"
@@ -49,10 +49,11 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "GCAM_LAMP"         = 9, 
                  "POLES AMPERE"      = 10, 
                  "POLES EMF27"       = 10,
-                 "China TIMES"       = 1,
-                 "PRIMES_V1"         = 1,
-                 "COPPE-MSB_v1.3.2"  = 1,
-                 "AIM/Enduse[Japan]" = 1)
+                 "*China TIMES"       = 1,
+                 "*IPAC-AIM/technology V1.0" = 2,
+                 "*PRIMES_V1"         = 1,
+                 "*COPPE-MSB_v1.3.2"  = 1,
+                 "*AIM/Enduse[Japan]" = 1)
 
 # Linestyles         
 cfg$man_lines=c("POLES 2014"        =  "solid", 
@@ -70,7 +71,8 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "GCAM_LAMP"         = "dashed", 
                 "POLES AMPERE"      = "dotted", 
                 "POLES EMF27"       = "dotted",
-                "China TIMES"       = "solid",
-                "PRIMES_V1"         = "solid",
-                "COPPE-MSB_v1.3.2"  = "solid",
-                "AIM/Enduse[Japan]" = "solid")
+                "*China TIMES"       = "solid",
+                "*IPAC-AIM/technology V1.0" = "dashed",
+                "*PRIMES_V1"         = "solid",
+                "*COPPE-MSB_v1.3.2"  = "solid",
+                "*AIM/Enduse[Japan]" = "solid") #"dotdash"

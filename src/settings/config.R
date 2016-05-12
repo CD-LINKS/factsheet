@@ -12,6 +12,9 @@ cfg <- list()
 # csv file that contains input data and will be read (only file name, without folder and extension)
 cfg$infile    <- "CDLINKS_stocktaking_compare_regions_2016-03-29"
 
+# csv file that contains historical data and will be read (only file name, without folder and extension)
+cfg$histfile    <- "historical"
+
 # Region for which fact sheet will be produced
 cfg$r         <- "CHN"
 cfg$rname     <- "China"

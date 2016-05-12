@@ -2,5 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+*.png
+*.pdf
 /src/data/CDLINKS_stocktaking_compare_regions_2016-03-29.csv
 /src/data/CDLINKS_stocktaking_compare_regions_2016-03-29.Rdata

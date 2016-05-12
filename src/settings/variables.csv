@@ -19,7 +19,7 @@ Secondary Energy|Electricity|Coal|w/o CCS
 Secondary Energy|Electricity|Gas|w/ CCS
 Secondary Energy|Electricity|Gas|w/o CCS
 Secondary Energy|Electricity|Oil
-Emissions|CO2|Land Use
+Emissions|CO2|AFOLU
 Cumulative Capacity|Electricity|Biomass|w/ CCS
 Cumulative Capacity|Electricity|Biomass|w/o CCS
 Cumulative Capacity|Electricity|Coal
@@ -119,8 +119,8 @@ Primary Energy|Secondary Energy Trade
 Primary Energy|Solar
 Primary Energy|Wind
 Final Energy|Other
-Emissions|CO2|Fossil Fuels and Industry|Energy Supply
-Emissions|CO2|Fossil Fuels and Industry
+Emissions|CO2|Energy|Supply
+Emissions|CO2|Energy and Industrial Processes
 Secondary Energy|Electricity|Biomass
 Secondary Energy|Electricity|Geothermal
 Secondary Energy|Electricity|Hydro
