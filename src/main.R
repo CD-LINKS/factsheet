@@ -100,6 +100,10 @@ tmp1$Variable <- "Emissions|CO2|Energy and Industrial Processes"
 
 all <- rbind(all,tmp1)
 
+#Change Category for AMPERE3-Scenarios for GEM-E3 for regions where the results should feature (because this model has no LIMITS data)
+all[Scenario == "MILES-AMPERE3-CF450" & Model == "GEM-E3_V1" & Region %in% c("BRA","EU")]$Category <- "Global 450 / S3"
+all[Scenario == "MILES-AMPERE3-Base" & Model == "GEM-E3_V1" & Region %in% c("BRA","EU")]$Category <- "Baseline"
+
 ####Additional variables
 #source functions for creation of additional variables
 source("functions/calcVariable.R")

@@ -34,6 +34,15 @@ plot_funnel(reg=cfg$r,dt=all[Year<=2050],vars=vars,cats=cats,title="Key energy s
 invisible(dev.off())
 
 ```
+\subsection{Kyoto gas emissions over time}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases"),cats=c("Baseline","Global 450 / S3","Global 500"),title="Kyoto gas emissions",file_pre="GHG_funnel",glob_lines=T,xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```
 \subsection{Kaya Factors over time}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
@@ -103,7 +112,7 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
 # Please specify exactly two variables and assign them to x and y
-vars <- c("Secondary Energy|Electricity","Secondary Energy|Electricity|Coal|w/o CCS","Secondary Energy|Electricity|Coal|w/ CCS","Secondary Energy|Electricity|Gas|w/o CCS","Secondary Energy|Electricity|Gas|w/ CCS","Secondary Energy|Electricity|Oil|w/o CCS","Secondary Energy|Electricity|Oil|w/ CCS","Secondary Energy|Electricity|Biomass|w/o CCS","Secondary Energy|Electricity|Biomass|w/ CCS","Secondary Energy|Electricity|Nuclear","Secondary Energy|Electricity|Hydro","Secondary Energy|Electricity|Wind","Secondary Energy|Electricity|Solar","Secondary Energy|Electricity|Geothermal","Secondary Energy|Electricity|Other")
+vars <- c("Secondary Energy|Electricity","Secondary Energy|Electricity|Coal|w/o CCS","Secondary Energy|Electricity|Coal|w/ CCS","Secondary Energy|Electricity|Gas|w/o CCS","Secondary Energy|Electricity|Gas|w/ CCS","Secondary Energy|Electricity|Oil","Secondary Energy|Electricity|Biomass|w/o CCS","Secondary Energy|Electricity|Biomass|w/ CCS","Secondary Energy|Electricity|Nuclear","Secondary Energy|Electricity|Hydro","Secondary Energy|Electricity|Wind","Secondary Energy|Electricity|Solar","Secondary Energy|Electricity|Geothermal","Secondary Energy|Electricity|Other")
 cats <- c("Baseline","Global 450 / S3")
 plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Electricity Generation (EJ/yr)",file_pre="ele_area",xlim=c(2000,2050))   
 

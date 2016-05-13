@@ -79,6 +79,7 @@ Secondary Energy|Electricity|Geothermal;Geothermal;#e51900;1;2;dotted
 Secondary Energy|Electricity|Hydro;Hydro;#191999;1;2;dotted
 Secondary Energy|Electricity|Nuclear;Nuclear;#ff33ff;1;2;dotted
 Secondary Energy|Electricity|Ocean;Ocean;#000066;1;2;dotted
+Secondary Energy|Electricity|Oil;Oil;#663a00;1;2;dotted
 Secondary Energy|Electricity|Oil|w/ CCS;Oil w/ CCS;#cc7500;1;2;dotted
 Secondary Energy|Electricity|Oil|w/o CCS;Oil w/o CCS;#663a00;1;2;dotted
 Secondary Energy|Electricity|Other;Other;#7f7f7f;1;2;dotted
