@@ -79,9 +79,9 @@ Secondary Energy|Electricity|Geothermal;Geothermal;#e51900;1;2;dotted
 Secondary Energy|Electricity|Hydro;Hydro;#191999;1;2;dotted
 Secondary Energy|Electricity|Nuclear;Nuclear;#ff33ff;1;2;dotted
 Secondary Energy|Electricity|Ocean;Ocean;#000066;1;2;dotted
-Secondary Energy|Electricity|Oil;Oil;#663a00;1;2;dotted
 Secondary Energy|Electricity|Oil|w/ CCS;Oil w/ CCS;#cc7500;1;2;dotted
 Secondary Energy|Electricity|Oil|w/o CCS;Oil w/o CCS;#663a00;1;2;dotted
+Secondary Energy|Electricity|Oil;Oil;#663a00;1;2;dotted
 Secondary Energy|Electricity|Other;Other;#7f7f7f;1;2;dotted
 Secondary Energy|Electricity|Solar;Solar;#ffcc00;1;2;dotted
 Secondary Energy|Electricity|Wind;Wind;#337fff;1;2;dotted
@@ -127,8 +127,8 @@ Price|Final Energy|Petrol;Petrol;#29b1da;1;2;dotted
 Price|Final Energy|Diesel;Diesel;#08262f;1;2;dotted
 Secondary Energy|Electricity|w/o CCS;Coal w/o CCS;#0c0c0c;1;2;dotted
 Secondary Energy|Electricity|Coal|w/o CCS;Coal w/o CCS;#0c0c0c;1;2;dotted
-Baseline;Baseline;#333333;1;2;dotted
+Baseline / S0-1;Baseline / S0-1;#333333;1;2;dotted
 Reference;Reference;#992222;1;2;dotted
-Global 450 / S3;Global 450 / S3;#229922;1;2;dotted
+Global 450 / S2-3;Global 450 / S2-3;#229922;1;2;dotted
 Global 500;Global 500;#222299;1;2;dotted
 Optimal 450;Optimal 450;#00ff00;1;2;dotted

@@ -41,8 +41,8 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata"))){
       cat("Reading data from file",paste0("data/",cfg$infile,".csv"),"\n")
       all <- invisible(fread(paste0("data/",cfg$infile,".csv"),header=TRUE))
       save("all",file = paste0("data/",cfg$infile,".Rdata"))  
-  }
-  
+   }
+
   #############################################################
   ####################### Process data ########################
   #############################################################
@@ -97,12 +97,30 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata"))){
   tmp1 <- all[Model %in% setdiff(unique(all[Variable=="Emissions|CO2"]$Model),unique(all[Variable=="Emissions|CO2|Energy and Industrial Processes"]$Model)) & 
                 Variable == "Emissions|CO2"]
   tmp1$Variable <- "Emissions|CO2|Energy and Industrial Processes"
+  # all <- rbind(all,tmp1)
+  #special case IPAC-AIM/technology V1.0: has Emissions|CO2|Energy and Industrial Processe for one scenario
+  tmp2 <- all[Model=="IPAC-AIM/technology V1.0" & Variable == "Emissions|CO2"]
+  tmp2$Variable <- "Emissions|CO2|Energy and Industrial Processes"
+  all <- rbind(all[!(Model=="IPAC-AIM/technology V1.0" & Variable == "Emissions|CO2|Energy and Industrial Processes")],tmp1,tmp2)
   
-  all <- rbind(all,tmp1)
+  #For IPAC-AIM/technology V1.0, assign PE|Coal|Total to PE|Coal|w/o CCS 
+  tmp1 <- all[Model =="IPAC-AIM/technology V1.0" & Variable == "Primary Energy|Coal"]
+  tmp1$Variable <- "Primary Energy|Coal|w/o CCS"
+  tmp2 <- all[Model =="IPAC-AIM/technology V1.0" & Variable == "Primary Energy|Gas"]
+  tmp2$Variable <- "Primary Energy|Gas|w/o CCS"
+  tmp3 <- all[Model =="IPAC-AIM/technology V1.0" & Variable == "Primary Energy|Oil"]
+  tmp3$Variable <- "Primary Energy|Oil|w/o CCS"
+  tmp4 <- all[Model =="IPAC-AIM/technology V1.0" & Variable == "Secondary Energy|Electricity|Coal"]
+  tmp4$Variable <- "Secondary Energy|Electricity|Coal|w/o CCS"
+  tmp5 <- all[Model =="IPAC-AIM/technology V1.0" & Variable == "Secondary Energy|Electricity|Gas"]
+  tmp5$Variable <- "Secondary Energy|Electricity|Gas|w/o CCS"
+  all <- rbind(all[!(Model=="IPAC-AIM/technology V1.0" & 
+                       (Variable=="Primary Energy|Coal|w/o CCS" | Variable=="Primary Energy|Gas|w/o CCS" |
+                          Variable=="Primary Energy|Oil|w/o CCS"|Variable=="Secondary Energy|Electricity|Coal|w/o CCS"|
+                          Variable=="Secondary Energy|Electricity|Gas|w/o CCS"))],tmp1,tmp2,tmp3,tmp4,tmp5)
   
-  #Change Category for AMPERE3-Scenarios for GEM-E3 for regions where the results should feature (because this model has no LIMITS data)
-  all[Scenario == "MILES-AMPERE3-CF450" & Model == "GEM-E3_V1" & Region %in% c("BRA","EU")]$Category <- "Global 450 / S3"
-  all[Scenario == "MILES-AMPERE3-Base" & Model == "GEM-E3_V1" & Region %in% c("BRA","EU")]$Category <- "Baseline"
+  #Get rid of 2025 data for IPAC-AIM/technology V1.0, only existing in few variables and scenarios
+  all <- all[!(Model=="IPAC-AIM/technology V1.0" & Year == 2025)]
   
   ####Additional variables
   #source functions for creation of additional variables
@@ -120,6 +138,11 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata"))){
   all <- calcRel2Base(all,var="Emissions|CO2|FFI",baseEq1=F,"relative Abatement|CO2")
   all <- calcRel2Base(all,var="Carbon Intensity of FE",baseEq1=T,"Carbon intensity reduction rel. to Base")
   all <- calcRel2Base(all,var="Energy Intensity of GDP|MER",baseEq1=T,"Energy intensity reduction rel. to Base")
+  all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity reduction rel. to Base`/`Energy intensity reduction rel. to Base` ' , newUnit='')
+  
+  #Change Category for AMPERE3-Scenarios for GEM-E3 for regions where the results should feature (because this model has no LIMITS data)
+  all[Scenario == "MILES-AMPERE3-CF450" & Model == "GEM-E3_V1" & Region %in% c("BRA","EU")]$Category <- "Global 450 / S2-3"
+  all[Scenario == "MILES-AMPERE3-Base" & Model == "GEM-E3_V1" & Region %in% c("BRA","EU")]$Category <- "Baseline / S0-1"
   
   save("all",file = paste0("data/",cfg$infile,"_proc.Rdata"))  
   
@@ -140,3 +163,10 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata"))){
 
 cat("Producing graphs in graphs folder and pdf in main folder\n")
 render("fact_sheet.rmd",output_file=paste0("Fact_sheet_",cfg$r,".pdf"))
+
+
+#############################################################
+################## Do cross-cut analysis #######################
+#############################################################
+
+#source(cross_cut.R)

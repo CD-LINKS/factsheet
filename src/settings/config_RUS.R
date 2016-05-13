@@ -13,18 +13,17 @@ cfg <- list()
 cfg$infile    <- "cdlinks_compare_20160511-161700"
 
 # Region for which fact sheet will be produced
-cfg$r         <- "EU"
-cfg$rname     <- "Europe"
+cfg$r         <- "RUS"
+cfg$rname     <- "Russia"
 
 # Name of corresponding national model(s)
-cfg$model_nat <- c("PRIMES_V1","GEM-E3_V1")
+cfg$model_nat <- c("") # fill in the same model name as used in the database
 
 # Name of directory plots are stored in
 cfg$outdir    <- "graphs"
 
 # file format for plots
 cfg$format <- ".png"
-
 
 ######################################################
 ############### Define plot styles ###################
@@ -42,17 +41,18 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "WITCH2013"         =  5, 
                  "WITCH"         =  5, 
                  "IMAGE 2.4"         =  6, 
+                 "GEM-E3_V1"         =  7, 
                  "GEM-E3_IPTS_World" =  7, 
                  "DNE21+ V.12E"      =  8,
                  "GCAM4"             = 9, 
                  "GCAM_LAMP"         = 9, 
                  "POLES AMPERE"      = 10, 
                  "POLES EMF27"       = 10,
-                 "*China TIMES"       = 1,
-                 "*GEM-E3_V1"         =  2, 
+                 "China TIMES"       = 1,
                  "*PRIMES_V1"         = 1,
                  "*COPPE-MSB_v1.3.2"  = 1,
-                 "*AIM/Enduse[Japan]" = 1)
+                 "*AIM/Enduse[Japan]" = 1,
+                 "*GCAM4_MILES" = 1) # add national models for USA
 
 # Linestyles         
 cfg$man_lines=c("POLES 2014"        =  "solid", 
@@ -62,8 +62,9 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "DNE21+ V.12A"      =  "dotdash", 
                 "DNE21+ V.12E"      =  "dotdash",
                 "WITCH2013"         =  "longdash", 
-                "WITCH"             =  "longdash", 
+                "WITCH"         =  "longdash", 
                 "IMAGE 2.4"         =  "twodash", 
+                "GEM-E3_V1"         =  "solid", 
                 "GEM-E3_IPTS_World" =  "solid", 
                 "GCAM4"             = "dashed", 
                 "GCAM_LAMP"         = "dashed", 
@@ -71,6 +72,6 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "POLES EMF27"       = "dotted",
                 "*China TIMES"       = "solid",
                 "*PRIMES_V1"         = "solid",
-                "*GEM-E3_V1"         =  "dashed", 
                 "*COPPE-MSB_v1.3.2"  = "solid",
-                "*AIM/Enduse[Japan]" = "solid") #"dotdash"
+                "*AIM/Enduse[Japan]" = "solid",
+                "*GCAM4_MILES" = "solid") # add national models for USA

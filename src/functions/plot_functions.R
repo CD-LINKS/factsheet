@@ -96,7 +96,7 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
   unity <- paste0("(",unique(dt[Variable==vars_to_spread["y"]]$Unit),")")
   # remove Unit column because it has different entrie for the two vars_to_spread 
   # and causes spread to replace some of the existing values with NA
-  dt <- spread(subset(dt[Region==reg & Category%in% cats & Variable %in% vars_to_spread],select=-Unit),Variable,value)
+  dt <- spread(subset(dt[Region %in% reg & Category%in% cats & Variable %in% vars_to_spread],select=-Unit),Variable,value)
   setnames(dt,vars_to_spread["x"],"x")
   setnames(dt,vars_to_spread["y"],"y")
   
@@ -111,13 +111,14 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
   if (connect){p = p + geom_path(data=dt,aes(x=x,y=y,color=Category,shape=Model,linetype=Scope,group=interaction(Scenario,Model),size=Scope))}
   p = p + scale_size_manual(values=c("national"=1, "global"=.2))
   p = p + scale_colour_manual(values=plotstyle(cats))
+  if (length(reg) >1){p = p + facet_wrap( ~ Region,ncol=2)}
   p = p + xlab(paste(vars_to_spread["x"],unitx)) + ylab(paste(vars_to_spread["y"],unity))
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   if (ylog){p = p + scale_y_log10(limits=ylim)} #y-axis logarithmic
   if (xlog){p = p + scale_x_log10(limits=xlim)} #x-axis logarithmic
   p = p + theme(legend.position = "bottom") + theme_bw()
-  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
+  ggsave(file=paste0(out,"/",file_pre,"_",reg[1],cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
 

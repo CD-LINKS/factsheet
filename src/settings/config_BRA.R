@@ -10,7 +10,7 @@ cfg <- list()
 ######################################################
 
 # csv file that contains input data and will be read (only file name, without folder and extension)
-cfg$infile    <- "cdlinks_compare_20160506-141059"
+cfg$infile    <- "cdlinks_compare_20160511-161700"
 
 # Region for which fact sheet will be produced
 cfg$r         <- "BRA"
@@ -73,4 +73,4 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "*China TIMES"       = "solid",
                 "*PRIMES_V1"         = "solid",
                 "*COPPE-MSB_v1.3.2"  = "solid",
-                "*AIM/Enduse[Japan]" = "solid") 
+                "*AIM/Enduse[Japan]" = "solid") #"dotdash"
