@@ -85,7 +85,7 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
 # Please specify exactly two variables and assign them to x and y
-vars <- c(x="Energy intensity reduction rel. to Base",y="Carbon intensity reduction rel. to Base")
+vars <- c(x="Energy intensity rel. to Base",y="Carbon intensity rel. to Base")
 cats <- c("Global 450 / S2-3")
 plot_scatter(reg=cfg$r,dt=all[Year<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",file_pre="ci_ei_scatter")   
 

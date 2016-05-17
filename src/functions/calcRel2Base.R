@@ -16,7 +16,7 @@
 #' data <- calcRel2Base(data=dat,var="Emissions|CO2",baseEq1=FALSE,new_var="relative Abatement|CO2")
 #'   }
 #' 
-calcRel2Base = function(data,var,baseEq1,new_var){
+calcRel2Base = function(data,var,baseEq1,new_var,scens){
   if(!(var %in% data$Variable)){
     stop("Error: The dataframe does not contain the variable provided!")
   }
