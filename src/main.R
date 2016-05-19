@@ -16,7 +16,7 @@ source("settings/config_CHN.R")
 #source file with plot functions
 source("functions/plot_functions.R")
 
-source("functions/factor.data.frame.R")
+#source("functions/factor.data.frame.R")
 
 # Create plot directory
 if(!file.exists(cfg$outdir)) {
