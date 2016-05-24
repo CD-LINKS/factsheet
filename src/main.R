@@ -12,7 +12,7 @@ library(rmarkdown)  # render pdf
 library(directlabels) # year labels for scatter plots
 
 #source configuration file for region-specific data
-source("settings/config_CHN.R")
+source("settings/config_USA.R")
 #source file with plot functions
 source("functions/plot_functions.R")
 
@@ -90,7 +90,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata"))){
     #source functions for creation of additional variables
     source("functions/calcVariable.R")
     source("functions/calcRel2Base.R")
-    source("functions/calcRel2BaseYear.R")
+    #source("functions/calcRel2BaseYear.R")
     all <- calcVariable(all,'`Emissions|CO2|FFI` ~ `Emissions|CO2|Energy and Industrial Processes` ' , newUnit='Mt CO2/yr')
     all <- calcVariable(all,'`Emissions Intensity of GDP|MER` ~ `Emissions|CO2|FFI`/`GDP|MER` ' , newUnit='kg CO2/$US 2005')
     all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2|FFI`/`GDP|PPP` ' , newUnit='kg CO2/$US 2005')
@@ -106,8 +106,8 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata"))){
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
     
     # add variables indexed relative to baseyear
-    vars <- c("Emissions|CO2", "Emissions|CO2|FFI")
-    all <- rbind(all, calcRel2BaseYear(df=all,vars=vars))      
+    #vars <- c("Emissions|CO2", "Emissions|CO2|FFI")
+    #all <- rbind(all, calcRel2BaseYear(df=all,vars=vars))      
     
     return(all)
   }
@@ -164,6 +164,19 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata"))){
     #Get rid of 2025 data for IPAC-AIM/technology V1.0, only existing in few variables and scenarios
     all <- all[!(Model=="IPAC-AIM/technology V1.0" & Year == 2025)]
   
+    #For GCAM4_MILES, assign PE|Coal|Total to PE|Coal|w/o CCS
+    tmp1 <- all[Model =="GCAM4_MILES" & Variable == "Primary Energy|Coal"]
+    tmp1$Variable <- "Primary Energy|Coal|w/o CCS"
+    tmp2 <- all[Model =="GCAM4_MILES" & Variable == "Primary Energy|Gas"]
+    tmp2$Variable <- "Primary Energy|Gas|w/o CCS"
+    tmp3 <- all[Model =="GCAM4_MILES" & Variable == "Primary Energy|Oil"]
+    tmp3$Variable <- "Primary Energy|Oil|w/o CCS"
+    tmp4 <- all[Model =="GCAM4_MILES" & Variable == "Primary Energy|Biomass"]
+    tmp4$Variable <- "Primary Energy|Biomass|w/o CCS"
+    all <- rbind(all[!(Model=="GCAM4_MILES" &
+                         (Variable=="Primary Energy|Coal|w/o CCS" | Variable=="Primary Energy|Gas|w/o CCS" |
+                            Variable=="Primary Energy|Oil|w/o CCS"| Variable=="Primary Energy|Biomass|w/o CCS"))],tmp1,tmp2,tmp3,tmp4)
+    
   #### add variables
   all <- add_variables(all,scens)
   
