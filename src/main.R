@@ -95,6 +95,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata"))){
     all <- calcVariable(all,'`Emissions Intensity of GDP|MER` ~ `Emissions|CO2|FFI`/`GDP|MER` ' , newUnit='kg CO2/$US 2005')
     all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2|FFI`/`GDP|PPP` ' , newUnit='kg CO2/$US 2005')
     all <- calcVariable(all,'`Emissions per capita` ~ `Emissions|CO2|FFI`/`Population` ' , newUnit='t CO2/cap')
+    # all <- calcVariable(all,'`Carbon Intensity of Electricity` ~ `Emissions|CO2|Energy|Supply|Electricity`/ `Secondary Energy|Electricity` ' , newUnit='kg CO2/GJ')
     all <- calcVariable(all,'`Carbon Intensity of FE` ~ `Emissions|CO2|FFI`/`Final Energy` ' , newUnit='kg CO2/GJ')
     all <- calcVariable(all,'`Energy Intensity of GDP|MER` ~ `Final Energy`/`GDP|MER` ' , newUnit='GJ/$2005')
     all <- calcVariable(all,'`Energy Intensity of GDP|PPP` ~ `Final Energy`/`GDP|PPP` ' , newUnit='GJ/$2005')
