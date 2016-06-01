@@ -44,5 +44,6 @@ calcVariable = function(data,formula,newUnit='None'){
   names(res)[names(res) == 'result'] = 'value'
 
   #merge data, convert to quitte
-  return(as.data.table(as.data.frame(rbind(data,res))))
+  # FIXME: add overview function to functions folder
+  return(as.data.table(as.data.frame(quitte::overwrite(res,data))))
 }

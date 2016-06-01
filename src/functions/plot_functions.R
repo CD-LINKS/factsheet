@@ -98,9 +98,12 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
   unity <- paste0("(",unique(dt[Variable==vars_to_spread["y"]]$Unit),")")
   # remove Unit column because it has different entrie for the two vars_to_spread
   # and causes spread to replace some of the existing values with NA
-  dt <- spread(subset(dt[Region %in% reg & Category%in% cats & Variable %in% vars_to_spread],select=-Unit),Variable,value)
-  setnames(dt,vars_to_spread["x"],"x")
-  setnames(dt,vars_to_spread["y"],"y")
+
+  dt <- subset(dt[Region %in% reg & Category%in% cats & Variable %in% vars_to_spread],select=-Unit)
+
+  dt[Variable == vars_to_spread["x"] ]$Variable = "x"
+  dt[Variable == vars_to_spread["y"] ]$Variable = "y"
+  dt <- spread(dt,Variable,value)
 
   p = ggplot()
   #normal points for global models
