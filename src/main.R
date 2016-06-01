@@ -27,7 +27,7 @@ source("functions/overwrite.R")
 source("functions/plot_functions.R")
 
 # flag to process data, reprocess even if .._reg_proc.RData file is available (i.e. overwrite existing RData)
-b.procdata = F
+b.procdata = T
 
 # Create plot directory
 if(!file.exists(cfg$outdir)) {
@@ -55,14 +55,14 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
       save("all",file = paste0("data/",cfg$infile,".Rdata"))
    }
 
-  # Add new column "Category" and fill with name according to Scenario-to-Categroy-mapping in "scens"
+  # Add new column "Category" and fill with name according to scenario-to-Categroy-mapping in "scens"
   scens <- fread("settings/scen_categ_cdlinks.csv", header=TRUE)
   #get rid of duplicated scenarios
-  scens <- scens[!duplicated(scens$Scenario)]
+  scens <- scens[!duplicated(scens$scenario)]
 
   #reduce size of the data frame
   vars <- fread("settings/variables.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
-  all  <- all[VARIABLE %in% vars$Variable & REGION %in% cfg$r]
+  all  <- all[VARIABLE %in% vars$variable & REGION %in% cfg$r]
 
 
   #############################################################
@@ -84,15 +84,15 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   all <- add_variables(all,scens)
   
   #### manual changes after addition of variables
-  #Change Category for AMPERE3-Scenarios for GEM-E3 for regions where the results should feature (because this model has no LIMITS data)
-  all[Scenario == "MILES-AMPERE3-CF450" & Model == "GEM-E3_V1" & Region %in% c("BRA","EU")]$Category <- "Global 450 / S2-3"
-  all[Scenario == "MILES-AMPERE3-Base" & Model == "GEM-E3_V1" & Region %in% c("BRA","EU")]$Category <- "Baseline / S0-1"
+  #Change Category for AMPERE3-scenarios for GEM-E3 for regions where the results should feature (because this model has no LIMITS data)
+  all[scenario == "MILES-AMPERE3-CF450" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Global 450 / S2-3"
+  all[scenario == "MILES-AMPERE3-Base" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Baseline / S0-1"
   
   #set scope to "national" for national models
-  all[all$Model %in% cfg$model_nat,]$Scope <- "national"
-  #change Model name for national models, so that they appear first
+  all[all$model %in% cfg$model_nat,]$Scope <- "national"
+  #change model name for national models, so that they appear first
   if(!substr(cfg$model_nat[1],1,1)=="*"){
-    all[all$Model %in% cfg$model_nat,]$Model <- paste0("*",all[all$Model %in% cfg$model_nat,]$Model)
+    all[all$model %in% cfg$model_nat,]$model <- paste0("*",all[all$model %in% cfg$model_nat,]$model)
     cfg$model_nat <- paste0("*",cfg$model_nat)
   }
   #save country specific file with processed data

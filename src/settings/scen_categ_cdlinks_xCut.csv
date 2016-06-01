@@ -1,4 +1,4 @@
-Scenario;Category;Baseline
+scenario;Category;Baseline
 MILES-AMPERE2-550-FullTech-HST;500-550;MILES-AMPERE2-Base-FullTech-OPT
 MILES-AMPERE2-550-FullTech-LST;500-550;MILES-AMPERE2-Base-FullTech-OPT
 MILES-AMPERE2-550-FullTech-OPT;500-550;MILES-AMPERE2-Base-FullTech-OPT

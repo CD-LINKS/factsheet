@@ -58,7 +58,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   
   #reduce size of the data frame
   vars <- fread("settings/variables_xCut.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
-  all  <- all[VARIABLE %in% vars$Variable & REGION %in% cfg$regions]
+  all  <- all[VARIABLE %in% vars$variable & REGION %in% cfg$regions]
 
 
   #####################################
@@ -69,7 +69,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   # Add information for new column "Category"
   scens <- fread("settings/scen_categ_cdlinks_xCut.csv", header=TRUE)
   #get rid of duplicated scenarios
-  scens <- scens[!duplicated(scens$Scenario)]
+  scens <- scens[!duplicated(scens$scenario)]
 
 
   #### from raw wide format to long format with additional columns
@@ -85,20 +85,20 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   all <- add_variables(all,scens)
 
   #### manual changes after addition of variables
-  #Change Category for AMPERE3-Scenarios for GEM-E3 for regions where the results should feature (because this model has no LIMITS data)
-  all[Scenario == "MILES-AMPERE3-CF450" & Model == "GEM-E3_V1" & Region %in% c("BRA","EU")]$Category <- "Global 450 / S2-3"
-  all[Scenario == "MILES-AMPERE3-Base" & Model == "GEM-E3_V1" & Region %in% c("BRA","EU")]$Category <- "Baseline / S0-1"
-  all[Scenario == "MILES-AMPERE3-RefPol" & Model == "GEM-E3_V1" & Region %in% c("BRA","EU")]$Category <- "Reference"
+  #Change Category for AMPERE3-scenarios for GEM-E3 for regions where the results should feature (because this model has no LIMITS data)
+  all[scenario == "MILES-AMPERE3-CF450" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Global 450 / S2-3"
+  all[scenario == "MILES-AMPERE3-Base" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Baseline / S0-1"
+  all[scenario == "MILES-AMPERE3-RefPol" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Reference"
   # categorize national models
-  all[all$Model %in% cfg$models_nat,]$Model <- paste0("*",all[all$Model %in% cfg$models_nat,]$Model)
+  all[all$model %in% cfg$models_nat,]$model <- paste0("*",all[all$model %in% cfg$models_nat,]$model)
   nat_models <- paste0("*",cfg$models_nat)
-  all[all$Model %in% nat_models,]$Scope <- "national"
+  all[all$model %in% nat_models,]$Scope <- "national"
   
   # for the purpose of the cross cut analysis of model elasticities and behaviour, the R5REF region is ok for Russia
-  all[Model=="MESSAGE V.4" & Region=="R5REF"]$Region <- "RUS"
-  all[Model=="WITCH" & Region=="R5REF"]$Region <- "RUS"
+  all[model=="MESSAGE V.4" & region=="R5REF"]$region <- "RUS"
+  all[model=="WITCH" & region=="R5REF"]$region <- "RUS"
   
-  all[Model=="WITCH" & Region %in% c("RUS", "EU") & Variable == "Price|Carbon"]$value <- NA
+  all[model=="WITCH" & region %in% c("RUS", "EU") & variable == "Price|Carbon"]$value <- NA
   
   
   
@@ -131,7 +131,7 @@ if (file.exists(paste0("data/",cfg$diag_infile,"_proc.Rdata")) & !b.procdata){
   
   #reduce size of the data frame
   vars <- fread("settings/variables_xCut.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
-  diag  <- diag[VARIABLE %in% vars$Variable & REGION %in% cfg$regions]
+  diag  <- diag[VARIABLE %in% vars$variable & REGION %in% cfg$regions]
   #get rid of unnecessary year columns
   source("functions/reduce_diag_t.R")
   diag <- reduce_diag_t(diag)
@@ -156,8 +156,8 @@ if (file.exists(paste0("data/",cfg$diag_infile,"_proc.Rdata")) & !b.procdata){
   diag <- factor.data.frame(diag)
   
   
-  tmp1 <- diag %>% filter( Model == "COPPE-MSB_v1.3.2", Variable == "Emissions|CO2")
-  tmp1$Variable ="Emissions|CO2|Energy and Industrial Processes"
+  tmp1 <- diag %>% filter( model == "COPPE-MSB_v1.3.2", variable == "Emissions|CO2")
+  tmp1$variable ="Emissions|CO2|Energy and Industrial Processes"
   
   diag <-  overwrite(tmp1, diag)
   
@@ -168,9 +168,9 @@ if (file.exists(paste0("data/",cfg$diag_infile,"_proc.Rdata")) & !b.procdata){
   #"AIM/Enduse[Japan]","DNE21+ V.14","GCAM4_MILES")
   
   #mark all national models with asterisk
-  diag[diag$Model %in% d_nat_models,]$Model <- paste0("*",diag[diag$Model %in% d_nat_models,]$Model)
+  diag[diag$model %in% d_nat_models,]$model <- paste0("*",diag[diag$model %in% d_nat_models,]$model)
   d_nat_models <- paste0("*",d_nat_models)
-  diag[diag$Model %in% d_nat_models,]$Scope <- "national"
+  diag[diag$model %in% d_nat_models,]$Scope <- "national"
   
   save("diag",file = paste0("data/",cfg$diag_infile,"_proc.Rdata"))
 } # end if-else: load and process diagnostics data

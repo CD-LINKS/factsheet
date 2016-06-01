@@ -38,7 +38,7 @@ invisible(dev.off())
 vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
 cats <- c("Baseline / S0-1","Global 450 / S2-3","Global 500")
 
-plot_funnel(reg=cfg$r,dt=all[Year<=2050],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel",glob_lines=T,xlim=c(2000,2050))   
+plot_funnel(reg=cfg$r,dt=all[period<=2050],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel",glob_lines=T,xlim=c(2000,2050))   
 
 
 invisible(dev.off())
@@ -62,7 +62,7 @@ invisible(dev.off())
 vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
 cats <- c("Baseline / S0-1","Global 450 / S2-3")
 
-plot_funnel(reg=cfg$r,dt=all[Year<=2050],vars=vars,cats=cats,title="Kaya factors",file_pre="kaya_funnel",glob_lines=T,xlim=c(2000,2050))   
+plot_funnel(reg=cfg$r,dt=all[period<=2050],vars=vars,cats=cats,title="Kaya factors",file_pre="kaya_funnel",glob_lines=T,xlim=c(2000,2050))   
 
 invisible(dev.off())
 
@@ -74,7 +74,7 @@ invisible(dev.off())
 # Please specify exactly two variables and assign them to x and y
 vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
 cats <- c("Global 450 / S2-3")
-plot_scatter(reg=cfg$r,dt=all[Year<=2050],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T,xlim=c(10,1000))   
+plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T,xlim=c(10,1000))   
 
 invisible(dev.off())
 
@@ -87,7 +87,7 @@ invisible(dev.off())
 # Please specify exactly two variables and assign them to x and y
 vars <- c(x="Energy intensity rel. to Base",y="Carbon intensity rel. to Base")
 cats <- c("Global 450 / S2-3")
-plot_scatter(reg=cfg$r,dt=all[Year<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",file_pre="ci_ei_scatter")   
+plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",file_pre="ci_ei_scatter")   
 
 invisible(dev.off())
 
@@ -100,7 +100,7 @@ invisible(dev.off())
 # Please specify exactly two variables and assign them to x and y
 vars <- c(x="GDP|MER",y="Final Energy")
 cats <- c("Baseline / S0-1","Global 450 / S2-3")
-plot_scatter(reg=cfg$r,dt=all[Year<=2050],vars_to_spread=vars,cats=cats,title="Socio-Economic Indicators",file_pre="gdp_fe_scatter")   
+plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Socio-Economic Indicators",file_pre="gdp_fe_scatter")   
 
 invisible(dev.off())
 

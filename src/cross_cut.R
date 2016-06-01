@@ -27,7 +27,7 @@ plot_boxplot(regs=regs,dt=all,vars=c("Share of Elec in FE","Share of Elec in Tra
 plot_boxplot(regs=regs,dt=all,vars=c("Share of Elec in FE"),cats="Global 450 / S2-3",
              year=2050,file_pre="ShElec_FE", var.labels = c("Share of Elec in FE [%]") , b.multivar = T)
 
-all[Model == "WITCH" & Variable == "Share of Elec in Transport" ]$value = NA
+all[model == "WITCH" & variable == "Share of Elec in Transport" ]$value = NA
 plot_boxplot(regs=regs,dt=all,vars=c("Share of Elec in Transport"),cats="Global 450 / S2-3",
              year=2050,file_pre="ShElec_FETrans", var.labels = c("Share of Electricity in FE [%]") , b.multivar = T)
 
@@ -133,7 +133,7 @@ vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
 cats <- c("Global 450 / S2-3")
 # regs <- "BRA"
 regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
-plot_scatter_xcut(reg=regs,dt=all[as.numeric(Year)<=2050],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T,xlim=c(10,1000))
+plot_scatter_xcut(reg=regs,dt=all[as.numeric(period)<=2050],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T,xlim=c(10,1000))
 
 
 
@@ -145,5 +145,5 @@ vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
 # diag <- calcRel2Base(diag,var="Emissions|CO2",baseEq1=F,"rel. Abatatement",diag_scens)
 
 
-plot_scatter_xcut(reg="BRA",dt=diag[Year<=2050 ],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="d_relAb_co2pr_scatter",xlog=F,xlim=c(10,150))
+plot_scatter_xcut(reg="BRA",dt=diag[period<=2050 ],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="d_relAb_co2pr_scatter",xlog=F,xlim=c(10,150))
 

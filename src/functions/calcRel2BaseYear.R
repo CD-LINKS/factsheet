@@ -19,9 +19,9 @@
 calcRel2BaseYear = function(df,vars,baseyear=2010){
 
     # rename Years as a workaround since mutate cannot deal with numeric column names
-    df <-  df %>% filter(Variable %in% vars) %>% mutate(Year = paste0("y",Year))
+    df <-  df %>% filter(variable %in% vars) %>% mutate(period = paste0("y",period))
 
-    df <- spread(df, key = Year, value = value)
+    df <- spread(df, key = period, value = value)
 
     # use mutate_ to work with dynamically created baseyear variable name
     df <- mutate_(df, .dots = setNames (paste0("y", baseyear), "baseyear"))
@@ -35,9 +35,9 @@ calcRel2BaseYear = function(df,vars,baseyear=2010){
     }
 
     df <- df %>% select(-baseyear) %>%
-        gather( key = Year, value = value, starts_with("y2"), na.rm=T) %>%
-        mutate(Year = as.numeric(substr(Year,2,5))) %>%
-        mutate(Variable = paste0(Variable,"|rel",baseyear))
+        gather( key = period, value = value, starts_with("y2"), na.rm=T) %>%
+        mutate(period = as.numeric(substr(period,2,5))) %>%
+        mutate(variable = paste0(variable,"|rel",baseyear))
 
     return(df)
 

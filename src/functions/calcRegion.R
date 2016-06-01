@@ -19,13 +19,13 @@ calcRegion = function(data,formula, b.append = T){
   #usage: data = calcAddVariable(data,as.formula('result ~ `PE|Coal`/`Cap|Electricity|Gas|w/o CCS` ') , newUnit='None')
   formula = as.formula(formula)
   vars_rhs = all.vars(formula[[3]])
-  if(!(all(vars_rhs %in% data$Region) )){
+  if(!(all(vars_rhs %in% data$region) )){
     stop("Error: The dataframe does not contain all regions found in the formula provided!")
   }
 
-  res <- data %>% filter(Region %in% vars_rhs) %>%     #filter out variables in forumla
-      dcast(... ~ Region) %>%          #convert to wide format
-      mutate(Region = as.character(formula[[2]]))
+  res <- data %>% filter(region %in% vars_rhs) %>%     #filter out variables in forumla
+      dcast(... ~ region) %>%          #convert to wide format
+      mutate(region = as.character(formula[[2]]))
 
   res[is.na(res)] = 0
 
