@@ -43,7 +43,7 @@ calcVariable = function(data,formula,newUnit='None'){
   res$variable = as.character(formula[[2]]) #rename new variable correctly
   names(res)[names(res) == 'result'] = 'value'
 
-  #merge data, convert to quitte
+  #merge data, convert to dataframe
   # FIXME: add overview function to functions folder
-  return(as.data.table(as.data.frame(quitte::overwrite(res,data))))
+  return(as.data.table(as.data.frame(overwrite(res,data))))
 }
