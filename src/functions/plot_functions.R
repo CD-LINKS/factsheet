@@ -43,6 +43,43 @@ plot_line <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_p
   return(p)
 }
 
+#############################################################
+####################### plot_lines ###########################
+#############################################################
+
+# Standard function for plotting any variable that is left (not having its own function).
+# In this case, it shows drivers (population and GDP)
+plot_lines <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA){
+  #select data
+  dt <- dt[region==reg & Category %in% cats & variable %in% vars]
+  #create string with y-axis units for axis label
+  unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
+  unitsy <- paste(rev(unitsy),sep='',collapse='')
+  # For each variable count models and add to data and variable name
+  models=dt[,list(number=length(unique(model))),by=c('region','variable')]
+  dt=merge(dt, models, by=c('region','variable'))
+  dt$variable <- paste(dt$variable,' [',dt$number,' models]',sep="")
+  
+  # minmax=dt[,list(ymax=max(value),ymin=min(value)),by=c('region','period','Category','variable')]
+  # minmax=minmax[!period %in% c("2015","2025","2035","2045","2055","2065","2075","2085","2095")]
+  # minmax<-minmax[order(region, Category, period),]
+  
+  p = ggplot()
+  #p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax),alpha=.3,fill='grey')
+  p = p + geom_path(data=dt,aes(x=period,y=value,color=model,group=paste(model,scenario),size=Scope))
+  p = p + scale_shape_manual(values=man_shapes)
+  p = p + scale_size_manual(values=c("national"=2, "global"=.2))
+  p = p + geom_path(data=dt[Scope=="national"],aes(x=period,y=value,color=model,group=paste(model,scenario),size=Scope))
+  #p = p + ylab(paste("Carbon Price"))#add unit (different for each facet grid plot...)
+  if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
+  if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
+  p = p + facet_grid(variable~region, scales="free_y")
+  #p = p + theme(strip.text.y=element_text(angle=45))
+  p = p + ylab(paste(unitsy))
+  p = p + ggtitle(title) + ggplot2::theme_bw()
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}
 
 #############################################################
 ####################### plot_funnel #########################
