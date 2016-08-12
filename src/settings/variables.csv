@@ -130,3 +130,65 @@ Secondary Energy|Electricity|Hydro
 Secondary Energy|Electricity|Ocean
 Secondary Energy|Electricity|Solar
 Secondary Energy|Electricity|Wind
+Final Energy|Industry|Heat
+Final Energy|Residential and Commercial|Heat
+Final Energy|Residential and Commercial|Solids
+Final Energy|Residential and Commercial|Solids|Biomass
+Final Energy|Residential and Commercial|Solids|Biomass|Traditional
+Final Energy|Residential and Commercial|Solids|Coal
+Final Energy|Transportation|Liquids|Coal
+Final Energy|Transportation|Liquids|Natural Gas
+Capital Cost|Electricity|Biomass|w/ CCS
+Capital Cost|Electricity|Biomass|w/ CCS|1
+Capital Cost|Electricity|Coal|w/ CCS
+Capital Cost|Electricity|Coal|w/ CCS|1 
+Capital Cost|Electricity|Coal|w/ CCS|2 
+Capital Cost|Electricity|Gas|w/ CCS
+Capital Cost|Electricity|Gas|w/ CCS|1 
+Capital Cost|Electricity|Gas|w/ CCS|2
+Capital Cost|Hydrogen|Biomass|w/ CCS
+Capital Cost|Hydrogen|Coal|w/ CCS
+Capital Cost|Hydrogen|Gas|w/ CCS
+Capital Cost|Liquids|Biomass|w/ CCS
+Capital Cost|Liquids|Coal|w/ CCS
+Capital Cost|Liquids|Gas|w/ CCS
+Efficiency|Electricity|Biomass|w/ CCS
+Efficiency|Electricity|Biomass|w/ CCS|1
+Efficiency|Electricity|Coal|w/ CCS|1 
+Efficiency|Electricity|Coal|w/ CCS|2 
+Efficiency|Electricity|Gas|w/ CCS|1
+Efficiency|Electricity|Gas|w/ CCS|2
+Efficiency|Hydrogen|Biomass|w/ CCS
+Efficiency|Hydrogen|Coal|w/ CCS
+Efficiency|Hydrogen|Gas|w/ CCS
+Efficiency|Liquids|Biomass|w/ CCS
+Efficiency|Liquids|Coal|w/ CCS
+Efficiency|Liquids|Gas|w/ CCS
+Lifetime|Electricity|Biomass|w/ CCS
+Lifetime|Electricity|Coal|w/ CCS
+Lifetime|Electricity|Coal|w/ CCS|1 
+Lifetime|Electricity|Coal|w/ CCS|2
+Lifetime|Electricity|Gas|w/ CCS
+Lifetime|Electricity|Gas|w/ CCS|1
+Lifetime|Electricity|Gas|w/ CCS|2
+Lifetime|Hydrogen|Biomass|w/ CCS
+Lifetime|Hydrogen|Coal|w/ CCS
+Lifetime|Hydrogen|Gas|w/ CCS
+Lifetime|Liquids|Biomass|w/ CCS
+Lifetime|Liquids|Coal|w/ CCS
+Lifetime|Liquids|Gas|w/ CCS
+OM Cost|Fixed|Electricity|Biomass|w/ CCS
+OM Cost|Fixed|Electricity|Coal|w/ CCS
+OM Cost|Fixed|Electricity|Coal|w/ CCS|1 
+OM Cost|Fixed|Electricity|Coal|w/ CCS|2
+OM Cost|Fixed|Electricity|Gas|w/ CCS
+OM Cost|Fixed|Electricity|Gas|w/ CCS|1 
+OM Cost|Fixed|Electricity|Gas|w/ CCS|2
+OM Cost|Fixed|Hydrogen|Biomass|w/ CCS
+OM Cost|Fixed|Hydrogen|Coal|w/ CCS
+OM Cost|Fixed|Hydrogen|Gas|w/ CCS
+OM Cost|Fixed|Liquids|Biomass|w/ CCS
+OM Cost|Fixed|Liquids|Coal|w/ CCS
+OM Cost|Fixed|Liquids|Gas|w/ CCS
+Carbon Sequestration|CCS
+Carbon Sequestration|CCS|Fossil

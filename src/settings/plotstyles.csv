@@ -1,4 +1,5 @@
 ;legend;color;shape;linewidth;linestyle
+Baseline / S0-1;Baseline / S0-1;#333333;1;2;dotted
 Emissions|CH4;Total;#000000;1;2;dotted
 Emissions|CH4|Energy Supply and Demand;CH4 Energy;#cc0000;1;2;dotted
 Emissions|CH4|Land Use;CH4 Land Use;#ff9900;1;2;dotted
@@ -26,10 +27,27 @@ Final Energy|Geothermal;Geothermal;#660000;1;2;dotted
 Final Energy|Heat;Heat;#cc0000;1;2;dotted
 Final Energy|Hydrogen;Hydrogen;#66cccc;1;2;dotted
 Final Energy|Industry;Industry;#cc7f00;1;2;dotted
+Final Energy|Industry|Electricity;Electricity;#ffb200;1;2;dotted
+Final Energy|Industry|Gases;Gases;#999966;1;2;dotted
+Final Energy|Industry|Heat;Heat;#0000cc;1;2;dotted
+Final Energy|Industry|Hydrogen;Hydrogen;#66cccc;1;2;dotted
+Final Energy|Industry|Liquids;Liquids;#0000cc;1;2;dotted
+Final Energy|Industry|Other;Other;#7f7f7f;1;2;dotted
+Final Energy|Industry|Solids;Solids;#191919;1;2;dotted
 Final Energy|Liquids;Liquids;#0000cc;1;2;dotted
 Final Energy|Other;Other;#7f7f7f;1;2;dotted
 Final Energy|Other Sector;Other;#666666;1;2;dotted
 Final Energy|Residential and Commercial;Res&Comm;#cc0000;1;2;dotted
+Final Energy|Residential and Commercial|Electricity;Electricity;#ffb200;1;2;dotted
+Final Energy|Residential and Commercial|Gases;Gases;#999966;1;2;dotted
+Final Energy|Residential and Commercial|Heat;Heat;#0000cc;1;2;dotted
+Final Energy|Residential and Commercial|Hydrogen;Hydrogen;#66cccc;1;2;dotted
+Final Energy|Residential and Commercial|Liquids;Liquids;#0000cc;1;2;dotted
+Final Energy|Residential and Commercial|Other;Other;#7f7f7f;1;2;dotted
+Final Energy|Residential and Commercial|Solids;Solids;#191919;1;2;dotted
+Final Energy|Residential and Commercial|Solids|Biomass;Biomass;#00b219;1;2;dotted
+Final Energy|Residential and Commercial|Solids|Biomass|Traditional;Traditional biomass;#6e7700;1;2;dotted
+Final Energy|Residential and Commercial|Solids|Coal;Coal;#191919;1;2;dotted
 Final Energy|Solar;Solar;#7f7f00;1;2;dotted
 Final Energy|Solids;Solids;#191919;1;2;dotted
 Final Energy|Solids|Biomass;Biomass;#00b219;1;2;dotted
@@ -43,11 +61,26 @@ Final Energy|Transportation|Liquids;Liquids;#0000cc;1;2;dotted
 Final Energy|Transportation|Liquids|Biomass;Biofuels;#00b219;1;2;dotted
 Final Energy|Transportation|Liquids|Coal;Coal Synfuels;#191919;1;2;dotted
 Final Energy|Transportation|Liquids|Oil;Oil based;#0000cc;1;2;dotted
+Final Energy|Transportation|Other;Other;#7f7f7f;1;2;dotted
 Final Energy|Transportation|Petrol;Petrol;#191919;1;2;dotted
+Global 450 / S2-3;Global 450 / S2-3;#229922;1;2;dotted
+Global 500;Global 500;#222299;1;2;dotted
+Optimal 450;Optimal 450;#00ff00;1;2;dotted
 Policy Cost|Consumption Loss;Policy Costs;#e5e5b2;1;2;dotted
 Price|Biomass|World Market;Biomass;#005900;1;2;dotted
 Price|Carbon;CO2;#e5e5b2;1;2;dotted
 Price|Coal|World Market;Coal;#0c0c0c;1;2;dotted
+Price|Final Energy|Diesel;Diesel;#08262f;1;2;dotted
+Price|Final Energy|Electricity|Stationary;Electricity|Stationary;#ffdc00;1;2;dotted
+Price|Final Energy|Electricity|Transport;Electricity|Transport;#331a00;1;2;dotted
+Price|Final Energy|Gases;Gases;#1a4114;1;2;dotted
+Price|Final Energy|Heat;Heat;#ff9977;1;2;dotted
+Price|Final Energy|Heating Oil;Heating Oil;#44ba97;1;2;dotted
+Price|Final Energy|Hydrogen|Stationary;Hydrogen|Stationary;#ff7b00;1;2;dotted
+Price|Final Energy|Hydrogen|Transport;Hydrogen|Transport;#ab7bb8;1;2;dotted
+Price|Final Energy|Liquids;Liquids;#db0e00;1;2;dotted
+Price|Final Energy|Petrol;Petrol;#29b1da;1;2;dotted
+Price|Final Energy|Solids;Solids;#6e7700;1;2;dotted
 Price|Gas|World Market;Gas;#999959;1;2;dotted
 Price|Oil|World Market;Oil;#663a00;1;2;dotted
 Price|Uranium|World Market;Uranium;#ff33ff;1;2;dotted
@@ -69,21 +102,24 @@ Primary Energy|Other;Other;#7f7f7f;1;2;dotted
 Primary Energy|Solar;Solar;#ffcc00;1;2;dotted
 Primary Energy|Solar|Electricity;Solar;#ffcc00;1;2;dotted
 Primary Energy|Wind;Wind;#337fff;1;2;dotted
+Reference;Reference;#992222;1;2;dotted
 Secondary Energy|Electricity;Total;#000000;1;2;dotted
 Secondary Energy|Electricity|Biomass|w/ CCS;BECCS;#33ff00;1;2;dotted
 Secondary Energy|Electricity|Biomass|w/o CCS;Biomass;#005900;1;2;dotted
 Secondary Energy|Electricity|Coal|w/ CCS;Coal w/ CCS;#b2b2b2;1;2;dotted
+Secondary Energy|Electricity|Coal|w/o CCS;Coal w/o CCS;#0c0c0c;1;2;dotted
 Secondary Energy|Electricity|Gas|w/ CCS;Gas w/ CCS;#e5e5b2;1;2;dotted
 Secondary Energy|Electricity|Gas|w/o CCS;Gas w/o CCS;#999959;1;2;dotted
 Secondary Energy|Electricity|Geothermal;Geothermal;#e51900;1;2;dotted
 Secondary Energy|Electricity|Hydro;Hydro;#191999;1;2;dotted
 Secondary Energy|Electricity|Nuclear;Nuclear;#ff33ff;1;2;dotted
 Secondary Energy|Electricity|Ocean;Ocean;#000066;1;2;dotted
+Secondary Energy|Electricity|Oil;Oil;#663a00;1;2;dotted
 Secondary Energy|Electricity|Oil|w/ CCS;Oil w/ CCS;#cc7500;1;2;dotted
 Secondary Energy|Electricity|Oil|w/o CCS;Oil w/o CCS;#663a00;1;2;dotted
-Secondary Energy|Electricity|Oil;Oil;#663a00;1;2;dotted
 Secondary Energy|Electricity|Other;Other;#7f7f7f;1;2;dotted
 Secondary Energy|Electricity|Solar;Solar;#ffcc00;1;2;dotted
+Secondary Energy|Electricity|w/o CCS;Coal w/o CCS;#0c0c0c;1;2;dotted
 Secondary Energy|Electricity|Wind;Wind;#337fff;1;2;dotted
 Secondary Energy|Gases|Biomass;Gases|Biomass;#99ff99;1;2;dotted
 Secondary Energy|Gases|Coal;Gases|Coal;#664c4c;1;2;dotted
@@ -114,21 +150,58 @@ Trade|Primary Energy|Coal|Value;Coal;#999959;1;2;dotted
 Trade|Primary Energy|Gas|Value;Gas;#191999;1;2;dotted
 Trade|Primary Energy|Oil|Value;Oil;#337fff;1;2;dotted
 Trade|Uranium|Value;Uranium;#33ff00;1;2;dotted
-Price|Final Energy|Electricity|Stationary;Electricity|Stationary;#ffdc00;1;2;dotted
-Price|Final Energy|Electricity|Transport;Electricity|Transport;#331a00;1;2;dotted
-Price|Final Energy|Hydrogen|Stationary;Hydrogen|Stationary;#ff7b00;1;2;dotted
-Price|Final Energy|Hydrogen|Transport;Hydrogen|Transport;#ab7bb8;1;2;dotted
-Price|Final Energy|Gases;Gases;#1a4114;1;2;dotted
-Price|Final Energy|Liquids;Liquids;#db0e00;1;2;dotted
-Price|Final Energy|Heating Oil;Heating Oil;#44ba97;1;2;dotted
-Price|Final Energy|Heat;Heat;#ff9977;1;2;dotted
-Price|Final Energy|Solids;Solids;#6e7700;1;2;dotted
-Price|Final Energy|Petrol;Petrol;#29b1da;1;2;dotted
-Price|Final Energy|Diesel;Diesel;#08262f;1;2;dotted
-Secondary Energy|Electricity|w/o CCS;Coal w/o CCS;#0c0c0c;1;2;dotted
-Secondary Energy|Electricity|Coal|w/o CCS;Coal w/o CCS;#0c0c0c;1;2;dotted
-Baseline / S0-1;Baseline / S0-1;#333333;1;2;dotted
-Reference;Reference;#992222;1;2;dotted
-Global 450 / S2-3;Global 450 / S2-3;#229922;1;2;dotted
-Global 500;Global 500;#222299;1;2;dotted
-Optimal 450;Optimal 450;#00ff00;1;2;dotted
+Capital Cost|Electricity|Biomass|w/ CCS;Electricity - biomass with CCS;#33ff00;1;2;dotted
+Capital Cost|Electricity|Biomass|w/ CCS|1;Electricity - biomass with CCS 1;#33ff00;1;2;dotted
+Capital Cost|Electricity|Coal|w/ CCS;Electricity - coal with CCS;#b2b2b2;1;2;dotted
+Capital Cost|Electricity|Coal|w/ CCS|1 ;Electricity - coal with CCS 1;#b2b2b2;1;2;dotted
+Capital Cost|Electricity|Coal|w/ CCS|2 ;Electricity - coal with CCS 2;#b2b2b2;1;2;dotted
+Capital Cost|Electricity|Gas|w/ CCS;Electricity - gas with CCS;#e5e5b2;1;2;dotted
+Capital Cost|Electricity|Gas|w/ CCS|1 ;Electricity - gas with CCS 1;#e5e5b2;1;2;dotted
+Capital Cost|Electricity|Gas|w/ CCS|2;Electricity - gas with CCS 2;#e5e5b2;1;2;dotted
+Capital Cost|Hydrogen|Biomass|w/ CCS;Hydrogen - biomass with CCS;#33ff00;1;2;dotted
+Capital Cost|Hydrogen|Coal|w/ CCS;Hyrogen - coal with CCS;#b2b2b2;1;2;dotted
+Capital Cost|Hydrogen|Gas|w/ CCS;Hydrogen - gas with CCS;#e5e5b2;1;2;dotted
+Capital Cost|Liquids|Biomass|w/ CCS;Liquids - biomass with CCS;#33ff00;1;2;dotted
+Capital Cost|Liquids|Coal|w/ CCS;Liquids-coal with CCS;#b2b2b2;1;2;dotted
+Capital Cost|Liquids|Gas|w/ CCS;Liquids - gas with CCS;#e5e5b2;1;2;dotted
+Efficiency|Electricity|Biomass|w/ CCS;Electricity - biomass with CCS;#33ff00;1;2;dotted
+Efficiency|Electricity|Biomass|w/ CCS|1;Electricity - biomass with CCS 1;#33ff00;1;2;dotted
+Efficiency|Electricity|Coal|w/ CCS|1 ;Electricity - coal with CCS 1;#b2b2b2;1;2;dotted
+Efficiency|Electricity|Coal|w/ CCS|2 ;Electricity - coal with CCS 2;#b2b2b2;1;2;dotted
+Efficiency|Electricity|Gas|w/ CCS|1;Electricity - gas with CCS 1;#e5e5b2;1;2;dotted
+Efficiency|Electricity|Gas|w/ CCS|2;Electricity - gas with CCS 2;#e5e5b2;1;2;dotted
+Efficiency|Hydrogen|Biomass|w/ CCS;Hydrogen - biomass with CCS;#33ff00;1;2;dotted
+Efficiency|Hydrogen|Coal|w/ CCS;Hyrogen - coal with CCS;#b2b2b2;1;2;dotted
+Efficiency|Hydrogen|Gas|w/ CCS;Hydrogen - gas with CCS;#e5e5b2;1;2;dotted
+Efficiency|Liquids|Biomass|w/ CCS;Liquids - biomass with CCS;#33ff00;1;2;dotted
+Efficiency|Liquids|Coal|w/ CCS;Liquids-coal with CCS;#b2b2b2;1;2;dotted
+Efficiency|Liquids|Gas|w/ CCS;Liquids - gas with CCS;#e5e5b2;1;2;dotted
+Lifetime|Electricity|Biomass|w/ CCS;Electricity - biomass with CCS;#33ff00;1;2;dotted
+Lifetime|Electricity|Coal|w/ CCS;Electricity - coal with CCS;#b2b2b2;1;2;dotted
+Lifetime|Electricity|Coal|w/ CCS|1 ;Electricity - coal with CCS 1;#b2b2b2;1;2;dotted
+Lifetime|Electricity|Coal|w/ CCS|2;Electricity - coal with CCS 2;#b2b2b2;1;2;dotted
+Lifetime|Electricity|Gas|w/ CCS;Electricity - gas with CCS;#e5e5b2;1;2;dotted
+Lifetime|Electricity|Gas|w/ CCS|1;Electricity - gas with CCS 1;#e5e5b2;1;2;dotted
+Lifetime|Electricity|Gas|w/ CCS|2;Electricity - gas with CCS 2;#e5e5b2;1;2;dotted
+Lifetime|Hydrogen|Biomass|w/ CCS;Hydrogen - biomass with CCS;#33ff00;1;2;dotted
+Lifetime|Hydrogen|Coal|w/ CCS;Hyrogen - coal with CCS;#b2b2b2;1;2;dotted
+Lifetime|Hydrogen|Gas|w/ CCS;Hydrogen - gas with CCS;#e5e5b2;1;2;dotted
+Lifetime|Liquids|Biomass|w/ CCS;Liquids - biomass with CCS;#33ff00;1;2;dotted
+Lifetime|Liquids|Coal|w/ CCS;Liquids-coal with CCS;#b2b2b2;1;2;dotted
+Lifetime|Liquids|Gas|w/ CCS;Liquids - gas with CCS;#e5e5b2;1;2;dotted
+OM Cost|Fixed|Electricity|Biomass|w/ CCS;Electricity - biomass with CCS;#33ff00;1;2;dotted
+OM Cost|Fixed|Electricity|Coal|w/ CCS;Electricity - coal with CCS;#b2b2b2;1;2;dotted
+OM Cost|Fixed|Electricity|Coal|w/ CCS|1 ;Electricity - coal with CCS 1;#b2b2b2;1;2;dotted
+OM Cost|Fixed|Electricity|Coal|w/ CCS|2;Electricity - coal with CCS 2;#b2b2b2;1;2;dotted
+OM Cost|Fixed|Electricity|Gas|w/ CCS;Electricity - gas with CCS;#e5e5b2;1;2;dotted
+OM Cost|Fixed|Electricity|Gas|w/ CCS|1 ;Electricity - gas with CCS 1;#e5e5b2;1;2;dotted
+OM Cost|Fixed|Electricity|Gas|w/ CCS|2;Electricity - gas with CCS 2;#e5e5b2;1;2;dotted
+OM Cost|Fixed|Hydrogen|Biomass|w/ CCS;Hydrogen - biomass with CCS;#33ff00;1;2;dotted
+OM Cost|Fixed|Hydrogen|Coal|w/ CCS;Hyrogen - coal with CCS;#b2b2b2;1;2;dotted
+OM Cost|Fixed|Hydrogen|Gas|w/ CCS;Hydrogen - gas with CCS;#e5e5b2;1;2;dotted
+OM Cost|Fixed|Liquids|Biomass|w/ CCS;Liquids - biomass with CCS;#33ff00;1;2;dotted
+OM Cost|Fixed|Liquids|Coal|w/ CCS;Liquids-coal with CCS;#b2b2b2;1;2;dotted
+OM Cost|Fixed|Liquids|Gas|w/ CCS;Liquids - gas with CCS;#e5e5b2;1;2;dotted
+Carbon Sequestration|CCS;CCS;#cc0000;1;2;dotted
+Carbon Sequestration|CCS|Fossil;CCS - fossil;#b2b2b2;1;2;dotted
+Carbon Sequestration|CCS|Biomass;CCS - biomass;#33ff00;1;2;dotted
