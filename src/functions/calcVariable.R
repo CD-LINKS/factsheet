@@ -39,6 +39,7 @@ calcVariable = function(data,formula,newUnit='None'){
 
   #label new unit
   res$unit <- newUnit
+  setattr(res, "class",c("data.table","data.frame"))
   res <- res[, !vars_rhs, with=F] # drop redundant variables
   res$variable = as.character(formula[[2]]) #rename new variable correctly
   names(res)[names(res) == 'result'] = 'value'

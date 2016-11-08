@@ -56,7 +56,7 @@ overwrite <- function(lhs, rhs, except = "value") {
 
     rbind(lhs, rhs) %>%
 
-      distinct_(.dots = setdiff(colnames(rhs), except))
+      distinct_(.dots = setdiff(colnames(rhs), except), .keep_all = TRUE)
 
   )
 
