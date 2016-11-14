@@ -100,6 +100,8 @@ plot_funnel <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file
   minmax=dt[Scope=="global" ,list(ymax=max(value),ymin=min(value)),by=c('region','period','Category','variable')]
   minmax=minmax[!period %in% c("2015","2025","2035","2045","2055","2065","2075","2085","2095")]
   minmax<-minmax[order(region, Category, period),]
+  minmax$period=as.numeric(minmax$period)
+  dt$period=as.numeric(dt$period)
 
   p = ggplot()
   # Plot funnel for global models
@@ -187,6 +189,10 @@ plot_area <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre
   #build data.frame to display respective scenario names in the panels
   scens <- dta[dta$period==2010 & dta$variable == vars[2],]
   scens$value <- 0.99*max(dtl$value)
+  dta$period=as.numeric(dta$period)
+  dtl$period=as.numeric(dtl$period)
+  scens$period=as.numeric(scens$period)
+  
   p = ggplot()
   p = p + geom_area(data=dta,aes(period, value, group = interaction(variable, region, scenario), fill = variable))
   p = p + geom_path(data=dtl,aes(period, value, group = interaction(variable, region, scenario)))
@@ -218,6 +224,43 @@ plot_ternary <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, lab="Tit
   ggtern::ggtern(mapping = aes(x = x, y = y, z = z)) +
     geom_path(data = dtt,
               mapping = aes(linetype = Scope, colour = Category, group = scenario))  + ggplot2::theme_bw()
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}
+
+#############################################################
+####################### plot_bar ############################
+#############################################################
+
+plot_bar <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", title="Title",file_pre="def",ylim=NA,xlim=NA){
+  #select data
+  dt <- dt[region==reg & Category %in% cats & variable %in% vars]
+  #create string with y-axis units for axis label
+  unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
+  unitsy <- paste(rev(unitsy),sep='',collapse='')
+  # For each variable count models and add to data and variable name
+  models=dt[,list(number=length(unique(model))),by=c('region','variable')]
+  dt=merge(dt, models, by=c('region','variable'))
+  dt$variable <- paste(dt$variable,' [',dt$number,' models]',sep="")
+  
+  require(directlabels)
+  #dt$Category = factor(dt$Category,levels=rev(c("NoPOL","INDC","2030_high","2030_med","2030_low","2020_high","2020_med","2020_low")))
+  
+  p = ggplot(dt,aes(x=model, y=value, fill=Category))
+  p = p + geom_bar(stat="identity",position=position_dodge(width=0.66),width=0.66)
+  p = p + coord_flip()
+  p = p + xlab("")
+  if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
+  # p = p + theme_bw() + theme(panel.border = element_blank()) + theme(axis.line.x=element_line(colour="black")) + theme(axis.line.y=element_line(colour="black"))
+  # p = p + theme(legend.justification=c(1,1), legend.position=c(1,0.9))
+  # p = p + theme(axis.text.y=element_text(size=18))
+  # p = p + theme(axis.title=element_text(size=18))
+  # p = p + theme(axis.text.x = element_text(size=18))
+  # p = p + theme(legend.text=element_text(size=18))
+  # p = p + theme(legend.title=element_text(size=18))
+  p = p + facet_grid(variable~region, scales="free_y")
+  p = p + ylab(paste(lab))
+  p = p + ggtitle(title) + ggplot2::theme_bw()
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
