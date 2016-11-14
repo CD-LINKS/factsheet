@@ -74,6 +74,20 @@ plot_funnel(reg=cfg$r,dt=all[period<=2050],vars=vars,cats=cats,title="Kaya facto
 invisible(dev.off())
 
 ```
+
+\subsection{Carbon budget}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+if (!identical(character(0),intersect(nat_cats,c("NoPOL","2020_low","2030_low")) )){
+vars <- c("Carbon budget")
+cats <- intersect(nat_cats,c("NoPOL","2020_low","2030_low"))
+
+plot_bar(reg=cfg$r,dt=all,vars="Carbon budget",cats=cats,lab="Carbon budget (Gt CO2; 2010-2100)",file_pre="carbon_budget_bar")
+}
+invisible(dev.off())
+
+```
+
 \subsection{Elasticity of models: relative abatement as function of Carbon price}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
