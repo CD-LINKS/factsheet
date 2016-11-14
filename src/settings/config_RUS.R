@@ -17,7 +17,7 @@ cfg$r         <- "RUS"
 cfg$rname     <- "Russia"
 
 # Name of corresponding national model(s)
-cfg$model_nat <- c("") # fill in the same model name as used in the database
+cfg$model_nat <- c("RU-TIMES 3.2") # fill in the same model name as used in the database
 
 # Name of directory plots are stored in
 cfg$outdir    <- "graphs"
@@ -34,6 +34,11 @@ cfg$colors <- c("#0072B2","#000000","#D55E00","#33cc00","#cc0000","#999999")
 
 # Shapes
 cfg$man_shapes=c("POLES 2014"        =  1, 
+                 "REMIND-MAgPIE 1.7-3.0"  =  2, 
+                 "WITCH2016"         =  5, 
+                 "IMAGE 3.0"         =  6, 
+                 "COPPE-COFFEE 1.0"  =  1, 
+                 "AIM/CGE"           =  8, 
                  "REMIND 1.5"        =  2, 
                  "MESSAGE V.4"       =  3,
                  "MESSAGE-GLOBIOM_1.0"=  3,
@@ -48,7 +53,8 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "GCAM_LAMP"         = 9, 
                  "POLES AMPERE"      = 10, 
                  "POLES EMF27"       = 10,
-                 "China TIMES"       = 1,
+                 "*RU-TIMES 3.2"       = 1,
+                 "*IPAC-AIM/technology V1.0" = 2,
                  "*PRIMES_V1"         = 1,
                  "*COPPE-MSB_v1.3.2"  = 1,
                  "*AIM/Enduse[Japan]" = 1,
@@ -56,6 +62,11 @@ cfg$man_shapes=c("POLES 2014"        =  1,
 
 # Linestyles         
 cfg$man_lines=c("POLES 2014"        =  "solid", 
+                "REMIND-MAgPIE 1.7-3.0"  =  "dashed", 
+                "WITCH2016"         =  "longdash", 
+                "IMAGE 3.0"         =  "twodash", 
+                "COPPE-COFFEE 1.0"  =  "solid", 
+                "AIM/CGE"           =  "dotdash", 
                 "REMIND 1.5"        =  "dashed", 
                 "MESSAGE-GLOBIOM_1.0"= "dotted", 
                 "MESSAGE V.4"       =  "dotted",
@@ -70,7 +81,7 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "GCAM_LAMP"         = "dashed", 
                 "POLES AMPERE"      = "dotted", 
                 "POLES EMF27"       = "dotted",
-                "*China TIMES"       = "solid",
+                "*RU-TIMES 3.2"     = "solid",
                 "*PRIMES_V1"         = "solid",
                 "*COPPE-MSB_v1.3.2"  = "solid",
                 "*AIM/Enduse[Japan]" = "solid",
