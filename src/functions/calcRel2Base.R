@@ -45,7 +45,7 @@ calcRel2Base = function(data,var,baseEq1,new_var,scens){
     res$variable = new_var
     res$unit = '%' 
    #merge data
-   data <- rbind(data,res)
+   data <- rbind(data,res, fill=TRUE)
    }
   }
   # convert to data.table / data.frame and return
