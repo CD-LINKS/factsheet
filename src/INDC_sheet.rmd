@@ -15,6 +15,13 @@ output:
 \subsection{GDP and Population over time in Baseline scenarios}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+#general setting for the whole sheet:
+#all scenarios with national model scenarios available
+if(cfg$r=="JPN"){
+  nat_cats <- intersect(unique(all[Scope=="national"]$Category),c("NoPOL","NPi","INDC","2020_low","2030_high"))
+} else  {
+  nat_cats <- intersect(unique(all[Scope=="national"]$Category),c("NoPOL","NPi","INDC","2030_low","2030_high"))
+}
 
 plot_line(reg=cfg$r,dt=all,vars=c("GDP|MER","Population"),cats=c("NoPOL"),title="Socio-Economic Indicators",file_pre="gdp_pop_line")   
 
@@ -25,7 +32,7 @@ invisible(dev.off())
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
-plot_line(reg=cfg$r,dt=all,vars=c("Policy Cost|Consumption Loss","Policy Cost|GDP Loss"),cats=c("2020_low"),title="Policy Costs in 2020_low scenarios",file_pre="cons_gdp_loss_line")   
+plot_line(reg=cfg$r,dt=all,vars=c("Policy Cost|Consumption Loss","Policy Cost|GDP Loss"),cats=c("2030_high"),title="Policy Costs in 2030_high scenarios",file_pre="cons_gdp_loss_line")   
 
 invisible(dev.off())
 
@@ -36,7 +43,7 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
 vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
-cats <- c("NoPOL","2020_low","2030_high")
+cats <- nat_cats
 
 plot_funnel(reg=cfg$r,dt=all[period<=2050],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel",glob_lines=T,xlim=c(2000,2050))   
 
@@ -49,7 +56,7 @@ invisible(dev.off())
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
-plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases"),cats=c("Baseline","2020_low","2030_high"),title="Kyoto gas emissions",file_pre="GHG_funnel",glob_lines=T,xlim=c(2000,2050))   
+plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases"),cats=nat_cats,title="Kyoto gas emissions",file_pre="GHG_funnel",glob_lines=T,xlim=c(2000,2050))   
 
 invisible(dev.off())
 
@@ -58,24 +65,26 @@ invisible(dev.off())
 \subsection{Kaya Factors over time}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-
+if (!identical(character(0),intersect(nat_cats,c("NoPOL","2020_low","2030_low")) )){
 vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
-cats <- c("NoPOL","2020_low")
+cats <- intersect(nat_cats,c("NoPOL","2020_low","2030_low"))
 
 plot_funnel(reg=cfg$r,dt=all[period<=2050],vars=vars,cats=cats,title="Kaya factors",file_pre="kaya_funnel",glob_lines=T,xlim=c(2000,2050))   
-
+}
 invisible(dev.off())
 
 ```
 \subsection{Elasticity of models: relative abatement as function of Carbon price}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-
-# Please specify exactly two variables and assign them to x and y
-vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
-cats <- c("2020_low")
-plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T,xlim=c(10,1000))   
-
+if (!identical(character(0),intersect(nat_cats,c("2020_low","2030_low")) )){
+  # Please specify exactly two variables and assign them to x and y
+  vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
+  cats <- intersect(nat_cats,c("2020_low","2030_low"))
+  if (dim(all[Scope=="national" & variable=="Price|Carbon"])[1]!=0){
+    plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T,xlim=c(10,1000))   
+  }
+}
 invisible(dev.off())
 
 ```
@@ -83,12 +92,12 @@ invisible(dev.off())
 \subsection{Elasticity of models: Carbon Intensity vs. Energy Intensity}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-
+if (!identical(character(0),intersect(nat_cats,c("2020_low","2030_low")) )){
 # Please specify exactly two variables and assign them to x and y
 vars <- c(x="Energy intensity rel. to Base",y="Carbon intensity rel. to Base")
-cats <- c("2020_low")
+cats <- intersect(nat_cats,c("2020_low","2030_low"))
 plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",file_pre="ci_ei_scatter")   
-
+}
 invisible(dev.off())
 
 ```
@@ -96,12 +105,12 @@ invisible(dev.off())
 \subsection{Final Energy over GDP}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-
+if (!identical(character(0),intersect(nat_cats,c("NoPOL","2020_low","2030_low")) )){
 # Please specify exactly two variables and assign them to x and y
 vars <- c(x="GDP|MER",y="Final Energy")
-cats <- c("NoPOL","2020_low")
+cats <- intersect(nat_cats,c("NoPOL","2020_low","2030_low"))
 plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Socio-Economic Indicators",file_pre="gdp_fe_scatter")   
-
+}
 invisible(dev.off())
 
 ```
@@ -112,7 +121,8 @@ invisible(dev.off())
 
 # Please specify exactly two variables and assign them to x and y
 vars <- c("Primary Energy","Primary Energy|Coal|w/o CCS","Primary Energy|Coal|w/ CCS","Primary Energy|Gas|w/o CCS","Primary Energy|Gas|w/ CCS","Primary Energy|Oil|w/o CCS","Primary Energy|Oil|w/ CCS","Primary Energy|Biomass|w/o CCS","Primary Energy|Biomass|w/ CCS","Primary Energy|Nuclear","Primary Energy|Hydro","Primary Energy|Wind","Primary Energy|Solar","Primary Energy|Geothermal","Primary Energy|Other")
-cats <- c("NoPOL","2020_low")
+#plot all scenarios with national model scenarios available
+cats <- nat_cats
 plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Primary Energy (EJ/yr)",file_pre="pe_area",xlim=c(2000,2050))   
 
 invisible(dev.off())
@@ -136,7 +146,7 @@ invisible(dev.off())
 
 # Please specify exactly two variables and assign them to x and y
 vars <- c("Secondary Energy|Electricity","Secondary Energy|Electricity|Coal|w/o CCS","Secondary Energy|Electricity|Coal|w/ CCS","Secondary Energy|Electricity|Gas|w/o CCS","Secondary Energy|Electricity|Gas|w/ CCS","Secondary Energy|Electricity|Oil","Secondary Energy|Electricity|Biomass|w/o CCS","Secondary Energy|Electricity|Biomass|w/ CCS","Secondary Energy|Electricity|Nuclear","Secondary Energy|Electricity|Hydro","Secondary Energy|Electricity|Wind","Secondary Energy|Electricity|Solar","Secondary Energy|Electricity|Geothermal","Secondary Energy|Electricity|Other")
-cats <- c("NoPOL","2020_low")
+cats <- nat_cats
 plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Electricity Generation (EJ/yr)",file_pre="ele_area",xlim=c(2000,2050))   
 
 invisible(dev.off())
@@ -149,7 +159,7 @@ invisible(dev.off())
 
 # For area plots, the first entry in vars is interpreted as the total (line_plot on top)
 vars <- c("Final Energy","Final Energy|Electricity","Final Energy|Gases","Final Energy|Heat","Final Energy|Hydrogen","Final Energy|Liquids","Final Energy|Other","Final Energy|Solids")
-cats <- c("NoPOL","2020_low")
+cats <- nat_cats
 plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_c_area",xlim=c(2000,2050))   
 
 invisible(dev.off())
@@ -162,7 +172,7 @@ invisible(dev.off())
 
 # For area plots, the first entry in vars is interpreted as the total (line_plot on top)
 vars <- c("Final Energy","Final Energy|Transportation","Final Energy|Residential and Commercial","Final Energy|Industry","Final Energy|Other Sector")
-cats <- c("NoPOL","2020_low")
+cats <- nat_cats
 plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_s_area")   
 
 invisible(dev.off())
@@ -175,7 +185,7 @@ invisible(dev.off())
 
 # For area plots, the first entry in vars is interpreted as the total (line_plot on top)
 vars <- c("Final Energy|Industry","Final Energy|Industry|Electricity","Final Energy|Industry|Gases","Final Energy|Industry|Heat","Final Energy|Industry|Hydrogen","Final Energy|Industry|Liquids","Final Energy|Industry|Other","Final Energy|Industry|Solids")
-cats <- c("NoPOL","2020_low")
+cats <- nat_cats
 plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_industry_area")   
 
 invisible(dev.off())
@@ -188,7 +198,7 @@ invisible(dev.off())
 
 # For area plots, the first entry in vars is interpreted as the total (line_plot on top)
 vars <- c("Final Energy|Residential and Commercial","Final Energy|Residential and Commercial|Electricity","Final Energy|Residential and Commercial|Gases","Final Energy|Residential and Commercial|Heat","Final Energy|Residential and Commercial|Hydrogen","Final Energy|Residential and Commercial|Liquids","Final Energy|Residential and Commercial|Other", "Final Energy|Residential and Commercial|Solids")
-cats <- c("NoPOL","2020_low")
+cats <- nat_cats
 plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_buildings_area")   
 
 invisible(dev.off())
@@ -201,7 +211,7 @@ invisible(dev.off())
 
 # For area plots, the first entry in vars is interpreted as the total (line_plot on top)
 vars <- c("Final Energy|Transportation","Final Energy|Transportation|Electricity","Final Energy|Transportation|Gases","Final Energy|Transportation|Hydrogen","Final Energy|Transportation|Liquids","Final Energy|Transportation|Other")
-cats <- c("NoPOL","2020_low")
+cats <- nat_cats
 plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_transport_area")   
 
 invisible(dev.off())
@@ -214,7 +224,7 @@ invisible(dev.off())
 
 # For area plots, the first entry in vars is interpreted as the total (line_plot on top)
 vars <- c("Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|CCS|Fossil")
-cats <- c("NoPOL","2020_low")
+cats <- nat_cats
 plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Carbon sequestration (Mt CO2/yr)",file_pre="cs_CCS_area")   
 
 invisible(dev.off())

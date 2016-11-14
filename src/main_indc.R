@@ -15,7 +15,7 @@ library(directlabels) # year labels for scatter plots
 #setwd("D:/location-of-srcfolder-on-your-system")
 
 #source configuration file for region-specific data
-source("settings/config_CHN.R")
+source("settings/config_RUS.R")
 #overwrite file to be used for analysis
 cfg$infile    <- "cdlinks_glob_nat_indc_compare_20161104-120114"
 
@@ -29,7 +29,7 @@ source("functions/overwrite.R")
 source("functions/plot_functions.R")
 
 # flag to process data, reprocess even if .._reg_proc.RData file is available (i.e. overwrite existing RData)
-b.procdata = F
+b.procdata = T
 
 # Create plot directory
 if(!file.exists(cfg$outdir)) {
@@ -72,6 +72,8 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   #############################################################
   cat("Processing data\n")
 
+  #manual change before addition of scenario categories
+  all[SCENARIO=="Baseline"]$SCENARIO <- "NoPOL"
   
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
