@@ -24,6 +24,12 @@ tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2"]$model),uniq
 tmp1$variable <- "Emissions|CO2|Energy and Industrial Processes"
 all <- rbind(all,tmp1)
 
+#Adding "Emissions|CO2" to models that don't report them, but have "Emissions|CO2|Energy and Industrial Processes"
+tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$model),unique(all[variable=="Emissions|CO2"]$model)) &
+              variable == "Emissions|CO2|Energy and Industrial Processes"]
+tmp1$variable <- "Emissions|CO2"
+all <- rbind(all,tmp1)
+
 #Adding "w/o CCS" PE and SE types to models that don't report them, assuming that there is no CCS (which is probably not true -> ask teams to submit)
 alternatives <- data.frame(plot_var=c("Primary Energy|Biomass",
                                       "Primary Energy|Coal",

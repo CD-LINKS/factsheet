@@ -210,3 +210,20 @@ OM Cost|Fixed|Liquids|Gas|w/ CCS;Liquids - gas with CCS;#e5e5b2;1;2;dotted
 Carbon Sequestration|CCS;CCS;#cc0000;1;2;dotted
 Carbon Sequestration|CCS|Fossil;CCS - fossil;#b2b2b2;1;2;dotted
 Carbon Sequestration|CCS|Biomass;CCS - biomass;#33ff00;1;2;dotted
+AIM/CGE;AIM/CGE;#ff8000;1;2;dotted
+COPPE-COFFEE 1.0;COPPE-COFFEE;#ffff00;1;2;dotted
+GEM-E3_V1;GEM-E3;#00ff00;1;2;dotted
+IMAGE 3.0;IMAGE;#00ffff;1;2;dotted
+MESSAGE-GLOBIOM_1.0;MESSAGE-GLOBIOM;#0080ff;1;2;dotted
+REMIND-MAgPIE 1.7-3.0;REMIND-MAgPIE;#0000ff;1;2;dotted
+WITCH2016;WITCH;#7f00ff;1;2;dotted
+*China TIMES;*China TIMES;#ff00ff;1;2;dotted
+*IPAC-AIM/technology V1.0;*IPAC-AIM/technology;#ff0000;1;2;dotted
+*PRIMES_V1;*PRIMES;#ff00ff;1;2;dotted
+*COPPE-MSB_v1.3.2;*COPPE-MSB;#ff00ff;1;2;dotted
+*AIM/Enduse[Japan];*AIM/Enduse[Japan];#ff00ff;1;2;dotted
+*DNE21+ V.14  2;*DNE21+ ;#ff0000;1;2;dotted
+*RU-TIMES_3.2;*RU-TIMES;#ff00ff;1;2;dotted
+*GCAM;*GCAM;#ff00ff;1;2;dotted
+*AIM/Enduse 3.0;*AIM/Enduse 3.0;#ff00ff;1;2;dotted
+*India MARKAL;*India MARKAL;#ff0000;1;2;dotted

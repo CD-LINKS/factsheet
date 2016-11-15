@@ -232,35 +232,20 @@ plot_ternary <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, lab="Tit
 ####################### plot_bar ############################
 #############################################################
 
-plot_bar <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", title="Title",file_pre="def",ylim=NA,xlim=NA){
+plot_bar <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", title="Title",file_pre="def",ylim=NA,xlim=NA,ref_line=F){
   #select data
   dt <- dt[region==reg & Category %in% cats & variable %in% vars]
-  #create string with y-axis units for axis label
-  unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
-  unitsy <- paste(rev(unitsy),sep='',collapse='')
-  # For each variable count models and add to data and variable name
-  models=dt[,list(number=length(unique(model))),by=c('region','variable')]
-  dt=merge(dt, models, by=c('region','variable'))
-  dt$variable <- paste(dt$variable,' [',dt$number,' models]',sep="")
-  
   require(directlabels)
-  #dt$Category = factor(dt$Category,levels=rev(c("NoPOL","INDC","2030_high","2030_med","2030_low","2020_high","2020_med","2020_low")))
-  
-  p = ggplot(dt,aes(x=model, y=value, fill=Category))
+  p = ggplot(dt,aes(x=Category, y=value, fill=model))
   p = p + geom_bar(stat="identity",position=position_dodge(width=0.66),width=0.66)
-  p = p + coord_flip()
+  #p = p + coord_flip()
   p = p + xlab("")
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
-  # p = p + theme_bw() + theme(panel.border = element_blank()) + theme(axis.line.x=element_line(colour="black")) + theme(axis.line.y=element_line(colour="black"))
-  # p = p + theme(legend.justification=c(1,1), legend.position=c(1,0.9))
-  # p = p + theme(axis.text.y=element_text(size=18))
-  # p = p + theme(axis.title=element_text(size=18))
-  # p = p + theme(axis.text.x = element_text(size=18))
-  # p = p + theme(legend.text=element_text(size=18))
-  # p = p + theme(legend.title=element_text(size=18))
-  p = p + facet_grid(variable~region, scales="free_y")
+  if (ref_line){p = p + geom_hline(data=ref_budgets[ref_budgets$region==reg,],aes(yintercept=value),colour=c("#aa0000","#aa0000","#0000aa","#0000aa"))}
+#   p = p + facet_grid(variable~period, scales="free_y")
+  p = p + scale_fill_manual(values=plotstyle(as.character(unique(dt$model))))
   p = p + ylab(paste(lab))
-  p = p + ggtitle(title) + ggplot2::theme_bw()
+  p = p + ggplot2::theme_bw()+ theme(axis.text.x = element_text(angle = 90, hjust = 1))
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
