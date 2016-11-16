@@ -9,8 +9,8 @@ all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Process
   all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy"&region=="RUS"]$value
 
 all <- rbind(all,tmp)
-# # Multiplying Brazil GDP for COPPE by 1000 because reported differently (factor 1000 different from global models)
-# all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value=all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value*1000
+# Multiplying Brazil GDP for COPPE by 1000 because reported differently (factor 1000 different from global models)
+all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value=all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value*1000
 
 #Adding "Emissions|CO2|Energy and Industrial Processes" to models that don't report them, but have "Emissions|CO2|Energy"
 tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy"]$model),unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$model)) &
