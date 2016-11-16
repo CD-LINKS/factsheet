@@ -67,6 +67,9 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Mitigation Costs` ~ `Policy Cost` / `GDP|MER` *100 ' , newUnit='% of GDP')
     source("functions/calcBudget.R")
     all <- calcBudget(all,'Emissions|CO2','Carbon budget')
+    source("functions/calcPeak.R")
+    all <- calcPeak(all,'Emissions|CO2','Peak year|CO2')
+    all <- calcPeak(all,'Emissions|Kyoto Gases','Peak year|Kyoto Gases')
 
 #    all <- overwrite(remind::calcCumulatedDiscount(all, discount = 0.05, nameVar = "GDP|MER"), all)
 
