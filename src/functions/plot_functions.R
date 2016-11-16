@@ -249,3 +249,25 @@ plot_bar <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", title="Ti
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
+
+#############################################################
+####################### plot_point ##########################
+#############################################################
+
+plot_point <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", title="Title",file_pre="def",ylim=NA,xlim=NA,ref_line=F){
+  #select data
+  dt <- dt[region==reg & Category %in% cats & variable %in% vars]
+  p = ggplot(dt,aes(x=Category, y=value))
+  p = p + geom_point(data=dt,aes(x=Category,y=value,color=model,shape=model),size=4)
+  p = p + coord_flip()
+  p = p + xlab("")
+  if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
+  #   p = p + facet_grid(variable~period, scales="free_y")
+  #FIXME?
+  p = p + scale_shape_manual(values=plotstyle(as.character(unique(dt$model))))
+  p = p + scale_colour_manual(values=plotstyle(as.character(unique(dt$model))))
+  p = p + ylab(paste(lab))
+  p = p + ggplot2::theme_bw() #+ theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}

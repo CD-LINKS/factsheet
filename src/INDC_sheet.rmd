@@ -113,6 +113,30 @@ invisible(dev.off())
 
 ```
 
+\subsection{Peak year CO2}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+vars <- c("Peak year|CO2")
+cats <- unique(all$Category)
+
+plot_point(reg=cfg$r,dt=all,vars="Peak year|CO2",cats=cats,lab="Peak year CO2 emissions",file_pre="peak_CO2_point",ref_line=F)
+
+invisible(dev.off())
+
+```
+
+\subsection{Peak year Kyoto Gases}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+vars <- c("Peak year|Kyoto Gases")
+cats <- unique(all$Category)
+
+plot_point(reg=cfg$r,dt=all,vars="Peak year|Kyoto Gases",cats=cats,lab="Peak year Kyoto Gas emissions",file_pre="peak_Kyoto_point",ref_line=F)
+
+invisible(dev.off())
+
+```
+
 \subsection{Elasticity of models: relative abatement as function of Carbon price}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
