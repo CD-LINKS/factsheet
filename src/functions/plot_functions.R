@@ -31,6 +31,7 @@ plot_line <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_p
   p = p + geom_path(data=dt,aes(x=period,y=value,color=model,group=paste(model,scenario),size=Scope))
   p = p + scale_shape_manual(values=man_shapes)
   p = p + scale_size_manual(values=c("national"=2, "global"=.2))
+  p = p + scale_colour_manual(values=plotstyle(as.character(unique(dt$model))))
   p = p + geom_path(data=dt[Scope=="national"],aes(x=period,y=value,color=model,group=paste(model,scenario),size=Scope))
   #p = p + ylab(paste("Carbon Price"))#add unit (different for each facet grid plot...)
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
@@ -198,10 +199,10 @@ plot_area <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre
   p = p + geom_path(data=dtl,aes(period, value, group = interaction(variable, region, scenario)))
   p = p + geom_path(data=dtl,aes(period, value, group = interaction(variable, region, scenario)), colour = "#ffffff",linetype=2)
   p = p + facet_grid(Category ~ model)
-  p = p + ylab(lab) + xlab("")
+  p = p + ylab(lab) + xlab("year 20xx")
   p = p + geom_text(data=scens,aes(x=period,y=value,label=scenario,angle=90,hjust=1, vjust = 0 ))
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
-  if (!all(is.na(xlim))){p = p + scale_x_continuous(limits=xlim,breaks=xbreaks)} #manual x-axis limits
+  if (!all(is.na(xlim))){p = p + scale_x_continuous(limits=xlim,breaks=xbreaks, labels = substr(xbreaks,3,4))} #manual x-axis limits
   p = p + scale_fill_manual(values=plotstyle(vars), labels=plotstyle(vars,out="legend"), name=strsplit(vars[1], "|", fixed=T)[[1]][1])
   p = p + ggplot2::theme_bw()
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
