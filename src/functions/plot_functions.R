@@ -189,7 +189,11 @@ plot_area <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre
   dtl <- dt[region==reg & Category%in% cats & variable%in% vars[1]]
   #build data.frame to display respective scenario names in the panels
   scens <- dta[dta$period==2010 & dta$variable == vars[2],]
+  if(!all(is.na(xlim))){
+  scens$value <- 0.95*max(dtl[period<xlim[2]]$value)
+  } else {
   scens$value <- 0.99*max(dtl$value)
+  } 
   dta$period=as.numeric(dta$period)
   dtl$period=as.numeric(dtl$period)
   scens$period=as.numeric(scens$period)
@@ -202,7 +206,9 @@ plot_area <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre
   p = p + ylab(lab) + xlab("year 20xx")
   p = p + geom_text(data=scens,aes(x=period,y=value,label=scenario,angle=90,hjust=1, vjust = 0 ))
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
-  if (!all(is.na(xlim))){p = p + scale_x_continuous(limits=xlim,breaks=xbreaks, labels = substr(xbreaks,3,4))} #manual x-axis limits
+  if (!all(is.na(xlim))){p = p + scale_x_continuous(limits=xlim,breaks=xbreaks, labels = substr(xbreaks,3,4))#manual x-axis limits
+                         if (all(is.na(ylim))){p = p + ylim(c(0,max(dtl[period<xlim[2]]$value)))}#change ylim if manual x but not y limits
+                         } 
   p = p + scale_fill_manual(values=plotstyle(vars), labels=plotstyle(vars,out="legend"), name=strsplit(vars[1], "|", fixed=T)[[1]][1])
   p = p + ggplot2::theme_bw()
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
