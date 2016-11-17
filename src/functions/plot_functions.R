@@ -278,3 +278,25 @@ plot_point <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", title="
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
+
+
+#############################################################
+###################### plot_bar_facet #######################
+#############################################################
+
+plot_bar_facet <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", title="Title",file_pre="def",ylim=NA,xlim=NA){
+  #select data
+  dt <- dt[region==reg & Category %in% cats & variable %in% vars]
+  
+  p = ggplot(dt,aes(x=model, y=value, fill=Category))
+  p = p + facet_grid(variable ~ region,scales="free_y")
+  p = p + geom_bar(stat="identity",position=position_dodge(width=0.66),width=0.66)
+  #p = p + coord_flip()
+  p = p + xlab("")
+  if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
+  p = p + scale_fill_manual(values=plotstyle(as.character(unique(dt$Category))))
+  p = p + ylab(paste(lab))
+  p = p + ggplot2::theme_bw()+ theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}
