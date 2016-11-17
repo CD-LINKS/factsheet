@@ -2,6 +2,7 @@
 Baseline / S0-1;Baseline / S0-1;#333333;1;2;dotted
 NoPOL;NoPOL;#333333;1;2;dotted
 INDC;INDC;#992222;1;2;dotted
+NPi;NPi;#808080;1;2;dotted
 Emissions|CH4;Total;#000000;1;2;dotted
 Emissions|CH4|Energy Supply and Demand;CH4 Energy;#cc0000;1;2;dotted
 Emissions|CH4|Land Use;CH4 Land Use;#ff9900;1;2;dotted
@@ -69,8 +70,10 @@ Global 450 / S2-3;Global 450 / S2-3;#229922;1;2;dotted
 Global 500;Global 500;#222299;1;2;dotted
 Optimal 450;Optimal 450;#00ff00;1;2;dotted
 2020_low;2020_low;#229922;1;2;dotted
-2030_low;2030_low;#229922;1;2;dotted
+2020_high;2020_high;#992299;1;2;dotted
+2030_low;2030_low;#999922;1;2;dotted
 2030_high;2030_high;#222299;1;2;dotted
+2020_verylow;2020_verylow;#ff9966;1;2;dotted
 Policy Cost|Consumption Loss;Policy Costs;#e5e5b2;1;2;dotted
 Price|Biomass|World Market;Biomass;#005900;1;2;dotted
 Price|Carbon;CO2;#e5e5b2;1;2;dotted
@@ -108,6 +111,10 @@ Primary Energy|Solar;Solar;#ffcc00;1;2;dotted
 Primary Energy|Solar|Electricity;Solar;#ffcc00;1;2;dotted
 Primary Energy|Wind;Wind;#337fff;1;2;dotted
 Primary Energy|Secondary Energy Trade;Secondary Energy Trade;#e5e5e5;1;2;dotted
+Rate of Change| Energy Intensity of GDP|MER;Energy Intensity of GDP (MER);#229922;1;2;dotted
+Rate of Change| Carbon Intensity of FE;Carbon Intensity of FE;#229922;1;2;dotted
+Rate of Change| Emissions|CO2|FFI;Emissions|CO2|FFI;#229922;1;2;dotted
+Rate of Change| Emissions Intensity of GDP|MER;Emissions Intensity of GDP (MER);#229922;1;2;dotted
 Reference;Reference;#992222;1;2;dotted
 Secondary Energy|Electricity;Total;#000000;1;2;dotted
 Secondary Energy|Electricity|Biomass|w/ CCS;BECCS;#33ff00;1;2;dotted
