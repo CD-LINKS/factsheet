@@ -107,6 +107,7 @@ Primary Energy|Other;Other;#7f7f7f;1;2;dotted
 Primary Energy|Solar;Solar;#ffcc00;1;2;dotted
 Primary Energy|Solar|Electricity;Solar;#ffcc00;1;2;dotted
 Primary Energy|Wind;Wind;#337fff;1;2;dotted
+Primary Energy|Secondary Energy Trade;Secondary Energy Trade;#e5e5e5;1;2;dotted
 Reference;Reference;#992222;1;2;dotted
 Secondary Energy|Electricity;Total;#000000;1;2;dotted
 Secondary Energy|Electricity|Biomass|w/ CCS;BECCS;#33ff00;1;2;dotted
