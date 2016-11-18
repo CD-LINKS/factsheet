@@ -3,7 +3,6 @@ calcBudget = function(data,var,new_var){
     stop("Error: The dataframe does not contain the variable provided!")
   }
 
-# First calculate budget per model, then median and range
 dat=data[variable %in% var]
 
 ######2050 budgets
