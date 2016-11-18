@@ -15,7 +15,7 @@ library(directlabels) # year labels for scatter plots
 #setwd("D:/location-of-srcfolder-on-your-system")
 
 #source configuration file for region-specific data
-source("settings/config_CHN.R")
+source("settings/config_JPN.R")
 #overwrite file to be used for analysis
 cfg$infile    <- "cdlinks_glob_nat_indc_compare_20161114-103147"
 
@@ -42,8 +42,8 @@ if(!file.exists(cfg$outdir)) {
 
 #input reference budgets for national scenarios:
 ref_budgets <- data.frame(region =c(rep("IND",4),rep("BRA",4),rep("JPN",4),rep("RUS",4),rep("CHN",4),rep("EUR",4),rep("USA",4)),scenario=rep(c("high","high","low","low"),7),border=rep(c("min","max"),14),
-                          value=c(125*1.05,125*.95,90*1.05,90*.95, 42*1.05,42*.95,14.95*1.05,14.95*.95,
-                                  30*1.05,30*.95,25.62*1.05,25.62*.95, 50.5*1.05,50.5*.95,45*1.05,45*.95,
+                          value=c(125*1.05,125*.95,90*1.05,90*.95, 42*1.05,42*.95,22*1.05,22*.95,
+                                  36.5*1.05,36.5*.95,31.47*1.05,31.47*.95, 50.5*1.05,50.5*.95,45*1.05,45*.95,
                                   400*1.05,400*.95,290*1.05,290*.95, 112*1.05,112*.95,95*1.05,95*.95,
                                   100*1.05,100*.95,100*1.05,100*.95))
 
