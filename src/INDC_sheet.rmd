@@ -91,10 +91,10 @@ invisible(dev.off())
 \subsection{Carbon budget 2011-2050}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-vars <- c("Carbon budget")
+vars <- c("Carbon budget|Energy and Industry")
 cats <- unique(all$Category)
 
-plot_bar(reg=cfg$r,dt=all[period==2050],vars="Carbon budget",cats=cats,lab="Carbon budget (Gt CO2; 2011-2050)",file_pre="carbon_budget_bar50",ref_line=T)
+plot_bar(reg=cfg$r,dt=all[period==2050],vars=vars,cats=cats,lab="Carbon budget|Energy and Industry (Gt CO2; 2011-2050)",file_pre="carbon_budget_enin_bar50",ref_line=T)
 
 invisible(dev.off())
 
@@ -102,10 +102,10 @@ invisible(dev.off())
 \subsection{Carbon budget 2011-2100}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-vars <- c("Carbon budget")
+vars <- c("Carbon budget|Energy and Industry")
 cats <- unique(all$Category)
 
-plot_bar(reg=cfg$r,dt=all[period==2100],vars="Carbon budget",cats=cats,lab="Carbon budget (Gt CO2; 2011-2100)",file_pre="carbon_budget_bar",ref_line=T)
+plot_bar(reg=cfg$r,dt=all[period==2100],vars=vars,cats=cats,lab="Carbon budget|Energy and Industry (Gt CO2; 2011-2100)",file_pre="carbon_budget_enin_bar",ref_line=T)
 
 invisible(dev.off())
 
@@ -113,12 +113,12 @@ invisible(dev.off())
 \subsection{Carbon budget 2051-2100}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-vars <- c("Carbon budget")
+vars <- c("Carbon budget|Energy and Industry")
 cats <- unique(all$Category)
 
-plot_bar(reg=cfg$r,dt=all[period==2105],vars="Carbon budget",cats=cats,lab="Carbon budget (Gt CO2; 2051-2100)",file_pre="carbon_budget_bar",ref_line=F)
+plot_bar(reg=cfg$r,dt=all[period==2105],vars=vars,cats=cats,lab="Carbon budget|Energy and Industry (Gt CO2; 2051-2100)",file_pre="carbon_budget_enin_bar",ref_line=F)
 
-tab <- all[variable=="Carbon budget"]
+tab <- all[variable=="Carbon budget|Energy and Industry"]
 tab <- data.frame(period=tab$period, Category =tab$Category, value =tab$value, model = tab$model)
 tab <- dcast(tab,Category + value ~ period)
 
