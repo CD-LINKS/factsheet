@@ -99,6 +99,7 @@ plot_boxplot(regs=regs,dt=all,vars=c("Non-CO2 GHG per capita", "LU Emissions per
              year=2050,file_pre="oGHG_2050_INDC", var.labels = c("Non-CO2 GHG [tCO2e/cap]", "AFOLU CO2 Emissions [tCO2/cap]") , b.multivar = T)
 
 #Total GHG emissions
+regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA")
 plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="2030_low",
              year=2050,file_pre="GHGEmiMult2050_2030_low", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
 plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="2030_high",
@@ -112,8 +113,22 @@ plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFO
 plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="INDC",
              year=2050,file_pre="GHGEmiMult2050_INDC", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
 
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="2030_low",
+             year=2030,file_pre="GHGEmiMult2030_2030_low", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="2030_high",
+             year=2030,file_pre="GHGEmiMult2030_2030_high", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="2020_low",
+             year=2030,file_pre="GHGEmiMult2030_2020_low", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="2020_high",
+             year=2030,file_pre="GHGEmiMult2030_2020_high", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="NPi",
+             year=2030,file_pre="GHGEmiMult2030_NPi", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="INDC",
+             year=2030,file_pre="GHGEmiMult2030_INDC", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
 
 oASIA <-  calcRegion(all[Scope == "global"], ' `oASIA` ~ `R5ASIA` - `IND` - `CHN` ', b.append = F)
+
+regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
 
 #Carbon intensity of final energy
 plot_boxplot(regs=regs,dt=all,vars="Carbon Intensity of FE",cats="2030_low",year=2030,file_pre="CI_2030_2030low")
@@ -290,6 +305,11 @@ plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2030_high",year=2050
 plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2020_low",year=2050,file_pre="MitiCosts_2050_2020_low")
 plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2020_high",year=2050,file_pre="MitiCosts_2050_2020_high")
 
+plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2030_low",year=2100,file_pre="MitiCosts_2100_2030_low")
+plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2030_high",year=2100,file_pre="MitiCosts_2100_2030_high")
+plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2020_low",year=2100,file_pre="MitiCosts_2100_2020_low")
+plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2020_high",year=2100,file_pre="MitiCosts_2100_2020_high")
+
 #Carbon price
 plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats="2030_low",year=2050,file_pre="CO2price_2050_2030_low")
 plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats="2030_high",year=2050,file_pre="CO2price_2050_2030_high")
@@ -318,6 +338,7 @@ regs <- c("BRA","R5LAM","CHN","IND","R5MAF","R5ASIA", "RUS", "EU","JPN","USA")
 regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
 # regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA",  "World")
 
+#BECCS per capita
 plot_boxplot(regs=regs,dt=all,vars=c("BECCS per capita", "Primary Energy|Biomass|w/ CCS"),
              cats="2030_low",year=2050,file_pre="BECCS_EmiAndPE_2030_low", var.labels = c("BECCS per capita [tCO2]", "Bionergy for CCS [EJ]") , b.multivar = T)
 plot_boxplot(regs=regs,dt=all,vars=c("BECCS per capita", "Primary Energy|Biomass|w/ CCS"),
@@ -352,10 +373,13 @@ plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="INDC
 plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="INDC",year=2050,file_pre="PE_BECCS_2050_INDC")
 plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="INDC",year=2050,file_pre="PE_Bio_2050_INDC")
 
+#Population
 plot_boxplot(regs=regs,dt=all,vars="Population",cats="2030_low",year=2010,file_pre="Pop_2010")
 plot_boxplot(regs=regs,dt=all,vars="Population",cats="2030_low",year=2030,file_pre="Pop_2030")
 plot_boxplot(regs=regs,dt=all,vars="Population",cats="2030_low",year=2050,file_pre="Pop_2050")
 
+#Carbon budget
+regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
 plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2030_low",year=2050,file_pre="Cbudget_2011-2050_2030_low")
 plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2030_low",year=2100,file_pre="Cbudget_2011-2100_2030_low")
 plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2030_high",year=2050,file_pre="Cbudget_2011-2050_2030_high")
@@ -364,6 +388,50 @@ plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="202
 plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2020_low",year=2100,file_pre="Cbudget_2011-2100_2020_low")
 plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2020_high",year=2050,file_pre="Cbudget_2011-2050_2020_high")
 plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2020_high",year=2100,file_pre="Cbudget_2011-2100_2020_high")
+
+#Emissions intensity GDP
+regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA","World")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="2030_low",year=2050,file_pre="Emis_int2050_2030_low")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="2030_low",year=2030,file_pre="Emis_int2030_2030_low")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="2030_high",year=2050,file_pre="Emis_int2050_2030_high")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="2030_high",year=2030,file_pre="Emis_int2030_2030_high")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="2020_low",year=2050,file_pre="Emis_int2050_2020_low")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="2020_low",year=2030,file_pre="Emis_int2030_2020_low")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="2020_high",year=2050,file_pre="Emis_int2050_2020_high")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="2020_high",year=2030,file_pre="Emis_int2030_2020_high")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="NPi",year=2050,file_pre="Emis_int2050_NPi")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="NPi",year=2030,file_pre="Emis_int2030_NPi")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="INDC",year=2050,file_pre="Emis_int2050_INDC")
+plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="INDC",year=2030,file_pre="Emis_int2030_INDC")
+
+#Rates of change
+plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="2030_low",
+             year="2030-2050",file_pre="Rates2030-2050_2030_low", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="2030_high",
+             year="2030-2050",file_pre="Rates2030-2050_2030_high", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="2020_low",
+             year="2030-2050",file_pre="Rates2030-2050_2020_low", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="2020_high",
+             year="2030-2050",file_pre="Rates2030-2050_2020_high", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi",
+             year="2030-2050",file_pre="Rates2030-2050_NPi", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDC",
+             year="2030-2050",file_pre="Rates2030-2050_INDC", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+
+#Primary energy
+regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="2030_low",year=2050,file_pre="PE_2050_2030_low")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="2030_low",year=2030,file_pre="PE_2030_2030_low")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="2030_high",year=2050,file_pre="PE_2050_2030_high")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="2030_high",year=2030,file_pre="PE_2030_2030_high")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="2020_low",year=2050,file_pre="PE_2050_2020_low")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="2020_low",year=2030,file_pre="PE_2030_2020_low")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="2020_high",year=2050,file_pre="PE_2050_2020_high")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="2020_high",year=2030,file_pre="PE_2030_2020_high")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi",year=2050,file_pre="PE_2050_NPi")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi",year=2030,file_pre="PE_2030_NPi")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC",year=2050,file_pre="PE_2050_INDC")
+plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC",year=2030,file_pre="PE_2030_INDC")
 
 dt=all
 var="Emissions per capita"
