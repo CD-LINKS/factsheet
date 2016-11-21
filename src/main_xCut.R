@@ -27,7 +27,7 @@ source("functions/overwrite.R")
 source("functions/plot_functions.R")
 
 # flag to process data, reprocess even if _proc.rdata file is available
-b.procdata = F
+b.procdata = T
 
 # Create plot directory
 if(!file.exists(cfg$outdir)) {
