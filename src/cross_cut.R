@@ -44,7 +44,7 @@ plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFO
 
 oASIA <-  calcRegion(all[Scope == "global"], ' `oASIA` ~ `R5ASIA` - `IND` - `CHN` ', b.append = F)
 
-plot_boxplot(regs=regs,dt=all,vars="Carbon Intensity of FE",cats="DIAG-C80-gr5",year=2030,file_pre="CI_2030")
+plot_boxplot(regs=regs,dt=all,vars="Carbon Intensity of FE",cats="2030_low",year=2030,file_pre="CI_2030")
 plot_boxplot(regs=regs,dt=all,vars="Carbon Intensity of FE",cats="2030_low",year=2050,file_pre="CI_2050")
 
 # plot_boxplot(regs=regs,dt=all,vars="Carbon Intensity of Electricity",cats="2030_low",year=2050,file_pre="CI_Elec_2050")
@@ -96,7 +96,7 @@ plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="2030_low",year=
 regs <- c("BRA","R5LAM","CHN","IND","R5MAF","R5ASIA", "RUS", "EU","JPN","USA")
 
 plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2030_low",year=2050,file_pre="MitiCosts_2050")
-plot_boxplot(regs=regs,dt=all,vars="Price Carbon",cats="2030_low",year=2050,file_pre="CO2price_2050")
+plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats="2030_low",year=2050,file_pre="CO2price_2050")
 
 # blank carbon price results for EU
 
