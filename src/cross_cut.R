@@ -356,6 +356,15 @@ plot_boxplot(regs=regs,dt=all,vars="Population",cats="2030_low",year=2010,file_p
 plot_boxplot(regs=regs,dt=all,vars="Population",cats="2030_low",year=2030,file_pre="Pop_2030")
 plot_boxplot(regs=regs,dt=all,vars="Population",cats="2030_low",year=2050,file_pre="Pop_2050")
 
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2030_low",year=2050,file_pre="Cbudget_2011-2050_2030_low")
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2030_low",year=2100,file_pre="Cbudget_2011-2100_2030_low")
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2030_high",year=2050,file_pre="Cbudget_2011-2050_2030_high")
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2030_high",year=2100,file_pre="Cbudget_2011-2100_2030_high")
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2020_low",year=2050,file_pre="Cbudget_2011-2050_2020_low")
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2020_low",year=2100,file_pre="Cbudget_2011-2100_2020_low")
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2020_high",year=2050,file_pre="Cbudget_2011-2050_2020_high")
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2020_high",year=2100,file_pre="Cbudget_2011-2100_2020_high")
+
 dt=all
 var="Emissions per capita"
 cats=c("2030_low", "Reference")
