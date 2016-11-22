@@ -64,6 +64,18 @@ invisible(dev.off())
 
 ```
 
+\subsection{Kyoto gas emissions over time - detailed}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+cats <- c("NPi","INDC")
+
+plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel",glob_lines=T,xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```
+
 \subsection{Kaya Factors over time}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
