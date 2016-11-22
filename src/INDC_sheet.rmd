@@ -82,7 +82,20 @@ invisible(dev.off())
 vars <- c("Rate of Change| Energy Intensity of GDP|MER","Rate of Change| Carbon Intensity of FE","Rate of Change| Emissions|CO2|FFI","Rate of Change| Emissions Intensity of GDP|MER")
 cats <- unique(all$Category) #intersect(nat_cats,c("INDC","2020_low","2030_low"))
 
-plot_bar_facet(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Rate of change (%/year; 2030-2050)",file_pre="rate_of_change_bar")   
+plot_bar_facet(reg=cfg$r,dt=all[period=="2030-2050"],vars=vars,cats=cats,lab="Rate of change (%/year; 2030-2050)",file_pre="rate_of_change_30-50_bar")   
+#}
+invisible(dev.off())
+
+```
+
+\subsection{Rates of change 2050-2100}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+#if (!identical(character(0),intersect(nat_cats,c("INDC","2020_low","2030_low")) )){
+vars <- c("Rate of Change| Energy Intensity of GDP|MER","Rate of Change| Carbon Intensity of FE","Rate of Change| Emissions|CO2|FFI","Rate of Change| Emissions Intensity of GDP|MER")
+cats <- unique(all$Category) #intersect(nat_cats,c("INDC","2020_low","2030_low"))
+
+plot_bar_facet(reg=cfg$r,dt=all[period=="2050-2100"],vars=vars,cats=cats,lab="Rate of change (%/year; 2050-2100)",file_pre="rate_of_change_50-100_bar")   
 #}
 invisible(dev.off())
 
