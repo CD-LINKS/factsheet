@@ -42,6 +42,7 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Final Energy per capita` ~ `Final Energy`/`Population` * 1000 ' , newUnit='GJ/cap')
     all <- calcVariable(all,'`BECCS per capita` ~ `Carbon Sequestration|CCS|Biomass` / `Population` ' , newUnit='t CO2/cap')
     all <- calcVariable(all,'`Non-CO2 GHG per capita` ~ (`Emissions|Kyoto Gases` - `Emissions|CO2` )  / `Population` ' , newUnit='t CO2/cap')
+    all <- calcVariable(all,'`Emissions|Kyoto Gases|Excl. AFOLU CO2` ~ `Emissions|Kyoto Gases` - `Emissions|CO2|AFOLU` ' , newUnit='Mt CO2-equiv/yr')
     all <- calcVariable(all,'`Emissions|CO2|FFI|gross` ~ `Emissions|CO2|Energy and Industrial Processes` +  `Carbon Sequestration|CCS|Biomass`' , newUnit='Mt CO2/yr')
     all <- calcVariable(all,'`Fossil emissions per cap` ~ `Emissions|CO2|FFI|gross` / `Population` ' , newUnit='t CO2/cap')
     all <- calcVariable(all,'`Wind and Solar Share` ~ ( `Secondary Energy|Electricity|Solar` + `Secondary Energy|Electricity|Wind` ) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
