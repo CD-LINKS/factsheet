@@ -15,7 +15,7 @@ library(directlabels) # year labels for scatter plots
 #setwd("D:/location-of-srcfolder-on-your-system")
 
 #source configuration file for region-specific data
-source("settings/config_JPN.R")
+source("settings/config_World.R")
 #overwrite file to be used for analysis
 cfg$infile    <- "cdlinks_glob_nat_indc_compare_20161114-103147"
 
@@ -120,4 +120,4 @@ theme_set(theme_bw())
 cat("Producing graphs in graphs folder and pdf in main folder\n")
 render("INDC_sheet.rmd",output_file=paste0("INDC_sheet_",cfg$r,".pdf"))
 
-
+#render("INDC_sheet_world.rmd",output_file=paste0("INDC_sheet_",cfg$r,".pdf"))
