@@ -433,6 +433,18 @@ plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi",year=2030,file_pr
 plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC",year=2050,file_pre="PE_2050_INDC")
 plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC",year=2030,file_pre="PE_2030_INDC")
 
+#Peak year
+regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA","World")
+plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="2030_low",file_pre="Peak_year_CO2_2030low")
+plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="2030_high",file_pre="Peak_year_CO2_2030high")
+plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="2020_low",file_pre="Peak_year_CO2_2020low")
+plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="2020_high",file_pre="Peak_year_CO2_2020high")
+
+plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="2030_low",file_pre="Peak_year_Kyoto_2030low")
+plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="2030_high",file_pre="Peak_year_Kyoto_2030high")
+plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="2020_low",file_pre="Peak_year_Kyoto_2020low")
+plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="2020_high",file_pre="Peak_year_Kyoto_2020high")
+
 dt=all
 var="Emissions per capita"
 cats=c("2030_low", "Reference")
