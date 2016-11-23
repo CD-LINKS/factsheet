@@ -22,6 +22,7 @@ Secondary Energy|Electricity|Gas
 Secondary Energy|Electricity|Gas|w/ CCS
 Secondary Energy|Electricity|Gas|w/o CCS
 Secondary Energy|Electricity|Oil
+Secondary Energy|Electricity|Fossil|w/o CCS
 Emissions|CO2|AFOLU
 Carbon Sequestration|CCS|Biomass
 Emissions|CH4
@@ -75,3 +76,7 @@ Secondary Energy|Electricity|Hydro
 Secondary Energy|Electricity|Ocean
 Secondary Energy|Electricity|Solar
 Secondary Energy|Electricity|Wind
+Emissions|CO2|Energy|Demand|Transportation
+Emissions|CO2|Energy|Demand|Industry
+Emissions|CO2|Energy|Demand|Residential and Commercial
+

@@ -547,6 +547,11 @@ plot_boxplot3(regs="USA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP
 plot_boxplot3(regs="World",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),file_pre="Energy_2030_World")
 
+#Sectoral emissions
+plot_boxplot3(regs="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+              cats=c("NPi","INDC"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_World")
+plot_boxplot3(regs="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+              cats=c("NPi","INDC"),year=2020,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2020_World")
 
 
 dt=all
