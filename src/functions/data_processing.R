@@ -68,7 +68,14 @@ add_variables <- function(all,scens){
     all <- calcRel2Base(all,var="Energy Intensity of GDP|MER",baseEq1=T,"Energy intensity rel. to Base",scens)
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
-        
+    
+    all <- calcVariable(all,'`FE freight/tkm` ~ `Final Energy|Transportation|Freight`/`Energy Service|Transportation|Freight` ' , newUnit='EJ/bn tkm')
+    all <- calcVariable(all,'`FE passenger/pkm` ~ `Final Energy|Transportation|Passenger`/`Energy Service|Transportation|Passenger` ' , newUnit='EJ/bn pkm')
+    # Check if this is possible with new snapshot?
+    #all <- calcVariable(all,'`FE residential and commercial/floor space` ~ `Final Energy|Residential and Commercial`/`Energy Service|Residential and Commercial|Floor Space` ' , newUnit='EJ/bn m2')
+    #all <- calcVariable(all,'`FE residential/floor space` ~ `Final Energy|Residential`/`Energy Service|Residential|Floor Space` ' , newUnit='EJ/bn m2')
+    #all <- calcVariable(all,'`FE commercial/floor space` ~ `Final Energy|Commercial`/`Energy Service|Commercial|Floor Space` ' , newUnit='EJ/bn m2')
+    
     all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Area under MAC Curve` ' , newUnit='billion US$2010/yr')
     all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Consumption Loss` ' , newUnit='billion US$2010/yr')
 #    all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Other` ' , newUnit='billion US$2010/yr')

@@ -544,8 +544,6 @@ plot_boxplot3(regs="EU",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_EU")
 plot_boxplot3(regs="USA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_USA")
-plot_boxplot3(regs="World",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
-              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_World")
 
 #Sectoral emissions
 plot_boxplot3(regs="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
@@ -553,6 +551,56 @@ plot_boxplot3(regs="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transporta
 plot_boxplot3(regs="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
               cats=c("NPi","INDC"),year=2020,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2020_World")
 
+###Sectoral energy
+#Energy supply
+plot_boxplot3(regs="World",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_World")
+plot_boxplot3(regs="World",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
+              year=2020,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2020_World")
+#Electricity only
+plot_boxplot3(regs="World",dt=all,vars=c("Secondary Energy|Electricity","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Low-carbon Electricity Share|All excl. Fossil w/o CCS"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Electricity","Wind & Solar Share","Renewables Share","Low-carbon share"),file_pre="Electricity_2030_World")
+plot_boxplot3(regs="World",dt=all,vars=c("Secondary Energy|Electricity","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Low-carbon Electricity Share|All excl. Fossil w/o CCS"),cats=c("NPi","INDC"),
+              year=2020,b.multivar=T,var.labels=c("Electricity","Wind & Solar Share","Renewables Share","Low-carbon share"),file_pre="Electricity_2020_World")
+
+#AFOLU
+plot_boxplot3(regs="World",dt=all,vars=c("Land Cover","Land Cover|Cropland","Land Cover|Cropland|Energy Crops","Primary Energy|Biomass|Traditional"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Land Cover","Cropland","Energy Crops","PE|Traditional biomass"),file_pre="AFOLU_indicators_2030_World")
+plot_boxplot3(regs="World",dt=all,vars=c("Land Cover","Land Cover|Cropland","Land Cover|Cropland|Energy Crops","Primary Energy|Biomass|Traditional"),cats=c("NPi","INDC"),
+              year=2020,b.multivar=T,var.labels=c("Land Cover","Cropland","Energy Crops","PE|Traditional biomass"),file_pre="AFOLU_indicators_2020_World")
+
+#FE all sectors
+plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Transportation","Final Energy|Industry","Final Energy|Residential and Commercial"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial"),file_pre="FE_sectors_2030_World")
+plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Transportation","Final Energy|Industry","Final Energy|Residential and Commercial"),cats=c("NPi","INDC"),
+              year=2020,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial"),file_pre="FE_sectors_2020_World")
+
+plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Solids|Biomass","Final Energy|Transportation|Liquids|Biomass"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("FE|Solids|Biomass","FE|Transport|Liquids|Biomass"),file_pre="FE_biomass_2030_World")
+plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Solids|Biomass","Final Energy|Transportation|Liquids|Biomass"),cats=c("NPi","INDC"),
+              year=2020,b.multivar=T,var.labels=c("FE|Solids|Biomass","FE|Transport|Liquids|Biomass"),file_pre="FE_biomass_2020_World")
+
+#Transport
+plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Transportation|Electricity","Final Energy|Transportation|Gases","Final Energy|Transportation|Hydrogen","Final Energy|Transportation|Liquids","Final Energy|Transportation|Liquids|Biomass","Final Energy|Transportation|Other"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Electricity","Gases","Hydrogen","Liquids","Liquids-biomass","Other"),file_pre="FE_transport_2030_World")
+plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Transportation|Electricity","Final Energy|Transportation|Gases","Final Energy|Transportation|Hydrogen","Final Energy|Transportation|Liquids","Final Energy|Transportation|Liquids|Biomass","Final Energy|Transportation|Other"),cats=c("NPi","INDC"),
+              year=2020,b.multivar=T,var.labels=c("Electricity","Gases","Hydrogen","Liquids","Liquids-biomass","Other"),file_pre="FE_transport_2020_World")
+plot_boxplot3(regs="World",dt=all,vars=c("FE passenger/pkm","FE freight/tkm"),cats=c("NPi","INDC"),
+              year=2020,b.multivar=T,var.labels=c("FE passenger/pkm","FE freight/tkm"),file_pre="FE_km_transport_2020_World")
+plot_boxplot3(regs="World",dt=all,vars=c("FE passenger/pkm","FE freight/tkm"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("FE passenger/pkm","FE freight/tkm"),file_pre="FE_km_transport_2030_World")
+
+#Industry
+plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Industry|Electricity","Final Energy|Industry|Gases","Final Energy|Industry|Hydrogen","Final Energy|Industry|Liquids","Final Energy|Industry|Other","Final Energy|Industry|Heat","Final Energy|Industry|Solids"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Electricity","Gases","Hydrogen","Liquids","Other","Heat","Solids"),file_pre="FE_industry_2030_World")
+plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Industry|Electricity","Final Energy|Industry|Gases","Final Energy|Industry|Hydrogen","Final Energy|Industry|Liquids","Final Energy|Industry|Other","Final Energy|Industry|Heat","Final Energy|Industry|Solids"),cats=c("NPi","INDC"),
+              year=2020,b.multivar=T,var.labels=c("Electricity","Gases","Hydrogen","Liquids","Other","Heat","Solids"),file_pre="FE_industry_2020_World")
+
+#Buildings
+plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Residential and Commercial|Electricity","Final Energy|Residential and Commercial|Gases","Final Energy|Residential and Commercial|Hydrogen","Final Energy|Residential and Commercial|Liquids","Final Energy|Residential and Commercial|Other","Final Energy|Residential and Commercial|Heat","Final Energy|Residential and Commercial|Solids"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Electricity","Gases","Hydrogen","Liquids","Other","Heat","Solids"),file_pre="FE_buildings_2030_World")
+plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Residential and Commercial|Electricity","Final Energy|Residential and Commercial|Gases","Final Energy|Residential and Commercial|Hydrogen","Final Energy|Residential and Commercial|Liquids","Final Energy|Residential and Commercial|Other","Final Energy|Residential and Commercial|Heat","Final Energy|Residential and Commercial|Solids"),cats=c("NPi","INDC"),
+              year=2020,b.multivar=T,var.labels=c("Electricity","Gases","Hydrogen","Liquids","Other","Heat","Solids"),file_pre="FE_buildings_2020_World")
 
 dt=all
 var="Emissions per capita"

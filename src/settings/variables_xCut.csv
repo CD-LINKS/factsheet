@@ -36,9 +36,23 @@ Final Energy|Heat
 Final Energy|Hydrogen
 Final Energy|Industry
 Final Energy|Industry|Electricity
+Final Energy|Industry|Heat
+Final Energy|Industry|Gases
+Final Energy|Industry|Hydrogen
+Final Energy|Industry|Liquids
+Final Energy|Industry|Other
+Final Energy|Industry|Solids
 Final Energy|Liquids
 Final Energy|Residential and Commercial
+Final Energy|Residential
+Final Energy|Commercial
 Final Energy|Residential and Commercial|Electricity
+Final Energy|Residential and Commercial|Gases
+Final Energy|Residential and Commercial|Hydrogen
+Final Energy|Residential and Commercial|Liquids
+Final Energy|Residential and Commercial|Other
+Final Energy|Residential and Commercial|Heat
+Final Energy|Residential and Commercial|Solids
 Final Energy|Solar
 Final Energy|Solids
 Final Energy|Solids|Biomass
@@ -79,4 +93,21 @@ Secondary Energy|Electricity|Wind
 Emissions|CO2|Energy|Demand|Transportation
 Emissions|CO2|Energy|Demand|Industry
 Emissions|CO2|Energy|Demand|Residential and Commercial
-
+Land Cover|Cropland
+Land Cover|Cropland|Energy Crops
+Land Cover
+Primary Energy|Biomass|Traditional
+Energy Service|Residential and Commercial|Floor Space
+Energy Service|Residential|Floor Space
+Energy Service|Commercial|Floor Space
+Final Energy|Transportation|Freight
+Final Energy|Transportation|Passenger
+Energy Service|Transportation|Freight
+Energy Service|Transportation|Passenger
+Final Energy|Transportation|Freight|Liquids|Biomass
+Final Energy|Transportation|Passenger|Liquids|Biomass
+Final Energy|Transportation|Liquids|Biomass
+Final Energy|Transportation|Gases
+Final Energy|Transportation|Hydrogen
+Final Energy|Transportation|Liquids
+Final Energy|Transportation|Other
