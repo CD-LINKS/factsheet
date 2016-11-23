@@ -52,6 +52,19 @@ invisible(dev.off())
 
 ```
 
+\subsection{Key energy system characteristics - 2}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars <- c("Primary Energy","Secondary Energy|Electricity","Energy Intensity of GDP|MER","Renewables Share|Incl. Hydro and Nuclear")
+cats <- c("NPi","INDC","Reference")
+
+plot_bar_facet2(reg=cfg$r,dt=all[period==2030],vars=vars,cats=cats,lab="Energy system characteristics",file_pre="Energy_bar_facet")   
+
+invisible(dev.off())
+
+```
+
 \subsection{Kyoto gas emissions over time}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
