@@ -529,23 +529,23 @@ plot_boxplot3(regs="World",dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyot
 plot_boxplot3(regs="World",dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("NPi","INDC"),
               year=2030,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2030_World")
 
-#Regional energy - add %REN instead of wind and solar
-plot_boxplot3(regs="BRA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
-              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),file_pre="Energy_2030_BRA")
-plot_boxplot3(regs="JPN",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
-              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),file_pre="Energy_2030_JPN")
-plot_boxplot3(regs="IND",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
-              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),file_pre="Energy_2030_IND")
-plot_boxplot3(regs="CHN",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
-              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),file_pre="Energy_2030_CHN")
-plot_boxplot3(regs="RUS",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
-              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),file_pre="Energy_2030_RUS")
-plot_boxplot3(regs="EU",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
-              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),file_pre="Energy_2030_EU")
-plot_boxplot3(regs="USA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
-              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),file_pre="Energy_2030_USA")
-plot_boxplot3(regs="World",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
-              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Secondary Energy|Electricity"),file_pre="Energy_2030_World")
+#Regional energy
+plot_boxplot3(regs="BRA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_BRA")
+plot_boxplot3(regs="JPN",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_JPN")
+plot_boxplot3(regs="IND",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_IND")
+plot_boxplot3(regs="CHN",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_CHN")
+plot_boxplot3(regs="RUS",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_RUS")
+plot_boxplot3(regs="EU",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_EU")
+plot_boxplot3(regs="USA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_USA")
+plot_boxplot3(regs="World",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDC"),
+              year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_World")
 
 #Sectoral emissions
 plot_boxplot3(regs="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
