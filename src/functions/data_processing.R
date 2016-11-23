@@ -47,6 +47,12 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Fossil emissions per cap` ~ `Emissions|CO2|FFI|gross` / `Population` ' , newUnit='t CO2/cap')
     all <- calcVariable(all,'`Wind and Solar Share` ~ ( `Secondary Energy|Electricity|Solar` + `Secondary Energy|Electricity|Wind` ) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
     all <- calcVariable(all,'`Nuclear Share` ~ ( `Secondary Energy|Electricity|Nuclear`  ) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
+    #FIX ME? Returns NA  
+    all <- calcVariable(all,'`Renewables Share|Incl. Hydro and Nuclear` ~ ( `Secondary Energy|Electricity|Solar` + `Secondary Energy|Electricity|Wind` + `Secondary Energy|Electricity|Nuclear` + `Secondary Energy|Electricity|Hydro` + `Secondary Energy|Electricity|Biomass` + `Secondary Energy|Electricity|Geothermal` + `Secondary Energy|Electricity|Ocean`) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
+    all <- calcVariable(all,'`Renewables Share|Excl. Hydro` ~ ( `Secondary Energy|Electricity|Solar` + `Secondary Energy|Electricity|Wind` + `Secondary Energy|Electricity|Nuclear` + `Secondary Energy|Electricity|Biomass` + `Secondary Energy|Electricity|Geothermal` + `Secondary Energy|Electricity|Ocean`) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
+    all <- calcVariable(all,'`Renewables Share|Excl. Nuclear` ~ ( `Secondary Energy|Electricity|Solar` + `Secondary Energy|Electricity|Wind` + `Secondary Energy|Electricity|Hydro` + `Secondary Energy|Electricity|Biomass` + `Secondary Energy|Electricity|Geothermal` + `Secondary Energy|Electricity|Ocean`) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
+    all <- calcVariable(all,'`Low-carbon Electricity Share|All excl. Fossil w/o CCS` ~ ( `Secondary Energy|Electricity` - `Secondary Energy|Electricity|Fossil|w/o CCS`) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
+  
     all <- calcVariable(all,'`Share of Elec in FE` ~  `Final Energy|Electricity`   / `Final Energy` * 100 ' , newUnit='%')
     all <- calcVariable(all,'`Share of Elec in Transport` ~  `Final Energy|Transportation|Electricity`   / `Final Energy|Transportation` * 100 ' , newUnit='%')
     # all <- calcVariable(all,'`Carbon Intensity of Electricity` ~ `Emissions|CO2|Energy|Supply|Electricity`/ `Secondary Energy|Electricity` ' , newUnit='kg CO2/GJ')
@@ -62,7 +68,7 @@ add_variables <- function(all,scens){
     all <- calcRel2Base(all,var="Energy Intensity of GDP|MER",baseEq1=T,"Energy intensity rel. to Base",scens)
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
-  
+        
     all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Area under MAC Curve` ' , newUnit='billion US$2010/yr')
     all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Consumption Loss` ' , newUnit='billion US$2010/yr')
 #    all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Other` ' , newUnit='billion US$2010/yr')
