@@ -349,8 +349,13 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   dt$period=as.numeric(dt$period)
   
   dt$variable <- factor(dt$variable, levels = c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"))
+  UNEP=data.table(scenario=c("UNEPmean","UNEPmin","UNEPmax"),Category="INDCi",
+                  Baseline="NoPolicy",model="UNEP",region="World",
+                  period=2030,Scope="global",value=c(53400,49500,54700), 
+                  unit="Mt CO2-equiv./yr",variable="Emissions|Kyoto Gases")
   
-  p = ggplot()
+
+    p = ggplot()
   # Plot funnel for global models
   p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax,fill=Category),alpha=.15)
   #optional: plot individual model-scenario lines
@@ -366,6 +371,7 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + ylab(paste(unitsy))
   p = p + facet_grid(variable ~ region,scales="free_y")
+  p = p + geom_point(data=UNEP,aes(x=period,y=value,shape=scenario))
   p = p + ggtitle(title) + ggplot2::theme_bw()
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
