@@ -17,7 +17,7 @@ library(directlabels) # year labels for scatter plots
 #source configuration file for region-specific data
 source("settings/config_World.R")
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_glob_nat_indc_compare_20161114-103147"
+cfg$infile    <- "cdlinks_compare_20161124-142501"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")

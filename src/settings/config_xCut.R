@@ -10,7 +10,7 @@ cfg <- list()
 ######################################################
 
 # csv files that contain input data (from stocktaking and diagnostics) and will be read (only file name, without folder and extension)
-cfg$infile    <- "cdlinks_compare_20161115-174314"
+cfg$infile    <- "cdlinks_compare_20161124-142501"
 cfg$diag_infile <- "CDLINKS_diagnostics_compare_regions_2016-05-11"
 
 
