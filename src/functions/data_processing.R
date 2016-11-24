@@ -52,7 +52,8 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Renewables Share|Excl. Hydro` ~ ( `Secondary Energy|Electricity|Solar` + `Secondary Energy|Electricity|Wind` + `Secondary Energy|Electricity|Nuclear` + `Secondary Energy|Electricity|Biomass` + `Secondary Energy|Electricity|Geothermal` ) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
     all <- calcVariable(all,'`Renewables Share|Excl. Nuclear` ~ ( `Secondary Energy|Electricity|Solar` + `Secondary Energy|Electricity|Wind` + `Secondary Energy|Electricity|Hydro` + `Secondary Energy|Electricity|Biomass` + `Secondary Energy|Electricity|Geothermal` ) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
     all <- calcVariable(all,'`Low-carbon Electricity Share|All excl. Fossil w/o CCS` ~ ( `Secondary Energy|Electricity` - `Secondary Energy|Electricity|Fossil|w/o CCS`) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
-  
+    all <- calcVariable(all,'`Renewables Share|TPES|Excl. Nuclear` ~ ( `Primary Energy|Solar` + `Primary Energy|Wind` + `Primary Energy|Hydro` + `Primary Energy|Biomass` + `Primary Energy|Geothermal` ) / `Primary Energy` * 100 ' , newUnit='%')
+    
     all <- calcVariable(all,'`Share of Elec in FE` ~  `Final Energy|Electricity`   / `Final Energy` * 100 ' , newUnit='%')
     all <- calcVariable(all,'`Share of Elec in Transport` ~  `Final Energy|Transportation|Electricity`   / `Final Energy|Transportation` * 100 ' , newUnit='%')
     # all <- calcVariable(all,'`Carbon Intensity of Electricity` ~ `Emissions|CO2|Energy|Supply|Electricity`/ `Secondary Energy|Electricity` ' , newUnit='kg CO2/GJ')
@@ -69,9 +70,9 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
     
-    all <- calcVariable(all,'`FE freight/tkm` ~ `Final Energy|Transportation|Freight`/`Energy Service|Transportation|Freight` ' , newUnit='EJ/bn tkm')
-    all <- calcVariable(all,'`FE passenger/pkm` ~ `Final Energy|Transportation|Passenger`/`Energy Service|Transportation|Passenger` ' , newUnit='EJ/bn pkm')
     # Check if this is possible with new snapshot?
+    #all <- calcVariable(all,'`FE freight/tkm` ~ `Final Energy|Transportation|Freight`/`Energy Service|Transportation|Freight` ' , newUnit='EJ/bn tkm')
+    #all <- calcVariable(all,'`FE passenger/pkm` ~ `Final Energy|Transportation|Passenger`/`Energy Service|Transportation|Passenger` ' , newUnit='EJ/bn pkm')
     #all <- calcVariable(all,'`FE residential and commercial/floor space` ~ `Final Energy|Residential and Commercial`/`Energy Service|Residential and Commercial|Floor Space` ' , newUnit='EJ/bn m2')
     #all <- calcVariable(all,'`FE residential/floor space` ~ `Final Energy|Residential`/`Energy Service|Residential|Floor Space` ' , newUnit='EJ/bn m2')
     #all <- calcVariable(all,'`FE commercial/floor space` ~ `Final Energy|Commercial`/`Energy Service|Commercial|Floor Space` ' , newUnit='EJ/bn m2')
