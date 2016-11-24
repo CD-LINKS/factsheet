@@ -325,3 +325,48 @@ plot_bar_facet2 <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", ti
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
+
+#############################################################
+####################### plot_funnel2 ########################
+#############################################################
+
+plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA,glob_lines=F){
+  #select data
+  dt <- dt[region==reg & Category%in% cats & variable%in% vars]
+  #create string with y-axis units for axis label
+  unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
+  unitsy <- paste(rev(unitsy),sep='',collapse='')
+  # For each variable count models and add to data and variable name
+  models=dt[,list(number=length(unique(model))),by=c('region','variable','Category')]
+  dt=merge(dt, models, by=c('region','variable','Category'))
+  #   dt$variable <- paste(dt$variable,' [',dt$number,' models]',sep="")
+  
+  # Extract data from global models only for funnels
+  minmax=dt[Scope=="global" ,list(ymax=max(value),ymin=min(value)),by=c('region','period','Category','variable')]
+  minmax=minmax[!period %in% c("2015","2025","2035","2045","2055","2065","2075","2085","2095")]
+  minmax<-minmax[order(region, Category, period),]
+  minmax$period=as.numeric(minmax$period)
+  dt$period=as.numeric(dt$period)
+  
+  dt$variable <- factor(dt$variable, levels = c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"))
+  
+  p = ggplot()
+  # Plot funnel for global models
+  p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax,fill=Category),alpha=.15)
+  #optional: plot individual model-scenario lines
+  if (glob_lines){
+    p = p + geom_path(data=dt[region==reg & Scope=="global"],aes(x=period,y=value,group = interaction(scenario,model),
+                                                                 color=Category,linetype=model),size=.15)}
+  # Plot lines for national models
+  p = p + geom_path(data=dt[region==reg & Scope=="national"],aes(x=period,y=value,color=Category,linetype=model),size=2,show.legend = FALSE)
+  p = p + scale_linetype_manual(values=cfg$man_lines)
+  p = p + scale_colour_manual(values=plotstyle(cats))
+  p = p + scale_fill_manual(values=plotstyle(cats))
+  if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
+  if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
+  p = p + ylab(paste(unitsy))
+  p = p + facet_grid(variable ~ region,scales="free_y")
+  p = p + ggtitle(title) + ggplot2::theme_bw()
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}
