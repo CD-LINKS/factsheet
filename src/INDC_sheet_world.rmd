@@ -83,7 +83,7 @@ invisible(dev.off())
 
 cats <- c("NPi","INDCi","INDC")
 
-plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel",glob_lines=T,xlim=c(2000,2030))   
+plot_funnel2(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel",glob_lines=T,xlim=c(2000,2030))   
 
 invisible(dev.off())
 
