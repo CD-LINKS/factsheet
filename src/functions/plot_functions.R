@@ -103,6 +103,8 @@ plot_funnel <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file
   minmax<-minmax[order(region, Category, period),]
   minmax$period=as.numeric(minmax$period)
   dt$period=as.numeric(dt$period)
+  
+  dt$variable <- factor(dt$variable, levels = vars, ordered = T )
 
   p = ggplot()
   # Plot funnel for global models
