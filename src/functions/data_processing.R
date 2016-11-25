@@ -92,7 +92,8 @@ add_variables <- function(all,scens){
 
 #    all <- overwrite(remind::calcCumulatedDiscount(all, discount = 0.05, nameVar = "GDP|MER"), all)
 
-
+    hist=all[period==2010]
+    hist$Category<-"Historical"
 
     # add variables indexed relative to baseyear
     source("functions/calcRel2BaseYear.R")
@@ -101,6 +102,8 @@ add_variables <- function(all,scens){
     all <- rbind(all, calcRel2BaseYear(df=all,vars=vars))
 
     all <- calcVariable(all,'`Reduction rel to 2010` ~ 100.0 - `Emissions|CO2|FFI|rel2010` * 100 ' , newUnit='%')
+    all <- rbind(all,hist)
+    
     return(all)
 }
 
