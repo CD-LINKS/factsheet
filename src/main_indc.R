@@ -17,7 +17,7 @@ library(directlabels) # year labels for scatter plots
 #source configuration file for region-specific data
 source("settings/config_World.R")
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20161124-142501"
+cfg$infile    <- "cdlinks_compare_20161125-142322"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -120,4 +120,4 @@ theme_set(theme_bw())
 cat("Producing graphs in graphs folder and pdf in main folder\n")
 render("INDC_sheet.rmd",output_file=paste0("INDC_sheet_",cfg$r,".pdf"))
 
-#render("INDC_sheet_world.rmd",output_file=paste0("INDC_sheet_",cfg$r,".pdf"))
+render("INDC_sheet_world.rmd",output_file=paste0("INDC_sheet_",cfg$r,".pdf"))
