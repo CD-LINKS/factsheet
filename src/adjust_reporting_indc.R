@@ -12,6 +12,12 @@ all <- rbind(all,tmp)
 # Multiplying Brazil GDP for COPPE by 1000 because reported differently (factor 1000 different from global models)
 all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value=all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value*1000
 
+#Adding "Emissions|CO2|Energy and Industrial Processes" to scenarios that don't report them, but have "Emissions|CO2|Energy"
+tmp1 <- all[scenario %in% setdiff(unique(all[variable=="Emissions|CO2|Energy"]$scenario),unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$scenario)) &
+              variable == "Emissions|CO2|Energy"]
+tmp1$variable <- "Emissions|CO2|Energy and Industrial Processes"
+all <- rbind(all,tmp1)
+
 #Adding "Emissions|CO2|Energy and Industrial Processes" to models that don't report them, but have "Emissions|CO2|Energy"
 tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy"]$model),unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$model)) &
               variable == "Emissions|CO2|Energy"]
