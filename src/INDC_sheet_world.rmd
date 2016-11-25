@@ -52,6 +52,20 @@ invisible(dev.off())
 
 ```
 
+\subsection{Key energy system characteristics - long-term}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
+cats <- c("NoPolicy","NPi","INDCi","INDC","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600")
+
+plot_funnel(reg=cfg$r,dt=all[period<=2100],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel",glob_lines=T,xlim=c(2000,2100))   
+
+
+invisible(dev.off())
+
+```
+
 \subsection{Key energy system characteristics - 2}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
