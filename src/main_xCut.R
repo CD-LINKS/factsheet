@@ -110,70 +110,70 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 ####################### Load diagnostics data  ##############
 #############################################################
 
-#if processed data is already available, just load it. To redo processing (e.g. after adding new calculated variable, set b.procdata = TRUE)
-if (file.exists(paste0("data/",cfg$diag_infile,"_proc.Rdata")) & !b.procdata){
-  cat("Loading processed data from file", paste0("data/",cfg$diag_infile,".Rdata"),"\n",
-      "set b.procdata flag and re-run if you want to do the data processing again", "\n")
-  load(paste0("data/",cfg$diag_infile,"_proc.Rdata"))
-  Sys.sleep(2)#give everybody the chance to read the above message
-} else {
-  
-  if (file.exists(paste0("data/",cfg$diag_infile,".Rdata"))) {
-    cat("Loading file", paste0("data/",cfg$diag_infile,".Rdata"),"\n")
-    load(paste0("data/",cfg$diag_infile,".Rdata"))
-  } else {
-    cat("Reading data from file",paste0("data/",cfg$diag_infile,".csv"),"\n")
-    diag <- invisible(fread(paste0("data/",cfg$diag_infile,".csv"),header=TRUE))
-    #re-factorize all character and numeric columns
-    diag <- factor.data.frame(diag)
-    save("diag",file = paste0("data/",cfg$diag_infile,".Rdata"))
-  }
-  
-  #reduce size of the data frame
-  vars <- fread("settings/variables_xCut.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
-  diag  <- diag[VARIABLE %in% vars$variable & REGION %in% cfg$regions]
-  #get rid of unnecessary year columns
-  source("functions/reduce_diag_t.R")
-  diag <- reduce_diag_t(diag)
-  
-  ######################################
-  ##### Process diagnostics data #######
-  ######################################
-  cat("Processing diagnostics data\n")
-  
-
-
-  
-  # FIXME: use Emissions|CO2 as a proxy for Emission|CO2|FFI
- 
-  # Add information for new column "Category"
-  diag_scens <- fread("settings/scen_categ_diag.csv", header=TRUE)
-  #### from raw wide format to long format with additional columns
- 
-  diag <- process_data(diag,diag_scens)
- 
-  #re-factorize all character and numeric columns
-  diag <- factor.data.frame(diag)
-  
-  
-  tmp1 <- diag %>% filter( model == "COPPE-MSB_v1.3.2", variable == "Emissions|CO2")
-  tmp1$variable ="Emissions|CO2|Energy and Industrial Processes"
-  
-  diag <-  overwrite(tmp1, diag)
-  
-  diag <- add_variables(diag,diag_scens)
-  
-  
-  d_nat_models <- c("COPPE-MSB_v1.3.2")  #,"China TIMES","IPAC-AIM/technology V1.0","PRIMES_V1",
-  #"AIM/Enduse[Japan]","DNE21+ V.14","GCAM4_MILES")
-  
-  #mark all national models with asterisk
-  diag[diag$model %in% d_nat_models,]$model <- paste0("*",diag[diag$model %in% d_nat_models,]$model)
-  d_nat_models <- paste0("*",d_nat_models)
-  diag[diag$model %in% d_nat_models,]$Scope <- "national"
-  
-  save("diag",file = paste0("data/",cfg$diag_infile,"_proc.Rdata"))
-} # end if-else: load and process diagnostics data
+# #if processed data is already available, just load it. To redo processing (e.g. after adding new calculated variable, set b.procdata = TRUE)
+# if (file.exists(paste0("data/",cfg$diag_infile,"_proc.Rdata")) & !b.procdata){
+#   cat("Loading processed data from file", paste0("data/",cfg$diag_infile,".Rdata"),"\n",
+#       "set b.procdata flag and re-run if you want to do the data processing again", "\n")
+#   load(paste0("data/",cfg$diag_infile,"_proc.Rdata"))
+#   Sys.sleep(2)#give everybody the chance to read the above message
+# } else {
+#   
+#   if (file.exists(paste0("data/",cfg$diag_infile,".Rdata"))) {
+#     cat("Loading file", paste0("data/",cfg$diag_infile,".Rdata"),"\n")
+#     load(paste0("data/",cfg$diag_infile,".Rdata"))
+#   } else {
+#     cat("Reading data from file",paste0("data/",cfg$diag_infile,".csv"),"\n")
+#     diag <- invisible(fread(paste0("data/",cfg$diag_infile,".csv"),header=TRUE))
+#     #re-factorize all character and numeric columns
+#     diag <- factor.data.frame(diag)
+#     save("diag",file = paste0("data/",cfg$diag_infile,".Rdata"))
+#   }
+#   
+#   #reduce size of the data frame
+#   vars <- fread("settings/variables_xCut.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
+#   diag  <- diag[VARIABLE %in% vars$variable & REGION %in% cfg$regions]
+#   #get rid of unnecessary year columns
+#   source("functions/reduce_diag_t.R")
+#   diag <- reduce_diag_t(diag)
+#   
+#   ######################################
+#   ##### Process diagnostics data #######
+#   ######################################
+#   cat("Processing diagnostics data\n")
+#   
+# 
+# 
+#   
+#   # FIXME: use Emissions|CO2 as a proxy for Emission|CO2|FFI
+#  
+#   # Add information for new column "Category"
+#   diag_scens <- fread("settings/scen_categ_diag.csv", header=TRUE)
+#   #### from raw wide format to long format with additional columns
+#  
+#   diag <- process_data(diag,diag_scens)
+#  
+#   #re-factorize all character and numeric columns
+#   diag <- factor.data.frame(diag)
+#   
+#   
+#   tmp1 <- diag %>% filter( model == "COPPE-MSB_v1.3.2", variable == "Emissions|CO2")
+#   tmp1$variable ="Emissions|CO2|Energy and Industrial Processes"
+#   
+#   diag <-  overwrite(tmp1, diag)
+#   
+#   diag <- add_variables(diag,diag_scens)
+#   
+#   
+#   d_nat_models <- c("COPPE-MSB_v1.3.2")  #,"China TIMES","IPAC-AIM/technology V1.0","PRIMES_V1",
+#   #"AIM/Enduse[Japan]","DNE21+ V.14","GCAM4_MILES")
+#   
+#   #mark all national models with asterisk
+#   diag[diag$model %in% d_nat_models,]$model <- paste0("*",diag[diag$model %in% d_nat_models,]$model)
+#   d_nat_models <- paste0("*",d_nat_models)
+#   diag[diag$model %in% d_nat_models,]$Scope <- "national"
+#   
+#   save("diag",file = paste0("data/",cfg$diag_infile,"_proc.Rdata"))
+# } # end if-else: load and process diagnostics data
 
 
 #############################################################
