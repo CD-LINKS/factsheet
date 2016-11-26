@@ -141,7 +141,7 @@ plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFO
 plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="NPi",
              year=2015,file_pre="GHGEmiMult2015_NPi", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
 
-oASIA <-  calcRegion(all[Scope == "global"], ' `oASIA` ~ `R5ASIA` - `IND` - `CHN` ', b.append = F)
+#oASIA <-  calcRegion(all[Scope == "global"], ' `oASIA` ~ `R5ASIA` - `IND` - `CHN` ', b.append = F)
 
 regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
 
@@ -592,10 +592,10 @@ plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Solids|Biomass","Final En
 #               year=2030,b.multivar=T,var.labels=c("Electricity","Gases","Hydrogen","Liquids","Liquids-biomass","Other"),file_pre="FE_transport_2030_World")
 # plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Transportation|Electricity","Final Energy|Transportation|Gases","Final Energy|Transportation|Hydrogen","Final Energy|Transportation|Liquids","Final Energy|Transportation|Liquids|Biomass","Final Energy|Transportation|Other"),cats=c("NPi","INDCi"),
 #               year=2020,b.multivar=T,var.labels=c("Electricity","Gases","Hydrogen","Liquids","Liquids-biomass","Other"),file_pre="FE_transport_2020_World")
-# plot_boxplot3(regs="World",dt=all,vars=c("FE passenger/pkm","FE freight/tkm"),cats=c("NPi","INDCi"),
-#               year=2020,b.multivar=T,var.labels=c("FE passenger/pkm","FE freight/tkm"),file_pre="FE_km_transport_2020_World")
-# plot_boxplot3(regs="World",dt=all,vars=c("FE passenger/pkm","FE freight/tkm"),cats=c("NPi","INDCi"),
-#               year=2030,b.multivar=T,var.labels=c("FE passenger/pkm","FE freight/tkm"),file_pre="FE_km_transport_2030_World")
+plot_boxplot3(regs="World",dt=all,vars=c("FE passenger/pkm","FE freight/tkm"),cats=c("Historical","NPi","INDCi"),
+              year=2020,b.multivar=T,var.labels=c("FE passenger/pkm","FE freight/tkm"),file_pre="FE_km_transport_2020_World")
+plot_boxplot3(regs="World",dt=all,vars=c("FE passenger/pkm","FE freight/tkm"),cats=c("Historical","NPi","INDCi"),
+              year=2030,b.multivar=T,var.labels=c("FE passenger/pkm","FE freight/tkm"),file_pre="FE_km_transport_2030_World")
 
 #Industry
 plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Industry|Electricity","Final Energy|Industry|Gases","Final Energy|Industry|Hydrogen","Final Energy|Industry|Liquids","Final Energy|Industry|Other","Final Energy|Industry|Heat","Final Energy|Industry|Solids"),cats=c("Historical","NPi","INDCi"),
@@ -609,10 +609,10 @@ plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Residential and Commercia
 plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Residential and Commercial|Electricity","Final Energy|Residential and Commercial|Gases","Final Energy|Residential and Commercial|Hydrogen","Final Energy|Residential and Commercial|Liquids","Final Energy|Residential and Commercial|Other","Final Energy|Residential and Commercial|Heat","Final Energy|Residential and Commercial|Solids"),cats=c("Historical","NPi","INDCi"),
               year=2020,b.multivar=T,var.labels=c("Electricity","Gases","Hydrogen","Liquids","Other","Heat","Solids"),file_pre="FE_buildings_2020_World")
 
-dt=all
-var="Emissions per capita"
-cats=c("INDC2030i_1000", "NPi")
-b_basepol = T
+# dt=all
+# var="Emissions per capita"
+# cats=c("INDC2030i_1000", "NPi")
+# b_basepol = T
 
 
 # ### scatter plot based on diagnostics data
