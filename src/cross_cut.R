@@ -615,23 +615,23 @@ cats=c("INDC2030i_1000", "NPi")
 b_basepol = T
 
 
-### scatter plot based on diagnostics data
-# Please specify exactly two variables and assign them to x and y
-vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
-cats <- c("INDC2030i_1000")
-# regs <- "BRA"
-regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
-plot_scatter_xcut(reg=regs,dt=all[as.numeric(period)<=2050],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T,xlim=c(10,1000))
-
-
-
-
-cats <- c("DIAG-C80-gr5")
-vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
-
-# vars <- c(x="Price|Carbon",y="rel. Abatatement")
-# diag <- calcRel2Base(diag,var="Emissions|CO2",baseEq1=F,"rel. Abatatement",diag_scens)
-
-
-plot_scatter_xcut(reg="BRA",dt=diag[period<=2050 ],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="d_relAb_co2pr_scatter",xlog=F,xlim=c(10,150))
-
+# ### scatter plot based on diagnostics data
+# # Please specify exactly two variables and assign them to x and y
+# vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
+# cats <- c("INDC2030i_1000")
+# # regs <- "BRA"
+# regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
+# plot_scatter_xcut(reg=regs,dt=all[as.numeric(period)<=2050],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T,xlim=c(10,1000))
+# 
+# 
+# 
+# 
+# cats <- c("DIAG-C80-gr5")
+# vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
+# 
+# # vars <- c(x="Price|Carbon",y="rel. Abatatement")
+# # diag <- calcRel2Base(diag,var="Emissions|CO2",baseEq1=F,"rel. Abatatement",diag_scens)
+# 
+# 
+# plot_scatter_xcut(reg="BRA",dt=diag[period<=2050 ],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="d_relAb_co2pr_scatter",xlog=F,xlim=c(10,150))
+# 
