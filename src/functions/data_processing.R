@@ -71,8 +71,8 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
     
     # Check if this is possible with new snapshot?
-    #all <- calcVariable(all,'`FE freight/tkm` ~ `Final Energy|Transportation|Freight`/`Energy Service|Transportation|Freight` ' , newUnit='EJ/bn tkm')
-    #all <- calcVariable(all,'`FE passenger/pkm` ~ `Final Energy|Transportation|Passenger`/`Energy Service|Transportation|Passenger` ' , newUnit='EJ/bn pkm')
+    all <- calcVariable(all,'`FE freight/tkm` ~ `Final Energy|Transportation|Freight`/`Energy Service|Transportation|Freight` ' , newUnit='EJ/bn tkm')
+    all <- calcVariable(all,'`FE passenger/pkm` ~ `Final Energy|Transportation|Passenger`/`Energy Service|Transportation|Passenger` ' , newUnit='EJ/bn pkm')
     #all <- calcVariable(all,'`FE residential and commercial/floor space` ~ `Final Energy|Residential and Commercial`/`Energy Service|Residential and Commercial|Floor Space` ' , newUnit='EJ/bn m2')
     #all <- calcVariable(all,'`FE residential/floor space` ~ `Final Energy|Residential`/`Energy Service|Residential|Floor Space` ' , newUnit='EJ/bn m2')
     #all <- calcVariable(all,'`FE commercial/floor space` ~ `Final Energy|Commercial`/`Energy Service|Commercial|Floor Space` ' , newUnit='EJ/bn m2')
@@ -92,7 +92,7 @@ add_variables <- function(all,scens){
 
 #    all <- overwrite(remind::calcCumulatedDiscount(all, discount = 0.05, nameVar = "GDP|MER"), all)
 
-    hist=all[period==2010]
+    hist=all[period==2010& scenario=="NPi"]
     hist$Category<-"Historical"
 
     # add variables indexed relative to baseyear
