@@ -4,8 +4,7 @@ calcRate = function(data,var){
   }
   
   dat=data[variable %in% var]
-  dat$.keep_all<-NULL #FIXME??
-  
+
   # Calculate compound annual growth rate
   ### For 2030-2050 (maybe later add multiple periods?)
   rate=spread(dat[period %in% c('2030','2050')],period,value)
