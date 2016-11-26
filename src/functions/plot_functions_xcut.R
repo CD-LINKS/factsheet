@@ -152,7 +152,14 @@ plot_boxplot2 <- function(regs, dt, vars, cats, out=cfg$outdir, title="Title", f
 plot_boxplot3 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, title="Title", file_pre="boxplot",connect=T,
                          b.multivar =  F, var.labels = NA, ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T){
   
+  if ("Historical" %in% cats) {
+    hist=dt[ variable %in% vars & Category=="Historical" & region %in% regs & !is.na(value)]
+    hist$period <- year
+    dt=rbind(hist,dt[ variable %in% vars & period == year & Category %in% cats & region %in% regs & !is.na(value)]) 
+    dt %>% factor.data.frame()
+  } else {
   dt <- dt[ variable %in% vars & period == year & Category %in% cats & region %in% regs & !is.na(value)] %>% factor.data.frame()
+  }
   
   dt$region <- factor(dt$region, levels = regs, ordered = T )
   dt$Category <- factor(dt$Category, levels = cats, ordered = T )
@@ -197,7 +204,14 @@ plot_boxplot3 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
 plot_boxplot4 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, title="Title", file_pre="boxplot",connect=T,
                           b.multivar =  F, var.labels = NA, ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T){
   
-  dt <- dt[ variable %in% vars & period == year & Category %in% cats & region %in% regs & !is.na(value)] %>% factor.data.frame()
+  
+  if ("Historical" %in% cats) {
+    hist=dt[ variable %in% vars & Category=="Historical" & region %in% regs & !is.na(value)]
+    hist$period <- year
+    dt=rbind(hist,dt[ variable %in% vars & period == year & Category %in% cats & region %in% regs & !is.na(value)]) 
+    dt %>% factor.data.frame()
+  } else {
+  dt <- dt[ variable %in% vars & period == year & Category %in% cats & region %in% regs & !is.na(value)] %>% factor.data.frame()}
   
   dt$region <- factor(dt$region, levels = regs, ordered = T )
   dt$Category <- factor(dt$Category, levels = cats, ordered = T )
