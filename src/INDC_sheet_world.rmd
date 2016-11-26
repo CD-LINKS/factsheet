@@ -194,7 +194,7 @@ invisible(dev.off())
 vars <- c("Carbon budget|Energy and Industry")
 cats <- c("NPi","INDCi","NPi2020_400","NPi2020_1000","NPi2020_1600","INDC2030i_400","INDC2030i_1000","INDC2030i_1600")#unique(all$Category)
 
-plot_bar(reg=cfg$r,dt=all[period==2105],vars=vars,cats=cats,lab="Carbon budget|Energy and Industry (Gt CO2; 2051-2100)",file_pre="carbon_budget_enin_bar",ref_line=F)
+plot_bar(reg=cfg$r,dt=all[period==2105],vars=vars,cats=cats,lab="Carbon budget|Energy and Industry (Gt CO2; 2051-2100)",file_pre="carbon_budget_enin_bar_50_100",ref_line=F)
 
 tab <- all[variable=="Carbon budget|Energy and Industry"]
 tab <- data.frame(period=tab$period, Category =tab$Category, value =tab$value, model = tab$model)
