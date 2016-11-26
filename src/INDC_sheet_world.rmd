@@ -59,7 +59,7 @@ invisible(dev.off())
 vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
 cats <- c("NoPolicy","NPi","INDCi","INDC","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600")
 
-plot_funnel(reg=cfg$r,dt=all[period<=2100],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel",glob_lines=T,xlim=c(2000,2100))   
+plot_funnel(reg=cfg$r,dt=all[period<=2100],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel_LT",glob_lines=T,xlim=c(2000,2100))   
 
 
 invisible(dev.off())
@@ -97,7 +97,7 @@ invisible(dev.off())
 
 cats <- c("NoPolicy","NPi","INDCi","INDC","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600")
 
-plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel",glob_lines=T,xlim=c(2000,2100))   
+plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel_LT",glob_lines=T,xlim=c(2000,2100))   
 
 invisible(dev.off())
 
@@ -121,7 +121,7 @@ invisible(dev.off())
 
 cats <- c("NPi","INDCi","INDC")
 
-plot_funnel2(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel",glob_lines=T,xlim=c(2000,2100))   
+plot_funnel2(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel_LT",glob_lines=T,xlim=c(2000,2100))   
 
 invisible(dev.off())
 
@@ -291,7 +291,7 @@ invisible(dev.off())
 vars <- c("Primary Energy","Primary Energy|Coal|w/o CCS","Primary Energy|Coal|w/ CCS","Primary Energy|Gas|w/o CCS","Primary Energy|Gas|w/ CCS","Primary Energy|Oil|w/o CCS","Primary Energy|Oil|w/ CCS","Primary Energy|Biomass|w/o CCS","Primary Energy|Biomass|w/ CCS","Primary Energy|Nuclear","Primary Energy|Hydro","Primary Energy|Wind","Primary Energy|Solar","Primary Energy|Geothermal","Primary Energy|Other","Primary Energy|Secondary Energy Trade")
 #plot all scenarios with national model scenarios available
 cats <- c("NPi","INDCi","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600")
-plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Primary Energy (EJ/yr)",file_pre="pe_area",xlim=c(2000,2100))   
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Primary Energy (EJ/yr)",file_pre="pe_area_LT",xlim=c(2000,2100))   
 
 invisible(dev.off())
 
