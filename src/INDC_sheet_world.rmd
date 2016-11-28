@@ -139,6 +139,19 @@ invisible(dev.off())
 
 ```
 
+\subsection{2010 emissions}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars <- c("Emissions|CO2|AFOLU","Emissions|Kyoto Gases|Excl. AFOLU CO2")
+cats <- c("NPi","INDCi") 
+
+plot_bar_facet(reg=cfg$r,dt=all[period==2010],vars=vars,cats=cats,lab="Emissions (MtCO2-equiv./year)",file_pre="2010_emis_bar")   
+
+invisible(dev.off())
+
+```
+
 \subsection{Kaya Factors over time}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
@@ -211,6 +224,18 @@ plot_bar(reg=cfg$r,dt=all[period==2105],vars=vars,cats=cats,lab="Carbon budget|E
 tab <- all[variable=="Carbon budget|Energy and Industry"]
 tab <- data.frame(period=tab$period, Category =tab$Category, value =tab$value, model = tab$model)
 tab <- dcast(tab,Category + value ~ period)
+
+invisible(dev.off())
+
+```
+
+\subsection{Carbon budget 2011-2100 - all CO2}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+vars <- c("Carbon budget")
+cats <- c("NPi","INDCi","NPi2020_400","NPi2020_1000","NPi2020_1600","INDC2030i_400","INDC2030i_1000","INDC2030i_1600")#unique(all$Category)
+
+plot_bar(reg=cfg$r,dt=all[period==2100],vars=vars,cats=cats,lab="Carbon budget (Gt CO2; 2011-2100)",file_pre="carbon_budget_CO2_bar",ref_line=T)
 
 invisible(dev.off())
 
