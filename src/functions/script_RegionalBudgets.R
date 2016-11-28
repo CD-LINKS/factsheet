@@ -39,6 +39,7 @@ v_emi_cumrel <- rbind(tmp1, tmp2) %>%
         #         `CO2 total 2010-2050` = `Emissions|CO2|aggregated` ) %>%
         arrange(region, scenario, Category, Scope,model )
 
+library(openxlsx)
 ##write out calculation result
 write.csv(v_emi_cumrel, file = "EmissionBudgets.csv", row.names = F,
           col.names = c("MODEL", "SCENARIO", "REGION", "CO2 Energy&Ind 2010",  "CO2 E&I 2010-2050", "Emission Years E&I",

@@ -7,7 +7,7 @@ dat=data[variable %in% var]
 
 ######2050 budgets
 # Interpolate to get values for each year
-yy=seq(unique(dat$period)[1],2050)
+yy=seq(2005,2050)
 dt = dat[,list(approx(x=period,y=value,xout=yy)$y,approx(x=period,y=value,xout=yy)$x),by=c('scenario','Category','Baseline','model','region','Scope','unit','variable')]
 setnames(dt,"V1","value")
 setnames(dt,"V2","Year")
@@ -29,7 +29,7 @@ check=subset(check, subset=V1=="2100")
 dat=subset(dat, subset=model %in% check$model)
 
 # Interpolate to get values for each year
-yy=seq(unique(dat$period)[1],2100)
+yy=seq(2005,2100)
 dt = dat[,list(approx(x=period,y=value,xout=yy)$y,approx(x=period,y=value,xout=yy)$x),by=c('scenario','Category','Baseline','model','region','Scope','unit','variable')]
 setnames(dt,"V1","value")
 setnames(dt,"V2","Year")

@@ -21,7 +21,6 @@ regs <- c("IND","CHN", "EU","USA")
 vars <- c("Primary Energy","Primary Energy|Coal|w/o CCS","Primary Energy|Coal|w/ CCS","Primary Energy|Gas|w/o CCS","Primary Energy|Gas|w/ CCS","Primary Energy|Oil|w/o CCS","Primary Energy|Oil|w/ CCS","Primary Energy|Biomass|w/o CCS","Primary Energy|Biomass|w/ CCS","Primary Energy|Nuclear","Primary Energy|Hydro","Primary Energy|Wind","Primary Energy|Solar","Primary Energy|Geothermal","Primary Energy|Other","Primary Energy|Secondary Energy Trade")
 cats <- c("INDC","2030_high","2030_low")
 plot_stackbar(regs=regs,dt=all,vars=vars,cats=cats,per=2030,lab="Primary Energy (EJ/yr)",file_pre="pe_stackbar")   
-plot_stackbar <- function(regs, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA){
   
 
 

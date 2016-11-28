@@ -34,14 +34,15 @@ calcRel2Base = function(data,var,baseEq1,new_var,scens){
    #calculate relative to Baseline value (=100% if policy and baseline scenario have the same value)
    if(isTRUE(baseEq1)){
      res = tmp %>% 
-       group_by(model,region,period,Scope) %>% arrange(scenario == pol_scen) %>% summarize(value = 100* value[2]/value[1]) %>% ungroup()
+       group_by(model,region,period) %>% arrange(scenario == pol_scen) %>% summarize(value = 100* value[2]/value[1]) %>% ungroup()
    #OR calculate relative abatement (=0% if policy and baseline scenario have the same value)
    } else {
     res = tmp %>% 
-    group_by(model,region,period,Scope) %>% arrange(scenario == pol_scen) %>% summarize(value = 100* (value[1] - value[2])/value[1]) %>% ungroup()
+    group_by(model,region,period) %>% arrange(scenario == pol_scen) %>% summarize(value = 100* (value[1] - value[2])/value[1]) %>% ungroup()
    }
    #correctly specify remaining dimensions
     res$scenario = pol_scen
+    res$Scope <- "global"
     res$Category <- scens[scens$scenario == pol_scen,]$Category
     res$Baseline <- base_scen
     res$variable = new_var
