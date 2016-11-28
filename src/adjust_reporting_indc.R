@@ -8,15 +8,20 @@ tmp$variable <- "GDP|MER"
 all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Processes"&region=="RUS"]$value <-
   all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy"&region=="RUS"]$value
 
+#IPAC/AIM:
+# Baseline not NoPOL but NPi, because IPAC does not have NoPOL
+all[model =="IPAC-AIM/technology V1.0"]$Baseline <- ""
+all[model =="China TIMES"]$Baseline <- ""
+
 all <- rbind(all,tmp)
 # Multiplying Brazil GDP for COPPE by 1000 because reported differently (factor 1000 different from global models)
 all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value=all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value*1000
 
-#Adding "Emissions|CO2|Energy and Industrial Processes" to scenarios that don't report them, but have "Emissions|CO2|Energy"
-tmp1 <- all[scenario %in% setdiff(unique(all[variable=="Emissions|CO2|Energy"]$scenario),unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$scenario)) &
-              variable == "Emissions|CO2|Energy"]
-tmp1$variable <- "Emissions|CO2|Energy and Industrial Processes"
-all <- rbind(all,tmp1)
+# #Adding "Emissions|CO2|Energy and Industrial Processes" to scenarios that don't report them, but have "Emissions|CO2|Energy"
+# tmp1 <- all[scenario %in% setdiff(unique(all[variable=="Emissions|CO2|Energy"]$scenario),unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$scenario)) &
+#               variable == "Emissions|CO2|Energy"]
+# tmp1$variable <- "Emissions|CO2|Energy and Industrial Processes"
+# all <- rbind(all,tmp1)
 
 #Adding "Emissions|CO2|Energy and Industrial Processes" to models that don't report them, but have "Emissions|CO2|Energy"
 tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy"]$model),unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$model)) &
@@ -57,6 +62,7 @@ alternatives <- data.frame(plot_var=c("Primary Energy|Biomass",
 for (i in (1:dim(alternatives)[1])){
 tmp1 <- all[model %in% setdiff(unique(all[variable==as.character(alternatives[i,1])]$model),unique(all[variable==as.character(alternatives[i,2])]$model)) &
               variable == as.character(alternatives[i,1])]
+setdiff(unique(all[variable==as.character(alternatives[i,1])]$model),unique(all[variable==as.character(alternatives[i,2])]$model))
 tmp1$variable <- alternatives[i,2]
 all <- rbind(all,tmp1)
 }

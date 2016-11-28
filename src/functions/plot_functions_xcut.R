@@ -1,8 +1,11 @@
 theme_set(ggplot2::theme_bw(base_size = 15))
 
+source("functions/plotstyle.R") # load plotstyle() function that provides colors etc. for entities
+
+
 #plot function for boxplots
 plot_boxplot <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, title="Title", file_pre="boxplot",connect=T,
-                         b.multicat = F, b.multivar =  F, var.labels = NA, ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T){
+                         b.multicat = F, b.multivar =  F, var.labels = NA, ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T,globpoints=T){
   
   dt <- dt[ variable %in% vars & period == year & Category %in% cats & region %in% regs & !is.na(value)] %>% factor.data.frame()
   
@@ -29,7 +32,7 @@ plot_boxplot <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, titl
   } else if(b.multivar){
     p = p + facet_wrap(~ variable, scales="free_y")
   }
-  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))
+  if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))}
   p = p + geom_point(data=dtn,aes(x=region,y=value,colour=National), size = 3)
   #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab("") + xlab("")
@@ -39,11 +42,12 @@ plot_boxplot <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, titl
                   plot.title = element_text( size = 18) )
     ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,"_refpol",cfg$format),p, width=9, height=6, dpi=120)
   }  else if(b.multivar)  {
+    p = p + ggtitle(paste0("'",cats[1],"'"," - ", as.character(year)))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
     ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
   }  else   {
-    p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"]   --    ", as.character(year)))
+    p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"] - ",cats[1]," - ", as.character(year)))
     p = p + theme(axis.text.x  = element_text(angle=0, vjust=0.5, hjust = 0.5, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
     ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p,
@@ -52,10 +56,40 @@ plot_boxplot <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, titl
   return(p)
 }
 
+#############################################################
+####################### plot_stackbar ########################
+#############################################################
+
+plot_stackbar <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA){
+  #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
+  dta <- dt[region %in% regs & Category%in% cats & variable%in% vars[2:length(vars)] & period %in% per]
+  for (cat in cats){
+    for (mod in unique(dta[dta$Category==cat,]$model)){
+      if(length(unique(dta[dta$Category==cat & dta$model == mod,]$scenario))==1){
+      } else {
+        dta <- dta[!(dta$scenario %in% unique(dta[dta$Category==cat & dta$model == mod,]$scenario)[seq(2,length(unique(dta[dta$Category==cat & dta$model == mod,]$scenario)))] & dta$Category==cat & dta$model == mod),]
+      }
+    }
+  }
+  #build data frame for overlaid point plots showing totals for all scenarios in each category-model group
+  dtl <- dt[region==regs & Category%in% cats & variable%in% vars[1] &  period %in% per]
+  
+  p = ggplot()
+  p = p + geom_bar(data=dta,aes(model, value, group = interaction(variable, region, Category), fill = variable), stat="identity", position="stack")
+  p = p + geom_point(data=dtl,aes(model, value, group = interaction(variable, region, Category)),shape=5,size=2)
+  p = p + geom_point(data=dtl,aes(model, value, group = interaction(variable, region, Category)),shape=5, colour = "#ffffff",size=1)
+  p = p + facet_grid(Category ~ region)
+  p = p + scale_y_discrete(breaks=plotstyle(unique(dta$model),out="legend"))
+  p = p + ylab(lab) + xlab("Models")
+  if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits 
+  p = p + scale_fill_manual(values=plotstyle(vars), labels=plotstyle(vars,out="legend"), name=strsplit(vars[1], "|", fixed=T)[[1]][1])
+  p = p + ggplot2::theme_bw()
+  ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}
+
 
 #plot function for scatter plots
-
-
 plot_scatter_xcut <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="Title", file_pre="scatter",connect=T,ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T) {
   
   if (length(vars_to_spread) != 2) stop("Scatter plot requires exactly two variables")
@@ -96,7 +130,7 @@ plot_scatter_xcut <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, tit
   return(p)
 }
 
-
+#for peak year plot
 plot_boxplot2 <- function(regs, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="boxplot",connect=T,
                          b.multicat = F, b.multivar =  F, var.labels = NA, ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T){
   
@@ -133,16 +167,16 @@ plot_boxplot2 <- function(regs, dt, vars, cats, out=cfg$outdir, title="Title", f
   {
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
-    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,"_refpol",cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot2_",file_pre,"_refpol",cfg$format),p, width=9, height=6, dpi=120)
   }  else if(b.multivar)  {
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
-    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot2_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
   }  else   {
     p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"]   --    "))
     p = p + theme(axis.text.x  = element_text(angle=0, vjust=0.5, hjust = 0.5, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
-    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p,
+    ggsave(file=paste0(out,"/multireg_boxplot2_",file_pre,cfg$format),p,
            width=6.5, height=6, dpi=120)
   }
   return(p)
@@ -190,12 +224,12 @@ plot_boxplot3 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
     p = p + ggtitle(paste0( dtg$region, "--" , as.character(year)))
-    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot3_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
   }  else   {
     p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"]   --    ", as.character(year)))
     p = p + theme(axis.text.x  = element_text(angle=0, vjust=0.5, hjust = 0.5, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
-    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p,
+    ggsave(file=paste0(out,"/multireg_boxplot3_",file_pre,cfg$format),p,
            width=6.5, height=6, dpi=120)
   }
   return(p)
@@ -242,12 +276,12 @@ plot_boxplot4 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
     p = p + ggtitle(paste0( dtg$region, "--" , as.character(year)))
-    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot4_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
   }  else   {
     p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"]   --    ", as.character(year)))
     p = p + theme(axis.text.x  = element_text(angle=0, vjust=0.5, hjust = 0.5, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
-    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p,
+    ggsave(file=paste0(out,"/multireg_boxplot4_",file_pre,cfg$format),p,
            width=6.5, height=6, dpi=120)
   }
   return(p)

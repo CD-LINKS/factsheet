@@ -66,7 +66,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   #####################################
   cat("Processing stocktaking data\n")
 
-  # Add information for new column "Category"
+  # Add information for new column "Catego ry"
   scens <- fread("settings/scen_categ_cdlinks_indc_bycountry.csv", header=TRUE)
   #get rid of duplicated scenarios
   scens <- scens[!duplicated(scens$scenario)]
@@ -78,31 +78,29 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   #re-factorize all character and numeric columns
   all <- factor.data.frame(all)
   
+  #add scope (global or national)
+  all[all$model %in% cfg$models_nat,]$Scope <- "national"
+  #special case DNE21+ V.14: only national protocol scenarios for JPN are "national", so the rest is global
+  all[all$model == "DNE21+ V.14" & all$scenario %in% c("NoPolicy","INDCi","INDC2030i_1000","INDC2030i_1600",
+                                                       "INDC2030i_400","NPi2020_1000","NPi2020_1600","NPi2020_400")]$Scope <- "global"
+  all[all$model == "DNE21+ V.14" & all$scenario %in% c("NPi") & all$region!=="JPN"] <- "global"
+  
   #print out summary of models-scenarios and variables
-  all[all$model %in% nat_models,]$Scope <- "national"
   source("functions/SubmOverview.R")
   
   
   # model specific adjustments
-  source("adjust_reporting.R")
+  source("adjust_reporting_indc.R")
 
   #### add variables
   all <- add_variables(all,scens)
 
   #### manual changes after addition of variables
-  #Change Category for AMPERE3-scenarios for GEM-E3 for regions where the results should feature (because this model has no LIMITS data)
-  all[scenario == "MILES-AMPERE3-CF450" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Global 450 / S2-3"
-  all[scenario == "MILES-AMPERE3-Base" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Baseline / S0-1"
-  all[scenario == "MILES-AMPERE3-RefPol" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Reference"
+  
   # categorize national models
-  all[all$model %in% cfg$models_nat,]$model <- paste0("*",all[all$model %in% cfg$models_nat,]$model)
+  all[all$Scope=="national",]$model <- paste0("*",all[all$Scope=="national",]$model)
   nat_models <- paste0("*",cfg$models_nat)
   
-  # for the purpose of the cross cut analysis of model elasticities and behaviour, the R5REF region is ok for Russia
-  all[model=="MESSAGE V.4" & region=="R5REF"]$region <- "RUS"
-  all[model=="WITCH" & region=="R5REF"]$region <- "RUS"
-  
-  all[model=="WITCH" & region %in% c("RUS", "EU") & variable == "Price|Carbon"]$value <- NA
   
   
   
@@ -184,4 +182,4 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 ################## Do plots for cross-cut analysis ##########
 #############################################################
 
-source("cross_cut.R")
+ source("cross_cut.R")

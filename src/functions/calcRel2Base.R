@@ -21,7 +21,9 @@ calcRel2Base = function(data,var,baseEq1,new_var,scens){
     stop("Error: The dataframe does not contain the variable provided!")
   }
   #go through all possible Baseline scenarios
-  for (base_scen in unique(data$Baseline)[!is.na(unique(data$Baseline))]){
+  base_scens <- unique(data$Baseline)
+  base_scens <- base_scens[!is.na(base_scens) & !(base_scens=="")]
+  for (base_scen in base_scens){
     #go through all available policy scenarios for each baseline
     for(pol_scen in unique(data[data$Baseline==base_scen,]$scenario)){
       #select data 
