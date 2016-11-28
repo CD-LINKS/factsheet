@@ -28,8 +28,8 @@ plot_stackbar <- function(regs, dt, vars, cats, out=cfg$outdir, lab="Title", fil
 vars <- c("Reduction rel to 2010", "relative Abatement|CO2", "Mitigation Costs", "Price|Carbon"  )
 var_labels <- c("Red. rel to 2010 [%]","Red. rel to Base [%]","Migation Costs [% of GDP]","CO2 Price [$/tCO2]" )
 
-#Scenario overview
-plot_boxplot(regs=regs,dt=all,vars=vars,cats="2030_low",year=2050,file_pre="Comp2050_2030_low", var.labels = var_labels, b.multivar = T)
+#Scenario overview - example without model identifiers
+plot_boxplot(regs=regs,dt=all,vars=vars,cats="2030_low",year=2050,file_pre="Comp2050_2030_low", var.labels = var_labels, b.multivar = T,globpoints=F)
 
 #Final energy + carbon intensity of FE
 plot_boxplot(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity of FE"),cats="2030_low",
