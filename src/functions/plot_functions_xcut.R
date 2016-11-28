@@ -184,7 +184,7 @@ plot_boxplot2 <- function(regs, dt, vars, cats, out=cfg$outdir, title="Title", f
 
 
 plot_boxplot3 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, title="Title", file_pre="boxplot",connect=T,
-                         b.multivar =  F, var.labels = NA, ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T){
+                         b.multivar =  F, var.labels = NA, ylim=F,xlim=NA,xlog=F,ylog=F,yearlab=T){
   
   if ("Historical" %in% cats) {
     hist=dt[ variable %in% vars & Category=="Historical" & region %in% regs & !is.na(value)]
@@ -220,7 +220,7 @@ plot_boxplot3 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
   p = p + geom_point(data=dtn,aes(x=Category,y=value,colour=National), size = 3)
   #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab("") + xlab("")
-  p=p+ylim(ylim)
+  if(ylim){p=p+ylim(c(0,NA))}
   if(b.multivar)  {
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
