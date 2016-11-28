@@ -107,9 +107,21 @@ invisible(dev.off())
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
-cats <- c("NPi","INDCi","INDC")
+cats <- c("NPi","INDCi")
 
-plot_funnel2(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel",glob_lines=T,xlim=c(2000,2030))   
+plot_funnel2(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel1",glob_lines=T,xlim=c(2000,2030))   
+
+invisible(dev.off())
+
+```
+
+\subsection{Kyoto gas emissions over time - comparison ADVANCE}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+cats <- c("INDCi","INDC")
+
+plot_funnel2(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel2",glob_lines=T,xlim=c(2000,2030))   
 
 invisible(dev.off())
 
