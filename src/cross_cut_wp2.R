@@ -532,31 +532,31 @@ plot_boxplot3(regs="World",dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyot
               year=2030,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2030_World")
 
 plot_boxplot4(regs=c("USA","CHN","IND","EU"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("Historical","NPi","INDCi"),
-              year=2030,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2030_US_CHN_IND_EU")
+              year=2030,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2030_US_CHN_IND_EU",ylim=c(0,NA))
 plot_boxplot4(regs=c("JPN","BRA","RUS"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("Historical","NPi","INDCi"),
-              year=2030,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2030_JPN_BRA_RUS")
+              year=2030,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2030_JPN_BRA_RUS",ylim=c(0,NA))
 
 #Regional energy
-plot_boxplot3(regs="BRA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDCi"),
+plot_boxplot3(regs="BRA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("Historical","NPi","INDCi"),
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_BRA")
-plot_boxplot3(regs="JPN",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDCi"),
+plot_boxplot3(regs="JPN",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("Historical","NPi","INDCi"),
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_JPN")
-plot_boxplot3(regs="IND",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDCi"),
+plot_boxplot3(regs="IND",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("Historical","NPi","INDCi"),
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_IND")
-plot_boxplot3(regs="CHN",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDCi"),
+plot_boxplot3(regs="CHN",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("Historical","NPi","INDCi"),
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_CHN")
-plot_boxplot3(regs="RUS",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDCi"),
+plot_boxplot3(regs="RUS",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("Historical","NPi","INDCi"),
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_RUS")
-plot_boxplot3(regs="EU",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDCi"),
+plot_boxplot3(regs="EU",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("Historical","NPi","INDCi"),
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_EU")
-plot_boxplot3(regs="USA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NPi","INDCi"),
+plot_boxplot3(regs="USA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("Historical","NPi","INDCi"),
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_USA")
 
 #Sectoral emissions
 plot_boxplot3(regs="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
-              cats=c("Historical","NPi","INDCi"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_World")
+              cats=c("Historical","NPi","INDCi"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_World",ylim=c(0,NA))
 plot_boxplot3(regs="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
-              cats=c("Historical","NPi","INDCi"),year=2020,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2020_World")
+              cats=c("Historical","NPi","INDCi"),year=2020,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2020_World",ylim=c(0,NA))
 
 ###Sectoral energy
 #Energy supply

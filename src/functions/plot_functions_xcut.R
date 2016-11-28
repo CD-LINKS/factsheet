@@ -216,10 +216,11 @@ plot_boxplot3 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
   if(b.multivar){
     p = p + facet_wrap(~ variable, scales="free_y")
   }
-  p = p + geom_point(data=dtg,aes(x=Category,y=value,shape=Global))
+  p = p + geom_point(data=dtg,aes(x=Category,y=value,shape=Global,colour=Global))
   p = p + geom_point(data=dtn,aes(x=Category,y=value,colour=National), size = 3)
   #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab("") + xlab("")
+  p=p+ylim(ylim)
   if(b.multivar)  {
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
@@ -272,6 +273,7 @@ plot_boxplot4 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
   p = p + geom_point(data=dtn,aes(x=Category,y=value,colour=National), size = 3)
   #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab("") + xlab("")
+  p=p+ylim(ylim)
   if(b.multivar)  {
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
