@@ -361,7 +361,7 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   #optional: plot individual model-scenario lines
   if (glob_lines){
     p = p + geom_path(data=dt[region==reg & Scope=="global"],aes(x=period,y=value,group = interaction(scenario,model),
-                                                                 color=Category,linetype=model),size=.15)}
+                                                                 color=Category,linetype=model),size=0.5)}
   # Plot lines for national models
   p = p + geom_path(data=dt[region==reg & Scope=="national"],aes(x=period,y=value,color=Category,linetype=model),size=2,show.legend = FALSE)
   p = p + scale_linetype_manual(values=cfg$man_lines)
