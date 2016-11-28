@@ -180,4 +180,4 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 ################## Do plots for cross-cut analysis ##########
 #############################################################
 
-source("cross_cut.R")
+source("cross_cut_wp2.R")
