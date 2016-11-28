@@ -71,7 +71,7 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
 vars <- c("Primary Energy","Secondary Energy|Electricity","Energy Intensity of GDP|MER","Renewables Share|TPES|Excl. Nuclear")
-cats <- c("NPi","INDCi","REF","INDC")
+cats <- c("Historical","NPi","INDCi","REF","INDC")
 
 plot_bar_facet2(reg=cfg$r,dt=all[period==2030],vars=vars,cats=cats,lab="Energy system characteristics",file_pre="Energy_bar_facet")   
 
