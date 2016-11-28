@@ -67,7 +67,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   cat("Processing stocktaking data\n")
 
   # Add information for new column "Category"
-  scens <- fread("settings/scen_categ_cdlinks_indc_bycountry.csv", header=TRUE)
+  scens <- fread("settings/scen_categ_cdlinks_xCut.csv", header=TRUE)
   #get rid of duplicated scenarios
   scens <- scens[!duplicated(scens$scenario)]
 
@@ -77,11 +77,6 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   
   #re-factorize all character and numeric columns
   all <- factor.data.frame(all)
-  
-  #print out summary of models-scenarios and variables
-  all[all$model %in% nat_models,]$Scope <- "national"
-  source("functions/SubmOverview.R")
-  
   
   # model specific adjustments
   source("adjust_reporting.R")
@@ -97,6 +92,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   # categorize national models
   all[all$model %in% cfg$models_nat,]$model <- paste0("*",all[all$model %in% cfg$models_nat,]$model)
   nat_models <- paste0("*",cfg$models_nat)
+  all[all$model %in% nat_models,]$Scope <- "national"
   
   # for the purpose of the cross cut analysis of model elasticities and behaviour, the R5REF region is ok for Russia
   all[model=="MESSAGE V.4" & region=="R5REF"]$region <- "RUS"
