@@ -53,6 +53,7 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Renewables Share|Excl. Nuclear` ~ ( `Secondary Energy|Electricity|Solar` + `Secondary Energy|Electricity|Wind` + `Secondary Energy|Electricity|Hydro` + `Secondary Energy|Electricity|Biomass` + `Secondary Energy|Electricity|Geothermal` ) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
     all <- calcVariable(all,'`Low-carbon Electricity Share|All excl. Fossil w/o CCS` ~ ( `Secondary Energy|Electricity` - `Secondary Energy|Electricity|Fossil|w/o CCS`) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
     all <- calcVariable(all,'`Renewables Share|TPES|Excl. Nuclear` ~ ( `Primary Energy|Solar` + `Primary Energy|Wind` + `Primary Energy|Hydro` + `Primary Energy|Biomass` + `Primary Energy|Geothermal` ) / `Primary Energy` * 100 ' , newUnit='%')
+    all <- calcVariable(all,'`Renewables Share|TPES|Excl. Nuclear & Geothermal` ~ ( `Primary Energy|Solar` + `Primary Energy|Wind` + `Primary Energy|Hydro` + `Primary Energy|Biomass`) / `Primary Energy` * 100 ' , newUnit='%')
     
     all <- calcVariable(all,'`Share of Elec in FE` ~  `Final Energy|Electricity`   / `Final Energy` * 100 ' , newUnit='%')
     all <- calcVariable(all,'`Share of Elec in Transport` ~  `Final Energy|Transportation|Electricity`   / `Final Energy|Transportation` * 100 ' , newUnit='%')
