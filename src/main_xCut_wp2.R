@@ -24,7 +24,7 @@ source("functions/data_processing.R")
 #source function overwrite for overwriting a dataframe for a subset of variables
 source("functions/overwrite.R")
 #source file with plot functions
-source("functions/plot_functions.R")
+source("functions/plot_functions_wp2.R")
 
 # flag to process data, reprocess even if _proc.rdata file is available
 b.procdata = T
@@ -182,5 +182,5 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 
 source("cross_cut_wp2.R")
 source("settings/config_World.R")
-source("functions/plot_functions.R")
+source("functions/plot_functions_wp2.R")
 render("INDC_sheet_world.rmd",output_file=paste0("INDC_sheet_world.pdf"))
