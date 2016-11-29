@@ -3,7 +3,7 @@
 ##### cross-cut plotting
 ##################################
 
-source("functions/plot_functions_xcut.R")
+source("functions/plot_functions_xcut_wp2.R")
 
 
 
