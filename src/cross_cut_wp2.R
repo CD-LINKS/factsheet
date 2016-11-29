@@ -12,16 +12,16 @@ regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
 
 source("functions/calcRegion.R")
 
-vars <- c("Reduction rel to 2010", "relative Abatement|CO2", "Mitigation Costs", "Price|Carbon"  )
-var_labels <- c("Red. rel to 2010 [%]","Red. rel to Base [%]","Migation Costs [% of GDP]","CO2 Price [$/tCO2]" )
+# vars <- c("Reduction rel to 2010", "relative Abatement|CO2", "Mitigation Costs", "Price|Carbon"  )
+# var_labels <- c("Red. rel to 2010 [%]","Red. rel to Base [%]","Migation Costs [% of GDP]","CO2 Price [$/tCO2]" )
 
-#Scenario overview
-plot_boxplot(regs=regs,dt=all,vars=vars,cats="INDC2030i_1000",year=2050,file_pre="Comp2050_INDC2030i_1000", var.labels = var_labels, b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=vars,cats="INDC2030i_1600",year=2050,file_pre="Comp2050_INDC2030i_1600", var.labels = var_labels, b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=vars,cats="NPi2020_1000",year=2050,file_pre="Comp2050_NPi2020_1000", var.labels = var_labels, b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=vars,cats="NPi2020_1600",year=2050,file_pre="Comp2050_NPi2020_1600", var.labels = var_labels, b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=vars,cats="NPi",year=2050,file_pre="Comp2050_NPi", var.labels = var_labels, b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=vars,cats="INDCi",year=2050,file_pre="Comp2050_INDCi", var.labels = var_labels, b.multivar = T)
+# #Scenario overview
+# plot_boxplot(regs=regs,dt=all,vars=vars,cats="INDC2030i_1000",year=2050,file_pre="Comp2050_INDC2030i_1000", var.labels = var_labels, b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=vars,cats="INDC2030i_1600",year=2050,file_pre="Comp2050_INDC2030i_1600", var.labels = var_labels, b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=vars,cats="NPi2020_1000",year=2050,file_pre="Comp2050_NPi2020_1000", var.labels = var_labels, b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=vars,cats="NPi2020_1600",year=2050,file_pre="Comp2050_NPi2020_1600", var.labels = var_labels, b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=vars,cats="NPi",year=2050,file_pre="Comp2050_NPi", var.labels = var_labels, b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=vars,cats="INDCi",year=2050,file_pre="Comp2050_INDCi", var.labels = var_labels, b.multivar = T)
 
 # #Final energy + carbon intensity of FE
 # plot_boxplot(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity of FE"),cats="INDC2030i_1000",
@@ -174,30 +174,30 @@ regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
 # plot_boxplot(regs=regs,dt=all,vars="Carbon Intensity of Electricity",cats="INDC2030i_1000",year=2050,file_pre="CI_Elec_2050")
 
 #Shares of wind, solar, nuclear 2030 and 2050
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDC2030i_1000",year=2030,file_pre="WSshare_Elec_2030_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDC2030i_1000",year=2050,file_pre="WSshare_Elec_2050_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDC2030i_1000",year=2050,file_pre="Nuclearshare_Elec_2050_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDC2030i_1000",year=2030,file_pre="Nuclearshare_Elec_2030_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDC2030i_1600",year=2030,file_pre="WSshare_Elec_2030_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDC2030i_1600",year=2050,file_pre="WSshare_Elec_2050_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDC2030i_1600",year=2050,file_pre="Nuclearshare_Elec_2050_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDC2030i_1600",year=2030,file_pre="Nuclearshare_Elec_2030_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi2020_1000",year=2030,file_pre="WSshare_Elec_2030_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi2020_1000",year=2050,file_pre="WSshare_Elec_2050_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi2020_1000",year=2050,file_pre="Nuclearshare_Elec_2050_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi2020_1000",year=2030,file_pre="Nuclearshare_Elec_2030_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi2020_1600",year=2030,file_pre="WSshare_Elec_2030_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi2020_1600",year=2050,file_pre="WSshare_Elec_2050_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi2020_1600",year=2050,file_pre="Nuclearshare_Elec_2050_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi2020_1600",year=2030,file_pre="Nuclearshare_Elec_2030_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi",year=2030,file_pre="WSshare_Elec_2030_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi",year=2050,file_pre="WSshare_Elec_2050_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi",year=2050,file_pre="Nuclearshare_Elec_2050_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi",year=2030,file_pre="Nuclearshare_Elec_2030_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDCi",year=2030,file_pre="WSshare_Elec_2030_INDCi")
-plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDCi",year=2050,file_pre="WSshare_Elec_2050_INDCi")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDCi",year=2050,file_pre="Nuclearshare_Elec_2050_INDCi")
-plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDCi",year=2030,file_pre="Nuclearshare_Elec_2030_INDCi")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDC2030i_1000",year=2030,file_pre="WSshare_Elec_2030_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDC2030i_1000",year=2050,file_pre="WSshare_Elec_2050_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDC2030i_1000",year=2050,file_pre="Nuclearshare_Elec_2050_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDC2030i_1000",year=2030,file_pre="Nuclearshare_Elec_2030_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDC2030i_1600",year=2030,file_pre="WSshare_Elec_2030_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDC2030i_1600",year=2050,file_pre="WSshare_Elec_2050_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDC2030i_1600",year=2050,file_pre="Nuclearshare_Elec_2050_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDC2030i_1600",year=2030,file_pre="Nuclearshare_Elec_2030_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi2020_1000",year=2030,file_pre="WSshare_Elec_2030_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi2020_1000",year=2050,file_pre="WSshare_Elec_2050_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi2020_1000",year=2050,file_pre="Nuclearshare_Elec_2050_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi2020_1000",year=2030,file_pre="Nuclearshare_Elec_2030_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi2020_1600",year=2030,file_pre="WSshare_Elec_2030_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi2020_1600",year=2050,file_pre="WSshare_Elec_2050_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi2020_1600",year=2050,file_pre="Nuclearshare_Elec_2050_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi2020_1600",year=2030,file_pre="Nuclearshare_Elec_2030_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi",year=2030,file_pre="WSshare_Elec_2030_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="NPi",year=2050,file_pre="WSshare_Elec_2050_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi",year=2050,file_pre="Nuclearshare_Elec_2050_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="NPi",year=2030,file_pre="Nuclearshare_Elec_2030_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDCi",year=2030,file_pre="WSshare_Elec_2030_INDCi")
+# plot_boxplot(regs=regs,dt=all,vars="Wind and Solar Share",cats="INDCi",year=2050,file_pre="WSshare_Elec_2050_INDCi")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDCi",year=2050,file_pre="Nuclearshare_Elec_2050_INDCi")
+# plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDCi",year=2030,file_pre="Nuclearshare_Elec_2030_INDCi")
 
 #Energy intensity of GDP
 # plot_boxplot(regs=regs,dt=all,vars="Energy Intensity of GDP|MER",cats="INDC2030i_1000",year=2020,file_pre="EI_2020_INDC2030i_1000")
@@ -307,26 +307,26 @@ plot_boxplot(regs=regs,dt=all,vars="Nuclear Share",cats="INDCi",year=2030,file_p
 # plot_boxplot(regs=regs,dt=all,vars="relative Abatement|CO2",cats="INDCi",year=2030,file_pre="relAb_2030_INDCi")
 # plot_boxplot(regs=regs,dt=all,vars="relative Abatement|CO2",cats="INDCi",year=2050,file_pre="relAb_2050_INDCi")
 
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDC2030i_1000",year=2050,file_pre="EmiRel2010_2050_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDC2030i_1000",year=2030,file_pre="EmiRel2010_2030_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDC2030i_1600",year=2050,file_pre="EmiRel2010_2050_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDC2030i_1600",year=2030,file_pre="EmiRel2010_2030_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi2020_1000",year=2050,file_pre="EmiRel2010_2050_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi2020_1000",year=2030,file_pre="EmiRel2010_2030_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi2020_1600",year=2050,file_pre="EmiRel2010_2050_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi2020_1600",year=2030,file_pre="EmiRel2010_2030_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi",year=2050,file_pre="EmiRel2010_2050_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi",year=2030,file_pre="EmiRel2010_2030_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDCi",year=2050,file_pre="EmiRel2010_2050_INDCi")
-plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDCi",year=2030,file_pre="EmiRel2010_2030_INDCi")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDC2030i_1000",year=2050,file_pre="EmiRel2010_2050_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDC2030i_1000",year=2030,file_pre="EmiRel2010_2030_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDC2030i_1600",year=2050,file_pre="EmiRel2010_2050_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDC2030i_1600",year=2030,file_pre="EmiRel2010_2030_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi2020_1000",year=2050,file_pre="EmiRel2010_2050_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi2020_1000",year=2030,file_pre="EmiRel2010_2030_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi2020_1600",year=2050,file_pre="EmiRel2010_2050_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi2020_1600",year=2030,file_pre="EmiRel2010_2030_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi",year=2050,file_pre="EmiRel2010_2050_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="NPi",year=2030,file_pre="EmiRel2010_2030_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDCi",year=2050,file_pre="EmiRel2010_2050_INDCi")
+# plot_boxplot(regs=regs,dt=all,vars="Emissions|CO2|rel2010",cats="INDCi",year=2030,file_pre="EmiRel2010_2030_INDCi")
 
 #plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="INDC2030i_1000",year=2050,file_pre="relAb_2050")
-plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="INDC2030i_1000",year=2050,file_pre="RedRel2010_2050_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="INDC2030i_1600",year=2050,file_pre="RedRel2010_2050_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="NPi2020_1000",year=2050,file_pre="RedRel2010_2050_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="NPi2020_1600",year=2050,file_pre="RedRel2010_2050_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="NPi",year=2050,file_pre="RedRel2010_2050_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="INDCi",year=2050,file_pre="RedRel2010_2050_INDCi")
+# plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="INDC2030i_1000",year=2050,file_pre="RedRel2010_2050_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="INDC2030i_1600",year=2050,file_pre="RedRel2010_2050_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="NPi2020_1000",year=2050,file_pre="RedRel2010_2050_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="NPi2020_1600",year=2050,file_pre="RedRel2010_2050_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="NPi",year=2050,file_pre="RedRel2010_2050_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Reduction rel to 2010",cats="INDCi",year=2050,file_pre="RedRel2010_2050_INDCi")
 
 # plot carbon prices
 
@@ -373,7 +373,7 @@ plot_boxplot(regs=regs,dt=all,vars="CI over EI indicator",cats="NPi",year=2030,f
 plot_boxplot(regs=regs,dt=all,vars="CI over EI indicator",cats="INDCi",year=2050,file_pre="ci_ei_2050_INDCi")
 plot_boxplot(regs=regs,dt=all,vars="CI over EI indicator",cats="INDCi",year=2030,file_pre="ci_ei_2030_INDCi")
 
-regs <- c("BRA","R5LAM","CHN","IND","R5MAF","R5ASIA", "RUS", "EU","JPN","USA")
+#regs <- c("BRA","R5LAM","CHN","IND","R5MAF","R5ASIA", "RUS", "EU","JPN","USA")
 regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
 # regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA",  "World")
 
@@ -393,40 +393,47 @@ regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
 
 
 # BECCS
-plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="INDC2030i_1000",year=2050,file_pre="BECCS_2050_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="INDC2030i_1000",year=2050,file_pre="PE_BECCS_2050_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="INDC2030i_1000",year=2050,file_pre="PE_Bio_2050_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="INDC2030i_1600",year=2050,file_pre="BECCS_2050_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="INDC2030i_1600",year=2050,file_pre="PE_BECCS_2050_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="INDC2030i_1600",year=2050,file_pre="PE_Bio_2050_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="NPi2020_1000",year=2050,file_pre="BECCS_2050_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="NPi2020_1000",year=2050,file_pre="PE_BECCS_2050_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="NPi2020_1000",year=2050,file_pre="PE_Bio_2050_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="NPi2020_1600",year=2050,file_pre="BECCS_2050_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="NPi2020_1600",year=2050,file_pre="PE_BECCS_2050_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="NPi2020_1600",year=2050,file_pre="PE_Bio_2050_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="NPi",year=2050,file_pre="BECCS_2050_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="NPi",year=2050,file_pre="PE_BECCS_2050_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="NPi",year=2050,file_pre="PE_Bio_2050_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="INDCi",year=2050,file_pre="BECCS_2050_INDCi")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="INDCi",year=2050,file_pre="PE_BECCS_2050_INDCi")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="INDCi",year=2050,file_pre="PE_Bio_2050_INDCi")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="INDC2030i_1000",year=2050,file_pre="BECCS_2050_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="INDC2030i_1000",year=2050,file_pre="PE_BECCS_2050_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="INDC2030i_1000",year=2050,file_pre="PE_Bio_2050_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="INDC2030i_1600",year=2050,file_pre="BECCS_2050_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="INDC2030i_1600",year=2050,file_pre="PE_BECCS_2050_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="INDC2030i_1600",year=2050,file_pre="PE_Bio_2050_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="NPi2020_1000",year=2050,file_pre="BECCS_2050_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="NPi2020_1000",year=2050,file_pre="PE_BECCS_2050_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="NPi2020_1000",year=2050,file_pre="PE_Bio_2050_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="NPi2020_1600",year=2050,file_pre="BECCS_2050_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="NPi2020_1600",year=2050,file_pre="PE_BECCS_2050_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="NPi2020_1600",year=2050,file_pre="PE_Bio_2050_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="NPi",year=2050,file_pre="BECCS_2050_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="NPi",year=2050,file_pre="PE_BECCS_2050_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="NPi",year=2050,file_pre="PE_Bio_2050_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="INDCi",year=2050,file_pre="BECCS_2050_INDCi")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="INDCi",year=2050,file_pre="PE_BECCS_2050_INDCi")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="INDCi",year=2050,file_pre="PE_Bio_2050_INDCi")
 
 #Population
-plot_boxplot(regs=regs,dt=all,vars="Population",cats="INDC2030i_1000",year=2010,file_pre="Pop_2010")
-plot_boxplot(regs=regs,dt=all,vars="Population",cats="INDC2030i_1000",year=2030,file_pre="Pop_2030")
-plot_boxplot(regs=regs,dt=all,vars="Population",cats="INDC2030i_1000",year=2050,file_pre="Pop_2050")
+# plot_boxplot(regs=regs,dt=all,vars="Population",cats="INDC2030i_1000",year=2010,file_pre="Pop_2010")
+# plot_boxplot(regs=regs,dt=all,vars="Population",cats="INDC2030i_1000",year=2030,file_pre="Pop_2030")
+# plot_boxplot(regs=regs,dt=all,vars="Population",cats="INDC2030i_1000",year=2050,file_pre="Pop_2050")
+
+# #Carbon budget
+# regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="INDC2030i_1000",year=2050,file_pre="Cbudget_2011-2050_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="INDC2030i_1000",year=2100,file_pre="Cbudget_2011-2100_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="INDC2030i_1600",year=2050,file_pre="Cbudget_2011-2050_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="INDC2030i_1600",year=2100,file_pre="Cbudget_2011-2100_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="NPi2020_1000",year=2050,file_pre="Cbudget_2011-2050_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="NPi2020_1000",year=2100,file_pre="Cbudget_2011-2100_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="NPi2020_1600",year=2050,file_pre="Cbudget_2011-2050_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="NPi2020_1600",year=2100,file_pre="Cbudget_2011-2100_NPi2020_1600")
 
 #Carbon budget
 regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
-plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="INDC2030i_1000",year=2050,file_pre="Cbudget_2011-2050_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="INDC2030i_1000",year=2100,file_pre="Cbudget_2011-2100_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="INDC2030i_1600",year=2050,file_pre="Cbudget_2011-2050_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="INDC2030i_1600",year=2100,file_pre="Cbudget_2011-2100_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="NPi2020_1000",year=2050,file_pre="Cbudget_2011-2050_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="NPi2020_1000",year=2100,file_pre="Cbudget_2011-2100_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="NPi2020_1600",year=2050,file_pre="Cbudget_2011-2050_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="NPi2020_1600",year=2100,file_pre="Cbudget_2011-2100_NPi2020_1600")
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget",cats="INDC2030i_1000",year=2100,file_pre="CO2budget_2011-2100_INDC2030i_1000")
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget",cats="INDC2030i_1600",year=2100,file_pre="CO2budget_2011-2100_INDC2030i_1600")
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget",cats="NPi2020_1000",year=2100,file_pre="CO2budget_2011-2100_NPi2020_1000")
+plot_boxplot(regs=regs,dt=all,vars="Carbon budget",cats="NPi2020_1600",year=2100,file_pre="CO2budget_2011-2100_NPi2020_1600")
 
 # #Emissions intensity GDP
 # regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA","World")
@@ -444,58 +451,58 @@ plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="NPi
 # plot_boxplot(regs=regs,dt=all,vars="Emissions Intensity of GDP|MER",cats="INDCi",year=2030,file_pre="Emis_int2030_INDCi")
 
 #Rates of change
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDC2030i_1000",
-             year="2030-2050",file_pre="Rates2030-2050_INDC2030i_1000", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDC2030i_1600",
-             year="2030-2050",file_pre="Rates2030-2050_INDC2030i_1600", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi2020_1000",
-             year="2030-2050",file_pre="Rates2030-2050_NPi2020_1000", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi2020_1600",
-             year="2030-2050",file_pre="Rates2030-2050_NPi2020_1600", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi",
-             year="2030-2050",file_pre="Rates2030-2050_NPi", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDCi",
-             year="2030-2050",file_pre="Rates2030-2050_INDCi", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
-
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDC2030i_1000",
-             year="2050-2100",file_pre="Rates2050-2100_INDC2030i_1000", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDC2030i_1600",
-             year="2050-2100",file_pre="Rates2050-2100_INDC2030i_1600", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi2020_1000",
-             year="2050-2100",file_pre="Rates2050-2100_NPi2020_1000", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi2020_1600",
-             year="2050-2100",file_pre="Rates2050-2100_NPi2020_1600", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi",
-             year="2050-2100",file_pre="Rates2050-2100_NPi", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
-plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDCi",
-             year="2050-2100",file_pre="Rates2050-2100_INDCi", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDC2030i_1000",
+#              year="2030-2050",file_pre="Rates2030-2050_INDC2030i_1000", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDC2030i_1600",
+#              year="2030-2050",file_pre="Rates2030-2050_INDC2030i_1600", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi2020_1000",
+#              year="2030-2050",file_pre="Rates2030-2050_NPi2020_1000", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi2020_1600",
+#              year="2030-2050",file_pre="Rates2030-2050_NPi2020_1600", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi",
+#              year="2030-2050",file_pre="Rates2030-2050_NPi", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDCi",
+#              year="2030-2050",file_pre="Rates2030-2050_INDCi", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# 
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDC2030i_1000",
+#              year="2050-2100",file_pre="Rates2050-2100_INDC2030i_1000", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDC2030i_1600",
+#              year="2050-2100",file_pre="Rates2050-2100_INDC2030i_1600", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi2020_1000",
+#              year="2050-2100",file_pre="Rates2050-2100_NPi2020_1000", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi2020_1600",
+#              year="2050-2100",file_pre="Rates2050-2100_NPi2020_1600", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="NPi",
+#              year="2050-2100",file_pre="Rates2050-2100_NPi", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
+# plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "Rate of Change| Emissions Intensity of GDP|MER", "Rate of Change| Energy Intensity of GDP|MER", "Rate of Change| Emissions|CO2|FFI" ),cats="INDCi",
+#              year="2050-2100",file_pre="Rates2050-2100_INDCi", var.labels = c("Carbon Intensity of FE", "Emissions Intensity of GDP|MER", "Energy Intensity of GDP|MER", "Emissions|CO2|FFI" ) , b.multivar = T)
 
 #Primary energy
-regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC2030i_1000",year=2050,file_pre="PE_2050_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC2030i_1000",year=2030,file_pre="PE_2030_INDC2030i_1000")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC2030i_1600",year=2050,file_pre="PE_2050_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC2030i_1600",year=2030,file_pre="PE_2030_INDC2030i_1600")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi2020_1000",year=2050,file_pre="PE_2050_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi2020_1000",year=2030,file_pre="PE_2030_NPi2020_1000")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi2020_1600",year=2050,file_pre="PE_2050_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi2020_1600",year=2030,file_pre="PE_2030_NPi2020_1600")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi",year=2050,file_pre="PE_2050_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi",year=2030,file_pre="PE_2030_NPi")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDCi",year=2050,file_pre="PE_2050_INDCi")
-plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDCi",year=2030,file_pre="PE_2030_INDCi")
+#regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC2030i_1000",year=2050,file_pre="PE_2050_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC2030i_1000",year=2030,file_pre="PE_2030_INDC2030i_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC2030i_1600",year=2050,file_pre="PE_2050_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDC2030i_1600",year=2030,file_pre="PE_2030_INDC2030i_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi2020_1000",year=2050,file_pre="PE_2050_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi2020_1000",year=2030,file_pre="PE_2030_NPi2020_1000")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi2020_1600",year=2050,file_pre="PE_2050_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi2020_1600",year=2030,file_pre="PE_2030_NPi2020_1600")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi",year=2050,file_pre="PE_2050_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="NPi",year=2030,file_pre="PE_2030_NPi")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDCi",year=2050,file_pre="PE_2050_INDCi")
+# plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="INDCi",year=2030,file_pre="PE_2030_INDCi")
 
 #Peak year
-regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA","World")
-plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="INDC2030i_1000",file_pre="Peak_year_CO2_INDC2030i_1000")
-plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="INDC2030i_1600",file_pre="Peak_year_CO2_INDC2030i_1600")
-plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="NPi2020_1000",file_pre="Peak_year_CO2_NPi2020_1000")
-plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="NPi2020_1600",file_pre="Peak_year_CO2_NPi2020_1600")
-
-plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="INDC2030i_1000",file_pre="Peak_year_Kyoto_INDC2030i_1000")
-plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="INDC2030i_1600",file_pre="Peak_year_Kyoto_INDC2030i_1600")
-plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="NPi2020_1000",file_pre="Peak_year_Kyoto_NPi2020_1000")
-plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="NPi2020_1600",file_pre="Peak_year_Kyoto_NPi2020_1600")
+# regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA","World")
+# plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="INDC2030i_1000",file_pre="Peak_year_CO2_INDC2030i_1000")
+# plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="INDC2030i_1600",file_pre="Peak_year_CO2_INDC2030i_1600")
+# plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="NPi2020_1000",file_pre="Peak_year_CO2_NPi2020_1000")
+# plot_boxplot2(regs=regs,dt=all,vars="Peak year|CO2",cats="NPi2020_1600",file_pre="Peak_year_CO2_NPi2020_1600")
+# 
+# plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="INDC2030i_1000",file_pre="Peak_year_Kyoto_INDC2030i_1000")
+# plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="INDC2030i_1600",file_pre="Peak_year_Kyoto_INDC2030i_1600")
+# plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="NPi2020_1000",file_pre="Peak_year_Kyoto_NPi2020_1000")
+# plot_boxplot2(regs=regs,dt=all,vars="Peak year|Kyoto Gases",cats="NPi2020_1600",file_pre="Peak_year_Kyoto_NPi2020_1600")
 
 #Regional emissions
 plot_boxplot3(regs="BRA",dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("NPi","INDCi"),
