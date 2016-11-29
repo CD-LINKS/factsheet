@@ -307,9 +307,16 @@ plot_bar_facet <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", tit
 ###################### plot_bar_facet2 #######################
 #############################################################
 
-plot_bar_facet2 <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", title="Title",file_pre="def",ylim=NA,xlim=NA){
+plot_bar_facet2 <- function(reg, dt, vars, cats, year=2030, out=cfg$outdir, lab="Title", title="Title",file_pre="def",ylim=NA,xlim=NA){
   #select data
-  dt <- dt[region==reg & Category %in% cats & variable %in% vars]
+  if ("Historical" %in% cats) {
+    hist=dt[ variable %in% vars & Category=="Historical" & region %in% reg & !is.na(value)]
+    hist$period <- year
+    dt=rbind(hist,dt[ variable %in% vars & period==year & Category %in% cats & region %in% reg & !is.na(value)]) 
+    dt %>% factor.data.frame()
+  } else {
+  dt <- dt[region==reg & Category %in% cats & variable %in% vars &period==year]}
+  
   unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
   unitsy <- paste(rev(unitsy),sep='',collapse='')
   
