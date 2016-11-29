@@ -138,7 +138,7 @@ invisible(dev.off())
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
-cats <- c("NoPolicy","NPi","INDCi","INDC","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600")
+cats <- c("NoPolicy","NPi","INDCi","INDC","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600","NPi2020_400")
 
 plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel_LT",glob_lines=T,xlim=c(2000,2100))   
 
