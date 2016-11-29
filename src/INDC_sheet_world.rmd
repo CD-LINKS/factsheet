@@ -53,14 +53,56 @@ invisible(dev.off())
 
 ```
 
-\subsection{Key energy system characteristics - long-term}
+\subsection{Key energy system characteristics - long-term -1}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
 vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
-cats <- c("NoPolicy","NPi","INDCi","INDC","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600")
+cats <- c("NoPolicy","NPi","INDCi")
 
-plot_funnel(reg=cfg$r,dt=all[period<=2100],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel_LT",glob_lines=T,xlim=c(2000,2100))   
+plot_funnel(reg=cfg$r,dt=all[period<=2100],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel_LT1",glob_lines=T,xlim=c(2000,2100))   
+
+
+invisible(dev.off())
+
+```
+
+\subsection{Key energy system characteristics - long-term -2}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
+cats <- c("NPi2020_1000","INDC2030i_1000")
+
+plot_funnel(reg=cfg$r,dt=all[period<=2100],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel_LT2",glob_lines=T,xlim=c(2000,2100))   
+
+
+invisible(dev.off())
+
+```
+
+\subsection{Key energy system characteristics - long-term -3}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
+cats <- c("NPi2020_400","INDC2030i_400")
+
+plot_funnel(reg=cfg$r,dt=all[period<=2100],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel_LT3",glob_lines=T,xlim=c(2000,2100))   
+
+
+invisible(dev.off())
+
+```
+
+\subsection{Key energy system characteristics - long-term - comparison ADVANCE}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
+cats <- c("INDC2030i_1000","2030_low","INDC2030i_1600","2030_high")
+
+plot_funnel(reg=cfg$r,dt=all[period<=2100],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel_LT_ADV",glob_lines=T,xlim=c(2000,2100))   
 
 
 invisible(dev.off())
@@ -140,6 +182,30 @@ invisible(dev.off())
 
 ```
 
+\subsection{Kyoto gas emissions over time - detailed - long-term -2}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+cats <- c("NPi2020_400","INDC2030i_400","NPi2020_1000")
+
+plot_funnel2(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel_LT2",glob_lines=T,xlim=c(2000,2100))   
+
+invisible(dev.off())
+
+```
+
+\subsection{Kyoto gas emissions over time - detailed - long-term - comparison ADVANCE}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+cats <- c("INDC2030i_1000","2030_low","INDC2030i_1600","2030_high")
+
+plot_funnel2(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel_LT_ADV",glob_lines=T,xlim=c(2000,2100))   
+
+invisible(dev.off())
+
+```
+
 \subsection{2010 emissions}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
@@ -158,10 +224,36 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 #if (!identical(character(0),intersect(nat_cats,c("NoPolicy","NPi2020_1000","INDC2030i_1000")) )){
 vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
-cats <- c("NPi","INDCi","NPi2020_1000","INDC2030i_1000","INDC2030i_1600")
+cats <- c("NPi","INDCi")
 
 plot_funnel(reg=cfg$r,dt=all[period<=2100],vars=vars,cats=cats,title="Kaya factors",file_pre="kaya_funnel",glob_lines=T,xlim=c(2000,2100))   
 #}
+invisible(dev.off())
+
+```
+
+\subsection{Kaya Factors over time}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+#if (!identical(character(0),intersect(nat_cats,c("NoPolicy","NPi2020_1000","INDC2030i_1000")) )){
+vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
+cats <- c("NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600")
+
+plot_funnel(reg=cfg$r,dt=all[period<=2100],vars=vars,cats=cats,title="Kaya factors",file_pre="kaya_funnel2",glob_lines=T,xlim=c(2000,2100))   
+#}
+invisible(dev.off())
+
+```
+
+\subsection{Kaya factors 2050}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
+cats <- c("NPi","INDCi","NPi2020_400","NPi2020_1000","NPi2020_1600","INDC2030i_400","INDC2030i_1000","INDC2030i_1600")
+
+plot_bar_facet(reg=cfg$r,dt=all[period==2050],vars=vars,cats=cats,lab="Kaya factors; 2050)",file_pre="kaya_2050_bar")   
+
 invisible(dev.off())
 
 ```
