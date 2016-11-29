@@ -17,17 +17,18 @@ output:
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 #general setting for the whole sheet:
 #all scenarios with national model scenarios available
-if(cfg$r=="JPN"){
-  nat_cats <- intersect(unique(all[Scope=="national"]$Category),c("NoPolicy","NPi","INDCi","NPi2020_1000","INDC2030i_1600"))
-} else  {
-  nat_cats <- intersect(unique(all[Scope=="national"]$Category),c("NoPolicy","NPi","INDCi","INDC2030i_1000","INDC2030i_1600"))
-}
+# if(cfg$r=="JPN"){
+#   nat_cats <- intersect(unique(all[Scope=="national"]$Category),c("NoPolicy","NPi","INDCi","NPi2020_1000","INDC2030i_1600"))
+# } else  {
+#   nat_cats <- intersect(unique(all[Scope=="national"]$Category),c("NoPolicy","NPi","INDCi","INDC2030i_1000","INDC2030i_1600"))
+# }
 
 plot_line(reg=cfg$r,dt=all,vars=c("GDP|MER","Population"),cats=c("NoPolicy"),title="Socio-Economic Indicators",file_pre="gdp_pop_line")   
 
 invisible(dev.off())
 
 ```
+
 \subsection{Macro economic results}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
@@ -73,7 +74,7 @@ invisible(dev.off())
 vars <- c("Primary Energy","Secondary Energy|Electricity","Energy Intensity of GDP|MER","Renewables Share|TPES|Excl. Nuclear")
 cats <- c("Historical","NPi","INDCi","REF","INDC")
 
-plot_bar_facet2(reg=cfg$r,dt=all[period==2030],vars=vars,cats=cats,lab="Energy system characteristics",file_pre="Energy_bar_facet")   
+plot_bar_facet2(reg=cfg$r,dt=all,vars=vars,cats=cats,year=2030,lab="Energy system characteristics",file_pre="Energy_bar_facet")   
 
 invisible(dev.off())
 
