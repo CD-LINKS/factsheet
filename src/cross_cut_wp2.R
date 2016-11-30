@@ -599,10 +599,10 @@ plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Transportation|Electricit
               year=2030,b.multivar=T,var.labels=c("Electricity","Gases","Hydrogen","Liquids","Liquids-biomass","Other"),file_pre="FE_transport_2030_World")
 plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Transportation|Electricity","Final Energy|Transportation|Gases","Final Energy|Transportation|Hydrogen","Final Energy|Transportation|Liquids","Final Energy|Transportation|Liquids|Biomass","Final Energy|Transportation|Other"),cats=c("Historical","NoPolicy","NPi","INDCi"),
               year=2020,b.multivar=T,var.labels=c("Electricity","Gases","Hydrogen","Liquids","Liquids-biomass","Other"),file_pre="FE_transport_2020_World")
-# plot_boxplot3(regs="World",dt=all,vars=c("FE passenger/pkm","FE freight/tkm"),cats=c("Historical","NoPolicy","NPi","INDCi"),
-#               year=2020,b.multivar=T,var.labels=c("FE passenger/pkm","FE freight/tkm"),file_pre="FE_km_transport_2020_World")
-# plot_boxplot3(regs="World",dt=all,vars=c("FE passenger/pkm","FE freight/tkm"),cats=c("Historical","NoPolicy","NPi","INDCi"),
-#               year=2030,b.multivar=T,var.labels=c("FE passenger/pkm","FE freight/tkm"),file_pre="FE_km_transport_2030_World")
+plot_boxplot3(regs="World",dt=all,vars=c("FE passenger/pkm","FE freight/tkm"),cats=c("Historical","NoPolicy","NPi","INDCi"),
+              year=2020,b.multivar=T,var.labels=c("FE passenger/pkm","FE freight/tkm"),file_pre="FE_km_transport_2020_World")
+plot_boxplot3(regs="World",dt=all,vars=c("FE passenger/pkm","FE freight/tkm"),cats=c("Historical","NoPolicy","NPi","INDCi"),
+              year=2030,b.multivar=T,var.labels=c("FE passenger/pkm","FE freight/tkm"),file_pre="FE_km_transport_2030_World")
 
 #Industry
 plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Industry|Electricity","Final Energy|Industry|Gases","Final Energy|Industry|Hydrogen","Final Energy|Industry|Liquids","Final Energy|Industry|Other","Final Energy|Industry|Heat","Final Energy|Industry|Solids"),cats=c("Historical","NoPolicy","NPi","INDCi"),
