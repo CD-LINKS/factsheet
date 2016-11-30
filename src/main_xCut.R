@@ -16,6 +16,7 @@ library(directlabels) # year labels for scatter plots
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
+cfg$infile <- "cdlinks_compare_20161129-111740"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -77,7 +78,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   
   #re-factorize all character and numeric columns
   all <- factor.data.frame(all)
-#   
+  
 #   #add scope (global or national)
 #   all[all$model %in% cfg$models_nat,]$Scope <- "national"
 #   #special case DNE21+ V.14: only national protocol scenarios for JPN are "national", so the rest is global
@@ -85,10 +86,16 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 #                                                        "INDC2030i_400","NPi2020_1000","NPi2020_1600","NPi2020_400")]$Scope <- "global"
 #   all[all$model == "DNE21+ V.14" & all$scenario %in% c("NPi") & all$region!="JPN"] <- "global"
 #   
-  #print out summary of models-scenarios and variables
+# #   print out summary of models-scenarios and variables
 #   source("functions/SubmOverview.R")
-  
-  
+#   
+#   #produce pdf with analysis of data as-submitted
+#   for (reg in c("JPN","BRA","CHN","IND","EU","RUS")){
+#       cat("Producing graphs in graphs folder and INDC_national_subm_xxx.pdf in main folder\n")
+#   render("national_scenarios.rmd",output_file=paste0("INDC_national_subm_",reg,".pdf"))
+#   }
+
+ 
   # model specific adjustments
   source("adjust_reporting_indc.R")
 
@@ -110,8 +117,14 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   all[all$Scope=="national",]$model <- paste0("*",all[all$Scope=="national",]$model)
   nat_models <- paste0("*",cfg$models_nat)
   
-  
-  
+  #get rid of Historical duplicates
+  all <- all[Category!="Historical"]
+
+
+for (reg in c("JPN","BRA","CHN","IND","EU","RUS")){
+  cat("Producing graphs in graphs folder and INDC_national_adj_xxx.pdf in main folder\n")
+  render("national_scenarios.rmd",output_file=paste0("INDC_national_adj_",reg,".pdf"))
+}  
   
   save("all",file = paste0("data/",cfg$infile,"_proc.Rdata"))
 

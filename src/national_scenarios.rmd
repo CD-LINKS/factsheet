@@ -1,0 +1,171 @@
+---
+title: "Country Scenario Overview: `reg`"
+date: \today
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 5
+    number_sections: true
+---
+  
+  This is an overview of the national scenarios for `reg`
+  
+\section{National results}
+
+\subsection{PE and FE trajectories}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+#general setting for the whole sheet:
+#all scenarios with national model scenarios available
+
+  nat_scens <- intersect(c("NoPOL","NPi","INDC","NPi2020_high","NPi2020_low","INDC2030_high","INDC2030_low"),unique(all[Scope=="national"]$scenario))
+
+vars <- c('Final Energy','Primary Energy')#'Population')
+scens <- nat_scens
+dt = all[region == reg & period<=2050 & Scope=="national" & scenario %in% scens]
+dt$scenario <- factor(dt$scenario, levels = scens, ordered = T)
+  
+
+plot_line_nat(reg=reg,dt=dt,vars=vars,scens=scens,title="Primary and final energy",file_pre="nat_pe_fe_lines")   
+
+
+invisible(dev.off())
+
+```
+
+\subsection{Emissions}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+vars <- c('Emissions|CO2','Emissions|CO2|Energy','Emissions|CO2|Energy and Industrial Processes')#'Population')
+
+plot_line_nat(reg=reg,dt=dt,vars=vars,scens=scens,title="Emissions",file_pre="nat_co2_lines")   
+
+
+invisible(dev.off())
+
+```
+
+\subsection{Carbon Prices}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+vars <- c('Price|Carbon','Mitigation Cost|Consumption Loss')#'Population')
+if(dim(dt[variable %in% vars])[1]>0){
+plot_line_nat(reg=reg,dt=dt,vars=vars,scens=scens,title="Key energy system characteristics",file_pre="nat_co2price_lines")   
+}
+
+invisible(dev.off())
+
+```
+\subsection{Energy emission decomposition}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# Please specify exactly two variables and assign them to x and y
+vars <- c("Emissions|CO2|Energy","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Supply")
+#plot all scenarios with national model scenarios available
+plot_area(reg=reg,dt=dt,vars=vars,cats=unique(dt$Category),lab="Primary Energy (EJ/yr)",file_pre="nat_emi_area")   
+
+invisible(dev.off())
+
+```
+
+
+\subsection{Carbon sequestration - CCS}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|CCS|Fossil")
+if(dim(dt[variable %in% vars])[1]>0){
+plot_area(reg=reg,dt=dt,vars=vars,cats=unique(dt$Category),lab="Carbon sequestration (Mt CO2/yr)",file_pre="nat_CCS_area")   
+}
+invisible(dev.off())
+```
+
+\subsection{Energy Mix - Primary Energy}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# Please specify exactly two variables and assign them to x and y
+vars <- c("Primary Energy","Primary Energy|Hydro","Primary Energy|Coal|w/o CCS","Primary Energy|Coal|w/ CCS","Primary Energy|Gas|w/o CCS","Primary Energy|Gas|w/ CCS","Primary Energy|Oil|w/o CCS","Primary Energy|Oil|w/ CCS","Primary Energy|Biomass|w/o CCS","Primary Energy|Biomass|w/ CCS","Primary Energy|Nuclear","Primary Energy|Wind","Primary Energy|Solar","Primary Energy|Geothermal","Primary Energy|Other","Primary Energy|Secondary Energy Trade")
+#plot all scenarios with national model scenarios available
+plot_area(reg=reg,dt=dt,vars=vars,cats=unique(dt$Category),lab="Primary Energy (EJ/yr)",file_pre="nat_pe_area")   
+
+invisible(dev.off())
+
+```
+
+
+\subsection{Energy Mix - Electricity}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# Please specify exactly two variables and assign them to x and y
+vars <- c("Secondary Energy|Electricity","Secondary Energy|Electricity|Hydro","Secondary Energy|Electricity|Coal|w/o CCS","Secondary Energy|Electricity|Coal|w/ CCS","Secondary Energy|Electricity|Gas|w/o CCS","Secondary Energy|Electricity|Gas|w/ CCS","Secondary Energy|Electricity|Oil","Secondary Energy|Electricity|Biomass|w/o CCS","Secondary Energy|Electricity|Biomass|w/ CCS","Secondary Energy|Electricity|Nuclear","Secondary Energy|Electricity|Wind","Secondary Energy|Electricity|Solar","Secondary Energy|Electricity|Geothermal","Secondary Energy|Electricity|Other")
+plot_area(reg=reg,dt=dt,vars=vars,cats=unique(dt$Category),lab="Electricity Generation (EJ/yr)",file_pre="nat_ele_area")   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy by carrier}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy","Final Energy|Electricity","Final Energy|Gases","Final Energy|Heat","Final Energy|Hydrogen","Final Energy|Liquids","Final Energy|Other","Final Energy|Solids")
+plot_area(reg=reg,dt=dt,vars=vars,cats=unique(dt$Category),lab="Final Energy (EJ/yr)",file_pre="nat_fe_c_area")   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy by sector}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy","Final Energy|Transportation","Final Energy|Residential and Commercial","Final Energy|Industry","Final Energy|Other Sector")
+plot_area(reg=reg,dt=dt,vars=vars,cats=unique(dt$Category),lab="Final Energy (EJ/yr)",file_pre="nat_fe_s_area")   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy in Industry}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy|Industry","Final Energy|Industry|Electricity","Final Energy|Industry|Gases","Final Energy|Industry|Heat","Final Energy|Industry|Hydrogen","Final Energy|Industry|Liquids","Final Energy|Industry|Other","Final Energy|Industry|Solids")
+plot_area(reg=reg,dt=dt,vars=vars,cats=unique(dt$Category),lab="Final Energy (EJ/yr)",file_pre="nat_fe_industry_area")   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy in Residential and Commercial}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy|Residential and Commercial","Final Energy|Residential and Commercial|Electricity","Final Energy|Residential and Commercial|Gases","Final Energy|Residential and Commercial|Heat","Final Energy|Residential and Commercial|Hydrogen","Final Energy|Residential and Commercial|Liquids","Final Energy|Residential and Commercial|Other", "Final Energy|Residential and Commercial|Solids")
+if(dim(dt[variable %in% vars])[1]>0){
+  plot_area(reg=reg,dt=dt,vars=vars,cats=unique(dt$Category),lab="Final Energy (EJ/yr)",file_pre="nat_fe_buildings_area")   
+}
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy in Transportation}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy|Transportation","Final Energy|Transportation|Electricity","Final Energy|Transportation|Gases","Final Energy|Transportation|Hydrogen","Final Energy|Transportation|Liquids","Final Energy|Transportation|Other")
+if(dim(dt[variable %in% vars])[1]>0){
+plot_area(reg=reg,dt=dt,vars=vars,cats=unique(dt$Category),lab="Final Energy (EJ/yr)",file_pre="nat_fe_transport_area")   
+}
+invisible(dev.off())
+
+```
+

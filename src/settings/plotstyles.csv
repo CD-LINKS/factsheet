@@ -4,12 +4,16 @@ Reference;Reference;#992222;1;2;dotted
 Global 450 / S2-3;Global 450 / S2-3;#229922;1;2;dotted
 Global 500;Global 500;#222299;1;2;dotted
 Optimal 450;Optimal 450;#00ff00;1;2;dotted
-NoPOL;NoPOL;#5b5b5b;1;2;dotted
+NoPOL;NoPOL;#333333;1;0.7;dotted
 NoPolicy;NoPolicy;#333333;1;2;dotted
 REF;REF;#e5e5e5;1;2;dotted
-NPi;NPi;#808080;1;2;dotted
+NPi;NPi;#aaaa80;1;1;dotted
+NPi2020_low;2020_low;#66ff66;1;2;solid
+NPi2020_high;2020_high;#55aa22;1;1;dotted
+INDC2030_low;2030_low;#6666ff;1;2;solid
+INDC2030_high;2030_high;#6644aa;1;1;dotted
 NPip;NPip;#b2b2b2;1;2;dotted
-INDC;INDC;#ead2d2;1;2;dotted
+INDC;INDC;#992222;1;1;dotted
 INDCi;INDCi;#992222;1;2;dotted
 INDCip;INDCip;#c17a7a;1;2;dotted
 INDC2030i_1600;INDC2030i_1600;#222299;1;2;dotted
