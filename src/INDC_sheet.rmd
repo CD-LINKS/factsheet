@@ -33,7 +33,7 @@ invisible(dev.off())
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
-plot_line(reg=cfg$r,dt=all,vars=c("Policy Cost|Consumption Loss","Policy Cost|GDP Loss"),cats=c("2030_high"),title="Policy Costs in INDC2030i_1600 scenarios",file_pre="cons_gdp_loss_line")   
+plot_line(reg=cfg$r,dt=all,vars=c("Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve"),cats=c("2030_high"),title="Policy Costs in INDC2030i_1600 scenarios",file_pre="cons_gdp_loss_line")   
 
 invisible(dev.off())
 
