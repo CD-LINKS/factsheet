@@ -10,7 +10,7 @@ cfg <- list()
 ######################################################
 
 # csv file that contains input data and will be read (only file name, without folder and extension)
-cfg$infile    <- "cdlinks_compare_20161129-111740"
+cfg$infile    <- "cdlinks_compare_20161129-162657"
 
 # region for which fact sheet will be produced
 cfg$r         <- "World"
