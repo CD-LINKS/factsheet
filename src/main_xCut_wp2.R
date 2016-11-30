@@ -86,7 +86,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   all <- factor.data.frame(all)
   
   # model specific adjustments
-  source("adjust_reporting_INDC.R")
+  source("adjust_reporting_indc.R")
 
   #### add variables
   all <- add_variables(all,scens)
