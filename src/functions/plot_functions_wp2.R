@@ -3,7 +3,7 @@
 #############################################################
 
 
-source("functions/plotstyle.R") # load plotstyle() function that provides colors etc. for entities
+source("functions/plotstyle_wp2.R") # load plotstyle() function that provides colors etc. for entities
 
 #############################################################
 ####################### plot_line ###########################
@@ -34,27 +34,6 @@ plot_line <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_p
   p = p + scale_colour_manual(values=plotstyle(as.character(unique(dt$model))))
   p = p + geom_path(data=dt[Scope=="national"],aes(x=period,y=value,color=model,group=paste(model,scenario),size=Scope))
   #p = p + ylab(paste("Carbon Price"))#add unit (different for each facet grid plot...)
-  if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
-  if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
-  p = p + facet_grid(variable~region, scales="free_y")
-  #p = p + theme(strip.text.y=element_text(angle=45))
-  p = p + ylab(paste(unitsy))
-  p = p + ggtitle(title) + ggplot2::theme_bw()
-  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
-  return(p)
-}
-
-# Standard function for plotting lines for national models only
-plot_line_nat <- function(reg, dt, vars, scens, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA){
-  #select data
-  dt <- dt[region==reg & scenario %in% scens & variable %in% vars]
-  #create string with y-axis units for axis label
-  unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
-  unitsy <- paste(rev(unitsy),sep='',collapse='')
-  p = ggplot()
-  p = p + geom_path(data=dt,aes(x=period,y=value,color=scenario,group=paste(model,scenario),linetype=model),size=1)
-  p = p + scale_colour_manual(values=plotstyle(scens))
-#   p = p + scale_size_manual(values=c("NoPOL"=.2, "NPi"=.5,"NPi2020_low"=.5,"NPi2020_high"=.5,"INDC"=1,"INDC2030_low"=1,"INDC2030_high"=1))
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + facet_grid(variable~region, scales="free_y")
@@ -197,7 +176,7 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
 ####################### plot_area ########################
 #############################################################
 
-plot_area <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre="area",ylim=NA,ybreaks=NA,xlim=NA,xbreaks=c(2010,2030,2050),scentext=T){
+plot_area <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre="area",ylim=NA,ybreaks=NA,xlim=c(2000,2050),xbreaks=c(2010,2030,2050)){
   #dataframe for area plots: use first scenario of each category-model combination, if multiple exists
   dta <- dt[region==reg & Category%in% cats & variable%in% vars[2:length(vars)]]
   for (cat in cats){
@@ -220,14 +199,14 @@ plot_area <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", file_pre
   dta$period=as.numeric(dta$period)
   dtl$period=as.numeric(dtl$period)
   scens$period=as.numeric(scens$period)
-  if(dim(scens)[1]==0){scentext=F}#if there is a problem with the scenario name just leave them out (happens if second variable is non-existent in data)
+  
   p = ggplot()
   p = p + geom_area(data=dta,aes(period, value, group = interaction(variable, region, scenario), fill = variable))
   p = p + geom_path(data=dtl,aes(period, value, group = interaction(variable, region, scenario)))
   p = p + geom_path(data=dtl,aes(period, value, group = interaction(variable, region, scenario)), colour = "#ffffff",linetype=2)
   p = p + facet_grid(Category ~ model)
   p = p + ylab(lab) + xlab("year 20xx")
-  if (scentext){p = p + geom_text(data=scens,aes(x=period,y=value,label=scenario,angle=90,hjust=1, vjust = 0 ))}
+  p = p + geom_text(data=scens,aes(x=period,y=value,label=scenario,angle=90,hjust=1, vjust = 0 ))
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + scale_x_continuous(limits=xlim,breaks=xbreaks, labels = substr(xbreaks,3,4))#manual x-axis limits
                          if (all(is.na(ylim))){p = p + ylim(c(0,max(dtl[period<xlim[2]]$value)))}#change ylim if manual x but not y limits

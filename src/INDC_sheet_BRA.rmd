@@ -24,7 +24,7 @@ if(cfg$r=="JPN"){
 }
   nat_cats <- intersect(unique(all[Scope=="national"]$Category),indc_cats)
 
-plot_line(reg=cfg$r,dt=all,vars=c("GDP|MER","Population"),cats=c("NoPOL"),title="Socio-Economic Indicators",file_pre="gdp_pop_line")   
+plot_line(reg=cfg$r,dt=all,vars=c("GDP|MER","Population"),cats=c("INDCi"),title="Socio-Economic Indicators",file_pre="gdp_pop_line")   
 
 invisible(dev.off())
 
@@ -32,11 +32,9 @@ invisible(dev.off())
 \subsection{Macro economic results}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-vars=c("Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve")
-cats=c("2030_high")
-if(dim(all[Scope=="national" & variable %in% vars & cats %in% cats])[1]>0){
-plot_line(reg=cfg$r,dt=all,vars=vars,cats=cats,title="Policy Costs in 2030_high scenarios",file_pre="cons_gdp_loss_line")   
-}
+
+plot_line(reg=cfg$r,dt=all,vars=c("Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve"),cats=c("2030_high"),title="Policy Costs in INDC2030i_1600 scenarios",file_pre="cons_gdp_loss_line")   
+
 invisible(dev.off())
 
 ```
@@ -80,7 +78,7 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 if (!identical(character(0),intersect(nat_cats,c("NoPOL","2020_low","2030_low")) )){
 vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
-cats <- intersect(nat_cats,c("NoPOL","2020_low","2030_low"))
+cats <- nat_cats #intersect(nat_cats,c("NoPOL","2020_low","2030_low"))
 
 plot_funnel(reg=cfg$r,dt=all[period<=2050],vars=vars,cats=cats,title="Kaya factors",file_pre="kaya_funnel",glob_lines=T,xlim=c(2000,2050))   
 }
@@ -93,7 +91,7 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 if (!identical(character(0),intersect(nat_cats,c("INDCi","2020_low","2030_low")) )){
 vars <- c("Rate of Change| Energy Intensity of GDP|MER","Rate of Change| Carbon Intensity of FE","Rate of Change| Emissions|CO2|FFI","Rate of Change| Emissions Intensity of GDP|MER")
-cats <- intersect(nat_cats,c("INDCi","2020_low","2030_low"))
+cats <- nat_cats #intersect(nat_cats,c("INDCi","2020_low","2030_low"))
 
 plot_bar_facet(reg=cfg$r,dt=all[period=="2030-2050"],vars=vars,cats=cats,lab="Rate of change (%/year; 2030-2050)",file_pre="rate_of_change_30-50_bar")   
 }
@@ -106,7 +104,7 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 if (!identical(character(0),intersect(nat_cats,c("INDCi","2020_low","2030_low")) )){
 vars <- c("Rate of Change| Energy Intensity of GDP|MER","Rate of Change| Carbon Intensity of FE","Rate of Change| Emissions|CO2|FFI","Rate of Change| Emissions Intensity of GDP|MER")
-cats <- intersect(nat_cats,c("INDCi","2020_low","2030_low"))
+cats <- nat_cats #intersect(nat_cats,c("INDCi","2020_low","2030_low"))
 
 plot_bar_facet(reg=cfg$r,dt=all[period=="2050-2100"],vars=vars,cats=cats,lab="Rate of change (%/year; 2050-2100)",file_pre="rate_of_change_50-100_bar")   
 }
@@ -179,10 +177,10 @@ invisible(dev.off())
 \subsection{Elasticity of models: relative abatement as function of Carbon price}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-if (!identical(character(0),intersect(nat_cats,c("2020_low","2030_low")) )){
+if (!identical(character(0),intersect(nat_cats,c("2020_low","2030_low","2030_high")) )){
   # Please specify exactly two variables and assign them to x and y
   vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
-  cats <- intersect(nat_cats,c("2020_low","2030_low"))
+  cats <- intersect(nat_cats,c("2020_low","2030_low","2030_high"))
   if (dim(all[Scope=="national" & variable=="Price|Carbon"])[1]!=0){
     plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T,xlim=c(10,1000))   
   }
@@ -194,10 +192,10 @@ invisible(dev.off())
 \subsection{Elasticity of models: Carbon Intensity vs. Energy Intensity}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-if (!identical(character(0),intersect(nat_cats,c("2020_low","2030_low")) )){
+if (!identical(character(0),intersect(nat_cats,c("2020_low","2030_low","2030_high")) )){
 # Please specify exactly two variables and assign them to x and y
 vars <- c(x="Energy intensity rel. to Base",y="Carbon intensity rel. to Base")
-cats <- intersect(nat_cats,c("2020_low","2030_low"))
+cats <- intersect(nat_cats,c("2020_low","2030_low","2030_high"))
 plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",file_pre="ci_ei_scatter")   
 }
 invisible(dev.off())
@@ -207,10 +205,10 @@ invisible(dev.off())
 \subsection{Final Energy over GDP}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-if (!identical(character(0),intersect(nat_cats,c("NoPOL","2020_low","2030_low")) )){
+if (!identical(character(0),intersect(nat_cats,c("NoPOL","2020_low","2030_low","2030_high","INDCi")) )){
 # Please specify exactly two variables and assign them to x and y
 vars <- c(x="GDP|MER",y="Final Energy")
-cats <- intersect(nat_cats,c("NoPOL","2020_low","2030_low"))
+cats <- intersect(nat_cats,c("NoPOL","2020_low","2030_low","2030_high","INDCi"))
 plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Socio-Economic Indicators",file_pre="gdp_fe_scatter")   
 }
 invisible(dev.off())

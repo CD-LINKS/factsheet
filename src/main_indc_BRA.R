@@ -15,15 +15,9 @@ library(directlabels) # year labels for scatter plots
 #setwd("D:/location-of-srcfolder-on-your-system")
 
 #source configuration file for region-specific data
-source("settings/config_CHN.R")
-
-# for (reg in c("JPN","BRA","CHN","IND","EUR","RUS")){
-# #source configuration file for region-specific data
-# source(paste0("settings/config_",reg,".R"))
-
-
+source("settings/config_BRA.R")
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20161129-162657"
+cfg$infile    <- "cdlinks_compare_20161129-162657_2"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -35,7 +29,7 @@ source("functions/overwrite.R")
 source("functions/plot_functions.R")
 
 # flag to process data, reprocess even if .._reg_proc.RData file is available (i.e. overwrite existing RData)
-b.procdata = F
+b.procdata = T
 
 # Create plot directory
 if(!file.exists(cfg$outdir)) {
@@ -71,7 +65,7 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
    }
 
   # Add new column "Category" and fill with name according to scenario-to-Categroy-mapping in "scens"
-  scens <- fread("settings/scen_categ_cdlinks_indc_bycountry.csv", header=TRUE)
+  scens <- fread("settings/scen_categ_cdlinks_indc_BRA.csv", header=TRUE)
   #get rid of duplicated scenarios
   scens <- scens[!duplicated(scens$scenario)]
 
@@ -112,8 +106,6 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
     all[all$model %in% cfg$model_nat,]$model <- paste0("*",all[all$model %in% cfg$model_nat,]$model)
     cfg$model_nat <- paste0("*",cfg$model_nat)
   }
-#get rid of Historical duplicates
-all <- all[Category!="Historical"]
   #save country specific file with processed data
   save("all",file = paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata"))
 }# end if-else: process data
@@ -126,7 +118,6 @@ all <- all[Category!="Historical"]
 theme_set(theme_bw())
 
 cat("Producing graphs in graphs folder and pdf in main folder\n")
- render("INDC_sheet.rmd",output_file=paste0("INDC_sheet_",cfg$r,".pdf"))
+render("INDC_sheet_BRA.rmd",output_file=paste0("INDC_sheet_",cfg$r,".pdf"))
 
 # render("INDC_sheet_world.rmd",output_file=paste0("INDC_sheet_world.pdf"))
-#}
