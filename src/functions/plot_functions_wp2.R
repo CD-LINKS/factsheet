@@ -115,9 +115,9 @@ plot_funnel <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file
                                                                    color=Category,linetype=model),size=.15)}
   # Plot lines for national models
   p = p + geom_path(data=dt[region==reg & Scope=="national"],aes(x=period,y=value,color=Category,linetype=model),size=2,show.legend = FALSE)
-  p = p + scale_linetype_manual(values=cfg$man_lines)
-  p = p + scale_colour_manual(values=plotstyle(cats))
-  p = p + scale_fill_manual(values=plotstyle(cats))
+  p = p + scale_linetype_manual(values=cfg$man_lines,labels=plotstyle(cats,out="legend"))
+  p = p + scale_colour_manual(values=plotstyle(cats),labels=plotstyle(cats,out="legend"))
+  p = p + scale_fill_manual(values=plotstyle(cats),labels=plotstyle(cats,out="legend"))
 if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
 if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + ylab(paste(unitsy))
@@ -371,9 +371,9 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
                                                                  color=Category,linetype=model),size=0.5)}
   # Plot lines for national models
   p = p + geom_path(data=dt[region==reg & Scope=="national"],aes(x=period,y=value,color=Category,linetype=model),size=2,show.legend = FALSE)
-  p = p + scale_linetype_manual(values=cfg$man_lines)
-  p = p + scale_colour_manual(values=plotstyle(cats))
-  p = p + scale_fill_manual(values=plotstyle(cats))
+  p = p + scale_linetype_manual(values=cfg$man_lines,labels=plotstyle(cats,out="legend"))
+  p = p + scale_colour_manual(values=plotstyle(cats),labels=plotstyle(cats,out="legend"))
+  p = p + scale_fill_manual(values=plotstyle(cats),labels=plotstyle(cats,out="legend"))
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + ylab(paste(unitsy))
