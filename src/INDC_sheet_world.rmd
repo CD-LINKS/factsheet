@@ -598,7 +598,7 @@ invisible(dev.off())
 # For area plots, the first entry in vars is interpreted as the total (line_plot on top)
 vars <- c("Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|CCS|Fossil")
 cats <- c("NPi","INDCi","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600")
-plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Carbon sequestration (Mt CO2/yr)",file_pre="cs_CCS_area")   
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Carbon sequestration (Mt CO2/yr)",file_pre="cs_CCS_area",xlim=c(2000,2100))   
 
 invisible(dev.off())
 ```
