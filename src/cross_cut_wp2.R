@@ -348,6 +348,7 @@ plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="NPi2020_1000",year=2
 plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="NPi2020_1600",year=2100,file_pre="MitiCosts_2100_NPi2020_1600",b.multivar = T,var.labels = "Mitigation costs 2100 - NPi2020_1600")
 
 plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000"),year=2100,file_pre="MitiCosts_2100_mitigscens",b.multicat = T)
+plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000"),year=2050,file_pre="MitiCosts_2050_mitigscens",b.multicat = T)
 
 #Carbon price
 plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats="INDC2030i_1000",year=2050,file_pre="CO2price_2050_INDC2030i_1000")
@@ -356,6 +357,9 @@ plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats="NPi2020_1000",year=2050,
 plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats="NPi2020_1600",year=2050,file_pre="CO2price_2050_NPi2020_1600")
 plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats="NPi",year=2050,file_pre="CO2price_2050_NPi")
 plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats="INDCi",year=2050,file_pre="CO2price_2050_INDCi")
+
+plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000"),year=2100,file_pre="CO2price_2100_mitigscens",b.multicat = T)
+plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000"),year=2050,file_pre="CO2_2050_mitigscens",b.multicat = T)
 
 # blank carbon price results for EU
 
@@ -542,6 +546,27 @@ plot_boxplot4(regs=c("USA","CHN","IND","EU"),dt=all,vars=c("Emissions|Kyoto Gase
               year=2030,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2030_US_CHN_IND_EU",ylim=T)
 plot_boxplot4(regs=c("JPN","BRA","RUS"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("Historical","NoPolicy","NPi","INDCi"),
               year=2030,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2030_JPN_BRA_RUS",ylim=T)
+plot_boxplot4(regs=c("USA","CHN","IND","EU"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("Historical","NoPolicy","NPi","INDCi"),
+              year=2050,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2050_US_CHN_IND_EU",ylim=T)
+plot_boxplot4(regs=c("JPN","BRA","RUS"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("Historical","NoPolicy","NPi","INDCi"),
+              year=2050,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2050_JPN_BRA_RUS",ylim=T)
+plot_boxplot4(regs=c("USA","CHN","IND","EU"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("Historical","NoPolicy","NPi","INDCi"),
+              year=2100,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2100_US_CHN_IND_EU",ylim=T)
+plot_boxplot4(regs=c("JPN","BRA","RUS"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("Historical","NoPolicy","NPi","INDCi"),
+              year=2100,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_2100_JPN_BRA_RUS",ylim=T)
+
+plot_boxplot4(regs=c("USA","CHN","IND","EU"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000","NPi2020_400"),
+              year=2030,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_mitig_2030_US_CHN_IND_EU",ylim=T)
+plot_boxplot4(regs=c("JPN","BRA","RUS"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000","NPi2020_400"),
+              year=2030,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_mitig_2030_JPN_BRA_RUS",ylim=T)
+plot_boxplot4(regs=c("USA","CHN","IND","EU"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000","NPi2020_400"),
+              year=2050,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_mitig_2050_US_CHN_IND_EU",ylim=F)
+plot_boxplot4(regs=c("JPN","BRA","RUS"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000","NPi2020_400"),
+              year=2050,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_mitig_2050_JPN_BRA_RUS",ylim=F)
+plot_boxplot4(regs=c("USA","CHN","IND","EU"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000","NPi2020_400"),
+              year=2100,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_mitig_2100_US_CHN_IND_EU",ylim=F)
+plot_boxplot4(regs=c("JPN","BRA","RUS"),dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000","NPi2020_400"),
+              year=2100,b.multivar=T,var.labels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2"),file_pre="Emis_mitig_2100_JPN_BRA_RUS",ylim=F)
 
 #Regional energy
 plot_boxplot3(regs="BRA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("Historical","NoPolicy","NPi","INDCi"),
@@ -558,6 +583,15 @@ plot_boxplot3(regs="EU",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_EU",ylim=F)
 plot_boxplot3(regs="USA",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("Historical","NoPolicy","NPi","INDCi"),
               year=2030,b.multivar=T,var.labels=c("Primary Energy","Energy Intensity","Wind & Solar Share","Renewables Share","Electricity"),file_pre="Energy_2030_USA",ylim=F)
+
+regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
+plot_boxplot(regs=regs,dt=all,vars="Renewables Share|TPES|Excl. Nuclear & Geothermal",cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000"),year=2050,file_pre="REN_TPES_2050_mitigscens",b.multicat = T)
+plot_boxplot(regs=regs,dt=all,vars="Renewables Share|TPES|Excl. Nuclear & Geothermal",cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000"),year=2100,file_pre="REN_TPES_2100_mitigscens",b.multicat = T)
+plot_boxplot(regs=regs,dt=all,vars="Low-carbon Electricity Share|All excl. Fossil w/o CCS",cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000"),year=2050,file_pre="LowC_Elec_2050_mitigscens",b.multicat = T)
+plot_boxplot(regs=regs,dt=all,vars="Low-carbon Electricity Share|All excl. Fossil w/o CCS",cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000"),year=2100,file_pre="LowC_Elec_2100_mitigscens",b.multicat = T)
+plot_boxplot(regs=regs,dt=all,vars="Renewables Share|Excl. Nuclear",cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000"),year=2050,file_pre="REN_Elec_2050_mitigscens",b.multicat = T)
+plot_boxplot(regs=regs,dt=all,vars="Renewables Share|Excl. Nuclear",cats=c("NPi2020_1600","NPi2020_1000","INDC2030i_1600","INDC2030i_1000"),year=2100,file_pre="REN_Elec_2100_mitigscens",b.multicat = T)
+
 
 #Sectoral emissions
 plot_boxplot3(regs="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),

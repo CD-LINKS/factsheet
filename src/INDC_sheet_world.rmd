@@ -29,15 +29,32 @@ invisible(dev.off())
 
 ```
 
+
 \subsection{Macro economic results}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
-plot_line(reg=cfg$r,dt=all,vars=c("Policy Cost|Consumption Loss","Policy Cost|GDP Loss"),cats=c("INDC2030i_1600"),title="Policy Costs in INDC2030i_1600 scenarios",file_pre="cons_gdp_loss_line")   
+plot_line(reg=cfg$r,dt=all,vars=c("Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve"),cats=c("INDC2030i_1600"),title="Policy Costs in INDC2030i_1600 scenarios",file_pre="cons_gdp_loss_line")   
 
 invisible(dev.off())
 
 ```
+
+\subsection{Policy costs - comparison ADVANCE}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars <- c("Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve")
+cats <- c("INDC2030i_1000","2030_low","INDC2030i_1600","2030_high")
+models <- intersect(unique(all[Category %in% c("INDC2030i_1000")]$model),all[Category %in% c("2030_low")]$model)
+
+plot_funnel(reg=cfg$r,dt=all[period<=2100 & model %in% models],vars=vars,cats=cats,title="Policy costs",file_pre="policy_costs_funnel_ADV",glob_lines=T,xlim=c(2000,2100))   
+
+
+invisible(dev.off())
+
+```
+
 
 \subsection{Key energy system characteristics}
 
@@ -101,8 +118,24 @@ invisible(dev.off())
 
 vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
 cats <- c("INDC2030i_1000","2030_low","INDC2030i_1600","2030_high")
+models <- intersect(unique(all[Category %in% c("INDC2030i_1000")]$model),all[Category %in% c("2030_low")]$model)
 
-plot_funnel(reg=cfg$r,dt=all[period<=2100],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel_LT_ADV",glob_lines=T,xlim=c(2000,2100))   
+plot_funnel(reg=cfg$r,dt=all[period<=2100 & model %in% models],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel_LT_ADV",glob_lines=T,xlim=c(2000,2100))   
+
+
+invisible(dev.off())
+
+```
+
+\subsection{Key energy system characteristics - long-term - comparison ADVANCE2}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
+cats <- c("INDCi","INDC","NPi","REF")
+models <- intersect(unique(all[Category %in% c("INDCi")]$model),all[Category %in% c("INDC")]$model)
+
+plot_funnel(reg=cfg$r,dt=all[period<=2100 & model %in% models],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel_LT_ADV2",glob_lines=T,xlim=c(2000,2100))   
 
 
 invisible(dev.off())
@@ -138,7 +171,7 @@ invisible(dev.off())
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
-cats <- c("NoPolicy","NPi","INDCi","INDC","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600","NPi2020_400")
+cats <- c("NoPolicy","NPi","INDCi","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600","NPi2020_400")
 
 plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel_LT",glob_lines=T,xlim=c(2000,2100))   
 
@@ -163,8 +196,9 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
 cats <- c("INDCi","INDC")
+models <- intersect(unique(all[Category %in% c("INDCi")]$model),all[Category %in% c("INDC")]$model)
 
-plot_funnel2(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel2",glob_lines=T,xlim=c(2000,2030))   
+plot_funnel2(reg=cfg$r,dt=all[model %in% models],vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel2",glob_lines=T,xlim=c(2000,2030))   
 
 invisible(dev.off())
 
@@ -175,8 +209,9 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
 cats <- c("NPi","INDCi","INDC")
+models <- intersect(unique(all[Category %in% c("INDCi")]$model),all[Category %in% c("INDC")]$model)
 
-plot_funnel2(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel_LT",glob_lines=T,xlim=c(2000,2100))   
+plot_funnel2(reg=cfg$r,dt=all[model %in% models],vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel_LT",glob_lines=T,xlim=c(2000,2100))   
 
 invisible(dev.off())
 
@@ -199,8 +234,9 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
 cats <- c("INDC2030i_1000","2030_low","INDC2030i_1600","2030_high")
+models <- intersect(unique(all[Category %in% c("INDC2030i_1000")]$model),all[Category %in% c("2030_low")]$model)
 
-plot_funnel2(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel_LT_ADV",glob_lines=T,xlim=c(2000,2100))   
+plot_funnel2(reg=cfg$r,dt=all[model %in% models],vars=c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU"),cats=cats,title="Kyoto gas emissions including/only AFOLU CO2",file_pre="GHG_AFOLU_funnel_LT_ADV2",glob_lines=T,xlim=c(2000,2100))   
 
 invisible(dev.off())
 
@@ -497,7 +533,7 @@ invisible(dev.off())
 # For area plots, the first entry in vars is interpreted as the total (line_plot on top)
 vars <- c("Final Energy","Final Energy|Electricity","Final Energy|Gases","Final Energy|Heat","Final Energy|Hydrogen","Final Energy|Liquids","Final Energy|Other","Final Energy|Solids")
 cats <- c("NPi","INDCi","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600")
-plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_c_area",xlim=c(2000,2050))   
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_c_area_LT",xlim=c(2000,2100))   
 
 invisible(dev.off())
 
@@ -562,7 +598,7 @@ invisible(dev.off())
 # For area plots, the first entry in vars is interpreted as the total (line_plot on top)
 vars <- c("Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|CCS|Fossil")
 cats <- c("NPi","INDCi","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600")
-plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Carbon sequestration (Mt CO2/yr)",file_pre="cs_CCS_area")   
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Carbon sequestration (Mt CO2/yr)",file_pre="cs_CCS_area",xlim=c(2000,2100))   
 
 invisible(dev.off())
 ```
