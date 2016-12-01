@@ -12,20 +12,20 @@ NPip;NPip;#b2b2b2;1;2;dotted
 INDC;ADVANCE-INDC;#ead2d2;1;2;dotted
 INDCi;INDCi;#992222;1;2;dotted
 INDCip;INDCip;#c17a7a;1;2;dotted
-2030_high;ADVANCE-2030_high;#d2d2ea;1;2;dotted
+2030_high;ADVANCE-2030_1600;#d2d2ea;1;2;dotted
 INDC2030i_1600;INDC2030i_1600;#222299;1;2;dotted
 INDC2030ip_1600;INDC2030ip_1600;#6464b7;1;2;dotted
-2020_high;ADVANCE-2020_high;#ead2ea;1;2;dotted
+2020_high;ADVANCE-2020_1600;#ead2ea;1;2;dotted
 NPi2020_1600;NPi2020_1600;#992299;1;2;dotted
-2030_low;ADVANCE-2030_low;#eaead2;1;2;dotted
+2030_low;ADVANCE-2030_1000;#eaead2;1;2;dotted
 INDC2030i_1000;INDC2030i_1000;#999922;1;2;dotted
 INDC2030ip_1000;INDC2030ip_1000;#b7b764;1;2;dotted
-2020_low;ADVANCE-2020_low;#bce0bc;1;2;dotted
+2020_low;ADVANCE-2020_1000;#bce0bc;1;2;dotted
 NPi2020_1000;NPi2020_1000;#229922;1;2;dotted
-2030_verylow;ADVANCE-2030_verylow;#ffece3;1;2;dotted
+2030_verylow;ADVANCE-2030_400;#ffece3;1;2;dotted
 INDC2030i_400;INDC2030i_400;#ffc1a3;1;2;dotted
 INDC2030ip_400;INDC2030ip_400;#ffd9c7;1;2;dotted
-2020_verylow;ADVANCE-2020_verylow;#ffe0d1;1;2;dotted
+2020_verylow;ADVANCE-2020_400;#ffe0d1;1;2;dotted
 NPi2020_400;NPi2020_400;#ff9966;1;2;dotted
 Emissions|CH4;Total;#000000;1;2;dotted
 Emissions|CH4|Energy Supply and Demand;CH4 Energy;#cc0000;1;2;dotted
