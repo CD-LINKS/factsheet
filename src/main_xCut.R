@@ -16,7 +16,7 @@ library(directlabels) # year labels for scatter plots
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20161129-111740"
+cfg$infile <- "cdlinks_compare_20161129-162657"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -28,7 +28,7 @@ source("functions/overwrite.R")
 source("functions/plot_functions.R")
 
 # flag to process data, reprocess even if _proc.rdata file is available
-b.procdata = T
+b.procdata = F
 
 # Create plot directory
 if(!file.exists(cfg$outdir)) {
@@ -41,7 +41,7 @@ if(!file.exists(cfg$outdir)) {
 
 #if processed data is already available, just load it. To redo processing (e.g. after adding new calculated variable, set b.procdata = TRUE)
 if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
-  cat("Loading processed data from file", paste0("data/",cfg$infile,".Rdata"),"\n",
+  cat("Loading processed data from file", paste0("data/",cfg$infile,"_proc.Rdata"),"\n",
       "set b.procdata flag and re-run if you want to do the data processing again", "\n")
   load(paste0("data/",cfg$infile,"_proc.Rdata"))
   Sys.sleep(2)#give everybody the chance to read the above message

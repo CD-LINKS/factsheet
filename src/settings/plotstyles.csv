@@ -39,11 +39,11 @@ Emissions|CH4|Waste;CH4 Waste;#bcbc6d;1;2;dotted
 Emissions|CO2;Total;#000000;1;2;dotted
 Emissions|CO2|Fossil Fuels and Industry;Total;#000000;1;2;dotted
 Emissions|CO2|Fossil Fuels and Industry|Cement;Cement;#666666;1;2;dotted
-Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Industry;Industry;#666666;1;2;dotted
-Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Other Sector;Other Sector;#ffb200;1;2;dotted
-Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Residential and Commercial;Res&Comm;#ff6666;1;2;dotted
-Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Transportation;Transport;#0000cc;1;2;dotted
-Emissions|CO2|Fossil Fuels and Industry|Energy Supply;FF&I Supply;#cc0066;1;2;dotted
+Emissions|CO2|Energy|Demand|Industry;Industry;#666666;1;2;dotted
+Emissions|CO2|Energy|Demand|Other Sector;Other Sector;#ffb200;1;2;dotted
+Emissions|CO2|Energy|Demand|Residential and Commercial;Res&Comm;#ff6666;1;2;dotted
+Emissions|CO2|Energy|Demand|Transportation;Transport;#0000cc;1;2;dotted
+Emissions|CO2|Energy|Supply;FF&I Supply;#cc0066;1;2;dotted
 Emissions|CO2|Land Use;CO2 LUCF;#007f00;1;2;dotted
 Emissions|CO2|Land-Use Change;CO2 LUCF;#007f00;1;2;dotted
 Emissions|F-Gases;F-Gases;#cccc00;1;2;dotted

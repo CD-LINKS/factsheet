@@ -72,6 +72,18 @@ all <- rbind(all,tmp1)
 # tmp2$variable <- "Emissions|CO2|Energy and Industrial Processes"
 # all <- rbind(all[!(model=="IPAC-AIM/technology V1.0" & variable == "Emissions|CO2|Energy and Industrial Processes")],tmp1,tmp2)
 
+#plausibility check: get rid of negative energy values, write model-scenario-region-variable into file
+tmp <- all[unit=="EJ/yr" & value <0 & variable!="Primary Energy|Secondary Energy Trade"]
+tmp <- tmp %>% select(model,scenario,region,variable,unit,period,value) %>% arrange(model,scenario,variable)
+write.csv(tmp,file="Check_negative_energy_values.csv",row.names=F,quote=F)
+all[unit=="EJ/yr" & value <0 & variable!="Primary Energy|Secondary Energy Trade"]$value<- 0
+
+#plausibility check: get rid of excesively high values:
+tmp <- all[unit=="EJ/yr" & value >600 & !(variable %in% c("Primary Energy","Secondary Energy","Final Energy"))]
+tmp <- tmp %>% select(model,scenario,region,variable,unit,period,value) %>% arrange(model,scenario,variable)
+write.csv(tmp,file="Check_toohigh_energy_values.csv",row.names=F,quote=F)
+all[unit=="EJ/yr" & value >600 & !(variable %in% c("Primary Energy","Secondary Energy","Final Energy","Primary Energy|Non-Biomass Renewables",
+                      "Secondary Energy|Electricity","Secondary Energy|Electricity|Non-Biomass Renewables"))]$value<- 0
 
 
 
