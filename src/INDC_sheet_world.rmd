@@ -533,7 +533,7 @@ invisible(dev.off())
 # For area plots, the first entry in vars is interpreted as the total (line_plot on top)
 vars <- c("Final Energy","Final Energy|Electricity","Final Energy|Gases","Final Energy|Heat","Final Energy|Hydrogen","Final Energy|Liquids","Final Energy|Other","Final Energy|Solids")
 cats <- c("NPi","INDCi","NPi2020_1000","NPi2020_1600","INDC2030i_1000","INDC2030i_1600")
-plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_c_area",xlim=c(2000,2050))   
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_c_area_LT",xlim=c(2000,2100))   
 
 invisible(dev.off())
 
