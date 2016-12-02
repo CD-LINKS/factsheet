@@ -16,6 +16,7 @@ library(directlabels) # year labels for scatter plots
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
+cfg$infile <- "cdlinks_compare_20161129-162657"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -47,7 +48,7 @@ ref_budgets <- data.frame(region =c(rep("IND",4),rep("BRA",4), rep("JPN",4),rep(
 
 #if processed data is already available, just load it. To redo processing (e.g. after adding new calculated variable, set b.procdata = TRUE)
 if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
-  cat("Loading processed data from file", paste0("data/",cfg$infile,".Rdata"),"\n",
+  cat("Loading processed data from file", paste0("data/",cfg$infile,"_proc.Rdata"),"\n",
       "set b.procdata flag and re-run if you want to do the data processing again", "\n")
   load(paste0("data/",cfg$infile,"_proc.Rdata"))
   Sys.sleep(2)#give everybody the chance to read the above message
@@ -85,6 +86,16 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   #re-factorize all character and numeric columns
   all <- factor.data.frame(all)
   
+  # #   print out summary of models-scenarios and variables
+  #   source("functions/SubmOverview.R")
+  #   
+  #   #produce pdf with analysis of data as-submitted
+  #   for (reg in c("JPN","BRA","CHN","IND","EU","RUS")){
+  #       cat("Producing graphs in graphs folder and INDC_national_subm_xxx.pdf in main folder\n")
+  #   render("national_scenarios.rmd",output_file=paste0("INDC_national_subm_",reg,".pdf"))
+  #   }
+  
+  
   # model specific adjustments
   source("adjust_reporting_indc.R")
 
@@ -102,14 +113,28 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   all[all$Scope=="national",]$model <- paste0("*",all[all$Scope=="national",]$model)
   nat_models <- paste0("*",cfg$models_nat)
   
+  #get rid of Historical duplicates
+  all <- all[Category!="Historical"]
+  
   save("all",file = paste0("data/",cfg$infile,"_proc.Rdata"))
 
 }# end if-else: load and process stocktaking data
 
 #############################################################
-################## Do plots for cross-cut analysis ##########
+######### create fact sheet for national scenarios ##########
 #############################################################
 
+source("functions/plot_functions.R")
+
+for (reg in c("JPN","BRA","CHN","IND","EU","RUS")){
+  cat("Producing graphs in graphs folder and INDC_national_adj_xxx.pdf in main folder\n")
+  render("national_scenarios.rmd",output_file=paste0("INDC_national_adj_",reg,".pdf"))
+}
+
+#############################################################
+################## Do plots for cross-cut analysis ##########
+#############################################################
+source("functions/plot_functions_wp2.R")
 source("cross_cut_wp2.R")
 
 #############################################################
@@ -122,5 +147,8 @@ if(!file.exists(cfg$outdir)) {
   dir.create(cfg$outdir, recursive = TRUE)
 }
 
-#source("functions/plot_functions_wp2.R")
 render("INDC_sheet_world.rmd",output_file=paste0("INDC_sheet_world.pdf"))
+
+# for (reg in c("JPN","BRA","CHN","IND","EUR","RUS")){
+# #source configuration file for region-specific data
+# source(paste0("settings/config_",reg,".R"))
