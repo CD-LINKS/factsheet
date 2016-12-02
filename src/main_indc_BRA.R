@@ -106,6 +106,10 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
     all[all$model %in% cfg$model_nat,]$model <- paste0("*",all[all$model %in% cfg$model_nat,]$model)
     cfg$model_nat <- paste0("*",cfg$model_nat)
   }
+  
+  #get rid of Historical duplicates
+  all <- all[Category!="Historical"]
+  
   #save country specific file with processed data
   save("all",file = paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata"))
 }# end if-else: process data
@@ -119,5 +123,3 @@ theme_set(theme_bw())
 
 cat("Producing graphs in graphs folder and pdf in main folder\n")
 render("INDC_sheet_BRA.rmd",output_file=paste0("INDC_sheet_",cfg$r,".pdf"))
-
-# render("INDC_sheet_world.rmd",output_file=paste0("INDC_sheet_world.pdf"))
