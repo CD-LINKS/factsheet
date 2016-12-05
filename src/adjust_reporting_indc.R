@@ -3,6 +3,7 @@
 #RU-TIMES: use PPP values for MER comparisons
 tmp <- all[model=="RU-TIMES 3.2"&variable=="GDP|PPP"&region=="RUS"]
 tmp$variable <- "GDP|MER"
+all <- rbind(all,tmp)
 
 #RU-TIMES: problem with Energy and Industrial Processes (probably only industrial processes??)
 all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Processes"&region=="RUS"]$value <-
@@ -13,7 +14,16 @@ all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Process
 all[model =="IPAC-AIM/technology V1.0"]$Baseline <- ""
 all[model =="China TIMES"]$Baseline <- ""
 
+
+#COPPE-MSB: no Emissions|CO2|Energy for INDC
+tmp <-all[model=="COPPE-MSB_v1.3.2" &variable=="Emissions|CO2"&region=="BRA" & scenario =="INDC",  ]
+tmp$variable <- "Emissions|CO2|Energy"
+
 all <- rbind(all,tmp)
+
+all <- all[ !(model %in% c("*COPPE-MSB_v1.3.2", "COPPE-MSB_v1.3.2") & variable =="Emissions|CO2|Energy and Industrial Processes"), ]
+
+
 # Multiplying Brazil GDP for COPPE by 1000 because reported differently (factor 1000 different from global models)
 all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value=all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value*1000
 
@@ -29,10 +39,12 @@ tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy"]$mode
 tmp1$variable <- "Emissions|CO2|Energy and Industrial Processes"
 all <- rbind(all,tmp1)
 
-#Adding "Emissions|CO2|Energy and Industrial Processes" to models that don't report them, but have "Emissions|CO2"
-tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2"]$model),unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$model)) &
-                variable == "Emissions|CO2"]
-tmp1$variable <- "Emissions|CO2|Energy and Industrial Processes"
+
+
+#Adding "Emissions|CO2|Energy" to models that don't report them, but have "Emissions|CO2|Energy and Industrial Processes"
+tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$model),unique(all[variable=="Emissions|CO2|Energy"]$model)) &
+              variable == "Emissions|CO2|Energy and Industrial Processes"]
+tmp1$variable <- "Emissions|CO2|Energy"
 all <- rbind(all,tmp1)
 
 #Adding "Emissions|CO2" to models that don't report them, but have "Emissions|CO2|Energy and Industrial Processes"
@@ -49,7 +61,7 @@ alternatives <- data.frame(plot_var=c("Primary Energy|Biomass",
                                       "Secondary Energy|Electricity|Biomass",
                                       "Secondary Energy|Electricity|Coal",
                                       "Secondary Energy|Electricity|Gas",
-                                      "Secondary Energy|Electricity|Oil"), 
+                                      "Secondary Energy|Electricity|Oil"),
                            alt_var=c("Primary Energy|Biomass|w/o CCS",
                                      "Primary Energy|Coal|w/o CCS",
                                      "Primary Energy|Gas|w/o CCS",

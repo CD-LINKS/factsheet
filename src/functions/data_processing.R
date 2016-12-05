@@ -34,6 +34,9 @@ add_variables <- function(all,scens){
     #source functions for creation of additional variables
     source("functions/calcVariable.R")
     source("functions/calcRel2Base.R")
+
+    # changed, since most models only report Emissions|CO2
+    # all <- calcVariable(all,'`Emissions|CO2|FFI` ~ `Emissions|CO2|Energy and Industrial Processes` ' , newUnit='Mt CO2/yr')
     all <- calcVariable(all,'`Emissions|CO2|FFI` ~ `Emissions|CO2|Energy and Industrial Processes` ' , newUnit='Mt CO2/yr')
     all <- calcVariable(all,'`Emissions Intensity of GDP|MER` ~ `Emissions|CO2|FFI`/`GDP|MER` ' , newUnit='kg CO2/$US 2005')
     all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2|FFI`/`GDP|PPP` ' , newUnit='kg CO2/$US 2005')
@@ -99,7 +102,7 @@ add_variables <- function(all,scens){
     # add variables indexed relative to baseyear
     source("functions/calcRel2BaseYear.R")
 
-    vars <- c("Emissions|CO2", "Emissions|CO2|FFI")
+    vars <- c("Emissions|CO2", "Emissions|CO2|FFI", "Emissions|CO2|FFI|gross" )
     all <- rbind(all, calcRel2BaseYear(df=all,vars=vars))
 
     all <- calcVariable(all,'`Reduction rel to 2010` ~ 100.0 - `Emissions|CO2|FFI|rel2010` * 100 ' , newUnit='%')

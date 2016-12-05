@@ -4,46 +4,47 @@ Reference;Reference;#992222;1;2;dotted
 Global 450 / S2-3;Global 450 / S2-3;#229922;1;2;dotted
 Global 500;Global 500;#222299;1;2;dotted
 Optimal 450;Optimal 450;#00ff00;1;2;dotted
-NoPOL;NoPOL;#333333;1;0.7;dotted
+NoPOL;NoPOL;#5b5b5b;1;2;dotted
 NoPolicy;NoPolicy;#333333;1;2;dotted
 REF;REF;#e5e5e5;1;2;dotted
-NPi;NPi;#aaaa80;1;1;dotted
-NPi2020_low;2020_low;#66ff66;1;2;solid
-NPi2020_high;2020_high;#55aa22;1;1;dotted
-INDC2030_low;2030_low;#6666ff;1;2;solid
-INDC2030_high;2030_high;#6644aa;1;1;dotted
+NPi;NPi;#cc0000;9;2;dotted
 NPip;NPip;#b2b2b2;1;2;dotted
-INDC;INDC;#992222;1;1;dotted
-INDCi;INDCi;#992222;1;2;dotted
+INDC;INDC;#ff7f00;5;2;dotted
+INDCi;INDCi;#ff7f00;1;2;dotted
 INDCip;INDCip;#c17a7a;1;2;dotted
-INDC2030i_1600;INDC2030i_1600;#222299;1;2;dotted
-INDC2030ip_1600;INDC2030ip_1600;#6464b7;1;2;dotted
-2020_low;2020_low;#229922;1;2;dotted
-2020_high;2020_high;#992299;1;2;dotted
-2030_low;2030_low;#999922;1;2;dotted
-2030_high;2030_high;#222299;1;2;dotted
-2020_verylow;2020_verylow;#ff9966;1;2;dotted
+INDC2030i_1600;INDC2030i_1600;#882288;1;2;dotted
+INDC2030ip_1600;INDC2030ip_1600;#882288;1;2;dotted
+2020_low;2020_low;#56B4E9;15;1;dotted
+2020_high;2020_high;#882288;17;2;dotted
+2030_low;2030_low;#56B4E9;19;1;dotted
+2030_high;2030_high;#882288;5;2;dotted
+2020_verylow;2020_verylow;#000080;1;2;dotted
+NPi2020_low;2020_low;#56B4E9;5;1;dotted
+NPi2020_high;2020_high;#992299;2;2;dotted
+INDC2030_low;2030_low;#2860E9;9;1;dotted
+INDC2030_high;2030_low;#992299;9;1;dotted
 NPi2020_1600;NPi2020_1600;#992299;1;2;dotted
-INDC2030i_1000;INDC2030i_1000;#999922;1;2;dotted
-INDC2030ip_1000;INDC2030ip_1000;#b7b764;1;2;dotted
-NPi2020_1000;NPi2020_1000;#229922;1;2;dotted
-2030_verylow;2030_verylow;#ffece3;1;2;dotted
-INDC2030i_400;INDC2030i_400;#ffc1a3;1;2;dotted
-INDC2030ip_400;INDC2030ip_400;#ffd9c7;1;2;dotted
-NPi2020_400;NPi2020_400;#ff9966;1;2;dotted
+INDC2030i_1000;INDC2030i_1000;#56B4E9;1;2;dotted
+INDC2030ip_1000;INDC2030ip_1000;#56B4E9;1;2;dotted
+NPi2020_1000;NPi2020_1000;#56B4E9;1;2;dotted
+2030_verylow;2030_verylow;#000080;1;2;dotted
+INDC2030i_400;INDC2030i_400;#000080;1;2;dotted
+INDC2030ip_400;INDC2030ip_400;#000080;1;2;dotted
+NPi2020_400;NPi2020_400;#000080;1;2;dotted
 Emissions|CH4;Total;#000000;1;2;dotted
 Emissions|CH4|Energy Supply and Demand;CH4 Energy;#cc0000;1;2;dotted
 Emissions|CH4|Land Use;CH4 Land Use;#ff9900;1;2;dotted
 Emissions|CH4|Other;CH4 other;#cc00cc;1;2;dotted
 Emissions|CH4|Waste;CH4 Waste;#bcbc6d;1;2;dotted
 Emissions|CO2;Total;#000000;1;2;dotted
+Emissions|CO2|Energy|Supply;Energy Supply;#993a44;1;2;dotted
+Emissions|CO2|Energy|Demand|Industry;Industry;#bb7700;1;2;dotted
+Emissions|CO2|Energy|Demand|Transportation;Transport;#222288;1;2;dotted
+Emissions|CO2|Energy|Demand|Residential and Commercial;Buildings;#7777ff;1;2;dotted 
+Emissions|CO2|AFOLU;AFOLU;#22ff22;1;2;dotted
 Emissions|CO2|Fossil Fuels and Industry;Total;#000000;1;2;dotted
 Emissions|CO2|Fossil Fuels and Industry|Cement;Cement;#666666;1;2;dotted
-Emissions|CO2|Energy|Demand|Industry;Industry;#666666;1;2;dotted
 Emissions|CO2|Energy|Demand|Other Sector;Other Sector;#ffb200;1;2;dotted
-Emissions|CO2|Energy|Demand|Residential and Commercial;Res&Comm;#ff6666;1;2;dotted
-Emissions|CO2|Energy|Demand|Transportation;Transport;#0000cc;1;2;dotted
-Emissions|CO2|Energy|Supply;FF&I Supply;#cc0066;1;2;dotted
 Emissions|CO2|Land Use;CO2 LUCF;#007f00;1;2;dotted
 Emissions|CO2|Land-Use Change;CO2 LUCF;#007f00;1;2;dotted
 Emissions|F-Gases;F-Gases;#cccc00;1;2;dotted
@@ -130,7 +131,7 @@ Primary Energy|Other;Other;#7f7f7f;1;2;dotted
 Primary Energy|Solar;Solar;#ffcc00;1;2;dotted
 Primary Energy|Solar|Electricity;Solar;#ffcc00;1;2;dotted
 Primary Energy|Wind;Wind;#337fff;1;2;dotted
-Primary Energy|Secondary Energy Trade;Secondary Energy Trade;#e5e5e5;1;2;dotted
+Primary Energy|Secondary Energy Trade;SE Trade;#e5e5e5;1;2;dotted
 Rate of Change| Energy Intensity of GDP|MER;Energy Intensity of GDP (MER);#229922;1;2;dotted
 Rate of Change| Carbon Intensity of FE;Carbon Intensity of FE;#229922;1;2;dotted
 Rate of Change| Emissions|CO2|FFI;Emissions|CO2|FFI;#229922;1;2;dotted
@@ -237,22 +238,24 @@ OM Cost|Fixed|Liquids|Gas|w/ CCS;Liquids - gas with CCS;#e5e5b2;1;2;dotted
 Carbon Sequestration|CCS;CCS;#cc0000;1;2;dotted
 Carbon Sequestration|CCS|Fossil;CCS - fossil;#b2b2b2;1;2;dotted
 Carbon Sequestration|CCS|Biomass;CCS - biomass;#33ff00;1;2;dotted
-AIM/CGE;AC;#ff8000;0;2;dotted
-COPPE-COFFEE 1.0;CO;#ffff00;1;2;dotted
-GEM-E3_V1;GE;#00ff00;2;2;dotted
-IMAGE 3.0;IM;#00ffff;3;2;dotted
-MESSAGE-GLOBIOM_1.0;MG;#0080ff;4;2;dotted
-REMIND-MAgPIE 1.7-3.0;RM;#0000ff;5;2;dotted
-WITCH2016;WI;#7f00ff;6;2;dotted
-*China TIMES;*CT;#ff00ff;15;2;dotted
-*IPAC-AIM/technology V1.0;*IA;#ff0000;16;2;dotted
-*PRIMES_V1;*PR;#ff00ff;15;2;dotted
-*COPPE-MSB_v1.3.2;*CO;#ff00ff;15;2;dotted
-*AIM/Enduse[Japan];*AJ;#ff00ff;15;2;dotted
-*DNE21+ V.14 ;*DN;#ff0000;16;2;dotted
-*RU-TIMES 3.2;*RU;#ff00ff;15;2;dotted
-*GCAM;*GC;#ff00ff;15;2;dotted
-*AIM/Enduse 3.0;*AI;#ff00ff;15;2;dotted
-*India MARKAL;*IM;#ff0000;16;2;dotted
+AIM/CGE;AIM-C;#7570B3;0;2;dotted
+`AIM/Enduse 3.0`;AIM/E.-IIM;"#D95F02";15;2;dotted
+COPPE-COFFEE 1.0;COFFEE;#E7298A;1;2;dotted
+GEM-E3_V1;GEM-E3;#00ff00;2;2;dotted
+IMAGE 3.0;IMAGE;#00ffff;3;2;dotted
+IMAGE 2.4;IMAGE;#00ffff;3;2;dotted
+MESSAGE-GLOBIOM_1.0;MESS-G;#0080ff;4;2;dotted
+REMIND-MAgPIE 1.7-3.0;REM-M;#0000ff;5;2;dotted
+WITCH2016;WITCH;#7f00ff;6;2;dotted
+*China TIMES;CHN TIMES;#66A61E;15;2;dotted
+*IPAC-AIM/technology V1.0;IPAC;#E6AB02;16;2;dotted
+*PRIMES_V1;PRIMES;#A6761D;15;2;dotted
+*COPPE-MSB_v1.3.2;MSB;#666666;15;2;dotted
+*AIM/Enduse[Japan];AIM/E.-NIES;#0000aa;15;2;dotted
+*DNE21+ V.14 ;DNE21+;#1B9E77;16;2;dotted
+*RU-TIMES 3.2;RU-TIMES;#ff00ff;15;2;dotted
+*GCAM;*GCAM;#ff00ff;15;2;dotted
+*AIM/Enduse 3.0;AIM/E.-IIM;"#D95F02";15;2;dotted
+*India MARKAL;Ind-MARKAL;#ff0000;16;2;dotted
 *REMIND 1.6;*REMIND 1.6;#ff0000;17;2;dotted
-DNE21+ V.14;DN;#ff0000;16;2;dotted
+DNE21+ V.14;DNE21+;"#1B9E77";16;2;dotted
