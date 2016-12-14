@@ -79,7 +79,9 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   #get rid of duplicated scenarios
   scens <- scens[!duplicated(scens$scenario)]
 
-
+  # fix wrong scenario name for COPPE (extra space at the end) already here
+  all[SCENARIO == "INDC2030_low ",]$SCENARIO = "INDC2030_low"
+  
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
   

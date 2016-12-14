@@ -48,7 +48,7 @@ plot_boxplot <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, titl
     ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
   }  else   {
     p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"] - ",cats[1]," - ", as.character(year)))
-    p = p + theme(axis.text.x  = element_text(angle=0, vjust=0.5, hjust = 0.5, size = 11),
+    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
     ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p,
            width=6.5, height=6, dpi=120)
@@ -56,13 +56,73 @@ plot_boxplot <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, titl
   return(p)
 }
 
+
+#plot function for boxplots
+plot_boxplot_multiScenNat <- function(regs, dt, vars, catsnat, catglob, year = 2050, out=cfg$outdir, title="Title", file_pre="boxplot",connect=T,
+                                      b.multivar =  F, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F){
+  
+  
+  dt <- dt[ variable %in% vars & period == year & Category %in% union(catsnat, catglob) & region %in% regs & !is.na(value)] %>% factor.data.frame()
+  
+  dt$region <- factor(dt$region, levels = regs, ordered = T )
+  dt$Category <- factor(dt$Category, levels = union(catsnat, catglob), ordered = T )
+  dt$variable <- factor(dt$variable, levels = vars, ordered = T )
+  
+  
+  dtg <- dt[Scope=="global" & variable %in% vars & period == year & Category %in% catglob & region %in% regs]  %>%
+    rename(Global = model ) %>% factor.data.frame()
+  dtn <- dt[Scope=="national" & variable %in% vars & period == year & Category %in% catsnat & region %in% regs] %>%
+    rename(National = model ) %>% factor.data.frame()
+  
+  
+  if (b.multivar){
+    levels(dtg$variable) <- var.labels
+    levels(dtn$variable) <- var.labels
+  }
+  
+  p = ggplot()
+  p = p + geom_boxplot(data=dtg,aes(x=region,y=value), coef = 1e4, color = "grey65", size = 1.)
+  if(b.multivar){
+    p = p + facet_wrap(~ variable, scales="free_y")
+  }
+  if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))}
+  p = p + geom_point(data=dtn,aes(x=region,y=value,colour=National, shape=Category), size = 3,  stroke = 1 )
+  #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
+  p = p + ylab("") + xlab("")
+  
+  p = p + scale_color_manual( values=plotstyle(levels(dtn$National)),
+                              labels =  plotstyle(levels(dtn$National), out = "legend") )
+  p = p + scale_shape_manual(values=plotstyle(catsnat, out="shape"))
+  
+  if (!is.null(ylim))
+    p = p + coord_cartesian(ylim = ylim)
+  
+  if(b.multivar)  {
+    
+    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
+                  plot.title = element_text( size = 18) )
+    ggsave(file=paste0(out,"/boxplotMultiReg_MultiNatiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+  }  else   {
+    p = p + ggtitle(paste0( var.labels[1], " -- ", as.character(year)))
+    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
+                  plot.title = element_text(hjust = 1, size = 13) )
+    ggsave(file=paste0(out,"/boxplotMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
+           width=6.5, height=6, dpi=120)
+  }
+  return(p)
+}
+
+
+
 #############################################################
 ####################### plot_stackbar ########################
 #############################################################
 
 plot_stackbar <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA){
   #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
-  dta <- dt[region %in% regs & Category%in% cats & variable%in% vars[2:length(vars)] & period %in% per]
+  # dta <- dt[region %in% regs & Category%in% cats & variable%in% vars[2:length(vars)] & period %in% per]
+  dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars[2:length(vars)], period %in% per)
+  dta <- factor.data.frame(dta)
   for (cat in cats){
     for (mod in unique(dta[dta$Category==cat,]$model)){
       if(length(unique(dta[dta$Category==cat & dta$model == mod,]$scenario))==1){
@@ -72,18 +132,21 @@ plot_stackbar <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title"
     }
   }
   #build data frame for overlaid point plots showing totals for all scenarios in each category-model group
-  dtl <- dt[region==regs & Category%in% cats & variable%in% vars[1] &  period %in% per]
+  dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% vars[1], period %in% per)
+  # dt[region==regs & Category%in% cats & variable%in% vars[1] &  period %in% per]
+  dtl <- factor.data.frame(dtl)
+  p = ggplot() + ggplot2::theme_bw()
   
-  p = ggplot()
   p = p + geom_bar(data=dta,aes(model, value, group = interaction(variable, region, Category), fill = variable), stat="identity", position="stack")
   p = p + geom_point(data=dtl,aes(model, value, group = interaction(variable, region, Category)),shape=5,size=2)
   p = p + geom_point(data=dtl,aes(model, value, group = interaction(variable, region, Category)),shape=5, colour = "#ffffff",size=1)
   p = p + facet_grid(Category ~ region)
-  p = p + scale_y_discrete(breaks=plotstyle(unique(dta$model),out="legend"))
+  #  p = p + scale_x_discrete(breaks=plotstyle(unique(dta$model),out="legend"))
+  
+  p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1))
   p = p + ylab(lab) + xlab("Models")
-  if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits 
+  if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
   p = p + scale_fill_manual(values=plotstyle(vars), labels=plotstyle(vars,out="legend"), name=strsplit(vars[1], "|", fixed=T)[[1]][1])
-  p = p + ggplot2::theme_bw()
   ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
