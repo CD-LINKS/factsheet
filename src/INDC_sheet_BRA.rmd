@@ -37,9 +37,9 @@ invisible(dev.off())
 vars=c("Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve")
 cats=c("2030_high")
 
-if(dim(all[Scope=="national" & variable %in% vars & cats %in% cats])[1]>0){
+#if(dim(all[Scope=="national" & variable %in% vars & cats %in% cats])[1]>0){
 plot_line(reg=cfg$r,dt=all,vars=vars,cats=cats,title="Policy Costs in INDC2030i_1600 scenarios",file_pre="cons_gdp_loss_line")   
-}
+#}
 
 invisible(dev.off())
 
