@@ -75,11 +75,11 @@ ggplot() +
     xlab ("") +
     scale_shape_manual(values = 1:nlevels(v_plot$model)) +
     scale_fill_manual(values= plotstyle(scens2deg),
-                      labels=c("INDC", "med2캜","below2캜", "1.5캜"),
+                      labels=c("INDC", "med2째C","below2째C", "1.5째C"),
                       name="") +
     theme( strip.background = element_blank(), plot.background = element_rect(fill     = "transparent",colour = NA ),
            panel.background = element_rect(fill     = "transparent",colour = NA )) +
-    scale_x_discrete(labels=c("INDC", "med2캜","below2캜", "1.5캜")) +
+    scale_x_discrete(labels=c("INDC", "med2째C","below2째C", "1.5째C")) +
 #    theme(axis.text.y  = element_blank()) +
   facet_grid(  . ~ region) +
   coord_cartesian(ylim = c(0,80)) +
@@ -139,11 +139,11 @@ ggplot() +
   xlab ("") +
   scale_shape_manual(values = 1:nlevels(v_plot$model)) +
   scale_fill_manual(values= plotstyle(scens2deg),
-                    labels=c("INDC", "med2캜","below2캜", "1.5캜"),
+                    labels=c("INDC", "med2째C","below2째C", "1.5째C"),
                     name="") +
   theme( strip.background = element_blank(), plot.background = element_rect(fill     = "transparent",colour = NA ),
          panel.background = element_rect(fill     = "transparent",colour = NA )) +
-  scale_x_discrete(labels=c("INDC", "med2캜","below2캜", "1.5캜")) +
+  scale_x_discrete(labels=c("INDC", "med2째C","below2째C", "1.5째C")) +
   #    theme(axis.text.y  = element_blank()) +
   facet_grid(  . ~ region) +
   theme( strip.background = element_blank(), plot.background = element_rect(fill = "transparent",colour = NA ),
