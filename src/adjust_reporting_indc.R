@@ -16,7 +16,7 @@ all[model =="China TIMES"]$Baseline <- ""
 
 
 #COPPE-MSB: no Emissions|CO2|Energy for INDC
-tmp <-all[model=="COPPE-MSB_v1.3.2" &variable=="Emissions|CO2"&region=="BRA" & scenario =="INDC",  ]
+tmp <-all[model=="COPPE-MSB_v1.3.2" &variable=="Emissions|CO2"&region=="BRA" & scenario =="INDCi",  ]
 tmp$variable <- "Emissions|CO2|Energy"
 
 all <- rbind(all,tmp)
