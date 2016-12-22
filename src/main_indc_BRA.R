@@ -17,7 +17,7 @@ library(directlabels) # year labels for scatter plots
 #source configuration file for region-specific data
 source("settings/config_BRA.R")
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20161129-162657_2"
+cfg$infile    <- "cdlinks_compare_20161129-162657"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -68,6 +68,10 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   scens <- fread("settings/scen_categ_cdlinks_indc_BRA.csv", header=TRUE)
   #get rid of duplicated scenarios
   scens <- scens[!duplicated(scens$scenario)]
+  
+  # fix wrong scenario name for COPPE (extra space at the end) already here
+  all[SCENARIO == "INDC2030_low ",]$SCENARIO = "INDC2030_low"
+  all[SCENARIO == "INDC"&MODEL=="COPPE-MSB_v1.3.2",]$SCENARIO = "INDCi"
 
   #reduce size of the data frame
   vars <- fread("settings/variables.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
