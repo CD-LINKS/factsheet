@@ -35,7 +35,7 @@ source("functions/overwrite.R")
 source("functions/plot_functions.R")
 
 # flag to process data, reprocess even if .._reg_proc.RData file is available (i.e. overwrite existing RData)
-b.procdata = F
+b.procdata = T
 
 # Create plot directory
 if(!file.exists(cfg$outdir)) {
