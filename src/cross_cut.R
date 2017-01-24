@@ -33,6 +33,28 @@ regs = c("BRA", "CHN", "IND", "RUS", "EU", "JPN", "USA")
 
 vars = "Emissions|CO2|Energy"
 
+#exemplary line plot: 
+tmp_p <- all[model == "MESSAGE-GLOBIOM_1.0" & scenario %in% c("NoPolicy","NPi","NPi2020_1600","NPi2020_1000","INDCi","INDC2030i_1600","INDC2030i_1000") &
+               region == "World" & variable==vars & period < 2051,]
+tmp_p[period==2030 & scenario == "NPi"]$value <- 0.95*tmp_p[period==2030 & scenario == "NPi"]$value
+tmp_p[period>2030 & scenario =="INDCi"]$value <- 1.05 * tmp_p[period>2030 & scenario =="INDCi"]$value 
+tmp_p[period==2045 & scenario %in% c("INDC2030i_1600","INDC2030i_1000"),]$value <- 0.8*tmp_p[period==2045 & scenario %in% c("INDC2030i_1600","INDC2030i_1000"),]$value 
+tmp_p[period==2050 & scenario %in% c("INDC2030i_1600","INDC2030i_1000"),]$value <- 0.6*tmp_p[period==2050 & scenario %in% c("INDC2030i_1600","INDC2030i_1000"),]$value 
+tmp_p$scenario <- factor(tmp_p$scenario, levels=c("NoPolicy","NPi","NPi2020_1600","NPi2020_1000","INDCi","INDC2030i_1600","INDC2030i_1000"))
+tmp_p$value <- tmp_p$value /tmp_p[period==2005]$value[1]
+ggplot(tmp_p) +
+  geom_path(aes(x=period,y=value,group=(scenario),color=scenario,linetype=scenario),size=1) +
+  scale_linetype_manual(values=c(1,1,1,1,2,2,2),name="scenario",
+                        breaks= c("NoPolicy","NPi","NPi2020_1600","NPi2020_1000","INDCi","INDC2030i_1600","INDC2030i_1000"),
+                        labels= c("NoPOL","NPi","NPi2020_high","NPi2020_low","INDCi","INDC2030i_high","INDC2030i_low"))+
+  scale_color_manual(values=(c("#000000","#aa3333","#3333aa","#33aa33","#ff6666","#6666ff","#44dd44")),name="scenario",
+                     breaks= c("NoPolicy","NPi","NPi2020_1600","NPi2020_1000","INDCi","INDC2030i_1600","INDC2030i_1000"),
+                     labels= c("NoPOL","NPi","NPi2020_high","NPi2020_low","INDCi","INDC2030i_high","INDC2030i_low"))+
+  ggtitle(label="Illustrative emission trajectories for national scenarios")+
+  ylab("Emissions (rel. to 2005)")+xlab("year")+
+  theme_bw()
+ggsave(filename=paste0(cfg$outdir,"/Illustrative_natscen_trajectories.png"),width = 6,height = 4)
+
 for (reg in regs)
 {
 

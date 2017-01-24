@@ -47,11 +47,19 @@ if(!file.exists(cfg$outdir)) {
 #############################################################
 
 #input reference budgets for national scenarios:
-ref_budgets <- data.frame(region =c(rep("IND",4),rep("BRA",4), rep("JPN",4),rep("RUS",4) ,rep("CHN",4), rep("EUR",4),rep("USA",4)),scenario=rep(c("high","high","low","low"),7),border=rep(c("min","max"),14),
-                          value=c(125*1.05,125*.95,90*1.05,90*.95, 27.4*1.05,27.4*.95,22*1.05,22*.95,
-                                  36.5*1.05,36.5*.95,31.47*1.05,31.47*.95, 50.5*1.05,50.5*.95,45*1.05,45*.95,
-                                  400*1.05,400*.95,290*1.05,290*.95, 112*1.05,112*.95,95*1.05,95*.95,
-                                  100*1.05,100*.95,100*1.05,100*.95))
+bud <- read.csv2("data/ref_budgets.csv",)
+bud$high <- as.numeric(as.character(bud$high))
+bud$low <- as.numeric(as.character(bud$low))
+ref_budgets <- data.frame(region =c(rep("IND",2),rep("BRA",2), rep("JPN",2),rep("RUS",2) ,rep("CHN",2), rep("EU",2),rep("USA",2),rep("World",2)),scen=rep(c("high","low"),8),
+                          value=c(bud[bud$country=="IND",]$high,bud[bud$country=="IND",]$low,
+                                  bud[bud$country=="BRA",]$high,bud[bud$country=="BRA",]$low,
+                                  bud[bud$country=="JPN",]$high,bud[bud$country=="JPN",]$low,
+                                  bud[bud$country=="RUS",]$high,bud[bud$country=="RUS",]$low,
+                                  bud[bud$country=="CHN",]$high,bud[bud$country=="CHN",]$low,
+                                  bud[bud$country=="EUR",]$high,bud[bud$country=="EUR",]$low,
+                                  bud[bud$country=="USA",]$high,bud[bud$country=="USA",]$low,
+                                  bud[bud$country=="World",]$high,bud[bud$country=="World",]$low))
+
 
 #if processed data is already available, just load it. To redo processing (e.g. after adding new calculated variable, please set b.procdata = TRUE)
 if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdata) {

@@ -271,7 +271,8 @@ plot_bar <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", title="Ti
   #p = p + coord_flip()
   p = p + xlab("")
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
-  if (ref_line){p = p + geom_hline(data=ref_budgets[ref_budgets$region==reg,],aes(yintercept=value),colour=c("#aa0000","#aa0000","#0000aa","#0000aa"))}
+  if (ref_line){p = p + geom_hline(data=ref_budgets[ref_budgets$region==reg,],aes(yintercept=value*1.05),colour=c("#aa0000","#0000aa"))}
+  if (ref_line){p = p + geom_hline(data=ref_budgets[ref_budgets$region==reg,],aes(yintercept=value*0.95),colour=c("#aa0000","#0000aa"))}
 #   p = p + facet_grid(variable~period, scales="free_y")
   p = p + scale_fill_manual(values=plotstyle(as.character(unique(dt$model))))
   p = p + ylab(paste(lab))

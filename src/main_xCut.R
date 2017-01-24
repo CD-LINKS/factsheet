@@ -39,6 +39,21 @@ if(!file.exists(cfg$outdir)) {
 ####################### Load stock-taking data ##############
 #############################################################
 
+#input reference budgets for national scenarios:
+bud <- read.csv2("data/ref_budgets.csv",)
+bud$high <- as.numeric(as.character(bud$high))
+bud$low <- as.numeric(as.character(bud$low))
+ref_budgets <- data.frame(region =c(rep("IND",2),rep("BRA",2), rep("JPN",2),rep("RUS",2) ,rep("CHN",2), rep("EU",2),rep("USA",2),rep("World",2)),scen=rep(c("high","low"),8),
+                          value=c(bud[bud$country=="IND",]$high,bud[bud$country=="IND",]$low,
+                                  bud[bud$country=="BRA",]$high,bud[bud$country=="BRA",]$low,
+                                  bud[bud$country=="JPN",]$high,bud[bud$country=="JPN",]$low,
+                                  bud[bud$country=="RUS",]$high,bud[bud$country=="RUS",]$low,
+                                  bud[bud$country=="CHN",]$high,bud[bud$country=="CHN",]$low,
+                                  bud[bud$country=="EUR",]$high,bud[bud$country=="EUR",]$low,
+                                  bud[bud$country=="USA",]$high,bud[bud$country=="USA",]$low,
+                                  bud[bud$country=="World",]$high,bud[bud$country=="World",]$low))
+
+
 #if processed data is already available, just load it. To redo processing (e.g. after adding new calculated variable, set b.procdata = TRUE)
 if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   cat("Loading processed data from file", paste0("data/",cfg$infile,"_proc.Rdata"),"\n",
@@ -206,4 +221,9 @@ for (reg in c("JPN","BRA","CHN","IND","EU","RUS")){
 ################## Do plots for cross-cut analysis ##########
 #############################################################
 
+### main cross cut analysis
  source("cross_cut.R")
+
+### regional budget analysis and base year emission consistency check
+ source("RegionalBudgetChecks.R")
+
