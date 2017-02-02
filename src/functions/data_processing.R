@@ -88,6 +88,7 @@ add_variables <- function(all,scens){
     source("functions/calcBudget.R")
     all <- calcBudget(all,'Emissions|CO2','Carbon budget')
     all <- calcBudget(all,'Emissions|CO2|Energy and Industrial Processes','Carbon budget|Energy and Industry')
+    all <- calcBudget(all,'Emissions|CO2|Energy','Carbon budget|Energy')
     source("functions/calcPeak.R")
     all <- calcPeak(all,'Emissions|CO2','Peak year|CO2')
     all <- calcPeak(all,'Emissions|Kyoto Gases','Peak year|Kyoto Gases')

@@ -58,8 +58,11 @@ v_emireg$period <- as.numeric(v_emireg$period)
 v_emireg <- v_emireg[!is.na(v_emireg$period),]
 v_emireg <- v_emireg[!(Scope=="global" & scenario == "INDC"),]
 
+v_plot <- v_emireg
+v_plot[model=="*PRIMES_V1"& scenario=="INDC2030_low",]$scenario <- "INDC"
+
 #####first comparisons: overlay historical and model data
-vars <- data.frame(long=c("Emissions|CO2|Energy and Industrial Processes","Emissions|CO2"),short=c("co2ffi","co2tot"))
+vars <- data.frame(long=c("Emissions|CO2|Energy and Industrial Processes","Emissions|CO2","Emissions|CO2|Energy"),short=c("co2ffi","co2tot","co2ene"))
 
 for (reg in map_pri$dat){
     for (var in c(1,2)){
@@ -77,7 +80,7 @@ for (reg in map_pri$dat){
       if(length(unique(primap[primap$region ==reg,]$category))==10){ 
         p = p + scale_fill_manual(values=c("darkgreen","#884444","blue","grey","orange","red","purple","#663333","#000000","#777777"))}                                                                
     }
-    p = p + geom_path(data=v_emireg[scenario %in% c("INDCi","INDC") & region == reg & variable == as.character(vars$long[var]) & period < 2031,],
+    p = p + geom_path(data=v_plot[scenario %in% c("INDCi","INDC") & region == reg & variable == as.character(vars$long[var]) & period < 2031,],
         aes(period, value, group = interaction(model,Scope),linetype=model,size=Scope,color=model)) 
     p = p + scale_size_manual(values = c(0.5,1))
     p = p + scale_color_manual(values = rep(c("#000000","#880000","#0000aa"),6))
@@ -88,7 +91,7 @@ for (reg in map_pri$dat){
   }
 
 
-varis <- c("Emissions|CO2","Emissions|CO2|Energy and Industrial Processes","Carbon budget","Carbon budget|Energy and Industry")
+varis <- c("Emissions|CO2","Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|Energy","Carbon budget","Carbon budget|Energy and Industry","Carbon budget|Energy")
 
 v_emireg <- v_emireg %>% 
   filter (!Category =="Historical" & variable %in% varis & region %in% regs & !is.na(value) & scenario %in% scens & model %in% mods) %>%
@@ -105,8 +108,8 @@ v_emireg[v_emireg$scenario == "INDC2030_high",]$scenario <- "INDC2030i_1600"
 
 
 #select variables in right point in time
-tmp1 <- v_emireg %>% filter(variable %in% c("Carbon budget", "Carbon budget|Energy and Industry"), period == 2050)
-tmp2 <- v_emireg %>% filter(variable %in% c("Emissions|CO2",  "Emissions|CO2|Energy and Industrial Processes"),period == 2010)
+tmp1 <- v_emireg %>% filter(variable %in% c("Carbon budget", "Carbon budget|Energy and Industry", "Carbon budget|Energy"), period == 2050)
+tmp2 <- v_emireg %>% filter(variable %in% c("Emissions|CO2",  "Emissions|CO2|Energy and Industrial Processes",  "Emissions|CO2|Energy"),period == 2010)
 
 ## #Calculate remaining budgets
 tmp1 <- rbind(tmp1,tmp2)  %>%
@@ -130,8 +133,9 @@ v_emi_cumrel <- tmp1 %>%
     spread(key = variable, value = value) %>%
     mutate( FFIrel2010 = 1000* `Carbon budget|Energy and Industry` / `Emissions|CO2|Energy and Industrial Processes` ) %>%
     mutate( CO2rel2010 = 1000* `Carbon budget` / `Emissions|CO2` ) %>%
+  mutate( ENErel2010 = 1000* `Carbon budget|Energy` / `Emissions|CO2|Energy` ) %>%
     select(model, scenario, region, Scope, `Emissions|CO2|Energy and Industrial Processes`,    `Carbon budget|Energy and Industry`,
-            `FFIrel2010` , `Emissions|CO2`,`Carbon budget`,  `CO2rel2010` ) %>%
+            `FFIrel2010` , `Emissions|CO2`,`Carbon budget`,  `CO2rel2010` ,`Emissions|CO2|Energy`, `Carbon budget|Energy`) %>%
   filter(!is.na(`Carbon budget`)) %>%
         rename( `Emissions|CO2|FFI|aggregated` = `Carbon budget|Energy and Industry`,
                 `Emissions|CO2|aggregated` = `Carbon budget` ) %>%
@@ -153,7 +157,8 @@ v_plot <-  filter(v_emi_cumrel, scenario %in% scens2deg)
 v_plot$scenario =  factor(v_plot$scenario, levels = scens2deg, ordered = T)
 v_plot$region =  factor(v_plot$region, levels = regs, ordered = T)
 
-
+### cumulative budget plots
+#1) Total (incl. AFOLU)
 ggplot() +
     geom_boxplot(data=v_plot[v_plot$Scope=="global",],aes(x=scenario,y=`Emissions|CO2|aggregated`, fill = scenario), outlier.size = 0) +
     geom_point(data=v_plot,aes(x=scenario,y=`Emissions|CO2|aggregated`,shape=model,color=model,size=model)) +
@@ -166,7 +171,7 @@ ggplot() +
 ggsave(file=paste0("plots/","CO2tot_budget_2deg","_multiregbox.pdf"),
        width=24, height=16, unit="cm", dpi=300, bg = "transparent")
 
-
+#2) Energy and Industry
 ggplot() +
     geom_boxplot(data=v_plot[v_plot$Scope=="global",],aes(x=scenario,y=`Emissions|CO2|FFI|aggregated`, fill = scenario), outlier.size = 0) +
   geom_point(data=v_plot,aes(x=scenario,y=`Emissions|CO2|FFI|aggregated`,shape=model,color=model,size=model)) +
@@ -178,10 +183,25 @@ ggplot() +
   scale_shape_manual(values = c(seq(1,6),seq(1,6))) +
   scale_size_manual(values = c(rep(1,6),rep(3,6))) +
     theme(axis.text.x  = element_blank() )
-ggsave(file=paste0("plots/","CO2Ene_budget_2deg","_multiregbox.pdf"),
+ggsave(file=paste0("plots/","CO2EneInd_budget_2deg","_multiregbox.pdf"),
        width=24, height=16, unit="cm", dpi=300, bg = "transparent")
 
+#3) Energy
+ggplot() +
+  geom_boxplot(data=v_plot[v_plot$Scope=="global",],aes(x=scenario,y=`Carbon budget|Energy`, fill = scenario), outlier.size = 0) +
+  geom_point(data=v_plot,aes(x=scenario,y=`Carbon budget|Energy`,shape=model,color=model,size=model)) +
+  geom_text(data=ref_budgets,aes(x="NPi2020_400",y=value*0.97,label=as.character(round(value))),colour=rep(c("#aa0000","#0000aa"),9))+ #
+  geom_hline(data=ref_budgets,aes(yintercept=value),colour=rep(c("#aa0000","#0000aa"),9))+  #
+  facet_wrap(~region, scales = "free_y") +
+  ggtitle(paste0(" Cumulative CO2 Energy 2011-2050")) + ylab("Gt CO2") +
+  scale_color_manual(values = c(rep("black",6),rep("red",6)))+
+  scale_shape_manual(values = c(seq(1,6),seq(1,6))) +
+  scale_size_manual(values = c(rep(1,6),rep(3,6))) +
+  theme(axis.text.x  = element_blank() )
+ggsave(file=paste0("plots/","CO2EneOnly_budget_2deg","_multiregbox.pdf"),
+       width=24, height=16, unit="cm", dpi=300, bg = "transparent")
 
+### emissions years
 ggplot() +
     geom_boxplot(data=v_plot[v_plot$Scope=="global",],aes(x=scenario,y=`FFIrel2010`, fill = scenario), outlier.size = 0) +
   geom_point(data=v_plot,aes(x=scenario,y=`FFIrel2010`,shape=model,color=model,size=model)) +
