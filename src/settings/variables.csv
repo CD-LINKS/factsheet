@@ -126,6 +126,7 @@ Primary Energy|Solar
 Primary Energy|Wind
 Final Energy|Other
 Emissions|CO2|Energy|Supply
+Emissions|CO2|Energy|Supply|Electricity
 Emissions|CO2|Energy and Industrial Processes
 Secondary Energy|Electricity|Biomass
 Secondary Energy|Electricity|Geothermal

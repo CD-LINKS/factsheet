@@ -45,7 +45,7 @@ invisible(dev.off())
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
-vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
+vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI','Emissions|CO2|Energy|Supply|Electricity')#'Population')
 cats <- nat_cats
 
 plot_funnel(reg=cfg$r,dt=all[period<=2050],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel",glob_lines=T,xlim=c(2000,2050))   
@@ -239,6 +239,16 @@ invisible(dev.off())
 #plot_ternary(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="pe_tern",yearmax=2050)   
 
 #invisible(dev.off())
+
+```
+
+\subsection{Primary energy trade}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+plot_funnel(reg=cfg$r,dt=all,vars=c("Trade|Primary Energy|Gas|Volume","Trade|Primary Energy|Coal|Volume","Trade|Primary Energy|Oil|Volume","Trade|Primary Energy|Biomass|Volume"),cats=nat_cats,title="Primary energy trade (EJ/yr)",file_pre="PE_trade_funnel",glob_lines=T,xlim=c(2000,2050))   
+
+invisible(dev.off())
 
 ```
 

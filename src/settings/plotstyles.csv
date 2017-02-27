@@ -39,6 +39,7 @@ Emissions|CH4|Waste;CH4 Waste;#bcbc6d;1;2;dotted
 Emissions|CH4|AFOLU;CH4 AFOLU;#ff9900;1;2;dotted
 Emissions|CO2;Total;#000000;1;2;dotted
 Emissions|CO2|Energy|Supply;Energy Supply;#993a44;1;2;dotted
+Emissions|CO2|Energy|Supply|Electricity;Electricity;#cc9ca1;1;2;dotted
 Emissions|CO2|Energy|Demand|Industry;Industry;#bb7700;1;2;dotted
 Emissions|CO2|Energy|Demand|Transportation;Transport;#222288;1;2;dotted
 Emissions|CO2|Energy|Demand|Residential and Commercial;Buildings;#7777ff;1;2;dotted 
@@ -185,6 +186,10 @@ Trade|Primary Energy|Coal|Value;Coal;#999959;1;2;dotted
 Trade|Primary Energy|Gas|Value;Gas;#191999;1;2;dotted
 Trade|Primary Energy|Oil|Value;Oil;#337fff;1;2;dotted
 Trade|Uranium|Value;Uranium;#33ff00;1;2;dotted
+Trade|Primary Energy|Gas|Volume;Gas;#191999;1;2;dotted
+Trade|Primary Energy|Coal|Volume;Coal;#999959;1;2;dotted
+Trade|Primary Energy|Oil|Volume;Oil;#337fff;1;2;dotted
+Trade|Primary Energy|Biomass|Volume;Biomass;#ffcc00;1;2;dotted
 Capital Cost|Electricity|Biomass|w/ CCS;Electricity - biomass with CCS;#33ff00;1;2;dotted
 Capital Cost|Electricity|Biomass|w/ CCS|1;Electricity - biomass with CCS 1;#33ff00;1;2;dotted
 Capital Cost|Electricity|Coal|w/ CCS;Electricity - coal with CCS;#b2b2b2;1;2;dotted
