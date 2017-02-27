@@ -36,6 +36,7 @@ Emissions|CH4|Energy Supply and Demand;CH4 Energy;#cc0000;1;2;dotted
 Emissions|CH4|Land Use;CH4 Land Use;#ff9900;1;2;dotted
 Emissions|CH4|Other;CH4 other;#cc00cc;1;2;dotted
 Emissions|CH4|Waste;CH4 Waste;#bcbc6d;1;2;dotted
+Emissions|CH4|AFOLU;CH4 AFOLU;#ff9900;1;2;dotted
 Emissions|CO2;Total;#000000;1;2;dotted
 Emissions|CO2|Energy|Supply;Energy Supply;#993a44;1;2;dotted
 Emissions|CO2|Energy|Demand|Industry;Industry;#bb7700;1;2;dotted
@@ -52,6 +53,7 @@ Emissions|N2O;Total;#000000;1;2;dotted
 Emissions|N2O|Energy Supply and Demand;N2O Energy;#0000cc;1;2;dotted
 Emissions|N2O|Land Use;N2O Land Use;#00ff66;1;2;dotted
 Emissions|N2O|Other;N2O other;#00cccc;1;2;dotted
+Emissions|N2O|AFOLU;N2O AFOLU;#00ff66;1;2;dotted
 Final Energy;Total;#000000;1;2;dotted
 Final Energy|Electricity;Electricity;#ffb200;1;2;dotted
 Final Energy|Gases;Gases;#999966;1;2;dotted
@@ -238,6 +240,23 @@ OM Cost|Fixed|Liquids|Gas|w/ CCS;Liquids - gas with CCS;#e5e5b2;1;2;dotted
 Carbon Sequestration|CCS;CCS;#cc0000;1;2;dotted
 Carbon Sequestration|CCS|Fossil;CCS - fossil;#b2b2b2;1;2;dotted
 Carbon Sequestration|CCS|Biomass;CCS - biomass;#33ff00;1;2;dotted
+Carbon Sequestration|Land Use;CS Land use;#7fbf7f;1;2;dotted
+Carbon Sequestration|Land Use|Afforestation;CS Land use - Afforestation;#008000;1;2;dotted
+Carbon Sequestration|Land Use|Biochar;CS Land use - Biochar;#737373;1;2;dotted
+Carbon Sequestration|Land Use|Soil Carbon Management;CS Land use - Soil carbon management;#b75454;1;2;dotted
+Land Cover;Land Cover;#a6a6a6;1;2;dotted
+Land Cover|Built-up Area;Built-up area;#7f0000;1;2;dotted
+Land Cover|Cropland;Cropland;#99cc99;1;2;dotted
+Land Cover|Forest;Forest;#004c00;1;2;dotted
+Land Cover|Pasture;Pasture;#329932;1;2;dotted
+Land Cover|Other Arable Land;Other arable land;#cce5cc;1;2;dotted
+Land Cover|Other Land;Other land;#808080;1;2;dotted
+Yield|Cereal;Cereal;#999900;1;2;dotted
+Yield|Oilcrops;Oilcrops;#660000;1;2;dotted
+Yield|Sugarcrops;Sugarcrops;#b2b2ff;1;2;dotted
+Agricultural Production;Agricultural Production;#004c00;1;2;dotted
+Agricultural Production|Energy;Agric. Prod. - Energy; #4ca64c;1;2;dotted
+Agricultural Production|Non-Energy;Agric. Prod. - Non-Energy;#b2d8b2;1;2;dotted
 AIM/CGE;AIM-C;#7570B3;0;2;dotted
 `AIM/Enduse 3.0`;AIM/E.-IIM;"#D95F02";15;2;dotted
 COPPE-COFFEE 1.0;COFFEE;#E7298A;1;2;dotted

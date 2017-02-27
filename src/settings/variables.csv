@@ -23,6 +23,8 @@ Secondary Energy|Electricity|Gas|w/ CCS
 Secondary Energy|Electricity|Gas|w/o CCS
 Secondary Energy|Electricity|Oil
 Emissions|CO2|AFOLU
+Emissions|CH4|AFOLU
+Emissions|N2O|AFOLU
 Carbon Sequestration|CCS|Biomass
 Cumulative Capacity|Electricity|Biomass|w/ CCS
 Cumulative Capacity|Electricity|Biomass|w/o CCS
@@ -195,3 +197,19 @@ OM Cost|Fixed|Liquids|Coal|w/ CCS
 OM Cost|Fixed|Liquids|Gas|w/ CCS
 Carbon Sequestration|CCS
 Carbon Sequestration|CCS|Fossil
+Carbon Sequestration|Land Use
+Carbon Sequestration|Land Use|Afforestation
+Carbon Sequestration|Land Use|Biochar
+Carbon Sequestration|Land Use|Soil Carbon Management
+Land Cover|Built-up Area
+Land Cover|Cropland
+Land Cover|Forest
+Land Cover|Pasture
+Land Cover|Other Arable Land
+Land Cover|Other Land
+Yield|Cereal
+Yield|Oilcrops
+Yield|Sugarcrops
+Agricultural Production
+Agricultural Production|Energy
+Agricultural Production|Non-Energy

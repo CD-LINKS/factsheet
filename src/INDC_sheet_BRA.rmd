@@ -335,3 +335,61 @@ plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Carbon sequestration (Mt CO2
 
 invisible(dev.off())
 ```
+
+\subsection{Carbon sequestration - Land use}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Carbon Sequestration|Land Use","Carbon Sequestration|Land Use|Afforestation","Carbon Sequestration|Land Use|Biochar","Carbon Sequestration|Land Use|Soil Carbon Management")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Carbon sequestration (Mt CO2/yr)",file_pre="cs_landuse_area")   
+
+invisible(dev.off())
+```
+
+\subsection{Land use - land cover}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Land Cover","Land Cover|Built-up Area","Land Cover|Cropland", "Land Cover|Forest", "Land Cover|Pasture", "Land Cover|Other Arable Land", "Land Cover|Other Land")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Land cover (million ha)",file_pre="Land_cover_area")   
+
+invisible(dev.off())
+```
+
+\subsection{Land use - Agricultural production}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Agricultural Production","Agricultural Production|Energy","Agricultural Production|Non-Energy")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Agricultural Production (million t DM/yr)",file_pre="agri_prod_area")   
+
+invisible(dev.off())
+```
+
+\subsection{Land use - Yields}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Yield|Cereal","Yield|Oilcrops","Yield|Sugarcrops")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Yield (t DM/ha/yr)",file_pre="yield_area")   
+
+invisible(dev.off())
+```
+
+\subsection{Land use - Kyoto gas emissions}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|CO2|AFOLU","Emissions|CH4|AFOLU","Emissions|N2O|AFOLU"),cats=nat_cats,title="Land use Kyoto gas emissions",file_pre="LU_emis_funnel",glob_lines=T,xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```
