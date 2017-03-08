@@ -15,7 +15,7 @@ library(directlabels) # year labels for scatter plots
 #setwd("D:/location-of-srcfolder-on-your-system")
 
 #source configuration file for region-specific data
-source("settings/config_CHN.R")
+source("settings/config_JPN.R")
 
 # for (reg in c("JPN","BRA","CHN","IND","EUR","RUS")){
 # #source configuration file for region-specific data
@@ -23,7 +23,7 @@ source("settings/config_CHN.R")
 
 
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20161129-162657"
+cfg$infile    <- "cdlinks_compare_20170302-133102"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
