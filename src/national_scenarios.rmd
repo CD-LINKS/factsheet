@@ -125,7 +125,7 @@ invisible(dev.off())
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
 
 # For area plots, the first entry in vars is interpreted as the total (line_plot on top)
-vars <- c("Final Energy","Final Energy|Transportation","Final Energy|Residential and Commercial","Final Energy|Industry","Final Energy|Other Sector")
+vars <- c("Final Energy","Final Energy|Transportation","Final Energy|Residential and Commercial","Final Energy|Industry","Final Energy|Other Sector","Final Energy|Non-Energy Use")
 plot_area(reg=reg,dt=dt,vars=vars,cats=unique(dt$Category),lab="Final Energy (EJ/yr)",file_pre="nat_fe_s_area")   
 
 invisible(dev.off())

@@ -98,6 +98,7 @@ Final Energy|Transportation|Liquids|Coal;Coal Synfuels;#191919;1;2;dotted
 Final Energy|Transportation|Liquids|Oil;Oil based;#0000cc;1;2;dotted
 Final Energy|Transportation|Other;Other;#7f7f7f;1;2;dotted
 Final Energy|Transportation|Petrol;Petrol;#191919;1;2;dotted
+Final Energy|Non-Energy Use;Non-energy;#b2b2b2;1;2;dotted
 Policy Cost|Consumption Loss;Policy Costs;#e5e5b2;1;2;dotted
 Price|Biomass|World Market;Biomass;#005900;1;2;dotted
 Price|Carbon;CO2;#e5e5b2;1;2;dotted

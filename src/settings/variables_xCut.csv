@@ -61,6 +61,7 @@ Final Energy|Solids|Biomass|Traditional
 Final Energy|Solids|Coal
 Final Energy|Transportation
 Final Energy|Transportation|Electricity
+Final Energy|Non-Energy Use
 Primary Energy
 Primary Energy|Biomass
 Primary Energy|Biomass|w/ CCS
@@ -83,6 +84,7 @@ Primary Energy|Secondary Energy Trade
 Primary Energy|Solar
 Primary Energy|Wind
 Final Energy|Other
+Final Energy|Other Sector
 Emissions|CO2|Energy|Supply
 Emissions|CO2|Energy and Industrial Processes
 Secondary Energy|Electricity|Biomass
