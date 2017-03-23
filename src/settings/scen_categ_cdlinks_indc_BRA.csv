@@ -12,6 +12,7 @@ INDCip;INDCip;NoPolicy
 INDC2030i_400;2030_verylow;NoPolicy
 INDC2030ip_400;INDC2030ip_400;NoPolicy
 NPi2020_400;2020_verylow;NoPolicy
+NPi2020_verylow;2020_verylow;NoPolicy
 NPi2020_low;2020_low;NoPOL
 NPi2020_1000;2020_low;NoPolicy
 NPi2020_high;2020_high;NoPOL
