@@ -17,7 +17,7 @@ cfg$r         <- "JPN"
 cfg$rname     <- "Japan"
 
 # Name of corresponding national model(s)
-cfg$model_nat <- c("AIM/Enduse[Japan]","DNE21+ V.14")
+cfg$model_nat <- c("AIM/Enduse[Japan]","DNE21+ V.14 (national)")
 
 # Name of directory plots are stored in
 cfg$outdir    <- "graphs"
@@ -59,7 +59,7 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "*PRIMES_V1"         = 1,
                  "*COPPE-MSB_v1.3.2"  = 1,
                  "*AIM/Enduse[Japan]" = 1,
-                 "*DNE21+ V.14" = 2)
+                 "*DNE21+ V.14 (national)" = 2)
 
 # Linestyles         
 cfg$man_lines=c("POLES 2014"        =  "solid", 
@@ -87,4 +87,4 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "*PRIMES_V1"         = "solid",
                 "*COPPE-MSB_v1.3.2"  = "solid",
                 "*AIM/Enduse[Japan]" = "solid",
-                "*DNE21+ V.14" = "dashed") #"dotdash"
+                "*DNE21+ V.14 (national)" = "dashed") #"dotdash"
