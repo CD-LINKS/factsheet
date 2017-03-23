@@ -20,7 +20,7 @@ output:
 if(cfg$r=="JPN"){
   indc_cats <- c("NoPOL","NPi","INDCi","2020_low","2030_high")
 } else  {
-  indc_cats <- c("NoPOL","NPi","INDCi","2030_low","2030_high")
+  indc_cats <- c("NoPOL","NPi","INDCi","2030_low","2030_high","2020_verylow")
 }
   nat_cats <- intersect(unique(all[Scope=="national"]$Category),indc_cats)
 
