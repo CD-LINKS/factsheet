@@ -78,8 +78,8 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   scens <- scens[!duplicated(scens$scenario)]
   
   # fix wrong scenario name for COPPE (extra space at the end) already here
-  all[SCENARIO == "INDC2030_low ",]$SCENARIO = "INDC2030_low"
-  all[SCENARIO == "INDC"&MODEL=="COPPE-MSB_v1.3.2",]$SCENARIO = "INDCi"
+  # all[SCENARIO == "INDC2030_low ",]$SCENARIO = "INDC2030_low"
+  # all[SCENARIO == "INDC"&MODEL=="COPPE-MSB_v1.3.2",]$SCENARIO = "INDCi"
 
   #reduce size of the data frame
   vars <- fread("settings/variables.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
