@@ -27,6 +27,8 @@ INDC2030i_400;INDC2030i_400;#ffc1a3;1;2;dotted
 INDC2030ip_400;INDC2030ip_400;#ffd9c7;1;2;dotted
 2020_verylow;ADVANCE-2020_400;#ffe0d1;1;2;dotted
 NPi2020_400;NPi2020_400;#ff9966;1;2;dotted
+ESO;ESO;#bf7fbf;1;2;dotted
+diagnostic;diagnostic;#800080;1;2;dotted
 Emissions|CH4;Total;#000000;1;2;dotted
 Emissions|CH4|Energy Supply and Demand;CH4 Energy;#cc0000;1;2;dotted
 Emissions|CH4|Land Use;CH4 Land Use;#ff9900;1;2;dotted
@@ -256,7 +258,7 @@ WITCH2016;WITCH;#7f00ff;6;2;dotted
 *AIM/Enduse[Japan];AIM/E.-NIES;#0000aa;15;2;dotted
 *DNE21+ V.14 (national);DNE21+;#1B9E77;16;2;dotted
 *RU-TIMES 3.2;RU-TIMES;#ff00ff;15;2;dotted
-*GCAM;*GCAM;#ff00ff;15;2;dotted
+*GCAM4.2_CDLINKS;*GCAM;#ff00ff;15;2;dotted
 *AIM/Enduse 3.0;AIM/E.-IIM;"#D95F02";15;2;dotted
 *India MARKAL;Ind-MARKAL;#ff0000;16;2;dotted
 *REMIND 1.6;*REMIND 1.6;#ff0000;17;2;dotted

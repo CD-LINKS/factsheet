@@ -10,7 +10,7 @@ cfg <- list()
 ######################################################
 
 # csv file that contains input data and will be read (only file name, without folder and extension)
-cfg$infile    <- "cdlinks_compare_20170316-092210"
+cfg$infile    <- "cdlinks_compare_20170328-093644"
 
 # region for which fact sheet will be produced
 cfg$r         <- "BRA"
@@ -59,7 +59,9 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "*PRIMES_V1"         = 1,
                  "*COPPE-MSB_v1.3.2"  = 1,
                  "*COPPE-MSB_v2.0"  = 1,
-                 "*AIM/Enduse[Japan]" = 1)
+                 "*AIM/Enduse[Japan]" = 1,
+                 "*GCAM4.2_CDLINKS" = 1,
+                 "DNE21+ V.14 (national)"=1)
 
 # Linestyles         
 cfg$man_lines=c("POLES 2014"        =  "solid", 
@@ -87,4 +89,6 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "*PRIMES_V1"         = "solid",
                 "*COPPE-MSB_v1.3.2"  = "solid",
                 "*COPPE-MSB_v2.0"  = "solid",
-                "*AIM/Enduse[Japan]" = "solid") #"dotdash"
+                "*AIM/Enduse[Japan]" = "solid",
+                "*GCAM4.2_CDLINKS" = "solid",
+                "DNE21+ V.14 (national)"="solid") #"dotdash"

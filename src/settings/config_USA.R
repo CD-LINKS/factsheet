@@ -10,14 +10,14 @@ cfg <- list()
 ######################################################
 
 # csv file that contains input data and will be read (only file name, without folder and extension)
-cfg$infile    <- "cdlinks_compare_20160511-161700"
+cfg$infile    <- "cdlinks_compare_20170328-093644"
 
 # region for which fact sheet will be produced
 cfg$r         <- "USA"
 cfg$rname     <- "USA"
 
 # Name of corresponding national model(s)
-cfg$model_nat <- c("GCAM4_MILES") # fill in the same model name as used in the database
+cfg$model_nat <- c("GCAM4.2_CDLINKS") # fill in the same model name as used in the database
 
 # Name of directory plots are stored in
 cfg$outdir    <- "graphs"
@@ -56,9 +56,10 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "POLES EMF27"       = 10,
                  "China TIMES"       = 1,
                  "*PRIMES_V1"         = 1,
-                 "*COPPE-MSB_v1.3.2"  = 1,
+                 "*COPPE-MSB_v2.0"  = 1,
                  "*AIM/Enduse[Japan]" = 1,
-                 "*GCAM4_MILES" = 1) # add national models for USA
+                 "*DNE21+ V.14 (national)" = 1,
+                 "*GCAM4.2_CDLINKS" = 1) # add national models for USA
 
 # Linestyles         
 cfg$man_lines=c("POLES 2014"        =  "solid", 
@@ -84,6 +85,7 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "POLES EMF27"       = "dotted",
                 "*China TIMES"       = "solid",
                 "*PRIMES_V1"         = "solid",
-                "*COPPE-MSB_v1.3.2"  = "solid",
+                "*COPPE-MSB_v2.0"  = "solid",
                 "*AIM/Enduse[Japan]" = "solid",
-                "*GCAM4_MILES" = "solid") # add national models for USA
+                "*DNE21+ V.14 (national)" = "solid",
+                "*GCAM4.2_CDLINKS" = "solid") # add national models for USA

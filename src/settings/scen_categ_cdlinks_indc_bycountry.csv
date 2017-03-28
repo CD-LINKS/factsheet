@@ -23,3 +23,5 @@ INDC2030ip_1000;INDC2030ip_1000;NoPolicy
 INDC2030_high;2030_high;NoPOL
 INDC2030i_1600;2030_high;NoPolicy
 INDC2030ip_1600;INDC2030ip_1600;NoPolicy
+ESO;ESO;NPi
+diagnostic;diagnostic;NPi

@@ -10,13 +10,13 @@ cfg <- list()
 ######################################################
 
 # csv files that contain input data (from stocktaking and diagnostics) and will be read (only file name, without folder and extension)
-cfg$infile    <- "cdlinks_compare_20170316-092210"
+cfg$infile    <- "cdlinks_compare_20170328-093644"
 cfg$diag_infile <- "CDLINKS_diagnostics_compare_regions_2016-05-11"
 
 
 # Name of corresponding national model(s)
 cfg$models_nat <- c("COPPE-MSB_v2.0","China TIMES","PRIMES_V1","IPAC-AIM/technology V1.0","AIM/Enduse 3.0",
-                    "AIM/Enduse[Japan]","DNE21+ V.14 (national)","India MARKAL","RU-TIMES 3.2")
+                    "AIM/Enduse[Japan]","DNE21+ V.14 (national)","India MARKAL","RU-TIMES 3.2","*GCAM4.2_CDLINKS")
 
 
 
@@ -61,7 +61,8 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "*AIM/Enduse[Japan]" = 1,
                  "*India MARKAL"      = 1,
                  "*RU-TIMES 3.2"      = 1,
-                 "*DNE 21+ V.14 (national)" = 1) # add national models for USA
+                 "*DNE 21+ V.14 (national)" = 1,
+                 "*GCAM4.2_CDLINKS" = 1) # add national models for USA
 
 # Linestyles
 cfg$man_lines=c("POLES 2014"        =  "solid", 
@@ -91,7 +92,8 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "*AIM/Enduse[Japan]" = "solid",
                 "*India MARKAL"      = "solid",
                 "*RU-TIMES 3.2"      = "solid",
-                "*DNE 21+ V.14 (national)" = "solid") # add national models for USA
+                "*DNE 21+ V.14 (national)" = "solid",
+                "*GCAM4.2_CDLINKS" = "solid") # add national models for USA
 
 cfg$regions <- c( "BRA",  "CHN", "EU",  "IND", "JPN",
                  "R5ASIA", "R5LAM", "R5MAF", "R5OECD90+EU", "R5REF", "RUS",
