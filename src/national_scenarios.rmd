@@ -18,7 +18,7 @@ output:
 #general setting for the whole sheet:
 #all scenarios with national model scenarios available
 
-  nat_scens <- intersect(c("NoPOL","NPi","INDC","NPi2020_high","NPi2020_low","INDC2030_high","INDC2030_low"),unique(all[Scope=="national"]$scenario))
+  nat_scens <- intersect(c("NoPOL","NPi","INDC","NPi2020_high","NPi2020_low","INDC2030_high","INDC2030_low","NPi2020_verylow"),unique(all[Scope=="national"]$scenario))
 
 vars <- c('Final Energy','Primary Energy')#'Population')
 scens <- nat_scens
