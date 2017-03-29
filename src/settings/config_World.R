@@ -59,7 +59,7 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "*PRIMES_V1"         = 1,
                  "*COPPE-MSB_v2.0"  = 1,
                  "*AIM/Enduse[Japan]" = 1,
-                 "*DNE 21+ V.14 (national)" = 1,
+                 "*DNE 21+ V.14 (national)" = 2,
                  "*GCAM4.2_CDLINKS" = 1)
 
 # Linestyles         
@@ -88,5 +88,5 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "*PRIMES_V1"         = "solid",
                 "*COPPE-MSB_v2.0"  = "solid",
                 "*AIM/Enduse[Japan]" = "solid",
-                "*DNE 21+ V.14 (national)" = "solid",
+                "*DNE 21+ V.14 (national)" = "dashed",
                 "*GCAM4.2_CDLINKS" = "solid") #"dotdash"

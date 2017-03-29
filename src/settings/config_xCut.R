@@ -62,8 +62,8 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "*AIM/Enduse[Japan]" = 1,
                  "*India MARKAL"      = 1,
                  "*RU-TIMES 3.2"      = 1,
-                 "*DNE 21+ V.14 (national)" = 1,
-                 "*GCAM4.2_CDLINKS" = 1) # add national models for USA
+                 "*DNE 21+ V.14 (national)" = 2,
+                 "*GCAM4.2_CDLINKS" = 1) 
 
 # Linestyles
 cfg$man_lines=c("POLES 2014"        =  "solid", 
@@ -94,8 +94,8 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "*AIM/Enduse[Japan]" = "solid",
                 "*India MARKAL"      = "solid",
                 "*RU-TIMES 3.2"      = "solid",
-                "*DNE 21+ V.14 (national)" = "solid",
-                "*GCAM4.2_CDLINKS" = "solid") # add national models for USA
+                "*DNE 21+ V.14 (national)" = "dashed",
+                "*GCAM4.2_CDLINKS" = "solid") 
 
 cfg$regions <- c( "BRA",  "CHN", "EU",  "IND", "JPN",
                  "R5ASIA", "R5LAM", "R5MAF", "R5OECD90+EU", "R5REF", "RUS",
