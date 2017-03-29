@@ -29,6 +29,7 @@ plot_line(reg=cfg$r,dt=all,vars=c("GDP|MER","Population"),cats=c("NoPOL"),title=
 invisible(dev.off())
 
 ```
+
 \subsection{Macro economic results}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
