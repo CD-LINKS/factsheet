@@ -248,6 +248,7 @@ OM Cost|Fixed|Liquids|Gas|w/ CCS;Liquids - gas with CCS;#e5e5b2;1;2;dotted
 Carbon Sequestration|CCS;CCS;#cc0000;1;2;dotted
 Carbon Sequestration|CCS|Fossil;CCS - fossil;#b2b2b2;1;2;dotted
 Carbon Sequestration|CCS|Biomass;CCS - biomass;#33ff00;1;2;dotted
+Carbon Sequestration|CCS|Industrial Processes;CCS - industry;#bb7700;1;2;dotted
 Carbon Sequestration|Land Use;CS Land use;#7fbf7f;1;2;dotted
 Carbon Sequestration|Land Use|Afforestation;CS Land use - Afforestation;#008000;1;2;dotted
 Carbon Sequestration|Land Use|Biochar;CS Land use - Biochar;#737373;1;2;dotted
@@ -255,6 +256,11 @@ Carbon Sequestration|Land Use|Soil Carbon Management;CS Land use - Soil carbon m
 Land Cover;Land Cover;#a6a6a6;1;2;dotted
 Land Cover|Built-up Area;Built-up area;#7f0000;1;2;dotted
 Land Cover|Cropland;Cropland;#99cc99;1;2;dotted
+Land Cover|Cropland|Cereals;Cereals;#7f0000;1;2;dotted
+Land Cover|Cropland|Irrigated;Irrigated;#0000cc;1;2;dotted
+Land Cover|Cropland|Double-cropped;Double-cropped;#cce5cc;1;2;dotted
+Land Cover|Cropland|Rainfed;Rainfed;#66cccc;1;2;dotted
+Land Cover|Cropland|Energy Crops;Energy crops;#329932;1;2;dotted
 Land Cover|Forest;Forest;#004c00;1;2;dotted
 Land Cover|Pasture;Pasture;#329932;1;2;dotted
 Land Cover|Other Arable Land;Other arable land;#cce5cc;1;2;dotted

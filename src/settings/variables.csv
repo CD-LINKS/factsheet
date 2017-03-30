@@ -200,6 +200,7 @@ OM Cost|Fixed|Liquids|Coal|w/ CCS
 OM Cost|Fixed|Liquids|Gas|w/ CCS
 Carbon Sequestration|CCS
 Carbon Sequestration|CCS|Fossil
+Carbon Sequestration|CCS|Industrial Processes
 Carbon Sequestration|Land Use
 Carbon Sequestration|Land Use|Afforestation
 Carbon Sequestration|Land Use|Biochar
@@ -210,6 +211,11 @@ Land Cover|Forest
 Land Cover|Pasture
 Land Cover|Other Arable Land
 Land Cover|Other Land
+Land Cover|Cropland|Cereals
+Land Cover|Cropland|Irrigated
+Land Cover|Cropland|Double-cropped
+Land Cover|Cropland|Rainfed
+Land Cover|Cropland|Energy Crops
 Yield|Cereal
 Yield|Oilcrops
 Yield|Sugarcrops
