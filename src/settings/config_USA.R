@@ -17,7 +17,7 @@ cfg$r         <- "USA"
 cfg$rname     <- "USA"
 
 # Name of corresponding national model(s)
-cfg$model_nat <- c("GCAM4.2_CDLINKS") # fill in the same model name as used in the database
+cfg$model_nat <- c("GCAM4.2_CDLINKS","GCAM-USA_CDLINKS") # fill in the same model name as used in the database
 
 # Name of directory plots are stored in
 cfg$outdir    <- "graphs"
@@ -42,6 +42,7 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "REMIND 1.5"        =  2, 
                  "MESSAGE V.4"       =  3,
                  "MESSAGE-GLOBIOM_1.0"=  3,
+                 "MESSAGEix-GLOBIOM_1.0" = 3,
                  "DNE21+ V.14"      =  4, 
                  "DNE21+ V.12A"      =  4, 
                  "WITCH2013"         =  5, 
@@ -59,7 +60,8 @@ cfg$man_shapes=c("POLES 2014"        =  1,
                  "*COPPE-MSB_v2.0"  = 1,
                  "*AIM/Enduse[Japan]" = 1,
                  "*DNE21+ V.14 (national)" = 1,
-                 "*GCAM4.2_CDLINKS" = 1) # add national models for USA
+                 "*GCAM4.2_CDLINKS" = 2,
+                 "*GCAM-USA_CDLINKS" = 1) # add national models for USA
 
 # Linestyles         
 cfg$man_lines=c("POLES 2014"        =  "solid", 
@@ -70,6 +72,7 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "AIM/CGE"           =  "dotdash", 
                 "REMIND 1.5"        =  "dashed", 
                 "MESSAGE-GLOBIOM_1.0"= "dotted", 
+                "MESSAGEix-GLOBIOM_1.0" = "dotted",
                 "MESSAGE V.4"       =  "dotted",
                 "DNE21+ V.14"      =  "dotdash", 
                 "DNE21+ V.12A"      =  "dotdash", 
@@ -88,4 +91,5 @@ cfg$man_lines=c("POLES 2014"        =  "solid",
                 "*COPPE-MSB_v2.0"  = "solid",
                 "*AIM/Enduse[Japan]" = "solid",
                 "*DNE21+ V.14 (national)" = "solid",
-                "*GCAM4.2_CDLINKS" = "solid") # add national models for USA
+                "*GCAM4.2_CDLINKS" = "dashed",
+                "*GCAM-USA_CDLINKS" = "solid") # add national models for USA
