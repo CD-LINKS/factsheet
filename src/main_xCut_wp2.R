@@ -134,12 +134,12 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 ######### create fact sheet for national scenarios ##########
 #############################################################
 
-source("functions/plot_functions.R")
-
-for (reg in c("JPN","BRA","CHN","IND","EU","RUS")){
-  cat("Producing graphs in graphs folder and INDC_national_adj_xxx.pdf in main folder\n")
-  render("national_scenarios.rmd",output_file=paste0("INDC_national_adj_",reg,".pdf"))
-}
+# source("functions/plot_functions.R")
+# 
+# for (reg in c("JPN","BRA","CHN","IND","EU","RUS")){
+#   cat("Producing graphs in graphs folder and INDC_national_adj_xxx.pdf in main folder\n")
+#   render("national_scenarios.rmd",output_file=paste0("INDC_national_adj_",reg,".pdf"))
+# }
 
 #############################################################
 ################## Do plots for cross-cut analysis ##########
