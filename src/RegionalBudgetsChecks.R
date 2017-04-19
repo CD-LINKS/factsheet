@@ -177,9 +177,9 @@ ggplot() +
     geom_point(data=v_plot,aes(x=scenario,y=`Emissions|CO2|aggregated`,shape=model,color=model,size=model)) +
     facet_wrap(~region, scales = "free_y") +
     ggtitle(paste0(" Cumulative CO2 (incl. AFOLU) 2011-2050")) + ylab("Gt CO2") +
-    scale_color_manual(values = c(rep("black",6),rep("red",6)))+
-    scale_shape_manual(values = rep(seq(1,6),2)) +
-  scale_size_manual(values = c(rep(1,6),rep(3,6))) +
+    scale_color_manual(values = c(rep("black",10),rep("red",10)))+
+    scale_shape_manual(values = rep(seq(1,10),2)) +
+  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
     theme(axis.text.x  = element_blank() )
 ggsave(file=paste0("plots/","CO2tot_budget_2deg","_multiregbox.pdf"),
        width=24, height=16, unit="cm", dpi=300, bg = "transparent")
@@ -192,9 +192,9 @@ ggplot() +
   geom_hline(data=ref_budgets,aes(yintercept=value),colour=rep(c("#aa0000","#0000aa"),9))+  #
     facet_wrap(~region, scales = "free_y") +
     ggtitle(paste0(" Cumulative CO2 Energy and Industry 2011-2050")) + ylab("Gt CO2") +
-  scale_color_manual(values = c(rep("black",6),rep("red",6)))+
-  scale_shape_manual(values = c(seq(1,6),seq(1,6))) +
-  scale_size_manual(values = c(rep(1,6),rep(3,6))) +
+  scale_color_manual(values = c(rep("black",10),rep("red",10)))+
+  scale_shape_manual(values = c(seq(1,10),seq(1,10))) +
+  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
     theme(axis.text.x  = element_blank() )
 ggsave(file=paste0("plots/","CO2EneInd_budget_2deg","_multiregbox.pdf"),
        width=24, height=16, unit="cm", dpi=300, bg = "transparent")
@@ -207,9 +207,9 @@ ggplot() +
   geom_hline(data=ref_budgets,aes(yintercept=value),colour=rep(c("#aa0000","#0000aa"),9))+  #
   facet_wrap(~region, scales = "free_y") +
   ggtitle(paste0(" Cumulative CO2 Energy 2011-2050")) + ylab("Gt CO2") +
-  scale_color_manual(values = c(rep("black",6),rep("red",6)))+
-  scale_shape_manual(values = c(seq(1,6),seq(1,6))) +
-  scale_size_manual(values = c(rep(1,6),rep(3,6))) +
+  scale_color_manual(values = c(rep("black",10),rep("red",10)))+
+  scale_shape_manual(values = c(seq(1,10),seq(1,10))) +
+  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank() )
 ggsave(file=paste0("plots/","CO2EneOnly_budget_2deg","_multiregbox.pdf"),
        width=24, height=16, unit="cm", dpi=300, bg = "transparent")
@@ -220,9 +220,9 @@ ggplot() +
   geom_point(data=v_plot,aes(x=scenario,y=`FFIrel2010`,shape=model,color=model,size=model)) +
     facet_wrap(~region, scales = "free_y") +
     ggtitle(paste0("CO2 Energy and Industry (2011-2050 rel. to 2010)")) + ylab("Emission Years") +
-  scale_color_manual(values = c(rep("black",6),rep("red",6)))+
-  scale_shape_manual(values = rep(seq(1,6),2)) +
-  scale_size_manual(values = c(rep(1,6),rep(3,6))) +
+  scale_color_manual(values = c(rep("black",10),rep("red",10)))+
+  scale_shape_manual(values = rep(seq(1,10),2)) +
+  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
     theme(axis.text.x  = element_blank() )
 ggsave(file=paste0("plots/","CO2Ene_EmissionYears_2deg","_multiregbox.pdf"),
        width=24, height=16, unit="cm", dpi=300, bg = "transparent")
@@ -233,9 +233,9 @@ ggplot() +
   geom_point(data=v_plot,aes(x=scenario,y=`CO2rel2010`,shape=model,color=model,size=model)) +
     facet_wrap(~region, scales = "free_y") +
     ggtitle(paste0("CO2 total (2011-2050 rel. to 2010)")) + ylab("Emission Years") +
-  scale_color_manual(values = c(rep("black",6),rep("red",6)))+
-  scale_shape_manual(values = rep(seq(1,6),2)) +
-  scale_size_manual(values = c(rep(1,6),rep(3,6))) +
+  scale_color_manual(values = c(rep("black",10),rep("red",10)))+
+  scale_shape_manual(values = rep(seq(1,10),2)) +
+  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
     theme(axis.text.x  = element_blank() )
 ggsave(file=paste0("plots/","CO2tot_EmissionYears_2deg","_multiregbox.pdf"),
        width=24, height=16, unit="cm", dpi=300, bg = "transparent")
