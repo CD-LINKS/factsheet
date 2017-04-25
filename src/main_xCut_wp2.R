@@ -43,15 +43,15 @@ if(!file.exists(cfg$outdir)) {
 bud <- read.csv2("data/ref_budgets.csv",)
 bud$high <- as.numeric(as.character(bud$high))
 bud$low <- as.numeric(as.character(bud$low))
-ref_budgets <- data.frame(region =c(rep("IND",2),rep("BRA",2), rep("JPN",2),rep("RUS",2) ,rep("CHN",2), rep("EU",2),rep("USA",2),rep("World",2)),scen=rep(c("high","low"),8),
-                          value=c(bud[bud$country=="IND",]$high,bud[bud$country=="IND",]$low,
-                                  bud[bud$country=="BRA",]$high,bud[bud$country=="BRA",]$low,
-                                  bud[bud$country=="JPN",]$high,bud[bud$country=="JPN",]$low,
-                                  bud[bud$country=="RUS",]$high,bud[bud$country=="RUS",]$low,
-                                  bud[bud$country=="CHN",]$high,bud[bud$country=="CHN",]$low,
-                                  bud[bud$country=="EUR",]$high,bud[bud$country=="EUR",]$low,
-                                  bud[bud$country=="USA",]$high,bud[bud$country=="USA",]$low,
-                                  bud[bud$country=="World",]$high,bud[bud$country=="World",]$low))
+ref_budgets <- data.frame(region =c(rep("IND",4),rep("BRA",4), rep("JPN",4),rep("RUS",4) ,rep("CHN",4), rep("EU",4),rep("USA",4),rep("World",4)),scen=rep(c("high","low"),8),
+                          value=c(bud[bud$country=="IND",]$high*0.95,bud[bud$country=="IND",]$low*0.95,bud[bud$country=="IND",]$high*1.05,bud[bud$country=="IND",]$low*1.05,
+                                  bud[bud$country=="BRA",]$high*0.95,bud[bud$country=="BRA",]$low*0.95,bud[bud$country=="BRA",]$high*1.05,bud[bud$country=="BRA",]$low*1.05,
+                                  bud[bud$country=="JPN",]$high*0.95,bud[bud$country=="JPN",]$low*0.95,bud[bud$country=="JPN",]$high*1.05,bud[bud$country=="JPN",]$low*1.05,
+                                  bud[bud$country=="RUS",]$high*0.95,bud[bud$country=="RUS",]$low*0.95,bud[bud$country=="RUS",]$high*1.05,bud[bud$country=="RUS",]$low*1.05,
+                                  bud[bud$country=="CHN",]$high*0.95,bud[bud$country=="CHN",]$low*0.95,bud[bud$country=="CHN",]$high*1.05,bud[bud$country=="CHN",]$low*1.05,
+                                  bud[bud$country=="EUR",]$high*0.95,bud[bud$country=="EUR",]$low*0.95,bud[bud$country=="EUR",]$high*1.05,bud[bud$country=="EUR",]$low*1.05,
+                                  bud[bud$country=="USA",]$high*0.95,bud[bud$country=="USA",]$low*0.95,bud[bud$country=="USA",]$high*1.05,bud[bud$country=="USA",]$low*1.05,
+                                  bud[bud$country=="World",]$high*0.95,bud[bud$country=="World",]$low*0.95,bud[bud$country=="World",]$high*1.05,bud[bud$country=="World",]$low*1.05))
 
 
 #if processed data is already available, just load it. To redo processing (e.g. after adding new calculated variable, set b.procdata = TRUE)
