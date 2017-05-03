@@ -99,8 +99,8 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
                    "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- paste(all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
                                                                                                                            "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V2',sep="")
   #relabeling scenario with wrong name
-  all<- all[!(MODEL=="COPPE-MSB_v2.0" & SCENARIO=="NPi2020_high_V2")]
-  all[MODEL=="COPPE-MSB_v2.0" & SCENARIO=="NPi2020_1600_V2"]$SCENARIO <-"NPi2020_high_V2"
+  all<- all[!(MODEL=="COPPE-MSB_v2.0" & SCENARIO=="NPi2020_1600_V2")]
+  #all[MODEL=="COPPE-MSB_v2.0" & SCENARIO=="NPi2020_1600_V2"]$SCENARIO <-"NPi2020_high_V2"
   
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
