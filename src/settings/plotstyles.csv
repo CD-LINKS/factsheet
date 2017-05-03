@@ -4,35 +4,35 @@ Reference;Reference;#992222;1;2;dotted
 Global 450 / S2-3;Global 450 / S2-3;#229922;1;2;dotted
 Global 500;Global 500;#222299;1;2;dotted
 Optimal 450;Optimal 450;#00ff00;1;2;dotted
-NoPOL;NoPOL;#5b5b5b;1;2;dotted
-NoPolicy;NoPolicy;#333333;1;2;dotted
+NoPOL_V2;NoPOL;#5b5b5b;1;2;dotted
+NoPolicy_V2;NoPolicy;#333333;1;2;dotted
 REF;REF;#e5e5e5;1;2;dotted
-NPi;NPi;#cc0000;9;2;dotted
-NPip;NPip;#b2b2b2;1;2;dotted
-INDC;INDC;#ff7f00;5;2;dotted
-INDCi;INDCi;#ff7f00;1;2;dotted
-INDCip;INDCip;#c17a7a;1;2;dotted
-INDC2030i_1600;INDC2030i_1600;#882288;1;2;dotted
-INDC2030ip_1600;INDC2030ip_1600;#882288;1;2;dotted
+NPi_V2;NPi;#cc0000;9;2;dotted
+NPip_V2;NPip;#b2b2b2;1;2;dotted
+INDC_V2;INDC;#ff7f00;5;2;dotted
+INDCi_V2;INDCi;#ff7f00;1;2;dotted
+INDCip_V2;INDCip;#c17a7a;1;2;dotted
+INDC2030i_1600_V2;INDC2030i_1600;#882288;1;2;dotted
+INDC2030ip_1600_V2;INDC2030ip_1600;#882288;1;2;dotted
 2020_low;2020_low;#56B4E9;15;1;dotted
 2020_high;2020_high;#882288;17;2;dotted
 2030_low;2030_low;#56B4E9;19;1;dotted
 2030_high;2030_high;#882288;5;2;dotted
 2020_verylow;2020_verylow;#000080;1;2;dotted
-NPi2020_low;2020_low;#56B4E9;5;1;dotted
-NPi2020_high;2020_high;#992299;2;2;dotted
-INDC2030_low;2030_low;#2860E9;9;1;dotted
-INDC2030_high;2030_low;#992299;9;1;dotted
-NPi2020_1600;NPi2020_1600;#992299;1;2;dotted
-INDC2030i_1000;INDC2030i_1000;#56B4E9;1;2;dotted
-INDC2030ip_1000;INDC2030ip_1000;#56B4E9;1;2;dotted
-NPi2020_1000;NPi2020_1000;#56B4E9;1;2;dotted
+NPi2020_low_V2;2020_low;#56B4E9;5;1;dotted
+NPi2020_high_V2;2020_high;#992299;2;2;dotted
+INDC2030_low_V2;2030_low;#2860E9;9;1;dotted
+INDC2030_high_V2;2030_low;#992299;9;1;dotted
+NPi2020_1600_V2;NPi2020_1600;#992299;1;2;dotted
+INDC2030i_1000_V2;INDC2030i_1000;#56B4E9;1;2;dotted
+INDC2030ip_1000_V2;INDC2030ip_1000;#56B4E9;1;2;dotted
+NPi2020_1000_V2;NPi2020_1000;#56B4E9;1;2;dotted
 2030_verylow;2030_verylow;#000080;1;2;dotted
-INDC2030i_400;INDC2030i_400;#000080;1;2;dotted
-INDC2030ip_400;INDC2030ip_400;#000080;1;2;dotted
-NPi2020_400;NPi2020_400;#000080;1;2;dotted
+INDC2030i_400_V2;INDC2030i_400;#000080;1;2;dotted
+INDC2030ip_400_V2;INDC2030ip_400;#000080;1;2;dotted
+NPi2020_400_V2;NPi2020_400;#000080;1;2;dotted
 ESO;ESO;#bf7fbf;1;2;dotted
-diagnostic;diagnostic;#800080;1;2;dotted
+diagnostic_V2;diagnostic;#800080;1;2;dotted
 Emissions|CH4;Total;#000000;1;2;dotted
 Emissions|CH4|Energy Supply and Demand;CH4 Energy;#cc0000;1;2;dotted
 Emissions|CH4|Land Use;CH4 Land Use;#ff9900;1;2;dotted
