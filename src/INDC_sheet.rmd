@@ -18,9 +18,9 @@ output:
 #general setting for the whole sheet:
 #all scenarios with national model scenarios available
 if(cfg$r=="JPN"){
-  indc_cats <- c("NoPOL","NPi","INDCi","2020_low","2030_high")
+  indc_cats <- c("NoPOL","NPi","INDC","2020_low","2030_high")
 } else  {
-  indc_cats <- c("NoPOL","NPi","INDCi","2030_low","2030_high")
+  indc_cats <- c("NoPOL","NPi","INDC","2030_low","2030_high")
 }
   nat_cats <- intersect(unique(all[Scope=="national"]$Category),indc_cats)
 
@@ -92,9 +92,9 @@ invisible(dev.off())
 \subsection{Rates of change 2030-2050}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-if (!identical(character(0),intersect(nat_cats,c("INDCi","2020_low","2030_low")) )){
+if (!identical(character(0),intersect(nat_cats,c("INDC","2020_low","2030_low")) )){
 vars <- c("Rate of Change| Energy Intensity of GDP|MER","Rate of Change| Carbon Intensity of FE","Rate of Change| Emissions|CO2|FFI","Rate of Change| Emissions Intensity of GDP|MER")
-cats <- intersect(nat_cats,c("INDCi","2020_low","2030_low"))
+cats <- intersect(nat_cats,c("INDC","2020_low","2030_low"))
 
 plot_bar_facet(reg=cfg$r,dt=all[period=="2030-2050"],vars=vars,cats=cats,lab="Rate of change (%/year; 2030-2050)",file_pre="rate_of_change_30-50_bar")   
 }
@@ -105,9 +105,9 @@ invisible(dev.off())
 \subsection{Rates of change 2050-2100}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-if (!identical(character(0),intersect(nat_cats,c("INDCi","2020_low","2030_low")) )){
+if (!identical(character(0),intersect(nat_cats,c("INDC","2020_low","2030_low")) )){
 vars <- c("Rate of Change| Energy Intensity of GDP|MER","Rate of Change| Carbon Intensity of FE","Rate of Change| Emissions|CO2|FFI","Rate of Change| Emissions Intensity of GDP|MER")
-cats <- intersect(nat_cats,c("INDCi","2020_low","2030_low"))
+cats <- intersect(nat_cats,c("INDC","2020_low","2030_low"))
 
 plot_bar_facet(reg=cfg$r,dt=all[period=="2050-2100"],vars=vars,cats=cats,lab="Rate of change (%/year; 2050-2100)",file_pre="rate_of_change_50-100_bar")   
 }

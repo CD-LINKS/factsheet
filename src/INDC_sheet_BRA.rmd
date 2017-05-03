@@ -18,13 +18,13 @@ output:
 #general setting for the whole sheet:
 #all scenarios with national model scenarios available
 if(cfg$r=="JPN"){
-  indc_cats <- c("NoPOL","NPi","INDCi","2020_low","2030_high")
+  indc_cats <- c("NoPOL","NPi","INDC","2020_low","2030_high")
 } else  {
-  indc_cats <- c("NoPOL","NPi","INDCi","2030_low","2030_high","2020_verylow")
+  indc_cats <- c("NoPOL","NPi","INDC","2030_low","2030_high","2020_verylow")
 }
   nat_cats <- intersect(unique(all[Scope=="national"]$Category),indc_cats)
 
-plot_line(reg=cfg$r,dt=all,vars=c("GDP|MER","Population"),cats=c("INDCi"),title="Socio-Economic Indicators",file_pre="gdp_pop_line")   
+plot_line(reg=cfg$r,dt=all,vars=c("GDP|MER","Population"),cats=c("INDC"),title="Socio-Economic Indicators",file_pre="gdp_pop_line")   
 
 invisible(dev.off())
 
@@ -95,9 +95,9 @@ invisible(dev.off())
 \subsection{Rates of change 2030-2050}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-if (!identical(character(0),intersect(nat_cats,c("INDCi","2020_low","2030_low")) )){
+if (!identical(character(0),intersect(nat_cats,c("INDC","2020_low","2030_low")) )){
 vars <- c("Rate of Change| Energy Intensity of GDP|MER","Rate of Change| Carbon Intensity of FE","Rate of Change| Emissions|CO2|FFI","Rate of Change| Emissions Intensity of GDP|MER")
-cats <- nat_cats #intersect(nat_cats,c("INDCi","2020_low","2030_low"))
+cats <- nat_cats #intersect(nat_cats,c("INDC","2020_low","2030_low"))
 
 plot_bar_facet(reg=cfg$r,dt=all[period=="2030-2050"],vars=vars,cats=cats,lab="Rate of change (%/year; 2030-2050)",file_pre="rate_of_change_30-50_bar")   
 }
@@ -108,9 +108,9 @@ invisible(dev.off())
 \subsection{Rates of change 2050-2100}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-if (!identical(character(0),intersect(nat_cats,c("INDCi","2020_low","2030_low")) )){
+if (!identical(character(0),intersect(nat_cats,c("INDC","2020_low","2030_low")) )){
 vars <- c("Rate of Change| Energy Intensity of GDP|MER","Rate of Change| Carbon Intensity of FE","Rate of Change| Emissions|CO2|FFI","Rate of Change| Emissions Intensity of GDP|MER")
-cats <- nat_cats #intersect(nat_cats,c("INDCi","2020_low","2030_low"))
+cats <- nat_cats #intersect(nat_cats,c("INDC","2020_low","2030_low"))
 
 plot_bar_facet(reg=cfg$r,dt=all[period=="2050-2100"],vars=vars,cats=cats,lab="Rate of change (%/year; 2050-2100)",file_pre="rate_of_change_50-100_bar")   
 }
@@ -211,10 +211,10 @@ invisible(dev.off())
 \subsection{Final Energy over GDP}
 
 ```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
-if (!identical(character(0),intersect(nat_cats,c("NoPOL","2020_low","2030_low","2030_high","INDCi")) )){
+if (!identical(character(0),intersect(nat_cats,c("NoPOL","2020_low","2030_low","2030_high","INDC")) )){
 # Please specify exactly two variables and assign them to x and y
 vars <- c(x="GDP|MER",y="Final Energy")
-cats <- intersect(nat_cats,c("NoPOL","2020_low","2030_low","2030_high","INDCi"))
+cats <- intersect(nat_cats,c("NoPOL","2020_low","2030_low","2030_high","INDC"))
 plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Socio-Economic Indicators",file_pre="gdp_fe_scatter")   
 }
 invisible(dev.off())
