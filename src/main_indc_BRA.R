@@ -16,8 +16,8 @@ library(directlabels) # year labels for scatter plots
 
 #source configuration file for region-specific data
 source("settings/config_BRA.R")
-#overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20170503-113312"
+#overwrite file to be used for analysis (only need to update this file name with latest snapshot)
+cfg$infile    <- "cdlinks_compare_20170503-215606"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -29,6 +29,7 @@ source("functions/overwrite.R")
 source("functions/plot_functions.R")
 
 # flag to process data, reprocess even if .._reg_proc.RData file is available (i.e. overwrite existing RData)
+# set to true if you always want data re-processed
 b.procdata = T
 
 # Create plot directory
@@ -72,7 +73,7 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
       save("all",file = paste0("data/",cfg$infile,".Rdata"))
    }
 
-  # Add new column "Category" and fill with name according to scenario-to-Categroy-mapping in "scens"
+  # Add new column "Category" and fill with name according to scenario-to-Category-mapping in "scens"
   scens <- fread("settings/scen_categ_cdlinks_indc_BRA.csv", header=TRUE)
   #get rid of duplicated scenarios
   scens <- scens[!duplicated(scens$scenario)]
@@ -98,10 +99,6 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
                    "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- paste(all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
                                                                                                                            "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V2',sep="")
-  #relabeling scenario with wrong name
-  all<- all[!(MODEL=="COPPE-MSB_v2.0" & SCENARIO=="NPi2020_1600_V2")]
-  #all[MODEL=="COPPE-MSB_v2.0" & SCENARIO=="NPi2020_1600_V2"]$SCENARIO <-"NPi2020_high_V2"
-  
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
   
@@ -113,11 +110,6 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   
   #### add variables
   all <- add_variables(all,scens)
-  
-#   #### manual changes after addition of variables
-#   #Change Category for AMPERE3-scenarios for GEM-E3 for regions where the results should feature (because this model has no LIMITS data)
-#   all[scenario == "MILES-AMPERE3-CF450" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Global 450 / S2-3"
-#   all[scenario == "MILES-AMPERE3-Base" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Baseline / S0-1"
   
   #set scope to "national" for national models
   all[all$model %in% cfg$model_nat,]$Scope <- "national"
