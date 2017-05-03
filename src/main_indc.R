@@ -23,7 +23,7 @@ source("settings/config_JPN.R")
 
 
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20170418-210308"
+cfg$infile    <- "cdlinks_compare_20170503-113312"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -95,6 +95,11 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
 
   #manual change before addition of scenario categories
   all[SCENARIO=="Baseline"]$SCENARIO <- "NoPOL"
+  
+  # Change scenario names for some models to V2 to not mix up old global model results with new ones
+  all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
+                   "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- paste(all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
+                                                                                                                             "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V2',sep="")
   
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)

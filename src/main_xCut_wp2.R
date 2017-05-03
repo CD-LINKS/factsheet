@@ -16,7 +16,7 @@ library(directlabels) # year labels for scatter plots
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20170418-210308"
+cfg$infile <- "cdlinks_compare_20170503-113312"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -90,6 +90,11 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   # fix wrong scenario name for COPPE (extra space at the end) already here
   all[SCENARIO == "INDC2030_low ",]$SCENARIO = "INDC2030_low"
   
+  # Change scenario names for some models to V2 to not mix up old global model results with new ones
+  all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
+                   "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- paste(all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
+                                                                                                                             "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V2',sep="")
+  
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
   
@@ -115,9 +120,9 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   #correct scope for added variables
   all[all$model %in% cfg$models_nat,]$Scope <- "national"
   #special case DNE21+ V.14: only national protocol scenarios for JPN are "national", so the rest is global
-  all[all$model == "DNE21+ V.14" & all$scenario %in% c("NoPolicy","INDCi","INDC2030i_1000","INDC2030i_1600",
-                                                       "INDC2030i_400","NPi2020_1000","NPi2020_1600","NPi2020_400")]$Scope <- "global"
-  all[all$model == "DNE21+ V.14" & all$scenario %in% c("NPi") & all$region!="JPN"] <- "global"
+  # all[all$model == "DNE21+ V.14" & all$scenario %in% c("NoPolicy_V2","INDCi_V2","INDC2030i_1000_V2","INDC2030i_1600_V2",
+  #                                                      "INDC2030i_400_V2","NPi2020_1000_V2","NPi2020_1600_V2","NPi2020_400_V2")]$Scope <- "global"
+  # all[all$model == "DNE21+ V.14" & all$scenario %in% c("NPi_V2") & all$region!="JPN"] <- "global"
   
   # categorize national models
   all[all$Scope=="national",]$model <- paste0("*",all[all$Scope=="national",]$model)
