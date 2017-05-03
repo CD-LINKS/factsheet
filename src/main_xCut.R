@@ -16,7 +16,7 @@ library(directlabels) # year labels for scatter plots
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20170503-113312"
+cfg$infile <- "cdlinks_compare_20170503-215606"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -28,6 +28,7 @@ source("functions/overwrite.R")
 source("functions/plot_functions.R")
 
 # flag to process data, reprocess even if _proc.rdata file is available
+# set to true if you always want data re-processed
 b.procdata = T
 
 # Create plot directory

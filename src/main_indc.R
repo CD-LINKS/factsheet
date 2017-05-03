@@ -23,7 +23,7 @@ source("settings/config_JPN.R")
 
 
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20170503-113312"
+cfg$infile    <- "cdlinks_compare_20170503-215606"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -35,6 +35,7 @@ source("functions/overwrite.R")
 source("functions/plot_functions.R")
 
 # flag to process data, reprocess even if .._reg_proc.RData file is available (i.e. overwrite existing RData)
+# set to true if you always want data re-processed
 b.procdata = T
 
 # Create plot directory
@@ -78,7 +79,7 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
       save("all",file = paste0("data/",cfg$infile,".Rdata"))
    }
 
-  # Add new column "Category" and fill with name according to scenario-to-Categroy-mapping in "scens"
+  # Add new column "Category" and fill with name according to scenario-to-Category-mapping in "scens"
   scens <- fread("settings/scen_categ_cdlinks_indc_bycountry.csv", header=TRUE)
   #get rid of duplicated scenarios
   scens <- scens[!duplicated(scens$scenario)]
