@@ -90,6 +90,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 
   # fix wrong scenario name for COPPE (extra space at the end) already here
   all[SCENARIO == "INDC2030_low ",]$SCENARIO = "INDC2030_low"
+  all <- all[!(MODEL=="GEM-E3_V1"&SCENARIO=="INDC")]
 
   # Change scenario names for some models to V2 to not mix up old global model results with new ones
   all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
