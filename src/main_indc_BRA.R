@@ -95,6 +95,8 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   #manual change before addition of scenario categories
   all[SCENARIO=="Baseline"]$SCENARIO <- "NoPOL"
   
+  all <- all[!(MODEL=="GEM-E3_V1"&SCENARIO=="INDC")]
+  
   # Change scenario names for some models to V2 to not mix up old global model results with new ones
   all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
                    "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- paste(all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
