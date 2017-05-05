@@ -1,7 +1,7 @@
 plotstyle <- function(..., out="color", unknown=NULL, plot=FALSE) {
   
   luplot<-list()
-  luplot$plotstyle <- read.csv2("./settings/plotstyles_wp2.csv",stringsAsFactors = F,row.names=1)
+  luplot$plotstyle <- read.csv2("./settings/plotstyles.csv",stringsAsFactors = F,row.names=1)
   
   if(is.null(out)) {
     out <- "color"
