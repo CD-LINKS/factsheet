@@ -15,7 +15,7 @@ library(directlabels) # year labels for scatter plots
 #setwd("D:/location-of-srcfolder-on-your-system")
 
 #source configuration file for region-specific data
-source("settings/config_JPN.R")
+source("settings/config_USA.R")
 
 # for (reg in c("JPN","BRA","CHN","IND","EUR","RUS")){
 # #source configuration file for region-specific data
@@ -102,7 +102,7 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
                    "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- paste(all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14","DNE21+ V.14 (national)","GEM-E3_V1",
                                                                                                                              "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V2',sep="")
-  
+
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
   
