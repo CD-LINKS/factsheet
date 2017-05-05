@@ -29,7 +29,7 @@ plot_line <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_p
   p = ggplot()
   p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax),alpha=.3,fill='grey')
   p = p + geom_path(data=dt,aes(x=period,y=value,color=model,group=paste(model,scenario),size=Scope))
-  p = p + scale_shape_manual(values=man_shapes)
+  p = p + scale_shape_manual(values=cfg$man_shapes)
   p = p + scale_size_manual(values=c("national"=2, "global"=.2))
   p = p + scale_colour_manual(values=plotstyle(as.character(unique(dt$model))))
   p = p + geom_path(data=dt[Scope=="national"],aes(x=period,y=value,color=model,group=paste(model,scenario),size=Scope))
@@ -89,7 +89,7 @@ plot_lines <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_
   p = ggplot()
   #p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax),alpha=.3,fill='grey')
   p = p + geom_path(data=dt,aes(x=period,y=value,color=model,group=paste(model,scenario),size=Scope))
-  p = p + scale_shape_manual(values=man_shapes)
+  p = p + scale_shape_manual(values=cfg$man_shapes)
   p = p + scale_size_manual(values=c("national"=2, "global"=.2))
   p = p + geom_path(data=dt[Scope=="national"],aes(x=period,y=value,color=model,group=paste(model,scenario),size=Scope))
   #p = p + ylab(paste("Carbon Price"))#add unit (different for each facet grid plot...)
@@ -182,6 +182,7 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
   p = p + scale_size_manual(values=c("national"=2, "global"=.2))
   p = p + scale_linetype_manual(values=c("national"="solid", "global"="dashed"))
   p = p + scale_colour_manual(values=plotstyle(cats))
+  p = p + scale_shape_manual(values=cfg$man_shapes)
   if (length(reg) >1){p = p + facet_wrap( ~ region,ncol=2)}
   p = p + xlab(paste(vars_to_spread["x"],unitx)) + ylab(paste(vars_to_spread["y"],unity))
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
@@ -295,7 +296,7 @@ plot_point <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", title="
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   #   p = p + facet_grid(variable~period, scales="free_y")
   #FIXME?
-  p = p + scale_shape_manual(values=plotstyle(as.character(unique(dt$model))))
+  p = p + scale_shape_manual(values=cfg$man_shapes)
   p = p + scale_colour_manual(values=plotstyle(as.character(unique(dt$model))))
   p = p + ylab(paste(lab))
   p = p + ggplot2::theme_bw() #+ theme(axis.text.x = element_text(angle = 90, hjust = 1))

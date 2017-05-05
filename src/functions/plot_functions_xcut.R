@@ -32,7 +32,8 @@ plot_boxplot <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, titl
   } else if(b.multivar){
     p = p + facet_wrap(~ variable, scales="free_y")
   }
-  if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))}
+  if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))
+  p = p + scale_shape_manual(values=cfg$man_shapes)}
   p = p + geom_point(data=dtn,aes(x=region,y=value,colour=National), size = 3)
   #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab("") + xlab("")
@@ -184,6 +185,7 @@ plot_scatter_xcut <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, tit
   p = p + scale_size_manual(values=c("national"=2, "global"=.2))
   p = p + scale_colour_manual(values=c("national" = "#119966", "global" = "#000000"))
   p = p + scale_linetype_manual(values=c("national"="solid", "global"="dashed"))
+  p = p + scale_shape_manual(values=cfg$man_shapes)
   if (length(reg) >1){p = p + facet_wrap( ~ region,ncol=2)}
   p = p + xlab("CO2 Price [US$/tCO2]") + ylab("CO2 Abatement [%]")
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
@@ -226,6 +228,7 @@ plot_boxplot2 <- function(regs, dt, vars, cats, out=cfg$outdir, title="Title", f
   }
   p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))
   p = p + geom_point(data=dtn,aes(x=region,y=value,colour=National), size = 3)
+  p = p + scale_shape_manual(values=cfg$man_shapes)
   #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab("") + xlab("")
   if (b.multicat)
@@ -283,6 +286,7 @@ plot_boxplot3 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
   }
   p = p + geom_point(data=dtg,aes(x=Category,y=value,shape=Global,colour=Global))
   p = p + geom_point(data=dtn,aes(x=Category,y=value,colour=National), size = 3)
+  p = p + scale_shape_manual(values=cfg$man_shapes)
   #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab("") + xlab("")
   if(ylim){p=p+ylim(c(0,NA))}
@@ -336,6 +340,7 @@ plot_boxplot4 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
   }
   p = p + geom_point(data=dtg,aes(x=Category,y=value,shape=Global,colour=Global))
   p = p + geom_point(data=dtn,aes(x=Category,y=value,colour=National), size = 3)
+  p = p + scale_shape_manual(values=cfg$man_shapes)
   #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab("") + xlab("")
   p=p+ylim(ylim)
