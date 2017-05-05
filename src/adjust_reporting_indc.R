@@ -6,8 +6,8 @@ tmp$variable <- "GDP|MER"
 all <- rbind(all,tmp)
 
 #RU-TIMES: problem with Energy and Industrial Processes (probably only industrial processes??)
-all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Processes"&region=="RUS"]$value <-
-  all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy"&region=="RUS"]$value
+# all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Processes"&region=="RUS"]$value <-
+#   all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy"&region=="RUS"]$value
 
 #IPAC/AIM:
 # Baseline not NoPOL but NPi, because IPAC does not have NoPOL
@@ -15,25 +15,38 @@ all[model =="IPAC-AIM/technology V1.0"]$Baseline <- ""
 all[model =="China TIMES"]$Baseline <- ""
 
 #COPPE-MSB: no Emissions|CO2|Energy for INDC
-tmp <-all[model=="COPPE-MSB_v1.3.2" &variable=="Emissions|CO2"&region=="BRA" & scenario =="INDCi",  ]
-tmp$variable <- "Emissions|CO2|Energy"
-all <- rbind(all,tmp)
-all <- all[ !(model %in% c("*COPPE-MSB_v1.3.2", "COPPE-MSB_v1.3.2") & variable =="Emissions|CO2|Energy and Industrial Processes"), ]
+# tmp <-all[model=="COPPE-MSB_v1.3.2" &variable=="Emissions|CO2"&region=="BRA" & scenario =="INDCi",  ]
+# tmp$variable <- "Emissions|CO2|Energy"
+# all <- rbind(all,tmp)
+# all <- all[ !(model %in% c("*COPPE-MSB_v1.3.2", "COPPE-MSB_v1.3.2") & variable =="Emissions|CO2|Energy and Industrial Processes"), ]
 
 # Multiplying Brazil GDP for COPPE by 1000 because reported differently (factor 1000 different from global models)
 all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value=all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value*1000
+
+# GCAM-USA: no total final energy, only in demand sectors -> adding demand sectors to get total
+tmp1 <- all[model %in% setdiff(unique(all[variable=="Final Energy|Transportation"]$model),unique(all[variable=="Final Energy"]$model)) &
+              variable %in% c("Final Energy|Transportation","Final Energy|Industry","Final Energy|Residential and Commercial")]
+if(dim(tmp1)[1]!=0){
+tmp=spread(tmp1,variable, value)
+tmp=na.omit(tmp)
+tmp=tmp %>% mutate(`Final Energy`=`Final Energy|Transportation` + `Final Energy|Industry` + `Final Energy|Residential and Commercial`)
+tmp1=gather(tmp, variable, value, c(`Final Energy`,`Final Energy|Transportation`, `Final Energy|Industry`,`Final Energy|Residential and Commercial`))
+tmp1=data.table(tmp1)
+tmp1=tmp1[variable=="Final Energy"]
+all <- rbind(all,tmp1)} 
 
 ## Energy and industrial processes...
 #Adding "Emissions|CO2|Energy and Industrial Processes" to scenarios that don't report them, but have "Emissions|CO2|Energy" and "Emissions|CO2|Industrial Processes"
 tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Industrial Processes"]$model),unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$model)) &
               variable %in% c("Emissions|CO2|Energy","Emissions|CO2|Industrial Processes")]
+if(dim(tmp1)[1]!=0){
 tmp=spread(tmp1,variable, value)
 tmp=na.omit(tmp)
 tmp=tmp %>% mutate(`Emissions|CO2|Energy and Industrial Processes`=`Emissions|CO2|Energy` + `Emissions|CO2|Industrial Processes`)
 tmp1=gather(tmp, variable, value, c(`Emissions|CO2|Energy and Industrial Processes`,`Emissions|CO2|Energy`, `Emissions|CO2|Industrial Processes`))
 tmp1=data.table(tmp1)
 tmp1=tmp1[variable=="Emissions|CO2|Energy and Industrial Processes"]
-all <- rbind(all,tmp1)
+all <- rbind(all,tmp1)} 
 
 #Adding "Emissions|CO2|Energy and Industrial Processes" to models that don't report them, but have "Emissions|CO2|Energy"
 tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy"]$model),unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$model)) &
