@@ -261,6 +261,7 @@ plot_boxplot(regs=regs,dt=all,vars=c("BECCS per capita", "Primary Energy|Biomass
 
 # BECCS
 plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="2030_low",year=2050,file_pre="BECCS_2050_2030_low")
+plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats=c("2030_low","2030_high","2020_low","2020_high"),year=2050,file_pre="BECCS_2050_low-high",b.multicat=TRUE)
 plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="2030_low",year=2050,file_pre="PE_BECCS_2050_2030_low")
 plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="2030_low",year=2050,file_pre="PE_Bio_2050_2030_low")
 
