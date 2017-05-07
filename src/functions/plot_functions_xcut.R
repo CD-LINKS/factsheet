@@ -41,6 +41,7 @@ plot_boxplot <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, titl
   {
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
+    p = p + ggtitle(paste0(dtg$variable[1], " [", dtg$unit[1],"] - ",as.character(year)))
     ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,"_refpol",cfg$format),p, width=9, height=6, dpi=120)
   }  else if(b.multivar)  {
     p = p + ggtitle(paste0("'",cats[1],"'"," - ", as.character(year)))
