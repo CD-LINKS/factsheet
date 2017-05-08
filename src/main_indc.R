@@ -15,7 +15,7 @@ library(directlabels) # year labels for scatter plots
 #setwd("D:/location-of-srcfolder-on-your-system")
 
 #source configuration file for region-specific data
-source("settings/config_USA.R")
+source("settings/config_RUS.R")
 
 # for (reg in c("JPN","BRA","CHN","IND","EUR","RUS")){
 # #source configuration file for region-specific data
