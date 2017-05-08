@@ -23,7 +23,7 @@ source("settings/config_RUS.R")
 
 
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20170503-215606"
+cfg$infile    <- "cdlinks_compare_20170508-141900"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")

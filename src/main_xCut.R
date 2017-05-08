@@ -16,7 +16,7 @@ library(directlabels) # year labels for scatter plots
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20170503-215606"
+cfg$infile <- "cdlinks_compare_20170508-141900"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
