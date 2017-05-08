@@ -6,8 +6,8 @@ tmp$variable <- "GDP|MER"
 all <- rbind(all,tmp)
 
 #RU-TIMES: problem with Energy and Industrial Processes (probably only industrial processes??)
-# all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Processes"&region=="RUS"]$value <-
-#   all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy"&region=="RUS"]$value
+all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Processes"&region=="RUS"]$value <-
+  all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy"&region=="RUS"]$value
 
 #IPAC/AIM:
 # Baseline not NoPOL but NPi, because IPAC does not have NoPOL
@@ -39,7 +39,7 @@ all <- rbind(all,tmp1)}
 #Adding "Emissions|CO2|Energy and Industrial Processes" to scenarios that don't report them, but have "Emissions|CO2|Energy" and "Emissions|CO2|Industrial Processes"
 tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Industrial Processes"]$model),unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$model)) &
               variable %in% c("Emissions|CO2|Energy","Emissions|CO2|Industrial Processes")]
-if(dim(tmp1)[1]!=0){
+if(dim(tmp1)[1]!=0 & "Emissions|CO2|Energy" %in% unique(tmp1$variable)){
 tmp=spread(tmp1,variable, value)
 tmp=na.omit(tmp)
 tmp=tmp %>% mutate(`Emissions|CO2|Energy and Industrial Processes`=`Emissions|CO2|Energy` + `Emissions|CO2|Industrial Processes`)
