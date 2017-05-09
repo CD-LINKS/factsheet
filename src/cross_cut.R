@@ -102,7 +102,10 @@ for (reg in regs)
   
   plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Wind and Solar Share", "Nuclear Share"),catglob = catglob, catsnat = catsnat,
                             year=2050,file_pre="ElecLowCarb", var.labels = c("Wind and Solar Share [%]", "Nuclear Share [%]"), b.multivar = T)
-
+  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Wind and Solar Share"),catglob = catglob, catsnat = catsnat,
+                               years=c(2030,2050),file_pre="2030_2050_ElecWS", var.labels = c("Wind and Solar Share [%]"),b.multiyear = T)
+  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Nuclear Share"),catglob = catglob, catsnat = catsnat,
+                               years=c(2030,2050),file_pre="2030_2050_ElecNuc", var.labels = c("Nuclear Share [%]"),b.multiyear = T)
 
   regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA")
 
