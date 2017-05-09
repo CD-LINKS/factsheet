@@ -18,7 +18,7 @@ scens2deg <- c("INDC", "2030_high", "2030_low", "2020_verylow")
 #calculate emissions and 2050 budgets
 v_emireg <- all %>%
     filter (variable %in% vars & region %in% regs & !is.na(value) & Category %in% cats & model %in% mods) %>%
-    mutate(value = value / 1000, unit = "GtCO2/yr") %>%
+    #mutate(value = value / 1000, unit = "GtCO2/yr") %>%
     factor.data.frame()
 v_emireg <- as.data.table(v_emireg)
 v_emireg$period <- as.numeric(as.character(v_emireg$period))
@@ -89,7 +89,7 @@ ggplot() +
 
 
 ggsave(file=paste0("plots/","CO2_EmissionYears_COP_fliped","_multiregbox.png"),
-       width=25, height=17, unit="cm", dpi=300, bg = "transparent")
+       width=25, height=17, unit="cm", dpi=300) #, bg = "transparent"
 
 
 
@@ -152,7 +152,7 @@ ggplot() +
 
 
 ggsave(file=paste0("plots/","CO2_EmissionBudgets","_multiregbox.png"),
-       width=25, height=17, unit="cm", dpi=300, bg = "transparent")
+       width=25, height=17, unit="cm", dpi=300) #, bg = "transparent"
 
 
 
