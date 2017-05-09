@@ -92,10 +92,14 @@ for (reg in regs)
 
   plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,
                             year=2030,file_pre="Comp2050_FE_CI_2030_low", var.labels = c("Final Energy per Capita [GJ]","Carbon Intensity of FE [kgCO2/GJ]"), b.multivar = T)
-
   plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,
                             year=2050,file_pre="Comp2050_FE_CI_2050_low", var.labels = c("Final Energy per Capita [GJ]","Carbon Intensity of FE [kgCO2/GJ]"), b.multivar = T)
-
+  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Final Energy per capita"),catglob = catglob, catsnat = catsnat,
+                            years=c(2030,2050),file_pre="2030_2050_FE", var.labels = c("Final Energy per Capita [GJ]"),b.multiyear = T)
+  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,
+                               years=c(2030,2050),file_pre="2030_2050_CI", var.labels = c("Carbon Intensity of FE [kgCO2/GJ]"),b.multiyear = T)
+  
+  
   plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Wind and Solar Share", "Nuclear Share"),catglob = catglob, catsnat = catsnat,
                             year=2050,file_pre="ElecLowCarb", var.labels = c("Wind and Solar Share [%]", "Nuclear Share [%]"), b.multivar = T)
 

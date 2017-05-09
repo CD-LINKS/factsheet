@@ -116,7 +116,63 @@ plot_boxplot_multiScenNat <- function(regs, dt, vars, catsnat, catglob, year = 2
 }
 
 
-
+#plot function for boxplots - multi-year, one variable
+plot_boxplot_multiScenNat_yr <- function(regs, dt, vars, catsnat, catglob, years, out=cfg$outdir, title="Title", file_pre="boxplot",connect=T,
+                                      b.multivar =  F, b.multiyear = T, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F){
+  
+  
+  dt <- dt[ variable %in% vars & period %in% years & Category %in% union(catsnat, catglob) & region %in% regs & !is.na(value)] %>% factor.data.frame()
+  
+  dt$region <- factor(dt$region, levels = regs, ordered = T )
+  dt$Category <- factor(dt$Category, levels = union(catsnat, catglob), ordered = T )
+  dt$variable <- factor(dt$variable, levels = vars, ordered = T )
+  
+  
+  dtg <- dt[Scope=="global" & variable %in% vars & period %in% years & Category %in% catglob & region %in% regs]  %>%
+    rename(Global = model ) %>% factor.data.frame()
+  dtn <- dt[Scope=="national" & variable %in% vars & period %in% years & Category %in% catsnat & region %in% regs] %>%
+    rename(National = model ) %>% factor.data.frame()
+  
+  
+  if (b.multivar){
+    levels(dtg$variable) <- var.labels
+    levels(dtn$variable) <- var.labels
+  }
+  
+  p = ggplot()
+  p = p + geom_boxplot(data=dtg,aes(x=region,y=value), coef = 1e4, color = "grey65", size = 1.)
+  if(b.multivar){
+    p = p + facet_wrap(~ variable, scales="free_y")
+  }
+  if(b.multiyear){
+    p = p + facet_wrap(~ period, scales="fixed")
+  }
+  if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))}
+  p = p + geom_point(data=dtn,aes(x=region,y=value,colour=National, shape=Category), size = 3,  stroke = 1 )
+  #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
+  p = p + ylab("") + xlab("")
+  
+  p = p + scale_color_manual( values=plotstyle(levels(dtn$National)),
+                              labels =  plotstyle(levels(dtn$National), out = "legend") )
+  p = p + scale_shape_manual(values=plotstyle(catsnat, out="shape"))
+  
+  if (!is.null(ylim))
+    p = p + coord_cartesian(ylim = ylim)
+  
+  if(b.multivar)  {
+    
+    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
+                  plot.title = element_text( size = 18) )
+    ggsave(file=paste0(out,"/boxplotMultiReg_MultiNatiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+  }  else   {
+    p = p + ggtitle(paste0( var.labels[1]))
+    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
+                  plot.title = element_text(hjust = 1, size = 13) )
+    ggsave(file=paste0(out,"/boxplotMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
+           width=6.5, height=6, dpi=120)
+  }
+  return(p)
+}
 
 
 #############################################################
