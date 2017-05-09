@@ -154,6 +154,29 @@ ggplot() +
 ggsave(file=paste0("plots/","CO2_EmissionBudgets","_multiregbox.png"),
        width=25, height=17, unit="cm", dpi=300) #, bg = "transparent"
 
+# Only national scenarios
+ggplot() +
+  #geom_boxplot(data=v_plot[v_plot$Scope=="global",],aes(x=Category,y=CO2Budget, fill = Category), outlier.size = 0, coef = 3) +
+  geom_point(data=v_plot[v_plot$Scope=="national",],aes(x=Category,y=CO2Budget, shape = model),color = 'white',size = 2) +
+  geom_point(data=v_plot[v_plot$Scope=="national",],aes(x=Category,y=CO2Budget, shape = model),color = 'red',size = 3, stroke = 1) +
+  #    geom_point(data=v_plot,aes(x=scenario,y=`CO2rel2010` ,shape=model)) +
+  ggtitle(paste0("CO2 total (2011-2050)")) + ylab("CO2 Budget [GtCO2]") +
+  xlab ("") +
+  scale_shape_manual(values = 1:nlevels(v_plot$model)) +
+  scale_fill_manual(values= plotstyle(scens2deg),
+                    labels=c("INDC", "med2°C","below2°C", "1.5°C"),
+                    name="") +
+  theme( strip.background = element_blank(), plot.background = element_rect(fill     = "transparent",colour = NA ),
+         panel.background = element_rect(fill     = "transparent",colour = NA )) +
+  scale_x_discrete(labels=c("INDC", "med2°C","below2°C", "1.5°C")) +
+  #    theme(axis.text.y  = element_blank()) +
+  facet_grid(  . ~ region) +
+  theme( strip.background = element_blank(), plot.background = element_rect(fill = "transparent",colour = NA ),
+         panel.background = element_rect(fill     = "transparent",colour = NA ),
+         axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1))
+
+ggsave(file=paste0("plots/","CO2_EmissionBudgets_national","_multiregbox.png"),
+       width=25, height=17, unit="cm", dpi=300) #, bg = "transparent"
 
 
 
