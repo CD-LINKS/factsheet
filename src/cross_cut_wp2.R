@@ -613,6 +613,24 @@ plot_boxplot3(regs="USA",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportati
 plot_boxplot3(regs="EU",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
               cats=c("Historical","NoPOL","NPi","INDC"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_EU",ylim=T)
 
+source("functions/plot_functions.R")
+plot_bar_facet2(reg="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet2(reg="BRA",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet2(reg="CHN",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("IND","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet2(reg="JPN",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet2(reg="EU",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet2(reg="RUS",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet2(reg="USA",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet2(reg="IND",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+
 ###Sectoral energy
 #Energy supply
 plot_boxplot3(regs="World",dt=all,vars=c("Primary Energy","Energy Intensity of GDP|MER","Wind and Solar Share","Renewables Share|Incl. Hydro and Nuclear","Secondary Energy|Electricity"),cats=c("NoPOL","NPi","INDC"),
