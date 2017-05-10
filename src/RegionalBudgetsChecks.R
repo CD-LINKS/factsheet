@@ -180,9 +180,9 @@ ggplot() +
     scale_color_manual(values = c(rep("black",10),rep("red",10)))+
     scale_shape_manual(values = rep(seq(1,10),2)) +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
-    theme(axis.text.x  = element_blank() )
+    theme(axis.text.x  = element_blank())
 ggsave(file=paste0("plots/","CO2tot_budget_2deg","_multiregbox.pdf"),
-       width=24, height=16, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=18, unit="cm", dpi=300, bg = "transparent")
 
 #2) Energy and Industry
 ggplot() +
@@ -197,7 +197,7 @@ ggplot() +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
     theme(axis.text.x  = element_blank() )
 ggsave(file=paste0("plots/","CO2EneInd_budget_2deg","_multiregbox.pdf"),
-       width=24, height=16, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=18, unit="cm", dpi=300, bg = "transparent")
 
 #3) Energy
 ggplot() +
@@ -212,7 +212,7 @@ ggplot() +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank() )
 ggsave(file=paste0("plots/","CO2EneOnly_budget_2deg","_multiregbox.pdf"),
-       width=24, height=16, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=18, unit="cm", dpi=300, bg = "transparent")
 
 ### emissions years
 ggplot() +
@@ -225,7 +225,7 @@ ggplot() +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
     theme(axis.text.x  = element_blank() )
 ggsave(file=paste0("plots/","CO2Ene_EmissionYears_2deg","_multiregbox.pdf"),
-       width=24, height=16, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=18, unit="cm", dpi=300, bg = "transparent")
 
 
 ggplot() +
@@ -238,5 +238,5 @@ ggplot() +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
     theme(axis.text.x  = element_blank() )
 ggsave(file=paste0("plots/","CO2tot_EmissionYears_2deg","_multiregbox.pdf"),
-       width=24, height=16, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=18, unit="cm", dpi=300, bg = "transparent")
 
