@@ -274,6 +274,9 @@ plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats="2030
 plot_boxplot(regs=regs,dt=all,vars="Carbon Sequestration|CCS|Biomass",cats=c("2030_low","2030_high","2020_low","2020_high"),year=2050,file_pre="BECCS_2050_low-high",b.multicat=TRUE)
 plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="2030_low",year=2050,file_pre="PE_BECCS_2050_2030_low")
 plot_boxplot(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="2030_low",year=2050,file_pre="PE_Bio_2050_2030_low")
+regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
+plot_boxplot_yr(regs=regs,dt=all,vars="Primary Energy|Biomass|w/ CCS",cats="2030_low",years=c(2030,2050),file_pre="PE_BECCS_2030_2050_2030_low",b.multiyear = T)
+plot_boxplot_yr(regs=regs,dt=all,vars="Primary Energy|Biomass",cats="2030_low",years=c(2030,2050),file_pre="PE_Bio_2030_2050_2030_low",b.multiyear = T)
 
 #Population
 plot_boxplot(regs=regs,dt=all,vars="Population",cats="2030_low",year=2010,file_pre="Pop_2010")

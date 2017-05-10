@@ -58,6 +58,60 @@ plot_boxplot <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, titl
   return(p)
 }
 
+# Boxplot with multi-year option
+plot_boxplot_yr <- function(regs, dt, vars, cats, years, out=cfg$outdir, title="Title", file_pre="boxplot",connect=T,
+                            b.multicat = F, b.multivar =  F, b.multiyear=T, var.labels = NA, ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T,globpoints=T){
+  
+  dt <- dt[ variable %in% vars & period %in% years & Category %in% cats & region %in% regs & !is.na(value)] %>% factor.data.frame()
+  
+  dt$region <- factor(dt$region, levels = regs, ordered = T )
+  dt$Category <- factor(dt$Category, levels = cats, ordered = T )
+  dt$variable <- factor(dt$variable, levels = vars, ordered = T )
+  
+  
+  dtg <- dt[Scope=="global" & variable %in% vars & period %in% years & Category %in% cats & region %in% regs]  %>%
+    rename(Global = model )
+  dtn <- dt[Scope=="national" & variable %in% vars & period %in% years & Category %in% cats & region %in% regs] %>%
+    rename(National = model )
+  
+  
+  if (b.multivar){
+    levels(dtg$variable) <- var.labels
+    levels(dtn$variable) <- var.labels
+  }
+  
+  p = ggplot()
+  p = p + geom_boxplot(data=dtg,aes(x=region,y=value))
+  if (b.multicat){
+    p = p + facet_wrap(~ Category)
+  } else if(b.multiyear){
+    p = p + facet_wrap(~ period, scales="free_x")
+  }
+  if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))
+  p = p + scale_shape_manual(values=cfg$man_shapes)}
+  p = p + geom_point(data=dtn,aes(x=region,y=value,colour=National), size = 3)
+  #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
+  p = p + ylab("") + xlab("")
+  if (b.multicat)
+  {
+    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
+                  plot.title = element_text( size = 18) )
+    p = p + ggtitle(paste0(dtg$variable[1], " [", dtg$unit[1],"] - ",as.character(year)))
+    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,"_refpol",cfg$format),p, width=9, height=6, dpi=120)
+  }  else if(b.multivar)  {
+    p = p + ggtitle(paste0("'",cats[1],"'"," - ", as.character(year)))
+    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
+                  plot.title = element_text( size = 18) )
+    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+  }  else   {
+    p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"] - ",cats[1]))
+    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
+                  plot.title = element_text(hjust = 1, size = 13) )
+    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p,
+           width=6.5, height=6, dpi=120)
+  }
+  return(p)
+}
 
 
 #plot function for boxplots
