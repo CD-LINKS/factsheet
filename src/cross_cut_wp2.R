@@ -598,6 +598,20 @@ plot_boxplot3(regs="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transporta
               cats=c("Historical","NoPOL","NPi","INDC"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_World",ylim=T)
 plot_boxplot3(regs="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
               cats=c("Historical","NoPOL","NPi","INDC"),year=2020,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2020_World",ylim=T)
+plot_boxplot3(regs="BRA",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+              cats=c("Historical","NoPOL","NPi","INDC"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_BRA",ylim=T)
+plot_boxplot3(regs="CHN",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+              cats=c("Historical","NoPOL","NPi","INDC"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_CHN",ylim=T)
+plot_boxplot3(regs="IND",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+              cats=c("Historical","NoPOL","NPi","INDC"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_IND",ylim=T)
+plot_boxplot3(regs="JPN",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+              cats=c("Historical","NoPOL","NPi","INDC"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_JPN",ylim=T)
+plot_boxplot3(regs="RUS",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+              cats=c("Historical","NoPOL","NPi","INDC"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_RUS",ylim=T)
+plot_boxplot3(regs="USA",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+              cats=c("Historical","NoPOL","NPi","INDC"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_USA",ylim=T)
+plot_boxplot3(regs="EU",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+              cats=c("Historical","NoPOL","NPi","INDC"),year=2030,b.multivar=T,var.labels=c("Transportation","Industry","Residential and Commercial","Energy Supply","AFOLU"),file_pre="Sector_Emis_CO2_2030_EU",ylim=T)
 
 ###Sectoral energy
 #Energy supply
