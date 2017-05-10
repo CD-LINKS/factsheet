@@ -106,9 +106,9 @@ plot_boxplot_yr <- function(regs, dt, vars, cats, years, out=cfg$outdir, title="
   }  else   {
     p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"] - ",cats[1]))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
-                  plot.title = element_text(hjust = 1, size = 13) )
+                  plot.title = element_text(size = 13) )
     ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p,
-           width=6.5, height=6, dpi=120)
+           width=8, height=6, dpi=120)
   }
   return(p)
 }
