@@ -184,7 +184,8 @@ regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
 
 #Carbon intensity of final energy
 plot_boxplot(regs=regs,dt=all,vars="Carbon Intensity of FE",cats="2030_low",year=2020,file_pre="CI_2020_2030_low")
-
+plot_boxplot(regs=regs,dt=all,vars="Carbon Intensity of FE",cats=c("2030_low","2020_low","NPi","INDC"),year=2030,file_pre="CI_2030_multicat",b.multicat = T)
+plot_boxplot(regs=regs,dt=all,vars="Carbon Intensity of FE",cats=c("2030_low","2020_low","NPi","INDC"),year=2050,file_pre="CI_2050_multicat",b.multicat = T)
 
 # plot_boxplot(regs=regs,dt=all,vars="Carbon Intensity of Electricity",cats="2030_low",year=2050,file_pre="CI_Elec_2050")
 
@@ -207,6 +208,8 @@ plot_boxplot(regs=regs,dt=all,vars="Emissions per capita",cats="2030_low",year=2
 
 #Final energy per capita
 plot_boxplot(regs=regs,dt=all,vars="Final Energy per capita",cats="2030_low",year=2050,file_pre="FE per Cap_2050_2030_low")
+plot_boxplot(regs=regs,dt=all,vars="Final Energy per capita",cats=c("2030_low","2020_low","INDC","NPi"),year=2050,file_pre="FE per Cap_2050_multicat",b.multicat = T)
+plot_boxplot(regs=regs,dt=all,vars="Final Energy per capita",cats=c("2030_low","2020_low","INDC","NPi"),year=2030,file_pre="FE per Cap_2030_multicat",b.multicat = T)
 
 #Fossil emissions per capita
 plot_boxplot(regs=regs,dt=all,vars="Fossil emissions per cap",cats="2030_low",year=2050,file_pre="FossEmiCap_2050_2030_low")
@@ -295,7 +298,8 @@ plot_boxplot(regs=regs,dt=all,vars=c("Rate of Change| Carbon Intensity of FE", "
 regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
 plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="2030_low",year=2050,file_pre="PE_2050_2030_low")
 plot_boxplot(regs=regs,dt=all,vars="Primary Energy",cats="2030_low",year=2030,file_pre="PE_2030_2030_low")
-
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Primary Energy"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_PE", var.labels = c("Primary Energy [EJ/year]"),b.multiyear = T)
 
 
 # ### scatter plot based on diagnostics data
