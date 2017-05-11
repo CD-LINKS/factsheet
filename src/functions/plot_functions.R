@@ -342,6 +342,7 @@ plot_bar_facet2 <- function(reg, dt, vars, cats, year=2030, out=cfg$outdir, lab=
   
   unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
   unitsy <- paste(rev(unitsy),sep='',collapse='')
+  dt$Category=factor(dt$Category,levels=rev(levels(dt$Category)))
   
   p = ggplot(dt,aes(x=Category, y=value, fill=model))
   p = p + facet_grid(variable ~ region,scales="free_y")
@@ -351,6 +352,7 @@ plot_bar_facet2 <- function(reg, dt, vars, cats, year=2030, out=cfg$outdir, lab=
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   p = p + scale_fill_manual(values=plotstyle(as.character(unique(dt$model))))
   p = p + ylab(paste(unitsy))
+  p = p + ggtitle(lab)
   p = p + ggplot2::theme_bw()+ theme(axis.text.x = element_text(angle = 45, hjust = 1))
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
