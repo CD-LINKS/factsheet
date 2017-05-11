@@ -695,22 +695,22 @@ plot_boxplot3(regs="World",dt=all,vars=c("Final Energy|Residential and Commercia
 ### Using other plot functions
 source("functions/plot_functions.R")
 #Sectoral emissions
-plot_bar_facet2(reg="World",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
-                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
-plot_bar_facet2(reg="BRA",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
-                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
-plot_bar_facet2(reg="CHN",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
-                cats=c("IND","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
-plot_bar_facet2(reg="JPN",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
-                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
-plot_bar_facet2(reg="EU",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
-                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
-plot_bar_facet2(reg="RUS",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
-                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
-plot_bar_facet2(reg="USA",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
-                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
-plot_bar_facet2(reg="IND",dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
-                cats=c("NoPOL","NPi"),year=2030,lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet(reg="World",dt=all[period==2030],vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet(reg="BRA",dt=all[period==2030],vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet(reg="CHN",dt=all[period==2030],vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("IND","NPi"),lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet(reg="JPN",dt=all[period==2030],vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet(reg="EU",dt=all[period==2030],vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet(reg="RUS",dt=all[period==2030],vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet(reg="USA",dt=all[period==2030],vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
+plot_bar_facet(reg="IND",dt=all[period==2030],vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                cats=c("NoPOL","NPi"),lab="Sectoral CO2 emissions",file_pre="Sector_CO2_bar_facet")   
 
 # Kaya indicators
 vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
@@ -718,5 +718,22 @@ cats <- c("INDC","2020_low","2030_low","2020_verylow")
 plot_funnel(reg="World",dt=all[period<=2100],vars=vars,cats=cats,title="Kaya factors",file_pre="kaya_funnel3",glob_lines=T,xlim=c(2000,2100))  
 
 vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
-cats <- c("NPi","INDC","2020_verylow","2020_low","2020_high","INDC2030ip_1000","2030_low","2030_high")
-plot_bar_facet2(reg="World",dt=all[period==2050],year=2050,vars=vars,cats=cats,lab="Kaya factors; 2050)",file_pre="kaya_2050_bar2") 
+cats <- c("NPi","INDC","2020_verylow","2020_low","2030_low")
+#With CO2_FFI
+plot_bar_facet2(reg="World",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2030",file_pre="kaya_2030_bar2") 
+plot_bar_facet2(reg="World",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2050",file_pre="kaya_2050_bar2") 
+plot_bar_facet2(reg="World",dt=all,year=2100,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2100",file_pre="kaya_2100_bar2") 
+plot_bar_facet2(reg="CHN",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2030",file_pre="kaya_2030_bar2")
+plot_bar_facet2(reg="CHN",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2050",file_pre="kaya_2050_bar2")
+plot_bar_facet2(reg="USA",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2030",file_pre="kaya_2030_bar2")
+plot_bar_facet2(reg="USA",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2050",file_pre="kaya_2050_bar2")
+
+#With Kyoto gases
+vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","GHG Intensity of FE","GHG emissions per capita")
+plot_bar_facet2(reg="World",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2") 
+plot_bar_facet2(reg="World",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2") 
+plot_bar_facet2(reg="World",dt=all,year=2100,vars=vars,cats=cats,lab="Kaya factors - GHG; 2100",file_pre="kaya_GHG_2100_bar2") 
+plot_bar_facet2(reg="CHN",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2")
+plot_bar_facet2(reg="CHN",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2")
+plot_bar_facet2(reg="USA",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2")
+plot_bar_facet2(reg="USA",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2")
