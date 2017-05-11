@@ -106,7 +106,14 @@ for (reg in regs)
                                years=c(2030,2050),file_pre="2030_2050_ElecWS", var.labels = c("Wind and Solar Share [%]"),b.multiyear = T)
   plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Nuclear Share"),catglob = catglob, catsnat = catsnat,
                                years=c(2030,2050),file_pre="2030_2050_ElecNuc", var.labels = c("Nuclear Share [%]"),b.multiyear = T)
-
+  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Low-carbon Electricity Share|All excl. Fossil w/o CCS"),catglob = catglob, catsnat = catsnat,
+                               years=c(2030,2050),file_pre="2030_2050_Elec_lowC", var.labels = c("Low-carbon Share [%]"),b.multiyear = T)
+  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Renewables Share|Excl. Nuclear"),catglob = catglob, catsnat = catsnat,
+                               years=c(2030,2050),file_pre="2030_2050_Elec_REN_excl.nuc", var.labels = c("REN Share excl. nuclear [%]"),b.multiyear = T)
+  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Renewables Share|Incl. Hydro and Nuclear"),catglob = catglob, catsnat = catsnat,
+                               years=c(2030,2050),file_pre="2030_2050_Elec_REN_incl_hydro_nuc", var.labels = c("REN Share incl. hydro/nuclear/biomass [%]"),b.multiyear = T)
+  
+  
   regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA")
 
   plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","BECCS per capita"),catglob = catglob, catsnat = catsnat,
