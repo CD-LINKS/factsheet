@@ -11,7 +11,7 @@ all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Process
 
 #IPAC/AIM:
 # Baseline not NoPOL but NPi, because IPAC does not have NoPOL
-all[model =="IPAC-AIM/technology V1.0"]$Baseline <- ""
+#all[model =="IPAC-AIM/technology V1.0"]$Baseline <- ""
 all[model =="China TIMES"]$Baseline <- ""
 
 #COPPE-MSB: no Emissions|CO2|Energy for INDC
@@ -21,7 +21,10 @@ all[model =="China TIMES"]$Baseline <- ""
 # all <- all[ !(model %in% c("*COPPE-MSB_v1.3.2", "COPPE-MSB_v1.3.2") & variable =="Emissions|CO2|Energy and Industrial Processes"), ]
 
 # Multiplying Brazil GDP for COPPE by 1000 because reported differently (factor 1000 different from global models)
-all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value=all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value*1000
+#all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value=all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value*1000
+
+# Multiplying GDP|MER for MESSAGEix-GLOBIOM by 1000 because reported differently (factor 1000 different from other models)
+all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value=all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value*1000
 
 # GCAM-USA: no total final energy, only in demand sectors -> adding demand sectors to get total
 tmp1 <- all[model %in% setdiff(unique(all[variable=="Final Energy|Transportation"]$model),unique(all[variable=="Final Energy"]$model)) &
