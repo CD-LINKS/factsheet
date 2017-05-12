@@ -330,7 +330,7 @@ plot_bar_facet <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", tit
 ###################### plot_bar_facet2 #######################
 #############################################################
 
-plot_bar_facet2 <- function(reg, dt, vars, cats, year=2030, out=cfg$outdir, lab="Title", title="Title",file_pre="def",ylim=NA,xlim=NA){
+plot_bar_facet2 <- function(reg, dt, vars, cats, year=2030, out=cfg$outdir, lab="Title", title="Title",file_pre="def",ylim=NA,xlim=NA,b.legend=F,legendorder){
   #select data
   if ("Historical" %in% cats) {
     hist=dt[ variable %in% vars & Category=="Historical" & region %in% reg & !is.na(value)]
@@ -342,7 +342,8 @@ plot_bar_facet2 <- function(reg, dt, vars, cats, year=2030, out=cfg$outdir, lab=
   
   unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
   unitsy <- paste(rev(unitsy),sep='',collapse='')
-  dt$Category=factor(dt$Category,levels=rev(levels(dt$Category)))
+  if(b.legend){dt$Category=factor(dt$Category, levels=legendorder)} else {
+    dt$Category=factor(dt$Category,levels=rev(levels(dt$Category)))}
   
   p = ggplot(dt,aes(x=Category, y=value, fill=model))
   p = p + facet_grid(variable ~ region,scales="free_y")
