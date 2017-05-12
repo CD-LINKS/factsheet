@@ -737,3 +737,30 @@ plot_bar_facet2(reg="CHN",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors
 plot_bar_facet2(reg="CHN",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2")
 plot_bar_facet2(reg="USA",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2")
 plot_bar_facet2(reg="USA",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2")
+
+# GHG emissions funnel
+dt=all
+dt1=dt[Category %in% c("NoPOL","NPi","INDC")&period<2035]
+dt2=dt[Category %in% c("2030_low","2020_verylow","2020_low")&period<2055]
+dt=rbind(dt1,dt2)
+
+cats <- c("NoPOL")
+plot_funnel("World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel_LT_NoPOL",glob_lines=T,xlim=c(2000,2100))   
+cats <- c("NoPOL","NPi","INDC")
+plot_funnel("World",dt=dt,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel_ST_NoPOL_NPi_INDC",glob_lines=T,xlim=c(2000,2030),ylim=c(0,70000))   
+cats <- c("NoPOL","NPi","INDC","2020_low")
+plot_funnel("World",dt=dt,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel_MT_NoPOL_NPi_INDC_NPilow",glob_lines=T,xlim=c(2000,2050),ylim=c(0,70000))   
+cats <- c("NoPOL","NPi","INDC","2020_low","2020_verylow")
+plot_funnel("World",dt=dt,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel_MT_NoPOL_NPi_INDC_verylow",glob_lines=T,xlim=c(2000,2050),ylim=c(0,70000))   
+cats <- c("NoPOL","NPi","INDC","2020_low","2020_verylow","2030_low")
+plot_funnel("World",dt=dt,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel_MT_NoPOL_NPi_INDC_low",glob_lines=T,xlim=c(2000,2050),ylim=c(0,70000))   
+
+cats <- c("NoPOL","NPi","INDC")
+plot_funnel("World",dt=dt,vars=c("Emissions|CO2"),cats=cats,title="CO2 emissions",file_pre="CO2_funnel_ST_NoPOL_NPi_INDC",glob_lines=T,xlim=c(2000,2030),ylim=c(0,60000))   
+cats <- c("NoPOL","NPi","INDC","2020_low","2020_verylow","2030_low")
+plot_funnel("World",dt=dt,vars=c("Emissions|CO2"),cats=cats,title="CO2 emissions",file_pre="CO2_funnel_MT_NoPOL_NPi_INDC_low",glob_lines=T,xlim=c(2000,2050),ylim=c(0,60000))   
+
+cats <- c("NoPOL","NPi","INDC")
+plot_funnel("World",dt=dt,vars=c("Emissions|CO2|AFOLU"),cats=cats,title="AFOLU CO2 emissions",file_pre="AFOLU_CO2_funnel_ST_NoPOL_NPi_INDC",glob_lines=T,xlim=c(2000,2030),ylim=c(0,10000))   
+cats <- c("NoPOL","NPi","INDC","2020_low","2020_verylow","2030_low")
+plot_funnel("World",dt=dt,vars=c("Emissions|CO2|AFOLU"),cats=cats,title="AFOLU CO2 emissions",file_pre="AFOLU_CO2_funnel_MT_NoPOL_NPi_INDC_low",glob_lines=T,xlim=c(2000,2050),ylim=c(-7500,10000))   
