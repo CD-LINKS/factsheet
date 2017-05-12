@@ -144,7 +144,7 @@ if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + ylab(paste(unitsy))
   p = p + facet_grid(variable ~ region,scales="free_y")
   p = p + ggtitle(title) + ggplot2::theme_bw()
-  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=8, height=8, dpi=120)
   return(p)
 }
 
