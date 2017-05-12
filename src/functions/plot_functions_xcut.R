@@ -51,7 +51,7 @@ plot_boxplot <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, titl
   }  else   {
     p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"] - ",cats[1]," - ", as.character(year)))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
-                  plot.title = element_text(hjust = 1, size = 13) )
+                  plot.title = element_text(size = 13) ) #hjust = 1, 
     ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p,
            width=6.5, height=6, dpi=120)
   }
@@ -81,11 +81,11 @@ plot_boxplot_yr <- function(regs, dt, vars, cats, years, out=cfg$outdir, title="
   }
   
   p = ggplot()
-  p = p + geom_boxplot(data=dtg,aes(x=region,y=value))
+  p = p + geom_boxplot(data=dtg,aes(x=region,y=value),outlier.size = 0)
   if (b.multicat){
     p = p + facet_wrap(~ Category)
   } else if(b.multiyear){
-    p = p + facet_wrap(~ period, scales="free_x")
+    p = p + facet_wrap(variable~ period, scales="free_x")
   }
   if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))
   p = p + scale_shape_manual(values=cfg$man_shapes)}
