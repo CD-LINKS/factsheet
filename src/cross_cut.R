@@ -154,8 +154,12 @@ var_labels <- c("Red. rel to 2010 [%]","Red. rel to Base [%]","Migation Costs [%
 
 #Scenario overview - example without model identifiers
 plot_boxplot(regs=regs,dt=all,vars=vars,cats="2030_low",year=2050,file_pre="Comp2050_2030_low", var.labels = var_labels, b.multivar = T,globpoints=F)
-
 plot_boxplot(regs=regs,dt=all,vars=vars,cats="2030_low",year=2030,file_pre="Comp2030_2030_low", var.labels = var_labels, b.multivar = T,globpoints=F)
+vars <- c("Reduction rel to 2010", "relative Abatement|CO2")
+plot_boxplot_yr(regs=regs,dt=all,vars=vars,cats="2030_low",years=c(2030,2050),file_pre="Comp2030_2050_2030_low", var.labels = var_labels, b.multiyear=T,globpoints=F)
+plot_boxplot_yr(regs=regs,dt=all,vars=vars,cats="2030_high",years=c(2030,2050),file_pre="Comp2030_2050_2030_high", var.labels = var_labels, b.multiyear=T,globpoints=F)
+plot_boxplot_yr(regs=regs,dt=all,vars=vars,cats="2020_low",years=c(2030,2050),file_pre="Comp2030_2050_2020_low", var.labels = var_labels, b.multiyear=T,globpoints=F)
+plot_boxplot_yr(regs=regs,dt=all,vars=vars,cats="2020_high",years=c(2030,2050),file_pre="Comp2030_2050_2020_high", var.labels = var_labels, b.multiyear=T,globpoints=F)
 
 
 #Final energy + carbon intensity of FE
@@ -169,6 +173,10 @@ plot_boxplot(regs=regs,dt=all,vars=c("Share of Elec in FE","Share of Elec in Tra
 #Share of electricity in final energy
 plot_boxplot(regs=regs,dt=all,vars=c("Share of Elec in FE"),cats="2030_low",
              year=2050,file_pre="ShElec_FE2050_2030_low", var.labels = c("Share of Elec in FE [%]"))
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Share of Elec in FE"),catglob = catglob, catsnat = catsnat,
+                             years=c(2020,2030,2050),file_pre="2020_2030_2050_ElecFE", var.labels = c("Share of electricity in FE [%]"),b.multiyear = T)
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Share of Elec in FE"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_ElecFE", var.labels = c("Share of electricity in FE [%]"),b.multiyear = T)
 
  #Share of electricity in transport
 all[model == "WITCH" & variable == "Share of Elec in Transport" ]$value = NA
@@ -183,7 +191,30 @@ plot_boxplot(regs=regs,dt=all,vars=c("Non-CO2 GHG per capita", "LU Emissions per
 #Total GHG emissions
 regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA")
 plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="2030_low",
+             year=2030,file_pre="GHGEmiMult2030_2030_low", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="2030_low",
              year=2050,file_pre="GHGEmiMult2050_2030_low", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="2030_high",
+             year=2030,file_pre="GHGEmiMult2030_2030_high", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="2030_high",
+             year=2050,file_pre="GHGEmiMult2050_2030_high", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="INDC",
+             year=2030,file_pre="GHGEmiMult2030_INDC", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="INDC",
+             year=2050,file_pre="GHGEmiMult2050_INDC", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="NPi",
+             year=2030,file_pre="GHGEmiMult2030_NPi", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ),cats="NPi",
+             year=2050,file_pre="GHGEmiMult2050_NPi", var.labels = c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O" ) , b.multivar = T)
+plot_boxplot_yr(regs=regs,dt=all,vars="Emissions|Kyoto Gases",cats="2030_low",years=c(2030,2050),file_pre="Kyoto_2030_2050_2030_low",b.multiyear = T)
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),catglob = catglob, catsnat = catsnat,
+                             years=c(2020,2030,2050),file_pre="2020_2030_2050_Kyoto", var.labels = c("Kyoto gas emissions [Mt CO2eq/year]"),b.multiyear = T)
+plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O"),catglob = catglob, catsnat = catsnat,
+                          year=2020,file_pre="Comp2020_GHG_national", var.labels = c("GHG emissions [MtCO2eq/yr]","AFOLU CO2 [MtCO2/yr]","CH4 emissions [MtCH4/yr]","N2O emissions [kt N2O/yr]"), b.multivar = T)
+plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O"),catglob = catglob, catsnat = catsnat,
+                          year=2030,file_pre="Comp2030_GHG_national", var.labels = c("GHG emissions [MtCO2eq/yr]","AFOLU CO2 [MtCO2/yr]","CH4 emissions [MtCH4/yr]","N2O emissions [kt N2O/yr]"), b.multivar = T)
+plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O"),catglob = catglob, catsnat = catsnat,
+                          year=2050,file_pre="Comp2050_GHG_national", var.labels = c("GHG emissions [MtCO2eq/yr]","AFOLU CO2 [MtCO2/yr]","CH4 emissions [MtCH4/yr]","N2O emissions [kt N2O/yr]"), b.multivar = T)
 
 #oASIA <-  calcRegion(all[Scope == "global"], ' `oASIA` ~ `R5ASIA` - `IND` - `CHN` ', b.append = F)
 
