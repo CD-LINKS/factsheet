@@ -350,6 +350,13 @@ plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2020_high",year=2100
 plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats=c("2020_high","2020_low","2030_high","2030_low"),year=2100,file_pre="MitiCosts_2100_mitigscens",b.multicat = T)
 plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats=c("2020_high","2020_low","2030_high","2030_low"),year=2050,file_pre="MitiCosts_2050_mitigscens",b.multicat = T)
 
+plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("INDC2030ip_1000","2030_low"),year=2050,file_pre="MitiCosts_2050_INDCip",b.multicat = T)
+plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("2020_low","2030_low"),year=2050,file_pre="MitiCosts_2050_low",b.multicat = T)
+plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("2020_low","2020_verylow"),year=2050,file_pre="MitiCosts_2050_verylow",b.multicat = T)
+plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("INDC2030ip_1000","2030_low"),year=2100,file_pre="MitiCosts_2100_INDCip",b.multicat = T)
+plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("2020_low","2030_low"),year=2100,file_pre="MitiCosts_2100_low",b.multicat = T)
+plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("2020_low","2020_verylow"),year=2100,file_pre="MitiCosts_2100_verylow",b.multicat = T)
+
 #Carbon price
 plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats="2030_low",year=2050,file_pre="CO2price_2050_2030_low")
 plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats="2030_high",year=2050,file_pre="CO2price_2050_2030_high")
@@ -720,23 +727,23 @@ plot_funnel(reg="World",dt=all[period<=2100],vars=vars,cats=cats,title="Kaya fac
 vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
 cats <- c("NPi","INDC","2020_verylow","2020_low","2030_low")
 #With CO2_FFI
-plot_bar_facet2(reg="World",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2030",file_pre="kaya_2030_bar2") 
-plot_bar_facet2(reg="World",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2050",file_pre="kaya_2050_bar2") 
-plot_bar_facet2(reg="World",dt=all,year=2100,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2100",file_pre="kaya_2100_bar2") 
-plot_bar_facet2(reg="CHN",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2030",file_pre="kaya_2030_bar2")
-plot_bar_facet2(reg="CHN",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2050",file_pre="kaya_2050_bar2")
-plot_bar_facet2(reg="USA",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2030",file_pre="kaya_2030_bar2")
-plot_bar_facet2(reg="USA",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2050",file_pre="kaya_2050_bar2")
+plot_bar_facet2(reg="World",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2030",file_pre="kaya_2030_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow")) 
+plot_bar_facet2(reg="World",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2050",file_pre="kaya_2050_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow")) 
+plot_bar_facet2(reg="World",dt=all,year=2100,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2100",file_pre="kaya_2100_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow")) 
+plot_bar_facet2(reg="CHN",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2030",file_pre="kaya_2030_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow"))
+plot_bar_facet2(reg="CHN",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2050",file_pre="kaya_2050_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow"))
+plot_bar_facet2(reg="USA",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2030",file_pre="kaya_2030_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow"))
+plot_bar_facet2(reg="USA",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - CO2|FFI; 2050",file_pre="kaya_2050_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow"))
 
 #With Kyoto gases
 vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","GHG Intensity of FE","GHG emissions per capita")
-plot_bar_facet2(reg="World",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2") 
-plot_bar_facet2(reg="World",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2") 
-plot_bar_facet2(reg="World",dt=all,year=2100,vars=vars,cats=cats,lab="Kaya factors - GHG; 2100",file_pre="kaya_GHG_2100_bar2") 
-plot_bar_facet2(reg="CHN",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2")
-plot_bar_facet2(reg="CHN",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2")
-plot_bar_facet2(reg="USA",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2")
-plot_bar_facet2(reg="USA",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2")
+plot_bar_facet2(reg="World",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow")) 
+plot_bar_facet2(reg="World",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow")) 
+plot_bar_facet2(reg="World",dt=all,year=2100,vars=vars,cats=cats,lab="Kaya factors - GHG; 2100",file_pre="kaya_GHG_2100_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow")) 
+plot_bar_facet2(reg="CHN",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow"))
+plot_bar_facet2(reg="CHN",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow"))
+plot_bar_facet2(reg="USA",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow"))
+plot_bar_facet2(reg="USA",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2", b.legend=T,legendorder=c("NPi","INDC","2020_low","2030_low","2020_verylow"))
 
 # GHG emissions funnel
 dt=all
@@ -761,6 +768,8 @@ cats <- c("NoPOL","NPi","INDC","2020_low","2020_verylow")
 plot_funnel("World",dt=dt,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel_ST_NoPOL_NPi_INDC_verylow",glob_lines=T,xlim=c(2000,2030),ylim=c(0,70000))   
 cats <- c("NoPOL","NPi","INDC","2020_low","2020_verylow","2030_low")
 plot_funnel("World",dt=dt,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel_MT_NoPOL_NPi_INDC_low",glob_lines=T,xlim=c(2000,2050),ylim=c(0,70000))   
+cats <- c("2030_low","INDC2030ip_1000","INDC")
+plot_funnel("World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto gas emissions",file_pre="GHG_funnel_LT_INDCs",glob_lines=T,xlim=c(2000,2100),ylim=c(0,70000))   
 
 cats <- c("NoPOL","NPi","INDC")
 plot_funnel("World",dt=dt,vars=c("Emissions|CO2"),cats=cats,title="CO2 emissions",file_pre="CO2_funnel_ST_NoPOL_NPi_INDC",glob_lines=T,xlim=c(2000,2030),ylim=c(0,60000))   
