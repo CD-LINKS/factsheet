@@ -26,6 +26,17 @@ all[model =="China TIMES"]$Baseline <- ""
 # Multiplying GDP|MER for MESSAGEix-GLOBIOM by 1000 because reported differently (factor 1000 different from other models)
 all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value=all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value*1000
 
+# Adding R5 regions to get World total for DNE21+
+if("World"%in%cfg$regions){
+  tmp1<-all[model=="DNE21+ V.14"&region%in%c("R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")]
+tmp=spread(tmp1,region, value)
+tmp=na.omit(tmp)
+tmp=tmp %>% mutate(World=R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF)
+tmp1=gather(tmp, region, value, c(World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
+tmp1=data.table(tmp1)
+tmp1=tmp1[region=="World"&!variable=="Price|Carbon"]
+all <- rbind(all,tmp1)}
+
 # GCAM-USA: no total final energy, only in demand sectors -> adding demand sectors to get total
 tmp1 <- all[model %in% setdiff(unique(all[variable=="Final Energy|Transportation"]$model),unique(all[variable=="Final Energy"]$model)) &
               variable %in% c("Final Energy|Transportation","Final Energy|Industry","Final Energy|Residential and Commercial")]
