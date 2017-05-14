@@ -216,6 +216,34 @@ plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emis
 plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O"),catglob = catglob, catsnat = catsnat,
                           year=2050,file_pre="Comp2050_GHG_national", var.labels = c("GHG emissions [MtCO2eq/yr]","AFOLU CO2 [MtCO2/yr]","CH4 emissions [MtCH4/yr]","N2O emissions [kt N2O/yr]"), b.multivar = T)
 
+# Sectoral emissions & energy
+plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                          catglob = catglob, catsnat = catsnat,year=2030,file_pre="Comp2030_sectorCO2_national", var.labels = c("Transport CO2 [MtCO2/yr]","Industry CO2 [MtCO2/yr]","Buildings CO2 [MtCO2/yr]","Energy supply CO2 [Mt CO2/yr]","AFOLU CO2 [Mt CO2/yr]"), b.multivar = T)
+plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+                          catglob = catglob, catsnat = catsnat,year=2050,file_pre="Comp2050_sectorCO2_national", var.labels = c("Transport CO2 [MtCO2/yr]","Industry CO2 [MtCO2/yr]","Buildings CO2 [MtCO2/yr]","Energy supply CO2 [Mt CO2/yr]","AFOLU CO2 [Mt CO2/yr]"), b.multivar = T)
+plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Final Energy|Transportation","Final Energy|Industry","Final Energy|Residential and Commercial"),
+                          catglob = catglob, catsnat = catsnat,year=2030,file_pre="Comp2030_sectorFE_national", var.labels = c("Transport FE [EJ/yr]","Industry FE [EJ/yr]","Buildings FE [EJ/yr]"), b.multivar = T)
+plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Final Energy|Transportation","Final Energy|Industry","Final Energy|Residential and Commercial"),
+                          catglob = catglob, catsnat = catsnat,year=2050,file_pre="Comp2050_sectorFE_national", var.labels = c("Transport FE [EJ/yr]","Industry FE [EJ/yr]","Buildings FE [EJ/yr]"), b.multivar = T)
+
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_CO2_transport", var.labels = c("Transport CO2 emissions [MtCO2/yr]"),b.multiyear = T)
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Industry"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_CO2_industry", var.labels = c("Industry CO2 emissions [MtCO2/yr]"),b.multiyear = T)
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Residential and Commercial"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_CO2_buildings", var.labels = c("Buildings CO2 emissions [MtCO2/yr]"),b.multiyear = T)
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_CO2_supply", var.labels = c("Energy supply CO2 emissions [MtCO2/yr]"),b.multiyear = T)
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_CO2_AFOLU", var.labels = c("AFOLU CO2 emissions [MtCO2/yr]"),b.multiyear = T)
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Final Energy|Transportation"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_FE_transport", var.labels = c("Transport final energy [EJ/yr]"),b.multiyear = T)
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Final Energy|Residential and Commercial"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_FE_buildings", var.labels = c("Buildings final energy [EJ/yr]"),b.multiyear = T)
+plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Final Energy|Industry"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_FE_industry", var.labels = c("Industry final energy [EJ/yr]"),b.multiyear = T)
+
+
 #oASIA <-  calcRegion(all[Scope == "global"], ' `oASIA` ~ `R5ASIA` - `IND` - `CHN` ', b.append = F)
 
 regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
