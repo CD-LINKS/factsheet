@@ -781,3 +781,39 @@ cats <- c("NoPOL","NPi","INDC")
 plot_funnel("World",dt=dt,vars=c("Emissions|CO2|AFOLU"),cats=cats,title="AFOLU CO2 emissions",file_pre="AFOLU_CO2_funnel_ST_NoPOL_NPi_INDC",glob_lines=T,xlim=c(2000,2030),ylim=c(0,10000))   
 cats <- c("NoPOL","NPi","INDC","2020_low","2020_verylow","2030_low")
 plot_funnel("World",dt=dt,vars=c("Emissions|CO2|AFOLU"),cats=cats,title="AFOLU CO2 emissions",file_pre="AFOLU_CO2_funnel_MT_NoPOL_NPi_INDC_low",glob_lines=T,xlim=c(2000,2050),ylim=c(-7500,10000))   
+
+### Compare INDCi with protocol
+# absolute levels
+protocol <- data.table(read.csv("data/INDC_protocol.csv",sep=";"))
+vars <- c("Emissions|Kyoto Gases")
+cats <- c("INDC")
+reg<-c("BRA","RUS", "EU","JPN")
+plot_bar_facet3(reg=reg,dt=all[period==2030],vars=vars,cats=cats,lab="INDC GHG emissions incl. AFOLU CO2 [MtCO2eq/yr]",file_pre="INDC_GHG_protocol_bar_facet",ref_line=T)   
+vars <- c("Emissions|Kyoto Gases|Excl. AFOLU CO2")
+plot_bar_facet3(reg=reg,dt=all[period==2030],vars=vars,cats=cats,lab="INDC GHG emissions excl. AFOLU CO2 [MtCO2eq/yr]",file_pre="INDC_GHGexcl_protocol_bar_facet",ref_line=T)   
+reg<-c("BRA","USA")
+vars <- c("Emissions|Kyoto Gases")
+plot_bar_facet3(reg=reg,dt=all[period==2025],vars=vars,cats=cats,lab="INDC GHG emissions incl. AFOLU CO2 [MtCO2eq/yr]",file_pre="INDC2025_GHG_protocol_bar_facet",ref_line=T)   
+vars <- c("Emissions|Kyoto Gases|Excl. AFOLU CO2")
+plot_bar_facet3(reg=reg,dt=all[period==2025],vars=vars,cats=cats,lab="INDC GHG emissions excl. AFOLU CO2 [MtCO2eq/yr]",file_pre="INDC2025_GHGexcl_protocol_bar_facet",ref_line=T)   
+
+# as percentage of 2010 levels
+cats <- c("INDC")
+protocol[unit=="%"&baseyear==2010]$variable<-paste(protocol[unit=="%"&baseyear==2010]$variable,"|rel2010",sep="")
+vars <- c("Emissions|Kyoto Gases|rel2010")
+dt=all[variable%in%vars]
+dt$value<-dt$value*100
+dt$unit<-"%"
+reg<-c("RUS", "EU","JPN")
+plot_bar_facet3(reg=reg,dt=dt[period==2030],vars=vars,cats=cats,lab="INDC GHG emissions incl. AFOLU CO2 relative to 2010 [%]",file_pre="INDC_GHG_rel2010_protocol_bar_facet",ref_line=T)   
+reg<-c("BRA","USA")
+plot_bar_facet3(reg=reg,dt=dt[period==2025],vars=vars,cats=cats,lab="INDC GHG emissions incl. AFOLU CO2 relative to 2010 [%]",file_pre="INDC2025_GHG_rel2010_protocol_bar_facet",ref_line=T)   
+
+vars <- c("Emissions|Kyoto Gases|Excl. AFOLU CO2|rel2010")
+dt=all[variable%in%vars]
+dt$value<-dt$value*100
+dt$unit<-"%"
+reg<-c("RUS", "EU","JPN")
+plot_bar_facet3(reg=reg,dt=dt[period==2030],vars=vars,cats=cats,lab="INDC GHG emissions excl. AFOLU CO2 relative to 2010 [%]",file_pre="INDC_GHGexcl_rel2010_protocol_bar_facet",ref_line=T)   
+reg<-c("BRA","USA")
+plot_bar_facet3(reg=reg,dt=dt[period==2025],vars=vars,cats=cats,lab="INDC GHG emissions excl. AFOLU CO2 relative to 2010 [%]",file_pre="INDC2025_GHGexcl_rel2010_protocol_bar_facet",ref_line=T)   
