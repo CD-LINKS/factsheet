@@ -356,3 +356,26 @@ plot_boxplot4 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
   }
   return(p)
 }
+
+#############################################################
+####################### plot_bar_facet3 ############################
+#############################################################
+
+plot_bar_facet3 <- function(reg, dt, vars, cats, out=cfg$outdir, lab="Title", title="Title",file_pre="def",ylim=NA,xlim=NA,ref_line=F){
+  #select data
+  dt <- dt[region%in%reg & Category %in% cats & variable %in% vars]
+  
+  p = ggplot(dt,aes(x=model, y=value, fill=Category))
+  p = p + facet_grid(variable ~ region,scales="free_y")
+  p = p + geom_bar(stat="identity",position=position_dodge(width=0.66),width=0.66)
+  #p = p + coord_flip()
+  p = p + xlab("")
+  if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
+  if (ref_line){p = p + geom_hline(data=protocol[variable%in%vars & unit%in%unique(dt$unit)&period%in%unique(dt$period)&region%in%reg],aes(yintercept=value*1.05),colour=c("#aa0000"))}
+  if (ref_line){p = p + geom_hline(data=protocol[variable%in%vars& unit%in%unique(dt$unit)&period%in%unique(dt$period)&region%in%reg],aes(yintercept=value*0.95),colour=c("#0000aa"))}
+  p = p + scale_fill_manual(values=plotstyle(as.character(unique(dt$Category))))
+  p = p + ylab(paste(lab))
+  p = p + ggplot2::theme_bw()+ theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  ggsave(file=paste0(out,"/",file_pre,cfg$format),p, width=9, height=8, dpi=120)
+  return(p)
+}
