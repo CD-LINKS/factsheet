@@ -337,25 +337,26 @@ regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
 
 regs <- c("BRA","R5LAM","CHN","IND","R5MAF","R5ASIA", "RUS", "EU","JPN","USA","World")
 #Mitigation costs
-plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2030_low",year=2050,file_pre="MitiCosts_2050_2030_low",b.multivar = T,var.labels = "Mitigation costs 2050 - 2030_low")
-plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2030_high",year=2050,file_pre="MitiCosts_2050_2030_high",b.multivar = T,var.labels = "Mitigation costs 2050 - 2030_high")
-plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2020_low",year=2050,file_pre="MitiCosts_2050_2020_low",b.multivar = T,var.labels = "Mitigation costs 2050 - 2020_low")
-plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2020_high",year=2050,file_pre="MitiCosts_2050_2020_high",b.multivar = T,var.labels = "Mitigation costs 2050 - 2020_high")
+dt=all[!model=="IMAGE 3.0"] #add later when IMAGE costs are ok
+plot_boxplot(regs=regs,dt=dt,vars="Mitigation Costs",cats="2030_low",year=2050,file_pre="MitiCosts_2050_2030_low",b.multivar = T,var.labels = "Mitigation costs 2050 - 2030_low")
+plot_boxplot(regs=regs,dt=dt,vars="Mitigation Costs",cats="2030_high",year=2050,file_pre="MitiCosts_2050_2030_high",b.multivar = T,var.labels = "Mitigation costs 2050 - 2030_high")
+plot_boxplot(regs=regs,dt=dt,vars="Mitigation Costs",cats="2020_low",year=2050,file_pre="MitiCosts_2050_2020_low",b.multivar = T,var.labels = "Mitigation costs 2050 - 2020_low")
+plot_boxplot(regs=regs,dt=dt,vars="Mitigation Costs",cats="2020_high",year=2050,file_pre="MitiCosts_2050_2020_high",b.multivar = T,var.labels = "Mitigation costs 2050 - 2020_high")
 
-plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2030_low",year=2100,file_pre="MitiCosts_2100_2030_low",b.multivar = T,var.labels = "Mitigation costs 2100 - 2030_low")
-plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2030_high",year=2100,file_pre="MitiCosts_2100_2030_high",b.multivar = T,var.labels = "Mitigation costs 2100 - 2030_high")
-plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2020_low",year=2100,file_pre="MitiCosts_2100_2020_low",b.multivar = T,var.labels = "Mitigation costs 2100 - 2020_low")
-plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats="2020_high",year=2100,file_pre="MitiCosts_2100_2020_high",b.multivar = T,var.labels = "Mitigation costs 2100 - 2020_high")
+plot_boxplot(regs=regs,dt=dt,vars="Mitigation Costs",cats="2030_low",year=2100,file_pre="MitiCosts_2100_2030_low",b.multivar = T,var.labels = "Mitigation costs 2100 - 2030_low")
+plot_boxplot(regs=regs,dt=dt,vars="Mitigation Costs",cats="2030_high",year=2100,file_pre="MitiCosts_2100_2030_high",b.multivar = T,var.labels = "Mitigation costs 2100 - 2030_high")
+plot_boxplot(regs=regs,dt=dt,vars="Mitigation Costs",cats="2020_low",year=2100,file_pre="MitiCosts_2100_2020_low",b.multivar = T,var.labels = "Mitigation costs 2100 - 2020_low")
+plot_boxplot(regs=regs,dt=dt,vars="Mitigation Costs",cats="2020_high",year=2100,file_pre="MitiCosts_2100_2020_high",b.multivar = T,var.labels = "Mitigation costs 2100 - 2020_high")
 
-plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats=c("2020_high","2020_low","2030_high","2030_low"),year=2100,file_pre="MitiCosts_2100_mitigscens",b.multicat = T)
-plot_boxplot(regs=regs,dt=all,vars="Mitigation Costs",cats=c("2020_high","2020_low","2030_high","2030_low"),year=2050,file_pre="MitiCosts_2050_mitigscens",b.multicat = T)
+plot_boxplot(regs=regs,dt=dt,vars="Mitigation Costs",cats=c("2020_high","2020_low","2030_high","2030_low"),year=2100,file_pre="MitiCosts_2100_mitigscens",b.multicat = T)
+plot_boxplot(regs=regs,dt=dt,vars="Mitigation Costs",cats=c("2020_high","2020_low","2030_high","2030_low"),year=2050,file_pre="MitiCosts_2050_mitigscens",b.multicat = T)
 
-plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("INDC2030ip_1000","2030_low"),year=2050,file_pre="MitiCosts_2050_INDCip",b.multicat = T)
-plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("2020_low","2030_low"),year=2050,file_pre="MitiCosts_2050_low",b.multicat = T)
-plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("2020_low","2020_verylow"),year=2050,file_pre="MitiCosts_2050_verylow",b.multicat = T)
-plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("INDC2030ip_1000","2030_low"),year=2100,file_pre="MitiCosts_2100_INDCip",b.multicat = T)
-plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("2020_low","2030_low"),year=2100,file_pre="MitiCosts_2100_low",b.multicat = T)
-plot_boxplot(regs="World",dt=all,vars="Mitigation Costs",cats=c("2020_low","2020_verylow"),year=2100,file_pre="MitiCosts_2100_verylow",b.multicat = T)
+plot_boxplot(regs="World",dt=dt,vars="Mitigation Costs",cats=c("INDC2030ip_1000","2030_low"),year=2050,file_pre="MitiCosts_2050_INDCip",b.multicat = T)
+plot_boxplot(regs="World",dt=dt,vars="Mitigation Costs",cats=c("2020_low","2030_low"),year=2050,file_pre="MitiCosts_2050_low",b.multicat = T)
+plot_boxplot(regs="World",dt=dt,vars="Mitigation Costs",cats=c("2020_low","2020_verylow"),year=2050,file_pre="MitiCosts_2050_verylow",b.multicat = T)
+plot_boxplot(regs="World",dt=dt,vars="Mitigation Costs",cats=c("INDC2030ip_1000","2030_low"),year=2100,file_pre="MitiCosts_2100_INDCip",b.multicat = T)
+plot_boxplot(regs="World",dt=dt,vars="Mitigation Costs",cats=c("2020_low","2030_low"),year=2100,file_pre="MitiCosts_2100_low",b.multicat = T)
+plot_boxplot(regs="World",dt=dt,vars="Mitigation Costs",cats=c("2020_low","2020_verylow"),year=2100,file_pre="MitiCosts_2100_verylow",b.multicat = T)
 
 #Carbon price
 plot_boxplot(regs=regs,dt=all,vars="Price|Carbon",cats="2030_low",year=2050,file_pre="CO2price_2050_2030_low")
