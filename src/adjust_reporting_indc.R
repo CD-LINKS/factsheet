@@ -26,6 +26,13 @@ all[model =="China TIMES"]$Baseline <- ""
 # Multiplying GDP|MER for MESSAGEix-GLOBIOM by 1000 because reported differently (factor 1000 different from other models)
 all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value=all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value*1000
 
+# Adding geothermal to models that don't report it, needed for calculation of total renewable energy share
+tmp1<-all[model %in% setdiff(unique(all[variable=="Secondary Energy|Electricity"]$model),unique(all[variable=="Secondary Energy|Electricity|Geothermal"]$model))
+          &variable=="Secondary Energy|Electricity"]
+tmp1$variable<-"Secondary Energy|Electricity|Geothermal"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
 # Adding R5 regions to get World total for DNE21+
 if("World"%in%cfg$regions){
   tmp1<-all[model=="DNE21+ V.14"&region%in%c("R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")]
