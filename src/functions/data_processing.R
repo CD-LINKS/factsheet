@@ -105,7 +105,7 @@ add_variables <- function(all,scens){
     # add variables indexed relative to baseyear
     source("functions/calcRel2BaseYear.R")
 
-    vars <- c("Emissions|CO2", "Emissions|CO2|FFI", "Emissions|CO2|FFI|gross" )
+    vars <- c("Emissions|CO2", "Emissions|CO2|FFI", "Emissions|CO2|FFI|gross","Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2")
     all <- rbind(all, calcRel2BaseYear(df=all,vars=vars))
 
     all <- calcVariable(all,'`Reduction rel to 2010` ~ 100.0 - `Emissions|CO2|FFI|rel2010` * 100 ' , newUnit='%')
