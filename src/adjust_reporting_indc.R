@@ -24,7 +24,7 @@ all[model =="China TIMES"]$Baseline <- ""
 #all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value=all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value*1000
 
 # Multiplying GDP|MER for MESSAGEix-GLOBIOM by 1000 because reported differently (factor 1000 different from other models)
-all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value=all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value*1000
+#all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value=all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value*1000
 
 # Adding geothermal to models that don't report it, needed for calculation of total renewable energy share
 tmp1<-all[model %in% setdiff(unique(all[variable=="Secondary Energy|Electricity"]$model),unique(all[variable=="Secondary Energy|Electricity|Geothermal"]$model))
@@ -34,15 +34,15 @@ tmp1$value<-0
 all<-rbind(all,tmp1)
 
 # Adding R5 regions to get World total for DNE21+
-if("World"%in%cfg$regions){
-  tmp1<-all[model=="DNE21+ V.14"&region%in%c("R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")]
-tmp=spread(tmp1,region, value)
-tmp=na.omit(tmp)
-tmp=tmp %>% mutate(World=R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF)
-tmp1=gather(tmp, region, value, c(World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
-tmp1=data.table(tmp1)
-tmp1=tmp1[region=="World"&!variable=="Price|Carbon"]
-all <- rbind(all,tmp1)}
+# if("World"%in%cfg$regions){
+#   tmp1<-all[model=="DNE21+ V.14"&region%in%c("R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")]
+# tmp=spread(tmp1,region, value)
+# tmp=na.omit(tmp)
+# tmp=tmp %>% mutate(World=R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF)
+# tmp1=gather(tmp, region, value, c(World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
+# tmp1=data.table(tmp1)
+# tmp1=tmp1[region=="World"&!variable=="Price|Carbon"]
+# all <- rbind(all,tmp1)}
 
 # GCAM-USA: no total final energy, only in demand sectors -> adding demand sectors to get total
 tmp1 <- all[model %in% setdiff(unique(all[variable=="Final Energy|Transportation"]$model),unique(all[variable=="Final Energy"]$model)) &
