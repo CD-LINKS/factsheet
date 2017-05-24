@@ -55,7 +55,7 @@ mods <- mods[mods!="global"]
 # nat_mods <- unique(all$model)[grep(pattern =  "*",x = unique(all$model),fixed=TRUE)]
 
 # define global scenarios to look at for budget analysis
-scens <- c( "NPi_V2", "INDCi_V2", "NPi2020_1600_V2","INDC2030i_1600_V2", "NPi2020_1000_V2", "INDC2030i_1000_V2", "NPi2020_400_V2",
+scens <- c("NoPolicy_V2","NoPOL_V2", "NPi_V2", "INDCi_V2", "NPi2020_1600_V2","INDC2030i_1600_V2", "NPi2020_1000_V2", "INDC2030i_1000_V2", "NPi2020_400_V2",
             "INDC2030i_400_V2","NPi2020_low_V2","NPi2020_high_V2","INDC2030_low_V2","INDC2030_high_V2")
 scens2deg <- c("NPi_V2","INDCi_V2", "NPi2020_1600_V2","NPi2020_1000_V2", "NPi2020_400_V2")
 
