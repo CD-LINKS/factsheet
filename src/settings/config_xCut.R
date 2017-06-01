@@ -15,7 +15,7 @@ cfg$diag_infile <- "CDLINKS_diagnostics_compare_regions_2016-05-11"
 
 
 # Name of corresponding national model(s)
-cfg$models_nat <- c("COPPE-MSB_v2.0","China TIMES","PRIMES_V1","IPAC-AIM/technology V1.0","AIM/Enduse 3.0",
+cfg$models_nat <- c("COPPE-MSB_v2.0","China TIMES","PRIMES_V1","GEM-E3_V1","IPAC-AIM/technology V1.0","AIM/Enduse 3.0",
                     "AIM/Enduse[Japan]","DNE21+ V.14 (national)","India MARKAL","RU-TIMES 3.2","GCAM4.2_CDLINKS","GCAM-USA_CDLINKS")
 
 
