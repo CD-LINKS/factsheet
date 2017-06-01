@@ -98,6 +98,8 @@ for (reg in regs)
                             years=c(2030,2050),file_pre="2030_2050_FE", var.labels = c("Final Energy per Capita [GJ]"),b.multiyear = T)
   plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,
                                years=c(2030,2050),file_pre="2030_2050_CI", var.labels = c("Carbon Intensity of FE [kgCO2/GJ]"),b.multiyear = T)
+  plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,
+                               years=c(2030,2050),file_pre="2030_2050_CI", var.labels = c("Carbon Intensity of FE [kgCO2/GJ]"),b.multiyear = T)
   
   
   plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Wind and Solar Share", "Nuclear Share"),catglob = catglob, catsnat = catsnat,
