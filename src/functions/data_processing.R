@@ -99,7 +99,7 @@ add_variables <- function(all,scens){
 
 #    all <- overwrite(remind::calcCumulatedDiscount(all, discount = 0.05, nameVar = "GDP|MER"), all)
 
-    hist=all[period==2010& scenario=="NPi_V2"]
+    hist=all[period==2010& Category=="NPi"]
     hist$Category<-"Historical"
 
     # add variables indexed relative to baseyear
