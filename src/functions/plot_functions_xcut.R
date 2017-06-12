@@ -488,9 +488,9 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
   
   dtg <- dt[Scope=="global" & variable %in% vars & period %in% years & Category %in% catglob & region %in% regs]  %>%
     rename(Global = model ) %>% factor.data.frame()
+  dtg1 <-dtg[,list(mean=mean(value),min=min(value),max=max(value)),by=c("scenario","Category","Baseline","region","period","Scope","unit","variable")]
   dtn <- dt[Scope=="national" & variable %in% vars & period %in% years & Category %in% catsnat & region %in% regs] %>%
     rename(National = model ) %>% factor.data.frame()
-  
   
   if (b.multivar){
     levels(dtg$variable) <- var.labels
@@ -498,7 +498,7 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
   }
   
   p = ggplot()
-  p = p + geom_pointrange(data=dtg,aes(x=region,y=mean(value),ymin=min(value),ymax=max(value)), color = "grey65", size = 1.)
+  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max,colour=Category),  size = 1.) #color = "grey65",
   if(b.multivar){
     p = p + facet_wrap(~ variable, scales="free_y")
   }
@@ -527,6 +527,67 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
+           width=6.5, height=6, dpi=120)
+  }
+  return(p)
+}
+
+
+#############################################################
+####################### plot_pointrange_global###############
+#############################################################
+
+#plot function for pointrange (instead of boxplot) - multi-year, one variable
+plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,ylabel="",
+                                         b.multivar =  F, b.multiyear = T, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,nonreg=F){
+  
+  
+  dt <- dt[ variable %in% vars & period %in% years & Category %in% cats & region %in% regs & !is.na(value)] %>% factor.data.frame()
+  
+  dt$region <- factor(dt$region, levels = regs, ordered = T )
+  dt$Category <- factor(dt$Category, levels = cats, ordered = T )
+  dt$variable <- factor(dt$variable, levels = vars, ordered = T )
+  
+  dtg <- dt[Scope=="global" & variable %in% vars & period %in% years & Category %in% cats & region %in% regs]  %>%
+    rename(Global = model ) %>% factor.data.frame()
+  dtg1 <-dtg[,list(mean=mean(value),min=min(value),max=max(value)),by=c("Category","Baseline","region","period","Scope","unit","variable")]
+  
+  if (b.multivar){
+    levels(dtg$variable) <- var.labels
+  }
+  
+  p = ggplot()
+  if(nonreg){p = p + geom_pointrange(data=dtg1,aes(x=Category,y=mean,ymin=min,ymax=max, colour=Category),stat="identity",position=position_dodge(width=0.5))
+  }else{
+  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max, colour=Category),stat="identity",position=position_dodge(width=0.5))
+  }
+  if(b.multivar){
+    p = p + facet_wrap(~ variable, scales="free_y")
+  }
+  if(b.multiyear){
+    p = p + facet_wrap(~ period, scales="fixed")
+  }
+  if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))}
+  #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
+  p = p + ylab(ylabel) + xlab("")
+  
+  p = p + scale_color_manual( values=plotstyle(cats),
+                              labels =  plotstyle(cats, out = "legend") )
+  #p = p + scale_shape_manual(values=plotstyle(cats, out="shape"))
+  
+  if (!is.null(ylim))
+    p = p + coord_cartesian(ylim = ylim)
+  
+  if(b.multivar)  {
+    
+    p = p + theme(axis.text.x  = element_text(size = 14), #angle=90, vjust=0.5, hjust = 1, 
+                  plot.title = element_text( size = 18) )
+    ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+  }  else   {
+    p = p + ggtitle(paste0( var.labels[1]))
+    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
+                  plot.title = element_text(hjust = 1, size = 13) )
+    ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p,
            width=6.5, height=6, dpi=120)
   }
   return(p)
