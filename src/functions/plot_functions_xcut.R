@@ -539,9 +539,9 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
 
 #plot function for pointrange (instead of boxplot) - multi-year, one variable
 plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,ylabel="",
-                                         b.multivar =  F, b.multiyear = T, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,nonreg=F){
+                                         b.multivar =  F, b.multiyear = T, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,nonreg=F,hist=F){
   
-  
+  if(hist){dt[Category=="Historical"]$period<-years}
   dt <- dt[ variable %in% vars & period %in% years & Category %in% cats & region %in% regs & !is.na(value)] %>% factor.data.frame()
   
   dt$region <- factor(dt$region, levels = regs, ordered = T )
