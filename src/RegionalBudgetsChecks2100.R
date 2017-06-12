@@ -1,51 +1,9 @@
 #### script for doing analysis of regional emission budgets
 
-# cfg$regions <-c("ARG","AUS","BRA","CAN","CHN","EU","IDN","IND","JPN","MEX","R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF","ROK","RUS","SAF","SAU","TUR","USA","World")
+#process data for all regions (first run main_xCut until 156)
+cfg$regions <-c("ARG","AUS","BRA","CAN","CHN","EU","IDN","IND","JPN","MEX","R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF","ROK","RUS","SAF","SAU","TUR","USA","World")
+
 regs <- unique(all$region)
-
-#read in PRIMAP-hist data (available at: http://doi.org/10.5880/PIK.2016.003 or http://dataservices.gfz-potsdam.de/pik/showshort.php?id=escidoc:1504004)
-primap <- read.csv("data/PRIMAP-hist_v1.0_14-Apr-2016.csv") 
-#get rid of unnecessary timesteps pre-1990
-primap <- primap[,c(1,2,3,4,5,seq(146,170))]
-#long- to wide format
-primap <- invisible(melt(primap,measure.vars=names(primap)[grep("[0-9]+",names(primap))],variable.name = "period",variable.factor=FALSE))
-primap$period <- as.numeric(substr(as.character(primap$period),start = 2,stop = 5))
-#convert to Mt CO2:                     
-primap$value <- primap$value /1000
-#select countries of interest
-map_pri <- data.frame(primap = c("BRA","CHN","IND","EU28","JPN","USA","RUS","EARTH"),
-                      dat = c("BRA","CHN","IND","EU","JPN","USA","RUS","World"))
-primap$region <- map_pri$dat[match(primap$country,map_pri$primap)]
-primap <- primap[primap$region %in% map_pri$dat,]
-
-#select relevant categories and entities:
-# Change entity for other variables
-entity = "CO2" #"CO2", "KYOTOGHGAR4" 
-
-if(entity=="CO2"){category=c("CAT1A","CAT1B1","CAT1B2","CAT2A","CAT2B","CAT2C","CAT2D","CAT2G","CAT5")}
-if(entity=="KYOTOGHGAR4"){category=c("CAT1","CAT2","CAT3","CAT4","CAT5","CAT6","CAT7")}
-primap <- primap[primap$category %in% category & primap$entity == entity,]
-primap$country <- NULL
-
-#read in CDIAC data for bunkers (regionalized to remind regions: 7 seperate countries (without brazil))
-cdiac <- read.csv2("data/CDIAC_bunkers.csv")
-cdiac <- invisible(melt(cdiac,measure.vars=names(cdiac)[grep("[0-9]+",names(cdiac))],variable.name = "period",variable.factor=FALSE))
-cdiac$period <- as.numeric(substr(as.character(cdiac$period),start = 2,stop = 5))
-cdiac$value <- as.numeric(cdiac$value)
-cdiac <- cdiac[cdiac$period>1989,]
-cdiac <- unique(cdiac)
-cdiac$category <- "bunkers"
-cdiac$entity <- "CO2"
-cdiac$unit <- "Mt CO2"
-cdiac$variable <- NULL
-cdiac$model <- NULL
-
-if (entity=="CO2") {primap <- rbind(primap,cdiac)}
-
-primap[primap$region == "EUR",]$region <- "EU"
-if(entity=="CO2"){primap$category <- factor(primap$category,levels = c("CATM0EL","CAT7","CAT6","CAT5","CAT4","CAT3","bunkers","CAT2G",  
-                    "CAT2D","CAT2C","CAT2B","CAT2A","CAT2","CAT1B2","CAT1B1","CAT1A","CAT1","CAT0"))}
-if(entity=="KYOTOGHGAR4"){primap$category <- factor(primap$category,levels = c("CATM0EL","CAT7","CAT6","CAT5","CAT4","CAT3","CAT2","CAT1","CAT0"))}
 
 # define global models and variables to look at
 # mods <- c("AIM/CGE","IMAGE 3.0","MESSAGE-GLOBIOM_1.0","REMIND-MAgPIE 1.7-3.0","DNE21+ V.14","WITCH2016","COPPE-COFFEE 1.0")
@@ -68,42 +26,6 @@ v_emireg <- v_emireg[!(Scope=="global" & scenario == "INDC_V2"),]
 
 v_plot <- v_emireg
 v_plot[model=="*PRIMES_V1"& scenario=="INDC2030_low_V2",]$scenario <- "INDC_V2"
-
-#####first comparisons: overlay historical and model data
-if(entity=="CO2"){vars <- data.frame(long=c("Emissions|CO2|Energy and Industrial Processes","Emissions|CO2","Emissions|CO2|Energy"),short=c("co2ffi","co2tot","co2ene"))}
-if(entity=="KYOTOGHGAR4"){vars <- data.frame(long=c("Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|Kyoto Gases"),short=c("Kyotoexcl","Kyoto"))}
-
-for (reg in map_pri$dat){
-    for (var in c(1,2)){
-    p = ggplot()
-    if(var == 1){#without LU
-      p = p + geom_area(data=primap[primap$region == reg & primap$category != "CAT5",],aes(period,value,group = interaction(category),fill = category))
-    if(length(unique(primap[primap$region ==reg,]$category))==7){ 
-        p = p + scale_fill_manual(values=c("#000000","red","green","orange","purple","#777777"))}
-    if(length(unique(primap[primap$region ==reg,]$category))==9){ 
-      p = p + scale_fill_manual(values=c("#884444","blue","orange","red","purple","#663333","#000000","#777777"))}
-    if(length(unique(primap[primap$region ==reg,]$category))==10){ 
-      p = p + scale_fill_manual(values=c("#884444","blue","grey","orange","red","purple","#663333","#000000","#777777"))}                                                                
-    } else { # with LU
-      p = p + geom_area(data=primap[primap$region == reg,],aes(period,value,group = interaction(category),fill = category)) 
-      if(length(unique(primap[primap$region ==reg,]$category))==7){ 
-        p = p + scale_fill_manual(values=c("#000000","red","darkgreen","green","orange","purple","#777777"))}
-      if(length(unique(primap[primap$region ==reg,]$category))==9){ 
-        p = p + scale_fill_manual(values=c("darkgreen","#884444","blue","orange","red","purple","#663333","#000000","#777777"))}
-      if(length(unique(primap[primap$region ==reg,]$category))==10){ 
-        p = p + scale_fill_manual(values=c("darkgreen","#884444","blue","grey","orange","red","purple","#663333","#000000","#777777"))}                                                                
-    }
-    p = p + geom_path(data=v_plot[scenario %in% c("INDCi_V2","INDC_V2") & region == reg & variable == as.character(vars$long[var]) & period < 2031,],
-        aes(period, value, group = interaction(model,Scope),linetype=model,size=Scope,color=model)) 
-    p = p + scale_size_manual(values = c(0.5,1))
-    p = p + scale_color_manual(values = rep(c("#000000","#880000","#0000aa"),6))
-    p = p + ggtitle(paste0(vars$long[var]))
-    if(entity=="CO2"){p = p + ylab("Mt CO2/yr") + xlab("year")}
-    if(entity=="KYOTOGHGAR4"){p = p + ylab("Mt CO2e/yr") + xlab("year")}
-    ggsave(paste0("plots/base_year_emi_",reg,vars$short[var],".pdf"))
-    }
-  }
-
 
 varis <- c("Emissions|CO2","Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|Energy","Carbon budget","Carbon budget|Energy and Industry","Carbon budget|Energy")
 
@@ -137,8 +59,8 @@ select(-period, -unit) %>%
 tmp1 <- tmp1[!(tmp1$region == "RoW" & tmp1$value <0),]
 
 ref_budgets <- ref_budgets %>% spread(key = region, value = value) %>%
-mutate( RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS` - `CAN` - `TUR` - `IDN` - `MEX` -`SAF`-`AUS`) %>%
-  gather(region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS` ,`CAN`,`TUR`,`IDN`, `MEX`, `SAF`,`AUS` )
+mutate( RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS`) %>%
+  gather(region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS`)
 
 ### budgets expressed as multiples of 2010 to get rid of baseyear differences
 v_emi_cumrel <- tmp1 %>%
