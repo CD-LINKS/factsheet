@@ -14,7 +14,7 @@ setnames(dt,"V2","Year")
 
 # Sum to get budget
 budget50=dt[Year %in% c(2011:2050),sum(value/1000,na.rm=TRUE),by=c('scenario','Category','Baseline','model','region','Scope','unit','variable')]
-budget50=budget50[V1<0,V1:=5]
+#budget50=budget50[V1<0,V1:=5]
 setnames(budget50,"V1","value")
 
 #correctly specify remaining dimensions
@@ -36,7 +36,7 @@ setnames(dt,"V2","Year")
 
 # Sum to get budget
 budget100=dt[Year %in% c(2011:2100),sum(value/1000,na.rm=TRUE),by=c('scenario','Category','Baseline','model','region','Scope','unit','variable')]
-budget100=budget100[V1<0,V1:=5]
+#budget100=budget100[V1<0,V1:=5]
 setnames(budget100,"V1","value")
 
 #correctly specify remaining dimensions
@@ -47,7 +47,7 @@ budget100$period='2100'
 #calculate 2051-2100 budget
 # Sum to get budget
 budget105=dt[Year %in% c(2051:2100),sum(value/1000,na.rm=TRUE),by=c('scenario','Category','Baseline','model','region','Scope','unit','variable')]
-budget105=budget105[V1<0,V1:=5]
+#budget105=budget105[V1<0,V1:=5]
 setnames(budget105,"V1","value")
 
 #correctly specify remaining dimensions
