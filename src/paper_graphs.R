@@ -212,5 +212,14 @@ two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel2,vars=c("Budget|Em
                                     file_pre="2_budget_reg_2100_2", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multivar=T) #,b.multicat = T, b.multivar=T,
 
 # Figure 3 - implementation -----------------------------------------------
+source("functions/plot_functions.R")
+vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
+cats <- c("NPi","INDC","2020_verylow","2020_low","2020_high","2030_low","2030_high")
+#ta1<-plot_bar_facet(reg="World",dt=all[period==2050],vars=vars,cats=cats,lab="Kaya factors; 2050)",file_pre="3_kaya_2050_bar")   
+ta2<-plot_bar_facet2(reg="World",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2", b.legend=T,legendorder=c("NPi","INDC","2030_high","2020_high","2030_low","2020_low","2020_verylow")) 
+ta3<-plot_bar_facet2(reg="World",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2", b.legend=T,legendorder=c("NPi","INDC","2030_high","2020_high","2030_low","2020_low","2020_verylow")) 
 
+library(gridExtra)
+g=arrangeGrob(ta2,ta3,ncol=2)
+ggsave(file=paste(cfg$outdir,"/Fig3.png",sep=""),g,width=20,height=10,dpi=300)
 
