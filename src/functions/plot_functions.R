@@ -363,7 +363,7 @@ plot_bar_facet2 <- function(reg, dt, vars, cats, year=2030, out=cfg$outdir, lab=
 ####################### plot_funnel2 ########################
 #############################################################
 
-plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA,glob_lines=F){
+plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA,glob_lines=F,range=F,median=F){
   #select data
   dt <- dt[region==reg & Category%in% cats & variable%in% vars]
   #create string with y-axis units for axis label
@@ -375,7 +375,7 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   #   dt$variable <- paste(dt$variable,' [',dt$number,' models]',sep="")
   
   # Extract data from global models only for funnels
-  minmax=dt[Scope=="global" ,list(ymax=max(value),ymin=min(value)),by=c('region','period','Category','variable')]
+  minmax=dt[Scope=="global" ,list(ymax=max(value),ymin=min(value),med=median(value)),by=c('region','period','Category','variable')]
   minmax=minmax[!period %in% c("2015","2025","2035","2045","2055","2065","2075","2085","2095")]
   minmax<-minmax[order(region, Category, period),]
   minmax$period=as.numeric(minmax$period)
@@ -395,11 +395,18 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   if (glob_lines){
     p = p + geom_path(data=dt[region==reg & Scope=="global"],aes(x=period,y=value,group = interaction(scenario,model),
                                                                  color=Category,linetype=model),size=0.5)}
+  if(median){p = p + geom_path(data=minmax[region==reg],aes(x=period,y=med,group = Category,
+                                                                          color=Category),size=1.3)}
   # Plot lines for national models
   p = p + geom_path(data=dt[region==reg & Scope=="national"],aes(x=period,y=value,color=Category,linetype=model),size=2,show.legend = FALSE)
   p = p + scale_linetype_manual(values=cfg$man_lines)
   p = p + scale_colour_manual(values=plotstyle(cats))
   p = p + scale_fill_manual(values=plotstyle(cats))
+  if (range & length(unique(dt$Category))==3){
+    p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2030, xend=2030, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+    p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2030.5, xend=2030.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+    p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[3]], stat="identity", aes(x=2031, xend=2031, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+    }
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + ylab(paste(unitsy))
