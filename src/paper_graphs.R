@@ -115,9 +115,9 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 
 # Figure 1a - time series -------------------------------------------------
 source("functions/plot_functions.R")
-cats <- c("NPi","INDC")
+cats <- c("NoPOL","NPi","INDC")
 a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto greenhouse gas emissions",
-             file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(2005,2030))
+             file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(2005,2031),ylim=c(20000,75000),range=T,median=T)
 
 # Figure 1b - Regional emissions ------------------------------------------
 source("functions/plot_functions_xcut.R")
