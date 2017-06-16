@@ -476,7 +476,7 @@ plot_boxplot4 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
 
 #plot function for pointrange (instead of boxplot) - multi-year, one variable
 plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,
-                                         b.multivar =  F, b.multiyear = T, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F){
+                                         b.multivar =  F, b.multiyear = F, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F){
   
   
   dt <- dt[ variable %in% vars & period %in% years & Category %in% union(catsnat, catglob) & region %in% regs & !is.na(value)] %>% factor.data.frame()
@@ -494,11 +494,12 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
   
   if (b.multivar){
     levels(dtg$variable) <- var.labels
+    levels(dtg1$variable) <- var.labels
     levels(dtn$variable) <- var.labels
   }
   
   p = ggplot()
-  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max,colour=Category),  size = 1.) #color = "grey65",
+  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max,fill=Category),  size = 1.,show.legend = F,color = "grey65") 
   if(b.multivar){
     p = p + facet_wrap(~ variable, scales="free_y")
   }
@@ -520,12 +521,12 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
   if(b.multivar)  {
     
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
-                  plot.title = element_text( size = 18) )
+                  plot.title = element_text( size = 18) ) + theme_bw()
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
   }  else   {
     p = p + ggtitle(paste0( var.labels[1]))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
-                  plot.title = element_text(hjust = 1, size = 13) )
+                  plot.title = element_text(hjust = 1, size = 13) ) + theme_bw()
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
            width=6.5, height=6, dpi=120)
   }
