@@ -571,7 +571,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   if(b.multicat){
     p = p + facet_grid(variable ~ Category, scales="free")
   }
-  if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))}
+  if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global,colour=Category),position=position_dodge(width=0.5))}
   #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab(ylabel) + xlab("")
   
