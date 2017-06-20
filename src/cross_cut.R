@@ -24,9 +24,9 @@ source("BarStackedNatGlob_script.R")
 
 # National Emission pathways for different scenarios ----------------------
 
-scensglob = c("INDCi_V2",  "NPi2020_1000_V2")
+scensglob = c("INDCi_V3",  "NPi2020_1000_V3")
 
-scensnat <- c("NPi_V2", "INDC_V2", "NPi2020_high_V2", "NPi2020_low_V2",  "INDC2030_high_V2",  "INDC2030_low_V2")
+scensnat <- c("NPi_V3", "INDC_V3", "NPi2020_high_V3", "NPi2020_low_V3",  "INDC2030_high_V3",  "INDC2030_low_V3")
 
 
 regs = c("BRA", "CHN", "IND", "RUS", "EU", "JPN", "USA")
@@ -34,21 +34,21 @@ regs = c("BRA", "CHN", "IND", "RUS", "EU", "JPN", "USA")
 vars = "Emissions|CO2|Energy"
 
 #exemplary line plot: 
-tmp_p <- all[model == "MESSAGEix-GLOBIOM_1.0" & scenario %in% c("NoPolicy_V2","NPi_V2","NPi2020_1600_V2","NPi2020_1000_V2","INDCi_V2","INDC2030i_1600_V2","INDC2030i_1000_V2") &
+tmp_p <- all[model == "MESSAGEix-GLOBIOM_1.0" & scenario %in% c("NoPolicy_V3","NPi_V3","NPi2020_1600_V3","NPi2020_1000_V3","INDCi_V3","INDC2030i_1600_V3","INDC2030i_1000_V3") &
                region == "World" & variable==vars & period < 2051,]
-tmp_p[period==2030 & scenario == "NPi_V2"]$value <- 0.95*tmp_p[period==2030 & scenario == "NPi_V2"]$value
-tmp_p[period>2030 & scenario =="INDCi_V2"]$value <- 1.05 * tmp_p[period>2030 & scenario =="INDCi_V2"]$value 
-tmp_p[period==2045 & scenario %in% c("INDC2030i_1600_V2","INDC2030i_1000_V2"),]$value <- 0.8*tmp_p[period==2045 & scenario %in% c("INDC2030i_1600_V2","INDC2030i_1000_V2"),]$value 
-tmp_p[period==2050 & scenario %in% c("INDC2030i_1600_V2","INDC2030i_1000_V2"),]$value <- 0.6*tmp_p[period==2050 & scenario %in% c("INDC2030i_1600_V2","INDC2030i_1000_V2"),]$value 
-tmp_p$scenario <- factor(tmp_p$scenario, levels=c("NoPolicy_V2","NPi_V2","NPi2020_1600_V2","NPi2020_1000_V2","INDCi_V2","INDC2030i_1600_V2","INDC2030i_1000_V2"))
+tmp_p[period==2030 & scenario == "NPi_V3"]$value <- 0.95*tmp_p[period==2030 & scenario == "NPi_V3"]$value
+tmp_p[period>2030 & scenario =="INDCi_V3"]$value <- 1.05 * tmp_p[period>2030 & scenario =="INDCi_V3"]$value 
+tmp_p[period==2045 & scenario %in% c("INDC2030i_1600_V3","INDC2030i_1000_V3"),]$value <- 0.8*tmp_p[period==2045 & scenario %in% c("INDC2030i_1600_V3","INDC2030i_1000_V3"),]$value 
+tmp_p[period==2050 & scenario %in% c("INDC2030i_1600_V3","INDC2030i_1000_V3"),]$value <- 0.6*tmp_p[period==2050 & scenario %in% c("INDC2030i_1600_V3","INDC2030i_1000_V3"),]$value 
+tmp_p$scenario <- factor(tmp_p$scenario, levels=c("NoPolicy_V3","NPi_V3","NPi2020_1600_V3","NPi2020_1000_V3","INDCi_V3","INDC2030i_1600_V3","INDC2030i_1000_V3"))
 tmp_p$value <- tmp_p$value /tmp_p[period==2005]$value[1]
 ggplot(tmp_p) +
   geom_path(aes(x=period,y=value,group=(scenario),color=scenario,linetype=scenario),size=1) +
   scale_linetype_manual(values=c(1,1,1,1,2,2,2),name="scenario",
-                        breaks= c("NoPolicy_V2","NPi_V2","NPi2020_1600_V2","NPi2020_1000_V2","INDCi_V2","INDC2030i_1600_V2","INDC2030i_1000_V2"),
+                        breaks= c("NoPolicy_V3","NPi_V3","NPi2020_1600_V3","NPi2020_1000_V3","INDCi_V3","INDC2030i_1600_V3","INDC2030i_1000_V3"),
                         labels= c("NoPOL","NPi","NPi2020_high","NPi2020_low","INDC","INDC2030_high","INDC2030_low"))+
   scale_color_manual(values=(c("#000000","#aa3333","#3333aa","#33aa33","#ff6666","#6666ff","#44dd44")),name="scenario",
-                     breaks= c("NoPolicy_V2","NPi_V2","NPi2020_1600_V2","NPi2020_1000_V2","INDCi_V2","INDC2030i_1600_V2","INDC2030i_1000_V2"),
+                     breaks= c("NoPolicy_V3","NPi_V3","NPi2020_1600_V3","NPi2020_1000_V3","INDCi_V3","INDC2030i_1600_V3","INDC2030i_1000_V3"),
                      labels= c("NoPOL","NPi","NPi2020_high","NPi2020_low","INDC","INDC2030_high","INDC2030_low"))+
   ggtitle(label="Illustrative emission trajectories for national scenarios")+
   ylab("Emissions (rel. to 2005)")+xlab("year")+

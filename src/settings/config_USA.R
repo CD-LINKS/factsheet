@@ -17,7 +17,7 @@ cfg$r         <- "USA"
 cfg$rname     <- "USA"
 
 # Name of corresponding national model(s)
-cfg$model_nat <- c("GCAM4.2_CDLINKS","GCAM-USA_CDLINKS") # fill in the same model name as used in the database
+cfg$model_nat <- c("GCAM-USA_CDLINKS") # fill in the same model name as used in the database
 
 # Name of directory plots are stored in
 cfg$outdir    <- "graphs"
@@ -57,7 +57,7 @@ cfg$man_shapes=c("POLES 2014"        =  11,
                  "COPPE-COFFEE 1.0"  =  10,
                  "DNE21+ V.14 (national)"=1,
                  "COPPE-MSB_v1.3.2"  = 1,
-                 "*GCAM4.2_CDLINKS" = 1,
+                 #"*GCAM4.2_CDLINKS" = 1,
                  "*RU-TIMES 3.2"       = 1,
                  "*China TIMES"       = 1,
                  "*IPAC-AIM/technology V1.0" = 2,
@@ -95,7 +95,7 @@ cfg$man_lines=c("POLES 2014"        =  "dotted",
                 "GCAM_LAMP"         = "1F", 
                 "DNE21+ V.14 (national)"="solid",
                 "COPPE-MSB_v1.3.2"  = "solid",
-                "*GCAM4.2_CDLINKS" = "solid",
+                #"*GCAM4.2_CDLINKS" = "solid",
                 "*RU-TIMES 3.2"       = "solid",
                 "*China TIMES"       = "solid",
                 "*IPAC-AIM/technology V1.0" = "dashed",

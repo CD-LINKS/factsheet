@@ -7,13 +7,14 @@ library(tidyr)      # spread
 library(ggplot2)    # ggplot
 library(rmarkdown)  # render pdf
 library(directlabels) # year labels for scatter plots
+library(stringr) #str_replace_all
 
 #set working directory for R right if it is not by default (it is the right one by default if you open Rstudio by clicking on this main.R file)
 #setwd("D:/location-of-srcfolder-on-your-system")
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20170519-124306"
+cfg$infile <- "cdlinks_compare_20170619-142049"
 cfg$outdir    <- "paper graphs"
 
 #source function for factorizing data frames
@@ -83,7 +84,8 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   # Change scenario names for some models to V2 to not mix up old global model results with new ones
   all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14 (national)","GEM-E3_V1",
                    "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- paste(all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14 (national)","GEM-E3_V1",
-                                                                                                                             "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V2',sep="")
+                                                                                                                             "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
+  all[MODEL %in% c("COPPE-MSB_v2.0","DNE21+ V.14","GCAM-USA_CDLINKS")]$SCENARIO <- str_replace_all(all[MODEL %in% c("COPPE-MSB_v2.0","DNE21+ V.14","GCAM-USA_CDLINKS")]$SCENARIO,"V2","V3")
   
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
@@ -124,7 +126,7 @@ source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA")
 cats <- c("NoPOL","NPi","INDC")
 b<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),ylabel="GHG emissions (MtCO2eq/year)",
-                                  file_pre="1b_GHG_reg_2030", var.labels = c("Global GHG emissions (2030)"),b.multiyear = F)
+                                  file_pre="1b_GHG_reg_2030", var.labels = c("Global GHG emissions (2030)"),b.multiyear = F) #,globpoints = T
 
 
 # Figure 1c - GHG sources -------------------------------------------------

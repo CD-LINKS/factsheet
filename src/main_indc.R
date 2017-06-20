@@ -10,6 +10,7 @@ library(tidyr)      # spread
 library(ggplot2)    # ggplot
 library(rmarkdown)  # render pdf
 library(directlabels) # year labels for scatter plots
+library(stringr) #str_replace_all
 
 #set working directory for R right if it is not by default (it is the right one by default if you open Rstudio by clicking on this main.R file)
 #setwd("D:/location-of-srcfolder-on-your-system")
@@ -23,7 +24,7 @@ source("settings/config_RUS.R")
 
 
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20170519-124306"
+cfg$infile    <- "cdlinks_compare_20170619-142049"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -101,8 +102,9 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   # Change scenario names for some models to V2 to not mix up old global model results with new ones
   all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14 (national)","GEM-E3_V1",
                    "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- paste(all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","COPPE-COFFEE 1.0","China TIMES","DNE21+ V.14 (national)","GEM-E3_V1",
-                                                                                                                             "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V2',sep="")
-
+                                                                                                                             "IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
+  all[MODEL %in% c("COPPE-MSB_v2.0","DNE21+ V.14","GCAM-USA_CDLINKS")]$SCENARIO <- str_replace_all(all[MODEL %in% c("COPPE-MSB_v2.0","DNE21+ V.14","GCAM-USA_CDLINKS")]$SCENARIO,"V2","V3")
+  
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
   

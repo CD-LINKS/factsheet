@@ -14,18 +14,18 @@ mods <- mods[mods!="global"]
 # nat_mods <- unique(all$model)[grep(pattern =  "*",x = unique(all$model),fixed=TRUE)]
 
 # define global scenarios to look at for budget analysis
-scens <- c("NoPolicy_V2","NoPOL_V2", "NPi_V2", "INDCi_V2", "NPi2020_1600_V2","INDC2030i_1600_V2", "NPi2020_1000_V2", "INDC2030i_1000_V2", "NPi2020_400_V2",
-            "INDC2030i_400_V2","NPi2020_low_V2","NPi2020_high_V2","INDC2030_low_V2","INDC2030_high_V2")
-scens2deg <- c("NPi_V2","INDCi_V2", "NPi2020_1600_V2","NPi2020_1000_V2", "NPi2020_400_V2")
+scens <- c("NoPolicy_V3","NoPOL_V3", "NPi_V3", "INDCi_V3", "NPi2020_1600_V3","INDC2030i_1600_V3", "NPi2020_1000_V3", "INDC2030i_1000_V3", "NPi2020_400_V3",
+            "INDC2030i_400_V3","NPi2020_low_V3","NPi2020_high_V3","INDC2030_low_V3","INDC2030_high_V3")
+scens2deg <- c("NPi_V3","INDCi_V3", "NPi2020_1600_V3","NPi2020_1000_V3", "NPi2020_400_V3")
 
 #prepare data
 v_emireg <- all
 v_emireg$period <- as.numeric(v_emireg$period)
 v_emireg <- v_emireg[!is.na(v_emireg$period),]
-v_emireg <- v_emireg[!(Scope=="global" & scenario == "INDC_V2"),]
+v_emireg <- v_emireg[!(Scope=="global" & scenario == "INDC_V3"),]
 
 v_plot <- v_emireg
-v_plot[model=="*PRIMES_V1"& scenario=="INDC2030_low_V2",]$scenario <- "INDC_V2"
+v_plot[model=="*PRIMES_V1"& scenario=="INDC2030_low_V3",]$scenario <- "INDC_V3"
 
 varis <- c("Emissions|CO2","Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|Energy","Carbon budget","Carbon budget|Energy and Industry","Carbon budget|Energy")
 
@@ -37,10 +37,10 @@ v_emireg <- v_emireg %>%
 #### Analysis of global budgets - comparison with chosen budgets and national scenarios
 
 #assign national scenarios to "corresponding" global scenarios 
-v_emireg[v_emireg$scenario == "NPi2020_low_V2",]$scenario <- "NPi2020_1000_V2"
-v_emireg[v_emireg$scenario == "NPi2020_high_V2",]$scenario <- "NPi2020_1600_V2"
-v_emireg[v_emireg$scenario == "INDC2030_low_V2",]$scenario <- "INDC2030i_1000_V2"
-v_emireg[v_emireg$scenario == "INDC2030_high_V2",]$scenario <- "INDC2030i_1600_V2"
+v_emireg[v_emireg$scenario == "NPi2020_low_V3",]$scenario <- "NPi2020_1000_V3"
+v_emireg[v_emireg$scenario == "NPi2020_high_V3",]$scenario <- "NPi2020_1600_V3"
+v_emireg[v_emireg$scenario == "INDC2030_low_V3",]$scenario <- "INDC2030i_1000_V3"
+v_emireg[v_emireg$scenario == "INDC2030_high_V3",]$scenario <- "INDC2030i_1600_V3"
 
 
 #select variables in right point in time
@@ -111,7 +111,7 @@ ggsave(file=paste0("plots/","CO2tot_budget_2deg","_multiregbox.pdf"),
 ggplot() +
     geom_boxplot(data=v_plot[v_plot$Scope=="global",],aes(x=scenario,y=`Emissions|CO2|FFI|aggregated`, fill = scenario), outlier.size = 0) +
   geom_point(data=v_plot,aes(x=scenario,y=`Emissions|CO2|FFI|aggregated`,shape=model,color=model,size=model)) +
-  geom_text(data=ref_budgets,aes(x="NPi2020_400_V2",y=value*0.97,label=as.character(round(value))),colour=rep(c("#aa0000","#0000aa"),9))+ #
+  geom_text(data=ref_budgets,aes(x="NPi2020_400_V3",y=value*0.97,label=as.character(round(value))),colour=rep(c("#aa0000","#0000aa"),9))+ #
   geom_hline(data=ref_budgets,aes(yintercept=value),colour=rep(c("#aa0000","#0000aa"),9))+  #
     facet_wrap(~region, scales = "free_y") +
     ggtitle(paste0(" Cumulative CO2 Energy and Industry 2011-2100")) + ylab("Gt CO2") +
@@ -126,7 +126,7 @@ ggsave(file=paste0("plots/","CO2EneInd_budget_2deg","_multiregbox.pdf"),
 ggplot() +
   geom_boxplot(data=v_plot[v_plot$Scope=="global",],aes(x=scenario,y=`Carbon budget|Energy`, fill = scenario), outlier.size = 0) +
   geom_point(data=v_plot,aes(x=scenario,y=`Carbon budget|Energy`,shape=model,color=model,size=model)) +
-  geom_text(data=ref_budgets,aes(x="NPi2020_400_V2",y=value*0.97,label=as.character(round(value))),colour=rep(c("#aa0000","#0000aa"),9))+ #
+  geom_text(data=ref_budgets,aes(x="NPi2020_400_V3",y=value*0.97,label=as.character(round(value))),colour=rep(c("#aa0000","#0000aa"),9))+ #
   geom_hline(data=ref_budgets,aes(yintercept=value),colour=rep(c("#aa0000","#0000aa"),9))+  #
   facet_wrap(~region, scales = "free_y") +
   ggtitle(paste0(" Cumulative CO2 Energy 2011-2100")) + ylab("Gt CO2") +
