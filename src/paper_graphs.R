@@ -126,7 +126,7 @@ source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA")
 cats <- c("NoPOL","NPi","INDC")
 b<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),ylabel="GHG emissions (MtCO2eq/year)",
-                                  file_pre="1b_GHG_reg_2030", var.labels = c("Global GHG emissions (2030)"),b.multiyear = F) #,globpoints = T
+                                  file_pre="1b_GHG_reg_2030", var.labels = c("Global GHG emissions (2030)"),b.multiyear = F,globpoints = T) 
 
 
 # Figure 1c - GHG sources -------------------------------------------------
@@ -135,22 +135,25 @@ cats <- c("NoPOL","NPi","INDC")
 c<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|CH4","Emissions|N2O","Emissions|CO2","Emissions|F-Gases"),cats = cats, 
                                   years=c(2030),file_pre="1c_GHG_sources_2030", 
                                   var.labels = c("Global CH4 emissions (Mt CH4/yr)","Global N2O emissions (kt N2O/yr)","Global CO2 emissions (Mt CO2/yr)","Global F-gas emissions (MtCO2eq/yr)"),
-                                  b.multiyear = F, b.multivar=T)
+                                  b.multiyear = F, b.multivar=T,globpoints=T)
 
 
 # Figure 1def - Key regions -----------------------------------------------
 regs <- c("BRA")
 cats <- c("Historical","NoPOL","NPi","INDC")
 d<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),file_pre="1d_GHG_BRA_2030", 
-                                  b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions Brazil (2030)"),ylabel="GHG emissions (MtCO2eq/year)")
+                                  b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions Brazil (2030)"),ylabel="GHG emissions (MtCO2eq/year)",
+                                  globpoints=T)
 
 regs <- c("CHN")
 e<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),file_pre="1e_GHG_CHN_2030", 
-                                  b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions China (2030)"),ylabel="GHG emissions (MtCO2eq/year)")
+                                  b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions China (2030)"),ylabel="GHG emissions (MtCO2eq/year)",
+                                  globpoints=T)
 
 regs <- c("USA")
 f<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),file_pre="1f_GHG_USA_2030", 
-                                  b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions USA (2030)"),ylabel="GHG emissions (MtCO2eq/year)")
+                                  b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions USA (2030)"),ylabel="GHG emissions (MtCO2eq/year)",
+                                  globpoints=T)
 
 
 # Figure 1 together -------------------------------------------------------
@@ -204,14 +207,14 @@ v_emi_cumrel2=data.table(v_emi_cumrel2)
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS")
 two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2050),ylabel="CO2 budget 2011-2050",
-                                  file_pre="2_budget_reg_2050", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multicat=T) #,b.multicat = T, b.multivar=T,
+                                  file_pre="2_budget_reg_2050", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multicat=T,globpoints = T) #,b.multicat = T, b.multivar=T,
 two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2050),ylabel="CO2 budget 2011-2050",
-                                    file_pre="2_budget_reg_2050_2", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multivar=T) #,b.multicat = T, b.multivar=T,
+                                    file_pre="2_budget_reg_2050_2", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multivar=T,globpoints=T) #,b.multicat = T, b.multivar=T,
 
 two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel2,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2100),ylabel="CO2 budget 2011-2100",
-                                    file_pre="2_budget_reg_2100", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multicat=T) #,b.multicat = T, b.multivar=T,
+                                    file_pre="2_budget_reg_2100", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multicat=T,globpoints=T) #,b.multicat = T, b.multivar=T,
 two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel2,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2100),ylabel="CO2 budget 2011-2100",
-                                    file_pre="2_budget_reg_2100_2", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multivar=T) #,b.multicat = T, b.multivar=T,
+                                    file_pre="2_budget_reg_2100_2", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multivar=T,globpoints = T) #,b.multicat = T, b.multivar=T,
 
 # Figure 3 - implementation -----------------------------------------------
 source("functions/plot_functions.R")
@@ -228,7 +231,7 @@ ggsave(file=paste(cfg$outdir,"/Fig3.png",sep=""),g,width=20,height=10,dpi=300)
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
 cats <- c("2020_high","2020_low","2030_high","2030_low")
-tb1<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2100,file_pre="MitiCosts_2100_mitigscens",ylabel="Mitigation costs as % of GDP (2100)",b.multicat=T)
-tb2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2050,file_pre="MitiCosts_2050_mitigscens",ylabel="Mitigation costs as % of GDP (2050)",b.multicat=T)
+tb1<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2100,file_pre="MitiCosts_2100_mitigscens",ylabel="Mitigation costs as % of GDP (2100)",b.multicat=T,globpoints = T)
+tb2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2050,file_pre="MitiCosts_2050_mitigscens",ylabel="Mitigation costs as % of GDP (2050)",b.multicat=T,globpoints=T)
 g=arrangeGrob(tb2,tb1,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig3b.png",sep=""),g,width=16,height=12,dpi=300)

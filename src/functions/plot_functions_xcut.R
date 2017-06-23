@@ -555,6 +555,8 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   
   if (b.multivar){
     levels(dtg$variable) <- var.labels
+    levels(dtg1$variable) <- var.labels
+    
   }
   
   p = ggplot()
@@ -571,11 +573,17 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   if(b.multicat){
     p = p + facet_grid(variable ~ Category, scales="free")
   }
-  if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global,colour=Category),position=position_dodge(width=0.5))}
-  #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
-  p = p + ylab(ylabel) + xlab("")
   
-  p = p + scale_color_manual( values=plotstyle(cats),
+  if(globpoints&nonreg){p = p + geom_point(data=dtg,aes(x=Category,y=value,shape=Global,colour=Category,group=Category))#,position=position_dodge(width=c(0.5,0.5,0.5))
+  }else{
+    if(globpoints&b.multivar){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global,colour=Category,group=interaction(Category,variable)),position=position_dodge(width=c(0.5,0.5,0.5)))
+    }else{
+    if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global,colour=Category,group=Category),position=position_dodge(width=c(0.5,0.5,0.5)))
+    }}}
+    
+    #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
+  p = p + ylab(ylabel) + xlab("")
+    p = p + scale_color_manual( values=plotstyle(cats),
                               labels =  plotstyle(cats, out = "legend") )
   #p = p + scale_shape_manual(values=plotstyle(cats, out="shape"))
   
