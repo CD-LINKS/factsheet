@@ -17,7 +17,7 @@ library(stringr) #str_replace_all
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20170626-145523"
+cfg$infile <- "cdlinks_compare_20170720-114454"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -94,11 +94,8 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   all <- all[!(MODEL=="GEM-E3_V1"&SCENARIO=="INDC")]
 
   # Change scenario names for some models to V3 to not mix up old global model results with new ones
-  all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","China TIMES","DNE21+ V.14 (national)","GEM-E3_V1","IPAC-AIM/technology V1.0",
-                   "India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- paste(all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]",
-                    "China TIMES","DNE21+ V.14 (national)","GEM-E3_V1","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
-  all[MODEL %in% c("COPPE-MSB_v2.0","DNE21+ V.14")]$SCENARIO <- str_replace_all(all[MODEL %in% c("COPPE-MSB_v2.0","DNE21+ V.14")]$SCENARIO,"V2","V3")
-  
+  all[MODEL %in% c("AIM/Enduse 3.0","DNE21+ V.14 (national)","GEM-E3_V1","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- 
+    paste(all[MODEL %in% c("AIM/Enduse 3.0","DNE21+ V.14 (national)","GEM-E3_V1","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
   
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
