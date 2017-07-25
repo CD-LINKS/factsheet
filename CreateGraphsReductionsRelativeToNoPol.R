@@ -32,7 +32,8 @@ z_total <- rbind(z_total, z2)
 ShowGHGReductionRelToScenario("economy-wide", "BRA")
 z2 <- z
 z2$region <- "BRA"; z2$sector <- "economy-wide"
-z_total <- z2
+z_total <- rbind(z_total, z2)
+
 ShowGHGReductionRelToScenario("energy_supply", "BRA")
 z2 <- z
 z2$region <- "BRA"; z2$sector <- "energy_supply"
@@ -62,7 +63,8 @@ z_total <- rbind(z_total, z2)
 ShowGHGReductionRelToScenario("economy-wide", "CHN")
 z2 <- z
 z2$region <- "CHN"; z2$sector <- "economy-wide"
-z_total <- z2
+z_total <- rbind(z_total, z2)
+
 ShowGHGReductionRelToScenario("energy_supply", "CHN")
 z2 <- z
 z2$region <- "CHN"; z2$sector <- "energy_supply"
@@ -92,7 +94,8 @@ z_total <- rbind(z_total, z2)
 ShowGHGReductionRelToScenario("economy-wide", "IND")
 z2 <- z
 z2$region <- "IND"; z2$sector <- "economy-wide"
-z_total <- z2
+z_total <- rbind(z_total, z2)
+
 ShowGHGReductionRelToScenario("energy_supply", "IND")
 z2 <- z
 z2$region <- "IND"; z2$sector <- "energy_supply"
@@ -122,7 +125,8 @@ z_total <- rbind(z_total, z2)
 ShowGHGReductionRelToScenario("economy-wide", "JPN")
 z2 <- z
 z2$region <- "JPN"; z2$sector <- "economy-wide"
-z_total <- z2
+z_total <- rbind(z_total, z2)
+
 ShowGHGReductionRelToScenario("energy_supply", "JPN")
 z2 <- z
 z2$region <- "JPN"; z2$sector <- "energy_supply"
@@ -152,7 +156,8 @@ z_total <- rbind(z_total, z2)
 ShowGHGReductionRelToScenario("economy-wide", "EU")
 z2 <- z
 z2$region <- "EU"; z2$sector <- "economy-wide"
-z_total <- z2
+z_total <- rbind(z_total, z2)
+
 ShowGHGReductionRelToScenario("energy_supply", "EU")
 z2 <- z
 z2$region <- "EU"; z2$sector <- "energy_supply"
@@ -182,7 +187,8 @@ z_total <- rbind(z_total, z2)
 ShowGHGReductionRelToScenario("economy-wide", "EU")
 z2 <- z
 z2$region <- "EU"; z2$sector <- "economy-wide"
-z_total <- z2
+z_total <- rbind(z_total, z2)
+
 ShowGHGReductionRelToScenario("energy_supply", "EU")
 z2 <- z
 z2$region <- "EU"; z2$sector <- "energy_supply"
@@ -212,7 +218,8 @@ z_total <- rbind(z_total, z2)
 ShowGHGReductionRelToScenario("economy-wide", "USA")
 z2 <- z
 z2$region <- "USA"; z2$sector <- "economy-wide"
-z_total <- z2
+z_total <- rbind(z_total, z2)
+
 ShowGHGReductionRelToScenario("energy_supply", "USA")
 z2 <- z
 z2$region <- "USA"; z2$sector <- "energy_supply"
@@ -237,3 +244,8 @@ ShowGHGReductionRelToScenario("AFOLU", "USA")
 z2 <- z
 z2$region <- "USA"; z2$sector <- "AFOLU"
 z_total <- rbind(z_total, z2)
+
+z_table <- xtable(z_total)
+z_table$reduction <- -100*z_table$reduction
+fname_html = paste("Reductions per model by 2030", Sys.Date(),"_", gsub(":", "_", strftime(Sys.time(), format="%H:%M:%S")), ".html")
+print.xtable(z_table, type="html", file=paste("graphs/",fname_html))
