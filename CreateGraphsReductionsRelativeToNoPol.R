@@ -1,251 +1,205 @@
+create_graphs <- 0
+
 # World
-ShowGHGReductionRelToScenario("economy-wide", "World")
-z2 <- z
-z2$region <- "World"; z2$sector <- "economy-wide"
+z2 <- ShowGHGReductionRelToScenario("economy wide", "World", create_graphs)
+z2$region <- "World"; z2$sector <- "economy wide"
 z_total <- z2
-ShowGHGReductionRelToScenario("energy_supply", "World")
-z2 <- z
-z2$region <- "World"; z2$sector <- "energy_supply"
+
+z2 <- ShowGHGReductionRelToScenario("energy supply", "World", create_graphs)
+z2$region <- "World"; z2$sector <- "energy supply"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("industry", "World")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("industry", "World", create_graphs)
 z2$region <- "World"; z2$sector <- "industry"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("buildings", "World")
-z2 <- z
-z2$region <- "World"; z2$sector <- "buildings"
+z2 <- ShowGHGReductionRelToScenario("residential and commercial", "World", create_graphs)
+z2$region <- "World"; z2$sector <- "residential and commercial"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("transport", "World")
-z2 <- z
-z2$region <- "World"; z2$sector <- "transport"
+z2 <- ShowGHGReductionRelToScenario("transportation", "World", create_graphs)
+z2$region <- "World"; z2$sector <- "transportation"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("AFOLU", "World")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("AFOLU", "World", create_graphs)
 z2$region <- "World"; z2$sector <- "AFOLU"
 z_total <- rbind(z_total, z2)
 
 # Brazil
-ShowGHGReductionRelToScenario("economy-wide", "BRA")
-z2 <- z
-z2$region <- "BRA"; z2$sector <- "economy-wide"
+z2 <- ShowGHGReductionRelToScenario("economy wide", "BRA", create_graphs)
+z2$region <- "BRA"; z2$sector <- "economy wide"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("energy_supply", "BRA")
-z2 <- z
-z2$region <- "BRA"; z2$sector <- "energy_supply"
+z2 <- ShowGHGReductionRelToScenario("energy supply", "BRA", create_graphs)
+z2$region <- "BRA"; z2$sector <- "energy supply"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("industry", "BRA")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("industry", "BRA", create_graphs)
 z2$region <- "BRA"; z2$sector <- "industry"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("buildings", "BRA")
-z2 <- z
-z2$region <- "BRA"; z2$sector <- "buildings"
+z2 <- ShowGHGReductionRelToScenario("residential and commercial", "BRA", create_graphs)
+z2$region <- "BRA"; z2$sector <- "residential and commercial"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("transport", "BRA")
-z2 <- z
-z2$region <- "BRA"; z2$sector <- "transport"
+z2 <- ShowGHGReductionRelToScenario("transportation", "BRA", create_graphs)
+z2$region <- "BRA"; z2$sector <- "transportation"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("AFOLU", "BRA")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("AFOLU", "BRA", create_graphs)
 z2$region <- "BRA"; z2$sector <- "AFOLU"
 z_total <- rbind(z_total, z2)
 
 # China
-ShowGHGReductionRelToScenario("economy-wide", "CHN")
-z2 <- z
-z2$region <- "CHN"; z2$sector <- "economy-wide"
+z2 <- ShowGHGReductionRelToScenario("economy wide", "CHN", create_graphs)
+z2$region <- "CHN"; z2$sector <- "economy wide"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("energy_supply", "CHN")
-z2 <- z
-z2$region <- "CHN"; z2$sector <- "energy_supply"
+z2 <- ShowGHGReductionRelToScenario("energy supply", "CHN", create_graphs)
+z2$region <- "CHN"; z2$sector <- "energy supply"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("industry", "CHN")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("industry", "CHN", create_graphs)
 z2$region <- "CHN"; z2$sector <- "industry"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("buildings", "CHN")
-z2 <- z
-z2$region <- "CHN"; z2$sector <- "buildings"
+z2 <- ShowGHGReductionRelToScenario("residential and commercial", "CHN", create_graphs)
+z2$region <- "CHN"; z2$sector <- "residential and commercial"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("transport", "CHN")
-z2 <- z
-z2$region <- "CHN"; z2$sector <- "transport"
+z2 <- ShowGHGReductionRelToScenario("transportation", "CHN", create_graphs)
+z2$region <- "CHN"; z2$sector <- "transportation"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("AFOLU", "CHN")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("AFOLU", "CHN", create_graphs)
 z2$region <- "CHN"; z2$sector <- "AFOLU"
 z_total <- rbind(z_total, z2)
 
 # India
-ShowGHGReductionRelToScenario("economy-wide", "IND")
-z2 <- z
-z2$region <- "IND"; z2$sector <- "economy-wide"
+z2 <- ShowGHGReductionRelToScenario("economy wide", "IND", create_graphs)
+z2$region <- "IND"; z2$sector <- "economy wide"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("energy_supply", "IND")
-z2 <- z
-z2$region <- "IND"; z2$sector <- "energy_supply"
+z2 <- ShowGHGReductionRelToScenario("energy supply", "IND", create_graphs)
+z2$region <- "IND"; z2$sector <- "energy supply"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("industry", "IND")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("industry", "IND", create_graphs)
 z2$region <- "IND"; z2$sector <- "industry"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("buildings", "IND")
-z2 <- z
-z2$region <- "IND"; z2$sector <- "buildings"
+z2 <- ShowGHGReductionRelToScenario("residential and commercial", "IND", create_graphs)
+z2$region <- "IND"; z2$sector <- "residential and commercial"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("transport", "IND")
-z2 <- z
-z2$region <- "IND"; z2$sector <- "transport"
+z2 <- ShowGHGReductionRelToScenario("transportation", "IND", create_graphs)
+z2$region <- "IND"; z2$sector <- "transportation"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("AFOLU", "IND")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("AFOLU", "IND", create_graphs)
 z2$region <- "IND"; z2$sector <- "AFOLU"
 z_total <- rbind(z_total, z2)
 
 # Japan
-ShowGHGReductionRelToScenario("economy-wide", "JPN")
-z2 <- z
-z2$region <- "JPN"; z2$sector <- "economy-wide"
+z2 <- ShowGHGReductionRelToScenario("economy wide", "JPN", create_graphs)
+z2$region <- "JPN"; z2$sector <- "economy wide"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("energy_supply", "JPN")
-z2 <- z
-z2$region <- "JPN"; z2$sector <- "energy_supply"
+z2 <- ShowGHGReductionRelToScenario("energy supply", "JPN", create_graphs)
+z2$region <- "JPN"; z2$sector <- "energy supply"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("industry", "JPN")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("industry", "JPN", create_graphs)
 z2$region <- "JPN"; z2$sector <- "industry"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("buildings", "JPN")
-z2 <- z
-z2$region <- "JPN"; z2$sector <- "buildings"
+z2 <- ShowGHGReductionRelToScenario("residential and commercial", "JPN", create_graphs)
+z2$region <- "JPN"; z2$sector <- "residential and commercial"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("transport", "JPN")
-z2 <- z
-z2$region <- "JPN"; z2$sector <- "transport"
+z2 <- ShowGHGReductionRelToScenario("transportation", "JPN", create_graphs)
+z2$region <- "JPN"; z2$sector <- "transportation"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("AFOLU", "JPN")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("AFOLU", "JPN", create_graphs)
 z2$region <- "JPN"; z2$sector <- "AFOLU"
 z_total <- rbind(z_total, z2)
 
 # EU
-ShowGHGReductionRelToScenario("economy-wide", "EU")
-z2 <- z
-z2$region <- "EU"; z2$sector <- "economy-wide"
+z2 <- ShowGHGReductionRelToScenario("economy wide", "EU", create_graphs)
+z2$region <- "EU"; z2$sector <- "economy wide"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("energy_supply", "EU")
-z2 <- z
-z2$region <- "EU"; z2$sector <- "energy_supply"
+z2 <- ShowGHGReductionRelToScenario("energy supply", "EU", create_graphs)
+z2$region <- "EU"; z2$sector <- "energy supply"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("industry", "EU")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("industry", "EU", create_graphs)
 z2$region <- "EU"; z2$sector <- "industry"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("buildings", "EU")
-z2 <- z
-z2$region <- "EU"; z2$sector <- "buildings"
+z2 <- ShowGHGReductionRelToScenario("residential and commercial", "EU", create_graphs)
+z2$region <- "EU"; z2$sector <- "residential and commercial"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("transport", "EU")
-z2 <- z
-z2$region <- "EU"; z2$sector <- "transport"
+z2 <- ShowGHGReductionRelToScenario("transportation", "EU", create_graphs)
+z2$region <- "EU"; z2$sector <- "transportation"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("AFOLU", "EU")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("AFOLU", "EU", create_graphs)
 z2$region <- "EU"; z2$sector <- "AFOLU"
 z_total <- rbind(z_total, z2)
 
 # Russia 
-ShowGHGReductionRelToScenario("economy-wide", "EU")
-z2 <- z
-z2$region <- "EU"; z2$sector <- "economy-wide"
+z2 <- ShowGHGReductionRelToScenario("economy wide", "EU", create_graphs)
+z2$region <- "EU"; z2$sector <- "economy wide"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("energy_supply", "EU")
-z2 <- z
-z2$region <- "EU"; z2$sector <- "energy_supply"
+z2 <- ShowGHGReductionRelToScenario("energy supply", "EU", create_graphs)
+z2$region <- "EU"; z2$sector <- "energy supply"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("industry", "EU")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("industry", "EU", create_graphs)
 z2$region <- "EU"; z2$sector <- "industry"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("buildings", "EU")
-z2 <- z
-z2$region <- "EU"; z2$sector <- "buildings"
+z2 <- ShowGHGReductionRelToScenario("residential and commercial", "EU", create_graphs)
+z2$region <- "EU"; z2$sector <- "residential and commercial"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("transport", "EU")
-z2 <- z
-z2$region <- "EU"; z2$sector <- "transport"
+z2 <- ShowGHGReductionRelToScenario("transportation", "EU", create_graphs)
+z2$region <- "EU"; z2$sector <- "transportation"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("AFOLU", "EU")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("AFOLU", "EU", create_graphs)
 z2$region <- "EU"; z2$sector <- "AFOLU"
 z_total <- rbind(z_total, z2)
 
 # USA
-ShowGHGReductionRelToScenario("economy-wide", "USA")
-z2 <- z
-z2$region <- "USA"; z2$sector <- "economy-wide"
+z2 <- ShowGHGReductionRelToScenario("economy wide", "USA", create_graphs)
+z2$region <- "USA"; z2$sector <- "economy wide"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("energy_supply", "USA")
-z2 <- z
-z2$region <- "USA"; z2$sector <- "energy_supply"
+z2 <- ShowGHGReductionRelToScenario("energy supply", "USA", create_graphs)
+z2$region <- "USA"; z2$sector <- "energy supply"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("industry", "USA")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("industry", "USA", create_graphs)
 z2$region <- "USA"; z2$sector <- "industry"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("buildings", "USA")
-z2 <- z
-z2$region <- "USA"; z2$sector <- "buildings"
+z2 <- ShowGHGReductionRelToScenario("residential and commercial", "USA", create_graphs)
+z2$region <- "USA"; z2$sector <- "residential and commercial"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("transport", "USA")
-z2 <- z
-z2$region <- "USA"; z2$sector <- "transport"
+z2 <- ShowGHGReductionRelToScenario("transportation", "USA", create_graphs)
+z2$region <- "USA"; z2$sector <- "transportation"
 z_total <- rbind(z_total, z2)
 
-ShowGHGReductionRelToScenario("AFOLU", "USA")
-z2 <- z
+z2 <- ShowGHGReductionRelToScenario("AFOLU", "USA", create_graphs)
 z2$region <- "USA"; z2$sector <- "AFOLU"
 z_total <- rbind(z_total, z2)
 
-z_table <- xtable(z_total)
-z_table$reduction <- -100*z_table$reduction
+z_table <- xtable(z_total, digits=c(0,0,2,2,8,0,0)) 
 fname_html = paste("Reductions per model by 2030", Sys.Date(),"_", gsub(":", "_", strftime(Sys.time(), format="%H:%M:%S")), ".html")
-print.xtable(z_table, type="html", file=paste("graphs/",fname_html))
+print.xtable(z_table, type="html", file=paste("graphs/paper/",fname_html))

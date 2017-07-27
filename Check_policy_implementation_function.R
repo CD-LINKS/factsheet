@@ -16,12 +16,15 @@ roundUpNice <- function(x, nice=c(1,2,4,5,6,8,10,11,12,13,14,15)) {
   10^floor(log10(x)) * nice[[which(x <= 10^floor(log10(x)) * nice)[[1]]]]
 }
 
-ShowGHGReductionRelToScenario <- function(SECTOR, select_region)
+ShowGHGReductionRelToScenario <- function(SECTOR, select_region, create_graphs)
 {
  #pre: 
-  # Sector = {economy_wide, energy_supply, industry, buildings, transport, AFOLU}
+  # Sector = {economy wide, energy supply, industry, residential and commercial, transportation, AFOLU}
   GHG = "ALL"
-  #SECTOR = "economy_wide"
+  #SECTOR = "economy wide"
+  #select_region = "USA"
+  
+  output_dir = "graphs/paper/"
   
   # const
   AIM = "AIM/CGE"
@@ -29,6 +32,7 @@ ShowGHGReductionRelToScenario <- function(SECTOR, select_region)
   DNE = "DNE21+ V.14"
   GEM_E3 = "GEM-E3_V1"
   IMAGE = "IMAGE 3.0"
+  POLES = "POLES CDL"
   REMIND = "REMIND-MAgPIE 1.7-3.0"
   MESSAGE = "MESSAGEix-GLOBIOM_1.0"
   WITCH = "WITCH2016"
@@ -43,21 +47,21 @@ ShowGHGReductionRelToScenario <- function(SECTOR, select_region)
   
   # Emissions|CO2|Energy|Demand|Residential and Commercial
   # Emissions|CH4|Energy|Demand|Residential and Commercial
-  if(SECTOR == "economy_wide") { GHG_var1 <- "Emissions|CO2"; GWP1 <- 1; print("Emissions|CO2")
+  if(SECTOR == "economy wide") { GHG_var1 <- "Emissions|CO2"; GWP1 <- 1; print("Emissions|CO2")
                                  GHG_var2 <- "Emissions|CH4";GWP2 <- GWP_CH4; print("Emissions|CH4")
                                  GHG_var3 <- "Emissions|N2O"; GWP3 <- GWP_N2O; print("Emissions|N2O")
-  } else if (SECTOR == "energy_supply")  { GHG_var1 <- "Emissions|CO2|Energy|Supply"; GWP1 <- 1;
-                                           GHG_var2 <- "Emissions|CH4|Energy|Supply"; GWP2 <- GWP_CH4;
-                                           GHG_var3 <- "Emissions|N2O|Energy"; GWP3 <- GWP_N2O;
+  } else if (SECTOR == "energy supply")  { GHG_var1 <- "Emissions|CO2|Energy|Supply"; GWP1 <- 1; ; print("Emissions|CO2|Energy|Supply")
+                                           GHG_var2 <- "Emissions|CH4|Energy|Supply"; GWP2 <- GWP_CH4; ; print("Emissions|CH4|Energy|Supply")
+                                           GHG_var3 <- "Emissions|N2O|Energy"; GWP3 <- GWP_N2O; ; print("Emissions|N2O|Energy")
   } else if (SECTOR == "industry") { GHG_var1 <- "Emissions|CO2|Energy|Demand|Industry"; GWP1 <- 1; 
                                      GHG_var2 <- "Emissions|CH4|Energy|Demand|Industry"; GWP2 <- GWP_CH4;
                                      GHG_var3 <- "Emissions|CO2|Industrial Processes"; GWP3 <- 1;
-  } else if (SECTOR == "buildings") { GHG_var1 <- "Emissions|CO2|Energy|Demand|Residential and Commercial"; GWP1 <- 1;
-                                      GHG_var2 <- "Emissions|CH4|Energy|Demand|Residential and Commercial"; GWP2 <- GWP_CH4;
-                                      GHG_var3 <- ""; GWP3 <- 0;
-  } else if (SECTOR == "transport") { GHG_var1 <- "Emissions|CO2|Energy|Demand|Transportation"; GWP1 <- 1;
-                                      GHG_var2 <- "Emissions|CH4|Energy|Demand|Transportation"; GWP2 <- GWP_CH4;
-                                      GHG_var3 <- ""; GWP3 <- 0;
+  } else if (SECTOR == "residential and commercial") { GHG_var1 <- "Emissions|CO2|Energy|Demand|Residential and Commercial"; GWP1 <- 1;
+                                                       GHG_var2 <- "Emissions|CH4|Energy|Demand|Residential and Commercial"; GWP2 <- GWP_CH4;
+                                                       GHG_var3 <- ""; GWP3 <- 0;
+  } else if (SECTOR == "transportation") { GHG_var1 <- "Emissions|CO2|Energy|Demand|Transportation"; GWP1 <- 1;
+                                           GHG_var2 <- "Emissions|CH4|Energy|Demand|Transportation"; GWP2 <- GWP_CH4;
+                                           GHG_var3 <- ""; GWP3 <- 0;
   } else if (SECTOR == "AFOLU") { GHG_var1 <- "Emissions|CO2|AFOLU"; GWP1 <- 1;
                                   GHG_var2 <- "Emissions|CH4|AFOLU"; GWP2 <- GWP_CH4;
                                   GHG_var3 <- "Emissions|N2O|AFOLU"; GWP3 <- GWP_N2O;
@@ -89,7 +93,7 @@ ShowGHGReductionRelToScenario <- function(SECTOR, select_region)
     
   # alternative to add GHG emissions in one go
   dt1 <- data.table(data_plot)
-  dt2 <- subset(dt1, period == 2030 & region==select_region & (Category==Scen2 | Category==Scen1) & (variable==GHG_var1 | variable==GHG_var2 | variable==GHG_var3))
+  dt2 <- subset(dt1, period == 2030 & region==select_region & Scope == "global" & (Category==Scen2 | Category==Scen1) & (variable==GHG_var1 | variable==GHG_var2 | variable==GHG_var3))
   dt3 <- dt2
   # translate GHG emissions into CO2 equivalent mass
   dt3[variable == GHG_var1, "value"] <- dt3[variable == GHG_var1, "value"] * GWP1
@@ -148,22 +152,31 @@ ShowGHGReductionRelToScenario <- function(SECTOR, select_region)
   myplot7<-ggplot(data_plot1_7, aes(Category, total))+geom_bar(stat="identity")+labs(title="MESSAGE")+annotation_custom(ann_7)+xlab("scenario")+ylab(y_txt)      
 
   data_plot1_8 <- subset(dt4, model==WITCH)
-  red_8 = round(-1*100*x[x[,"model"]==WITCH,]["reduction"],digits=1)
+  red_8 = round(-1*100*z[z$model==WITCH,"reduction"],digits=1)
   ann_8 = grobTree(textGrob(paste("red. to ", Scen2, " =",red_8,"%"),x=x_coord_text, y=y_coord_text,hjust=0,rot=90,gp=gpar(col="yellow",fontsize=7,fontface="bold")))
   myplot8<-ggplot(data_plot1_8, aes(Category, total))+geom_bar(stat="identity")+labs(title="WITCH")+annotation_custom(ann_8)+xlab("scenario")+ylab(y_txt)      
 
-  #g <- grid.arrange(myplot1, myplot2, myplot3, myplot4, myplot5, myplot6, myplot7, myplot8, ncol=4, main=textGrob("CO2 emissions", gp=gpar(fontsize=15,font=8)))
-  g <- grid.arrange(myplot1, myplot2, myplot3, myplot4, myplot5, myplot6, myplot7, myplot8, ncol=4, top=title_GHG_plot)
-  plot(g)
-  #fname = paste(GHG, "_", Sys.time(), ".pdf")
-  fname_pdf = paste(select_region, "_", GHG, "_", SECTOR, "_", Sys.Date(),"_", gsub(":", "_", strftime(Sys.time(), format="%H:%M:%S")), ".pdf")
-  ggsave(paste("graphs/", fname_pdf), g)
-  print(paste("file: ", fname))
+  data_plot1_9 <- subset(dt4, model==WITCH)
+  red_9 = round(-1*100*z[z$model==POLES,"reduction"],digits=1)
+  ann_9 = grobTree(textGrob(paste("red. to ", Scen2, " =",red_9,"%"),x=x_coord_text, y=y_coord_text,hjust=0,rot=90,gp=gpar(col="yellow",fontsize=7,fontface="bold")))
+  myplot9<-ggplot(data_plot1_9, aes(Category, total))+geom_bar(stat="identity")+labs(title="WITCH")+annotation_custom(ann_8)+xlab("scenario")+ylab(y_txt)      
+
+    #g <- grid.arrange(myplot1, myplot2, myplot3, myplot4, myplot5, myplot6, myplot7, myplot8, ncol=4, main=textGrob("CO2 emissions", gp=gpar(fontsize=15,font=8)))
+  if (create_graphs == 1)
+  { g <- grid.arrange(myplot1, myplot2, myplot3, myplot4, myplot5, myplot6, myplot7, myplot8, ncol=4, top=title_GHG_plot)
+    plot(g)
+    #fname = paste(GHG, "_", Sys.time(), ".pdf")
+    fname_pdf = paste(select_region, "_", GHG, "_", SECTOR, "_", Sys.Date(),"_", gsub(":", "_", strftime(Sys.time(), format="%H:%M:%S")), ".pdf")
+    ggsave(paste(output_dir, fname_pdf), g)
+    print(paste("file: ", fname))
+  }
   
   #output to formatted table
-  z$reduction <- -100*z$reduction
   z_table <- xtable(z)
   fname_html = paste(select_region, "_", GHG, "_", SECTOR, "_", Sys.Date(),"_", gsub(":", "_", strftime(Sys.time(), format="%H:%M:%S")), ".html")
-  print.xtable(z_table, type="html", file=paste("graphs/",fname_html))
+  print.xtable(z_table, type="html", file=paste(output_dir,fname_html))
+  
+  return(z)
   
 }
+
