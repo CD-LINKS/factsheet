@@ -37,7 +37,7 @@ dtg <- mutate(dtg, model.cat = paste0(model.cat, "_2C" )) %>% factor.data.frame(
 dtn <- filter(all, Category %in% catsnat, region %in% regs, variable %in% vars, period == tt, Scope == "national")
 
 dtn$model <- plyr::mapvalues(dtn$model,
-                             c("*AIM/Enduse 3.0", "*COPPE-MSB_v1.3.2", "*DNE21+ V.14", "*India MARKAL",
+                             c("*AIM/Enduse 3.0", "*COPPE-MSB_v2.0", "*DNE21+ V.14 (national)", "*India MARKAL",
                                "*RU-TIMES 3.2", "*China TIMES", "*IPAC-AIM/technology V1.0",
                                "*AIM/Enduse[Japan]", "*PRIMES_V1"),
                              c("AE-IIM-", "MSB","DNE", "IM-TERI",
@@ -119,7 +119,7 @@ dtg <- mutate(dtg, model.cat = paste0(model.cat, "_2C" )) %>% factor.data.frame(
 dtn <- filter(all, Category %in% catsnat, region %in% regs, variable %in% vars, period == tt, Scope == "national")
 
 dtn$model <- plyr::mapvalues(dtn$model,
-                             c("*AIM/Enduse 3.0", "*COPPE-MSB_v1.3.2", "*DNE21+ V.14", "*India MARKAL",
+                             c("*AIM/Enduse 3.0", "*COPPE-MSB_v2.0", "*DNE21+ V.14 (national)", "*India MARKAL",
                                "*RU-TIMES 3.2", "*China TIMES", "*IPAC-AIM/technology V1.0",
                                "*AIM/Enduse[Japan]", "*PRIMES_V1"),
                              c("AE-IIM-", "MSB","DNE", "IM-TERI",
