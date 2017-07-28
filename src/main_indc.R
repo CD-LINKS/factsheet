@@ -24,7 +24,7 @@ source("settings/config_RUS.R")
 
 
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20170720-114454"
+cfg$infile    <- "cdlinks_compare_20170728-100249"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -96,12 +96,15 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   cat("Processing data\n")
 
   #manual change before addition of scenario categories
-  all[SCENARIO=="Baseline"]$SCENARIO <- "NoPOL"
-  all <- all[!(MODEL=="GEM-E3_V1"&SCENARIO=="INDC")]
+  # all[SCENARIO=="Baseline"]$SCENARIO <- "NoPOL"
+  # all <- all[!(MODEL=="GEM-E3_V1"&SCENARIO=="INDC")]
   
   # Change scenario names for some models to V3 to not mix up old global model results with new ones
-  all[MODEL %in% c("AIM/Enduse 3.0","DNE21+ V.14 (national)","GEM-E3_V1","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- 
-    paste(all[MODEL %in% c("AIM/Enduse 3.0","DNE21+ V.14 (national)","GEM-E3_V1","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
+  # Needed when snapshot includes older, non-V3 scenarios
+  # all[MODEL %in% c("DNE21+ V.14 (national)","GEM-E3_V1","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- 
+  #   paste(all[MODEL %in% c("DNE21+ V.14 (national)","GEM-E3_V1","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
+  # all[MODEL %in% c("AIM/Enduse 3.0")&!SCENARIO%in%c("INDC_V3")]$SCENARIO <- 
+  #   paste(all[MODEL %in% c("AIM/Enduse 3.0")& !SCENARIO%in%c("INDC_V3")]$SCENARIO,'_V3',sep="")
   
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
@@ -114,11 +117,6 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   
   #### add variables
   all <- add_variables(all,scens)
-  
-#   #### manual changes after addition of variables
-#   #Change Category for AMPERE3-scenarios for GEM-E3 for regions where the results should feature (because this model has no LIMITS data)
-#   all[scenario == "MILES-AMPERE3-CF450" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Global 450 / S2-3"
-#   all[scenario == "MILES-AMPERE3-Base" & model == "GEM-E3_V1" & region %in% c("BRA","EU")]$Category <- "Baseline / S0-1"
   
   #set scope to "national" for national models
   all[all$model %in% cfg$model_nat,]$Scope <- "national"

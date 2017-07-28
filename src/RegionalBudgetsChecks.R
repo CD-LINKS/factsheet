@@ -27,7 +27,7 @@ primap <- primap[primap$category %in% category & primap$entity == entity,]
 primap$country <- NULL
 
 #read in CDIAC data for bunkers (regionalized to remind regions: 7 seperate countries (without brazil))
-cdiac <- read.csV3("data/CDIAC_bunkers.csv")
+cdiac <- read.csv2("data/CDIAC_bunkers.csv")
 cdiac <- invisible(melt(cdiac,measure.vars=names(cdiac)[grep("[0-9]+",names(cdiac))],variable.name = "period",variable.factor=FALSE))
 cdiac$period <- as.numeric(substr(as.character(cdiac$period),start = 2,stop = 5))
 cdiac$value <- as.numeric(cdiac$value)
