@@ -14,7 +14,7 @@ library(stringr) #str_replace_all
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20170728-100249"
+cfg$infile <- "cdlinks_compare_20170803-103743"
 cfg$outdir    <- "paper graphs"
 
 #source function for factorizing data frames
@@ -81,10 +81,12 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   
   # Change scenario names for some models to V3 to not mix up old global model results with new ones
   # Needed when snapshot includes older, non-V3 scenarios
-  # all[MODEL %in% c("DNE21+ V.14 (national)","GEM-E3_V1","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- 
-  #   paste(all[MODEL %in% c("DNE21+ V.14 (national)","GEM-E3_V1","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
-  # all[MODEL %in% c("AIM/Enduse 3.0")&!SCENARIO%in%c("INDC_V3")]$SCENARIO <- 
-  #   paste(all[MODEL %in% c("AIM/Enduse 3.0")& !SCENARIO%in%c("INDC_V3")]$SCENARIO,'_V3',sep="")
+  all[MODEL %in% c("DNE21+ V.14 (national)","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- 
+    paste(all[MODEL %in% c("DNE21+ V.14 (national)","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
+  all[MODEL %in% c("AIM/Enduse 3.0")&!SCENARIO%in%c("INDC_V3")]$SCENARIO <- 
+    paste(all[MODEL %in% c("AIM/Enduse 3.0")& !SCENARIO%in%c("INDC_V3")]$SCENARIO,'_V3',sep="")
+  all[MODEL %in% c("GEM-E3")&!SCENARIO%in%c("NPi_V3","INDCi_recGenTaxation_V3","INDCi_recSocialSecurity_V3")]$SCENARIO <- 
+    paste(all[MODEL %in% c("GEM-E3")& !SCENARIO%in%c("NPi_V3","INDCi_recGenTaxation_V3","INDCi_recSocialSecurity_V3")]$SCENARIO,'_V3',sep="")
   
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
