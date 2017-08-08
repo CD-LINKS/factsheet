@@ -36,7 +36,8 @@ add_variables <- function(all,scens){
     source("functions/calcRel2Base.R")
 
     # changed, since most models only report Emissions|CO2
-    # all <- calcVariable(all,'`Emissions|CO2|FFI` ~ `Emissions|CO2|Energy and Industrial Processes` ' , newUnit='Mt CO2/yr')
+    all <- calcVariable(all,'`Emis|EI` ~ `Emissions|CO2|Energy and Industrial Processes` ' , newUnit='Mt CO2/yr')
+    #FIXME? Sowehow needed a dummy because on first try error: aggregate function missing, defaulting to 'length'
     all <- calcVariable(all,'`Emissions|CO2|FFI` ~ `Emissions|CO2|Energy and Industrial Processes` ' , newUnit='Mt CO2/yr')
     all <- calcVariable(all,'`Emissions Intensity of GDP|MER` ~ `Emissions|CO2|FFI`/`GDP|MER` ' , newUnit='kg CO2/$US 2005')
     all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2|FFI`/`GDP|PPP` ' , newUnit='kg CO2/$US 2005')
