@@ -1,5 +1,9 @@
 # Collection of fixes for reporting issues and other adjustments --------------------------------
 #
+
+# Remove GEM-E3_V1 as newest results are uploaded under GEM-E3
+all<-all[!model=="GEM-E3_V1"]
+
 #RU-TIMES: use PPP values for MER comparisons
 tmp <- all[model=="RU-TIMES 3.2"&variable=="GDP|PPP"&region=="RUS"]
 tmp$variable <- "GDP|MER"
