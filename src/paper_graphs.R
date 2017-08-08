@@ -105,7 +105,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   all <- add_variables(all,scens)
   
     #correct scope for added variables
-  all[all$model %in% cfg$models_nat,]$Scope <- "national"
+  all[all$model %in% cfg$model_nat,]$Scope <- "national"
 
   #### manual changes after addition of variables
   

@@ -135,7 +135,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 
   
   #correct scope for added variables
-  all[all$model %in% cfg$models_nat,]$Scope <- "national"
+  all[all$model %in% cfg$model_nat,]$Scope <- "national"
   #special case DNE21+ V.14: only national protocol scenarios for JPN are "national", so the rest is global
   # all[all$model == "DNE21+ V.14" & all$scenario %in% c("NoPolicy","INDCi","INDC2030i_1000","INDC2030i_1600",
   #                                                      "INDC2030i_400","NPi2020_1000","NPi2020_1600","NPi2020_400")]$Scope <- "global"
