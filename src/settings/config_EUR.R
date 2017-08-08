@@ -17,7 +17,7 @@ cfg$r         <- "EU"
 cfg$rname     <- "Europe"
 
 # Name of corresponding national model(s)
-cfg$model_nat <- c("PRIMES_V1","GEM-E3_V1")
+cfg$model_nat <- c("PRIMES_V1","GEM-E3")
 
 # Name of directory plots are stored in
 cfg$outdir    <- "graphs"
@@ -65,7 +65,7 @@ cfg$man_shapes=c("POLES 2014"        =  11,
                  "*China TIMES"       = 1,
                  "*IPAC-AIM/technology V1.0" = 2,
                  "*PRIMES_V1"         = 1,
-                 "*GEM-E3_V1"         =  2, 
+                 "*GEM-E3"         =  2, 
                  "*COPPE-MSB_v2.0"  = 1,
                  "*AIM/Enduse[Japan]" = 1,
                  "*DNE21+ V.14 (national)" = 2,
@@ -105,7 +105,7 @@ cfg$man_lines=c("POLES 2014"        =  "dotted",
                 "*China TIMES"       = "solid",
                 "*IPAC-AIM/technology V1.0" = "dashed",
                 "*PRIMES_V1"         = "solid",
-                "*GEM-E3_V1"         =  "dashed", 
+                "*GEM-E3"         =  "dashed", 
                 "*COPPE-MSB_v2.0"  = "solid",
                 "*AIM/Enduse[Japan]" = "solid",
                 "*DNE21+ V.14 (national)" = "dashed",
