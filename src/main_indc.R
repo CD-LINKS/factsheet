@@ -24,7 +24,7 @@ source("settings/config_RUS.R")
 
 
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20170803-103743"
+cfg$infile    <- "cdlinks_compare_20170807-091951"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -105,8 +105,12 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
     paste(all[MODEL %in% c("DNE21+ V.14 (national)","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
   all[MODEL %in% c("AIM/Enduse 3.0")&!SCENARIO%in%c("INDC_V3")]$SCENARIO <- 
     paste(all[MODEL %in% c("AIM/Enduse 3.0")& !SCENARIO%in%c("INDC_V3")]$SCENARIO,'_V3',sep="")
-  all[MODEL %in% c("GEM-E3")&!SCENARIO%in%c("NPi_V3","INDCi_recGenTaxation_V3","INDCi_recSocialSecurity_V3")]$SCENARIO <- 
-    paste(all[MODEL %in% c("GEM-E3")& !SCENARIO%in%c("NPi_V3","INDCi_recGenTaxation_V3","INDCi_recSocialSecurity_V3")]$SCENARIO,'_V3',sep="")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDCi_recSocialSecurity_V3")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDCi_recSocialSecurity_V3")]$SCENARIO,"INDCi_recSocialSecurity_V3","INDCi_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_1000_recSocialSecurity_V3")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_1000_recSocialSecurity_V3")]$SCENARIO,"NPi2020_1000_recSocialSecurity_V3","NPi2020_1000_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_400_recSocialSecurity_V3")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_400_recSocialSecurity_V3")]$SCENARIO,"NPi2020_400_recSocialSecurity_V3","NPi2020_400_V3")
   
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
