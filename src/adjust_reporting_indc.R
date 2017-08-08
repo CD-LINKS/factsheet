@@ -14,18 +14,6 @@ all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Process
 #all[model =="IPAC-AIM/technology V1.0"]$Baseline <- ""
 all[model =="China TIMES"]$Baseline <- ""
 
-#COPPE-MSB: no Emissions|CO2|Energy for INDC
-# tmp <-all[model=="COPPE-MSB_v1.3.2" &variable=="Emissions|CO2"&region=="BRA" & scenario =="INDCi",  ]
-# tmp$variable <- "Emissions|CO2|Energy"
-# all <- rbind(all,tmp)
-# all <- all[ !(model %in% c("*COPPE-MSB_v1.3.2", "COPPE-MSB_v1.3.2") & variable =="Emissions|CO2|Energy and Industrial Processes"), ]
-
-# Multiplying Brazil GDP for COPPE by 1000 because reported differently (factor 1000 different from global models)
-#all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value=all[model=="COPPE-MSB_v1.3.2"&variable=="GDP|MER"&region=="BRA"]$value*1000
-
-# Multiplying GDP|MER for MESSAGEix-GLOBIOM by 1000 because reported differently (factor 1000 different from other models)
-#all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value=all[model=="MESSAGEix-GLOBIOM_1.0"&variable=="GDP|MER"]$value*1000
-
 # Adding geothermal to models that don't report it, needed for calculation of total renewable energy share
 tmp1<-all[model %in% setdiff(unique(all[variable=="Secondary Energy|Electricity"]$model),unique(all[variable=="Secondary Energy|Electricity|Geothermal"]$model))
           &variable=="Secondary Energy|Electricity"]
@@ -119,10 +107,6 @@ tmp1$variable <- alternatives[i,2]
 all <- rbind(all,tmp1)
 }
 
-# #special case IPAC-AIM/technology V1.0: has Emissions|CO2|Energy and Industrial Processe for one scenario
-# tmp2 <- all[model=="IPAC-AIM/technology V1.0" & variable == "Emissions|CO2"]
-# tmp2$variable <- "Emissions|CO2|Energy and Industrial Processes"
-# all <- rbind(all[!(model=="IPAC-AIM/technology V1.0" & variable == "Emissions|CO2|Energy and Industrial Processes")],tmp1,tmp2)
 
 #plausibility check: get rid of negative energy values, write model-scenario-region-variable into file
 tmp <- all[unit=="EJ/yr" & value <0 & variable!="Primary Energy|Secondary Energy Trade"]
