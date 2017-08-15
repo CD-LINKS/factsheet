@@ -111,6 +111,31 @@ tmp1$variable <- alternatives[i,2]
 all <- rbind(all,tmp1)
 }
 
+## GEM-E3 & DNE21+: using average of other models for missing emission sources/sectors (FIXME: to generalise-see start in lines commented out)
+# tmp1 <- all[,list(unique(variable)),by=c("model")]
+# tmp1=data.table(tmp1)
+# tmp1=tmp1[model%in%c("DNE21+ V.14","GEM-E3")]
+# if(c("Emissions|N2O|Energy","Emissions|CH4|Energy|Supply","Emissions|CH4|Energy|Demand|Industry",
+#      "Emissions|CH4|Energy|Demand|Residential and Commercial","Emissions|CH4|Energy|Demand|Transportation",
+#      "Emissions|CO2|AFOLU","Emissions|CH4|AFOLU","Emissions|N2O|AFOLU")!%in% unique(tmp1$V1)){}
+tmp=all[variable%in%c("Emissions|N2O|Energy",
+                      "Emissions|CH4|Energy|Supply", 
+                      "Emissions|CH4|Energy|Demand|Industry","Emissions|CH4|Energy|Demand|Residential and Commercial","Emissions|CH4|Energy|Demand|Transportation",
+                      "Emissions|CO2|AFOLU","Emissions|CH4|AFOLU","Emissions|N2O|AFOLU")]
+tmp=tmp[,list(value=mean(value)),by=c("Category","region","variable","unit","period","Scope")]
+tmpG=tmp
+tmpD=tmp[!variable=="Emissions|CO2|AFOLU"]
+tmpG$model<-"GEM-E3"
+tmpD$model<-"DNE21+ V.14"
+scenarios=all[model%in%c("GEM-E3","DNE21+ V.14"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category")]
+tmpG=merge(tmpG,scenarios,by=c("Category"))
+tmpD=merge(tmpD,scenarios,by=c("Category"))
+setcolorder(tmpG,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
+setcolorder(tmpD,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
+regions=all[model%in%c("GEM-E3","DNE21+ V.14"),list(region=unique(region)),by=c("model")]
+tmpG=tmpG[region%in%regions[model=="GEM-E3"]$region]
+tmpD=tmpD[region%in%regions[model=="DNE21+ V.14"]$region]
+all<-rbind(all,tmpG,tmpD)
 
 #plausibility check: get rid of negative energy values, write model-scenario-region-variable into file
 tmp <- all[unit=="EJ/yr" & value <0 & variable!="Primary Energy|Secondary Energy Trade"]
