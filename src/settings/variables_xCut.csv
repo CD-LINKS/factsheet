@@ -26,6 +26,8 @@ Secondary Energy|Electricity|Gas|w/o CCS
 Secondary Energy|Electricity|Oil
 Secondary Energy|Electricity|Fossil|w/o CCS
 Emissions|CO2|AFOLU
+Emissions|CH4|AFOLU
+Emissions|N2O|AFOLU
 Carbon Sequestration|CCS|Biomass
 Emissions|CH4
 Emissions|N2O
@@ -118,3 +120,8 @@ Final Energy|Transportation|Liquids
 Final Energy|Transportation|Other
 Carbon Sequestration|CCS
 Carbon Sequestration|CCS|Fossil
+Emissions|N2O|Energy
+Emissions|CH4|Energy|Supply
+Emissions|CH4|Energy|Demand|Industry
+Emissions|CH4|Energy|Demand|Residential and Commercial
+Emissions|CH4|Energy|Demand|Transportation

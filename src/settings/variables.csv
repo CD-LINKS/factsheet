@@ -223,3 +223,8 @@ Yield|Sugarcrops
 Agricultural Production
 Agricultural Production|Energy
 Agricultural Production|Non-Energy
+Emissions|N2O|Energy
+Emissions|CH4|Energy|Supply
+Emissions|CH4|Energy|Demand|Industry
+Emissions|CH4|Energy|Demand|Residential and Commercial
+Emissions|CH4|Energy|Demand|Transportation
