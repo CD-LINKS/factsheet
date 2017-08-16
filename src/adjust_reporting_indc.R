@@ -112,12 +112,15 @@ all <- rbind(all,tmp1)
 }
 
 ## GEM-E3 & DNE21+: using average of other models for missing emission sources/sectors (FIXME: to generalise-see start in lines commented out)
+#tmp1 <- all[,list(setdiff(unique(vars$variable),unique(all$variable))),by=c("model")] # Search for missing variables per model-intersect?
+
 # tmp1 <- all[,list(unique(variable)),by=c("model")]
 # tmp1=data.table(tmp1)
 # tmp1=tmp1[model%in%c("DNE21+ V.14","GEM-E3")]
 # if(c("Emissions|N2O|Energy","Emissions|CH4|Energy|Supply","Emissions|CH4|Energy|Demand|Industry",
 #      "Emissions|CH4|Energy|Demand|Residential and Commercial","Emissions|CH4|Energy|Demand|Transportation",
 #      "Emissions|CO2|AFOLU","Emissions|CH4|AFOLU","Emissions|N2O|AFOLU")!%in% unique(tmp1$V1)){}
+
 tmp=all[variable%in%c("Emissions|N2O|Energy",
                       "Emissions|CH4|Energy|Supply", 
                       "Emissions|CH4|Energy|Demand|Industry","Emissions|CH4|Energy|Demand|Residential and Commercial","Emissions|CH4|Energy|Demand|Transportation",
