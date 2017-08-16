@@ -23,6 +23,8 @@ Secondary Energy|Electricity|Gas
 Secondary Energy|Electricity|Gas|w/ CCS
 Secondary Energy|Electricity|Gas|w/o CCS
 Secondary Energy|Electricity|Oil
+Secondary Energy|Electricity|Oil|w/ CCS
+Secondary Energy|Electricity|Oil|w/o CCS
 Emissions|CO2|AFOLU
 Emissions|CH4|AFOLU
 Emissions|N2O|AFOLU
