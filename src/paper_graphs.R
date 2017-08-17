@@ -131,37 +131,48 @@ a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,tit
 # Figure 1b - Regional emissions ------------------------------------------
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA")
-cats <- c("NoPOL","NPi","INDC")
+cats <- c("Historical","NoPOL","NPi","INDC")
 b<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),ylabel="GHG emissions (MtCO2eq/year)",
-                                  file_pre="1b_GHG_reg_2030", var.labels = c("Global GHG emissions (2030)"),b.multiyear = F,globpoints = T) 
+                                  file_pre="1b_GHG_reg_2030", var.labels = c("Global GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T) 
 
 
 # Figure 1c - GHG sources -------------------------------------------------
-regs <- c("World")
+regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS", "RoW","World")
 cats <- c("NoPOL","NPi","INDC")
-c<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|CH4","Emissions|N2O","Emissions|CO2","Emissions|F-Gases"),cats = cats, 
-                                  years=c(2030),file_pre="1c_GHG_sources_2030", 
-                                  var.labels = c("Global CH4 emissions (Mt CH4/yr)","Global N2O emissions (kt N2O/yr)","Global CO2 emissions (Mt CO2/yr)","Global F-gas emissions (MtCO2eq/yr)"),
-                                  b.multiyear = F, b.multivar=T,globpoints=T)
+c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = cats,per=c(2030),file_pre="1c_CO2energy_2030"
+                                   ,lab = "Global energy CO2 emissions (Mt CO2/yr)")
 
 
-# Figure 1def - Key regions -----------------------------------------------
-regs <- c("BRA")
-cats <- c("Historical","NoPOL","NPi","INDC")
-d<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),file_pre="1d_GHG_BRA_2030", 
-                                  b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions Brazil (2030)"),ylabel="GHG emissions (MtCO2eq/year)",
-                                  globpoints=T)
+# Figure 1def (old) - Key regions -----------------------------------------------
+# regs <- c("BRA")
+# cats <- c("Historical","NoPOL","NPi","INDC")
+# d<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),file_pre="1d_GHG_BRA_2030", 
+#                                   b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions Brazil (2030)"),ylabel="GHG emissions (MtCO2eq/year)",
+#                                   globpoints=T)
+# 
+# regs <- c("CHN")
+# e<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),file_pre="1e_GHG_CHN_2030", 
+#                                   b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions China (2030)"),ylabel="GHG emissions (MtCO2eq/year)",
+#                                   globpoints=T)
+# 
+# regs <- c("USA")
+# f<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),file_pre="1f_GHG_USA_2030", 
+#                                   b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions USA (2030)"),ylabel="GHG emissions (MtCO2eq/year)",
+#                                   globpoints=T)
 
-regs <- c("CHN")
-e<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),file_pre="1e_GHG_CHN_2030", 
-                                  b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions China (2030)"),ylabel="GHG emissions (MtCO2eq/year)",
-                                  globpoints=T)
 
-regs <- c("USA")
-f<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),file_pre="1f_GHG_USA_2030", 
-                                  b.multiyear = F,nonreg=T,hist=T,var.labels=c("GHG emissions USA (2030)"),ylabel="GHG emissions (MtCO2eq/year)",
-                                  globpoints=T)
 
+# Figure 1def (new) - GHG sources ----------------------------------------
+regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS", "RoW","World")
+cats <- c("NoPOL","NPi","INDC")
+d<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU"),cats = cats,per=c(2030),file_pre="1d_CO2land_2030"
+                         ,lab = "Global land CO2 emissions (Mt CO2/yr)")
+
+e<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CH4"),cats = cats,per=c(2030),file_pre="1e_CH4_2030"
+                         ,lab = "Global CH4 emissions (Mt CH4/yr)")
+
+f<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|N2O"),cats = cats,per=c(2030),file_pre="1f_N2O_2030"
+                         ,lab = "Global N2O emissions (kt N2O/yr)")
 
 # Figure 1 together -------------------------------------------------------
 library(gridExtra)
