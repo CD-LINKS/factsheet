@@ -499,7 +499,7 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
   }
   
   p = ggplot()
-  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max,fill=Category),  size = 1.,show.legend = F,color = "grey65") 
+  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max,fill=Category),  size = 3,fatten=1.2,show.legend = F,color = "grey65") 
   if(b.multivar){
     p = p + facet_wrap(~ variable, scales="free_y")
   }
@@ -507,7 +507,7 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
     p = p + facet_wrap(~ period, scales="fixed")
   }
   if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))}
-  p = p + geom_point(data=dtn,aes(x=region,y=value,colour=National, shape=Category), size = 3,  stroke = 1 )
+  p = p + geom_point(data=dtn,aes(x=region,y=value,colour=National, shape=Category), size = 3.5,  stroke = 1 )
   #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab("") + xlab("")
   
@@ -522,11 +522,13 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
     
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) ) + theme_bw()
+    p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
   }  else   {
     p = p + ggtitle(paste0( var.labels[1]))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) ) + theme_bw()
+    p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
            width=6.5, height=6, dpi=120)
   }
@@ -560,9 +562,9 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   }
   
   p = ggplot()
-  if(nonreg){p = p + geom_pointrange(data=dtg1,aes(x=Category,y=mean,ymin=min,ymax=max, colour=Category),stat="identity",position=position_dodge(width=0.5))
+  if(nonreg){p = p + geom_pointrange(data=dtg1,aes(x=Category,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=1.2,stat="identity",position=position_dodge(width=0.7))
   }else{
-  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max, colour=Category),stat="identity",position=position_dodge(width=0.5))
+  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=1.2,stat="identity",position=position_dodge(width=0.7))
   }
   if(b.multivar){
     p = p + facet_wrap(~ variable, scales="free_y")
@@ -574,17 +576,18 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
     p = p + facet_grid(variable ~ Category, scales="free")
   }
   
-  if(globpoints&nonreg){p = p + geom_point(data=dtg,aes(x=Category,y=value,shape=Global,colour=Category,group=Category))#,position=position_dodge(width=c(0.5,0.5,0.5))
+  if(globpoints&nonreg){p = p + geom_point(data=dtg,aes(x=Category,y=value,shape=Global,colour=Category,group=Category),size=3)#,position=position_dodge(width=c(0.5,0.5,0.5))
   }else{
-    if(globpoints&b.multivar){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global,colour=Category,group=interaction(Category,variable)),position=position_dodge(width=c(0.5,0.5,0.5)))
+    if(globpoints&b.multivar){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global,colour=Category,group=interaction(Category,variable)),size=3,position=position_dodge(width=c(0.7,0.7,0.7)))
     }else{
-    if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global,colour=Category,group=Category),position=position_dodge(width=c(0.5,0.5,0.5)))
+    if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global,colour=Category,group=Category),size=3,position=position_dodge(width=c(0.7,0.7,0.7)))
     }}}
     
     #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab(ylabel) + xlab("")
     p = p + scale_color_manual( values=plotstyle(cats),
                               labels =  plotstyle(cats, out = "legend") )
+    p = p + scale_shape_manual(values=cfg$man_shapes) #FIXME: ,labels=
   #p = p + scale_shape_manual(values=plotstyle(cats, out="shape"))
   
   if (!is.null(ylim))
@@ -592,20 +595,71 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   
   if(b.multicat){
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11))
+    p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=120)
   } else {
   if(b.multivar)  {
     
     p = p + theme(axis.text.x  = element_text(size = 14), #angle=90, vjust=0.5, hjust = 1, 
                   plot.title = element_text( size = 18) )
+    p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=120)
   }  else   {
     p = p + ggtitle(paste0( var.labels[1]))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
+    p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p,
-           width=6.5, height=6, dpi=120)
+           width=12, height=12, dpi=120)
   }}
   return(p)
 }
+
+#############################################################
+####################### plot_stackbar_regions ########################
+#############################################################
+
+plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA){
+  dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global") #[2:length(vars)]
+  dta <- factor.data.frame(dta)
+  #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
+  for (cat in cats){
+    for (mod in unique(dta[dta$Category==cat,]$model)){
+      if(length(unique(dta[dta$Category==cat & dta$model == mod,]$scenario))==1){
+      } else {
+        dta <- dta[!(dta$scenario %in% unique(dta[dta$Category==cat & dta$model == mod,]$scenario)[seq(2,length(unique(dta[dta$Category==cat & dta$model == mod,]$scenario)))] & dta$Category==cat & dta$model == mod),]
+      }
+    }
+  }
+  
+  #Calculate rest of world and then model median per region
+  dta=data.table(dta)
+  dta=spread(dta,region,value,fill=0)
+  dta=dta%>%mutate(RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS` )
+  dta=gather(dta,region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS` ) 
+  dta=data.table(dta)
+  dta=dta[,list(median(value)),by=c("Category","variable","region","period","Scope","unit")]
+  setnames(dta,"V1","value")
+  dta <- filter(dta,!region %in% c("World"))
+  
+  #build data frame for overlaid errorbar showing model range for world total
+  dtl <- filter(dt, region %in% c("World"), Category%in% cats, variable%in% vars, period %in% per)
+  dtl=data.table(dtl)
+  dtl=dtl[,list(min=min(value),max=max(value)),by=c("Category","variable","region","period","Scope","unit")]
+  
+  dta$Category <- factor(dta$Category, levels = cats, ordered = T )
+  dtl$Category <- factor(dtl$Category, levels = cats, ordered = T )
+  
+  p = ggplot() + ggplot2::theme_bw()
+  p = p + geom_bar(data=dta,aes(Category, value, group = interaction(variable, region, Category), fill = region), stat="identity", position="stack")
+  p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.6)
+  p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1))
+  p = p + ylab(lab) + xlab("")
+  if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
+  p = p + scale_fill_brewer(palette="Set1")
+  #p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"), name=strsplit(regs[1], "|", fixed=T)[[1]][1])
+  ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}
+
 
