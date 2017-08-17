@@ -136,8 +136,9 @@ tmpD=merge(tmpD,scenarios,by=c("Category"))
 setcolorder(tmpG,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 setcolorder(tmpD,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 regions=all[model%in%c("GEM-E3","DNE21+ V.14"),list(region=unique(region)),by=c("model")]
-tmpG=tmpG[region%in%regions[model=="GEM-E3"]$region]
-tmpD=tmpD[region%in%regions[model=="DNE21+ V.14"]$region]
+scenarios=all[model%in%c("GEM-E3","DNE21+ V.14"),list(scenario=unique(scenario)),by=c("model")]
+tmpG=tmpG[region%in%regions[model=="GEM-E3"]$region & scenario%in%scenarios[model=="GEM-E3"]$scenario]
+tmpD=tmpD[region%in%regions[model=="DNE21+ V.14"]$region & scenario%in%scenarios[model=="DNE21+ V.14"]$scenario]
 all<-rbind(all,tmpG,tmpD)
 
 #plausibility check: get rid of negative energy values, write model-scenario-region-variable into file
