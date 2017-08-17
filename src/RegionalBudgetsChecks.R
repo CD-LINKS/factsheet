@@ -57,7 +57,7 @@ mods <- mods[mods!="global"]
 # define global scenarios to look at for budget analysis
 scens <- c("NoPolicy_V3","NoPOL_V3", "NPi_V3", "INDCi_V3", "NPi2020_1600_V3","INDC2030i_1600_V3", "NPi2020_1000_V3", "INDC2030i_1000_V3", "NPi2020_400_V3",
             "INDC2030i_400_V3","NPi2020_low_V3","NPi2020_high_V3","INDC2030_low_V3","INDC2030_high_V3")
-scens2deg <- c("NPi_V3","INDCi_V3", "NPi2020_1600_V3","NPi2020_1000_V3", "NPi2020_400_V3")
+scens2deg <- c("NoPolicy_V3","NoPOL_V3","NPi_V3","INDCi_V3", "NPi2020_1600_V3","NPi2020_1000_V3", "NPi2020_400_V3")
 
 #prepare data
 v_emireg <- all
