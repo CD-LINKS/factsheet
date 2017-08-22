@@ -17,7 +17,7 @@ library(stringr) #str_replace_all
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20170807-091951"
+cfg$infile <- "cdlinks_compare_20170818-104743"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -95,8 +95,6 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   # Needed when snapshot includes older, non-V3 scenarios
    all[MODEL %in% c("DNE21+ V.14 (national)","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO <- 
      paste(all[MODEL %in% c("DNE21+ V.14 (national)","IPAC-AIM/technology V1.0","India MARKAL","PRIMES_V1","RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
-   all[MODEL %in% c("AIM/Enduse 3.0")&!SCENARIO%in%c("INDC_V3")]$SCENARIO <- 
-     paste(all[MODEL %in% c("AIM/Enduse 3.0")& !SCENARIO%in%c("INDC_V3")]$SCENARIO,'_V3',sep="")
    all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDCi_recSocialSecurity_V3")]$SCENARIO <- str_replace_all(
      all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDCi_recSocialSecurity_V3")]$SCENARIO,"INDCi_recSocialSecurity_V3","INDCi_V3")
    all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_1000_recSocialSecurity_V3")]$SCENARIO <- str_replace_all(
