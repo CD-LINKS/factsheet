@@ -638,6 +638,13 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   dta=dta%>%mutate(RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS` )
   dta=gather(dta,region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS` ) 
   dta=data.table(dta)
+  
+  #Only for models that have the region in their spatial aggregation
+  regions=all[,list(region=unique(region)),by=c("model")]
+  for(mod in unique(dta$model)){
+    dta[model==mod]=dta[model==mod&region %in% regions[model==mod]$region]
+  }
+
   dta=dta[,list(median(value)),by=c("Category","variable","region","period","Scope","unit")]
   setnames(dta,"V1","value")
   dta <- filter(dta,!region %in% c("World"))
