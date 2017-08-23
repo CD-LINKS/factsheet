@@ -652,7 +652,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   
   p = ggplot() + ggplot2::theme_bw()
   p = p + geom_bar(data=dta,aes(Category, value, group = interaction(variable, region, Category), fill = region), stat="identity", position="stack")
-  p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.6)
+  p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3)
   p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1))
   p = p + ylab(lab) + xlab("")
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
