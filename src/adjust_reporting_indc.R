@@ -127,7 +127,7 @@ tmp=all[variable%in%c("Emissions|N2O|Energy",
                       "Emissions|CO2|AFOLU","Emissions|CH4|AFOLU","Emissions|N2O|AFOLU")]
 tmp=tmp[,list(value=mean(value)),by=c("Category","region","variable","unit","period","Scope")]
 tmpG=tmp
-tmpD=tmp[!variable=="Emissions|CO2|AFOLU"]
+tmpD=tmp[!(variable=="Emissions|CO2|AFOLU" & region=="World")]
 tmpG$model<-"GEM-E3"
 tmpD$model<-"DNE21+ V.14"
 scenarios=all[model%in%c("GEM-E3","DNE21+ V.14"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category")]
