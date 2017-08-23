@@ -641,8 +641,8 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   
   #Only for models that have the region in their spatial aggregation
   regions=all[,list(region=unique(region)),by=c("model")]
-  for(mod in unique(dta$model)){
-    dta[model==mod]=dta[model==mod&region %in% regions[model==mod]$region]
+  for(mod in unique(dta[!region=="RoW"]$model)){
+    dta[model==mod&!region=="RoW"]=dta[model==mod&region %in% regions[model==mod]$region]
   }
 
   dta=dta[,list(median(value)),by=c("Category","variable","region","period","Scope","unit")]
