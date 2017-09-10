@@ -244,6 +244,11 @@ library(gridExtra)
 g=arrangeGrob(ta2,ta3,ncol=2)
 ggsave(file=paste(cfg$outdir,"/Fig3.png",sep=""),g,width=20,height=10,dpi=300)
 
+#CI vs. EI
+vars <- c(x="Energy intensity rel. to Base",y="Carbon intensity rel. to Base")
+cats <- c("2020_low","2030_low","2020_high",'2030_high')
+tc<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",file_pre="ci_ei_scatter")   
+
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
 cats <- c("2020_high","2020_low","2030_high","2030_low")
@@ -251,3 +256,6 @@ tb1<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cat
 tb2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2050,file_pre="MitiCosts_2050_mitigscens",ylabel="Mitigation costs as % of GDP (2050)",b.multicat=T,globpoints=T)
 g=arrangeGrob(tb2,tb1,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig3b.png",sep=""),g,width=16,height=12,dpi=300)
+
+g=arrangeGrob(tc,tb2,ncol=2)
+ggsave(file=paste(cfg$outdir,"/Fig3_new.png",sep=""),g,width=24,height=12,dpi=300)
