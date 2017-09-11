@@ -561,7 +561,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
     
   }
   
-  p = ggplot()
+  p = ggplot()+ ggplot2::theme_bw()
   if(nonreg){p = p + geom_pointrange(data=dtg1,aes(x=Category,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=1.2,stat="identity",position=position_dodge(width=0.7))
   }else{
   p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=1.2,stat="identity",position=position_dodge(width=0.7))
