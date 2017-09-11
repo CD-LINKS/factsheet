@@ -619,7 +619,10 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
 ####################### plot_stackbar_regions ########################
 #############################################################
 
-plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA){
+plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F){
+  
+  if(hist){dt[Category=="Historical"]$period<-years}
+  
   dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global") #[2:length(vars)]
   dta <- factor.data.frame(dta)
   #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
@@ -669,4 +672,59 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   return(p)
 }
 
+#############################################################
+####################### plot_stackbar_var ########################
+#############################################################
 
+plot_stackbar_ghg <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F){
+  
+  if(hist){dt[Category=="Historical"]$period<-years}
+  
+  dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global",!variable=="Emissions|Kyoto Gases") #[2:length(vars)]
+  dta <- factor.data.frame(dta)
+  #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
+  for (cat in cats){
+    for (mod in unique(dta[dta$Category==cat,]$model)){
+      if(length(unique(dta[dta$Category==cat & dta$model == mod,]$scenario))==1){
+      } else {
+        dta <- dta[!(dta$scenario %in% unique(dta[dta$Category==cat & dta$model == mod,]$scenario)[seq(2,length(unique(dta[dta$Category==cat & dta$model == mod,]$scenario)))] & dta$Category==cat & dta$model == mod),]
+      }
+    }
+  }
+  
+  dta=data.table(dta)
+  dta[variable=="Emissions|CH4"]$value<-dta[variable=="Emissions|CH4"]$value*25
+  dta[variable=="Emissions|CH4"]$unit<-"MtCO2eq/yr"
+  dta[variable=="Emissions|N2O"]$value<-dta[variable=="Emissions|N2O"]$value*298/1000
+  dta[variable=="Emissions|N2O"]$unit<-"MtCO2eq/yr"
+  
+  # Calculate median, only for models that have the region in their spatial aggregation
+  regions=all[,list(region=unique(region)),by=c("model")]
+  dta=data.table(dta)
+  for(mod in unique(dta[!region=="RoW"]$model)){
+    dta[model==mod&!region=="RoW"]=dta[model==mod&region %in% regions[model==mod]$region]
+  }
+  
+  dta=dta[,list(median(value)),by=c("Category","variable","region","period","Scope","unit")]
+  setnames(dta,"V1","value")
+  dta <- filter(dta,!region %in% c("World"))
+  
+  #build data frame for overlaid errorbar showing model range for GHG total
+  dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
+  dtl=data.table(dtl)
+  dtl=dtl[,list(min=min(value),max=max(value)),by=c("Category","variable","region","period","Scope","unit")]
+  
+  dta$Category <- factor(dta$Category, levels = cats, ordered = T )
+  dtl$Category <- factor(dtl$Category, levels = cats, ordered = T )
+  
+  p = ggplot() + ggplot2::theme_bw()
+  p = p + geom_bar(data=dta,aes(Category, value, group = interaction(variable, region, Category), fill = variable), stat="identity", position="stack")
+  p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3)
+  p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1))
+  p = p + ylab(lab) + xlab("")
+  if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
+  p = p + scale_fill_brewer(palette="Set1")
+  #p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"), name=strsplit(regs[1], "|", fixed=T)[[1]][1])
+  ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}
