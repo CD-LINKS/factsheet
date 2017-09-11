@@ -130,6 +130,7 @@ Primary Energy|Secondary Energy Trade
 Primary Energy|Solar
 Primary Energy|Wind
 Final Energy|Other
+Emissions|CO2|Energy|Demand
 Emissions|CO2|Energy|Supply
 Emissions|CO2|Energy|Supply|Electricity
 Emissions|CO2|Energy and Industrial Processes
