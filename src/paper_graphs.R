@@ -247,7 +247,8 @@ ggsave(file=paste(cfg$outdir,"/Fig3.png",sep=""),g,width=20,height=10,dpi=300)
 #CI vs. EI
 vars <- c(x="Energy intensity rel. to Base",y="Carbon intensity rel. to Base")
 cats <- c("2020_low","2030_low","2020_high",'2030_high')
-tc<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",file_pre="ci_ei_scatter")   
+tc<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
+                 yearlabglob=T,file_pre="ci_ei_scatter")   
 
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
