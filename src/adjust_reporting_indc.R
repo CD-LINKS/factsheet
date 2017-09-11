@@ -141,6 +141,8 @@ tmpG=tmpG[region%in%regions[model=="GEM-E3"]$region & scenario%in%scenarios[mode
 tmpD=tmpD[region%in%regions[model=="DNE21+ V.14"]$region & scenario%in%scenarios[model=="DNE21+ V.14"]$scenario]
 all<-rbind(all,tmpG,tmpD)
 
+# Add AFOLU to total Kyoto Gases/CO2/CH4/N2O for DNE & GEM-E3 - TODO
+
 #plausibility check: get rid of negative energy values, write model-scenario-region-variable into file
 tmp <- all[unit=="EJ/yr" & value <0 & variable!="Primary Energy|Secondary Energy Trade"]
 tmp <- tmp %>% select(model,scenario,region,variable,unit,period,value) %>% arrange(model,scenario,variable)
