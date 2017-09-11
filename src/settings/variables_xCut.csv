@@ -97,6 +97,7 @@ Secondary Energy|Electricity|Ocean
 Secondary Energy|Electricity|Solar
 Secondary Energy|Electricity|Wind
 Secondary Energy|Electricity|Other
+Emissions|CO2|Energy|Demand
 Emissions|CO2|Energy|Demand|Transportation
 Emissions|CO2|Energy|Demand|Industry
 Emissions|CO2|Energy|Demand|Residential and Commercial
