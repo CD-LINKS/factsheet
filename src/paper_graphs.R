@@ -127,6 +127,7 @@ a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,tit
              file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(2005,2031),ylim=c(20000,75000),range=T,median=T)
 
 # Figure 1c - GHG sources -------------------------------------------------
+source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS", "RoW","World")
 cats <- c("Historical","NoPOL","NPi","INDC")
 c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = cats,per=c(2030),file_pre="1c_CO2energy_2030"
