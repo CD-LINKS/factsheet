@@ -542,7 +542,7 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
 
 #plot function for pointrange (instead of boxplot) - multi-year, one variable
 plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,ylabel="",
-                                         b.multivar =  F, b.multiyear = F, b.multicat = F, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,nonreg=F,hist=F){
+                                         b.multivar =  F, b.multiyear = F, b.multicat = F, var.labels = NA, modnames=F, mod.labels=NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,nonreg=F,hist=F){
   
   if(hist){dt[Category=="Historical"]$period<-years}
   dt <- dt[ variable %in% vars & period %in% years & Category %in% cats & region %in% regs & !is.na(value)] %>% factor.data.frame()
@@ -561,7 +561,11 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
     
   }
   
-  p = ggplot()
+  # if (modnames){
+  #   levels(dtg$Global)<-mod.labels  
+  # }
+  
+  p = ggplot()+ ggplot2::theme_bw()
   if(nonreg){p = p + geom_pointrange(data=dtg1,aes(x=Category,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=1.2,stat="identity",position=position_dodge(width=0.7))
   }else{
   p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=1.2,stat="identity",position=position_dodge(width=0.7))
@@ -584,30 +588,46 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
     }}}
     
     #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
-  p = p + ylab(ylabel) + xlab("")
+    p = p + ylab(ylabel) + xlab("")
     p = p + scale_color_manual( values=plotstyle(cats),
                               labels =  plotstyle(cats, out = "legend") )
-    p = p + scale_shape_manual(values=cfg$man_shapes) #FIXME: ,labels=
+    if(modnames){p = p + scale_shape_manual(values=cfg$man_shapes,labels=mod.labels)}else{
+      p = p + scale_shape_manual(values=cfg$man_shapes)}
   #p = p + scale_shape_manual(values=plotstyle(cats, out="shape"))
   
   if (!is.null(ylim))
     p = p + coord_cartesian(ylim = ylim)
   
   if(b.multicat){
-    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11))
+    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 18),
+                  axis.text.y  = element_text(size = 18),
+                  axis.title = element_text(size=18),
+                  legend.title = element_text(size=18),
+                  legend.text = element_text(size=18),
+                  strip.text = element_text(size=18))
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=120)
   } else {
   if(b.multivar)  {
     
-    p = p + theme(axis.text.x  = element_text(size = 14), #angle=90, vjust=0.5, hjust = 1, 
-                  plot.title = element_text( size = 18) )
+    p = p + theme(axis.text.x  = element_text(size = 18), #angle=90, vjust=0.5, hjust = 1, 
+                  axis.text.y  = element_text(size = 18),
+                  plot.title = element_text( size = 20),
+                  axis.title = element_text(size=18),
+                  legend.title = element_text(size=18),
+                  legend.text = element_text(size=18),
+                  strip.text = element_text(size=18))
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=120)
   }  else   {
     p = p + ggtitle(paste0( var.labels[1]))
-    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
-                  plot.title = element_text(hjust = 1, size = 13) )
+    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 18),
+                  axis.text.y  = element_text(size = 18),
+                  plot.title = element_text(hjust = 1, size = 20),
+                  axis.title = element_text(size=18),
+                  legend.title = element_text(size=18),
+                  legend.text = element_text(size=18),
+                  strip.text = element_text(size=18))
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p,
            width=12, height=12, dpi=120)
@@ -619,7 +639,10 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
 ####################### plot_stackbar_regions ########################
 #############################################################
 
-plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA){
+plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F){
+  
+  if(hist){dt[Category=="Historical"]$period<-years}
+  
   dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global") #[2:length(vars)]
   dta <- factor.data.frame(dta)
   #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
@@ -660,7 +683,12 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   p = ggplot() + ggplot2::theme_bw()
   p = p + geom_bar(data=dta,aes(Category, value, group = interaction(variable, region, Category), fill = region), stat="identity", position="stack")
   p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3)
-  p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1))
+  p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1,size=18),
+                axis.text.y  = element_text(size = 18),
+                plot.title = element_text(size = 20),
+                axis.title = element_text(size=16),
+                legend.title = element_text(size=18),
+                legend.text = element_text(size=18))
   p = p + ylab(lab) + xlab("")
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
   p = p + scale_fill_brewer(palette="Set1")
@@ -669,4 +697,67 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   return(p)
 }
 
+#############################################################
+####################### plot_stackbar_ghg ########################
+#############################################################
 
+plot_stackbar_ghg <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F,var.labels=NA){
+  
+  if(hist){dt[Category=="Historical"]$period<-years}
+  
+  dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global",!variable=="Emissions|Kyoto Gases") #[2:length(vars)]
+  dta <- factor.data.frame(dta)
+  #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
+  for (cat in cats){
+    for (mod in unique(dta[dta$Category==cat,]$model)){
+      if(length(unique(dta[dta$Category==cat & dta$model == mod,]$scenario))==1){
+      } else {
+        dta <- dta[!(dta$scenario %in% unique(dta[dta$Category==cat & dta$model == mod,]$scenario)[seq(2,length(unique(dta[dta$Category==cat & dta$model == mod,]$scenario)))] & dta$Category==cat & dta$model == mod),]
+      }
+    }
+  }
+  
+  dta=data.table(dta)
+  dta[variable=="Emissions|CH4"]$value<-dta[variable=="Emissions|CH4"]$value*25
+  dta[variable=="Emissions|CH4"]$unit<-"MtCO2eq/yr"
+  dta[variable=="Emissions|N2O"]$value<-dta[variable=="Emissions|N2O"]$value*298/1000
+  dta[variable=="Emissions|N2O"]$unit<-"MtCO2eq/yr"
+  
+  # Calculate median, only for models that have the region in their spatial aggregation
+  regions=all[,list(region=unique(region)),by=c("model")]
+  dta=data.table(dta)
+  for(mod in unique(dta[!region=="RoW"]$model)){
+    dta[model==mod&!region=="RoW"]=dta[model==mod&region %in% regions[model==mod]$region]
+  }
+  
+  dta=dta[,list(median(value)),by=c("Category","variable","region","period","Scope","unit")]
+  setnames(dta,"V1","value")
+  dta <- filter(dta,!region %in% c("World"))
+  
+  #build data frame for overlaid errorbar showing model range for GHG total
+  dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
+  dtl=data.table(dtl)
+  dtl=dtl[,list(min=min(value),max=max(value)),by=c("Category","variable","region","period","Scope","unit")]
+  
+  dta$Category <- factor(dta$Category, levels = cats, ordered = T )
+  dtl$Category <- factor(dtl$Category, levels = cats, ordered = T )
+  
+  if(labels){
+    levels(dta$variable) <- var.labels}
+  
+  p = ggplot() + ggplot2::theme_bw()
+  p = p + geom_bar(data=dta,aes(Category, value, group = interaction(variable, region, Category), fill = variable), stat="identity", position="stack")
+  p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3)
+  p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1,size=18),
+                axis.text.y  = element_text(size = 18),
+                plot.title = element_text(size = 20),
+                axis.title = element_text(size=18),
+                legend.title = element_text(size=18),
+                legend.text = element_text(size=18))
+  p = p + ylab(lab) + xlab("")
+  if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
+  p = p + scale_fill_brewer(palette="Set1")
+  #p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"), name=strsplit(regs[1], "|", fixed=T)[[1]][1])
+  ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}

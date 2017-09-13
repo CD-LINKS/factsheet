@@ -32,6 +32,9 @@ Carbon Sequestration|CCS|Biomass
 Emissions|CH4
 Emissions|N2O
 Emissions|F-Gases
+Emissions|HFC
+Emissions|PFC
+Emissions|SF6
 Final Energy
 Final Energy|Electricity
 Final Energy|Gases
@@ -97,6 +100,7 @@ Secondary Energy|Electricity|Ocean
 Secondary Energy|Electricity|Solar
 Secondary Energy|Electricity|Wind
 Secondary Energy|Electricity|Other
+Emissions|CO2|Energy|Demand
 Emissions|CO2|Energy|Demand|Transportation
 Emissions|CO2|Energy|Demand|Industry
 Emissions|CO2|Energy|Demand|Residential and Commercial

@@ -64,6 +64,9 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Share of Elec in Transport` ~  `Final Energy|Transportation|Electricity`   / `Final Energy|Transportation` * 100 ' , newUnit='%')
     # all <- calcVariable(all,'`Carbon Intensity of Electricity` ~ `Emissions|CO2|Energy|Supply|Electricity`/ `Secondary Energy|Electricity` ' , newUnit='kg CO2/GJ')
     all <- calcVariable(all,'`Carbon Intensity of FE` ~ `Emissions|CO2|FFI`/`Final Energy` ' , newUnit='kg CO2/GJ')
+    all <- calcVariable(all,'`Total CO2 Intensity of FE` ~ `Emissions|CO2`/`Final Energy` ' , newUnit='kg CO2/GJ')
+    all <- calcVariable(all,'`Carbon Intensity of Electricity` ~ `Emissions|CO2|Energy|Supply`/`Final Energy|Electricity` ' , newUnit='kg CO2/GJ')
+    all <- calcVariable(all,'`Carbon Intensity of Fuel` ~ `Emissions|CO2|Energy|Demand`/(`Final Energy`-`Final Energy|Electricity`) ' , newUnit='kg CO2/GJ')
     all <- calcVariable(all,'`GHG Intensity of FE` ~ `Emissions|Kyoto Gases`/`Final Energy` ' , newUnit='kg CO2eq/GJ')
     all <- calcVariable(all,'`Energy Intensity of GDP|MER` ~ `Final Energy`/`GDP|MER` ' , newUnit='GJ/$2005')
     all <- calcVariable(all,'`Energy Intensity of GDP|PPP` ~ `Final Energy`/`GDP|PPP` ' , newUnit='GJ/$2005')
@@ -71,9 +74,11 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`GDP per capita|PPP` ~ `GDP|PPP`/`Population` ' , newUnit='1000 $US 2005/cap')
     all <- calcRel2Base(all,var="Emissions|CO2|FFI",baseEq1=F,"relative Abatement|CO2",scens)
     all <- calcRel2Base(all,var="Carbon Intensity of FE",baseEq1=T,"Carbon intensity rel. to Base",scens)
+    all <- calcRel2Base(all,var="Carbon Intensity of FE",baseEq1=F,"Carbon intensity improvement rel. to Base",scens)
     all <- calcVariable(all,'`Emissions|CO2|rel2Base` ~ 100.0 - `relative Abatement|CO2` ' , newUnit='%')
     all <- calcVariable(all,'`Reduction rel to 2010` ~ 100.0 - `relative Abatement|CO2` ' , newUnit='%')
     all <- calcRel2Base(all,var="Energy Intensity of GDP|MER",baseEq1=T,"Energy intensity rel. to Base",scens)
+    all <- calcRel2Base(all,var="Energy Intensity of GDP|MER",baseEq1=F,"Energy intensity improvement rel. to Base",scens)
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
     
@@ -106,7 +111,8 @@ add_variables <- function(all,scens){
     # add variables indexed relative to baseyear
     source("functions/calcRel2BaseYear.R")
 
-    vars <- c("Emissions|CO2", "Emissions|CO2|FFI", "Emissions|CO2|FFI|gross","Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2")
+    vars <- c("Emissions|CO2", "Emissions|CO2|FFI", "Emissions|CO2|FFI|gross","Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2",
+              "Carbon Intensity of FE","Energy Intensity of GDP|MER","Total CO2 Intensity of FE","Carbon Intensity of Electricity","Carbon Intensity of Fuel")
     all <- rbind(all, calcRel2BaseYear(df=all,vars=vars))
 
     all <- calcVariable(all,'`Reduction rel to 2010` ~ 100.0 - `Emissions|CO2|FFI|rel2010` * 100 ' , newUnit='%')
