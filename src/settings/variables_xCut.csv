@@ -125,3 +125,7 @@ Emissions|CH4|Energy|Supply
 Emissions|CH4|Energy|Demand|Industry
 Emissions|CH4|Energy|Demand|Residential and Commercial
 Emissions|CH4|Energy|Demand|Transportation
+Emissions|HFC
+Emissions|PFC
+Emissions|SF6
+Emissions|CO2|Energy|Demand|AFOFI
