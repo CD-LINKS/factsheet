@@ -191,7 +191,11 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   if (ylog){p = p + scale_y_log10(limits=ylim)} #y-axis logarithmic
   if (xlog){p = p + scale_x_log10(limits=xlim)} #x-axis logarithmic
-  p = p + theme(legend.position = "bottom") + ggplot2::theme_bw(base_size = 15)
+  p = p + theme(legend.position = "bottom")+ ggplot2::theme_bw(base_size = 15)
+  p = p + theme(axis.text = element_text(size=20),
+                axis.title = element_text(size=20),
+                legend.text = element_text(size=18),
+                legend.title = element_text(size=18))
   ggsave(file=paste0(out,"/",file_pre,"_",reg[1],cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
@@ -414,7 +418,13 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   p = p + ylab(paste(unitsy))
   p = p + facet_grid(variable ~ region,scales="free_y")
   p = p + geom_point(data=UNEP,aes(x=period,y=value,shape=scenario))
-  p = p + ggtitle(title) + ggplot2::theme_bw()
+  p = p + ggtitle(title) + ggplot2::theme_bw() 
+  p = p + theme(axis.text=element_text(size=18),
+                axis.title=element_text(size=18),
+                strip.text=element_text(size=18),
+                legend.text=element_text(size=18),
+                legend.title=element_text(size=18),
+                plot.title=element_text(size=18))
   ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
