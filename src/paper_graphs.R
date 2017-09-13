@@ -172,44 +172,45 @@ ggsave(file=paste(cfg$outdir,"/Fig1.png",sep=""),g,width=20,height=10,dpi=300)
 library(grid)
 lay<-rbind(c(1,1,2,3),c(1,1,4,5))
 h=grid.arrange(a,c,d,e,f,layout_matrix=lay)#ncol=3
-ggsave(file=paste(cfg$outdir,"/Fig1_arrange.png",sep=""),h,width=20,height=10,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig1_arrange.png",sep=""),h,width=20,height=12,dpi=300)
 
 # Figure 2 - regions -----------------------------------------------------
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA")
 cats <- c("Historical","NoPOL","NPi","INDC")
 a2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),ylabel="GHG emissions (MtCO2eq/year)",
-                                  file_pre="1b_GHG_reg_2030", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T) 
+                                  file_pre="1b_GHG_reg_2030", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
+                                  modnames=T,mod.labels=c("AIM","COFFEE","DNE","GEM-E3","IMAGE","MESSAGE","POLES","REMIND","WITCH")) 
 
 # stacked bar per region
 regs <- c("BRA")
 cats <- c("Historical","NoPOL","NPi","INDC")
 b2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU","Emissions|CO2|Energy","Emissions|CH4","Emissions|N2O","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2b_BRA_2030",lab = "Brazil GHG emissions (Mt CO2eq/yr)",hist=T)
+                      per=c(2030),file_pre="2b_BRA_2030",lab = "Brazil GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("CO2 AFOLU","CO2 Energy","CH4","N2O"))
 
 regs <- c("CHN")
 c2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU","Emissions|CO2|Energy","Emissions|CH4","Emissions|N2O","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2c_CHN_2030",lab = "China GHG emissions (Mt CO2eq/yr)",hist=T)
+                      per=c(2030),file_pre="2c_CHN_2030",lab = "China GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("CO2 AFOLU","CO2 Energy","CH4","N2O"))
 
 regs <- c("IND")
 d2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU","Emissions|CO2|Energy","Emissions|CH4","Emissions|N2O","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2d_IND_2030",lab = "India GHG emissions (Mt CO2eq/yr)",hist=T)
+                      per=c(2030),file_pre="2d_IND_2030",lab = "India GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("CO2 AFOLU","CO2 Energy","CH4","N2O"))
 
 regs <- c("JPN")
 e2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU","Emissions|CO2|Energy","Emissions|CH4","Emissions|N2O","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2e_JPN_2030",lab = "Japan GHG emissions (Mt CO2eq/yr)",hist=T)
+                      per=c(2030),file_pre="2e_JPN_2030",lab = "Japan GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("CO2 AFOLU","CO2 Energy","CH4","N2O"))
 
 regs <- c("USA")
 f2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU","Emissions|CO2|Energy","Emissions|CH4","Emissions|N2O","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2f_USA_2030",lab = "USA GHG emissions (Mt CO2eq/yr)",hist=T)
+                      per=c(2030),file_pre="2f_USA_2030",lab = "USA GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("CO2 AFOLU","CO2 Energy","CH4","N2O"))
 
 regs <- c("EU")
 g2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU","Emissions|CO2|Energy","Emissions|CH4","Emissions|N2O","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2g_EU_2030",lab = "EU GHG emissions (Mt CO2eq/yr)",hist=T)
+                      per=c(2030),file_pre="2g_EU_2030",lab = "EU GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("CO2 AFOLU","CO2 Energy","CH4","N2O"))
 
 regs <- c("RUS")
 h2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU","Emissions|CO2|Energy","Emissions|CH4","Emissions|N2O","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2h_RUS_2030",lab = "Russia GHG emissions (Mt CO2eq/yr)",hist=T)
+                      per=c(2030),file_pre="2h_RUS_2030",lab = "Russia GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("CO2 AFOLU","CO2 Energy","CH4","N2O"))
 
 # Together
 g=arrangeGrob(a2,b2,c2,d2,e2,f2,g2,h2,ncol=4)
@@ -220,7 +221,7 @@ ggsave(file=paste(cfg$outdir,"/Fig2_vertical.png",sep=""),g,width=20,height=22,d
 
 # Figure 3 - carbon budgets ------------------------------------------------
 #specify plot scope
-regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS", "World")
+regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS","RoW","World")
 mods <- unique(all$model)
 vars <- "Emissions|CO2"
 cats <- c("NoPOL","NPi","INDC", "2030_high", "2030_low", "2020_high", "2020_low", "2020_verylow")
@@ -231,6 +232,13 @@ v_emireg <- all %>%
   filter (variable %in% vars & region %in% regs & !is.na(value) & Category %in% cats & model %in% mods) %>%
   #mutate(value = value / 1000, unit = "GtCO2/yr") %>%
   factor.data.frame()
+v_emireg=data.table(v_emireg)
+national=v_emireg[Scope=="national"]
+v_emireg =  spread(v_emireg[Scope=="global"],key = region, value = value,fill=0) 
+v_emireg = v_emireg%>%mutate (RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS` )%>%
+  gather(region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS`)
+setcolorder(v_emireg,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+v_emireg=rbind(v_emireg,national)
 v_emireg <- as.data.table(v_emireg)
 v_emireg$period <- as.numeric(as.character(v_emireg$period))
 v_budgreg <- calcBudget(data = v_emireg,var = vars,new_var = paste0("Budget|",vars))
@@ -272,6 +280,70 @@ two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel2,vars=c("Budget|Em
                                     file_pre="2_budget_reg_2100", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multicat=T,globpoints=T) #,b.multicat = T, b.multivar=T,
 two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel2,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2100),ylabel="CO2 budget 2011-2100",
                                     file_pre="2_budget_reg_2100_2", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multivar=T,globpoints = T) #,b.multicat = T, b.multivar=T,
+
+# PDF-style 
+theme_set(ggplot2::theme_bw(base_size = 15))
+
+#2050
+regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS","RoW","World")
+v_plot <-  filter(v_emi_cumrel, Category %in% cats) 
+v_plot$Category =  factor(v_plot$Category, levels = cats, ordered = T)
+v_plot$region =  factor(v_plot$region, levels = regs, ordered = T)
+v_plot=data.table(v_plot)
+
+a=ggplot() +
+  geom_boxplot(data=v_plot[Scope=="global"&variable=="Budget|Emissions|CO2"],aes(x=Category,y=value, fill = Category), outlier.size = 0) +
+  geom_point(data=v_plot[variable=="Budget|Emissions|CO2"],aes(x=Category,y=value,shape=model,color=model,size=model)) +
+  facet_wrap(~region, scales = "free_y") +
+  ggtitle(paste0(" Cumulative CO2 (incl. AFOLU) 2011-2050")) + ylab("Gt CO2") +
+  scale_color_manual(values = c(rep("black",10),rep("red",10)))+
+  scale_shape_manual(values = rep(seq(1,10),2)) +
+  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
+  theme(axis.text.x  = element_blank())
+ggsave(file=paste0(out,"/","CO2tot_budget_2050","_multiregbox.pdf"),a,
+       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+
+b=ggplot() +
+  geom_boxplot(data=v_plot[Scope=="global"&variable=="CO2rel2010"],aes(x=Category,y=value, fill = Category), outlier.size = 0) +
+  geom_point(data=v_plot[variable=="CO2rel2010"],aes(x=Category,y=value,shape=model,color=model,size=model)) +
+  facet_wrap(~region, scales = "free_y") +
+  ggtitle(paste0("CO2 total (2011-2050 rel. to 2010)")) + ylab("Emission Years") +
+  scale_color_manual(values = c(rep("black",10),rep("red",10)))+
+  scale_shape_manual(values = rep(seq(1,10),2)) +
+  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
+  theme(axis.text.x  = element_blank() )
+ggsave(file=paste0(out,"/","CO2tot_EmissionYears_2050","_multiregbox.pdf"),b,
+       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+
+#2100
+v_plot <-  filter(v_emi_cumrel2, Category %in% cats) 
+v_plot$Category =  factor(v_plot$Category, levels = cats, ordered = T)
+v_plot$region =  factor(v_plot$region, levels = regs, ordered = T)
+v_plot=data.table(v_plot)
+
+c=ggplot() +
+  geom_boxplot(data=v_plot[Scope=="global"&variable=="Budget|Emissions|CO2"],aes(x=Category,y=value, fill = Category), outlier.size = 0) +
+  geom_point(data=v_plot[variable=="Budget|Emissions|CO2"],aes(x=Category,y=value,shape=model,color=model,size=model)) +
+  facet_wrap(~region, scales = "free_y") +
+  ggtitle(paste0(" Cumulative CO2 (incl. AFOLU) 2011-2100")) + ylab("Gt CO2") +
+  scale_color_manual(values = c(rep("black",10),rep("red",10)))+
+  scale_shape_manual(values = rep(seq(1,10),2)) +
+  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
+  theme(axis.text.x  = element_blank())
+ggsave(file=paste0(out,"/","CO2tot_budget_2100","_multiregbox.pdf"),c,
+       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+
+d=ggplot() +
+  geom_boxplot(data=v_plot[Scope=="global"&variable=="CO2rel2010"],aes(x=Category,y=value, fill = Category), outlier.size = 0) +
+  geom_point(data=v_plot[variable=="CO2rel2010"],aes(x=Category,y=value,shape=model,color=model,size=model)) +
+  facet_wrap(~region, scales = "free_y") +
+  ggtitle(paste0("CO2 total (2011-2100 rel. to 2010)")) + ylab("Emission Years") +
+  scale_color_manual(values = c(rep("black",10),rep("red",10)))+
+  scale_shape_manual(values = rep(seq(1,10),2)) +
+  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
+  theme(axis.text.x  = element_blank() )
+ggsave(file=paste0(out,"/","CO2tot_EmissionYears_2100","_multiregbox.pdf"),d,
+       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
 
 # Figure 4 - implementation -----------------------------------------------
 # Kaya
