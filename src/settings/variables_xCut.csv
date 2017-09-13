@@ -32,6 +32,9 @@ Carbon Sequestration|CCS|Biomass
 Emissions|CH4
 Emissions|N2O
 Emissions|F-Gases
+Emissions|HFC
+Emissions|PFC
+Emissions|SF6
 Final Energy
 Final Energy|Electricity
 Final Energy|Gases
