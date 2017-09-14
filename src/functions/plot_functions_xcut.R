@@ -552,7 +552,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   dt$variable <- factor(dt$variable, levels = vars, ordered = T )
   
   dtg <- dt[Scope=="global" & variable %in% vars & period %in% years & Category %in% cats & region %in% regs]  %>%
-    rename(Global = model ) %>% factor.data.frame()
+    factor.data.frame()
   dtg1 <-dtg[,list(mean=mean(value),min=min(value),max=max(value)),by=c("Category","Baseline","region","period","Scope","unit","variable")]
   
   if (b.multivar){
@@ -562,7 +562,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   }
   
   # if (modnames){
-  #   levels(dtg$Global)<-mod.labels  
+  #   levels(dtg$model)<-mod.labels  
   # }
   
   p = ggplot()+ ggplot2::theme_bw()
@@ -580,11 +580,11 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
     p = p + facet_grid(variable ~ Category, scales="free")
   }
   
-  if(globpoints&nonreg){p = p + geom_point(data=dtg,aes(x=Category,y=value,shape=Global,colour=Category,group=Category),size=3)#,position=position_dodge(width=c(0.5,0.5,0.5))
+  if(globpoints&nonreg){p = p + geom_point(data=dtg,aes(x=Category,y=value,shape=model,colour=Category,group=Category),size=3)#,position=position_dodge(width=c(0.5,0.5,0.5))
   }else{
-    if(globpoints&b.multivar){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global,colour=Category,group=interaction(Category,variable)),size=3,position=position_dodge(width=c(0.7,0.7,0.7)))
+    if(globpoints&b.multivar){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=model,colour=Category,group=interaction(Category,variable)),size=3,position=position_dodge(width=c(0.7,0.7,0.7)))
     }else{
-    if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global,colour=Category,group=Category),size=3,position=position_dodge(width=c(0.7,0.7,0.7)))
+    if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=model,colour=Category,group=Category),size=3,position=position_dodge(width=c(0.7,0.7,0.7)))
     }}}
     
     #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
@@ -641,7 +641,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
 
 plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F){
   
-  if(hist){dt[Category=="Historical"]$period<-years}
+  if(hist){dt[Category=="Historical"]$period<-per}
   
   dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global") #[2:length(vars)]
   dta <- factor.data.frame(dta)
@@ -703,7 +703,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
 
 plot_stackbar_ghg <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F,var.labels=NA){
   
-  if(hist){dt[Category=="Historical"]$period<-years}
+  if(hist){dt[Category=="Historical"]$period<-per}
   
   dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global",!variable=="Emissions|Kyoto Gases") #[2:length(vars)]
   dta <- factor.data.frame(dta)
@@ -747,7 +747,7 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Ti
   
   p = ggplot() + ggplot2::theme_bw()
   p = p + geom_bar(data=dta,aes(Category, value, group = interaction(variable, region, Category), fill = variable), stat="identity", position="stack")
-  p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3)
+  #p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3)
   p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1,size=18),
                 axis.text.y  = element_text(size = 18),
                 plot.title = element_text(size = 20),
