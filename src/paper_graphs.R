@@ -124,7 +124,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 source("functions/plot_functions.R")
 cats <- c("NoPOL","NPi","INDC")
 a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto greenhouse gas emissions",
-             file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(2005,2031),ylim=c(20000,75000),range=T,median=T)
+             file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(2010,2031),ylim=c(20000,75000),range=T,median=T)
 
 # Figure 1c - GHG sources -------------------------------------------------
 source("functions/plot_functions_xcut.R")
@@ -338,6 +338,8 @@ a=ggplot() +
   theme(axis.text.x  = element_blank())
 ggsave(file=paste0(out,"/","CO2tot_budget_2050","_multiregbox.pdf"),a,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+ggsave(file=paste0(out,"/","CO2tot_budget_2050","_multiregbox.png"),a,
+       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
 
 b=ggplot() +
   geom_boxplot(data=v_plot[Scope=="global"&variable=="CO2rel2010"],aes(x=Category,y=value, fill = Category), outlier.size = 0) +
@@ -349,6 +351,8 @@ b=ggplot() +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank() )
 ggsave(file=paste0(out,"/","CO2tot_EmissionYears_2050","_multiregbox.pdf"),b,
+       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+ggsave(file=paste0(out,"/","CO2tot_EmissionYears_2050","_multiregbox.png"),b,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
 
 #2100
@@ -368,6 +372,8 @@ c=ggplot() +
   theme(axis.text.x  = element_blank())
 ggsave(file=paste0(out,"/","CO2tot_budget_2100","_multiregbox.pdf"),c,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+ggsave(file=paste0(out,"/","CO2tot_budget_2100","_multiregbox.png"),c,
+       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
 
 d=ggplot() +
   geom_boxplot(data=v_plot[Scope=="global"&variable=="CO2rel2010"],aes(x=Category,y=value, fill = Category), outlier.size = 0) +
@@ -379,6 +385,8 @@ d=ggplot() +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank() )
 ggsave(file=paste0(out,"/","CO2tot_EmissionYears_2100","_multiregbox.pdf"),d,
+       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+ggsave(file=paste0(out,"/","CO2tot_EmissionYears_2100","_multiregbox.png"),d,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
 
 # Figure 4 - implementation -----------------------------------------------
