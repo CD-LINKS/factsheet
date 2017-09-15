@@ -272,7 +272,8 @@ v_emireg=data.table(v_emireg)
 national=v_emireg[Scope=="national"]
 v_emireg =  spread(v_emireg[Scope=="global"],key = region, value = value,fill=0) 
 v_emireg = v_emireg%>%mutate (RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS` )%>%
-  gather(region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS`)
+  gather(region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS`)%>%
+  filter(!value==0)
 setcolorder(v_emireg,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
 v_emireg=rbind(v_emireg,national)
 v_emireg <- as.data.table(v_emireg)
