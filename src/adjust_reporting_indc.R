@@ -1,6 +1,9 @@
 # Collection of fixes for reporting issues and other adjustments --------------------------------
 #
 
+# Model-specific issues ---------------------------------------------------
+
+
 # Remove GEM-E3_V1 as newest results are uploaded under GEM-E3
 all<-all[!model=="GEM-E3_V1"]
 
@@ -54,6 +57,10 @@ tmp1=data.table(tmp1)
 tmp1=tmp1[variable=="Final Energy"]
 all <- rbind(all,tmp1)} 
 
+
+# CO2 and sub-categories --------------------------------------------------
+
+
 ## Energy and industrial processes...
 #Adding "Emissions|CO2|Energy and Industrial Processes" to scenarios that don't report them, but have "Emissions|CO2|Energy" and "Emissions|CO2|Industrial Processes"
 tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Industrial Processes"]$model),unique(all[variable=="Emissions|CO2|Energy and Industrial Processes"]$model)) &
@@ -91,6 +98,10 @@ tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy and In
 tmp1$variable <- "Emissions|CO2"
 all <- rbind(all,tmp1)
 
+
+# With/without CCS --------------------------------------------------------
+
+
 #Adding "w/o CCS" PE and SE types to models that don't report them, assuming that there is no CCS (which is probably not true -> ask teams to submit)
 alternatives <- data.frame(plot_var=c("Primary Energy|Biomass",
                                       "Primary Energy|Coal",
@@ -117,16 +128,27 @@ tmp1$variable <- alternatives[i,2]
 all <- rbind(all,tmp1)
 }
 
-## GEM-E3 & DNE21+: using average of other models for missing emission sources/sectors (FIXME: to generalise-see start in lines commented out)
-#tmp1 <- all[,list(setdiff(unique(vars$variable),unique(all$variable))),by=c("model")] # Search for missing variables per model-intersect?
 
-# tmp1 <- all[,list(unique(variable)),by=c("model")]
-# tmp1=data.table(tmp1)
-# tmp1=tmp1[model%in%c("DNE21+ V.14","GEM-E3")]
-# if(c("Emissions|N2O|Energy","Emissions|CH4|Energy|Supply","Emissions|CH4|Energy|Demand|Industry",
-#      "Emissions|CH4|Energy|Demand|Residential and Commercial","Emissions|CH4|Energy|Demand|Transportation",
-#      "Emissions|CO2|AFOLU","Emissions|CH4|AFOLU","Emissions|N2O|AFOLU")!%in% unique(tmp1$V1)){}
+# Replace missing variables by other models' average ----------------------
 
+##Search for missing variables per model - only for global models, as national model data difficult to replace:
+## Not used now, but can be used as general code to replace missing data with other models' average
+# tmp1<-all[Scope=="global",list(variable=unique(variable)),by=c("model","scenario","Category","Baseline","region","Scope")] 
+# vars1=data.table(vars)
+# vars1$id<-seq(1,length(vars1$variable))
+# tmp2=tmp1[,list(missing=which(!vars1$variable%in%variable)),by=c("model","scenario","Category","Baseline","region","Scope")]
+# setnames(tmp2,"missing","id")
+# tmp2=merge(tmp2,vars1,by="id")
+# tmp2$id<-NULL
+# 
+# tmp3=all[variable%in%unique(tmp2$variable)]
+# tmp3=tmp3[,list(value=mean(value)),by=c("Category","region","variable","unit","period","Scope")]
+# tmp4=merge(tmp2,tmp3,by=c("variable","Category","region","Scope"),allow.cartesian = T)
+# setcolorder(tmp4,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
+# all<-rbind(all,tmp4)
+
+## GEM-E3 & DNE21+: using average of other models for missing emission sources/sectors 
+#Quickfix for DNE and GEM-E3:
 tmp=all[variable%in%c("Emissions|N2O|Energy",
                       "Emissions|CH4|Energy|Supply", 
                       "Emissions|CH4|Energy|Demand|Industry","Emissions|CH4|Energy|Demand|Residential and Commercial","Emissions|CH4|Energy|Demand|Transportation",
@@ -211,6 +233,10 @@ tmp[variable%in%c("Emissions|N2O")]$unit<-"kt N2O/yr"
 setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
 all=all[!(variable%in%c("Emissions|CO2","Emissions|CH4","Emissions|N2O") & model%in%c("DNE21+ V.14")&region!="World")]
 all<-rbind(all,tmp)
+
+
+# Plausibility checks -----------------------------------------------------
+
 
 #plausibility check: get rid of negative energy values, write model-scenario-region-variable into file
 tmp <- all[unit=="EJ/yr" & value <0 & variable!="Primary Energy|Secondary Energy Trade"]
