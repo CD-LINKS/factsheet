@@ -120,6 +120,8 @@ for (reg in regs)
                                years=c(2030,2050),file_pre="2030_2050_Elec_REN_excl.nuc", var.labels = c("REN Share excl. nuclear [%]"),b.multiyear = T)
   plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Renewables Share|Incl. Hydro and Nuclear"),catglob = catglob, catsnat = catsnat,
                                years=c(2030,2050),file_pre="2030_2050_Elec_REN_incl_hydro_nuc", var.labels = c("REN Share incl. hydro/nuclear/biomass [%]"),b.multiyear = T)
+  plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Renewables Share|Incl. Hydro and Nuclear"),catglob = catglob, catsnat = catsnat,
+                               years=c(2030,2050),file_pre="2030_2050_Elec_REN_incl_hydro_nuc", var.labels = c("REN Share incl. hydro/nuclear/biomass [%]"),b.multiyear = T)
   
   
   regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA")
@@ -179,6 +181,11 @@ plot_boxplot(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity
 #Share of electricity in final energy and transport
 plot_boxplot(regs=regs,dt=all,vars=c("Share of Elec in FE","Share of Elec in Transport"),cats="2030_low",
              year=2050,file_pre="Elec_FE_Trans2050_2030_low", var.labels = c("Share of Elec in FE [%]","Share of Elec in Transport [%]") , b.multivar = T)
+regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA",  "World")
+catsnat <- c("INDC", "NPi", "2020_high", "2020_low","2030_high","2030_low")
+catglob <- "2020_low"
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Share of Elec in FE","Share of Elec in Transport"),catglob = catglob, catsnat = catsnat, 
+                             years=c(2050),file_pre="2050_ElecFETrans", var.labels = c("Share of Elec in FE [%]","Share of Elec in Transport [%]"),b.multivar = T)
 
 #Share of electricity in final energy
 plot_boxplot(regs=regs,dt=all,vars=c("Share of Elec in FE"),cats="2030_low",
@@ -367,6 +374,23 @@ plot_boxplot(regs=regs,dt=all,vars="Population",cats="2030_low",year=2050,file_p
 regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA")
 plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2030_low",year=2050,file_pre="Cbudget_2011-2050_2030_low")
 plot_boxplot(regs=regs,dt=all,vars="Carbon budget|Energy and Industry",cats="2030_low",year=2100,file_pre="Cbudget_2011-2100_2030_low")
+catsnat <- c("2030_low")
+catglob <- "2030_low"
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Carbon budget|Energy and Industry"),catglob = catglob, catsnat = catsnat,
+                             years=c(2050),file_pre="Cbudget_2011-2050_2030_low", var.labels = c("Carbon budget [GtCO2] - 2030_low - 2050"),b.multiyear = F)
+catsnat <- c("2030_high")
+catglob <- "2030_high"
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Carbon budget|Energy and Industry"),catglob = catglob, catsnat = catsnat,
+                             years=c(2050),file_pre="Cbudget_2011-2050_2030_high", var.labels = c("Carbon budget [GtCO2] - 2030_high - 2050"),b.multiyear = F)
+catsnat <- c("2020_low")
+catglob <- "2020_low"
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Carbon budget|Energy and Industry"),catglob = catglob, catsnat = catsnat,
+                             years=c(2050),file_pre="Cbudget_2011-2050_2020_low", var.labels = c("Carbon budget [GtCO2] - 2020_low - 2050"),b.multiyear = F)
+catsnat <- c("2020_high")
+catglob <- "2020_high"
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Carbon budget|Energy and Industry"),catglob = catglob, catsnat = catsnat,
+                             years=c(2050),file_pre="Cbudget_2011-2050_2020_high", var.labels = c("Carbon budget [GtCO2] - 2020_high - 2050"),b.multiyear = F)
+
 
 #Emissions intensity GDP
 regs <- c("BRA","CHN","IND", "RUS", "EU","JPN","USA","World")
