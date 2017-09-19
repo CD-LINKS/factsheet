@@ -122,7 +122,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 
 # Figure 1a - time series -------------------------------------------------
 source("functions/plot_functions.R")
-cats <- c("NoPOL","NPi","INDC")
+cats <- c("NoPOL","NPi","INDC","2020_low","2020_verylow")
 a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto greenhouse gas emissions",
              file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(2010,2031),ylim=c(20000,75000),range=T,median=T)
 
