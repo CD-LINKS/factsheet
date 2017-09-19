@@ -488,7 +488,7 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
   
   dtg <- dt[Scope=="global" & variable %in% vars & period %in% years & Category %in% catglob & region %in% regs]  %>%
     rename(Global = model ) %>% factor.data.frame()
-  dtg1 <-dtg[,list(mean=mean(value),min=min(value),max=max(value)),by=c("scenario","Category","Baseline","region","period","Scope","unit","variable")]
+  dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("scenario","Category","Baseline","region","period","Scope","unit","variable")]
   dtn <- dt[Scope=="national" & variable %in% vars & period %in% years & Category %in% catsnat & region %in% regs] %>%
     rename(National = model ) %>% factor.data.frame()
   
@@ -499,7 +499,7 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
   }
   
   p = ggplot()
-  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max,fill=Category),  size = 3,fatten=1.2,show.legend = F,color = "grey65") 
+  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max,fill=Category),  size = 3,fatten=8,shape="-",show.legend = F,color = "grey65") 
   if(b.multivar){
     p = p + facet_wrap(~ variable, scales="free_y")
   }
@@ -553,7 +553,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   
   dtg <- dt[Scope=="global" & variable %in% vars & period %in% years & Category %in% cats & region %in% regs]  %>%
     factor.data.frame()
-  dtg1 <-dtg[,list(mean=mean(value),min=min(value),max=max(value)),by=c("Category","Baseline","region","period","Scope","unit","variable")]
+  dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("Category","Baseline","region","period","Scope","unit","variable")]
   
   if (b.multivar){
     levels(dtg$variable) <- var.labels
@@ -566,9 +566,9 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   # }
   
   p = ggplot()+ ggplot2::theme_bw()
-  if(nonreg){p = p + geom_pointrange(data=dtg1,aes(x=Category,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=1.2,stat="identity",position=position_dodge(width=0.7))
+  if(nonreg){p = p + geom_pointrange(data=dtg1,aes(x=Category,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=8,shape="-",stat="identity",position=position_dodge(width=0.7))
   }else{
-  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=1.2,stat="identity",position=position_dodge(width=0.7))
+  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=8,shape="-",stat="identity",position=position_dodge(width=0.7))
   }
   if(b.multivar){
     p = p + facet_wrap(~ variable, scales="free_y")
