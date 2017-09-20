@@ -55,12 +55,29 @@ budget105$variable = new_var
 budget105$unit = 'Gt CO2'
 budget105$period='2105'
 
+######2030 budgets
+# Interpolate to get values for each year
+yy=seq(2005,2030)
+dt = dat[,list(approx(x=period,y=value,xout=yy)$y,approx(x=period,y=value,xout=yy)$x),by=c('scenario','Category','Baseline','model','region','Scope','unit','variable')]
+setnames(dt,"V1","value")
+setnames(dt,"V2","Year")
+
+# Sum to get budget
+budget30=dt[Year %in% c(2011:2030),sum(value/1000,na.rm=TRUE),by=c('scenario','Category','Baseline','model','region','Scope','unit','variable')]
+#budget50=budget50[V1<0,V1:=5]
+setnames(budget30,"V1","value")
+
+#correctly specify remaining dimensions
+budget30$variable = new_var
+budget30$unit = 'Gt CO2'
+budget30$period='2030'
 
 #merge data
+setcolorder(budget30,c('scenario','Category','Baseline','model','region','period','Scope','value','unit','variable'))
 setcolorder(budget50,c('scenario','Category','Baseline','model','region','period','Scope','value','unit','variable'))
 setcolorder(budget100,c('scenario','Category','Baseline','model','region','period','Scope','value','unit','variable'))
 setcolorder(budget105,c('scenario','Category','Baseline','model','region','period','Scope','value','unit','variable'))
-data <- rbind(data,budget50,budget100,budget105, fill=TRUE)
+data <- rbind(data,budget30,budget50,budget100,budget105, fill=TRUE)
 
 # convert to data.table / data.frame and return
 return(as.data.table(as.data.frame(data)))
