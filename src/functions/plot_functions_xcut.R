@@ -639,7 +639,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
 ####################### plot_stackbar_regions ########################
 #############################################################
 
-plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F){
+plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,medvar,med=F){
   
   if(hist){dt[Category=="Historical"]$period<-per}
   
@@ -675,7 +675,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   #build data frame for overlaid errorbar showing model range for world total
   dtl <- filter(dt, region %in% c("World"), Category%in% cats, variable%in% vars, period %in% per)
   dtl=data.table(dtl)
-  dtl=dtl[,list(min=min(value),max=max(value)),by=c("Category","variable","region","period","Scope","unit")]
+  dtl=dtl[,list(min=min(value),max=max(value),median=median(value)),by=c("Category","variable","region","period","Scope","unit")]
   
   dta$Category <- factor(dta$Category, levels = cats, ordered = T )
   dtl$Category <- factor(dtl$Category, levels = cats, ordered = T )
@@ -683,6 +683,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   p = ggplot() + ggplot2::theme_bw()
   p = p + geom_bar(data=dta,aes(Category, value, group = interaction(variable, region, Category), fill = region), stat="identity", position="stack")
   p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3)
+  if(med){p = p + geom_point(data=dtl[variable%in%medvar],aes(Category,y=median,group=interaction(variable,region,Category)))}
   p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1,size=18),
                 axis.text.y  = element_text(size = 18),
                 plot.title = element_text(size = 20),
