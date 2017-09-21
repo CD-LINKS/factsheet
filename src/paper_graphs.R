@@ -158,7 +158,7 @@ c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = 
 regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS", "RoW","World")
 cats <- c("Historical","NoPOL","NPi","INDC")
 d<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU"),cats = cats,per=c(2030),file_pre="1d_CO2land_2030"
-                         ,lab = "Global land CO2 emissions (Mt CO2/yr)",hist=T)
+                         ,lab = "Global land CO2 emissions (Mt CO2/yr)",hist=T,medvar=c("Emissions|CO2|AFOLU"),med=T)
 
 e<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CH4"),cats = cats,per=c(2030),file_pre="1e_CH4_2030"
                          ,lab = "Global CH4 emissions (Mt CH4/yr)",hist=T)
