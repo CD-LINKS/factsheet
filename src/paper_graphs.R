@@ -8,6 +8,7 @@ library(ggplot2)    # ggplot
 library(rmarkdown)  # render pdf
 library(directlabels) # year labels for scatter plots
 library(stringr) #str_replace_all
+library(gridExtra) #arrangeGrob
 
 #set working directory for R right if it is not by default (it is the right one by default if you open Rstudio by clicking on this main.R file)
 #setwd("D:/location-of-srcfolder-on-your-system")
@@ -182,6 +183,9 @@ cats <- c("Historical","NoPOL","NPi","INDC")
 a2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),ylabel="GHG emissions (MtCO2eq/year)",
                                   file_pre="1b_GHG_reg_2030", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
                                   modnames=T,mod.labels=c("AIM","COFFEE","DNE","GEM-E3","IMAGE","MESSAGE","POLES","REMIND","WITCH")) 
+a_excl<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats = cats, years=c(2030),ylabel="GHG emissions excl. AFOLU CO2 (MtCO2eq/year)",
+                                   file_pre="1b_GHG_reg_2030", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
+                                   modnames=T,mod.labels=c("AIM","COFFEE","DNE","GEM-E3","IMAGE","MESSAGE","POLES","REMIND","WITCH")) 
 
 # stacked bar per region
 regs <- c("BRA")
@@ -260,7 +264,8 @@ ggsave(file=paste(cfg$outdir,"/Fig2_arrange.png",sep=""),h,width=20,height=12,dp
 regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS","RoW","World")
 mods <- unique(all$model)
 vars <- "Emissions|CO2"
-cats <- c("NoPOL","NPi","INDC", "2030_high", "2030_low", "2020_high", "2020_low", "2020_verylow")
+#cats <- c("NoPOL","NPi","INDC", "2030_high", "2030_low", "2020_high", "2020_low", "2020_verylow")
+cats <- c("NoPOL","NPi","INDC", "2030_low", "2020_low", "2020_verylow")
 scens2deg <- c("INDC", "2030_high", "2030_low", "2020_verylow")
 
 #calculate emissions and 2050 budgets
@@ -305,6 +310,13 @@ v_emi_cumrel2$unit<-"MtCO2"
 v_emi_cumrel2$period<-2100
 v_emi_cumrel2=data.table(v_emi_cumrel2)
 
+write.csv(v_emi_cumrel, file = "EmissionBudgets.csv", row.names = F,
+          col.names = c("MODEL", "SCENARIO", "REGION", "CO2 Energy&Ind 2010",  "CO2 E&I 2010-2050", "Emission Years E&I",
+                        "CO2 total 2010",  "CO2 total 2010-2050", "Emission Years CO2 total"))
+# library(openxlsx)
+# write.xlsx(v_emi_cumrel, file = "EmissionBudgets.xlsx")
+
+
 #plotting
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS")
@@ -337,9 +349,9 @@ a=ggplot() +
   scale_shape_manual(values = rep(seq(1,10),2)) +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank())
-ggsave(file=paste0(out,"/","CO2tot_budget_2050","_multiregbox.pdf"),a,
+ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2050","_multiregbox.pdf"),a,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
-ggsave(file=paste0(out,"/","CO2tot_budget_2050","_multiregbox.png"),a,
+ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2050","_multiregbox.png"),a,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
 
 b=ggplot() +
@@ -351,9 +363,9 @@ b=ggplot() +
   scale_shape_manual(values = rep(seq(1,10),2)) +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank() )
-ggsave(file=paste0(out,"/","CO2tot_EmissionYears_2050","_multiregbox.pdf"),b,
+ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2050","_multiregbox.pdf"),b,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
-ggsave(file=paste0(out,"/","CO2tot_EmissionYears_2050","_multiregbox.png"),b,
+ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2050","_multiregbox.png"),b,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
 
 #2100
@@ -371,9 +383,9 @@ c=ggplot() +
   scale_shape_manual(values = rep(seq(1,10),2)) +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank())
-ggsave(file=paste0(out,"/","CO2tot_budget_2100","_multiregbox.pdf"),c,
+ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2100","_multiregbox.pdf"),c,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
-ggsave(file=paste0(out,"/","CO2tot_budget_2100","_multiregbox.png"),c,
+ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2100","_multiregbox.png"),c,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
 
 d=ggplot() +
@@ -385,9 +397,9 @@ d=ggplot() +
   scale_shape_manual(values = rep(seq(1,10),2)) +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank() )
-ggsave(file=paste0(out,"/","CO2tot_EmissionYears_2100","_multiregbox.pdf"),d,
+ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2100","_multiregbox.pdf"),d,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
-ggsave(file=paste0(out,"/","CO2tot_EmissionYears_2100","_multiregbox.png"),d,
+ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2100","_multiregbox.png"),d,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
 
 # Figure 4 - implementation -----------------------------------------------
