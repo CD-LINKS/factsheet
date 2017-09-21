@@ -342,7 +342,7 @@ v_plot=data.table(v_plot)
 
 a=ggplot() +
   geom_boxplot(data=v_plot[Scope=="global"&variable=="Budget|Emissions|CO2"],aes(x=Category,y=value, fill = Category), outlier.size = 0) +
-  geom_point(data=v_plot[variable=="Budget|Emissions|CO2"],aes(x=Category,y=value,shape=model,color=model,size=model)) +
+  geom_point(data=v_plot[variable=="Budget|Emissions|CO2"],aes(x=Category,y=value,shape=model,color=model,size=model)) + #&Scope=="global"
   facet_wrap(~region, scales = "free_y") +
   ggtitle(paste0(" Cumulative CO2 (incl. AFOLU) 2011-2050")) + ylab("Gt CO2") +
   scale_color_manual(values = c(rep("black",10),rep("red",10)))+
@@ -461,3 +461,11 @@ ggsave(file=paste(cfg$outdir,"/Fig4_newer.png",sep=""),g,width=24,height=12,dpi=
 
 g=arrangeGrob(td,tf,tb2,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig4.png",sep=""),g,width=22,height=18,dpi=300)
+
+
+# Figure 5 - Non-CO2? -----------------------------------------------------
+regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
+cats <- c("NPi","INDC","2020_low","2020_verylow")
+five<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("CO2 emissions rel. to Base","Non-CO2 emissions rel. to Base"),
+                                   cats=cats,years=2050,file_pre="Non-CO2_2050_regions",ylabel="Emission reduction relative to NoPolicy (%)",
+                                   b.multicat=F,b.multireg=T,globpoints = F,var.labels=c("CO2","Non-CO2"),nrow=2,ncol=4)
