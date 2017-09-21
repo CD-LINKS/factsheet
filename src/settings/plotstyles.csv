@@ -62,6 +62,9 @@ Emissions|N2O|Energy Supply and Demand;N2O Energy;#0000cc;1;2;dotted
 Emissions|N2O|Land Use;N2O Land Use;#00ff66;1;2;dotted
 Emissions|N2O|Other;N2O other;#00cccc;1;2;dotted
 Emissions|N2O|AFOLU;N2O AFOLU;#00ff66;1;2;dotted
+Emissions|Non-CO2;Non-CO2;#663399;1;2;dotted
+Non-CO2 emissions rel. to Base;Non-CO2 rel. base;#663399;1;2;dotted
+CO2 emissions rel. to Base;CO2 rel. base;#ff8c00;1;2;dotted
 Final Energy;Total;#000000;1;2;dotted
 Final Energy|Electricity;Electricity;#ffb200;1;2;dotted
 Final Energy|Gases;Gases;#999966;1;2;dotted
