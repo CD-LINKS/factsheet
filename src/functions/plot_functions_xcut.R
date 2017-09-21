@@ -542,7 +542,8 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
 
 #plot function for pointrange (instead of boxplot) - multi-year, one variable
 plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,ylabel="",
-                                         b.multivar =  F, b.multiyear = F, b.multicat = F, var.labels = NA, modnames=F, mod.labels=NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,nonreg=F,hist=F){
+                                         b.multivar =  F, b.multiyear = F, b.multicat = F, b.multireg=F,var.labels = NA, modnames=F, mod.labels=NA, 
+                                         ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,nonreg=F,hist=F,nrow,ncol){
   
   if(hist){dt[Category=="Historical"]$period<-years}
   dt <- dt[ variable %in% vars & period %in% years & Category %in% cats & region %in% regs & !is.na(value)] %>% factor.data.frame()
@@ -566,10 +567,15 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   # }
   
   p = ggplot()+ ggplot2::theme_bw()
+  if(b.multireg){
+    p = p + geom_pointrange(data=dtg1,aes(x=Category,y=mean,ymin=min,ymax=max, colour=variable),size=3,fatten=8,shape="-",stat="identity",position=position_dodge(width=0.7))
+    p = p + facet_wrap(~region,scales="free_y",nrow=nrow,ncol=ncol)
+  }else{
   if(nonreg){p = p + geom_pointrange(data=dtg1,aes(x=Category,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=8,shape="-",stat="identity",position=position_dodge(width=0.7))
   }else{
   p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max, colour=Category),size=3,fatten=8,shape="-",stat="identity",position=position_dodge(width=0.7))
-  }
+  }}
+  
   if(b.multivar){
     p = p + facet_wrap(~ variable, scales="free_y")
   }
@@ -589,8 +595,11 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
     
     #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
     p = p + ylab(ylabel) + xlab("")
+    if(b.multireg){
+     p = p + scale_color_manual(values=plotstyle(vars),labels=plotstyle(vars,out="legend")) 
+    }else{
     p = p + scale_color_manual( values=plotstyle(cats),
-                              labels =  plotstyle(cats, out = "legend") )
+                              labels =  plotstyle(cats, out = "legend") )}
     if(modnames){p = p + scale_shape_manual(values=cfg$man_shapes,labels=mod.labels)}else{
       p = p + scale_shape_manual(values=cfg$man_shapes)}
   #p = p + scale_shape_manual(values=plotstyle(cats, out="shape"))
@@ -620,6 +629,17 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=120)
   }  else   {
+    if(b.multireg){
+      p = p + theme(axis.text.x  = element_text(size = 18,angle=90), #angle=90, vjust=0.5, hjust = 1, 
+                    axis.text.y  = element_text(size = 18),
+                    plot.title = element_text( size = 20),
+                    axis.title = element_text(size=18),
+                    legend.title = element_text(size=18),
+                    legend.text = element_text(size=18),
+                    strip.text = element_text(size=18))
+      p = p + guides(colour=guide_legend(override.aes=list(size=1)))
+      ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=120)
+    }else{
     p = p + ggtitle(paste0( var.labels[1]))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 18),
                   axis.text.y  = element_text(size = 18),
@@ -631,7 +651,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p,
            width=12, height=12, dpi=120)
-  }}
+  }}}
   return(p)
 }
 
