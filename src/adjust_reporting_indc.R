@@ -173,36 +173,37 @@ tmpD=tmpD[region%in%regions[model=="DNE21+ V.14"]$region & scenario%in%scenarios
 all<-rbind(all,tmpG,tmpD)
 
 # Add AFOLU to total Kyoto Gases/CO2/CH4/N2O for DNE & GEM-E3 - except for DNE-World
-tmp=all[model%in%c("GEM-E3")&variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","Emissions|CH4|AFOLU","Emissions|N2O|AFOLU")]
-tmp[variable=="Emissions|CH4|AFOLU"]$value<-tmp[variable=="Emissions|CH4|AFOLU"]$value*25
-tmp[variable=="Emissions|CH4|AFOLU"]$unit<-"Mt CO2-equiv/yr"
-tmp[variable=="Emissions|N2O|AFOLU"]$value<-tmp[variable=="Emissions|N2O|AFOLU"]$value*298/1000
-tmp[variable=="Emissions|N2O|AFOLU"]$unit<-"Mt CO2-equiv/yr"
+tmp=all[model%in%c("GEM-E3")&variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU")] #,"Emissions|CH4|AFOLU","Emissions|N2O|AFOLU"
+# tmp[variable=="Emissions|CH4|AFOLU"]$value<-tmp[variable=="Emissions|CH4|AFOLU"]$value*25
+# tmp[variable=="Emissions|CH4|AFOLU"]$unit<-"Mt CO2-equiv/yr"
+# tmp[variable=="Emissions|N2O|AFOLU"]$value<-tmp[variable=="Emissions|N2O|AFOLU"]$value*298/1000
+# tmp[variable=="Emissions|N2O|AFOLU"]$unit<-"Mt CO2-equiv/yr"
 tmp[variable=="Emissions|CO2|AFOLU"]$unit<-"Mt CO2-equiv/yr"
 tmp=spread(tmp,variable,value)
-tmp=tmp%>%mutate(`Emissions|Kyoto Gases`=`Emissions|Kyoto Gases`+`Emissions|CO2|AFOLU`+`Emissions|N2O|AFOLU`+`Emissions|CH4|AFOLU`)
-tmp=gather(tmp,variable,value,c(`Emissions|Kyoto Gases`,`Emissions|CO2|AFOLU`,`Emissions|N2O|AFOLU`,`Emissions|CH4|AFOLU`))
+tmp=tmp%>%mutate(`Emissions|Kyoto Gases`=`Emissions|Kyoto Gases`+`Emissions|CO2|AFOLU`) #+`Emissions|N2O|AFOLU`+`Emissions|CH4|AFOLU`
+tmp=gather(tmp,variable,value,c(`Emissions|Kyoto Gases`,`Emissions|CO2|AFOLU`)) #,`Emissions|N2O|AFOLU`,`Emissions|CH4|AFOLU`
 tmp=data.table(tmp)
 tmp=tmp[variable=="Emissions|Kyoto Gases"]
 setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
 all=all[!(variable=="Emissions|Kyoto Gases" & model%in%c("GEM-E3"))]
 all<-rbind(all,tmp)
 
-tmp=all[model%in%c("GEM-E3")&variable%in%c("Emissions|CO2","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|CH4|AFOLU","Emissions|N2O","Emissions|N2O|AFOLU")]
+tmp=all[model%in%c("GEM-E3")&variable%in%c("Emissions|CO2","Emissions|CO2|AFOLU")] #,"Emissions|CH4","Emissions|CH4|AFOLU","Emissions|N2O","Emissions|N2O|AFOLU"
 tmp$unit<-NULL
 tmp=spread(tmp,variable,value)
-tmp=tmp%>%mutate(`Emissions|CO2`=`Emissions|CO2`+`Emissions|CO2|AFOLU`,
-                  `Emissions|CH4`=`Emissions|CH4`+`Emissions|CH4|AFOLU`,
-                  `Emissions|N2O`=`Emissions|N2O`+`Emissions|N2O|AFOLU`)
-tmp=gather(tmp,variable,value,c(`Emissions|CO2`,`Emissions|CO2|AFOLU`,`Emissions|CH4`,`Emissions|CH4|AFOLU`,`Emissions|N2O`,`Emissions|N2O|AFOLU`))
+tmp=tmp%>%mutate(`Emissions|CO2`=`Emissions|CO2`+`Emissions|CO2|AFOLU`
+                  # ,`Emissions|CH4`=`Emissions|CH4`+`Emissions|CH4|AFOLU`
+                  # ,`Emissions|N2O`=`Emissions|N2O`+`Emissions|N2O|AFOLU`
+                 )
+tmp=gather(tmp,variable,value,c(`Emissions|CO2`,`Emissions|CO2|AFOLU`)) #,`Emissions|CH4`,`Emissions|CH4|AFOLU`,`Emissions|N2O`,`Emissions|N2O|AFOLU`
 tmp=data.table(tmp)
-tmp=tmp[variable%in%c("Emissions|CO2","Emissions|CH4","Emissions|N2O")]
+tmp=tmp[variable%in%c("Emissions|CO2")] #,"Emissions|CH4","Emissions|N2O"
 tmp$unit<-""
 tmp[variable%in%c("Emissions|CO2")]$unit<-"Mt CO2/yr"
-tmp[variable%in%c("Emissions|CH4")]$unit<-"Mt CH4/yr"
-tmp[variable%in%c("Emissions|N2O")]$unit<-"kt N2O/yr"
+# tmp[variable%in%c("Emissions|CH4")]$unit<-"Mt CH4/yr"
+# tmp[variable%in%c("Emissions|N2O")]$unit<-"kt N2O/yr"
 setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
-all=all[!(variable%in%c("Emissions|CO2","Emissions|CH4","Emissions|N2O") & model%in%c("GEM-E3"))]
+all=all[!(variable%in%c("Emissions|CO2") & model%in%c("GEM-E3"))] #,"Emissions|CH4","Emissions|N2O"
 all<-rbind(all,tmp)
 
 tmp=all[model%in%c("DNE21+ V.14")&variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","Emissions|CH4|AFOLU","Emissions|N2O|AFOLU")&region!="World"]
