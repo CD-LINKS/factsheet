@@ -25,10 +25,10 @@ all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Process
 all[model =="China TIMES"]$Baseline <- ""
 
 #India MARKAL: multiply emissions|CO2|Energy|Demand / Supply and Energy&Industrial Process by 1000 (reporting error)
-all[model=="India MARKAL"&
-      variable%in%c("Emissions|CO2|Energy|Demand","Emissions|CO2|Energy|Supply","Emissions|CO2|Energy and Industrial Processes")]$value=
-  all[model=="India MARKAL"&
-        variable%in%c("Emissions|CO2|Energy|Demand","Emissions|CO2|Energy|Supply","Emissions|CO2|Energy and Industrial Processes")]$value*1000
+# all[model=="India MARKAL"&
+#       variable%in%c("Emissions|CO2|Energy|Demand","Emissions|CO2|Energy|Supply","Emissions|CO2|Energy and Industrial Processes")]$value=
+#   all[model=="India MARKAL"&
+#         variable%in%c("Emissions|CO2|Energy|Demand","Emissions|CO2|Energy|Supply","Emissions|CO2|Energy and Industrial Processes")]$value*1000
 
 # Adding geothermal to models that don't report it, needed for calculation of total renewable energy share
 tmp1<-all[model %in% setdiff(unique(all[variable=="Secondary Energy|Electricity"]$model),unique(all[variable=="Secondary Energy|Electricity|Geothermal"]$model))
