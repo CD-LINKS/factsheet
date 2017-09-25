@@ -7,6 +7,9 @@
 # Remove GEM-E3_V1 as newest results are uploaded under GEM-E3
 all<-all[!model=="GEM-E3_V1"]
 
+#Relabel COFFEE's baseline to NoPolicy, in line with other global models
+all[model=="COPPE-COFFEE 1.0"&scenario=="NoPOL_V3"]=str_replace_all(all[model=="COPPE-COFFEE 1.0"&scenario=="NoPOL_V3"],"NoPOL_V3","NoPolicy_V3")
+
 #RU-TIMES: use PPP values for MER comparisons
 tmp <- all[model=="RU-TIMES 3.2"&variable=="GDP|PPP"&region=="RUS"]
 tmp$variable <- "GDP|MER"
