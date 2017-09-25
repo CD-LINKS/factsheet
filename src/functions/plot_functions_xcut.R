@@ -698,6 +698,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   dtl=dtl[,list(min=min(value),max=max(value),median=median(value)),by=c("Category","variable","region","period","Scope","unit")]
   
   dta$Category <- factor(dta$Category, levels = cats, ordered = T )
+  dta$region <- factor(dta$region, levels = regs, ordered = T )
   dtl$Category <- factor(dtl$Category, levels = cats, ordered = T )
   
   p = ggplot() + ggplot2::theme_bw()
