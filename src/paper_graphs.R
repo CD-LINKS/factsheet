@@ -129,7 +129,7 @@ a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,tit
 
 # Figure 1c - GHG sources -------------------------------------------------
 source("functions/plot_functions_xcut.R")
-regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS", "RoW","World")
+regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
 cats <- c("Historical","NoPOL","NPi","INDC")
 c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = cats,per=c(2030),file_pre="1c_CO2energy_2030"
                                    ,lab = "Global energy CO2 emissions (Mt CO2/yr)",hist=T)
@@ -155,7 +155,7 @@ c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = 
 
 
 # Figure 1def (new) - GHG sources ----------------------------------------
-regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS", "RoW","World")
+regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
 cats <- c("Historical","NoPOL","NPi","INDC")
 d<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU"),cats = cats,per=c(2030),file_pre="1d_CO2land_2030"
                          ,lab = "Global land CO2 emissions (Mt CO2/yr)",hist=T,medvar=c("Emissions|CO2|AFOLU"),med=T)
@@ -184,7 +184,7 @@ a2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gase
                                   file_pre="1b_GHG_reg_2030", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
                                   modnames=T,mod.labels=c("AIM","COFFEE","DNE","GEM-E3","IMAGE","MESSAGE","POLES","REMIND","WITCH")) 
 a_excl<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats = cats, years=c(2030),ylabel="GHG emissions excl. AFOLU CO2 (MtCO2eq/year)",
-                                   file_pre="1b_GHG_reg_2030", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
+                                   file_pre="1b_GHG_excl_reg_2030", var.labels = c("GHG emissions excl. AFOLU CO2 (2030)"),b.multiyear = F,globpoints = T,hist=T,
                                    modnames=T,mod.labels=c("AIM","COFFEE","DNE","GEM-E3","IMAGE","MESSAGE","POLES","REMIND","WITCH")) 
 
 # stacked bar per region
@@ -256,7 +256,7 @@ f2=f2+theme(legend.position = "none")
 g2=g2+theme(legend.position = "none")
 h2=h2+theme(legend.position = "none")
 lay<-rbind(c(1,1,1,2,3,4,5),c(1,1,1,6,7,8,9))
-h=grid.arrange(a2,b2,c2,d2,e2,f2,g2,h2,legend,layout_matrix=lay)
+h=grid.arrange(a_excl,b2,c2,d2,e2,f2,g2,h2,legend,layout_matrix=lay)
 ggsave(file=paste(cfg$outdir,"/Fig2_arrange.png",sep=""),h,width=20,height=12,dpi=300)
 
 # Figure 3 - carbon budgets ------------------------------------------------
@@ -462,6 +462,8 @@ ggsave(file=paste(cfg$outdir,"/Fig4_newer.png",sep=""),g,width=24,height=12,dpi=
 g=arrangeGrob(td,tf,tb2,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig4.png",sep=""),g,width=22,height=18,dpi=300)
 
+g=arrangeGrob(td,tb2,ncol=1)
+ggsave(file=paste(cfg$outdir,"/Fig4_ac.png",sep=""),g,width=22,height=18,dpi=300)
 
 # Figure 5 - Non-CO2? -----------------------------------------------------
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
