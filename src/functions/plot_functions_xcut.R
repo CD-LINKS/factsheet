@@ -488,6 +488,14 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
   
   dtg <- dt[Scope=="global" & variable %in% vars & period %in% years & Category %in% catglob & region %in% regs]  %>%
     rename(Global = model ) %>% factor.data.frame()
+  
+  #Only for models that have the region in their spatial aggregation
+  regions=all[,list(region=unique(region)),by=c("model")]
+  dtg=data.table(dtg)
+  for(mod in unique(dtg$model)){
+    dtg[model==mod]=dtg[model==mod&region %in% regions[model==mod]$region]
+  }
+  
   dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("scenario","Category","Baseline","region","period","Scope","unit","variable")]
   dtn <- dt[Scope=="national" & variable %in% vars & period %in% years & Category %in% catsnat & region %in% regs] %>%
     rename(National = model ) %>% factor.data.frame()
@@ -554,6 +562,14 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   
   dtg <- dt[Scope=="global" & variable %in% vars & period %in% years & Category %in% cats & region %in% regs]  %>%
     factor.data.frame()
+  
+  #Only for models that have the region in their spatial aggregation
+  regions=all[,list(region=unique(region)),by=c("model")]
+  dtg=data.table(dtg)
+  for(mod in unique(dtg$model)){
+    dtg[model==mod]=dtg[model==mod&region %in% regions[model==mod]$region]
+  }
+  
   dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("Category","Baseline","region","period","Scope","unit","variable")]
   
   if (b.multivar){
