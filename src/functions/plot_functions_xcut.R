@@ -674,24 +674,25 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
       }
     }
   }
+
   
+  #Only for models that have the region in their spatial aggregation
+  regions=all[,list(region=unique(region)),by=c("model")]
+  for(mod in unique(dta$model)){
+    dta[model==mod]=dta[model==mod&region %in% regions[model==mod]$region]
+  }
+
+  dta=dta[,list(mean(value)),by=c("Category","variable","region","period","Scope","unit")]
+  setnames(dta,"V1","value")
+  dta <- filter(dta,!region %in% c("World"))
+
   #Calculate rest of world and then model median per region
   dta=data.table(dta)
   dta=spread(dta,region,value,fill=0)
   dta=dta%>%mutate(RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS` )
   dta=gather(dta,region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS` ) 
   dta=data.table(dta)
-  
-  #Only for models that have the region in their spatial aggregation
-  regions=all[,list(region=unique(region)),by=c("model")]
-  for(mod in unique(dta[!region=="RoW"]$model)){
-    dta[model==mod&!region=="RoW"]=dta[model==mod&region %in% regions[model==mod]$region]
-  }
-
-  dta=dta[,list(median(value)),by=c("Category","variable","region","period","Scope","unit")]
-  setnames(dta,"V1","value")
-  dta <- filter(dta,!region %in% c("World"))
-  
+    
   #build data frame for overlaid errorbar showing model range for world total
   dtl <- filter(dt, region %in% c("World"), Category%in% cats, variable%in% vars, period %in% per)
   dtl=data.table(dtl)
