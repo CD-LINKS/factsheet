@@ -659,9 +659,18 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
 ####################### plot_stackbar_regions ########################
 #############################################################
 
-plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,medvar,med=F){
+plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NULL,hist=F,medvar,med=F,CO2eq=F){
   
   if(hist){dt[Category=="Historical"]$period<-per}
+  
+  if(CO2eq){
+    if("Emissions|CH4"%in%vars){
+      dt[variable=="Emissions|CH4"]$value<-dt[variable=="Emissions|CH4"]$value*25
+      dt[variable=="Emissions|CH4"]$unit<-"MtCO2eq/yr"}
+    if("Emissions|N2O"%in%vars){
+      dt[variable=="Emissions|N2O"]$value<-dt[variable=="Emissions|N2O"]$value*298/1000
+      dt[variable=="Emissions|N2O"]$unit<-"MtCO2eq/yr"}
+  }
   
   dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global") #[2:length(vars)]
   dta <- factor.data.frame(dta)
@@ -678,25 +687,26 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   
   #Only for models that have the region in their spatial aggregation
   regions=all[,list(region=unique(region)),by=c("model")]
+  dta=data.table(dta)
   for(mod in unique(dta$model)){
     dta[model==mod]=dta[model==mod&region %in% regions[model==mod]$region]
   }
 
+  #Calculate model average per region
   dta=dta[,list(mean(value)),by=c("Category","variable","region","period","Scope","unit")]
   setnames(dta,"V1","value")
-  dta <- filter(dta,!region %in% c("World"))
-
-  #Calculate rest of world and then model median per region
-  dta=data.table(dta)
+  
+  #Calculate rest of world 
   dta=spread(dta,region,value,fill=0)
   dta=dta%>%mutate(RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS` )
   dta=gather(dta,region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS` ) 
   dta=data.table(dta)
+  dta <- filter(dta,!region %in% c("World"))
     
   #build data frame for overlaid errorbar showing model range for world total
   dtl <- filter(dt, region %in% c("World"), Category%in% cats, variable%in% vars, period %in% per)
   dtl=data.table(dtl)
-  dtl=dtl[,list(min=min(value),max=max(value),median=median(value)),by=c("Category","variable","region","period","Scope","unit")]
+  dtl=dtl[,list(min=quantile(value,prob=0.25),max=quantile(value,prob=0.75),median=median(value)),by=c("Category","variable","region","period","Scope","unit")]
   
   dta$Category <- factor(dta$Category, levels = cats, ordered = T )
   dta$region <- factor(dta$region, levels = regs, ordered = T )
@@ -753,14 +763,14 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Ti
     dta[model==mod&!region=="RoW"]=dta[model==mod&region %in% regions[model==mod]$region]
   }
   
-  dta=dta[,list(median(value)),by=c("Category","variable","region","period","Scope","unit")]
+  dta=dta[,list(mean(value)),by=c("Category","variable","region","period","Scope","unit")]
   setnames(dta,"V1","value")
   dta <- filter(dta,!region %in% c("World"))
   
   #build data frame for overlaid errorbar showing model range for GHG total
   dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
   dtl=data.table(dtl)
-  dtl=dtl[,list(min=min(value),max=max(value)),by=c("Category","variable","region","period","Scope","unit")]
+  dtl=dtl[,list(min=quantile(value,prob=0.25),max=quantile(value,prob=0.75)),by=c("Category","variable","region","period","Scope","unit")]
   
   dta$Category <- factor(dta$Category, levels = cats, ordered = T )
   dtl$Category <- factor(dtl$Category, levels = cats, ordered = T )
