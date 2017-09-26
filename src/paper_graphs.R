@@ -161,10 +161,10 @@ d<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU"),cats = c
                          ,lab = "Global land CO2 emissions (Mt CO2/yr)",hist=T,medvar=c("Emissions|CO2|AFOLU"),med=T)
 
 e<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CH4"),cats = cats,per=c(2030),file_pre="1e_CH4_2030"
-                         ,lab = "Global CH4 emissions (Mt CH4/yr)",hist=T)
+                         ,lab = "Global CH4 emissions (Mt CO2eq/yr)",hist=T,CO2eq=T,ylim=c(0,12000),ybreaks=c(0,3000,6000,9000,12000))
 
 f<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|N2O"),cats = cats,per=c(2030),file_pre="1f_N2O_2030"
-                         ,lab = "Global N2O emissions (kt N2O/yr)",hist=T)
+                         ,lab = "Global N2O emissions (Mt CO2eq/yr)",hist=T,CO2eq=T,ylim=c(0,12000),ybreaks=c(0,3000,6000,9000,12000))
 
 # Figure 1 together -------------------------------------------------------
 library(gridExtra)
