@@ -740,7 +740,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
                 legend.text = element_text(size=18))
   p = p + ylab(lab) + xlab("")
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
-  p = p + scale_fill_brewer(palette="Set1")
+  p = p + scale_fill_brewer(palette="Spectral")
   #p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"), name=strsplit(regs[1], "|", fixed=T)[[1]][1])
   ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
@@ -805,7 +805,7 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Ti
                 legend.text = element_text(size=18))
   p = p + ylab(lab) + xlab("")
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
-  p = p + scale_fill_brewer(palette="Set1")
+  p = p + scale_fill_brewer(palette="Spectral")
   #p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"), name=strsplit(regs[1], "|", fixed=T)[[1]][1])
   ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
