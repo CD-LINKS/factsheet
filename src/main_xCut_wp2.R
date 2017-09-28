@@ -17,7 +17,7 @@ library(stringr) #str_replace_all
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20170925-101601"
+cfg$infile <- "cdlinks_compare_20170927-151911"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -93,8 +93,8 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   
   # Change scenario names for some models to V3 to not mix up old global model results with new ones
   # Needed when snapshot includes older, non-V3 scenarios
-   all[MODEL %in% c("DNE21+ V.14 (national)","RU-TIMES 3.2")]$SCENARIO <- 
-     paste(all[MODEL %in% c("DNE21+ V.14 (national)","RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
+   all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO <- 
+     paste(all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
    all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDCi_recSocialSecurity_V3")]$SCENARIO <- str_replace_all(
      all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDCi_recSocialSecurity_V3")]$SCENARIO,"INDCi_recSocialSecurity_V3","INDCi_V3")
    all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_1000_recSocialSecurity_V3")]$SCENARIO <- str_replace_all(
