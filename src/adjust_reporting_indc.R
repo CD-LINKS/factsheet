@@ -238,6 +238,53 @@ setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Sc
 all=all[!(variable%in%c("Emissions|CO2","Emissions|CH4","Emissions|N2O") & model%in%c("DNE21+ V.14")&region!="World")]
 all<-rbind(all,tmp)
 
+# adjust POLES AFOLU CO2 emissions, becasue they have different accounting method
+# harmonisation based on FAOSTAT and offset (diff POLES and FAOSTAT) is added to Emissions|Kyoto and Emissions|CO2|AFOLU
+# on global level (World) and for individual countries for which data is available
+rm(tmp1); rm(tmp2); rm(tmp3); rm(tmp)
+data_POLES_AFOLU <- data.table(read.csv('data/POLES AFOLU emissions.csv', sep=";"))
+colnames(data_POLES_AFOLU)[1] <- 'region'
+data_POLES_AFOLU <- data_POLES_AFOLU[, diff:= FAOSTAT - POLES]
+tmp1 <- all[variable%in%c("Emissions|Kyoto Gases") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
+tmp2 <- all[variable%in%c("Emissions|CO2|AFOLU") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
+tmp3 <- all[variable%in%c("Emissions|CO2") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
+# Kyoto gases
+setkey(tmp1, region)
+setkey(data_POLES_AFOLU, region)
+tmp1 <-merge(tmp1, data_POLES_AFOLU)
+tmp1=spread(tmp1,variable,value)
+tmp1=tmp1%>%mutate(`Emissions|Kyoto Gases`=`Emissions|Kyoto Gases`+ `diff`)
+
+# AFOLU CO2 emissions
+setkey(tmp2, region)
+setkey(data_POLES_AFOLU, region)
+tmp2 <-merge(tmp2, data_POLES_AFOLU)
+tmp2=spread(tmp2,variable,value)
+tmp2=tmp2%>%mutate(`Emissions|CO2|AFOLU`=`Emissions|CO2|AFOLU`+ `diff`)
+# CO2 emissions
+setkey(tmp3, region)
+setkey(data_POLES_AFOLU, region)
+tmp3 <-merge(tmp3, data_POLES_AFOLU)
+tmp3=spread(tmp3,variable,value)
+tmp3=tmp3%>%mutate(`Emissions|CO2`=`Emissions|CO2`+ `diff`)
+
+tmp1 <- data.table(tmp1); tmp2 <- data.table(tmp2); tmp3 <- data.table(tmp3);
+tmp1 <- tmp1[ ,`:=`(POLES = NULL, FAOSTAT = NULL, diff = NULL)]
+tmp2 <- tmp2[ ,`:=`(POLES = NULL, FAOSTAT = NULL, diff = NULL)]
+tmp3 <- tmp3[ ,`:=`(POLES = NULL, FAOSTAT = NULL, diff = NULL)]
+tmp1$variable <- "Emissions|Kyoto Gases"
+tmp2$variable <- "Emissions|CO2|AFOLU"
+tmp3$variable <- "Emissions|CO2"
+
+setnames(tmp1, "Emissions|Kyoto Gases", "value")
+setnames(tmp2, "Emissions|CO2|AFOLU", "value")
+setnames(tmp3, "Emissions|CO2", "value")
+tmp <- rbind(tmp1,tmp2,tmp3)
+setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+all=all[!(variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","Emissions|CO2") & model%in%c("POLES CDL"))]
+all<-rbind(all,tmp)
+
+
 
 # Plausibility checks -----------------------------------------------------
 
