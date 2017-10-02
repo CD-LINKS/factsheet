@@ -150,7 +150,7 @@ all <- rbind(all,tmp1)
 # setcolorder(tmp4,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 # all<-rbind(all,tmp4)
 
-## GEM-E3 & DNE21+: using average of other models for missing emission sources/sectors 
+ ## GEM-E3 & DNE21+: using average of other models for missing emission sources/sectors 
 #Quickfix for DNE and GEM-E3:
 tmp=all[variable%in%c("Emissions|N2O|Energy",
                       "Emissions|CH4|Energy|Supply", 

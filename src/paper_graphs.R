@@ -15,7 +15,7 @@ library(gridExtra) #arrangeGrob
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20170927-151911"
+cfg$infile <- "cdlinks_compare_20171002-122405"
 cfg$outdir    <- "paper graphs"
 
 #source function for factorizing data frames
@@ -463,7 +463,7 @@ g=arrangeGrob(td,tf,tb2,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig4.png",sep=""),g,width=22,height=18,dpi=300)
 
 g=arrangeGrob(td,tb2,ncol=1)
-ggsave(file=paste(cfg$outdir,"/Fig4_ac.png",sep=""),g,width=22,height=18,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig4_ac.png",sep=""),g,width=22,height=18,dpi=200)
 
 # Figure 5 - Non-CO2? -----------------------------------------------------
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
