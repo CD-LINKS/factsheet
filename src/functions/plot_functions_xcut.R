@@ -553,7 +553,8 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
                                          b.multivar =  F, b.multiyear = F, b.multicat = F, b.multireg=F,var.labels = NA, modnames=F, mod.labels=NA, 
                                          ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,nonreg=F,hist=F,nrow,ncol){
   
-  if(hist){dt[Category=="Historical"]$period<-years}
+  if(hist){ dt$period<-as.numeric(dt$period)
+            dt[Category=="Historical"]$period<-years}
   dt <- dt[ variable %in% vars & period %in% years & Category %in% cats & region %in% regs & !is.na(value)] %>% factor.data.frame()
   
   dt$region <- factor(dt$region, levels = regs, ordered = T )
@@ -570,7 +571,9 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
     dtg[model==mod]=dtg[model==mod&region %in% regions[model==mod]$region]
   }
   
-  dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("Category","Baseline","region","period","Scope","unit","variable")]
+  baselines <-dtg[,list(Baseline=unique(Baseline)),by=c("Category","region","period","Scope","unit","variable")]
+  dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("Category","region","period","Scope","unit","variable")]
+  dtg1=merge(dtg1,baselines,by=c("Category","region","period","Scope","unit","variable"))
   
   if (b.multivar){
     levels(dtg$variable) <- var.labels
