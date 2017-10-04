@@ -549,9 +549,9 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
 #############################################################
 
 #plot function for pointrange (instead of boxplot) - multi-year, one variable
-plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,ylabel="",
+plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,ylabel="",
                                          b.multivar =  F, b.multiyear = F, b.multicat = F, b.multireg=F,var.labels = NA, modnames=F, mod.labels=NA, 
-                                         ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,nonreg=F,hist=F,nrow,ncol){
+                                         ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,natpoints=F,nonreg=F,hist=F,nrow,ncol){
   
   if(hist){ dt$period<-as.numeric(dt$period)
             dt[Category=="Historical"]$period<-years}
@@ -575,9 +575,13 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
   dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("Category","region","period","Scope","unit","variable")]
   dtg1=merge(dtg1,baselines,by=c("Category","region","period","Scope","unit","variable"))
   
+  if(natpoints){dtn <- dt[Scope=="national" & variable %in% vars & period %in% years & Category %in% catsnat & region %in% regs] %>%
+    factor.data.frame()}
+  
   if (b.multivar){
     levels(dtg$variable) <- var.labels
     levels(dtg1$variable) <- var.labels
+    levels(dtn$variable) <- var.labels
     
   }
   
@@ -611,6 +615,13 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, years, out=cfg$
     }else{
     if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=model,colour=Category,group=Category),size=3,position=position_dodge(width=c(0.7,0.7,0.7)))
     }}}
+  
+  if(natpoints&nonreg){p = p + geom_point(data=dtn,aes(x=Category,y=value,shape=model, colour=Category,group=Category), size = 5,  position=position_dodge(width=c(0.7,0.7,0.7)))
+  }else{
+      if(natpoints&b.multivar){p = p + geom_point(data=dtn,aes(x=region,y=value,shape=model, colour=Category, group=interaction(Category,variable)), size = 5,  position=position_dodge(width=c(0.7,0.7,0.7)))
+      }else{
+      if(natpoints){ p = p + geom_point(data=dtn,aes(x=region,y=value,shape=model, colour=Category), size = 5,  position=position_dodge(width=c(0.7,0.7,0.7)))
+      }}}
     
     #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
     p = p + ylab(ylabel) + xlab("")
