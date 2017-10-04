@@ -15,7 +15,7 @@ library(gridExtra) #arrangeGrob
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20171002-122405"
+cfg$infile <- "cdlinks_compare_20171003-192701"
 cfg$outdir    <- "paper graphs"
 
 #source function for factorizing data frames
@@ -182,7 +182,9 @@ regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA")
 cats <- c("Historical","NoPOL","NPi","INDC")
 a2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),ylabel="GHG emissions (MtCO2eq/year)",
                                   file_pre="1b_GHG_reg_2030", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
-                                  modnames=T,mod.labels=c("AIM","COFFEE","DNE","GEM-E3","IMAGE","MESSAGE","POLES","REMIND","WITCH")) 
+                                  modnames=T,mod.labels=c("AIM","COFFEE","DNE","GEM-E3","IMAGE","MESSAGE","POLES","REMIND","WITCH",
+                                                          "BRA-MSB","CHN-TIMES","CHN-IPAC","EU-GEM-E3","EU-PRIMES","IND-Markal","IND-AIM","JPN-AIM","JPN-DNE","RUS-TIMES","USA-GCAM"),
+                                  natpoints=T,catsnat=c("NoPOL","NPi","INDC")) 
 a_excl<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats = cats, years=c(2030),ylabel="GHG emissions excl. AFOLU CO2 (MtCO2eq/year)",
                                    file_pre="1b_GHG_excl_reg_2030", var.labels = c("GHG emissions excl. AFOLU CO2 (2030)"),b.multiyear = F,globpoints = T,hist=T,
                                    modnames=T,mod.labels=c("AIM","COFFEE","DNE","GEM-E3","IMAGE","MESSAGE","POLES","REMIND","WITCH")) 
