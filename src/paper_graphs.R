@@ -169,12 +169,12 @@ f<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|N2O"),cats = cats,pe
 # Figure 1 together -------------------------------------------------------
 library(gridExtra)
 g=arrangeGrob(a,c,d,e,f,ncol=3)
-ggsave(file=paste(cfg$outdir,"/Fig1.png",sep=""),g,width=20,height=10,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig1.png",sep=""),g,width=20,height=10,dpi=200)
 
 library(grid)
 lay<-rbind(c(1,1,2,3),c(1,1,4,5))
 h=grid.arrange(a,c,d,e,f,layout_matrix=lay)#ncol=3
-ggsave(file=paste(cfg$outdir,"/Fig1_arrange.png",sep=""),h,width=20,height=12,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig1_arrange.png",sep=""),h,width=20,height=12,dpi=200)
 
 # Figure 2 - regions -----------------------------------------------------
 source("functions/plot_functions_xcut.R")
@@ -242,10 +242,10 @@ h2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU","Emissions|C
 
 # Together
 g=arrangeGrob(a2,b2,c2,d2,e2,f2,g2,h2,ncol=4)
-ggsave(file=paste(cfg$outdir,"/Fig2.png",sep=""),g,width=22,height=12,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig2.png",sep=""),g,width=22,height=12,dpi=200)
 
 g=arrangeGrob(a2,b2,c2,d2,e2,f2,g2,h2,ncol=2)
-ggsave(file=paste(cfg$outdir,"/Fig2_vertical.png",sep=""),g,width=20,height=22,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig2_vertical.png",sep=""),g,width=20,height=22,dpi=200)
 
 tmp<-ggplot_gtable(ggplot_build(b2))
 leg<-which(sapply(tmp$grobs,function(x) x$name) =="guide-box")
@@ -259,7 +259,7 @@ g2=g2+theme(legend.position = "none")
 h2=h2+theme(legend.position = "none")
 lay<-rbind(c(1,1,1,2,3,4,5),c(1,1,1,6,7,8,9))
 h=grid.arrange(a_excl,b2,c2,d2,e2,f2,g2,h2,legend,layout_matrix=lay)
-ggsave(file=paste(cfg$outdir,"/Fig2_arrange.png",sep=""),h,width=20,height=12,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig2_arrange.png",sep=""),h,width=20,height=12,dpi=200)
 
 # Figure 3 - carbon budgets ------------------------------------------------
 #specify plot scope
@@ -352,9 +352,9 @@ a=ggplot() +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank())
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2050","_multiregbox.pdf"),a,
-       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2050","_multiregbox.png"),a,
-       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 
 b=ggplot() +
   geom_boxplot(data=v_plot[Scope=="global"&variable=="CO2rel2010"],aes(x=Category,y=value, fill = Category), outlier.size = 0) +
@@ -366,9 +366,9 @@ b=ggplot() +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank() )
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2050","_multiregbox.pdf"),b,
-       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2050","_multiregbox.png"),b,
-       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 
 #2100
 v_plot <-  filter(v_emi_cumrel2, Category %in% cats) 
@@ -386,9 +386,9 @@ c=ggplot() +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank())
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2100","_multiregbox.pdf"),c,
-       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2100","_multiregbox.png"),c,
-       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 
 d=ggplot() +
   geom_boxplot(data=v_plot[Scope=="global"&variable=="CO2rel2010"],aes(x=Category,y=value, fill = Category), outlier.size = 0) +
@@ -400,9 +400,9 @@ d=ggplot() +
   scale_size_manual(values = c(rep(1,10),rep(3,10))) +
   theme(axis.text.x  = element_blank() )
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2100","_multiregbox.pdf"),d,
-       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2100","_multiregbox.png"),d,
-       width=24, height=22, unit="cm", dpi=300, bg = "transparent")
+       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 
 # Figure 4 - implementation -----------------------------------------------
 # Kaya
@@ -415,7 +415,7 @@ ta3<-plot_bar_facet2(reg="World",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya 
 
 library(gridExtra)
 g=arrangeGrob(ta2,ta3,ncol=2)
-ggsave(file=paste(cfg$outdir,"/Fig3_old.png",sep=""),g,width=20,height=10,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig3_old.png",sep=""),g,width=20,height=10,dpi=200)
 
 #CI vs. EI
 vars <- c(x="Energy intensity improvement rel. to Base",y="Carbon intensity improvement rel. to Base")
@@ -427,7 +427,7 @@ tc<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,
 vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Carbon Intensity of FE|rel2010")
 cats <- c("NoPOL","NPi","2030_low","2020_verylow")
 td<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
-                 yearlabglob=T,file_pre="ci_ei_scatter_baseyear")   
+                 yearlabglob=T,file_pre="ci_ei_scatter_baseyear", xlim=c(0,1), ylim=c(0,1))   
 
 vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Total CO2 Intensity of FE|rel2010")
 cats <- c("NoPOL","NPi","2030_low","2020_verylow")
@@ -452,17 +452,17 @@ cats <- c("NPi","2030_low","2020_verylow") #"2020_high","2020_low","2030_high","
 tb1<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2100,file_pre="MitiCosts_2100_mitigscens",ylabel="Mitigation costs as % of GDP (2100)",b.multicat=T,globpoints = T)
 tb2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2050,file_pre="MitiCosts_2050_mitigscens",ylabel="Mitigation costs as % of GDP (2050)",b.multicat=T,globpoints=T)
 g=arrangeGrob(tb2,tb1,ncol=1)
-ggsave(file=paste(cfg$outdir,"/Fig4c.png",sep=""),g,width=16,height=12,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig4c.png",sep=""),g,width=16,height=12,dpi=200)
 
 # Combined - figure 4
 g=arrangeGrob(tc,tb2,ncol=2)
-ggsave(file=paste(cfg$outdir,"/Fig4_new.png",sep=""),g,width=24,height=12,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig4_new.png",sep=""),g,width=24,height=12,dpi=200)
 
 g=arrangeGrob(td,tb2,ncol=2)
-ggsave(file=paste(cfg$outdir,"/Fig4_newer.png",sep=""),g,width=24,height=12,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig4_newer.png",sep=""),g,width=24,height=12,dpi=200)
 
 g=arrangeGrob(td,tf,tb2,ncol=1)
-ggsave(file=paste(cfg$outdir,"/Fig4.png",sep=""),g,width=22,height=18,dpi=300)
+ggsave(file=paste(cfg$outdir,"/Fig4.png",sep=""),g,width=22,height=18,dpi=200)
 
 g=arrangeGrob(td,tb2,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig4_ac.png",sep=""),g,width=22,height=18,dpi=200)
