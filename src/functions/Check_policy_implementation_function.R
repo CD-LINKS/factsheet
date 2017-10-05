@@ -203,7 +203,7 @@ print(paste("ymax: ",y_max))
 
     #g <- grid.arrange(myplot1, myplot2, myplot3, myplot4, myplot5, myplot6, myplot7, myplot8, ncol=4, main=textGrob("CO2 emissions", gp=gpar(fontsize=15,font=8)))
   if (create_graphs == 1)
-  { g <- grid.arrange(myplot1, myplot3, myplot4, myplot5, myplot6, myplot7, myplot8, myplot9, ncol=4, top=title_GHG_plot)
+  { g <- grid.arrange(myplot1, myplot2, myplot3, myplot4, myplot5, myplot6, myplot7, myplot8, myplot9, nrow=3, ncol=3, top=title_GHG_plot)
     plot(g)
     #fname = paste(GHG, "_", Sys.time(), ".pdf")
     fname_pdf = paste(select_region, GHG, SECTOR, Scen1, year_subset1, Scen2, year_subset2, Sys.Date(),"_", gsub(":", "_", strftime(Sys.time(), format="%H:%M:%S")), ".pdf")

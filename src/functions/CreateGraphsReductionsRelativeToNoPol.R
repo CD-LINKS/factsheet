@@ -1,5 +1,7 @@
 library(xtable)
 
+source("functions/check_policy_implementation_function.R")
+
 create_graphs <- 1
 Scen1 <- "NPi"
 Scen2 <- "NoPOL"
