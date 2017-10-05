@@ -101,6 +101,10 @@ tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy and In
 tmp1$variable <- "Emissions|CO2"
 all <- rbind(all,tmp1)
 
+# change AIM|Enduse 3.0 to AIM-India[IIAM]
+levels(all$model)[levels(all$model)=="*AIM/Enduse 3.0"] <- "*AIM-India[IIMA]"
+
+# Kyoto Gases for DNE21+ are in SAR, change to AR4
 
 # With/without CCS --------------------------------------------------------
 
@@ -150,7 +154,7 @@ all <- rbind(all,tmp1)
 # setcolorder(tmp4,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 # all<-rbind(all,tmp4)
 
- ## GEM-E3 & DNE21+: using average of other models for missing emission sources/sectors 
+## GEM-E3 & DNE21+: using average of other models for missing emission sources/sectors 
 #Quickfix for DNE and GEM-E3:
 tmp=all[variable%in%c("Emissions|N2O|Energy",
                       "Emissions|CH4|Energy|Supply", 
@@ -236,6 +240,35 @@ tmp[variable%in%c("Emissions|CH4")]$unit<-"Mt CH4/yr"
 tmp[variable%in%c("Emissions|N2O")]$unit<-"kt N2O/yr"
 setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
 all=all[!(variable%in%c("Emissions|CO2","Emissions|CH4","Emissions|N2O") & model%in%c("DNE21+ V.14")&region!="World")]
+all<-rbind(all,tmp)
+
+## COPPE-COFFEE: using average of other models for missing emission sources/sectors 
+#Quickfix for COPPE-COFFEE:
+# First calculate average over other models, then add F-gases to database and alls add to Kyoto Emissions
+# CALCULATE AVERAGE
+tmp=all[variable%in%c("Emissions|F-Gases")]
+tmp=tmp[,list(value=mean(value)),by=c("Category","region","variable","unit","period","Scope")]
+tmpC=tmp
+tmpC$model<-"COPPE-COFFEE 1.0"
+scenarios=all[model%in%c("COPPE-COFFEE 1.0"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category")]
+tmpC=merge(tmpC,scenarios,by=c("Category"))
+setcolorder(tmpC,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
+regions=all[model%in%c("COPPE-COFFEE 1.0"),list(region=unique(region)),by=c("model")]
+scenarios=all[model%in%c("COPPE-COFFEE 1.0"),list(scenario=unique(scenario)),by=c("model")]
+tmpC=tmpC[region%in%regions[model=="COPPE-COFFEE 1.0"]$region & scenario%in%scenarios[model=="COPPE-COFFEE 1.0"]$scenario]
+all<-rbind(all,tmpC)
+
+# Add F-gases for COPPE-COFFEE
+tmp=all[model%in%c("COPPE-COFFEE 1.0")&variable%in%c("Emissions|Kyoto Gases", "Emissions|F-Gases")] 
+tmp[variable=="Emissions|F-Gases"]$unit<-"Mt CO2-equiv/yr"
+tmp=spread(tmp,variable,value)
+# Add F-gases to Kyoto Gases
+tmp=tmp%>%mutate(`Emissions|Kyoto Gases`=`Emissions|Kyoto Gases`+`Emissions|F-Gases`)
+tmp=gather(tmp,variable,value,c(`Emissions|Kyoto Gases`,`Emissions|F-Gases`))
+tmp=data.table(tmp)
+tmp=tmp[variable=="Emissions|Kyoto Gases"]
+setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+all=all[!(variable=="Emissions|Kyoto Gases" & model%in%c("COPPE-COFFEE 1.0"))]
 all<-rbind(all,tmp)
 
 # adjust POLES AFOLU CO2 emissions, becasue they have different accounting method
