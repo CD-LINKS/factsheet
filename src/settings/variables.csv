@@ -230,6 +230,7 @@ Agricultural Production
 Agricultural Production|Energy
 Agricultural Production|Non-Energy
 Emissions|N2O|Energy
+Emissions|N2O|Other
 Emissions|CH4|Energy|Supply
 Emissions|CH4|Energy|Demand|Industry
 Emissions|CH4|Energy|Demand|Residential and Commercial

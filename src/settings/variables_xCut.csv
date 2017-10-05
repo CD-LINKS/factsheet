@@ -125,6 +125,7 @@ Final Energy|Transportation|Other
 Carbon Sequestration|CCS
 Carbon Sequestration|CCS|Fossil
 Emissions|N2O|Energy
+Emissions|N2O|Other
 Emissions|CH4|Energy|Supply
 Emissions|CH4|Energy|Demand|Industry
 Emissions|CH4|Energy|Demand|Residential and Commercial
