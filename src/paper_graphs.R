@@ -123,14 +123,14 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 
 # Figure 1a - time series -------------------------------------------------
 source("functions/plot_functions.R")
-cats <- c("NoPOL","NPi","INDC","2020_low","2020_verylow")
+cats <- c("NoPOL","NPi","INDC")
 a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto greenhouse gas emissions",
              file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(2010,2031),ylim=c(20000,75000),range=T,median=T)
 
 # Figure 1c - GHG sources -------------------------------------------------
 source("functions/plot_functions_xcut.R")
 regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
-cats <- c("Historical","NoPOL","NPi","INDC")
+cats <- c("Historical","NoPOL","NPi","INDC", "2020_low", "2020_verylow")
 c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = cats,per=c(2030),file_pre="1c_CO2energy_2030"
                                    ,lab = "Global energy CO2 emissions (Mt CO2/yr)",hist=T)
 
@@ -156,7 +156,7 @@ c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = 
 
 # Figure 1def (new) - GHG sources ----------------------------------------
 regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
-cats <- c("Historical","NoPOL","NPi","INDC")
+cats <- c("Historical","NoPOL","NPi","INDC", "2020_low", "2020_verylow")
 d<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU"),cats = cats,per=c(2030),file_pre="1d_CO2land_2030"
                          ,lab = "Global land CO2 emissions (Mt CO2/yr)",hist=T,medvar=c("Emissions|CO2|AFOLU"),med=T)
 
@@ -191,7 +191,7 @@ a_excl<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto 
 
 # stacked bar per region
 regs <- c("BRA")
-cats <- c("Historical","NoPOL","NPi","INDC")
+cats <- c("Historical","NoPOL","NPi","INDC", "2020_low", "2020_verylow")
 b2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU","Emissions|CO2|Energy","Emissions|CH4","Emissions|N2O","Emissions|Kyoto Gases"),cats = cats,
                       per=c(2030),file_pre="2b_BRA_2030",lab = "Brazil GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CH4"="CH4",
                                                                                                                                  "Emissions|CO2|AFOLU"="CO2 AFOLU",
