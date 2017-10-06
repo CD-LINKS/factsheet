@@ -80,6 +80,8 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   
   #all <- all[!(MODEL=="GEM-E3_V1"&SCENARIO=="INDC")]
   
+  all_original <- all
+  
   # Change scenario names for some models to V3 to not mix up old global model results with new ones
   # Needed when snapshot includes older, non-V3 scenarios
   all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO <- 
