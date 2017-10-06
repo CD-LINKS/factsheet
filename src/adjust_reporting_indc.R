@@ -101,9 +101,6 @@ tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy and In
 tmp1$variable <- "Emissions|CO2"
 all <- rbind(all,tmp1)
 
-# change AIM|Enduse 3.0 to AIM-India[IIAM]
-levels(all$model)[levels(all$model)=="*AIM/Enduse 3.0"] <- "*AIM-India[IIMA]"
-
 # Kyoto Gases for DNE21+ are in SAR, change to AR4
 
 # With/without CCS --------------------------------------------------------
@@ -154,7 +151,34 @@ all <- rbind(all,tmp1)
 # setcolorder(tmp4,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 # all<-rbind(all,tmp4)
 
-## GEM-E3 & DNE21+: using average of other models for missing emission sources/sectors 
+# Several fixes
+# 1. Change model name "AIM Enduse 3.0" to "AIM-India [IIAM]
+# 2. DNE21+: change from SAR GWP to AR4 GWP for Emissions|Kyoto Gases
+# 3. GEM-E3: Add AFOLU CO2 emissions based on average other models
+#    DNE21+: Add AFOLU emisisons based on average other models, except for World
+# 4. COPPE-COFEE: Add F-gases emissions based on average other models
+# 5. POLES: harmonise AFOLU CO2 emissions using FAOSTAT data
+
+# 1. change AIM|Enduse 3.0 to AIM-India[IIAM]
+all[model=="AIM/Enduse 3.0","model"] <- "*AIM-India [IIAM]"
+
+# 2. DNE21+ Kyto Gases are calculated using SAR GWPs, this should be changed to AR4 GWP
+tmp=all[model%in%c("DNE21+ V.14")&variable%in%c("Emissions|Kyoto Gases","Emissions|CO2", "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases")]
+tmp[variable=="Emissions|CO2"]$unit<-"Mt CO2-equiv/yr"
+tmp[variable=="Emissions|CH4"]$value<-tmp[variable=="Emissions|CH4"]$value*25
+tmp[variable=="Emissions|CH4"]$unit<-"Mt CO2-equiv/yr"
+tmp[variable=="Emissions|N2O"]$value<-tmp[variable=="Emissions|N2O"]$value*298/1000
+tmp[variable=="Emissions|N2O"]$unit<-"Mt CO2-equiv/yr"
+tmp=spread(tmp,variable,value)
+tmp=tmp%>%mutate(`Emissions|Kyoto Gases`=`Emissions|CO2`+`Emissions|CH4`+`Emissions|N2O`+`Emissions|F-Gases`) #+`Emissions|N2O|AFOLU`+`Emissions|CH4|AFOLU`
+tmp=gather(tmp,variable,value,c(`Emissions|Kyoto Gases`, `Emissions|CO2`, `Emissions|CH4`, `Emissions|N2O`, `Emissions|F-Gases`))
+tmp=data.table(tmp)
+tmp=tmp[variable=="Emissions|Kyoto Gases"]
+setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+all=all[!(variable=="Emissions|Kyoto Gases" & model%in%c("DNE21+ V.14"))]
+all<-rbind(all,tmp)
+
+## 3. GEM-E3 & DNE21+: using average of other models for missing emission sources/sectors 
 #Quickfix for DNE and GEM-E3:
 tmp=all[variable%in%c("Emissions|N2O|Energy",
                       "Emissions|CH4|Energy|Supply", 
@@ -242,7 +266,7 @@ setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Sc
 all=all[!(variable%in%c("Emissions|CO2","Emissions|CH4","Emissions|N2O") & model%in%c("DNE21+ V.14")&region!="World")]
 all<-rbind(all,tmp)
 
-## COPPE-COFFEE: using average of other models for missing emission sources/sectors 
+## 4. COPPE-COFFEE: using average of other models for missing emission sources/sectors 
 #Quickfix for COPPE-COFFEE:
 # First calculate average over other models, then add F-gases to database and alls add to Kyoto Emissions
 # CALCULATE AVERAGE
@@ -271,7 +295,7 @@ setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Sc
 all=all[!(variable=="Emissions|Kyoto Gases" & model%in%c("COPPE-COFFEE 1.0"))]
 all<-rbind(all,tmp)
 
-# adjust POLES AFOLU CO2 emissions, becasue they have different accounting method
+# 5. adjust POLES AFOLU CO2 emissions, becasue they have different accounting method
 # harmonisation based on FAOSTAT and offset (diff POLES and FAOSTAT) is added to Emissions|Kyoto and Emissions|CO2|AFOLU
 # on global level (World) and for individual countries for which data is available
 rm(tmp1); rm(tmp2); rm(tmp3); rm(tmp)
