@@ -183,7 +183,7 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
                               method=list( cex = 0.9, offset=1, hjust=1, vjust = 0))}
   p = p + scale_size_manual(values=c("national"=2, "global"=.2))
   p = p + scale_linetype_manual(values=c("national"="solid", "global"="dashed"))
-  p = p + scale_colour_manual(values=plotstyle(cats))
+  p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario")
   p = p + scale_shape_manual(values=cfg$man_shapes)
   if (length(reg) >1){p = p + facet_wrap( ~ region,ncol=2)}
   p = p + xlab(paste(vars_to_spread["x"],unitx)) + ylab(paste(vars_to_spread["y"],unity))
@@ -388,9 +388,9 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   dt$period=as.numeric(dt$period)
   
   dt$variable <- factor(dt$variable, levels = c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"))
-  UNEP=data.table(scenario=c("UNEPmean","UNEPmin","UNEPmax"),Category="INDCi",
+  UNEP=data.table(`UNEP (2016) range`=c("Median","Max"),Category="INDCi",
                   Baseline="NoPolicy",model="UNEP",region="World",
-                  period=2030,Scope="global",value=c(53400,49500,54700), 
+                  period=2030,Scope="global",value=c(55500,57500), 
                   unit="Mt CO2-equiv./yr",variable="Emissions|Kyoto Gases")
   
 
@@ -406,8 +406,8 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   # Plot lines for national models
   p = p + geom_path(data=dt[region==reg & Scope=="national"],aes(x=period,y=value,color=Category,linetype=model),size=2,show.legend = FALSE)
   p = p + scale_linetype_manual(values=cfg$man_lines)
-  p = p + scale_colour_manual(values=plotstyle(cats))
-  p = p + scale_fill_manual(values=plotstyle(cats))
+  p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario")
+  p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario")
   if (range & length(unique(dt$Category))==3){
     p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2030, xend=2030, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
     p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2030.5, xend=2030.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
@@ -417,7 +417,7 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + ylab(paste(unitsy))
   p = p + facet_grid(variable ~ region,scales="free_y")
-  p = p + geom_point(data=UNEP,aes(x=period,y=value,shape=scenario))
+  p = p + geom_point(data=UNEP,aes(x=period,y=value,shape=`UNEP (2016) range`))
   p = p + ggtitle(title) + ggplot2::theme_bw() 
   p = p + theme(axis.text=element_text(size=18),
                 axis.title=element_text(size=18),
