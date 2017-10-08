@@ -496,7 +496,7 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
     dtg[model==mod]=dtg[model==mod&region %in% regions[model==mod]$region]
   }
   
-  dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("scenario","Category","Baseline","region","period","Scope","unit","variable")]
+  dtg1 <-dtg[,list(mean=median(value),min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)),by=c("scenario","Category","Baseline","region","period","Scope","unit","variable")]
   dtn <- dt[Scope=="national" & variable %in% vars & period %in% years & Category %in% catsnat & region %in% regs] %>%
     rename(National = model ) %>% factor.data.frame()
   
@@ -572,7 +572,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
   }
   
   baselines <-dtg[,list(Baseline=unique(Baseline)),by=c("Category","region","period","Scope","unit","variable")]
-  dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("Category","region","period","Scope","unit","variable")]
+  dtg1 <-dtg[,list(mean=median(value),min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)),by=c("Category","region","period","Scope","unit","variable")]
   dtg1=merge(dtg1,baselines,by=c("Category","region","period","Scope","unit","variable"))
   
   if(natpoints){dtn <- dt[Scope=="national" & variable %in% vars & period %in% years & Category %in% catsnat & region %in% regs] %>%
@@ -616,11 +616,11 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
     if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=model,colour=Category,group=Category),size=3,position=position_dodge(width=c(0.7,0.7,0.7)))
     }}}
   
-  if(natpoints&nonreg){p = p + geom_point(data=dtn,aes(x=Category,y=value,shape=model, colour=Category,group=Category), size = 5,  position=position_dodge(width=c(0.7,0.7,0.7)))
+  if(natpoints&nonreg){p = p + geom_point(data=dtn,aes(x=Category,y=value,shape=model, colour=Category,group=Category,stroke=1.5), size = 3,  position=position_dodge(width=c(0.7,0.7,0.7)))
   }else{
-      if(natpoints&b.multivar){p = p + geom_point(data=dtn,aes(x=region,y=value,shape=model, colour=Category, group=interaction(Category,variable)), size = 5,  position=position_dodge(width=c(0.7,0.7,0.7)))
+      if(natpoints&b.multivar){p = p + geom_point(data=dtn,aes(x=region,y=value,shape=model, colour=Category, group=interaction(Category,region,variable),stroke=1.5), size = 3,  position=position_dodge(width=c(0.7,0.7,0.7)))
       }else{
-      if(natpoints){ p = p + geom_point(data=dtn,aes(x=region,y=value,shape=model, colour=Category), size = 5,  position=position_dodge(width=c(0.7,0.7,0.7)))
+      if(natpoints){ p = p + geom_point(data=dtn,aes(x=region,y=value,shape=model, colour=Category,group=interaction(Category,region),stroke=1.5), size = 3,  position=position_dodge(width=c(0.7,0.7,0.7)))
       }}}
     
     #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
@@ -629,7 +629,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
      p = p + scale_color_manual(values=plotstyle(vars),labels=plotstyle(vars,out="legend")) 
     }else{
     p = p + scale_color_manual( values=plotstyle(cats),
-                              labels =  plotstyle(cats, out = "legend") )}
+                              labels =  plotstyle(cats, out = "legend"),name="Scenario" )}
     if(modnames){p = p + scale_shape_manual(values=cfg$man_shapes,labels=mod.labels)}else{
       p = p + scale_shape_manual(values=cfg$man_shapes)}
   #p = p + scale_shape_manual(values=plotstyle(cats, out="shape"))
@@ -736,7 +736,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   #build data frame for overlaid errorbar showing model range for world total
   dtl <- filter(dt, region %in% c("World"), Category%in% cats, variable%in% vars, period %in% per)
   dtl=data.table(dtl)
-  dtl=dtl[,list(min=quantile(value,prob=0.25),max=quantile(value,prob=0.75),median=median(value)),by=c("Category","variable","region","period","Scope","unit")]
+  dtl=dtl[,list(min=quantile(value,prob=0.1),max=quantile(value,prob=0.9),median=median(value)),by=c("Category","variable","region","period","Scope","unit")]
   
   dta$Category <- factor(dta$Category, levels = cats, ordered = T )
   dta$region <- factor(dta$region, levels = regs, ordered = T )
@@ -764,7 +764,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
 ####################### plot_stackbar_ghg ########################
 #############################################################
 
-plot_stackbar_ghg <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F,var.labels=NA){
+plot_stackbar_ghg <- function(regs, dt, vars, cats,catsnat, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F,var.labels=NA,natpoints){
   
   if(hist){dt[Category=="Historical"]$period<-per}
   
@@ -800,17 +800,21 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Ti
   #build data frame for overlaid errorbar showing model range for GHG total
   dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
   dtl=data.table(dtl)
-  dtl=dtl[,list(min=quantile(value,prob=0.25),max=quantile(value,prob=0.75)),by=c("Category","variable","region","period","Scope","unit")]
+  dtl=dtl[,list(min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)),by=c("Category","variable","region","period","Scope","unit")]
+
+  if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="national")}
   
   dta$Category <- factor(dta$Category, levels = cats, ordered = T )
   dtl$Category <- factor(dtl$Category, levels = cats, ordered = T )
-  
-  if(labels){
-    levels(dta$variable) <- var.labels}
+  if(natpoints){dtn$Category <- factor(dtn$Category, levels = catsnat, ordered = T )}
+  dta$variable <- factor(dta$variable, levels = vars, ordered = T)
   
   p = ggplot() + ggplot2::theme_bw()
   p = p + geom_bar(data=dta,aes(Category, value, group = interaction(variable, region, Category), fill = variable), stat="identity", position="stack")
-  #p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3)
+  p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3)
+  if(natpoints){
+  p = p + geom_point(data=dtn,aes(x=Category,y=value,shape=model, group=interaction(Category,region,variable)), size = 3,show.legend = F)
+  }
   p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1,size=18),
                 axis.text.y  = element_text(size = 18),
                 plot.title = element_text(size = 20),
@@ -819,7 +823,7 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Ti
                 legend.text = element_text(size=18))
   p = p + ylab(lab) + xlab("")
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
-  p = p + scale_fill_brewer(palette="Spectral")
+  if(labels){p = p + scale_fill_brewer(palette="Spectral",labels=var.labels)}else{p = p + scale_fill_brewer(palette="Spectral")}
   #p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"), name=strsplit(regs[1], "|", fixed=T)[[1]][1])
   ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
