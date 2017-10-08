@@ -17,7 +17,7 @@ cfg$r         <- "IND"
 cfg$rname     <- "India"
 
 # Name of corresponding national model(s)
-cfg$model_nat <- c("AIM/Enduse 3.0","India MARKAL") # fill in the same model name(s) as used in the database
+cfg$model_nat <- c("AIM-India [IIMA]","India MARKAL") # fill in the same model name(s) as used in the database
 
 # Name of directory plots are stored in
 cfg$outdir    <- "graphs"
@@ -70,7 +70,7 @@ cfg$man_shapes=c("POLES 2014"        =  11,
                  "*DNE21+ V.14 (national)" = 2,
                  "*GCAM-USA_CDLINKS" = 1,
                  "*India MARKAL"     = 1,
-                 "*AIM/Enduse 3.0"   = 2)
+                 "*AIM-India [IIMA]"   = 2)
 
 # Linestyles         
 cfg$man_lines=c("POLES 2014"        =  "dotted", 
@@ -110,4 +110,4 @@ cfg$man_lines=c("POLES 2014"        =  "dotted",
                 "*DNE21+ V.14 (national)" = "dashed",
                 "*GCAM-USA_CDLINKS" = "solid",
                 "*India MARKAL"     = "solid",
-                "*AIM/Enduse 3.0"   = "dashed")
+                "*AIM-India [IIMA]"   = "dashed")

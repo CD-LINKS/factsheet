@@ -15,7 +15,7 @@ cfg$diag_infile <- "CDLINKS_diagnostics_compare_regions_2016-05-11"
 
 
 # Name of corresponding national model(s)
-cfg$models_nat <- c("COPPE-MSB_v2.0","China TIMES","PRIMES_V1","GEM-E3","IPAC-AIM/technology V1.0","AIM/Enduse 3.0",
+cfg$models_nat <- c("COPPE-MSB_v2.0","China TIMES","PRIMES_V1","GEM-E3","IPAC-AIM/technology V1.0","AIM-India [IIMA]",
                     "AIM/Enduse[Japan]","DNE21+ V.14 (national)","India MARKAL","RU-TIMES 3.2","GCAM-USA_CDLINKS")
 
 
@@ -71,7 +71,7 @@ cfg$man_shapes=c("POLES 2014"        =  11,
                  "*DNE21+ V.14 (national)" = 2,
                  "*GCAM-USA_CDLINKS" = 1,
                  "*India MARKAL"     = 1,
-                 "*AIM/Enduse 3.0"   = 2)
+                 "*AIM-India [IIMA]"   = 2)
 
 # Linestyles         
 cfg$man_lines=c("POLES 2014"        =  "dotted", 
@@ -111,7 +111,7 @@ cfg$man_lines=c("POLES 2014"        =  "dotted",
                 "*DNE21+ V.14 (national)" = "dashed",
                 "*GCAM-USA_CDLINKS" = "solid",
                 "*India MARKAL"     = "solid",
-                "*AIM/Enduse 3.0"   = "dashed")
+                "*AIM-India [IIMA]"   = "dashed")
 
 cfg$regions <- c( "BRA",  "CHN", "EU",  "IND", "JPN",
                  "R5ASIA", "R5LAM", "R5MAF", "R5OECD90+EU", "R5REF", "RUS",
