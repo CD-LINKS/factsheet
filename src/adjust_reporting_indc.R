@@ -152,15 +152,15 @@ all <- rbind(all,tmp1)
 # all<-rbind(all,tmp4)
 
 # Several fixes
-# 1. Change model name "AIM Enduse 3.0" to "AIM-India [IIAM]
+# 1. Change model name "AIM Enduse 3.0" to "AIM-India [IIMA]
 # 2. DNE21+: change from SAR GWP to AR4 GWP for Emissions|Kyoto Gases
 # 3. GEM-E3: Add AFOLU CO2 emissions based on average other models
 #    DNE21+: Add AFOLU emisisons based on average other models, except for World
 # 4. COPPE-COFEE: Add F-gases emissions based on average other models
 # 5. POLES: harmonise AFOLU CO2 emissions using FAOSTAT data
 
-# 1. change AIM|Enduse 3.0 to AIM-India[IIAM]
-all[model=="AIM/Enduse 3.0","model"] <- "*AIM-India [IIAM]"
+# 1. change AIM|Enduse 3.0 to AIM-India[IIMA]
+all[model=="AIM/Enduse 3.0","model"] <- "AIM-India [IIMA]"
 
 # 2. DNE21+ Kyto Gases are calculated using SAR GWPs, this should be changed to AR4 GWP
 tmp=all[model%in%c("DNE21+ V.14")&variable%in%c("Emissions|Kyoto Gases","Emissions|CO2", "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases")]
