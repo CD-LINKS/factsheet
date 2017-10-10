@@ -445,7 +445,7 @@ tc<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,
 vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Carbon Intensity of FE|rel2010")
 cats <- c("NoPOL","NPi","2030_low","2020_verylow")
 td<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
-                 yearlabglob=T,file_pre="ci_ei_scatter_baseyear", xlim=c(0,1), ylim=c(0,1))   
+                 yearlabglob=T,file_pre="ci_ei_scatter_baseyear", xlim=c(-0.1,1), ylim=c(-0.1,1))   
 
 vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Total CO2 Intensity of FE|rel2010")
 cats <- c("NoPOL","NPi","2030_low","2020_verylow")
