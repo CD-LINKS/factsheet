@@ -408,10 +408,12 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   p = p + scale_linetype_manual(values=cfg$man_lines)
   p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario")
   p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario")
-  if (range & length(unique(dt$Category))==3){
+  if (range & length(unique(dt$Category))==5){
     p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2030, xend=2030, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
     p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2030.5, xend=2030.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
     p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[3]], stat="identity", aes(x=2031, xend=2031, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+    p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[4]], stat="identity", aes(x=2031.5, xend=2031.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+    p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2032, xend=2032, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
     }
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
