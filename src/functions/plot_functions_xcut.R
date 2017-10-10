@@ -764,11 +764,12 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
 ####################### plot_stackbar_ghg ########################
 #############################################################
 
-plot_stackbar_ghg <- function(regs, dt, vars, cats,catsnat, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F,var.labels=NA,natpoints, error_bar=F){
+plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F, var.labels=NA, TotalEmis_var = "Emissions|Kyoto Gases", natpoints, error_bar=F){
   
   if(hist){dt[Category=="Historical"]$period<-per}
   
-  dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global",!variable=="Emissions|Kyoto Gases") #[2:length(vars)]
+  #dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global",!variable=="Emissions|Kyoto Gases") #[2:length(vars)]
+  dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global",!variable==TotalEmis_var) #[2:length(vars)]
   dta <- factor.data.frame(dta)
   #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
   for (cat in cats){
@@ -798,11 +799,13 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats,catsnat, per, out=cfg$outdir,
   dta <- filter(dta,!region %in% c("World"))
   
   #build data frame for overlaid errorbar showing model range for GHG total
-  dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
+  #dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
+  dtl <- filter(dt, region %in% regs, Category%in% cats, variable==TotalEmis_var, period %in% per,Scope=="global")
   dtl=data.table(dtl)
   dtl=dtl[,list(min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)),by=c("Category","variable","region","period","Scope","unit")]
 
-  if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="national")}
+  #if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="national")}
+  if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable==TotalEmis_var, period %in% per,Scope=="national")}
   
   dta$Category <- factor(dta$Category, levels = cats, ordered = T )
   dtl$Category <- factor(dtl$Category, levels = cats, ordered = T )
