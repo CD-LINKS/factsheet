@@ -133,7 +133,7 @@ source("functions/plot_functions_xcut.R")
 regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
 cats <- c("Historical","NoPOL","NPi","INDC", "2020_low", "2020_verylow")
 c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = cats,per=c(2030),file_pre="1c_CO2energy_2030"
-                                   ,lab = "Global energy CO2 emissions (Mt CO2/yr)",hist=T)
+                                   ,lab = "Global energy CO2 emissions (Mt CO2/yr)",hist=T,quantiles=F,colour=T)
 
 
 # Figure 1def (old) - Key regions -----------------------------------------------
@@ -159,18 +159,18 @@ c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = 
 regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
 cats <- c("Historical","NoPOL","NPi","INDC", "2020_low", "2020_verylow")
 d<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU"),cats = cats,per=c(2030),file_pre="1d_CO2land_2030"
-                         ,lab = "Global land CO2 emissions (Mt CO2/yr)",hist=T,medvar=c("Emissions|CO2|AFOLU"),med=T)
+                         ,lab = "Global land CO2 emissions (Mt CO2/yr)",hist=T,medvar=c("Emissions|CO2|AFOLU"),med=T,quantiles=F,colour=T)
 
 e<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CH4"),cats = cats,per=c(2030),file_pre="1e_CH4_2030"
-                         ,lab = "Global CH4 emissions (Mt CO2eq/yr)",hist=T,CO2eq=T,ylim=c(0,12000),ybreaks=c(0,3000,6000,9000,12000))
+                         ,lab = "Global CH4 emissions (Mt CO2eq/yr)",hist=T,CO2eq=T,ylim=c(0,12000),ybreaks=c(0,3000,6000,9000,12000),quantiles=F,colour=T)
 
 f<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|N2O"),cats = cats,per=c(2030),file_pre="1f_N2O_2030"
-                         ,lab = "Global N2O emissions (Mt CO2eq/yr)",hist=T,CO2eq=T,ylim=c(0,12000),ybreaks=c(0,3000,6000,9000,12000))
+                         ,lab = "Global N2O emissions (Mt CO2eq/yr)",hist=T,CO2eq=T,ylim=c(0,12000),ybreaks=c(0,3000,6000,9000,12000),quantiles=F,colour=T)
 
 # Figure 1 together -------------------------------------------------------
 library(gridExtra)
-g=arrangeGrob(a,c,d,e,f,ncol=3)
-ggsave(file=paste(cfg$outdir,"/Fig1.png",sep=""),g,width=20,height=10,dpi=200)
+# g=arrangeGrob(a,c,d,e,f,ncol=3)
+# ggsave(file=paste(cfg$outdir,"/Fig1.png",sep=""),g,width=20,height=10,dpi=200)
 
 library(grid)
 lay<-rbind(c(1,1,2,3),c(1,1,4,5))
@@ -185,12 +185,12 @@ a2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gase
                                   file_pre="1b_GHG_reg_2030", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
                                   modnames=T,mod.labels=c("AIM/CGE"="AIM","COPPE-COFFEE 1.0"="COFFEE","DNE21+ V.14"="DNE","GEM-E3"="GEM-E3","IMAGE 3.0"="IMAGE","MESSAGEix-GLOBIOM_1.0"="MESSAGE","POLES CDL"="POLES","REMIND-MAgPIE 1.7-3.0"="REMIND","WITCH2016"="WITCH",
                                                           "*COPPE-MSB_v2.0"="BRA-MSB","*China TIMES"="CHN-TIMES","*IPAC-AIM/technology V1.0"="CHN-IPAC","*GEM-E3"="EU-GEM-E3","*PRIMES_V1"="EU-PRIMES","*India MARKAL"="IND-Markal","*AIM-India [IIMA]"="IND-AIM","*AIM/Enduse[Japan]"="JPN-AIM","*DNE21+ V.14 (national)"="JPN-DNE","*RU-TIMES 3.2"="RUS-TIMES","*GCAM-USA_CDLINKS"="USA-GCAM"),
-                                  natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC")) 
+                                  natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"),quantiles=F) 
 a_excl<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases|Excl. AFOLU CO2"),cats = cats, years=c(2030),ylabel="GHG emissions excl. AFOLU CO2 (MtCO2eq/year)",
                                    file_pre="1b_GHG_excl_reg_2030", var.labels = c("GHG emissions excl. AFOLU CO2 (2030)"),b.multiyear = F,globpoints = T,hist=T,
                                    modnames=T,mod.labels=c("AIM/CGE"="AIM","COPPE-COFFEE 1.0"="COFFEE","DNE21+ V.14"="DNE","GEM-E3"="GEM-E3","IMAGE 3.0"="IMAGE","MESSAGEix-GLOBIOM_1.0"="MESSAGE","POLES CDL"="POLES","REMIND-MAgPIE 1.7-3.0"="REMIND","WITCH2016"="WITCH",
                                                            "*COPPE-MSB_v2.0"="BRA-MSB","*China TIMES"="CHN-TIMES","*IPAC-AIM/technology V1.0"="CHN-IPAC","*GEM-E3"="EU-GEM-E3","*PRIMES_V1"="EU-PRIMES","*India MARKAL"="IND-Markal","*AIM-India [IIMA]"="IND-AIM","*AIM/Enduse[Japan]"="JPN-AIM","*DNE21+ V.14 (national)"="JPN-DNE","*RU-TIMES 3.2"="RUS-TIMES","*GCAM-USA_CDLINKS"="USA-GCAM"),
-                                   natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC")) 
+                                   natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"),quantiles=F) 
 
 # stacked bar per region
 regs <- c("BRA")
@@ -201,7 +201,7 @@ b2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                                  "Emissions|CH4"="CH4",
                                                                                                                                  "Emissions|N2O"="N2O",
                                                                                                                                  "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T)
+                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
 
 regs <- c("CHN")
 c2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -210,7 +210,7 @@ c2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                                 "Emissions|CH4"="CH4",
                                                                                                                                            "Emissions|N2O"="N2O",
                                                                                                                                           "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T)
+                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
 
 regs <- c("IND")
 d2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -219,7 +219,7 @@ d2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                                 "Emissions|CH4"="CH4",
                                                                                                                                            "Emissions|N2O"="N2O",
                                                                                                                                 "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T)
+                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
 
 regs <- c("JPN")
 e2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -228,7 +228,7 @@ e2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                                 "Emissions|CH4"="CH4",
                                                                                                                                            "Emissions|N2O"="N2O",
                                                                                                                                 "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T)
+                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
 
 regs <- c("USA")
 f2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -237,7 +237,7 @@ f2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                               "Emissions|CH4"="CH4",
                                                                                                                                          "Emissions|N2O"="N2O",
                                                                                                                               "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T)
+                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
 
 regs <- c("EU")
 g2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -246,7 +246,7 @@ g2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                             "Emissions|CH4"="CH4",
                                                                                                                                        "Emissions|N2O"="N2O",
                                                                                                                             "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T)
+                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
 
 regs <- c("RUS")
 h2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -255,14 +255,14 @@ h2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                                  "Emissions|CH4"="CH4",
                                                                                                                                             "Emissions|N2O"="N2O",
                                                                                                                                  "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T)
+                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
 
 # Together
-g=arrangeGrob(a2,b2,c2,d2,e2,f2,g2,h2,ncol=4)
-ggsave(file=paste(cfg$outdir,"/Fig2.png",sep=""),g,width=22,height=12,dpi=200)
-
-g=arrangeGrob(a2,b2,c2,d2,e2,f2,g2,h2,ncol=2)
-ggsave(file=paste(cfg$outdir,"/Fig2_vertical.png",sep=""),g,width=20,height=22,dpi=200)
+# g=arrangeGrob(a2,b2,c2,d2,e2,f2,g2,h2,ncol=4)
+# ggsave(file=paste(cfg$outdir,"/Fig2.png",sep=""),g,width=22,height=12,dpi=200)
+# 
+# g=arrangeGrob(a2,b2,c2,d2,e2,f2,g2,h2,ncol=2)
+# ggsave(file=paste(cfg$outdir,"/Fig2_vertical.png",sep=""),g,width=20,height=22,dpi=200)
 
 tmp<-ggplot_gtable(ggplot_build(b2))
 leg<-which(sapply(tmp$grobs,function(x) x$name) =="guide-box")
@@ -337,17 +337,17 @@ write.csv2(v_emi_cumrel, file = "data/WP3_3/EmissionBudgets.csv", row.names = F,
 
 
 #plotting
-source("functions/plot_functions_xcut.R")
-regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS")
-two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2050),ylabel="CO2 budget 2011-2050",
-                                  file_pre="2_budget_reg_2050", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multicat=T,globpoints = T) #,b.multicat = T, b.multivar=T,
-two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2050),ylabel="CO2 budget 2011-2050",
-                                    file_pre="2_budget_reg_2050_2", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multivar=T,globpoints=T) #,b.multicat = T, b.multivar=T,
-
-two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel2,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2100),ylabel="CO2 budget 2011-2100",
-                                    file_pre="2_budget_reg_2100", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multicat=T,globpoints=T) #,b.multicat = T, b.multivar=T,
-two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel2,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2100),ylabel="CO2 budget 2011-2100",
-                                    file_pre="2_budget_reg_2100_2", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multivar=T,globpoints = T) #,b.multicat = T, b.multivar=T,
+# source("functions/plot_functions_xcut.R")
+# regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS")
+# two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2050),ylabel="CO2 budget 2011-2050",
+#                                   file_pre="2_budget_reg_2050", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multicat=T,globpoints = T) #,b.multicat = T, b.multivar=T,
+# two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2050),ylabel="CO2 budget 2011-2050",
+#                                     file_pre="2_budget_reg_2050_2", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multivar=T,globpoints=T) #,b.multicat = T, b.multivar=T,
+# 
+# two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel2,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2100),ylabel="CO2 budget 2011-2100",
+#                                     file_pre="2_budget_reg_2100", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multicat=T,globpoints=T) #,b.multicat = T, b.multivar=T,
+# two<-plot_pointrange_multiScen_glob(regs=regs,dt=v_emi_cumrel2,vars=c("Budget|Emissions|CO2","CO2rel2010"),cats = cats, years=c(2100),ylabel="CO2 budget 2011-2100",
+#                                     file_pre="2_budget_reg_2100_2", var.labels = c("CO2 budget (MtCO2)","Emission years (yr)"),b.multivar=T,globpoints = T) #,b.multicat = T, b.multivar=T,
 
 # PDF-style 
 theme_set(ggplot2::theme_bw(base_size = 15))
@@ -425,21 +425,21 @@ ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2100","_multiregbox.png"
 # Figure 4 - implementation -----------------------------------------------
 # Kaya
 source("functions/plot_functions.R")
-vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
-cats <- c("NPi","INDC","2020_verylow","2020_low","2020_high","2030_low","2030_high")
-#ta1<-plot_bar_facet(reg="World",dt=all[period==2050],vars=vars,cats=cats,lab="Kaya factors; 2050)",file_pre="3_kaya_2050_bar")   
-ta2<-plot_bar_facet2(reg="World",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2", b.legend=T,legendorder=c("NPi","INDC","2030_high","2020_high","2030_low","2020_low","2020_verylow")) 
-ta3<-plot_bar_facet2(reg="World",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2", b.legend=T,legendorder=c("NPi","INDC","2030_high","2020_high","2030_low","2020_low","2020_verylow")) 
+# vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
+# cats <- c("NPi","INDC","2020_verylow","2020_low","2020_high","2030_low","2030_high")
+# #ta1<-plot_bar_facet(reg="World",dt=all[period==2050],vars=vars,cats=cats,lab="Kaya factors; 2050)",file_pre="3_kaya_2050_bar")   
+# ta2<-plot_bar_facet2(reg="World",dt=all,year=2030,vars=vars,cats=cats,lab="Kaya factors - GHG; 2030",file_pre="kaya_GHG_2030_bar2", b.legend=T,legendorder=c("NPi","INDC","2030_high","2020_high","2030_low","2020_low","2020_verylow")) 
+# ta3<-plot_bar_facet2(reg="World",dt=all,year=2050,vars=vars,cats=cats,lab="Kaya factors - GHG; 2050",file_pre="kaya_GHG_2050_bar2", b.legend=T,legendorder=c("NPi","INDC","2030_high","2020_high","2030_low","2020_low","2020_verylow")) 
 
-library(gridExtra)
-g=arrangeGrob(ta2,ta3,ncol=2)
-ggsave(file=paste(cfg$outdir,"/Fig3_old.png",sep=""),g,width=20,height=10,dpi=200)
+# library(gridExtra)
+# g=arrangeGrob(ta2,ta3,ncol=2)
+# ggsave(file=paste(cfg$outdir,"/Fig3_old.png",sep=""),g,width=20,height=10,dpi=200)
 
 #CI vs. EI
-vars <- c(x="Energy intensity improvement rel. to Base",y="Carbon intensity improvement rel. to Base")
-cats <- c("NoPOL","NPi","2030_low","2020_verylow")
-tc<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
-                 yearlabglob=T,file_pre="ci_ei_scatter")   
+# vars <- c(x="Energy intensity improvement rel. to Base",y="Carbon intensity improvement rel. to Base")
+# cats <- c("NoPOL","NPi","2030_low","2020_verylow")
+# tc<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
+#                  yearlabglob=T,file_pre="ci_ei_scatter")   
 
 #CI vs. EI relative to 2010
 vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Carbon Intensity of FE|rel2010")
@@ -447,18 +447,18 @@ cats <- c("NoPOL","NPi","2030_low","2020_verylow")
 td<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
                  yearlabglob=T,file_pre="ci_ei_scatter_baseyear", xlim=c(-0.1,1), ylim=c(-0.1,1))   
 
-vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Total CO2 Intensity of FE|rel2010")
-cats <- c("NoPOL","NPi","2030_low","2020_verylow")
-te<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
-                 yearlabglob=T,file_pre="ci_ei_scatter_baseyear_totalCO2")   
+# vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Total CO2 Intensity of FE|rel2010")
+# cats <- c("NoPOL","NPi","2030_low","2020_verylow")
+# te<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
+#                  yearlabglob=T,file_pre="ci_ei_scatter_baseyear_totalCO2")   
 
-source("functions/plot_functions_xcut.R")
-#CI vs. EI split out and for regions
-regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
-cats <- c("NoPOL","NPi","2030_low","2020_verylow")
-tf<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Carbon Intensity of Fuel|rel2010","Carbon Intensity of Electricity|rel2010","Energy Intensity of GDP|MER|rel2010"),
-                                   cats=cats,years=2050,file_pre="CI_EI_2050_regions",ylabel="Carbon and energy intensity relative to 2010",
-                                   b.multicat=F,globpoints = T,b.multivar=T,var.labels=c("CI fuel","CI electricity","EI"),ylim=c(-0.5,1.5))
+# source("functions/plot_functions_xcut.R")
+# #CI vs. EI split out and for regions
+# regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
+# cats <- c("NoPOL","NPi","2030_low","2020_verylow")
+# tf<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Carbon Intensity of Fuel|rel2010","Carbon Intensity of Electricity|rel2010","Energy Intensity of GDP|MER|rel2010"),
+#                                    cats=cats,years=2050,file_pre="CI_EI_2050_regions",ylabel="Carbon and energy intensity relative to 2010",
+#                                    b.multicat=F,globpoints = T,b.multivar=T,var.labels=c("CI fuel","CI electricity","EI"),ylim=c(-0.5,1.5))
 
 #EI vs. CI split out - ternary diagram - TODO?
 #library(ggtern)
@@ -467,23 +467,31 @@ tf<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Carbon Intensity of 
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
 cats <- c("NPi","2030_low","2020_verylow") #"2020_high","2020_low","2030_high","2030_low"
-tb1<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2100,file_pre="MitiCosts_2100_mitigscens",ylabel="Mitigation costs as % of GDP (2100)",b.multicat=T,globpoints = T)
-tb2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2050,file_pre="MitiCosts_2050_mitigscens",ylabel="Mitigation costs as % of GDP (2050)",b.multicat=T,globpoints=T)
-g=arrangeGrob(tb2,tb1,ncol=1)
-ggsave(file=paste(cfg$outdir,"/Fig4c.png",sep=""),g,width=16,height=12,dpi=200)
+# tb1<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2100,file_pre="MitiCosts_2100_mitigscens",ylabel="Mitigation costs as % of GDP (2100)",b.multicat=T,globpoints = T)
+tb2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2050,file_pre="MitiCosts_2050_mitigscens",
+                                    ylabel="Mitigation costs as % of GDP (2050)",b.multicat=T,globpoints=T,quantiles=F)
+regs <- c("World")
+tb3<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=c(2030,2050,2100),file_pre="MitiCosts_2050_mitigscens",
+                                    ylabel="Mitigation costs as % of GDP (2050)",b.multiyear=T,globpoints=T,quantiles=F,nonreg=T)
+
+# g=arrangeGrob(tb2,tb1,ncol=1)
+# ggsave(file=paste(cfg$outdir,"/Fig4c.png",sep=""),g,width=16,height=12,dpi=200)
 
 # Combined - figure 4
-g=arrangeGrob(tc,tb2,ncol=2)
-ggsave(file=paste(cfg$outdir,"/Fig4_new.png",sep=""),g,width=24,height=12,dpi=200)
-
-g=arrangeGrob(td,tb2,ncol=2)
-ggsave(file=paste(cfg$outdir,"/Fig4_newer.png",sep=""),g,width=24,height=12,dpi=200)
-
-g=arrangeGrob(td,tf,tb2,ncol=1)
-ggsave(file=paste(cfg$outdir,"/Fig4.png",sep=""),g,width=22,height=18,dpi=200)
+# g=arrangeGrob(tc,tb2,ncol=2)
+# ggsave(file=paste(cfg$outdir,"/Fig4_new.png",sep=""),g,width=24,height=12,dpi=200)
+# 
+# g=arrangeGrob(td,tb2,ncol=2)
+# ggsave(file=paste(cfg$outdir,"/Fig4_newer.png",sep=""),g,width=24,height=12,dpi=200)
+# 
+# g=arrangeGrob(td,tf,tb2,ncol=1)
+# ggsave(file=paste(cfg$outdir,"/Fig4.png",sep=""),g,width=22,height=18,dpi=200)
 
 g=arrangeGrob(td,tb2,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig4_ac.png",sep=""),g,width=22,height=18,dpi=200)
+
+g=arrangeGrob(td,tb3,ncol=1)
+ggsave(file=paste(cfg$outdir,"/Fig4_global.png",sep=""),g,width=22,height=18,dpi=200)
 
 # Figure 5 - Non-CO2? -----------------------------------------------------
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
