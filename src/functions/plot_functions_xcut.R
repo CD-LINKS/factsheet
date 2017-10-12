@@ -476,7 +476,7 @@ plot_boxplot4 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
 
 #plot function for pointrange (instead of boxplot) - multi-year, one variable
 plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,
-                                         b.multivar =  F, b.multiyear = F, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F){
+                                         b.multivar =  F, b.multiyear = F, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,quantiles=T,minprob=0.1,maxprob=0.9){
   
   
   dt <- dt[ variable %in% vars & period %in% years & Category %in% union(catsnat, catglob) & region %in% regs & !is.na(value)] %>% factor.data.frame()
@@ -496,7 +496,9 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
     dtg[model==mod]=dtg[model==mod&region %in% regions[model==mod]$region]
   }
   
-  dtg1 <-dtg[,list(mean=median(value),min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)),by=c("scenario","Category","Baseline","region","period","Scope","unit","variable")]
+  if(quantiles){dtg1 <-dtg[,list(mean=median(value),min=quantile(value,prob=minprob),max=quantile(value,prob=maxprob)),by=c("scenario","Category","Baseline","region","period","Scope","unit","variable")]
+  }else{dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("scenario","Category","Baseline","region","period","Scope","unit","variable")]}
+  
   dtn <- dt[Scope=="national" & variable %in% vars & period %in% years & Category %in% catsnat & region %in% regs] %>%
     rename(National = model ) %>% factor.data.frame()
   
@@ -551,7 +553,7 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
 #plot function for pointrange (instead of boxplot) - multi-year, one variable
 plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,ylabel="",
                                          b.multivar =  F, b.multiyear = F, b.multicat = F, b.multireg=F,var.labels = NA, modnames=F, mod.labels=NA, 
-                                         ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,natpoints=F,nonreg=F,hist=F,nrow,ncol){
+                                         ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,natpoints=F,nonreg=F,hist=F,nrow,ncol,quantiles=T,minprob=0.1,maxprob=0.9){
   
   if(hist){ dt$period<-as.numeric(dt$period)
             dt[Category=="Historical"]$period<-years}
@@ -572,7 +574,10 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
   }
   
   baselines <-dtg[,list(Baseline=unique(Baseline)),by=c("Category","region","period","Scope","unit","variable")]
-  dtg1 <-dtg[,list(mean=median(value),min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)),by=c("Category","region","period","Scope","unit","variable")]
+  if(quantiles){dtg1 <-dtg[,list(mean=median(value),min=quantile(value,prob=minprob),max=quantile(value,prob=maxprob)),by=c("Category","region","period","Scope","unit","variable")]
+  }else{
+    dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("Category","region","period","Scope","unit","variable")]
+  }
   dtg1=merge(dtg1,baselines,by=c("Category","region","period","Scope","unit","variable"))
   
   if(natpoints){dtn <- dt[Scope=="national" & variable %in% vars & period %in% years & Category %in% catsnat & region %in% regs] %>%
@@ -670,7 +675,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
       p = p + guides(colour=guide_legend(override.aes=list(size=1)))
       ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=120)
     }else{
-    p = p + ggtitle(paste0( var.labels[1]))
+    #p = p + ggtitle(paste0( var.labels[1]))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 18),
                   axis.text.y  = element_text(size = 18),
                   plot.title = element_text(hjust = 1, size = 20),
@@ -689,7 +694,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
 ####################### plot_stackbar_regions ########################
 #############################################################
 
-plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NULL,hist=F,medvar,med=F,CO2eq=F){
+plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NULL,hist=F,medvar,med=F,CO2eq=F,quantiles=T,minprob=0.1,maxprob=0.9,colour=F){
   
   if(hist){dt[Category=="Historical"]$period<-per}
   
@@ -736,7 +741,10 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   #build data frame for overlaid errorbar showing model range for world total
   dtl <- filter(dt, region %in% c("World"), Category%in% cats, variable%in% vars, period %in% per)
   dtl=data.table(dtl)
-  dtl=dtl[,list(min=quantile(value,prob=0.1),max=quantile(value,prob=0.9),median=median(value)),by=c("Category","variable","region","period","Scope","unit")]
+  if(quantiles){dtl=dtl[,list(min=quantile(value,prob=minprob),max=quantile(value,prob=maxprob),median=median(value)),
+               by=c("Category","variable","region","period","Scope","unit")]
+  }else{dtl=dtl[,list(min=min(value),max=max(value),median=median(value)),
+                by=c("Category","variable","region","period","Scope","unit")]}
   
   dta$Category <- factor(dta$Category, levels = cats, ordered = T )
   dta$region <- factor(dta$region, levels = regs, ordered = T )
@@ -754,8 +762,8 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
                 legend.text = element_text(size=18))
   p = p + ylab(lab) + xlab("")
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
-  p = p + scale_fill_brewer(palette="Spectral")
-  #p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"), name=strsplit(regs[1], "|", fixed=T)[[1]][1])
+  if(colour){p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"))}
+  else{p = p + scale_fill_brewer(palette="Spectral")}
   ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
 }
@@ -764,7 +772,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
 ####################### plot_stackbar_ghg ########################
 #############################################################
 
-plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F, var.labels=NA, TotalEmis_var = "Emissions|Kyoto Gases", natpoints, error_bar=F){
+plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F, var.labels=NA, TotalEmis_var = "Emissions|Kyoto Gases", natpoints, error_bar=F,quantiles=T,minprob=0.1,maxprob=0.9){
   
   if(hist){dt[Category=="Historical"]$period<-per}
   
@@ -802,7 +810,8 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir
   #dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
   dtl <- filter(dt, region %in% regs, Category%in% cats, variable==TotalEmis_var, period %in% per,Scope=="global")
   dtl=data.table(dtl)
-  dtl=dtl[,list(min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)),by=c("Category","variable","region","period","Scope","unit")]
+  if(quantiles){dtl=dtl[,list(min=quantile(value,prob=minprob),max=quantile(value,prob=maxprob)),by=c("Category","variable","region","period","Scope","unit")]
+  }else{dtl=dtl[,list(min=min(value),max=max(value)),by=c("Category","variable","region","period","Scope","unit")]}
 
   #if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="national")}
   if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable==TotalEmis_var, period %in% per,Scope=="national")}
