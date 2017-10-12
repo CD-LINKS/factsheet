@@ -122,16 +122,25 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   
 }# end if-else: load and process stocktaking data
 
+
+# Change scenario names for paper -----------------------------------------
+all$Category=str_replace_all(all$Category,"NoPOL","No policy")
+all$Category=str_replace_all(all$Category,"INDC","NDC")
+all$Category=str_replace_all(all$Category,"NPip","National policies planned")
+all$Category=str_replace_all(all$Category,"NPi","National policies")
+all$Category=str_replace_all(all$Category,"2020_low","Carbon budget 1000")
+all$Category=str_replace_all(all$Category,"2020_verylow","Carbon budget 400")
+
 # Figure 1a - time series -------------------------------------------------
 source("functions/plot_functions.R")
-cats <- c("NoPOL","NPi","INDC","2020_low","2020_verylow")
+cats <- c("No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
 a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto greenhouse gas emissions",
              file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(2010,2032),ylim=c(20000,75000),range=T,median=T)
 
 # Figure 1c - GHG sources -------------------------------------------------
 source("functions/plot_functions_xcut.R")
 regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
-cats <- c("Historical","NoPOL","NPi","INDC", "2020_low", "2020_verylow")
+cats <- c("Historical","No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
 c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = cats,per=c(2030),file_pre="1c_CO2energy_2030"
                                    ,lab = "Global energy CO2 emissions (Mt CO2/yr)",hist=T,quantiles=F,colour=T)
 
@@ -157,7 +166,7 @@ c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = 
 
 # Figure 1def (new) - GHG sources ----------------------------------------
 regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
-cats <- c("Historical","NoPOL","NPi","INDC", "2020_low", "2020_verylow")
+cats <- c("Historical","No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
 d<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU"),cats = cats,per=c(2030),file_pre="1d_CO2land_2030"
                          ,lab = "Global land CO2 emissions (Mt CO2/yr)",hist=T,medvar=c("Emissions|CO2|AFOLU"),med=T,quantiles=F,colour=T)
 
@@ -180,7 +189,7 @@ ggsave(file=paste(cfg$outdir,"/Fig1_arrange.png",sep=""),h,width=20,height=12,dp
 # Figure 2 - regions -----------------------------------------------------
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA")
-cats <- c("Historical","NoPOL","NPi","INDC")
+cats <- c("Historical","No policy","National policies","NDC")
 a2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),ylabel="GHG emissions (MtCO2eq/year)",
                                   file_pre="1b_GHG_reg_2030", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
                                   modnames=T,mod.labels=c("AIM/CGE"="AIM","COPPE-COFFEE 1.0"="COFFEE","DNE21+ V.14"="DNE","GEM-E3"="GEM-E3","IMAGE 3.0"="IMAGE","MESSAGEix-GLOBIOM_1.0"="MESSAGE","POLES CDL"="POLES","REMIND-MAgPIE 1.7-3.0"="REMIND","WITCH2016"="WITCH",
@@ -194,7 +203,7 @@ a_excl<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto 
 
 # stacked bar per region
 regs <- c("BRA")
-cats <- c("Historical","NoPOL","NPi","INDC", "2020_low", "2020_verylow")
+cats <- c("Historical","No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
 b2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
                       per=c(2030),file_pre="2b_BRA_2030",lab = "Brazil GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c( "Emissions|CO2|Energy"="CO2 Energy",
                                                                                                                                  "Emissions|CO2|AFOLU"="CO2 AFOLU",
@@ -284,8 +293,8 @@ regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS","RoW","World")
 mods <- unique(all$model)
 vars <- "Emissions|CO2"
 #cats <- c("NoPOL","NPi","INDC", "2030_high", "2030_low", "2020_high", "2020_low", "2020_verylow")
-cats <- c("NoPOL","NPi","INDC", "2030_low", "2020_low", "2020_verylow")
-scens2deg <- c("INDC", "2030_high", "2030_low", "2020_verylow")
+cats <- c("No policy","National policies","NDC","2030_low","Carbon budget 1000","Carbon budget 400")
+scens2deg <- c("NDC", "2030_high", "2030_low", "Carbon budget 400")
 
 #calculate emissions and 2050 budgets
 v_emireg <- all %>%
@@ -443,7 +452,7 @@ source("functions/plot_functions.R")
 
 #CI vs. EI relative to 2010
 vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Carbon Intensity of FE|rel2010")
-cats <- c("NoPOL","NPi","2030_low","2020_verylow")
+cats <- c("No policy","National policies","Carbon budget 1000","Carbon budget 400")
 td<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
                  yearlabglob=T,file_pre="ci_ei_scatter_baseyear", xlim=c(-0.1,1), ylim=c(-0.1,1))   
 
@@ -466,7 +475,8 @@ td<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,
 # Mitigation costs
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
-cats <- c("NPi","2030_low","2020_verylow") #"2020_high","2020_low","2030_high","2030_low"
+cats <- c("National policies","Carbon budget 1000","Carbon budget 400")
+#"2020_high","2020_low","2030_high","2030_low"
 # tb1<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2100,file_pre="MitiCosts_2100_mitigscens",ylabel="Mitigation costs as % of GDP (2100)",b.multicat=T,globpoints = T)
 tb2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2050,file_pre="MitiCosts_2050_mitigscens",
                                     ylabel="Mitigation costs as % of GDP (2050)",b.multicat=T,globpoints=T,quantiles=F)
