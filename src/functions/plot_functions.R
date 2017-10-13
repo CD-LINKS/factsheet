@@ -388,9 +388,9 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   dt$period=as.numeric(dt$period)
   
   dt$variable <- factor(dt$variable, levels = c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"))
-  UNEP=data.table(`UNEP (2016) range`=c("Median","Max", "Min"),Category="INDCi",
+  UNEP=data.table(`UNEP (2016) range for conditional NDCs`=c("Median","10%-percentile", "90%-percentile"),Category="INDCi",
                   Baseline="NoPolicy",model="UNEP",region="World",
-                  period=2030,Scope="global",value=c(55500,57500), 
+                  period=2030,Scope="global",value=c(53400,49500,54700), 
                   unit="Mt CO2-equiv./yr",variable="Emissions|Kyoto Gases")
   
 
@@ -419,7 +419,7 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + ylab(paste(unitsy))
   p = p + facet_grid(variable ~ region,scales="free_y")
-  p = p + geom_point(data=UNEP,aes(x=period,y=value,shape=`UNEP (2016) range`))
+  p = p + geom_point(data=UNEP,aes(x=period,y=value,shape=`UNEP (2016) range for conditional NDCs`))
   p = p + ggtitle(title) + ggplot2::theme_bw() 
   p = p + theme(axis.text=element_text(size=18),
                 axis.title=element_text(size=18),

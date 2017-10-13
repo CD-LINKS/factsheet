@@ -81,6 +81,9 @@ add_variables <- function(all,scens){
     all <- calcRel2Base(all,var="Energy Intensity of GDP|MER",baseEq1=F,"Energy intensity improvement rel. to Base",scens)
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
+    #all <- calcVariable(all,'`Emissions|Non-CO2` ~ 0.298 * `Emissions|CH4|Energy|Supply` + `Emissions|N2O|Energy|Supply` ' , newUnit='')
+    #all <- calcVariable(all,'`Emissions|Non-CO2` ~ 25 * `Emissions|CH4|Energy|Supply` + 0.298 * `Emissions|N2O|Energy` ' , newUnit='')
+    all <- calcVariable(all,'`Emissions|Non-CO2` ~ 25 * (`Emissions|CH4|Energy|Supply`+ `Emissions|CH4|Energy|Demand|Industry` + `Emissions|CH4|Energy|Demand|Residential and Commercial` + `Emissions|CH4|Energy|Demand|Transportation` + `Emissions|CH4|AFOLU`) + 0.298 * (`Emissions|N2O|Energy` + `Emissions|N2O|AFOLU`)' , newUnit='Mt CO2-equiv/yr')
     
     # Check if this is possible with new snapshot?
     #all <- calcVariable(all,'`FE freight/tkm` ~ `Final Energy|Transportation|Freight`/`Energy Service|Transportation|Freight` ' , newUnit='EJ/bn tkm')
