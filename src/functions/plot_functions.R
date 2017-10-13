@@ -172,7 +172,7 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
   #normal points for global models
   p = p + geom_point(data=dt[Scope=="global"],aes(x=x,y=y,color=Category,shape=model))
   #big points for national models
-  p = p + geom_point(data=dt[Scope=="national"],aes(x=x,y=y,color=Category,shape=model),size=4,show.legend = FALSE)
+  p = p + geom_point(data=dt[Scope=="national"],aes(x=x,y=y,color=Category,shape=model),size=10,show.legend = FALSE)
   #label for some years
   #optional: connection lines for each model-scenario
   if (connect){p = p + geom_path(data=dt,aes(x=x,y=y,color=Category,shape=model,linetype=Scope,
@@ -388,7 +388,7 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   dt$period=as.numeric(dt$period)
   
   dt$variable <- factor(dt$variable, levels = c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"))
-  UNEP=data.table(`UNEP (2016) range`=c("Median","Max"),Category="INDCi",
+  UNEP=data.table(`UNEP (2016) range`=c("Median","Max", "Min"),Category="INDCi",
                   Baseline="NoPolicy",model="UNEP",region="World",
                   period=2030,Scope="global",value=c(55500,57500), 
                   unit="Mt CO2-equiv./yr",variable="Emissions|Kyoto Gases")
