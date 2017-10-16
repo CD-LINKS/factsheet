@@ -15,7 +15,7 @@ library(gridExtra) #arrangeGrob
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20171003-192701"
+cfg$infile <- "cdlinks_compare_20171015-114529"
 cfg$outdir    <- "paper graphs"
 
 #source function for factorizing data frames
@@ -168,7 +168,7 @@ c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = 
 regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
 cats <- c("Historical","No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
 d<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU"),cats = cats,per=c(2030),file_pre="1d_CO2land_2030"
-                         ,lab = "Mt CO2/yr",title=T,Title="Global land CO2 emissions",hist=T,medvar=c("Emissions|CO2|AFOLU"),med=T,quantiles=F,colour=T)
+                         ,lab = "Mt CO2/yr",title=T,Title="Global AFOLU CO2 emissions",hist=T,medvar=c("Emissions|CO2|AFOLU"),med=T,quantiles=F,colour=T)
 
 e<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CH4"),cats = cats,per=c(2030),file_pre="1e_CH4_2030"
                          ,lab = "Mt CO2eq/yr",title=T,Title="Global CH4 emissions",hist=T,CO2eq=T,ylim=c(0,12000),ybreaks=c(0,3000,6000,9000,12000),quantiles=F,colour=T)
