@@ -511,12 +511,12 @@ five<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("CO2 emissions rel.
 # Figure 2 - regions ALTERNATIVE-----------------------------------------------------
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA")
-cats <- c("Historical","NoPOL","NPi","INDC")
+cats <- c("Historical","No Policy","National policies","NDC", "Carbon budget 1000", "Carbon budget 400")
 a2_alt<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),ylabel="GHG emissions (MtCO2eq/year)",
                                    file_pre="1b_GHG_reg_2030_alt", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
                                    modnames=T,mod.labels=c("AIM/CGE"="AIM","COPPE-COFFEE 1.0"="COFFEE","DNE21+ V.14"="DNE","GEM-E3"="GEM-E3","IMAGE 3.0"="IMAGE","MESSAGEix-GLOBIOM_1.0"="MESSAGE","POLES CDL"="POLES","REMIND-MAgPIE 1.7-3.0"="REMIND","WITCH2016"="WITCH",
                                                            "*COPPE-MSB_v2.0"="BRA-MSB","*China TIMES"="CHN-TIMES","*IPAC-AIM/technology V1.0"="CHN-IPAC","*GEM-E3"="EU-GEM-E3","*PRIMES_V1"="EU-PRIMES","*India MARKAL"="IND-Markal","*AIM-India [IIMA]"="IND-AIM","*AIM/Enduse[Japan]"="JPN-AIM","*DNE21+ V.14 (national)"="JPN-DNE","*RU-TIMES 3.2"="RUS-TIMES","*GCAM-USA_CDLINKS"="USA-GCAM"),
-                                   natpoints=F,catsnat=c("Historical","NoPOL","NPi","INDC")) 
+                                   natpoints=F,catsnat=c("Historical","No Policy","National policies","NDC", "", "")) 
 # stacked bar per region
 UseErrorBars = T
 regs <- c("BRA")
