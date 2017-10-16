@@ -635,8 +635,8 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
     }else{
     p = p + scale_color_manual( values=plotstyle(cats),
                               labels =  plotstyle(cats, out = "legend"),name="Scenario" )}
-    if(modnames){p = p + scale_shape_manual(values=cfg$man_shapes,labels=mod.labels)}else{
-      p = p + scale_shape_manual(values=cfg$man_shapes)}
+    if(modnames){p = p + scale_shape_manual(values=cfg$man_shapes,labels=mod.labels,name="Model")}else{
+      p = p + scale_shape_manual(values=cfg$man_shapes,name="Model")}
   #p = p + scale_shape_manual(values=plotstyle(cats, out="shape"))
   
   if (!is.null(ylim))
@@ -694,7 +694,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
 ####################### plot_stackbar_regions ########################
 #############################################################
 
-plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NULL,hist=F,medvar,med=F,CO2eq=F,quantiles=T,minprob=0.1,maxprob=0.9,colour=F){
+plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="ylab",title=F,Title="Title", file_pre="stackbar",ylim=NA,ybreaks=NULL,hist=F,medvar,med=F,CO2eq=F,quantiles=T,minprob=0.1,maxprob=0.9,colour=F){
   
   if(hist){dt[Category=="Historical"]$period<-per}
   
@@ -761,8 +761,9 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
                 legend.title = element_text(size=18),
                 legend.text = element_text(size=18))
   p = p + ylab(lab) + xlab("")
+  if(title){p = p + ggtitle(Title)}
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
-  if(colour){p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"))}
+  if(colour){p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"),name="Region")}
   else{p = p + scale_fill_brewer(palette="Spectral")}
   ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
   return(p)
@@ -772,7 +773,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
 ####################### plot_stackbar_ghg ########################
 #############################################################
 
-plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir, lab="Title", file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F, var.labels=NA, TotalEmis_var = "Emissions|Kyoto Gases", natpoints, error_bar=F,quantiles=T,minprob=0.1,maxprob=0.9){
+plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir, lab="ylab",title=F,Title="Title",file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F, var.labels=NA, TotalEmis_var = "Emissions|Kyoto Gases", natpoints, error_bar=F,quantiles=T,minprob=0.1,maxprob=0.9){
   
   if(hist){dt[Category=="Historical"]$period<-per}
   
@@ -835,8 +836,9 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir
                 legend.title = element_text(size=18),
                 legend.text = element_text(size=18))
   p = p + ylab(lab) + xlab("")
+  if(title){p = p + ggtitle(Title)}
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
-  if(labels){p = p + scale_fill_brewer(palette="Spectral",labels=var.labels)}else{p = p + scale_fill_brewer(palette="Spectral")}
+  if(labels){p = p + scale_fill_brewer(palette="Spectral",labels=var.labels,name="Variable")}else{p = p + scale_fill_brewer(palette="Spectral",name="Variable")}
   #p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"), name=strsplit(regs[1], "|", fixed=T)[[1]][1])
   ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
   return(p)

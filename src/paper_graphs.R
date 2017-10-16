@@ -142,7 +142,7 @@ source("functions/plot_functions_xcut.R")
 regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
 cats <- c("Historical","No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
 c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = cats,per=c(2030),file_pre="1c_CO2energy_2030"
-                                   ,lab = "Global energy CO2 emissions (Mt CO2/yr)",hist=T,quantiles=F,colour=T)
+                                   ,lab = "Mt CO2/yr",title=T,Title="Global energy CO2 emissions",hist=T,quantiles=F,colour=T)
 
 
 # Figure 1def (old) - Key regions -----------------------------------------------
@@ -168,13 +168,13 @@ c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = 
 regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
 cats <- c("Historical","No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
 d<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|AFOLU"),cats = cats,per=c(2030),file_pre="1d_CO2land_2030"
-                         ,lab = "Global land CO2 emissions (Mt CO2/yr)",hist=T,medvar=c("Emissions|CO2|AFOLU"),med=T,quantiles=F,colour=T)
+                         ,lab = "Mt CO2/yr",title=T,Title="Global land CO2 emissions",hist=T,medvar=c("Emissions|CO2|AFOLU"),med=T,quantiles=F,colour=T)
 
 e<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CH4"),cats = cats,per=c(2030),file_pre="1e_CH4_2030"
-                         ,lab = "Global CH4 emissions (Mt CO2eq/yr)",hist=T,CO2eq=T,ylim=c(0,12000),ybreaks=c(0,3000,6000,9000,12000),quantiles=F,colour=T)
+                         ,lab = "Mt CO2eq/yr",title=T,Title="Global CH4 emissions",hist=T,CO2eq=T,ylim=c(0,12000),ybreaks=c(0,3000,6000,9000,12000),quantiles=F,colour=T)
 
 f<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|N2O"),cats = cats,per=c(2030),file_pre="1f_N2O_2030"
-                         ,lab = "Global N2O emissions (Mt CO2eq/yr)",hist=T,CO2eq=T,ylim=c(0,12000),ybreaks=c(0,3000,6000,9000,12000),quantiles=F,colour=T)
+                         ,lab = "Mt CO2eq/yr",title=T,Title="Global N2O emissions",hist=T,CO2eq=T,ylim=c(0,12000),ybreaks=c(0,3000,6000,9000,12000),quantiles=F,colour=T)
 
 # Figure 1 together -------------------------------------------------------
 library(gridExtra)
@@ -205,16 +205,14 @@ a_excl<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto 
 regs <- c("BRA")
 cats <- c("Historical","No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
 b2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2b_BRA_2030",lab = "Brazil GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c( "Emissions|CO2|Energy"="CO2 Energy",
-                                                                                                                                 "Emissions|CO2|AFOLU"="CO2 AFOLU",
-                                                                                                                                 "Emissions|CH4"="CH4",
-                                                                                                                                 "Emissions|N2O"="N2O",
-                                                                                                                                 "Emissions|F-Gases"="F-gases"),
+                      per=c(2030),file_pre="2b_BRA_2030",lab = "Mt CO2eq/yr",title=T,Title="Brazil",
+                      hist=T,labels=T,var.labels=c( "Emissions|CO2|Energy"="CO2 Energy","Emissions|CO2|AFOLU"="CO2 AFOLU","Emissions|CH4"="CH4",
+                                                    "Emissions|N2O"="N2O","Emissions|F-Gases"="F-gases"),
                       natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
 
 regs <- c("CHN")
 c2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2c_CHN_2030",lab = "China GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
+                      per=c(2030),file_pre="2c_CHN_2030",lab = "Mt CO2eq/yr",title=T,Title="China",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
                                                                                                                                            "Emissions|CO2|AFOLU"="CO2 AFOLU",
                                                                                                                                 "Emissions|CH4"="CH4",
                                                                                                                                            "Emissions|N2O"="N2O",
@@ -223,7 +221,7 @@ c2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
 
 regs <- c("IND")
 d2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2d_IND_2030",lab = "India GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
+                      per=c(2030),file_pre="2d_IND_2030",lab = "Mt CO2eq/yr",title=T,Title="India",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
                                                                                                                                            "Emissions|CO2|AFOLU"="CO2 AFOLU",
                                                                                                                                 "Emissions|CH4"="CH4",
                                                                                                                                            "Emissions|N2O"="N2O",
@@ -232,7 +230,7 @@ d2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
 
 regs <- c("JPN")
 e2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2e_JPN_2030",lab = "Japan GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
+                      per=c(2030),file_pre="2e_JPN_2030",lab = "Mt CO2eq/yr",title=T,Title="Japan",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
                                                                                                                                            "Emissions|CO2|AFOLU"="CO2 AFOLU",
                                                                                                                                 "Emissions|CH4"="CH4",
                                                                                                                                            "Emissions|N2O"="N2O",
@@ -241,7 +239,7 @@ e2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
 
 regs <- c("USA")
 f2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2f_USA_2030",lab = "USA GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
+                      per=c(2030),file_pre="2f_USA_2030",lab = "Mt CO2eq/yr",title=T,Title="USA",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
                                                                                                                                          "Emissions|CO2|AFOLU"="CO2 AFOLU",
                                                                                                                               "Emissions|CH4"="CH4",
                                                                                                                                          "Emissions|N2O"="N2O",
@@ -250,7 +248,7 @@ f2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
 
 regs <- c("EU")
 g2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2g_EU_2030",lab = "EU GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
+                      per=c(2030),file_pre="2g_EU_2030",lab = "Mt CO2eq/yr",title=T,Title="EU",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
                                                                                                                                        "Emissions|CO2|AFOLU"="CO2 AFOLU",
                                                                                                                             "Emissions|CH4"="CH4",
                                                                                                                                        "Emissions|N2O"="N2O",
@@ -259,7 +257,7 @@ g2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
 
 regs <- c("RUS")
 h2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
-                      per=c(2030),file_pre="2h_RUS_2030",lab = "Russia GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
+                      per=c(2030),file_pre="2h_RUS_2030",lab = "Mt CO2eq/yr",title=T,Title="Russia",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy"="CO2 Energy",
                                                                                                                                             "Emissions|CO2|AFOLU"="CO2 AFOLU",
                                                                                                                                  "Emissions|CH4"="CH4",
                                                                                                                                             "Emissions|N2O"="N2O",
@@ -373,9 +371,9 @@ a=ggplot() +
   geom_point(data=v_plot[variable=="Budget|Emissions|CO2"],aes(x=Category,y=value,shape=model,color=model,size=model)) + #&Scope=="global"
   facet_wrap(~region, scales = "free_y") +
   ggtitle(paste0(" Cumulative CO2 (incl. AFOLU) 2011-2050")) + ylab("Gt CO2") +
-  scale_color_manual(values = c(rep("black",9),rep("red",10)))+
-  scale_shape_manual(values = rep(seq(1,10),2)) +
-  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
+  scale_color_manual(values = c(rep("black",9),rep("red",10)),name="Model")+
+  scale_shape_manual(values = rep(seq(1,10),2),name="Model") +
+  scale_size_manual(values = c(rep(1,10),rep(3,10)),name="Model") +
   theme(axis.text.x  = element_blank())
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2050","_multiregbox.pdf"),a,
        width=24, height=22, unit="cm", dpi=200, bg = "transparent")
@@ -387,9 +385,9 @@ b=ggplot() +
   geom_point(data=v_plot[variable=="CO2rel2010"],aes(x=Category,y=value,shape=model,color=model,size=model)) +
   facet_wrap(~region, scales = "free_y") +
   ggtitle(paste0("CO2 total (2011-2050 rel. to 2010)")) + ylab("Emission Years") +
-  scale_color_manual(values = c(rep("black",9),rep("red",10)))+
-  scale_shape_manual(values = rep(seq(1,10),2)) +
-  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
+  scale_color_manual(values = c(rep("black",9),rep("red",10)),name="Model")+
+  scale_shape_manual(values = rep(seq(1,10),2),name="Model") +
+  scale_size_manual(values = c(rep(1,10),rep(3,10)),name="Model") +
   scale_fill_manual(values=plotstyle(cats), name="Scenario")+
   theme(axis.text.x  = element_blank() )
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2050","_multiregbox.pdf"),b,
@@ -408,9 +406,9 @@ c=ggplot() +
   geom_point(data=v_plot[variable=="Budget|Emissions|CO2"],aes(x=Category,y=value,shape=model,color=model,size=model)) +
   facet_wrap(~region, scales = "free_y") +
   ggtitle(paste0(" Cumulative CO2 (incl. AFOLU) 2011-2100")) + ylab("Gt CO2") +
-  scale_color_manual(values = c(rep("black",9),rep("red",10)))+
-  scale_shape_manual(values = rep(seq(1,10),2)) +
-  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
+  scale_color_manual(values = c(rep("black",9),rep("red",10)),name="Model")+
+  scale_shape_manual(values = rep(seq(1,10),2),name="Model") +
+  scale_size_manual(values = c(rep(1,10),rep(3,10)),name="Model") +
   theme(axis.text.x  = element_blank())
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2100","_multiregbox.pdf"),c,
        width=24, height=22, unit="cm", dpi=200, bg = "transparent")
@@ -422,9 +420,9 @@ d=ggplot() +
   geom_point(data=v_plot[variable=="CO2rel2010"],aes(x=Category,y=value,shape=model,color=model,size=model)) +
   facet_wrap(~region, scales = "free_y") +
   ggtitle(paste0("CO2 total (2011-2100 rel. to 2010)")) + ylab("Emission Years") +
-  scale_color_manual(values = c(rep("black",9),rep("red",10)))+
-  scale_shape_manual(values = rep(seq(1,10),2)) +
-  scale_size_manual(values = c(rep(1,10),rep(3,10))) +
+  scale_color_manual(values = c(rep("black",9),rep("red",10)),name="Model")+
+  scale_shape_manual(values = rep(seq(1,10),2),name="Model") +
+  scale_size_manual(values = c(rep(1,10),rep(3,10)),name="Model") +
   theme(axis.text.x  = element_blank() )
 ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2100","_multiregbox.pdf"),d,
        width=24, height=22, unit="cm", dpi=200, bg = "transparent")
@@ -454,7 +452,7 @@ source("functions/plot_functions.R")
 vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Carbon Intensity of FE|rel2010")
 cats <- c("No policy","National policies","Carbon budget 1000","Carbon budget 400")
 td<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
-                 yearlabglob=T,file_pre="ci_ei_scatter_baseyear", xlim=c(-0.1,1), ylim=c(-0.1,1))   
+                 yearlabglob=T,file_pre="ci_ei_scatter_baseyear", xlim=c(-0.1,1), ylim=c(-0.1,1),enhance=T)   
 
 # vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Total CO2 Intensity of FE|rel2010")
 # cats <- c("NoPOL","NPi","2030_low","2020_verylow")

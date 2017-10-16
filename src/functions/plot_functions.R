@@ -153,7 +153,7 @@ if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
 ####################### plot_scatter ########################
 #############################################################
 
-plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="Title", file_pre="scatter",connect=T,ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T,yearlabglob=F) {
+plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="Title", file_pre="scatter",connect=T,ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T,yearlabglob=F,enhance=F) {
 
   if (length(vars_to_spread) != 2) stop("Scatter plot requires exactly two variables")
   #create strings with axis units for axis labels
@@ -170,12 +170,16 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
 
   p = ggplot()
   #normal points for global models
-  p = p + geom_point(data=dt[Scope=="global"],aes(x=x,y=y,color=Category,shape=model))
+  if(enhance){p = p + geom_point(data=dt[Scope=="global"],aes(x=x,y=y,color=Category,shape=model),size=5)
+              }else{
+              p = p + geom_point(data=dt[Scope=="global"],aes(x=x,y=y,color=Category,shape=model))}
   #big points for national models
-  p = p + geom_point(data=dt[Scope=="national"],aes(x=x,y=y,color=Category,shape=model),size=10,show.legend = FALSE)
+  p = p + geom_point(data=dt[Scope=="national"],aes(x=x,y=y,color=Category,shape=model),size=8,show.legend = FALSE)
   #label for some years
   #optional: connection lines for each model-scenario
-  if (connect){p = p + geom_path(data=dt,aes(x=x,y=y,color=Category,shape=model,linetype=Scope,
+  if (connect&enhance){p = p + geom_path(data=dt,aes(x=x,y=y,color=Category,shape=model,linetype=Scope,
+                                             group=interaction(scenario,model)),size=3)}
+  if (connect&!enhance){p = p + geom_path(data=dt,aes(x=x,y=y,color=Category,shape=model,linetype=Scope,
                                              group=interaction(scenario,model),size=Scope))}
   if(yearlab){p = p + geom_dl(data=dt[period %in% c(2010,2030,2050) & Scope == "national"],aes(x=x,y=y,label=period),
                               method=list( cex = 0.9, offset=1, hjust=1, vjust = 0))}
@@ -184,7 +188,7 @@ plot_scatter <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="T
   p = p + scale_size_manual(values=c("national"=2, "global"=.2))
   p = p + scale_linetype_manual(values=c("national"="solid", "global"="dashed"))
   p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario")
-  p = p + scale_shape_manual(values=cfg$man_shapes)
+  p = p + scale_shape_manual(values=cfg$man_shapes,name="Model")
   if (length(reg) >1){p = p + facet_wrap( ~ region,ncol=2)}
   p = p + xlab(paste(vars_to_spread["x"],unitx)) + ylab(paste(vars_to_spread["y"],unity))
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
@@ -405,7 +409,7 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
                                                                           color=Category),size=1.3)}
   # Plot lines for national models
   p = p + geom_path(data=dt[region==reg & Scope=="national"],aes(x=period,y=value,color=Category,linetype=model),size=2,show.legend = FALSE)
-  p = p + scale_linetype_manual(values=cfg$man_lines)
+  p = p + scale_linetype_manual(values=cfg$man_lines,name="Model")
   p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario")
   p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario")
   if (range & length(unique(dt$Category))==5){
@@ -417,9 +421,10 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
     }
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
-  p = p + ylab(paste(unitsy))
+  p = p + ylab(paste(unitsy)) + xlab("")
   p = p + facet_grid(variable ~ region,scales="free_y")
-  p = p + geom_point(data=UNEP,aes(x=period,y=value,shape=`UNEP (2016) range for conditional NDCs`))
+  p = p + geom_point(data=UNEP,aes(x=period,y=value,shape=`UNEP (2016) range for conditional NDCs`),size=3)
+  p = p + scale_shape_manual(values=c("10%-percentile"=20,"90%-percentile"=16,"Median"=15))
   p = p + ggtitle(title) + ggplot2::theme_bw() 
   p = p + theme(axis.text=element_text(size=18),
                 axis.title=element_text(size=18),
