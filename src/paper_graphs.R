@@ -516,11 +516,11 @@ a2_alt<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto 
                                    file_pre="1b_GHG_reg_2030_alt", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
                                    modnames=T,mod.labels=c("AIM/CGE"="AIM","COPPE-COFFEE 1.0"="COFFEE","DNE21+ V.14"="DNE","GEM-E3"="GEM-E3","IMAGE 3.0"="IMAGE","MESSAGEix-GLOBIOM_1.0"="MESSAGE","POLES CDL"="POLES","REMIND-MAgPIE 1.7-3.0"="REMIND","WITCH2016"="WITCH",
                                                            "*COPPE-MSB_v2.0"="BRA-MSB","*China TIMES"="CHN-TIMES","*IPAC-AIM/technology V1.0"="CHN-IPAC","*GEM-E3"="EU-GEM-E3","*PRIMES_V1"="EU-PRIMES","*India MARKAL"="IND-Markal","*AIM-India [IIMA]"="IND-AIM","*AIM/Enduse[Japan]"="JPN-AIM","*DNE21+ V.14 (national)"="JPN-DNE","*RU-TIMES 3.2"="RUS-TIMES","*GCAM-USA_CDLINKS"="USA-GCAM"),
-                                   natpoints=F,catsnat=c("Historical","No Policy","National policies","NDC", "", "")) 
+                                   natpoints=F,catsnat=c("Historical","NoPOL","NPi","INDC", "", "")) 
 # stacked bar per region
 UseErrorBars = T
 regs <- c("BRA")
-cats <- c("Historical","NoPOL","NPi","INDC", "2020_low", "2020_verylow")
+cats <- c("Historical","No Policy","National Policies","NDC", "Carbon budget 1000", "Carbon budget 400")
 b2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU"),cats = cats,
                       per=c(2030),file_pre="2b_BRA_2030_alt",lab = "Brazil GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply",
                                                                                                                                      "Emissions|CO2|Energy|Demand|Transportation"="Transport",
