@@ -302,9 +302,9 @@ rm(tmp1); rm(tmp2); rm(tmp3); rm(tmp)
 data_POLES_AFOLU <- data.table(read.csv('data/POLES AFOLU emissions.csv', sep=";"))
 colnames(data_POLES_AFOLU)[1] <- 'region'
 data_POLES_AFOLU <- data_POLES_AFOLU[, diff:= FAOSTAT - POLES]
-tmp1 <- all[variable%in%c("Emissions|Kyoto Gases") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
-tmp2 <- all[variable%in%c("Emissions|CO2|AFOLU") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
-tmp3 <- all[variable%in%c("Emissions|CO2") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
+tmp1 <- all_original[variable%in%c("Emissions|Kyoto Gases") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
+tmp2 <- all_original[variable%in%c("Emissions|CO2|AFOLU") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
+tmp3 <- all_original[variable%in%c("Emissions|CO2") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
 # Kyoto gases
 setkey(tmp1, region)
 setkey(data_POLES_AFOLU, region)
@@ -338,7 +338,7 @@ setnames(tmp2, "Emissions|CO2|AFOLU", "value")
 setnames(tmp3, "Emissions|CO2", "value")
 tmp <- rbind(tmp1,tmp2,tmp3)
 setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
-all=all[!(variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","Emissions|CO2") & model%in%c("POLES CDL"))]
+all=all_original[!(variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","Emissions|CO2") & model%in%c("POLES CDL"))]
 all<-rbind(all,tmp)
 
 
