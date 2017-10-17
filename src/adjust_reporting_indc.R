@@ -343,6 +343,20 @@ all<-rbind(all,tmp)
 
 
 
+
+# Add bunker emissions as separate region -------------------------------
+# Maybe better as variable instead of region? Because now gives problems in further data processing. To be completed and then used - after response Mark
+# if("World"%in%cfg$regions){
+# tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
+# tmp=spread(tmp1,region, value)
+# tmp=na.omit(tmp)
+# tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
+# tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
+# tmp1=data.table(tmp1)
+# tmp1=tmp1[region=="Bunkers"]
+# setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+# all <- rbind(all,tmp1)}
+
 # Plausibility checks -----------------------------------------------------
 
 
