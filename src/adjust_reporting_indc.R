@@ -60,7 +60,34 @@ tmp1=data.table(tmp1)
 tmp1=tmp1[variable=="Final Energy"]
 all <- rbind(all,tmp1)} 
 
-
+# MESSAGE and COPPE adjust regions - to be used when list of variables is completed
+# tmp1 <- all[model%in%c("MESSAGEix-GLOBIOM_1.0","COPPE-COFFEE 1.0") & variable %in% c("Emissions|Kyoto Gases") & region%in%c("EU")]
+# tmp2 <- all[model=="IMAGE 3.0" & variable %in% c("Emissions|Kyoto Gases") & region=="TUR"]
+# tmp3 <- tmp2
+# tmp2$model<-"MESSAGEix-GLOBIOM_1.0"
+# tmp3$model<-"COPPE-COFFEE 1.0"
+# tmp1 <- rbind(tmp1,tmp2,tmp3)
+# tmp1=spread(tmp1,region,value)
+# tmp1 = na.omit(tmp1)
+# tmp1 = tmp1%>%mutate(EU=EU-TUR)
+# tmp1=gather(tmp1,region,value,c(EU,TUR))
+# tmp1=data.table(tmp1)
+# tmp1=tmp1[region=="EU"]
+# all <- all[!c(model%in%c("MESSAGEix-GLOBIOM_1.0","COPPE-COFFEE 1.0") & variable %in% c("Emissions|Kyoto Gases") & region%in%c("EU"))]
+# all<-rbind(all,tmp1)
+# 
+# tmp1 <- all[model%in%c("MESSAGEix-GLOBIOM_1.0","IMAGE 3.0") & variable %in% c("Emissions|Kyoto Gases") & region%in%c("USA","CAN")]
+# tmp1=tmp1[!c(model=="IMAGE 3.0"&region=="USA")]
+# tmp1$model<-"MESSAGEix-GLOBIOM_1.0"
+# tmp1=spread(tmp1,region,value)
+# tmp1 = na.omit(tmp1)
+# tmp1 = tmp1%>%mutate(USA=USA-CAN)
+# tmp1=gather(tmp1,region,value,c(USA,CAN))
+# tmp1=data.table(tmp1)
+# tmp1=tmp1[region=="USA"]
+# all <- all[!c(model%in%c("MESSAGEix-GLOBIOM_1.0") & variable %in% c("Emissions|Kyoto Gases") & region%in%c("USA"))]
+# all<-rbind(all,tmp1)
+  
 # CO2 and sub-categories --------------------------------------------------
 
 
@@ -342,20 +369,71 @@ all=all_original[!(variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","
 all<-rbind(all,tmp)
 
 
+# Adding emissions sub-categories to models that don't report it, needed for calculation of total waste emissions - copy for other sub-categories
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|N2O"]$model),unique(all[variable=="Emissions|N2O|Other"]$model))
+          &variable=="Emissions|N2O"]
+tmp1$variable<-"Emissions|N2O|Other"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|N2O"]$model),unique(all[variable=="Emissions|N2O|Energy"]$model))
+          &variable=="Emissions|N2O"]
+tmp1$variable<-"Emissions|N2O|Energy"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|N2O"]$model),unique(all[variable=="Emissions|N2O|AFOLU"]$model))
+          &variable=="Emissions|N2O"]
+tmp1$variable<-"Emissions|N2O|AFOLU"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|AFOLU"]$model))
+          &variable=="Emissions|CH4"]
+tmp1$variable<-"Emissions|CH4|AFOLU"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Supply"]$model))
+          &variable=="Emissions|CH4"]
+tmp1$variable<-"Emissions|CH4|Energy|Supply"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Demand|Industry"]$model))
+          &variable=="Emissions|CH4"]
+tmp1$variable<-"Emissions|CH4|Energy|Demand|Industry"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Demand|Transportation"]$model))
+          &variable=="Emissions|CH4"]
+tmp1$variable<-"Emissions|CH4|Energy|Demand|Transportation"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Demand|Residential and Commercial"]$model))
+          &variable=="Emissions|CH4"]
+tmp1$variable<-"Emissions|CH4|Energy|Demand|Residential and Commercial"
+tmp1$value<-0
+all<-rbind(all,tmp1)
 
 
 # Add bunker emissions as separate region -------------------------------
 # Maybe better as variable instead of region? Because now gives problems in further data processing. To be completed and then used - after response Mark
-# if("World"%in%cfg$regions){
-# tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
-# tmp=spread(tmp1,region, value)
-# tmp=na.omit(tmp)
-# tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
-# tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
-# tmp1=data.table(tmp1)
-# tmp1=tmp1[region=="Bunkers"]
-# setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
-# all <- rbind(all,tmp1)}
+if("World"%in%cfg$regions){
+tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
+tmp=spread(tmp1,region, value)
+tmp=na.omit(tmp)
+tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
+tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
+tmp1=data.table(tmp1)
+tmp1=tmp1[region=="Bunkers"]
+setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+tmp2=tmp1
+tmp2$variable<-"Emissions|CO2|Energy"
+tmp2$unit<-"Mt CO2/yr"
+all <- rbind(all,tmp1,tmp2)}
 
 # Plausibility checks -----------------------------------------------------
 
