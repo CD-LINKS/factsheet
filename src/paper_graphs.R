@@ -15,7 +15,7 @@ library(gridExtra) #arrangeGrob
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20171015-114529"
+cfg$infile <- "cdlinks_compare_20171017-161933"
 cfg$outdir    <- "paper graphs"
 
 #source function for factorizing data frames
@@ -84,12 +84,14 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   # Needed when snapshot includes older, non-V3 scenarios
   all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO <- 
     paste(all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
-  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDCi_recSocialSecurity_V3")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDCi_recSocialSecurity_V3")]$SCENARIO,"INDCi_recSocialSecurity_V3","INDCi_V3")
-  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_1000_recSocialSecurity_V3")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_1000_recSocialSecurity_V3")]$SCENARIO,"NPi2020_1000_recSocialSecurity_V3","NPi2020_1000_V3")
-  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_400_recSocialSecurity_V3")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_400_recSocialSecurity_V3")]$SCENARIO,"NPi2020_400_recSocialSecurity_V3","NPi2020_400_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDCi_recGenTaxation_V3")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDCi_recGenTaxation_V3")]$SCENARIO,"INDCi_recGenTaxation_V3","INDCi_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V3")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V3")]$SCENARIO,"INDC2030i_1000_recGenTaxation_V3","INDC2030i_1000_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_1000_recGenTaxation_V3")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_1000_recGenTaxation_V3")]$SCENARIO,"NPi2020_1000_recGenTaxation_V3","NPi2020_1000_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_400_recGenTaxation_V3")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_400_recGenTaxation_V3")]$SCENARIO,"NPi2020_400_recGenTaxation_V3","NPi2020_400_V3")
   
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
@@ -139,7 +141,7 @@ a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,tit
 
 # Figure 1c - GHG sources -------------------------------------------------
 source("functions/plot_functions_xcut.R")
-regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","World")
+regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","Bunkers","World")
 cats <- c("Historical","No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
 c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = cats,per=c(2030),file_pre="1c_CO2energy_2030"
                                    ,lab = "Mt CO2/yr",title=T,Title="Global energy CO2 emissions",hist=T,quantiles=F,colour=T)

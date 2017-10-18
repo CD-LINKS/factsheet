@@ -733,8 +733,10 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   
   #Calculate rest of world 
   dta=spread(dta,region,value,fill=0)
-  dta=dta%>%mutate(RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS` )
-  dta=gather(dta,region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS` ) 
+  if(c("Bunkers")%in%regs){dta=dta%>%mutate(RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS` - `Bunkers`)}
+  else{dta=dta%>%mutate(RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS` )}
+  if(c("Bunkers")%in%regs){dta=gather(dta,region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS` , `Bunkers`) }
+  else{dta=gather(dta,region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS`) }
   dta=data.table(dta)
   dta <- filter(dta,!region %in% c("World"))
     
