@@ -115,4 +115,4 @@ cfg$man_lines=c("POLES 2014"        =  "dotted",
 
 cfg$regions <- c( "BRA",  "CHN", "EU",  "IND", "JPN",
                  "R5ASIA", "R5LAM", "R5MAF", "R5OECD90+EU", "R5REF", "RUS",
-                  "USA", "World")
+                  "USA", "World","CAN","TUR")
