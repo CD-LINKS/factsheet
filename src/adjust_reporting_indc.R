@@ -179,7 +179,7 @@ all <- rbind(all,tmp1)
 # all<-rbind(all,tmp4)
 
 
-# Other model-specific fixes ----------------------------------------------
+# Other model-specific fixes - part 1 ----------------------------------------------
 
 
 # Several fixes
@@ -326,6 +326,25 @@ setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Sc
 all=all[!(variable=="Emissions|Kyoto Gases" & model%in%c("COPPE-COFFEE 1.0"))]
 all<-rbind(all,tmp)
 
+# Add bunker emissions as separate region -------------------------------
+# to check if error in data processing can be solved
+if("World"%in%cfg$regions){
+  tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
+  tmp=spread(tmp1,region, value)
+  tmp=na.omit(tmp)
+  tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
+  tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
+  tmp1=data.table(tmp1)
+  tmp1=tmp1[region=="Bunkers"]
+  setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+  tmp2=tmp1
+  tmp2$variable<-"Emissions|CO2|Energy"
+  tmp2$unit<-"Mt CO2/yr"
+  all <- rbind(all,tmp1,tmp2)}
+
+
+# Other model-specific fixes - part 2 -------------------------------------
+
 # 5. adjust POLES AFOLU CO2 emissions, becasue they have different accounting method
 # harmonisation based on FAOSTAT and offset (diff POLES and FAOSTAT) is added to Emissions|Kyoto and Emissions|CO2|AFOLU
 # on global level (World) and for individual countries for which data is available
@@ -426,22 +445,6 @@ tmp1$variable<-"Emissions|CH4|Energy|Demand|Residential and Commercial"
 tmp1$value<-0
 all<-rbind(all,tmp1)
 
-
-# Add bunker emissions as separate region -------------------------------
-# Maybe better as variable instead of region? Because now gives problems in further data processing. To be completed and then used - after response Mark
-if("World"%in%cfg$regions){
-tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
-tmp=spread(tmp1,region, value)
-tmp=na.omit(tmp)
-tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
-tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
-tmp1=data.table(tmp1)
-tmp1=tmp1[region=="Bunkers"]
-setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
-tmp2=tmp1
-tmp2$variable<-"Emissions|CO2|Energy"
-tmp2$unit<-"Mt CO2/yr"
-all <- rbind(all,tmp1,tmp2)}
 
 # Plausibility checks -----------------------------------------------------
 
