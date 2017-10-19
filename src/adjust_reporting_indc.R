@@ -160,7 +160,7 @@ all <- rbind(all,tmp1)
 }
 
 
-# Replace missing variables by other models' average ----------------------
+# Replace missing variables by other models' average  ----------------------
 
 ##Search for missing variables per model - only for global models, as national model data difficult to replace:
 ## Not used now, but can be used as general code to replace missing data with other models' average
@@ -177,6 +177,10 @@ all <- rbind(all,tmp1)
 # tmp4=merge(tmp2,tmp3,by=c("variable","Category","region","Scope"),allow.cartesian = T)
 # setcolorder(tmp4,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 # all<-rbind(all,tmp4)
+
+
+# Other model-specific fixes - part 1 ----------------------------------------------
+
 
 # Several fixes
 # 1. Change model name "AIM Enduse 3.0" to "AIM-India [IIMA]
@@ -322,13 +326,33 @@ setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Sc
 all=all[!(variable=="Emissions|Kyoto Gases" & model%in%c("COPPE-COFFEE 1.0"))]
 all<-rbind(all,tmp)
 
+# Add bunker emissions as separate region -------------------------------
+# to check if error in data processing can be solved
+if("World"%in%cfg$regions){
+  tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
+  tmp=spread(tmp1,region, value)
+  tmp=na.omit(tmp)
+  tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
+  tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
+  tmp1=data.table(tmp1)
+  tmp1=tmp1[region=="Bunkers"]
+  setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+  tmp2=tmp1
+  tmp2$variable<-"Emissions|CO2|Energy"
+  tmp2$unit<-"Mt CO2/yr"
+  all <- rbind(all,tmp1,tmp2)}
+
+
+# Other model-specific fixes - part 2 -------------------------------------
+
 # 5. adjust POLES AFOLU CO2 emissions, becasue they have different accounting method
 # harmonisation based on FAOSTAT and offset (diff POLES and FAOSTAT) is added to Emissions|Kyoto and Emissions|CO2|AFOLU
 # on global level (World) and for individual countries for which data is available
-rm(tmp1); rm(tmp2); rm(tmp3); rm(tmp)
+#rm(tmp1); rm(tmp2); rm(tmp3); rm(tmp)
 data_POLES_AFOLU <- data.table(read.csv('data/POLES AFOLU emissions.csv', sep=";"))
 colnames(data_POLES_AFOLU)[1] <- 'region'
 data_POLES_AFOLU <- data_POLES_AFOLU[, diff:= FAOSTAT - POLES]
+all_original <- all
 tmp1 <- all_original[variable%in%c("Emissions|Kyoto Gases") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
 tmp2 <- all_original[variable%in%c("Emissions|CO2|AFOLU") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
 tmp3 <- all_original[variable%in%c("Emissions|CO2") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
@@ -367,6 +391,9 @@ tmp <- rbind(tmp1,tmp2,tmp3)
 setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
 all=all_original[!(variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","Emissions|CO2") & model%in%c("POLES CDL"))]
 all<-rbind(all,tmp)
+
+
+# CH4 and N2O sub-categories ----------------------------------------------
 
 
 # Adding emissions sub-categories to models that don't report it, needed for calculation of total waste emissions - copy for other sub-categories
@@ -418,22 +445,6 @@ tmp1$variable<-"Emissions|CH4|Energy|Demand|Residential and Commercial"
 tmp1$value<-0
 all<-rbind(all,tmp1)
 
-
-# Add bunker emissions as separate region -------------------------------
-# Maybe better as variable instead of region? Because now gives problems in further data processing. To be completed and then used - after response Mark
-if("World"%in%cfg$regions){
-tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
-tmp=spread(tmp1,region, value)
-tmp=na.omit(tmp)
-tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
-tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
-tmp1=data.table(tmp1)
-tmp1=tmp1[region=="Bunkers"]
-setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
-tmp2=tmp1
-tmp2$variable<-"Emissions|CO2|Energy"
-tmp2$unit<-"Mt CO2/yr"
-all <- rbind(all,tmp1,tmp2)}
 
 # Plausibility checks -----------------------------------------------------
 
