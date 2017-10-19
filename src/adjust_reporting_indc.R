@@ -329,10 +329,11 @@ all<-rbind(all,tmp)
 # 5. adjust POLES AFOLU CO2 emissions, becasue they have different accounting method
 # harmonisation based on FAOSTAT and offset (diff POLES and FAOSTAT) is added to Emissions|Kyoto and Emissions|CO2|AFOLU
 # on global level (World) and for individual countries for which data is available
-rm(tmp1); rm(tmp2); rm(tmp3); rm(tmp)
+#rm(tmp1); rm(tmp2); rm(tmp3); rm(tmp)
 data_POLES_AFOLU <- data.table(read.csv('data/POLES AFOLU emissions.csv', sep=";"))
 colnames(data_POLES_AFOLU)[1] <- 'region'
 data_POLES_AFOLU <- data_POLES_AFOLU[, diff:= FAOSTAT - POLES]
+all_original <- all
 tmp1 <- all_original[variable%in%c("Emissions|Kyoto Gases") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
 tmp2 <- all_original[variable%in%c("Emissions|CO2|AFOLU") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
 tmp3 <- all_original[variable%in%c("Emissions|CO2") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
