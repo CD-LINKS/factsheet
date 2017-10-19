@@ -160,7 +160,7 @@ all <- rbind(all,tmp1)
 }
 
 
-# Replace missing variables by other models' average ----------------------
+# Replace missing variables by other models' average  ----------------------
 
 ##Search for missing variables per model - only for global models, as national model data difficult to replace:
 ## Not used now, but can be used as general code to replace missing data with other models' average
@@ -177,6 +177,10 @@ all <- rbind(all,tmp1)
 # tmp4=merge(tmp2,tmp3,by=c("variable","Category","region","Scope"),allow.cartesian = T)
 # setcolorder(tmp4,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 # all<-rbind(all,tmp4)
+
+
+# Other model-specific fixes ----------------------------------------------
+
 
 # Several fixes
 # 1. Change model name "AIM Enduse 3.0" to "AIM-India [IIMA]
@@ -367,6 +371,9 @@ tmp <- rbind(tmp1,tmp2,tmp3)
 setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
 all=all_original[!(variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","Emissions|CO2") & model%in%c("POLES CDL"))]
 all<-rbind(all,tmp)
+
+
+# CH4 and N2O sub-categories ----------------------------------------------
 
 
 # Adding emissions sub-categories to models that don't report it, needed for calculation of total waste emissions - copy for other sub-categories
