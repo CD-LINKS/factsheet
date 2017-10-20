@@ -61,32 +61,62 @@ tmp1=tmp1[variable=="Final Energy"]
 all <- rbind(all,tmp1)} 
 
 # MESSAGE and COPPE adjust regions - to be used when list of variables is completed
-# tmp1 <- all[model%in%c("MESSAGEix-GLOBIOM_1.0","COPPE-COFFEE 1.0") & variable %in% c("Emissions|Kyoto Gases") & region%in%c("EU")]
-# tmp2 <- all[model=="IMAGE 3.0" & variable %in% c("Emissions|Kyoto Gases") & region=="TUR"]
-# tmp3 <- tmp2
-# tmp2$model<-"MESSAGEix-GLOBIOM_1.0"
-# tmp3$model<-"COPPE-COFFEE 1.0"
-# tmp1 <- rbind(tmp1,tmp2,tmp3)
-# tmp1=spread(tmp1,region,value)
-# tmp1 = na.omit(tmp1)
-# tmp1 = tmp1%>%mutate(EU=EU-TUR)
-# tmp1=gather(tmp1,region,value,c(EU,TUR))
-# tmp1=data.table(tmp1)
-# tmp1=tmp1[region=="EU"]
-# all <- all[!c(model%in%c("MESSAGEix-GLOBIOM_1.0","COPPE-COFFEE 1.0") & variable %in% c("Emissions|Kyoto Gases") & region%in%c("EU"))]
-# all<-rbind(all,tmp1)
-# 
-# tmp1 <- all[model%in%c("MESSAGEix-GLOBIOM_1.0","IMAGE 3.0") & variable %in% c("Emissions|Kyoto Gases") & region%in%c("USA","CAN")]
-# tmp1=tmp1[!c(model=="IMAGE 3.0"&region=="USA")]
-# tmp1$model<-"MESSAGEix-GLOBIOM_1.0"
-# tmp1=spread(tmp1,region,value)
-# tmp1 = na.omit(tmp1)
-# tmp1 = tmp1%>%mutate(USA=USA-CAN)
-# tmp1=gather(tmp1,region,value,c(USA,CAN))
-# tmp1=data.table(tmp1)
-# tmp1=tmp1[region=="USA"]
-# all <- all[!c(model%in%c("MESSAGEix-GLOBIOM_1.0") & variable %in% c("Emissions|Kyoto Gases") & region%in%c("USA"))]
-# all<-rbind(all,tmp1)
+tmp1 <- all[model%in%c("MESSAGEix-GLOBIOM_1.0","COPPE-COFFEE 1.0") & variable %in% c("Emissions|Kyoto Gases"," Emissions|CO2|Energy|Supply",
+                                                                                     " Emissions|CO2|Energy|Demand|Residential and Commercial",
+                                                                                     " Emissions|CO2|Energy|Demand|Transportation",
+                                                                                     " Emissions|CO2|AFOLU"," Emissions|CH4","Emissions|N2O",
+                                                                                     " Emissions|F-Gases",
+                                                                                     " Emissions|CO2|Energy|Demand|Industry",
+                                                                                     "Emissions|CO2|Industrial Processes") & region%in%c("EU")]
+tmp2 <- all[model=="IMAGE 3.0" & variable %in% c("Emissions|Kyoto Gases"," Emissions|CO2|Energy|Supply",
+                                                 " Emissions|CO2|Energy|Demand|Residential and Commercial",
+                                                 " Emissions|CO2|Energy|Demand|Transportation",
+                                                 " Emissions|CO2|AFOLU"," Emissions|CH4","Emissions|N2O",
+                                                 " Emissions|F-Gases",
+                                                 " Emissions|CO2|Energy|Demand|Industry",
+                                                 "Emissions|CO2|Industrial Processes") & region=="TUR"]
+tmp3 <- tmp2
+tmp2$model<-"MESSAGEix-GLOBIOM_1.0"
+tmp3$model<-"COPPE-COFFEE 1.0"
+tmp1 <- rbind(tmp1,tmp2,tmp3)
+tmp1=spread(tmp1,region,value)
+tmp1 = na.omit(tmp1)
+tmp1 = tmp1%>%mutate(EU=EU-TUR)
+tmp1=gather(tmp1,region,value,c(EU,TUR))
+tmp1=data.table(tmp1)
+tmp1=tmp1[region=="EU"]
+all <- all[!c(model%in%c("MESSAGEix-GLOBIOM_1.0","COPPE-COFFEE 1.0") & variable %in% c("Emissions|Kyoto Gases"," Emissions|CO2|Energy|Supply",
+                                                                                       " Emissions|CO2|Energy|Demand|Residential and Commercial",
+                                                                                       " Emissions|CO2|Energy|Demand|Transportation",
+                                                                                       " Emissions|CO2|AFOLU"," Emissions|CH4","Emissions|N2O",
+                                                                                       " Emissions|F-Gases",
+                                                                                       " Emissions|CO2|Energy|Demand|Industry",
+                                                                                       "Emissions|CO2|Industrial Processes") & region%in%c("EU"))]
+all<-rbind(all,tmp1)
+
+tmp1 <- all[model%in%c("MESSAGEix-GLOBIOM_1.0","IMAGE 3.0") & variable %in% c("Emissions|Kyoto Gases"," Emissions|CO2|Energy|Supply",
+                                                                              " Emissions|CO2|Energy|Demand|Residential and Commercial",
+                                                                              " Emissions|CO2|Energy|Demand|Transportation",
+                                                                              " Emissions|CO2|AFOLU"," Emissions|CH4","Emissions|N2O",
+                                                                              " Emissions|F-Gases",
+                                                                              " Emissions|CO2|Energy|Demand|Industry",
+                                                                              "Emissions|CO2|Industrial Processes") & region%in%c("USA","CAN")]
+tmp1=tmp1[!c(model=="IMAGE 3.0"&region=="USA")]
+tmp1$model<-"MESSAGEix-GLOBIOM_1.0"
+tmp1=spread(tmp1,region,value)
+tmp1 = na.omit(tmp1)
+tmp1 = tmp1%>%mutate(USA=USA-CAN)
+tmp1=gather(tmp1,region,value,c(USA,CAN))
+tmp1=data.table(tmp1)
+tmp1=tmp1[region=="USA"]
+all <- all[!c(model%in%c("MESSAGEix-GLOBIOM_1.0") & variable %in% c("Emissions|Kyoto Gases"," Emissions|CO2|Energy|Supply",
+                                                                    " Emissions|CO2|Energy|Demand|Residential and Commercial",
+                                                                    " Emissions|CO2|Energy|Demand|Transportation",
+                                                                    " Emissions|CO2|AFOLU"," Emissions|CH4","Emissions|N2O",
+                                                                    " Emissions|F-Gases",
+                                                                    " Emissions|CO2|Energy|Demand|Industry",
+                                                                    "Emissions|CO2|Industrial Processes") & region%in%c("USA"))]
+all<-rbind(all,tmp1)
   
 # CO2 and sub-categories --------------------------------------------------
 
