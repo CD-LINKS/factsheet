@@ -1,0 +1,85 @@
+model,scenario,region,variable,unit,period,value
+COPPE-COFFEE 1.0,INDC2030i_1600_V3,World,Primary Energy|Biomass,EJ/yr,2100,606.573477291178
+COPPE-COFFEE 1.0,INDC2030i_1600_V3,World,Primary Energy|Biomass|w/o CCS,EJ/yr,2100,606.573477291178
+COPPE-COFFEE 1.0,NPi2020_1600_V3,World,Primary Energy|Biomass,EJ/yr,2100,609.692878921143
+COPPE-COFFEE 1.0,NPi2020_1600_V3,World,Primary Energy|Biomass|w/o CCS,EJ/yr,2100,609.692878921143
+COPPE-COFFEE 1.0,NPi2020_400_V3,World,Primary Energy|Biomass,EJ/yr,2100,606.635535949021
+COPPE-COFFEE 1.0,NPi2020_400_V3,World,Primary Energy|Biomass|w/o CCS,EJ/yr,2100,606.635535949021
+India MARKAL,NPi_V3,IND,Primary Energy|Coal,EJ/yr,2025,837.274290627687
+India MARKAL,NPi_V3,IND,Primary Energy|Coal,EJ/yr,2030,1147.19833763256
+India MARKAL,NPi_V3,IND,Primary Energy|Coal,EJ/yr,2035,1439.4119614025
+India MARKAL,NPi_V3,IND,Primary Energy|Coal,EJ/yr,2040,1760.57848476163
+India MARKAL,NPi_V3,IND,Primary Energy|Coal,EJ/yr,2045,2030.71080538836
+India MARKAL,NPi_V3,IND,Primary Energy|Coal,EJ/yr,2050,2262.46775580396
+India MARKAL,NPi_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2025,837.274290627687
+India MARKAL,NPi_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2030,1147.19833763256
+India MARKAL,NPi_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2035,1439.4119614025
+India MARKAL,NPi_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2040,1760.57848476163
+India MARKAL,NPi_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2045,2030.71080538836
+India MARKAL,NPi_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2050,2262.46775580396
+India MARKAL,NPi_V3,IND,Primary Energy|Oil,EJ/yr,2040,747.979363714531
+India MARKAL,NPi_V3,IND,Primary Energy|Oil,EJ/yr,2045,974.658450367823
+India MARKAL,NPi_V3,IND,Primary Energy|Oil,EJ/yr,2050,1143.45084551447
+India MARKAL,NPi_V3,IND,Primary Energy|Oil|w/o CCS,EJ/yr,2040,747.979363714531
+India MARKAL,NPi_V3,IND,Primary Energy|Oil|w/o CCS,EJ/yr,2045,974.658450367823
+India MARKAL,NPi_V3,IND,Primary Energy|Oil|w/o CCS,EJ/yr,2050,1143.45084551447
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal,EJ/yr,2025,768.811502818382
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal,EJ/yr,2030,945.153816757428
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal,EJ/yr,2035,1102.33591286902
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal,EJ/yr,2040,1241.6857743384
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal,EJ/yr,2045,1385.97258049107
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal,EJ/yr,2050,1533.17569504156
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2025,768.811502818382
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2030,945.153816757428
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2035,1102.33591286902
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2040,1241.6857743384
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2045,1385.97258049107
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2050,1533.17569504156
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Oil,EJ/yr,2035,625.033438425528
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Oil,EJ/yr,2040,791.578293684915
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Oil,EJ/yr,2045,950.845514474061
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Oil,EJ/yr,2050,1104.57151046145
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Oil|w/o CCS,EJ/yr,2035,625.033438425528
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Oil|w/o CCS,EJ/yr,2040,791.578293684915
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Oil|w/o CCS,EJ/yr,2045,950.845514474061
+India MARKAL,NPi2020_high_V3,IND,Primary Energy|Oil|w/o CCS,EJ/yr,2050,1104.57151046145
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal,EJ/yr,2025,749.228527753893
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal,EJ/yr,2030,966.012228909907
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal,EJ/yr,2035,1032.76965701729
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal,EJ/yr,2040,1117.49785038693
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal,EJ/yr,2045,1174.51991974778
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal,EJ/yr,2050,1224.94984236171
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2025,749.228527753893
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2030,966.012228909907
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2035,1032.76965701729
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2040,1117.49785038693
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2045,1174.51991974778
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Coal|w/o CCS,EJ/yr,2050,1224.94984236171
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Oil,EJ/yr,2045,776.323206267316
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Oil,EJ/yr,2050,874.601127352632
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Oil|w/o CCS,EJ/yr,2045,776.323206267316
+India MARKAL,NPi2020_low_V3,IND,Primary Energy|Oil|w/o CCS,EJ/yr,2050,874.601127352632
+MESSAGEix-GLOBIOM_1.0,INDC2030i_1000_V3,World,Secondary Energy|Electricity,EJ/yr,2100,608.756583267568
+MESSAGEix-GLOBIOM_1.0,INDC2030ip_1000_V3,World,Secondary Energy|Electricity,EJ/yr,2100,612.654176400967
+MESSAGEix-GLOBIOM_1.0,NPi2020_1000_V3,World,Secondary Energy|Electricity,EJ/yr,2100,622.020597595424
+REMIND-MAgPIE 1.7-3.0,INDC2030i_1000_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2090,680.0937
+REMIND-MAgPIE 1.7-3.0,INDC2030i_1000_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2100,745.0817
+REMIND-MAgPIE 1.7-3.0,INDC2030i_1000_V3,World,Secondary Energy|Electricity,EJ/yr,2100,633.3027
+REMIND-MAgPIE 1.7-3.0,INDC2030i_1600_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2090,644.1909
+REMIND-MAgPIE 1.7-3.0,INDC2030i_1600_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2100,722.4985
+REMIND-MAgPIE 1.7-3.0,INDC2030i_400_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2080,648.0082
+REMIND-MAgPIE 1.7-3.0,INDC2030i_400_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2090,736.009
+REMIND-MAgPIE 1.7-3.0,INDC2030i_400_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2100,807.4392
+REMIND-MAgPIE 1.7-3.0,INDC2030i_400_V3,World,Secondary Energy|Electricity,EJ/yr,2090,625.4708
+REMIND-MAgPIE 1.7-3.0,INDC2030i_400_V3,World,Secondary Energy|Electricity,EJ/yr,2100,690.3422
+REMIND-MAgPIE 1.7-3.0,INDC2030i_400_V3,World,Secondary Energy|Electricity|Non-Biomass Renewables,EJ/yr,2100,641.5349
+REMIND-MAgPIE 1.7-3.0,NPi2020_1000_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2090,679.9641
+REMIND-MAgPIE 1.7-3.0,NPi2020_1000_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2100,754.1804
+REMIND-MAgPIE 1.7-3.0,NPi2020_1000_V3,World,Secondary Energy|Electricity,EJ/yr,2100,617.0513
+REMIND-MAgPIE 1.7-3.0,NPi2020_1600_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2090,620.825
+REMIND-MAgPIE 1.7-3.0,NPi2020_1600_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2100,694.3644
+REMIND-MAgPIE 1.7-3.0,NPi2020_400_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2080,614.2296
+REMIND-MAgPIE 1.7-3.0,NPi2020_400_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2090,693.7107
+REMIND-MAgPIE 1.7-3.0,NPi2020_400_V3,World,Primary Energy|Non-Biomass Renewables,EJ/yr,2100,767.8617
+REMIND-MAgPIE 1.7-3.0,NPi2020_400_V3,World,Secondary Energy|Electricity,EJ/yr,2100,662.7714
+REMIND-MAgPIE 1.7-3.0,NPi2020_400_V3,World,Secondary Energy|Electricity|Non-Biomass Renewables,EJ/yr,2100,615.9007
