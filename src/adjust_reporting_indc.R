@@ -424,6 +424,18 @@ tmp1$variable<-"Emissions|CH4|Energy|Demand|Residential and Commercial"
 tmp1$value<-0
 all<-rbind(all,tmp1)
 
+# set to zero if not available, will need to change to replace by average other models for COPPE/WITCH
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CO2"]$model),unique(all[variable=="Emissions|CO2|Industrial Processes"]$model))
+          &variable=="Emissions|CH4"]
+tmp1$variable<-"Emissions|CO2|Industrial Processes"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CO2"]$model),unique(all[variable=="Emissions|CO2|Energy|Demand|Residential and Commercial"]$model))
+          &variable=="Emissions|CO2"]
+tmp1$variable<-"Emissions|CO2|Energy|Demand|Residential and Commercial"
+tmp1$value<-0
+all<-rbind(all,tmp1)
 # Other model-specific fixes - part 3 -------------------------------------
 
 ## 5. adjust POLES AFOLU CO2 emissions, becasue they have different accounting method
