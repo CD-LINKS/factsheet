@@ -43,11 +43,11 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2|FFI`/`GDP|PPP` ' , newUnit='kg CO2/$US 2005')
     all <- calcVariable(all,'`Emissions per capita` ~ `Emissions|CO2|FFI`/`Population` ' , newUnit='t CO2/cap')
     all <- calcVariable(all,'`LU Emissions per capita` ~ `Emissions|CO2|AFOLU`/`Population` ' , newUnit='t CO2/cap')
-    all[!region=="Bunkers"] <- calcVariable(all[!region=="Bunkers"],'`GHG emissions per capita` ~ `Emissions|Kyoto Gases`/`Population` ' , newUnit='t CO2eq/cap')
+    all <- calcVariable(all,'`GHG emissions per capita` ~ `Emissions|Kyoto Gases`/`Population` ' , newUnit='t CO2eq/cap')
     all <- calcVariable(all,'`Final Energy per capita` ~ `Final Energy`/`Population` * 1000 ' , newUnit='GJ/cap')
     all <- calcVariable(all,'`BECCS per capita` ~ `Carbon Sequestration|CCS|Biomass` / `Population` ' , newUnit='t CO2/cap')
-    all[!region=="Bunkers"] <- calcVariable(all[!region=="Bunkers"],'`Non-CO2 GHG per capita` ~ (`Emissions|Kyoto Gases` - `Emissions|CO2` )  / `Population` ' , newUnit='t CO2/cap')
-    all[!region=="Bunkers"] <- calcVariable(all[!region=="Bunkers"],'`Emissions|Kyoto Gases|Excl. AFOLU CO2` ~ `Emissions|Kyoto Gases` - `Emissions|CO2|AFOLU` ' , newUnit='Mt CO2-equiv/yr')
+    all <- calcVariable(all,'`Non-CO2 GHG per capita` ~ (`Emissions|Kyoto Gases` - `Emissions|CO2` )  / `Population` ' , newUnit='t CO2/cap')
+    all <- calcVariable(all,'`Emissions|Kyoto Gases|Excl. AFOLU CO2` ~ `Emissions|Kyoto Gases` - `Emissions|CO2|AFOLU` ' , newUnit='Mt CO2-equiv/yr')
     all <- calcVariable(all,'`Emissions|CO2|FFI|gross` ~ `Emissions|CO2|Energy and Industrial Processes` +  `Carbon Sequestration|CCS|Biomass`' , newUnit='Mt CO2/yr')
     all <- calcVariable(all,'`Fossil emissions per cap` ~ `Emissions|CO2|FFI|gross` / `Population` ' , newUnit='t CO2/cap')
     all <- calcVariable(all,'`Wind and Solar Share` ~ ( `Secondary Energy|Electricity|Solar` + `Secondary Energy|Electricity|Wind` ) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
@@ -67,7 +67,7 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Total CO2 Intensity of FE` ~ `Emissions|CO2`/`Final Energy` ' , newUnit='kg CO2/GJ')
     all <- calcVariable(all,'`Carbon Intensity of Electricity` ~ `Emissions|CO2|Energy|Supply`/`Final Energy|Electricity` ' , newUnit='kg CO2/GJ')
     all <- calcVariable(all,'`Carbon Intensity of Fuel` ~ `Emissions|CO2|Energy|Demand`/(`Final Energy`-`Final Energy|Electricity`) ' , newUnit='kg CO2/GJ')
-    all[!region=="Bunkers"] <- calcVariable(all[!region=="Bunkers"],'`GHG Intensity of FE` ~ `Emissions|Kyoto Gases`/`Final Energy` ' , newUnit='kg CO2eq/GJ')
+    all <- calcVariable(all,'`GHG Intensity of FE` ~ `Emissions|Kyoto Gases`/`Final Energy` ' , newUnit='kg CO2eq/GJ')
     all <- calcVariable(all,'`Energy Intensity of GDP|MER` ~ `Final Energy`/`GDP|MER` ' , newUnit='GJ/$2005')
     all <- calcVariable(all,'`Energy Intensity of GDP|PPP` ~ `Final Energy`/`GDP|PPP` ' , newUnit='GJ/$2005')
     all <- calcVariable(all,'`GDP per capita|MER` ~ `GDP|MER`/`Population` ' , newUnit='1000 $US 2005/cap')
@@ -112,6 +112,8 @@ add_variables <- function(all,scens){
     all <- calcRate(all, c("Emissions Intensity of GDP|MER","Carbon Intensity of FE","Energy Intensity of GDP|MER","Emissions|CO2|FFI"))
 
 #    all <- overwrite(remind::calcCumulatedDiscount(all, discount = 0.05, nameVar = "GDP|MER"), all)
+    
+    all=all[!c(region=="Bunkers"&variable%in%c("GHG Intensity of FE","Emissions|Kyoto Gases|Excl. AFOLU CO2","Non-CO2 GHG per capita","GHG emissions per capita"))]
 
     hist=all[period==2010& Category=="NPi"]
     hist$Category<-"Historical"
@@ -125,7 +127,7 @@ add_variables <- function(all,scens){
 
     all <- calcVariable(all,'`Reduction rel to 2010` ~ 100.0 - `Emissions|CO2|FFI|rel2010` * 100 ' , newUnit='%')
     all <- rbind(all,hist)
-    
+    all <- na.omit(all)
     return(all)
 }
 
