@@ -142,8 +142,8 @@ a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,tit
 source("functions/plot_functions_xcut.R")
 regs <- c("CHN","IND","RUS","BRA","USA","EU","JPN","RoW","Bunkers","World")
 cats <- c("Historical","No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
-c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy"),cats = cats,per=c(2030),file_pre="1c_CO2energy_2030"
-                                   ,lab = "Mt CO2/yr",title=T,Title="Global energy CO2 emissions",hist=T,quantiles=F,colour=T)
+c<-plot_stackbar_regions(regs=regs,dt=all,vars=c("Emissions|CO2|Energy and Industrial Processes"),cats = cats,per=c(2030),file_pre="1c_CO2energy_2030"
+                                   ,lab = "Mt CO2/yr",title=T,Title="Global energy & industry CO2 emissions",hist=T,quantiles=F,colour=T)
 
 
 # Figure 1def (old) - Key regions -----------------------------------------------
