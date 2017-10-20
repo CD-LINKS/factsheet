@@ -128,8 +128,6 @@ tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy and In
 tmp1$variable <- "Emissions|CO2"
 all <- rbind(all,tmp1)
 
-# Kyoto Gases for DNE21+ are in SAR, change to AR4
-
 # With/without CCS --------------------------------------------------------
 
 
@@ -229,6 +227,7 @@ all<-rbind(all,tmpC)
 tmp=all[model%in%c("COPPE-COFFEE 1.0")&variable%in%c("Emissions|Kyoto Gases", "Emissions|F-Gases")] 
 tmp[variable=="Emissions|F-Gases"]$unit<-"Mt CO2-equiv/yr"
 tmp=spread(tmp,variable,value)
+tmp=na.omit(tmp)
 # Add F-gases to Kyoto Gases
 tmp=tmp%>%mutate(`Emissions|Kyoto Gases`=`Emissions|Kyoto Gases`+`Emissions|F-Gases`)
 tmp=gather(tmp,variable,value,c(`Emissions|Kyoto Gases`,`Emissions|F-Gases`))
@@ -254,56 +253,8 @@ if("World"%in%cfg$regions){
   tmp2$unit<-"Mt CO2/yr"
   all <- rbind(all,tmp1,tmp2)}
 
-# CH4 and N2O sub-categories ----------------------------------------------
-# Adding emissions sub-categories to models that don't report it, needed for calculation of total waste emissions - copy for other sub-categories
-tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|N2O"]$model),unique(all[variable=="Emissions|N2O|Other"]$model))
-          &variable=="Emissions|N2O"]
-tmp1$variable<-"Emissions|N2O|Other"
-tmp1$value<-0
-all<-rbind(all,tmp1)
 
-tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|N2O"]$model),unique(all[variable=="Emissions|N2O|Energy"]$model))
-          &variable=="Emissions|N2O"]
-tmp1$variable<-"Emissions|N2O|Energy"
-tmp1$value<-0
-all<-rbind(all,tmp1)
-
-tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|N2O"]$model),unique(all[variable=="Emissions|N2O|AFOLU"]$model))
-          &variable=="Emissions|N2O"]
-tmp1$variable<-"Emissions|N2O|AFOLU"
-tmp1$value<-0
-all<-rbind(all,tmp1)
-
-tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|AFOLU"]$model))
-          &variable=="Emissions|CH4"]
-tmp1$variable<-"Emissions|CH4|AFOLU"
-tmp1$value<-0
-all<-rbind(all,tmp1)
-
-tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Supply"]$model))
-          &variable=="Emissions|CH4"]
-tmp1$variable<-"Emissions|CH4|Energy|Supply"
-tmp1$value<-0
-all<-rbind(all,tmp1)
-
-tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Demand|Industry"]$model))
-          &variable=="Emissions|CH4"]
-tmp1$variable<-"Emissions|CH4|Energy|Demand|Industry"
-tmp1$value<-0
-all<-rbind(all,tmp1)
-
-tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Demand|Transportation"]$model))
-          &variable=="Emissions|CH4"]
-tmp1$variable<-"Emissions|CH4|Energy|Demand|Transportation"
-tmp1$value<-0
-all<-rbind(all,tmp1)
-
-tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Demand|Residential and Commercial"]$model))
-          &variable=="Emissions|CH4"]
-tmp1$variable<-"Emissions|CH4|Energy|Demand|Residential and Commercial"
-tmp1$value<-0
-all<-rbind(all,tmp1)
-
+# Other model-specific fixes - part 2 -------------------------------------
 
 ## 3. GEM-E3 & DNE21+: using average of other models for missing emission sources/sectors 
 #Quickfix for DNE and GEM-E3:
@@ -393,54 +344,104 @@ setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Sc
 all=all[!(variable%in%c("Emissions|CO2","Emissions|CH4","Emissions|N2O") & model%in%c("DNE21+ V.14")&region!="World")]
 all<-rbind(all,tmp)
 
-# Other model-specific fixes - part 2 -------------------------------------
+# CH4 and N2O sub-categories ----------------------------------------------
+# Adding emissions sub-categories to models that don't report it, needed for calculation of total waste emissions - copy for other sub-categories
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|N2O"]$model),unique(all[variable=="Emissions|N2O|Other"]$model))
+          &variable=="Emissions|N2O"]
+tmp1$variable<-"Emissions|N2O|Other"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|N2O"]$model),unique(all[variable=="Emissions|N2O|Energy"]$model))
+          &variable=="Emissions|N2O"]
+tmp1$variable<-"Emissions|N2O|Energy"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|N2O"]$model),unique(all[variable=="Emissions|N2O|AFOLU"]$model))
+          &variable=="Emissions|N2O"]
+tmp1$variable<-"Emissions|N2O|AFOLU"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|AFOLU"]$model))
+          &variable=="Emissions|CH4"]
+tmp1$variable<-"Emissions|CH4|AFOLU"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Supply"]$model))
+          &variable=="Emissions|CH4"]
+tmp1$variable<-"Emissions|CH4|Energy|Supply"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Demand|Industry"]$model))
+          &variable=="Emissions|CH4"]
+tmp1$variable<-"Emissions|CH4|Energy|Demand|Industry"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Demand|Transportation"]$model))
+          &variable=="Emissions|CH4"]
+tmp1$variable<-"Emissions|CH4|Energy|Demand|Transportation"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+tmp1<-all[model %in% setdiff(unique(all[variable=="Emissions|CH4"]$model),unique(all[variable=="Emissions|CH4|Energy|Demand|Residential and Commercial"]$model))
+          &variable=="Emissions|CH4"]
+tmp1$variable<-"Emissions|CH4|Energy|Demand|Residential and Commercial"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+# Other model-specific fixes - part 3 -------------------------------------
 
 ## 5. adjust POLES AFOLU CO2 emissions, becasue they have different accounting method
 ## harmonisation based on FAOSTAT and offset (diff POLES and FAOSTAT) is added to Emissions|Kyoto and Emissions|CO2|AFOLU
 ## on global level (World) and for individual countries for which data is available
 ##rm(tmp1); rm(tmp2); rm(tmp3); rm(tmp)
-#data_POLES_AFOLU <- data.table(read.csv('data/POLES AFOLU emissions.csv', sep=";"))
-#colnames(data_POLES_AFOLU)[1] <- 'region'
-#data_POLES_AFOLU <- data_POLES_AFOLU[, diff:= FAOSTAT - POLES]
-#all_original <- all
-#tmp1 <- all_original[variable%in%c("Emissions|Kyoto Gases") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
-#tmp2 <- all_original[variable%in%c("Emissions|CO2|AFOLU") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
-#tmp3 <- all_original[variable%in%c("Emissions|CO2") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
-## Kyoto gases
-#setkey(tmp1, region)
-#setkey(data_POLES_AFOLU, region)
-#tmp1 <-merge(tmp1, data_POLES_AFOLU)
-#tmp1=spread(tmp1,variable,value)
-#tmp1=tmp1%>%mutate(`Emissions|Kyoto Gases`=`Emissions|Kyoto Gases`+ `diff`)
+data_POLES_AFOLU <- data.table(read.csv('data/POLES AFOLU emissions.csv', sep=";"))
+colnames(data_POLES_AFOLU)[1] <- 'region'
+data_POLES_AFOLU <- data_POLES_AFOLU[, diff:= FAOSTAT - POLES]
+all_original <- all
+tmp1 <- all_original[variable%in%c("Emissions|Kyoto Gases") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
+tmp2 <- all_original[variable%in%c("Emissions|CO2|AFOLU") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
+tmp3 <- all_original[variable%in%c("Emissions|CO2") & model%in%c("POLES CDL") & region%in%data_POLES_AFOLU$region]
+# Kyoto gases
+setkey(tmp1, region)
+setkey(data_POLES_AFOLU, region)
+tmp1 <-merge(tmp1, data_POLES_AFOLU)
+tmp1=spread(tmp1,variable,value)
+tmp1=tmp1%>%mutate(`Emissions|Kyoto Gases`=`Emissions|Kyoto Gases`+ `diff`)
 
 ## AFOLU CO2 emissions
-#setkey(tmp2, region)
-#setkey(data_POLES_AFOLU, region)
-#tmp2 <-merge(tmp2, data_POLES_AFOLU)
-#tmp2=spread(tmp2,variable,value)
-#tmp2=tmp2%>%mutate(`Emissions|CO2|AFOLU`=`Emissions|CO2|AFOLU`+ `diff`)
-## CO2 emissions
-#setkey(tmp3, region)
-#setkey(data_POLES_AFOLU, region)
-#tmp3 <-merge(tmp3, data_POLES_AFOLU)
-#tmp3=spread(tmp3,variable,value)
-#tmp3=tmp3%>%mutate(`Emissions|CO2`=`Emissions|CO2`+ `diff`)
+setkey(tmp2, region)
+setkey(data_POLES_AFOLU, region)
+tmp2 <-merge(tmp2, data_POLES_AFOLU)
+tmp2=spread(tmp2,variable,value)
+tmp2=tmp2%>%mutate(`Emissions|CO2|AFOLU`=`Emissions|CO2|AFOLU`+ `diff`)
+# CO2 emissions
+setkey(tmp3, region)
+setkey(data_POLES_AFOLU, region)
+tmp3 <-merge(tmp3, data_POLES_AFOLU)
+tmp3=spread(tmp3,variable,value)
+tmp3=tmp3%>%mutate(`Emissions|CO2`=`Emissions|CO2`+ `diff`)
 
-#tmp1 <- data.table(tmp1); tmp2 <- data.table(tmp2); tmp3 <- data.table(tmp3);
-#tmp1 <- tmp1[ ,`:=`(POLES = NULL, FAOSTAT = NULL, diff = NULL)]
-#tmp2 <- tmp2[ ,`:=`(POLES = NULL, FAOSTAT = NULL, diff = NULL)]
-#tmp3 <- tmp3[ ,`:=`(POLES = NULL, FAOSTAT = NULL, diff = NULL)]
-#tmp1$variable <- "Emissions|Kyoto Gases"
-#tmp2$variable <- "Emissions|CO2|AFOLU"
-#tmp3$variable <- "Emissions|CO2"
+tmp1 <- data.table(tmp1); tmp2 <- data.table(tmp2); tmp3 <- data.table(tmp3);
+tmp1 <- tmp1[ ,`:=`(POLES = NULL, FAOSTAT = NULL, diff = NULL)]
+tmp2 <- tmp2[ ,`:=`(POLES = NULL, FAOSTAT = NULL, diff = NULL)]
+tmp3 <- tmp3[ ,`:=`(POLES = NULL, FAOSTAT = NULL, diff = NULL)]
+tmp1$variable <- "Emissions|Kyoto Gases"
+tmp2$variable <- "Emissions|CO2|AFOLU"
+tmp3$variable <- "Emissions|CO2"
 
-#setnames(tmp1, "Emissions|Kyoto Gases", "value")
-#setnames(tmp2, "Emissions|CO2|AFOLU", "value")
-#setnames(tmp3, "Emissions|CO2", "value")
-#tmp <- rbind(tmp1,tmp2,tmp3)
-#setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
-#all=all_original[!(variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","Emissions|CO2") & model%in%c("POLES CDL"))]
-#all<-rbind(all,tmp)
+setnames(tmp1, "Emissions|Kyoto Gases", "value")
+setnames(tmp2, "Emissions|CO2|AFOLU", "value")
+setnames(tmp3, "Emissions|CO2", "value")
+tmp <- rbind(tmp1,tmp2,tmp3)
+setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+all=all_original[!(variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","Emissions|CO2") & model%in%c("POLES CDL"))]
+all<-rbind(all,tmp)
 
 
 
