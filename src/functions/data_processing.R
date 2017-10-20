@@ -99,7 +99,7 @@ add_variables <- function(all,scens){
 #    all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Other` ' , newUnit='billion US$2010/yr')
     all <- calcVariable(all,'`Mitigation Costs` ~ `Policy Cost` / `GDP|MER` *100 ' , newUnit='% of GDP')
     
-    all <- calcVariable(all,'`Emissions|Non-CO2` ~ (`Emissions|CH4`*25)+(`Emissions|N2O`*0.298)' , newUnit='Mt CO2-equiv/yr') #`Emissions|F-Gases`
+    all <- calcVariable(all,'`Emissions|Non-CO2` ~ (`Emissions|CH4`*25)+(`Emissions|N2O`*0.298) + `Emissions|F-Gases`' , newUnit='Mt CO2-equiv/yr') #`Emissions|F-Gases`
     if(cfg$r!="RUS"){all <- calcRel2Base(all,var="Emissions|Non-CO2",baseEq1=F,"Non-CO2 emissions rel. to Base",scens)}
     all <- calcRel2Base(all,var="Emissions|CO2",baseEq1=F,"CO2 emissions rel. to Base",scens)
     source("functions/calcBudget.R")
