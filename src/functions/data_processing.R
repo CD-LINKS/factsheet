@@ -128,7 +128,6 @@ add_variables <- function(all,scens){
 
     all <- calcVariable(all,'`Reduction rel to 2010` ~ 100.0 - `Emissions|CO2|FFI|rel2010` * 100 ' , newUnit='%')
     all <- rbind(all,hist)
-    all <- na.omit(all)
     return(all)
 }
 
