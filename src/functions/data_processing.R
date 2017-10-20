@@ -82,7 +82,7 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
     all <- calcVariable(all,'`CI over EI indicator` ~ `Carbon intensity rel. to Base`/`Energy intensity rel. to Base` ' , newUnit='')
     # calcualte non-co2 emisisons, energy CH4 emissoins for industry, buildings and transportation are very small and left out
-    all <- calcVariable(all,'`Emissions|Non-CO2` ~ 25 * (`Emissions|CH4|Energy|Supply` + `Emissions|CH4|AFOLU`) + 0.298 * (`Emissions|N2O|Energy` + `Emissions|N2O|AFOLU`)' , newUnit='Mt CO2-equiv/yr')
+    #all <- calcVariable(all,'`Emissions|Non-CO2` ~ 25 * (`Emissions|CH4|Energy|Supply` + `Emissions|CH4|AFOLU`) + 0.298 * (`Emissions|N2O|Energy` + `Emissions|N2O|AFOLU`)' , newUnit='Mt CO2-equiv/yr')
     all <- calcVariable(all,'`Emissions|CH4|Waste` ~ `Emissions|CH4` - `Emissions|CH4|Energy|Supply` - `Emissions|CH4|Energy|Demand|Industry`- `Emissions|CH4|Energy|Demand|Residential and Commercial` - `Emissions|CH4|Energy|Demand|Transportation`- `Emissions|CH4|AFOLU`' , newUnit='Mt CH4/yr')
     all <- calcVariable(all,'`Emissions|N2O|Waste` ~ `Emissions|N2O` - `Emissions|N2O|Energy` - `Emissions|N2O|Other` - `Emissions|N2O|AFOLU`' , newUnit='kt N2O/yr')
     
