@@ -279,7 +279,7 @@ if("World"%in%cfg$regions){
   tmp1=tmp1[region=="Bunkers"]
   setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
   tmp2=tmp1
-  tmp2$variable<-"Emissions|CO2|Energy"
+  tmp2$variable<-"Emissions|CO2|Energy and Industrial Processes"
   tmp2$unit<-"Mt CO2/yr"
   all <- rbind(all,tmp1,tmp2)}
 
