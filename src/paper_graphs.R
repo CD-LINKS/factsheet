@@ -191,6 +191,13 @@ ggsave(file=paste(cfg$outdir,"/Fig1_arrange.png",sep=""),h,width=20,height=12,dp
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA")
 cats <- c("Historical","No policy","National policies","NDC")
+
+# remove outliers due to different region definition or limited policy implementaiton
+dt_all <- all
+dt_all[model == "COPPE-COFFEE 1.0" & region == "EU", "value"] <- NA
+dt_all[model == "DNE21+ V.14" & (region == "CHN" | region == "IND"), "value"] <- NA
+dt_all[model == "MESSAGE" & region == "EU", "value"] <- NA
+
 a2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),ylabel="GHG emissions (MtCO2eq/year)",
                                   file_pre="1b_GHG_reg_2030", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
                                   modnames=T,mod.labels=c("AIM/CGE"="AIM","COPPE-COFFEE 1.0"="COFFEE","DNE21+ V.14"="DNE","GEM-E3"="GEM-E3","IMAGE 3.0"="IMAGE","MESSAGEix-GLOBIOM_1.0"="MESSAGE","POLES CDL"="POLES","REMIND-MAgPIE 1.7-3.0"="REMIND","WITCH2016"="WITCH",
@@ -449,10 +456,16 @@ source("functions/plot_functions.R")
 # tc<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
 #                  yearlabglob=T,file_pre="ci_ei_scatter")   
 
+# remove outliers due to different region definition or limited policy implementaiton
+dt_all <- all
+dt_all[model == "COPPE-COFFEE 1.0" & region == "EU", "value"] <- NA
+dt_all[model == "DNE21+ V.14" & (region == "CHN" | region == "IND"), "value"] <- NA
+dt_all[model == "MESSAGEix-GLOBIOM_1.0" & region == "EU", "value"] <- NA
+
 #CI vs. EI relative to 2010
 vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Carbon Intensity of FE|rel2010")
 cats <- c("No policy","National policies","Carbon budget 1000","Carbon budget 400")
-td<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
+td<-plot_scatter(reg="World",dt=dt_all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
                  yearlabglob=T,file_pre="ci_ei_scatter_baseyear", xlim=c(-0.1,1), ylim=c(-0.1,1),enhance=T)   
 
 # vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Total CO2 Intensity of FE|rel2010")
@@ -460,13 +473,13 @@ td<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,
 # te<-plot_scatter(reg="World",dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
 #                  yearlabglob=T,file_pre="ci_ei_scatter_baseyear_totalCO2")   
 
-# source("functions/plot_functions_xcut.R")
-# #CI vs. EI split out and for regions
-# regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
-# cats <- c("NoPOL","NPi","2030_low","2020_verylow")
-# tf<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Carbon Intensity of Fuel|rel2010","Carbon Intensity of Electricity|rel2010","Energy Intensity of GDP|MER|rel2010"),
-#                                    cats=cats,years=2050,file_pre="CI_EI_2050_regions",ylabel="Carbon and energy intensity relative to 2010",
-#                                    b.multicat=F,globpoints = T,b.multivar=T,var.labels=c("CI fuel","CI electricity","EI"),ylim=c(-0.5,1.5))
+ source("functions/plot_functions_xcut.R")
+ #CI vs. EI split out and for regions
+ regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
+ cats <- c("No policy","National policies","Carbon budget 1000","Carbon budget 400")
+ #tf<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Carbon Intensity of FE|rel2010","Carbon Intensity of Electricity|rel2010","Energy Intensity of GDP|MER|rel2010"),
+ #tf<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=vars,
+ tf<-plot_pointrange_multiScen_glob(regs=regs,dt=dt_all,vars=c("Energy Intensity of GDP|MER|rel2010","Carbon Intensity of FE|rel2010"), cats=cats,years=2050,file_pre="CI_EI_2050_regions",ylabel="Carbon and energy intensity relative to 2010", b.multicat=F,globpoints = T,b.multivar=T,var.labels=c("CI","EI"),ylim=c(-0.5,1.5), quantiles=F)
 
 #EI vs. CI split out - ternary diagram - TODO?
 #library(ggtern)
@@ -477,10 +490,10 @@ regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
 cats <- c("National policies","Carbon budget 1000","Carbon budget 400")
 #"2020_high","2020_low","2030_high","2030_low"
 # tb1<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2100,file_pre="MitiCosts_2100_mitigscens",ylabel="Mitigation costs as % of GDP (2100)",b.multicat=T,globpoints = T)
-tb2<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=2050,file_pre="MitiCosts_2050_mitigscens",
+tb2<-plot_pointrange_multiScen_glob(regs=regs,dt=dt_all,vars="Mitigation Costs",cats=cats,years=2050,file_pre="MitiCosts_2050_mitigscens",
                                     ylabel="Mitigation costs as % of GDP (2050)",b.multicat=T,globpoints=T,quantiles=F)
 regs <- c("World")
-tb3<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cats=cats,years=c(2030,2050,2100),file_pre="MitiCosts_2050_mitigscens",
+tb3<-plot_pointrange_multiScen_glob(regs=regs,dt=dt_all,vars="Mitigation Costs",cats=cats,years=c(2030,2050,2100),file_pre="MitiCosts_2050_mitigscens",
                                     ylabel="Mitigation costs as % of GDP (2050)",b.multiyear=T,globpoints=T,quantiles=F,nonreg=T)
 
 # g=arrangeGrob(tb2,tb1,ncol=1)
@@ -499,7 +512,7 @@ tb3<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars="Mitigation Costs",cat
 g=arrangeGrob(td,tb2,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig4_ac.png",sep=""),g,width=22,height=18,dpi=200)
 
-g=arrangeGrob(td,tb3,ncol=1)
+g=arrangeGrob(td,tf, tb3,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig4_global.png",sep=""),g,width=22,height=18,dpi=200)
 
 # Figure 5 - Non-CO2? -----------------------------------------------------
@@ -512,12 +525,19 @@ five<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("CO2 emissions rel.
 # Figure 2 - regions ALTERNATIVE-----------------------------------------------------
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA")
-cats <- c("Historical","No Policy","National policies","NDC", "Carbon budget 1000", "Carbon budget 400")
-a2_alt<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),ylabel="GHG emissions (MtCO2eq/year)",
-                                   file_pre="1b_GHG_reg_2030_alt", var.labels = c("GHG emissions (2030)"),b.multiyear = F,globpoints = T,hist=T,
+cats <- c("Historical","No policy","National policies","NDC")
+Q = F
+# remove outliers due to different region definition or limited policy implementaiton
+dt_all <- all
+dt_all[model == "COPPE-COFFEE 1.0" & region == "EU", "value"] <- NA
+dt_all[model == "DNE21+ V.14" & (region == "CHN" | region == "IND"), "value"] <- NA
+dt_all[model == "MESSAGEix-GLOBIOM_1.0" & region == "EU", "value"] <- NA
+
+a2_alt<-plot_pointrange_multiScen_glob(regs=regs,dt=dt_all,vars=c("Emissions|Kyoto Gases"),cats = cats, years=c(2030),ylabel="GHG emissions excl AFOLU CO2 (MtCO2eq/year)",
+                                   file_pre="1b_GHG_reg_2030_alt", var.labels = c("GHG emissions  excl. AFOLU CO2 (2030)"),b.multiyear = F,globpoints = T,hist=T,
                                    modnames=T,mod.labels=c("AIM/CGE"="AIM","COPPE-COFFEE 1.0"="COFFEE","DNE21+ V.14"="DNE","GEM-E3"="GEM-E3","IMAGE 3.0"="IMAGE","MESSAGEix-GLOBIOM_1.0"="MESSAGE","POLES CDL"="POLES","REMIND-MAgPIE 1.7-3.0"="REMIND","WITCH2016"="WITCH",
                                                            "*COPPE-MSB_v2.0"="BRA-MSB","*China TIMES"="CHN-TIMES","*IPAC-AIM/technology V1.0"="CHN-IPAC","*GEM-E3"="EU-GEM-E3","*PRIMES_V1"="EU-PRIMES","*India MARKAL"="IND-Markal","*AIM-India [IIMA]"="IND-AIM","*AIM/Enduse[Japan]"="JPN-AIM","*DNE21+ V.14 (national)"="JPN-DNE","*RU-TIMES 3.2"="RUS-TIMES","*GCAM-USA_CDLINKS"="USA-GCAM"),
-                                   natpoints=F,catsnat=c("Historical","NoPOL","NPi","INDC", "", "")) 
+                                   natpoints=F,catsnat=c("Historical","NoPOL","NPi","INDC", "", ""), quantiles = Q) 
 # stacked bar per region
 UseErrorBars = F
 regs <- c("BRA")
