@@ -558,7 +558,6 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
   if(hist){ dt$period<-as.numeric(dt$period)
             dt[Category=="Historical"]$period<-years}
   dt <- dt[ variable %in% vars & period %in% years & Category %in% cats & region %in% regs & !is.na(value)] %>% factor.data.frame()
-  
   dt$region <- factor(dt$region, levels = regs, ordered = T )
   dt$Category <- factor(dt$Category, levels = cats, ordered = T )
   dt$variable <- factor(dt$variable, levels = vars, ordered = T )
@@ -572,7 +571,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
   for(mod in unique(dtg$model)){
     dtg[model==mod]=dtg[model==mod&region %in% regions[model==mod]$region]
   }
-  
+
   baselines <-dtg[,list(Baseline=unique(Baseline)),by=c("Category","region","period","Scope","unit","variable")]
   if(quantiles){dtg1 <-dtg[,list(mean=median(value),min=quantile(value,prob=minprob),max=quantile(value,prob=maxprob)),by=c("Category","region","period","Scope","unit","variable")]
   }else{
@@ -586,7 +585,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
   if (b.multivar){
     levels(dtg$variable) <- var.labels
     levels(dtg1$variable) <- var.labels
-    levels(dtn$variable) <- var.labels
+    if(natpoints){levels(dtn$variable) <- var.labels}
     
   }
   
