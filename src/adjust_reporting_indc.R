@@ -257,7 +257,7 @@ all<-rbind(all,tmpC)
 tmp=all[model%in%c("COPPE-COFFEE 1.0")&variable%in%c("Emissions|Kyoto Gases", "Emissions|F-Gases")] 
 tmp[variable=="Emissions|F-Gases"]$unit<-"Mt CO2-equiv/yr"
 tmp=spread(tmp,variable,value)
-tmp=na.omit(tmp)
+#tmp=na.omit(tmp)
 # Add F-gases to Kyoto Gases
 tmp=tmp%>%mutate(`Emissions|Kyoto Gases`=`Emissions|Kyoto Gases`+`Emissions|F-Gases`)
 tmp=gather(tmp,variable,value,c(`Emissions|Kyoto Gases`,`Emissions|F-Gases`))
