@@ -129,6 +129,7 @@ all$Category=str_replace_all(all$Category,"NPip","National policies planned")
 all$Category=str_replace_all(all$Category,"NPi","National policies")
 all$Category=str_replace_all(all$Category,"2020_low","Carbon budget 1000")
 all$Category=str_replace_all(all$Category,"2020_verylow","Carbon budget 400")
+all$Category=str_replace_all(all$Category,"2030_low","Carbon budget 1000 (2030)")
 
 # Figure 1a - time series -------------------------------------------------
 source("functions/plot_functions.R")
@@ -297,11 +298,19 @@ regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS","RoW","World")
 mods <- unique(all$model)
 vars <- "Emissions|CO2"
 #cats <- c("NoPOL","NPi","INDC", "2030_high", "2030_low", "2020_high", "2020_low", "2020_verylow")
-cats <- c("No policy","National policies","NDC","2030_low","Carbon budget 1000","Carbon budget 400")
-scens2deg <- c("NDC", "2030_high", "2030_low", "Carbon budget 400")
+cats <- c("No policy","National policies","NDC","Carbon budget 1000 (2030)","Carbon budget 1000","Carbon budget 400")
+cats_nat <- c("No policy", "National policies", "NDC")
+cats_add <- c("Carbon budget 1000 (2030)","Carbon budget 1000","Carbon budget 400")
+scens2deg <- c("NDC", "Carbon budget 1000 (2030)", "Carbon budget 1000", "Carbon budget 400")
+
+# remove outliers due to different region definition or limited policy implementaiton
+dt_all <- all
+dt_all[model == "COPPE-COFFEE 1.0" & region == "EU", "value"] <- NA
+dt_all[model == "DNE21+ V.14" & (region == "CHN" | region == "IND"), "value"] <- NA
+dt_all[model == "MESSAGE" & region == "EU", "value"] <- NA
 
 #calculate emissions and 2050 budgets
-v_emireg <- all %>%
+v_emireg <- dt_all %>%
   filter (variable %in% vars & region %in% regs & !is.na(value) & Category %in% cats & model %in% mods) %>%
   #mutate(value = value / 1000, unit = "GtCO2/yr") %>%
   factor.data.frame()
@@ -342,9 +351,7 @@ v_emi_cumrel2$unit<-"MtCO2"
 v_emi_cumrel2$period<-2100
 v_emi_cumrel2=data.table(v_emi_cumrel2)
 
-write.csv2(v_emi_cumrel, file = "data/WP3_3/EmissionBudgets.csv", row.names = F,
-          col.names = c("MODEL", "SCENARIO", "REGION", "CO2 Energy&Ind 2010",  "CO2 E&I 2010-2050", "Emission Years E&I",
-                        "CO2 total 2010",  "CO2 total 2010-2050", "Emission Years CO2 total"))
+write.table(v_emi_cumrel, file = "data/WP3_3/EmissionBudgets.csv", sep=";", row.names = F)
 # library(openxlsx)
 # write.xlsx(v_emi_cumrel, file = "EmissionBudgets.xlsx")
 
@@ -367,7 +374,10 @@ theme_set(ggplot2::theme_bw(base_size = 15))
 
 #2050
 regs <- c("BRA","CHN","IND","EU","JPN","USA","RUS","RoW","World")
+
 v_plot <-  filter(v_emi_cumrel, Category %in% cats) 
+#v_plot[Scope == "global"]$Category =  factor(v_plot$Category, levels = cats, ordered = T)
+#v_plot[Scope == "national"$Category =  factor(v_plot$Category, levels = cats_nat, ordered = T)
 v_plot$Category =  factor(v_plot$Category, levels = cats, ordered = T)
 v_plot$region =  factor(v_plot$region, levels = regs, ordered = T)
 v_plot=data.table(v_plot)
@@ -381,16 +391,17 @@ a=ggplot() +
   scale_shape_manual(values = rep(seq(1,10),2),name="Model") +
   scale_size_manual(values = c(rep(1,10),rep(3,10)),name="Model") +
   theme(axis.text.x  = element_blank())
-ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2050","_multiregbox.pdf"),a,
-       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
-ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2050","_multiregbox.png"),a,
-       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
+#ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2050","_multiregbox.pdf"),a,
+#       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
+#ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2050","_multiregbox.png"),a,
+#       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 
 b=ggplot() +
   geom_boxplot(data=v_plot[Scope=="global"&variable=="CO2rel2010"],aes(x=Category,y=value, fill = Category), outlier.size = 0) +
-  geom_point(data=v_plot[variable=="CO2rel2010"],aes(x=Category,y=value,shape=model,color=model,size=model)) +
+  geom_point(data=v_plot[variable=="CO2rel2010"],aes(x=Category,y=value,shape=model,color=model,size=model)) + # coord_cartesian(ylim = c(0, 100)) +
+  # facet_wrap(~region, scales = "fixed") +
   facet_wrap(~region, scales = "free_y") +
-  ggtitle(paste0("CO2 total (2011-2050 rel. to 2010)")) + ylab("Emission Years") +
+  ggtitle(expression(paste("Cumulative CO"[2], " emissions (2011-2050) relative to 2010"))) + xlab("") + ylab("")  +
   scale_color_manual(values = c(rep("black",9),rep("red",10)),name="Model")+
   scale_shape_manual(values = rep(seq(1,10),2),name="Model") +
   scale_size_manual(values = c(rep(1,10),rep(3,10)),name="Model") +
@@ -416,10 +427,10 @@ c=ggplot() +
   scale_shape_manual(values = rep(seq(1,10),2),name="Model") +
   scale_size_manual(values = c(rep(1,10),rep(3,10)),name="Model") +
   theme(axis.text.x  = element_blank())
-ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2100","_multiregbox.pdf"),c,
-       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
-ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2100","_multiregbox.png"),c,
-       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
+#ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2100","_multiregbox.pdf"),c,
+#       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
+#ggsave(file=paste0(cfg$outdir,"/","CO2tot_budget_2100","_multiregbox.png"),c,
+#       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 
 d=ggplot() +
   geom_boxplot(data=v_plot[Scope=="global"&variable=="CO2rel2010"],aes(x=Category,y=value, fill = Category), outlier.size = 0) +
@@ -430,10 +441,10 @@ d=ggplot() +
   scale_shape_manual(values = rep(seq(1,10),2),name="Model") +
   scale_size_manual(values = c(rep(1,10),rep(3,10)),name="Model") +
   theme(axis.text.x  = element_blank() )
-ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2100","_multiregbox.pdf"),d,
-       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
-ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2100","_multiregbox.png"),d,
-       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
+#ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2100","_multiregbox.pdf"),d,
+#       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
+#ggsave(file=paste0(cfg$outdir,"/","CO2tot_EmissionYears_2100","_multiregbox.png"),d,
+#       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 
 # Figure 4 - implementation -----------------------------------------------
 # Kaya
@@ -456,15 +467,15 @@ source("functions/plot_functions.R")
 
 # remove outliers due to different region definition or limited policy implementaiton
 dt_all <- all
-dt_all[model == "COPPE-COFFEE 1.0" & region == "EU", "value"] <- NA
-dt_all[model == "DNE21+ V.14" & (region == "CHN" | region == "IND"), "value"] <- NA
-dt_all[model == "MESSAGEix-GLOBIOM_1.0" & region == "EU", "value"] <- NA
+#dt_all[model == "COPPE-COFFEE 1.0" & region == "EU", "value"] <- NA
+#dt_all[model == "DNE21+ V.14" & (region == "CHN" | region == "IND"), "value"] <- NA
+#dt_all[model == "MESSAGEix-GLOBIOM_1.0" & region == "EU", "value"] <- NA
 
 #CI vs. EI relative to 2010
 vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Carbon Intensity of FE|rel2010")
 cats <- c("No policy","National policies","Carbon budget 1000","Carbon budget 400")
 td<-plot_scatter(reg="World",dt=dt_all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",
-                 yearlabglob=T,file_pre="ci_ei_scatter_baseyear", xlim=c(-0.1,1), ylim=c(-0.1,1),enhance=T)   
+                 yearlabglob=T,file_pre="ci_ei_scatter_baseyear", xlim=c(0,1), ylim=c(-0,1.5),enhance=T)   
 
 # vars <- c(x="Energy Intensity of GDP|MER|rel2010",y="Total CO2 Intensity of FE|rel2010")
 # cats <- c("NoPOL","NPi","2030_low","2020_verylow")
@@ -475,9 +486,7 @@ td<-plot_scatter(reg="World",dt=dt_all[period<=2050],vars_to_spread=vars,cats=ca
  #CI vs. EI split out and for regions
  regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
  cats <- c("No policy","National policies","Carbon budget 1000","Carbon budget 400")
- #tf<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Carbon Intensity of FE|rel2010","Carbon Intensity of Electricity|rel2010","Energy Intensity of GDP|MER|rel2010"),
- #tf<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=vars,
- tf<-plot_pointrange_multiScen_glob(regs=regs,dt=dt_all,vars=c("Energy Intensity of GDP|MER|rel2010","Carbon Intensity of FE|rel2010"), cats=cats,years=2050,file_pre="CI_EI_2050_regions",ylabel="Carbon and energy intensity relative to 2010", b.multicat=F,globpoints = T,b.multivar=T,var.labels=c("CI","EI"),ylim=c(-0.5,1.5), quantiles=F)
+ tf<-plot_pointrange_multiScen_glob(regs=regs,dt=dt_all,vars=c("Energy Intensity of GDP|MER|rel2010","Carbon Intensity of FE|rel2010"), cats=cats,years=2050,file_pre="CI_EI_2050_regions",ylabel="Carbon and energy intensity relative to 2010", b.multicat=F,globpoints = T,b.multivar=T,var.labels=c("EI","CI"),ylim=c(-0.5,1.5), quantiles=F)
 
 #EI vs. CI split out - ternary diagram - TODO?
 #library(ggtern)
@@ -491,11 +500,15 @@ cats <- c("National policies","Carbon budget 1000","Carbon budget 400")
 tb2<-plot_pointrange_multiScen_glob(regs=regs,dt=dt_all,vars="Mitigation Costs",cats=cats,years=2050,file_pre="MitiCosts_2050_mitigscens",
                                     ylabel="Mitigation costs as % of GDP (2050)",b.multicat=T,globpoints=T,quantiles=F)
 regs <- c("World")
-tb3<-plot_pointrange_multiScen_glob(regs=regs,dt=dt_all,vars="Mitigation Costs",cats=cats,years=c(2030,2050,2100),file_pre="MitiCosts_2050_mitigscens",
+tb3<-plot_pointrange_multiScen_glob(regs=regs,dt=dt_all,vars="Mitigation Costs",cats=cats,years=c(2030,2050),file_pre="MitiCosts_2050_mitigscens",
                                     ylabel="Mitigation costs as % of GDP (2050)",b.multiyear=T,globpoints=T,quantiles=F,nonreg=T)
 
-# g=arrangeGrob(tb2,tb1,ncol=1)
-# ggsave(file=paste(cfg$outdir,"/Fig4c.png",sep=""),g,width=16,height=12,dpi=200)
+g=arrangeGrob(td,ncol=1)
+ggsave(file=paste(cfg$outdir,"/Fig4a.png",sep=""),g,width=16,height=12,dpi=200)
+g=arrangeGrob(tf,ncol=1)
+ggsave(file=paste(cfg$outdir,"/Fig4b.png",sep=""),g,width=16,height=12,dpi=200)
+g=arrangeGrob(tb2,ncol=1)
+ggsave(file=paste(cfg$outdir,"/Fig4c.png",sep=""),g,width=16,height=12,dpi=200)
 
 # Combined - figure 4
 # g=arrangeGrob(tc,tb2,ncol=2)
@@ -507,10 +520,10 @@ tb3<-plot_pointrange_multiScen_glob(regs=regs,dt=dt_all,vars="Mitigation Costs",
 # g=arrangeGrob(td,tf,tb2,ncol=1)
 # ggsave(file=paste(cfg$outdir,"/Fig4.png",sep=""),g,width=22,height=18,dpi=200)
 
-g=arrangeGrob(td,tb2,ncol=1)
+g=arrangeGrob(td,tb3,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig4_ac.png",sep=""),g,width=22,height=18,dpi=200)
 
-g=arrangeGrob(td,tf, tb3,ncol=1)
+g=arrangeGrob(td,tf,tb3,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig4_global.png",sep=""),g,width=22,height=18,dpi=200)
 
 # Figure 5 - Non-CO2? -----------------------------------------------------
