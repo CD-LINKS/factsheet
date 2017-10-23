@@ -3,9 +3,6 @@
 
 # Model-specific issues ---------------------------------------------------
 
-# rename baseline to "-"for No policy scenario
-
-
 # Remove GEM-E3_V1 as newest results are uploaded under GEM-E3
 all<-all[!model=="GEM-E3_V1"]
 
