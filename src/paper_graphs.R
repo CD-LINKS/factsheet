@@ -521,6 +521,7 @@ five<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("CO2 emissions rel.
                                    b.multicat=F,b.multireg=T,globpoints = F,var.labels=c("CO2","Non-CO2"),nrow=2,ncol=4)
 ggsave(file=paste0(cfg$outdir,"/","Figure5",".png"),five,
        width=24, height=22, unit="cm", dpi=200, bg = "transparent")
+
 # Figure 2 - regions ALTERNATIVE-----------------------------------------------------
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA")
@@ -539,10 +540,14 @@ a2_alt<-plot_pointrange_multiScen_glob(regs=regs,dt=dt_all,vars=c("Emissions|Kyo
                                    natpoints=F,catsnat=c("Historical","NoPOL","NPi","INDC", "", ""), quantiles = Q) 
 # stacked bar per region
 UseErrorBars = F
+ylim_top = c(0,17500)
+ylim_bottom=c(0,2750)
+breaks_top = c(5000, 10000, 15000)
+breaks_bottom = c(500, 1000, 1500, 2000, 2500)
 regs <- c("BRA")
 cats <- c("Historical","No policy","National policies","NDC", "Carbon budget 1000", "Carbon budget 400")
-b2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial CO2","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
-                      per=c(2030),file_pre="2b_BRA_2030_alt",lab = "Brazil GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+g2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial CO2","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                      per=c(2030),file_pre="2g_BRA_2030_alt",lab = "Brazil GHG emissions (Mt CO2eq/yr)", ylim=ylim_bottom, ybreaks=breaks_bottom, hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
                                                                                                                                      "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
                                                                                                                                      "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
                                                                                                                                      "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
@@ -551,8 +556,8 @@ b2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                       TotalEmis_var = "Emissions|CO2", natpoints=F, error_bar=UseErrorBars, catsnat=c("Historical","NoPOL","NPi","INDC"))
 
 regs <- c("CHN")
-c2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
-                      per=c(2030),file_pre="2c_CHN_2030_alt",lab = "China GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+b2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                      per=c(2030),file_pre="bc_CHN_2030_alt",lab = "China GHG emissions (Mt CO2eq/yr)", ylim=ylim_top, ybreaks=breaks_top,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
                                                                                                                                 "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
                                                                                                                                 "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
                                                                                                                                 "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
@@ -561,8 +566,8 @@ c2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                       TotalEmis_var = "Emissions|CO2", natpoints=F,error_bar=UseErrorBars,catsnat=c("Historical","NoPOL","NPi","INDC"))
 
 regs <- c("IND")
-d2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
-                      per=c(2030),file_pre="2d_IND_2030_alt",lab = "India GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+e2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                      per=c(2030),file_pre="2e_IND_2030_alt",lab = "India GHG emissions (Mt CO2eq/yr)", ylim=ylim_top, ybreaks=breaks_top,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
                                                                                                                                  "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
                                                                                                                                  "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
                                                                                                                                  "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
@@ -571,8 +576,8 @@ d2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                       TotalEmis_var = "Emissions|CO2", natpoints=F,error_bar=UseErrorBars,catsnat=c("Historical","NoPOL","NPi","INDC"))
 
 regs <- c("JPN")
-e2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
-                      per=c(2030),file_pre="2e_JPN_2030_alt",lab = "Japan GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+h2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                      per=c(2030),file_pre="2h_JPN_2030_alt",lab = "Japan GHG emissions (Mt CO2eq/yr)", ylim=ylim_bottom, ybreaks=breaks_bottom,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
                                                                                                                                 "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
                                                                                                                                 "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
                                                                                                                                 "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
@@ -581,8 +586,8 @@ e2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                       TotalEmis_var = "Emissions|CO2", natpoints=F,error_bar=UseErrorBars,catsnat=c("Historical","NoPOL","NPi","INDC"))
 
 regs <- c("USA")
-f2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
-                      per=c(2030),file_pre="2f_USA_2030_alt",lab = "USA GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+c2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                      per=c(2030),file_pre="2c_USA_2030_alt",lab = "USA GHG emissions (Mt CO2eq/yr)", ylim=ylim_top, ybreaks=breaks_top,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
                                                                                                                               "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
                                                                                                                               "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
                                                                                                                               "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
@@ -591,8 +596,8 @@ f2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                       TotalEmis_var = "Emissions|CO2", natpoints=F,error_bar=UseErrorBars,catsnat=c("Historical","NoPOL","NPi","INDC"))
 
 regs <- c("EU")
-g2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
-                      per=c(2030),file_pre="2g_EU_2030_alt",lab = "EU GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+d2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                      per=c(2030),file_pre="2d_EU_2030_alt",lab = "EU GHG emissions (Mt CO2eq/yr)", ylim=ylim_top, ybreaks=breaks_top,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
                                                                                                                             "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
                                                                                                                             "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
                                                                                                                             "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings  CO2",
@@ -600,9 +605,10 @@ g2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                                                                                                                             "Emissions|Non-CO2" = "Non-CO2 emissions"),
                       TotalEmis_var = "Emissions|CO2", natpoints=F,error_bar=UseErrorBars,catsnat=c("Historical","NoPOL","NPi","INDC"))
 
+
 regs <- c("RUS")
-h2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
-                      per=c(2030),file_pre="2h_RUS_2030_alt",lab = "Russia GHG emissions (Mt CO2eq/yr)",hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply  CO2",
+f2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                      per=c(2030),file_pre="2f_RUS_2030_alt",lab = "Russia GHG emissions (Mt CO2eq/yr)", ylim=ylim_bottom, ybreaks=breaks_bottom,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply  CO2",
                                                                                                                                  "Emissions|CO2|Energy|Demand|Transportation"="Transport  CO2",
                                                                                                                                  "Emissions|CO2|Energy|Demand|Industry"="Industry  CO2",
                                                                                                                                  "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings  CO2",
@@ -610,12 +616,16 @@ h2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                                                                                                                                  "Emissions|Non-CO2" = "Non-CO2 emissions"),
                       TotalEmis_var = "Emissions|CO2", natpoints=F,error_bar=UseErrorBars,catsnat=c("Historical","NoPOL","NPi","INDC"))
 
-# Together
-g=arrangeGrob(a2_alt,b2_alt,c2_alt,d2_alt,e2_alt,f2_alt,g2_alt,h2_alt,ncol=4)
-ggsave(file=paste(cfg$outdir,"/Fig2_alt.png",sep=""),g,width=22,height=12,dpi=200)
+vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2")
+out <- all[Category %in% cats & variable %in% vars]
+write.table(out, file ="data/WP3_3/Fig2_alt.csv", sep=";")
 
-g=arrangeGrob(a2_alt,b2_alt,c2_alt,d2_alt,e2_alt,f2_alt,g2_alt,h2_alt,ncol=2)
-ggsave(file=paste(cfg$outdir,"/Fig2_vertical_alt.png",sep=""),g,width=20,height=22,dpi=200)
+# Together
+#g=arrangeGrob(a2_alt,b2_alt,c2_alt,d2_alt,e2_alt,f2_alt,g2_alt,h2_alt,ncol=4)
+#ggsave(file=paste(cfg$outdir,"/Fig2_alt.png",sep=""),g,width=22,height=12,dpi=200)
+
+#g=arrangeGrob(a2_alt,b2_alt,c2_alt,d2_alt,e2_alt,f2_alt,g2_alt,h2_alt,ncol=2)
+#ggsave(file=paste(cfg$outdir,"/Fig2_vertical_alt.png",sep=""),g,width=20,height=22,dpi=200)
 
 tmp<-ggplot_gtable(ggplot_build(b2_alt))
 leg<-which(sapply(tmp$grobs,function(x) x$name) =="guide-box")
