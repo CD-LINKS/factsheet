@@ -16,9 +16,7 @@ library(gridExtra) #arrangeGrob
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
 cfg$infile <- "cdlinks_compare_20171017-161933"
-cfg$outdir    <- "paper graphs"
-
-#source function for factorizing data frames
+cfg$outdir    <- "paper graphs"#source function for factorizing data frames
 source("functions/factor.data.frame.R")
 # source functions process_data() and add_variables()
 source("functions/data_processing.R")
@@ -517,11 +515,12 @@ ggsave(file=paste(cfg$outdir,"/Fig4_global.png",sep=""),g,width=22,height=18,dpi
 
 # Figure 5 - Non-CO2? -----------------------------------------------------
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA","World")
-cats <- c("NPi","INDC","2020_low","2020_verylow")
+cats <- c("National policies","NDC","Carbon budget 1000","Carbon budget 400")
 five<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("CO2 emissions rel. to Base","Non-CO2 emissions rel. to Base"),
                                    cats=cats,years=2050,file_pre="Non-CO2_2050_regions",ylabel="Emission reduction relative to NoPolicy (%)",
                                    b.multicat=F,b.multireg=T,globpoints = F,var.labels=c("CO2","Non-CO2"),nrow=2,ncol=4)
-
+ggsave(file=paste0(cfg$outdir,"/","Figure5",".png"),five,
+       width=24, height=22, unit="cm", dpi=200, bg = "transparent")
 # Figure 2 - regions ALTERNATIVE-----------------------------------------------------
 source("functions/plot_functions_xcut.R")
 regs <- c("BRA","CHN","EU","IND","JPN","RUS","USA")
