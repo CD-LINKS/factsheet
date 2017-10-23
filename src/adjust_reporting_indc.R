@@ -3,6 +3,8 @@
 
 # Model-specific issues ---------------------------------------------------
 
+# rename baseline to "-"for No policy scenario
+
 
 # Remove GEM-E3_V1 as newest results are uploaded under GEM-E3
 all<-all[!model=="GEM-E3_V1"]
@@ -80,6 +82,7 @@ tmp2$model<-"MESSAGEix-GLOBIOM_1.0"
 tmp3$model<-"COPPE-COFFEE 1.0"
 tmp1 <- rbind(tmp1,tmp2,tmp3)
 tmp1=spread(tmp1,region,value)
+tmp1[Category=="No policy"]$Baseline <- str_replace_na(tmp1[Category=="No policy"]$Baseline,"-")
 tmp1 = na.omit(tmp1)
 tmp1 = tmp1%>%mutate(EU=EU-TUR)
 tmp1=gather(tmp1,region,value,c(EU,TUR))
@@ -104,6 +107,7 @@ tmp1 <- all[model%in%c("MESSAGEix-GLOBIOM_1.0","IMAGE 3.0") & variable %in% c("E
 tmp1=tmp1[!c(model=="IMAGE 3.0"&region=="USA")]
 tmp1$model<-"MESSAGEix-GLOBIOM_1.0"
 tmp1=spread(tmp1,region,value)
+tmp1[Category=="No policy"]$Baseline <- str_replace_na(tmp1[Category=="No policy"]$Baseline,"-")
 tmp1 = na.omit(tmp1)
 tmp1 = tmp1%>%mutate(USA=USA-CAN)
 tmp1=gather(tmp1,region,value,c(USA,CAN))
