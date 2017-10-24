@@ -71,6 +71,7 @@ tmp1 <- all[model%in%c("MESSAGEix-GLOBIOM_1.0","COPPE-COFFEE 1.0") & variable %i
                                                                                      "Emissions|F-Gases",
                                                                                      "Emissions|CO2|Energy|Demand|Industry",
                                                                                      "Emissions|CO2|Industrial Processes") & region%in%c("EU")]
+tmp1 <- tmp1[!c(model=="COPPE-COFFEE 1.0"&variable%in%c("Emissions|F-Gases","Emissions|CO2|Energy|Demand|Residential and Commercial"))]
 tmp2 <- all[model=="IMAGE 3.0" & variable %in% c("Emissions|Kyoto Gases"," Emissions|CO2|Energy|Supply",
                                                  "Emissions|CO2|Energy|Demand|Residential and Commercial",
                                                  "Emissions|CO2|Energy|Demand|Transportation",
@@ -78,7 +79,7 @@ tmp2 <- all[model=="IMAGE 3.0" & variable %in% c("Emissions|Kyoto Gases"," Emiss
                                                  "Emissions|F-Gases",
                                                  "Emissions|CO2|Energy|Demand|Industry",
                                                  "Emissions|CO2|Industrial Processes") & region=="TUR"]
-tmp3 <- tmp2
+tmp3 <- tmp2[!c(variable%in%c("Emissions|F-Gases","Emissions|CO2|Energy|Demand|Residential and Commercial"))]
 tmp2$model<-"MESSAGEix-GLOBIOM_1.0"
 tmp3$model<-"COPPE-COFFEE 1.0"
 tmp1 <- rbind(tmp1,tmp2,tmp3)
