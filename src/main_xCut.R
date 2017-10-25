@@ -17,7 +17,7 @@ library(stringr) #str_replace_all
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20171017-161933"
+cfg$infile <- "cdlinks_compare_20171024-085757"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -154,7 +154,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   all <- all[Category!="Historical"]
 
 
-for (reg in c("JPN","BRA","CHN","IND","EU","RUS","USA")){
+for (reg in c("JPN","BRA","CHN","IND","EU","USA")){ #"RUS",
   cat("Producing graphs in graphs folder and INDC_national_adj_xxx.pdf in main folder\n")
   render("national_scenarios.rmd",output_file=paste0("INDC_national_adj_",reg,".pdf"))
 }  

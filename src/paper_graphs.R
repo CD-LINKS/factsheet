@@ -15,7 +15,7 @@ library(gridExtra) #arrangeGrob
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20171017-161933"
+cfg$infile <- "cdlinks_compare_20171024-085757"
 cfg$outdir    <- "paper graphs"#source function for factorizing data frames
 source("functions/factor.data.frame.R")
 # source functions process_data() and add_variables()
@@ -98,7 +98,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   all <- factor.data.frame(all)
   
   # model specific adjustments
-  source("adjust_reporting_indc.R")
+  source("adjust_reporting_indc_Mark.R")
   
   #### add variables
   all <- add_variables(all,scens)
