@@ -810,19 +810,19 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir
   
   #build data frame for overlaid errorbar showing model range for GHG total
   #dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
-  dtl <- filter(dt, region %in% regs, Category%in% cats, variable==TotalEmis_var, period %in% per,Scope=="global")
+  dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
   dtl=data.table(dtl)
   if(quantiles){dtl=dtl[,list(min=quantile(value,prob=minprob),max=quantile(value,prob=maxprob)),by=c("Category","variable","region","period","Scope","unit")]
   }else{dtl=dtl[,list(min=min(value),max=max(value)),by=c("Category","variable","region","period","Scope","unit")]}
 
   #if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="national")}
   if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable==TotalEmis_var, period %in% per,Scope=="national")}
-  
+
   dta$Category <- factor(dta$Category, levels = cats, ordered = T )
   dtl$Category <- factor(dtl$Category, levels = cats, ordered = T )
   if(natpoints){dtn$Category <- factor(dtn$Category, levels = catsnat, ordered = T )}
   dta$variable <- factor(dta$variable, levels = vars, ordered = T)
-  
+
   p = ggplot() + ggplot2::theme_bw()
   p = p + geom_bar(data=dta,aes(Category, value, group = interaction(variable, region, Category), fill = variable), stat="identity", position="stack")
   if(error_bar){ p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3)
