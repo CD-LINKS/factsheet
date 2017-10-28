@@ -34,6 +34,7 @@ plot_lineNationalScens <- function(reg, dt, vars, scensnat, scensglob, out=cfg$o
   #p = p + theme(strip.text.y=element_text(angle=45))
   p = p + ylab(ylab) + xlab("")
   p = p + ggtitle(title) + ggplot2::theme_bw(base_size = 11)
+  p = p + theme(legend.text=element_text(size=16),legend.title=element_text(size=18))
   ggsave(file=paste0(out,"/NatScens_",file_pre,"_",reg,cfg$format),p, width=13, height=11, dpi=240, units  = "cm")
   return(p)
 
