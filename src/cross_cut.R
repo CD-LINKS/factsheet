@@ -62,6 +62,39 @@ for (reg in regs)
                            ylab = "Energy CO2 [MtCO2]", file_pre = "EneCO2")
 }
 
+#all national line plots in one grid
+scensglob = c("NPi_V3",  "NPi2020_1000_V3")
+scensnat <- c("NPi_V3","NPi2020_low_V3",  "INDC2030_low_V3",  "NPi2020_verylow_V3")
+
+b<-plot_lineNationalScens(reg = "BRA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+                       ylab = "Energy CO2 [MtCO2]", title="Brazil (MSB)",file_pre = "EneCO2")
+c<-plot_lineNationalScens(reg = "CHN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+                          ylab = "Energy CO2 [MtCO2]", title="China (IPAC, CHN-TIMES)", file_pre = "EneCO2")
+e<-plot_lineNationalScens(reg = "EU", dt = filter(all, Category != "Historical"), vars = vars, scensnat = c("NPi_V3","NPi2020_low_V3","NPi2020_1000_V3",  "INDC2030_low_V3","INDC2030i_1000_V3",  "NPi2020_verylow_V3",  "NPi2020_400_V3"), scensglob = scensglob,
+                          ylab = "Energy CO2 [MtCO2]", title="EU (PRIMES, GEM-E3)", file_pre = "EneCO2")
+j<-plot_lineNationalScens(reg = "JPN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+                          ylab = "Energy CO2 [MtCO2]",title="Japan (AIM/E-NIES, DNE21+)", file_pre = "EneCO2")
+r<-plot_lineNationalScens(reg = "RUS", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+                          ylab = "Energy CO2 [MtCO2]", title="Russia (RU-TIMES)",file_pre = "EneCO2")
+i<-plot_lineNationalScens(reg = "IND", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+                          ylab = "Energy CO2 [MtCO2]", title="India (IND-MARKAL, AIM/E-IIM)", file_pre = "EneCO2")
+u<-plot_lineNationalScens(reg = "USA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+                          ylab = "Energy CO2 [MtCO2]", title="USA (GCAM_USA)", file_pre = "EneCO2")
+
+library(grid)
+tmp<-ggplot_gtable(ggplot_build(b))
+leg<-which(sapply(tmp$grobs,function(x) x$name) =="guide-box")
+legend<-tmp$grobs[[leg]]
+b=b+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+c=c+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+e=e+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+i=i+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+j=j+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+r=r+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+u=u+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+lay<-rbind(c(1,2,3,4),c(5,6,7,8))
+h=grid.arrange(b,c,e,i,j,r,u,legend,layout_matrix=lay)
+ggsave(file=paste(cfg$outdir,"/natscens_gridarrange.png",sep=""),h,width=24,height=14,dpi=200)
 
 # boxplots with different national scenarios ------------------------------
 
