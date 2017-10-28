@@ -17,7 +17,7 @@ library(stringr) #str_replace_all
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20171024-085757"
+cfg$infile <- "cdlinks_compare_20171028-093027"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
