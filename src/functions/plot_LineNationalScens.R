@@ -1,4 +1,4 @@
-plot_lineNationalScens <- function(reg, dt, vars, scensnat, scensglob, out=cfg$outdir, title="", ylab ="", file_pre="",ylim=NA,xlim=c(2005,2050)){
+plot_lineNationalScens <- function(reg, dt, vars, scensnat, scensglob, out=cfg$outdir, title="", ylab ="", file_pre="",ylim=NA,xlim=c(2005,2050),nolegend=F){
   #select data
 
   dt$period = as.numeric(dt$period)
@@ -22,8 +22,10 @@ plot_lineNationalScens <- function(reg, dt, vars, scensnat, scensglob, out=cfg$o
   p = p + geom_path(data=dtg,aes(x=period,y=value,group=paste(model,scenario)), color = "grey75", size = 0.3, show.legend = F )
   p = p + geom_path(data=dtn,aes(x=period,y=value,linetype=model, color = scenario, group=paste(model,scenario)), size = 1.5)
   p = p + scale_colour_manual(values=plotstyle(union(scensnat, scensglob)) )
-  p = p + scale_linetype_manual(values = c("solid", "dashed"),
-    labels =  plotstyle(as.character(unique(dtn$model)), out = "legend"))
+  if(nolegend){p = p + scale_linetype_manual(values = c("solid", "dashed"),
+                                             labels =  plotstyle(as.character(unique(dtn$model)), out = "legend"),guide=FALSE)
+  }else{p = p + scale_linetype_manual(values = c("solid", "dashed"),
+                                      labels =  plotstyle(as.character(unique(dtn$model)), out = "legend"))}
     # p = p + scale_colour_manual(values=plotstyle(scensnat) )
   p = p + scale_fill_manual(values=plotstyle(as.character(scensglob)), name = "Global Models" )
 
