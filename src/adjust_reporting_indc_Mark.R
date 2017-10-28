@@ -416,7 +416,7 @@ tmp=all[variable%in%c("Emissions|F-Gases")]
 tmp=tmp[,list(value=mean(value)),by=c("Category","region","variable","unit","period","Scope")]
 tmpC=tmp
 tmpC$model<-"COPPE-MSB_v2.0"
-tmpC$Scope<-"national"
+tmpC$Scope<-"global"
 scenarios=all[model%in%c("COPPE-MSB_v2.0"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category","model")]
 tmpC=merge(tmpC,scenarios[model=="COPPE-MSB_v2.0"],by=c("Category","model"))
 setcolorder(tmpC,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
