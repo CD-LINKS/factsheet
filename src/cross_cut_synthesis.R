@@ -12,18 +12,19 @@ scensglob = c("NPi_V3",  "NPi2020_1000_V3")
 scensnat <- c("NPi_V3","NPi2020_low_V3","NPi2020_1000_V3",  "INDC2030_low_V3","INDC2030i_1000_V3",  "NPi2020_verylow_V3",  "NPi2020_400_V3")
 
 # All national line plots in one grid -------------------------------------
+vars = "Emissions|CO2|Energy"
 b<-plot_lineNationalScens(reg = "BRA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
-                          ylab = "Energy CO2 [MtCO2]", title="Brazil (MSB)",file_pre = "EneCO2")
+                          ylab = "Energy CO2 [MtCO2]", title="Brazil (MSB)",file_pre = "EneCO2",nolegend=T)
 c<-plot_lineNationalScens(reg = "CHN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
-                          ylab = "Energy CO2 [MtCO2]", title="China (IPAC, CHN-TIMES)", file_pre = "EneCO2")
+                          ylab = "Energy CO2 [MtCO2]", title="China (IPAC: -, CHN-TIMES: --)", file_pre = "EneCO2")
 e<-plot_lineNationalScens(reg = "EU", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
-                          ylab = "Energy CO2 [MtCO2]", title="EU (PRIMES, GEM-E3)", file_pre = "EneCO2")
+                          ylab = "Energy CO2 [MtCO2]", title="EU (PRIMES: -, GEM-E3: --)", file_pre = "EneCO2")
 j<-plot_lineNationalScens(reg = "JPN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
-                          ylab = "Energy CO2 [MtCO2]",title="Japan (AIM/E-NIES, DNE21+)", file_pre = "EneCO2")
+                          ylab = "Energy CO2 [MtCO2]",title="Japan (AIM/E-NIES: -, DNE21+: --)", file_pre = "EneCO2")
 r<-plot_lineNationalScens(reg = "RUS", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]", title="Russia (RU-TIMES)",file_pre = "EneCO2")
 i<-plot_lineNationalScens(reg = "IND", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
-                          ylab = "Energy CO2 [MtCO2]", title="India (IND-MARKAL, AIM/E-IIM)", file_pre = "EneCO2")
+                          ylab = "Energy CO2 [MtCO2]", title="India (IND-MARKAL: -, AIM/E-IIM: --)", file_pre = "EneCO2")
 u<-plot_lineNationalScens(reg = "USA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]", title="USA (GCAM_USA)", file_pre = "EneCO2")
 
