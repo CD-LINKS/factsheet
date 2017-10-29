@@ -539,8 +539,13 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) ) + theme_bw()
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
-    ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
-           width=6.5, height=6, dpi=120)
+    if(b.multiyear){
+    p = p + theme(axis.text.x=element_text(angle=45))
+      ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
+             width=8, height=6, dpi=120) 
+    }else{
+      ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
+                                 width=6.5, height=6, dpi=120)}
   }
   return(p)
 }
