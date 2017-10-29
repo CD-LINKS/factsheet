@@ -23,11 +23,14 @@ INDCip;INDCip;#c17a7a;5;2;dotted
 INDC2030i_1600_V3;2030_high;#552288;6;2;dotted
 INDC2030ip_1600_V3;INDC2030ip_1600;#4b134b;6;2;dotted
 2020_low;2020_low;#56B4E9;7;1;dotted
+NPi1000;NPi1000;#56B4E9;7;1;dotted
 Carbon budget 1000;Carbon budget 1000;#56B4E9;7;1;dotted
 2020_high;2020_high;#992299;8;2;dotted
 2030_low;2030_low;#2860E9;9;1;dotted
+NDC1000;NDC1000;#2860E9;9;1;dotted
 2030_high;2030_high;#552288;6;2;dotted
 2020_verylow;2020_verylow;#008000;10;2;dotted
+NPi400;NPi400;#008000;10;2;dotted
 Carbon budget 400;Carbon budget 400;#008000;10;2;dotted
 NPi2020_low_V3;2020_low;#56B4E9;7;1;dotted
 NPi2020_high_V3;2020_high;#992299;8;2;dotted
