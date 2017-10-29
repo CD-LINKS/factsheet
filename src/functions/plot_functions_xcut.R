@@ -475,7 +475,7 @@ plot_boxplot4 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
 #############################################################
 
 #plot function for pointrange (instead of boxplot) - multi-year, one variable
-plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,
+plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,noglobrange=F,
                                          b.multivar =  F, b.multiyear = F, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,quantiles=T,minprob=0.1,maxprob=0.9){
   
   
@@ -509,21 +509,36 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
   }
   
   p = ggplot()
-  p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max,fill=Category),  size = 3,fatten=8,shape="-",show.legend = F,color = "grey65") 
-  if(b.multivar){
-    p = p + facet_wrap(~ variable, scales="free_y")
+  if(noglobrange){
+    p = p 
+  }else{
+    p = p + geom_pointrange(data=dtg1,aes(x=region,y=mean,ymin=min,ymax=max,fill=Category),  size = 3,fatten=8,shape="-",show.legend = F,color = "grey65") }
+  if(b.multivar&b.multiyear){
+      p = p + facet_grid(variable~period,scales="free_y")
+  }else{
+    if(b.multivar){
+      p = p + facet_wrap(~ variable, scales="free_y")
+    }
+    if(b.multiyear){
+      p = p + facet_wrap(~ period, scales="fixed")
+    }
   }
-  if(b.multiyear){
-    p = p + facet_wrap(~ period, scales="fixed")
+    if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))}
+  if(b.multivar&b.multiyear){
+    p = p + geom_point(data=dtn,aes(x=region,y=value,colour=Category, shape=National),position=position_dodge(width=0.7),size = 2,  stroke = 1 )
+  }else{
+    p = p + geom_point(data=dtn,aes(x=region,y=value,colour=National, shape=Category), size = 3.5,  stroke = 1 )
   }
-  if(globpoints){  p = p + geom_point(data=dtg,aes(x=region,y=value,shape=Global))}
-  p = p + geom_point(data=dtn,aes(x=region,y=value,colour=National, shape=Category), size = 3.5,  stroke = 1 )
   #  p = p + ylab(paste0(dtg$variable[1], " [", dtg$unit[1],"]") ) + xlab("")
   p = p + ylab("") + xlab("")
-  
-  p = p + scale_color_manual( values=plotstyle(levels(dtn$National)),
-                              labels =  plotstyle(levels(dtn$National), out = "legend") )
-  p = p + scale_shape_manual(values=plotstyle(catsnat, out="shape"))
+  if(b.multivar&b.multiyear){
+    p = p + scale_color_manual(values=plotstyle(catsnat))
+    p = p + scale_shape_manual(values=plotstyle(levels(dtn$National),out="shape"))
+  }else{
+    p = p + scale_color_manual( values=plotstyle(levels(dtn$National)),
+                                labels =  plotstyle(levels(dtn$National), out = "legend") )
+    p = p + scale_shape_manual(values=plotstyle(catsnat, out="shape"))
+  }
   
   if (!is.null(ylim))
     p = p + coord_cartesian(ylim = ylim)
@@ -540,7 +555,7 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
                   plot.title = element_text(hjust = 1, size = 13) ) + theme_bw()
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     if(b.multiyear){
-    p = p + theme(axis.text.x=element_text(angle=45))
+    p = p + theme(axis.text.x=element_text(angle=45,vjust=0.5))
       ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
              width=8, height=6, dpi=120) 
     }else{
