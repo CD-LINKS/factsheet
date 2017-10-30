@@ -100,6 +100,15 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Mitigation Costs` ~ `Policy Cost` / `GDP|MER` *100 ' , newUnit='% of GDP')
     
     all <- calcVariable(all,'`Emissions|Non-CO2` ~ (`Emissions|CH4`*25)+(`Emissions|N2O`*0.298) + `Emissions|F-Gases`' , newUnit='Mt CO2-equiv/yr') #`Emissions|F-Gases`
+    #Demand sector emissions and final energy per capita for comparison across countries
+    all <- calcVariable(all,'`Transport CO2 per capita` ~ `Emissions|CO2|Energy|Demand|Transportation`/`Population` ' , newUnit='t CO2/cap')
+    all <- calcVariable(all,'`Industry CO2 per capita` ~ `Emissions|CO2|Energy|Demand|Industry`/`Population` ' , newUnit='t CO2/cap')
+    all <- calcVariable(all,'`Buildings CO2 per capita` ~ `Emissions|CO2|Energy|Demand|Residential and Commercial`/`Population` ' , newUnit='t CO2/cap')
+    all <- calcVariable(all,'`Energy supply CO2 per capita` ~ `Emissions|CO2|Energy|Supply`/`Population` ' , newUnit='t CO2/cap')
+    all <- calcVariable(all,'`Transport FE per capita` ~ `Final Energy|Transportation`/`Population` ' , newUnit='TJ/cap')
+    all <- calcVariable(all,'`Industry FE per capita` ~ `Final Energy|Industry`/`Population` ' , newUnit='TJ/cap')
+    all <- calcVariable(all,'`Buildings FE per capita` ~ `Final Energy|Residential and Commercial`/`Population` ' , newUnit='TJ/cap')
+    
     if(cfg$r!="RUS"){all <- calcRel2Base(all,var="Emissions|Non-CO2",baseEq1=F,"Non-CO2 emissions rel. to Base",scens)}
     all <- calcRel2Base(all,var="Emissions|CO2",baseEq1=F,"CO2 emissions rel. to Base",scens)
     source("functions/calcBudget.R")
@@ -123,7 +132,9 @@ add_variables <- function(all,scens){
     source("functions/calcRel2BaseYear.R")
 
     vars <- c("Emissions|CO2", "Emissions|CO2|FFI", "Emissions|CO2|FFI|gross","Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2",
-              "Carbon Intensity of FE","Energy Intensity of GDP|MER","Total CO2 Intensity of FE","Carbon Intensity of Electricity","Carbon Intensity of Fuel")
+              "Carbon Intensity of FE","Energy Intensity of GDP|MER","Total CO2 Intensity of FE","Carbon Intensity of Electricity","Carbon Intensity of Fuel",
+              "Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply",
+              "Final Energy|Transportation","Final Energy|Industry","Final Energy|Residential and Commercial")
     all <- rbind(all, calcRel2BaseYear(df=all,vars=vars))
 
     all <- calcVariable(all,'`Reduction rel to 2010` ~ 100.0 - `Emissions|CO2|FFI|rel2010` * 100 ' , newUnit='%')
