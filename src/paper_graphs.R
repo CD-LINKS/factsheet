@@ -135,7 +135,7 @@ all$Category=str_replace_all(all$Category,"2030_low","Carbon budget 1000 (2030)"
 source("functions/plot_functions.R")
 cats <- c("No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
 a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto greenhouse gas emissions",
-             file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(2010,2032),ylim=c(20000,75000),range=T,median=T)
+             file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(2010,2032),ylim=c(20000,75000),range=T,median=T,linetypemanual=F)
 
 # Figure 1c - GHG sources -------------------------------------------------
 source("functions/plot_functions_xcut.R")

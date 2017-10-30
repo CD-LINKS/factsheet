@@ -373,7 +373,7 @@ plot_bar_facet2 <- function(reg, dt, vars, cats, year=2030, out=cfg$outdir, lab=
 ####################### plot_funnel2 ########################
 #############################################################
 
-plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA,glob_lines=F,range=F,median=F){
+plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA,glob_lines=F,range=F,median=F,linetypemanual=T){
   #select data
   dt <- dt[region==reg & Category%in% cats & variable%in% vars]
   #create string with y-axis units for axis label
@@ -409,7 +409,7 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
                                                                           color=Category),size=1.3)}
   # Plot lines for national models
   p = p + geom_path(data=dt[region==reg & Scope=="national"],aes(x=period,y=value,color=Category,linetype=model),size=2,show.legend = FALSE)
-  p = p + scale_linetype_manual(values=cfg$man_lines,name="Model")
+  if(linetypemanual){p = p + scale_linetype_manual(values=cfg$man_lines,name="Model")}
   p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario")
   p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario")
   if (range & length(unique(dt$Category))==5){
