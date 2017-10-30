@@ -211,11 +211,12 @@ a_excl<-plot_pointrange_multiScen_glob(regs=regs,dt=all,vars=c("Emissions|Kyoto 
 # stacked bar per region
 regs <- c("BRA")
 cats <- c("Historical","No policy","National policies","NDC","Carbon budget 1000","Carbon budget 400")
+catsnat <- c("Historical","No policy","National policies")
 b2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
                       per=c(2030),file_pre="2b_BRA_2030",lab = "Mt CO2eq/yr",title=T,Title="Brazil",
                       hist=T,labels=T,var.labels=c( "Emissions|CO2|Energy"="CO2 Energy","Emissions|CO2|AFOLU"="CO2 AFOLU","Emissions|CH4"="CH4",
                                                     "Emissions|N2O"="N2O","Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
+                      natpoints=T,catsnat=catsnat, error_bar=T,quantiles=F)
 
 regs <- c("CHN")
 c2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -224,7 +225,7 @@ c2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                                 "Emissions|CH4"="CH4",
                                                                                                                                            "Emissions|N2O"="N2O",
                                                                                                                                           "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
+                      natpoints=T,catsnat=catsnat, error_bar=T,quantiles=F)
 
 regs <- c("IND")
 d2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -233,7 +234,7 @@ d2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                                 "Emissions|CH4"="CH4",
                                                                                                                                            "Emissions|N2O"="N2O",
                                                                                                                                 "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
+                      natpoints=T,catsnat=catsnat, error_bar=T,quantiles=F)
 
 regs <- c("JPN")
 e2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -242,7 +243,7 @@ e2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                                 "Emissions|CH4"="CH4",
                                                                                                                                            "Emissions|N2O"="N2O",
                                                                                                                                 "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
+                      natpoints=T,catsnat=catsnat, error_bar=T,quantiles=F)
 
 regs <- c("USA")
 f2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -251,7 +252,7 @@ f2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                               "Emissions|CH4"="CH4",
                                                                                                                                          "Emissions|N2O"="N2O",
                                                                                                                               "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
+                      natpoints=T,catsnat=catsnat, error_bar=T,quantiles=F)
 
 regs <- c("EU")
 g2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -260,7 +261,7 @@ g2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                             "Emissions|CH4"="CH4",
                                                                                                                                        "Emissions|N2O"="N2O",
                                                                                                                             "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
+                      natpoints=T,catsnat=catsnat, error_bar=T,quantiles=F)
 
 regs <- c("RUS")
 h2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases"),cats = cats,
@@ -269,7 +270,7 @@ h2<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy","Emissions|
                                                                                                                                  "Emissions|CH4"="CH4",
                                                                                                                                             "Emissions|N2O"="N2O",
                                                                                                                                  "Emissions|F-Gases"="F-gases"),
-                      natpoints=T,catsnat=c("Historical","NoPOL","NPi","INDC"), error_bar=T,quantiles=F)
+                      natpoints=T,catsnat=catsnat, error_bar=T,quantiles=F)
 
 # Together
 # g=arrangeGrob(a2,b2,c2,d2,e2,f2,g2,h2,ncol=4)
@@ -547,7 +548,7 @@ g2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                                                                                                                                      "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
                                                                                                                                      "Emissions|CO2|AFOLU" ="AFOLU CO2",
                                                                                                                                      "Emissions|Non-CO2" = "Non-CO2 emissions"),
-                      TotalEmis_var = "Emissions|CO2", natpoints=T, error_bar=UseErrorBars, catsnat=catsnat)
+                      TotalEmis_var = "Emissions|Kyoto Gases", natpoints=T, error_bar=UseErrorBars, catsnat=catsnat)
 
 regs <- c("CHN")
 b2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
@@ -557,7 +558,7 @@ b2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                                                                                                                                 "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
                                                                                                                                 "Emissions|CO2|AFOLU" ="AFOLU CO2",
                                                                                                                                 "Emissions|Non-CO2" = "Non-CO2 emissions"),
-                      TotalEmis_var = "Emissions|CO2", natpoints=T,error_bar=UseErrorBars,catsnat=c("Historical","NoPOL","NPi","INDC"))
+                      TotalEmis_var = "Emissions|Kyoto Gases", natpoints=T,error_bar=UseErrorBars,catsnat=catsnat)
 
 regs <- c("IND")
 e2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
@@ -577,7 +578,7 @@ h2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                                                                                                                                 "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
                                                                                                                                 "Emissions|CO2|AFOLU" ="AFOLU CO2",
                                                                                                                                 "Emissions|Non-CO2" = "Non-CO2 emissions"),
-                      TotalEmis_var = "Emissions|CO2", natpoints=T,error_bar=UseErrorBars,catsnat=catsnat)
+                      TotalEmis_var = "Emissions|Kyoto Gases", natpoints=T,error_bar=UseErrorBars,catsnat=catsnat)
 
 regs <- c("USA")
 c2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
@@ -587,7 +588,7 @@ c2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                                                                                                                               "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
                                                                                                                               "Emissions|CO2|AFOLU" ="AFOLU CO2",
                                                                                                                               "Emissions|Non-CO2" = "Non-CO2 emissions"),
-                      TotalEmis_var = "Emissions|CO2", natpoints=T,error_bar=UseErrorBars,catsnat=catsnat)
+                      TotalEmis_var = "Emissions|Kyoto Gases", natpoints=T,error_bar=UseErrorBars,catsnat=catsnat)
 
 regs <- c("EU")
 d2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
@@ -597,7 +598,7 @@ d2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                                                                                                                             "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings  CO2",
                                                                                                                             "Emissions|CO2|AFOLU" ="AFOLU  CO2",
                                                                                                                             "Emissions|Non-CO2" = "Non-CO2 emissions"),
-                      TotalEmis_var = "Emissions|CO2", natpoints=T,error_bar=UseErrorBars,catsnat=catsnat)
+                      TotalEmis_var = "Emissions|Kyoto Gases2", natpoints=T,error_bar=UseErrorBars,catsnat=catsnat)
 
 
 regs <- c("RUS")
@@ -608,7 +609,7 @@ f2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply",
                                                                                                                                  "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings  CO2",
                                                                                                                                  "Emissions|CO2|AFOLU" ="AFOLU CO2",
                                                                                                                                  "Emissions|Non-CO2" = "Non-CO2 emissions"),
-                      TotalEmis_var = "Emissions|CO2", natpoints=T,error_bar=UseErrorBars,catsnat=catsnat)
+                      TotalEmis_var = "Emissions|Kyoto Gases", natpoints=T,error_bar=UseErrorBars,catsnat=catsnat)
 
 vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2")
 out <- all[Category %in% cats & variable %in% vars]
