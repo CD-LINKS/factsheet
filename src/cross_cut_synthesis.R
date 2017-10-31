@@ -283,3 +283,91 @@ ggsave(file=paste(cfg$outdir,"/sectors_CO2_rel2010_2050.png",sep=""),g,width=24,
 # lay<-rbind(c(1,2,1,2),c(3,4,5,5))
 # h=grid.arrange(a1,b1,c1,d1,legend,layout_matrix=lay)
 # ggsave(file=paste(cfg$outdir,"/sectors_CO2_2030_grid.png",sep=""),h,width=24,height=14,dpi=200)
+
+# Sectors: waterfall plot -------------------------------------------------
+regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA")
+catsnat <- c("NPi", "NPi1000",  "NDC1000","NPi400","Historical")
+vars = c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial",
+       "Emissions|CO2|Energy|Supply","Emissions|CO2|Energy")
+years = c(2010,2030,2050)
+dt = all[region%in%regs & Category%in%catsnat & variable%in%vars &period%in%years &Scope=="national"]
+dt$scenario<-NULL
+dt$Baseline<-NULL
+dt$Scope<-NULL
+setnames(dt,"variable","Sector")
+
+# First without the waterfall...
+dtw=dt[!Sector=="Emissions|CO2|Energy"]
+dtw$region = paste(dtw$region,dtw$period,sep="-")
+dtw=dtw[,list(value=mean(value)),by=c("Category","region", "period", "unit","Sector")]
+
+a = ggplot(dtw[Category=="NPi"])
+a = a + geom_bar(aes(x=region,y=value,fill=Sector),stat="identity",position="stack")
+a = a + scale_fill_manual(values=plotstyle(vars),labels=plotstyle(vars,out="legend"),name="Sector")
+a = a + theme(axis.text.x=element_text(size=16,angle=90),axis.text.y=element_text(size=16))
+a = a + ylab("CO2 emissions (MtCO2/year)") + ggtitle("NPi") + xlab("")
+
+b = ggplot(dtw[Category=="NDC1000"])
+b = b + geom_bar(aes(x=region,y=value,fill=Sector),stat="identity",position="stack")
+b = b + scale_fill_manual(values=plotstyle(vars),labels=plotstyle(vars,out="legend"),name="Sector")
+b = b + theme(axis.text.x=element_text(size=16,angle=90),axis.text.y=element_text(size=16))
+b = b + ylab("CO2 emissions (MtCO2/year)") + ggtitle("NDC1000")+ xlab("")
+
+c = ggplot(dtw[Category=="NPi1000"])
+c = c + geom_bar(aes(x=region,y=value,fill=Sector),stat="identity",position="stack")
+c = c + scale_fill_manual(values=plotstyle(vars),labels=plotstyle(vars,out="legend"),name="Sector")
+c = c + theme(axis.text.x=element_text(size=16,angle=90),axis.text.y=element_text(size=16))
+c = c + ylab("CO2 emissions (MtCO2/year)") + ggtitle("NPi1000")+ xlab("")
+
+d = ggplot(dtw[Category=="NPi400"])
+d = d + geom_bar(aes(x=region,y=value,fill=Sector),stat="identity",position="stack")
+d = d + scale_fill_manual(values=plotstyle(vars),labels=plotstyle(vars,out="legend"),name="Sector")
+d = d + theme(axis.text.x=element_text(size=16,angle=90),axis.text.y=element_text(size=16))
+d = d + ylab("CO2 emissions (MtCO2/year)") + ggtitle("NPi400")+ xlab("")
+
+e=arrangeGrob(a,b,c,d,ncol=2)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_stackbar.png",sep=""),e,width=24,height=18,dpi=200)
+
+# Waterfall - to be done
+# NPi400 vs. NPi, Brazil
+NPi400 = dt[Category%in%c("NPi","NPi400")]
+NPi400 = spread(NPi400,Category,value)
+NPi400 = na.omit(NPi400)
+NPi400 = NPi400%>%mutate(change=`NPi400`-`NPi`)
+NPi400 = data.table(gather(NPi400,Category,value,`NPi`,`NPi400`,`change`))
+NPi400 = NPi400[!Sector=="Emissions|CO2|Energy"]
+NPi400$Category = paste(NPi400$Category,NPi400$period,sep="-")
+NPi400 = NPi400[!Category%in%c("NPi400-2010","change-2010")]
+NPi400 = NPi400[region=="BRA"]
+NPi400$id <- seq_along(NPi400$Category)
+
+#Plot
+bd = ggplot(NPi400)
+bd = bd + geom_bar(data=NPi400[!Category%in%c("change-2030","change-2050")],aes(x=Category,y=value,fill=Sector),stat="identity",position="stack")
+#bd = bd + geom_rect(data=NPi400[Category%in%c("change-2030","change-2050")],aes(x=Category,y=value,xmin=,xmax=,ymin=,max=,fill=Sector),stat="identity")
+bd = bd + scale_fill_manual(values=plotstyle(vars),labels=plotstyle(vars,out="legend"),name="Sector")
+
+#tests
+# NPi400 = dt[Category%in%c("NPi","NPi400")]
+# NPi400 = data.table(spread(NPi400,Sector,value))
+# NPi400 = na.omit(NPi400)
+# setnames(NPi400,"Emissions|CO2|Energy|Demand|Transportation","Transport")
+# setnames(NPi400,"Emissions|CO2|Energy|Demand|Industry","Industry")
+# setnames(NPi400,"Emissions|CO2|Energy|Demand|Residential and Commercial","Buildings")
+# setnames(NPi400,"Emissions|CO2|Energy|Supply","Supply")
+# setnames(NPi400,"Emissions|CO2|Energy","Energy")
+# NPi400 = NPi400%>%mutate(blank=Energy-(Transport+Industry+Buildings+Supply))
+
+
+# NPi400 = dt[Category%in%c("NPi","NPi400")]
+# NPi400 = spread(NPi400,Category,value)
+# NPi400 = na.omit(NPi400)
+# NPi400 = NPi400%>%mutate(change=`NPi400`-`NPi`)
+# NPi400= data.table(NPi400)
+# NPi400 = NPi400[!Sector=="Emissions|CO2|Energy"]
+# NPi400 = NPi400[!period==2010]
+# NPi400 = NPi400[region=="BRA"]
+# NPi400 = NPi400[order(Sector)]
+# #NPi400$Category = paste(str_extract_all(NPi400$Sector,"|"),NPi400$period,sep="-")
+# NPi400$id <- seq_along(NPi400$Sector)
+
