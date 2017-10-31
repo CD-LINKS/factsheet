@@ -423,8 +423,8 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
   p = p + ylab(paste(unitsy)) + xlab("")
   p = p + facet_grid(variable ~ region,scales="free_y")
-  p = p + geom_point(data=UNEP,aes(x=period,y=value,shape=`UNEP (2016) range for conditional NDCs`),size=3)
-  p = p + scale_shape_manual(values=c("10%-percentile"=20,"90%-percentile"=16,"Median"=15))
+  #p = p + geom_point(data=UNEP,aes(x=period,y=value,shape=`UNEP (2016) range for conditional NDCs`),size=3)
+  #p = p + scale_shape_manual(values=c("10%-percentile"=20,"90%-percentile"=16,"Median"=15))
   p = p + ggtitle(title) + ggplot2::theme_bw() 
   p = p + theme(axis.text=element_text(size=18),
                 axis.title=element_text(size=18),
