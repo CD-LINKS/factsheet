@@ -329,45 +329,136 @@ e=arrangeGrob(a,b,c,d,ncol=2)
 ggsave(file=paste(cfg$outdir,"/sectors_CO2_stackbar.png",sep=""),e,width=24,height=18,dpi=200)
 
 # Waterfall - to be done
-# NPi400 vs. NPi, Brazil
-NPi400 = dt[Category%in%c("NPi","NPi400")]
-NPi400 = spread(NPi400,Category,value)
-NPi400 = na.omit(NPi400)
-NPi400 = NPi400%>%mutate(change=`NPi400`-`NPi`)
-NPi400 = data.table(gather(NPi400,Category,value,`NPi`,`NPi400`,`change`))
-NPi400 = NPi400[!Sector=="Emissions|CO2|Energy"]
-NPi400$Category = paste(NPi400$Category,NPi400$period,sep="-")
-NPi400 = NPi400[!Category%in%c("NPi400-2010","change-2010")]
-NPi400 = NPi400[region=="BRA"]
-NPi400$id <- seq_along(NPi400$Category)
-
-#Plot
-bd = ggplot(NPi400)
-bd = bd + geom_bar(data=NPi400[!Category%in%c("change-2030","change-2050")],aes(x=Category,y=value,fill=Sector),stat="identity",position="stack")
-#bd = bd + geom_rect(data=NPi400[Category%in%c("change-2030","change-2050")],aes(x=Category,y=value,xmin=,xmax=,ymin=,max=,fill=Sector),stat="identity")
-bd = bd + scale_fill_manual(values=plotstyle(vars),labels=plotstyle(vars,out="legend"),name="Sector")
-
-#tests
-# NPi400 = dt[Category%in%c("NPi","NPi400")]
-# NPi400 = data.table(spread(NPi400,Sector,value))
-# NPi400 = na.omit(NPi400)
-# setnames(NPi400,"Emissions|CO2|Energy|Demand|Transportation","Transport")
-# setnames(NPi400,"Emissions|CO2|Energy|Demand|Industry","Industry")
-# setnames(NPi400,"Emissions|CO2|Energy|Demand|Residential and Commercial","Buildings")
-# setnames(NPi400,"Emissions|CO2|Energy|Supply","Supply")
-# setnames(NPi400,"Emissions|CO2|Energy","Energy")
-# NPi400 = NPi400%>%mutate(blank=Energy-(Transport+Industry+Buildings+Supply))
-
-
+# # NPi400 vs. NPi, Brazil
 # NPi400 = dt[Category%in%c("NPi","NPi400")]
 # NPi400 = spread(NPi400,Category,value)
 # NPi400 = na.omit(NPi400)
 # NPi400 = NPi400%>%mutate(change=`NPi400`-`NPi`)
-# NPi400= data.table(NPi400)
+# NPi400 = data.table(gather(NPi400,Category,value,`NPi`,`NPi400`,`change`))
 # NPi400 = NPi400[!Sector=="Emissions|CO2|Energy"]
-# NPi400 = NPi400[!period==2010]
+# NPi400$Category = paste(NPi400$Category,NPi400$period,sep="-")
+# NPi400 = NPi400[!Category%in%c("NPi400-2010","change-2010")]
 # NPi400 = NPi400[region=="BRA"]
-# NPi400 = NPi400[order(Sector)]
-# #NPi400$Category = paste(str_extract_all(NPi400$Sector,"|"),NPi400$period,sep="-")
-# NPi400$id <- seq_along(NPi400$Sector)
+# NPi400$id <- seq_along(NPi400$Category)
+# 
+# #Plot
+# bd = ggplot(NPi400)
+# bd = bd + geom_bar(data=NPi400[!Category%in%c("change-2030","change-2050")],aes(x=Category,y=value,fill=Sector),stat="identity",position="stack")
+# #bd = bd + geom_rect(data=NPi400[Category%in%c("change-2030","change-2050")],aes(x=Category,y=value,xmin=,xmax=,ymin=,max=,fill=Sector),stat="identity")
+# bd = bd + scale_fill_manual(values=plotstyle(vars),labels=plotstyle(vars,out="legend"),name="Sector")
 
+
+### With demo
+source("waterfall.r")
+
+# Prepare data
+dt = dt[!Sector=="Emissions|CO2|Energy"]
+dt = spread(dt,Sector,value)
+setnames(dt,"Emissions|CO2|Energy|Demand|Transportation","Transport")
+setnames(dt,"Emissions|CO2|Energy|Demand|Industry","Industry")
+setnames(dt,"Emissions|CO2|Energy|Demand|Residential and Commercial","Buildings")
+setnames(dt,"Emissions|CO2|Energy|Supply","Supply")
+dt=na.omit(dt)
+dt = dt%>%mutate(Total=Transport+Industry+Buildings+Supply)
+dt = gather(dt,Sector, value,c(Total,Transport,Industry,Buildings,Supply))
+dt = data.table(dt)
+
+#Starting with Brazil 2030, NPi400
+NPi400 = dt[Category%in%c("NPi","NPi400")&region=="BRA"&period==2030]
+NPi400 = spread(NPi400,Category,value)
+NPi400 = NPi400%>%mutate(change=`NPi400`-`NPi`)
+NPi400 = data.table(gather(NPi400,Category,value,`NPi`,`NPi400`,`change`))
+NPi400 = rbind(NPi400[Sector%in%c("Transport","Industry","Buildings","Supply")&Category=="change"],
+               NPi400[Sector=="Total"&Category%in%c("NPi","NPi400")])
+NPi400[Sector=="Total"&Category%in%c("NPi")]$Sector<-"Total-NPi"
+NPi400[Sector=="Total"&Category%in%c("NPi400")]$Sector<-"Total-NPi400"
+NPi400$Category=NPi400$Sector
+NPi400$id <- seq_along(NPi400$Sector)
+NPi400$id <- str_replace_all(NPi400$id,"5","0")
+NPi400$id <- str_replace_all(NPi400$id,"4","5")
+NPi400$id <- str_replace_all(NPi400$id,"3","4")
+NPi400$id <- str_replace_all(NPi400$id,"2","3")
+NPi400$id <- str_replace_all(NPi400$id,"1","2")
+NPi400$id <- str_replace_all(NPi400$id,"0","1")
+NPi400 = NPi400[order(id)]
+
+## Load the data and set correct column names
+df <- NPi400
+setnames(df,"Sector","category")
+setnames(df,"Category","sector")
+
+## ----further-prep--------------------------------------------------------
+## Tidy the levels
+df$category <- factor(df$category, levels=unique(df$category))
+df$sector <- factor(df$sector, levels=unique(df$sector))
+
+## ----prepare-plot, echo=TRUE---------------------------------------------
+
+## Determines the spacing between columns in the waterfall chart
+offset <- 0.3
+b3 <- waterfall(df, offset=offset) +
+  coord_cartesian(ylim=c(0,1000)) +
+  scale_fill_manual(values=c("Total-NPi"="#cc0000","Buildings"="#7777ff","Industry"="#bb7700",
+                             "Supply"="#993a44","Transport"="#222288","Total-NPi400"="#008000"),name="Sector") +
+  labs(x="", y="Emissions (Mt CO2)", 
+       title="Brazil, 2030") +
+  theme_classic() +
+  theme(plot.title=element_text(face="bold", size=20,hjust=0, vjust=2)) +
+  theme(axis.text=element_text(size=16,face="bold"),axis.title=element_text(size=16,face="bold")) +
+  theme(legend.text=element_text(size=16,face="bold"),legend.title=element_text(size=18,face="bold"))
+
+## ----plot, dev='png', fig.width=12, fig.height=7.5-----------------------
+print(b3)
+
+# Brazil 2050, NPi400
+NPi400 = dt[Category%in%c("NPi","NPi400")&region=="BRA"&period==2050]
+NPi400 = spread(NPi400,Category,value)
+NPi400 = NPi400%>%mutate(change=`NPi400`-`NPi`)
+NPi400 = data.table(gather(NPi400,Category,value,`NPi`,`NPi400`,`change`))
+NPi400 = rbind(NPi400[Sector%in%c("Transport","Industry","Buildings","Supply")&Category=="change"],
+               NPi400[Sector=="Total"&Category%in%c("NPi","NPi400")])
+NPi400[Sector=="Total"&Category%in%c("NPi")]$Sector<-"Total-NPi"
+NPi400[Sector=="Total"&Category%in%c("NPi400")]$Sector<-"Total-NPi400"
+NPi400$Category=NPi400$Sector
+NPi400$id <- seq_along(NPi400$Sector)
+NPi400$id <- str_replace_all(NPi400$id,"5","0")
+NPi400$id <- str_replace_all(NPi400$id,"4","5")
+NPi400$id <- str_replace_all(NPi400$id,"3","4")
+NPi400$id <- str_replace_all(NPi400$id,"2","3")
+NPi400$id <- str_replace_all(NPi400$id,"1","2")
+NPi400$id <- str_replace_all(NPi400$id,"0","1")
+NPi400 = NPi400[order(id)]
+
+## Load the data and set correct column names
+df <- NPi400
+setnames(df,"Sector","category")
+setnames(df,"Category","sector")
+
+## ----further-prep--------------------------------------------------------
+## Tidy the levels
+df$category <- factor(df$category, levels=unique(df$category))
+df$sector <- factor(df$sector, levels=unique(df$sector))
+
+## ----prepare-plot, echo=TRUE---------------------------------------------
+
+## Determines the spacing between columns in the waterfall chart
+offset <- 0.3
+b5 <- waterfall(df, offset=offset) +
+  coord_cartesian(ylim=c(0,1000)) +
+  scale_fill_manual(values=c("Total-NPi"="#cc0000","Buildings"="#7777ff","Industry"="#bb7700",
+                             "Supply"="#993a44","Transport"="#222288","Total-NPi400"="#008000"),name="Sector") +
+  labs(x="", y="Emissions (Mt CO2)", 
+       title="Brazil, 2050") +
+  theme_classic() +
+  theme(plot.title=element_text(face="bold", size=20,hjust=0, vjust=2))+
+  theme(axis.text=element_text(size=16,face="bold"),axis.title=element_text(size=16,face="bold")) +
+  theme(legend.text=element_text(size=16,face="bold"),legend.title=element_text(size=18,face="bold"))
+
+## ----plot, dev='png', fig.width=12, fig.height=7.5-----------------------
+print(b5)
+
+B=arrangeGrob(b3,b5,ncol=2)
+ggsave(file=paste(cfg$outdir,"/Brazil_waterfalls_easy.png",sep=""),B,width=24,height=14,dpi=200)
+
+### Christoph's script!
+source("functions/BarStackedNatGlob_waterfall_script_synthesis.R")
