@@ -151,7 +151,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   nat_models <- paste0("*",cfg$models_nat)
   
   #get rid of Historical duplicates
-  all <- all[Category!="Historical"]
+  #all <- all[Category!="Historical"]
 
 
 for (reg in c("JPN","BRA","CHN","IND","EU","USA")){ #"RUS",
