@@ -15,7 +15,7 @@ library(gridExtra) #arrangeGrob
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20171031-120856"
+cfg$infile <- "cdlinks_compare_20171103-202612"
 cfg$outdir    <- "paper graphs"#source function for factorizing data frames
 source("functions/factor.data.frame.R")
 # source functions process_data() and add_variables()
