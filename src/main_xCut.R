@@ -17,7 +17,7 @@ library(stringr) #str_replace_all
 
 #source configuration file for region-specific data
 source("settings/config_xCut.R")
-cfg$infile <- "cdlinks_compare_20171028-093027"
+cfg$infile <- "cdlinks_compare_20171031-120856"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -154,10 +154,10 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   #all <- all[Category!="Historical"]
 
 
-for (reg in c("JPN","BRA","CHN","IND","EU","USA")){ #"RUS",
-  cat("Producing graphs in graphs folder and INDC_national_adj_xxx.pdf in main folder\n")
-  render("national_scenarios.rmd",output_file=paste0("INDC_national_adj_",reg,".pdf"))
-}  
+# for (reg in c("JPN","BRA","CHN","IND","EU","USA")){ #"RUS",
+#   cat("Producing graphs in graphs folder and INDC_national_adj_xxx.pdf in main folder\n")
+#   render("national_scenarios.rmd",output_file=paste0("INDC_national_adj_",reg,".pdf"))
+# }  
   
   save("all",file = paste0("data/",cfg$infile,"_proc.Rdata"))
 
@@ -238,8 +238,9 @@ for (reg in c("JPN","BRA","CHN","IND","EU","USA")){ #"RUS",
 #############################################################
 
 ### main cross cut analysis
- source("cross_cut.R")
+ #source("cross_cut.R")
+source("cross_cut_synthesis.R")
 
 ### regional budget analysis and base year emission consistency check
- source("RegionalBudgetsChecks.R")
+ #source("RegionalBudgetsChecks.R")
 
