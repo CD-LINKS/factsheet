@@ -34,7 +34,6 @@ natmods <- unique(all[Scope=="national"]$model)
 #choose reference scenario INDC or NoPOL
 reference_cat <- catsnat[2]
 
-
 for(icat in c(1)){
   for(ireg in c(1,2,3,4,5,6,7)){ #now for NPi400 manually doing ireg in c(1) for BRA and c(5) for EU
   tt = c("2010", "2050")
@@ -43,8 +42,8 @@ for(icat in c(1)){
     if(iper == 2) {tt[2] <- "2030"}
 #dtg <- filter(all, Category %in% catsglob, region %in% regs_global,model %in% globmods, variable %in% vars, period %in% tt, Scope == "global") %>% group_by(scenario,Category,Baseline,region,variable,period,Scope,unit) %>% summarize(value=mean(value)) %>% ungroup()
 #for now, REMIND, (later: global average)
-
-dtn <- filter(all, Category %in% catsnat, region %in% regs[ireg],variable %in% vars, period %in% tt, Scope == "national")  %>% select(-Baseline)  %>% group_by(scenario,Category,region,variable,period,Scope,unit) %>% summarize(value=mean(value)) %>% ungroup()
+dtn<-all[!c(region=="EU"&model=="*GEM-E3")]
+dtn <- filter(dtn, Category %in% catsnat, region %in% regs[ireg],variable %in% vars, period %in% tt, Scope == "national")  %>% select(-Baseline)  %>% group_by(scenario,Category,region,variable,period,Scope,unit) %>% summarize(value=mean(value)) %>% ungroup()
 #for now, filter out duplicate models for same region: *India MARKAL, *IPAC-AIM/technology V1.0, *DNE21+ V.14 (national) (later: average)
 
 #calculate ROW:  global minus explicit global model region values 
