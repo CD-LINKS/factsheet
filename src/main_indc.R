@@ -24,7 +24,7 @@ source("settings/config_RUS.R")
 
 
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20171103-202612"
+cfg$infile    <- "cdlinks_compare_20171127-154822"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -103,14 +103,14 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   # Needed when snapshot includes older, non-V3 scenarios
   all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO <- 
     paste(all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
-  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDCi_recGenTaxation_V3")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDCi_recGenTaxation_V3")]$SCENARIO,"INDCi_recGenTaxation_V3","INDCi_V3")
-  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V3")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V3")]$SCENARIO,"INDC2030i_1000_recGenTaxation_V3","INDC2030i_1000_V3")
-  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_1000_recGenTaxation_V3")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_1000_recGenTaxation_V3")]$SCENARIO,"NPi2020_1000_recGenTaxation_V3","NPi2020_1000_V3")
-  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_400_recGenTaxation_V3")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_400_recGenTaxation_V3")]$SCENARIO,"NPi2020_400_recGenTaxation_V3","NPi2020_400_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDCi_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDCi_recGenTaxation_V4")]$SCENARIO,"INDCi_recGenTaxation_V4","INDCi_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V4")]$SCENARIO,"INDC2030i_1000_recGenTaxation_V4","INDC2030i_1000_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_1000_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_1000_recGenTaxation_V4")]$SCENARIO,"NPi2020_1000_recGenTaxation_V4","NPi2020_1000_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO,"NPi2020_400_recGenTaxation_V4","NPi2020_400_V3")
   
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
