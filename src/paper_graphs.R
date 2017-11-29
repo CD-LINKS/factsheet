@@ -82,6 +82,9 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   # Needed when snapshot includes older, non-V3 scenarios
   all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO <- 
     paste(all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
+  all=all[!c(MODEL=="GEM-E3"&SCENARIO%in%c("NPi_V3"))]
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi_V4")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi_V4")]$SCENARIO,"NPi_V4","NPi_V3")
   all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDCi_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
     all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDCi_recGenTaxation_V4")]$SCENARIO,"INDCi_recGenTaxation_V4","INDCi_V3")
   all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
