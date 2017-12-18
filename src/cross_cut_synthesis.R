@@ -69,8 +69,43 @@ catglob <- "NPi1000"
 # Emissions ---------------------------------------------------------------
 plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|FFI|rel2010"),catglob = catglob, catsnat = catsnat, ylim = c(-2,3),
                              years=c(2030,2050),file_pre="RedRel2010_2030_2050", var.labels = c("Energy CO2 [indexed 2010 = 1]"),b.multiyear = T, quantiles=F)
+#Table:
+CO2indextable=all[region%in%regs&variable=="Emissions|CO2|FFI|rel2010"&Category%in%catsnat&period%in%c(2030,2050)&Scope=="national"]
+CO2indextable$scenario<-NULL
+CO2indextable$Baseline<-NULL
+CO2indextable=spread(CO2indextable,Category,value)
+write.csv(CO2indextable,"CO2index_natmods.csv")
+#global model range:
+dtg <- all[Scope=="global" & variable =="Emissions|CO2|FFI|rel2010" & period %in% c(2030,2050) & Category %in% catglob & region %in% regs]  %>%
+  rename(Global = model ) %>% factor.data.frame()
+regions=all[,list(region=unique(region)),by=c("model")]
+dtg=data.table(dtg)
+for(mod in unique(dtg$model)){
+  dtg[model==mod]=dtg[model==mod&region %in% regions[model==mod]$region]
+}
+dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("scenario","Category","Baseline","region","period","Scope","unit","variable")]
+write.csv(dtg1,"CO2index_globmods.csv")
+
 plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions per capita"),catglob = catglob, catsnat = catsnat,
                              years=c(2030,2050),file_pre="CO2perCap2030", var.labels = c("Per capita CO2 [tCO2]"),b.multiyear = T, quantiles=F)
+#Table:
+CO2indextable=all[region%in%regs&variable=="Emissions per capita"&Category%in%catsnat&period%in%c(2030,2050)&Scope=="national"]
+CO2indextable$scenario<-NULL
+CO2indextable$Baseline<-NULL
+CO2indextable=spread(CO2indextable,Category,value)
+write.csv(CO2indextable,"CO2capita_natmods.csv")
+#global model range:
+dtg <- all[Scope=="global" & variable =="Emissions per capita" & period %in% c(2030,2050) & Category %in% catglob & region %in% regs]  %>%
+  rename(Global = model ) %>% factor.data.frame()
+regions=all[,list(region=unique(region)),by=c("model")]
+dtg=data.table(dtg)
+for(mod in unique(dtg$model)){
+  dtg[model==mod]=dtg[model==mod&region %in% regions[model==mod]$region]
+}
+dtg=na.omit(dtg)
+dtg1 <-dtg[,list(mean=median(value),min=min(value),max=max(value)),by=c("scenario","Category","Baseline","region","period","Scope","unit","variable")]
+write.csv(dtg1,"CO2capita_globmods.csv")
+
 regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA")
 plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU", "Emissions|CH4", "Emissions|N2O"),catglob = catglob, catsnat = catsnat,
                              years=c(2050),file_pre="2050_GHG_national", var.labels = c("GHG emissions [MtCO2eq/yr]","AFOLU CO2 [MtCO2/yr]","CH4 emissions [MtCH4/yr]","N2O emissions [kt N2O/yr]"),b.multivar = T, quantiles=F)
