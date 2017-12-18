@@ -122,6 +122,12 @@ plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Nuclear Share"),catglob = 
                              years=c(2030,2050),file_pre="2030_2050_ElecNuc", var.labels = c("Nuclear Share [%]"),b.multiyear = T, quantiles=F)
 plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Renewables Share|Incl. Hydro and Nuclear"),catglob = catglob, catsnat = catsnat,
                              years=c(2030,2050),file_pre="2030_2050_Elec_REN_incl_hydro_nuc", var.labels = c("REN Share incl. hydro/nuclear/biomass [%]"),b.multiyear = T, quantiles=F)
+# TO run (after updated data processing)
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Fossil Share"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_ElecFossil", var.labels = c("Fossil Share (coal, oil, gas) [%]"),b.multiyear = T, quantiles=F)
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Renewables Share|Excl. Nuclear"),catglob = catglob, catsnat = catsnat,
+                             years=c(2030,2050),file_pre="2030_2050_ElecREN_excl_nuc", var.labels = c("REN Share excl. nuclear [%]"),b.multiyear = T, quantiles=F)
+
 regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA",  "World")
 plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Share of Elec in FE","Share of Elec in Transport"),catglob = catglob, catsnat = catsnat, 
                              years=c(2050),file_pre="2050_ElecFETrans", var.labels = c("Share of Elec in FE [%]","Share of Elec in Transport [%]"),b.multivar = T, quantiles=F)
