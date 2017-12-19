@@ -14,6 +14,7 @@ regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
 all$Category=str_replace_all(all$Category,"2020_low","NPi1000")
 all$Category=str_replace_all(all$Category,"2020_verylow","NPi400")
 all$Category=str_replace_all(all$Category,"2030_low","NDC1000")
+all$Category=str_replace_all(all$Category,"NoPOL","NoPolicy")
 
 all$scenario=str_replace_all(all$scenario,"NPi_V3","NPi")
 all$scenario=str_replace_all(all$scenario,"NPi2020_low_V3","NPi1000")
@@ -22,25 +23,28 @@ all$scenario=str_replace_all(all$scenario,"INDC2030_low_V3","NDC1000")
 all$scenario=str_replace_all(all$scenario,"INDC2030i_1000_V3","NDC1000")
 all$scenario=str_replace_all(all$scenario,"NPi2020_verylow_V3","NPi400")
 all$scenario=str_replace_all(all$scenario,"NPi2020_400_V3","NPi400")
+all$scenario=str_replace_all(all$scenario,"NoPOL_V3","NoPolicy")
+all$scenario=str_replace_all(all$scenario,"NoPolicy_V3","NoPolicy")
 
 scensglob = c("NPi",  "NPi1000")
 scensnat <- c("NPi","NPi1000","NDC1000","NPi400")
+scensnatbase <- c("NPi","NPi1000","NDC1000","NPi400","NoPolicy")
 
 # All national line plots in one grid -------------------------------------
 vars = "Emissions|CO2|Energy"
-b<-plot_lineNationalScens(reg = "BRA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+b<-plot_lineNationalScens(reg = "BRA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnatbase, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]", title="Brazil (MSB)",file_pre = "EneCO2",nolegend=T)
-c<-plot_lineNationalScens(reg = "CHN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+c<-plot_lineNationalScens(reg = "CHN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnatbase, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]", title="China (IPAC: -, CHN-TIMES: --)", file_pre = "EneCO2")
-e<-plot_lineNationalScens(reg = "EU", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+e<-plot_lineNationalScens(reg = "EU", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnatbase, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]", title="EU (PRIMES: -, GEM-E3: --)", file_pre = "EneCO2")
-j<-plot_lineNationalScens(reg = "JPN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+j<-plot_lineNationalScens(reg = "JPN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnatbase, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]",title="Japan (AIM/E-NIES: -, DNE21+: --)", file_pre = "EneCO2")
-r<-plot_lineNationalScens(reg = "RUS", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+r<-plot_lineNationalScens(reg = "RUS", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnatbase, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]", title="Russia (RU-TIMES)",file_pre = "EneCO2")
-i<-plot_lineNationalScens(reg = "IND", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+i<-plot_lineNationalScens(reg = "IND", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnatbase, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]", title="India (IND-MARKAL: -, AIM/E-IIM: --)", file_pre = "EneCO2")
-u<-plot_lineNationalScens(reg = "USA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
+u<-plot_lineNationalScens(reg = "USA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnatbase, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]", title="USA (GCAM_USA)", file_pre = "EneCO2")
 
 library(grid)
@@ -112,26 +116,25 @@ plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|Kyoto Gases", "E
 
 # Energy ------------------------------------------------------------------
 regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA",  "World")
-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Final Energy per capita"),catglob = catglob, catsnat = catsnat, 
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Final Energy per capita"),catglob = catglob, catsnat = catsnat, increasefont=T,
                              years=c(2030,2050),file_pre="2030_2050_FE", var.labels = c("Final Energy per Capita [GJ]"),b.multiyear = T, quantiles=F)
-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,increasefont=T,
                              years=c(2030,2050),file_pre="2030_2050_CI", var.labels = c("Carbon Intensity of FE [kgCO2/GJ]"),b.multiyear = T, quantiles=F)
-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Wind and Solar Share"),catglob = catglob, catsnat = catsnat,
-                             years=c(2030,2050),file_pre="2030_2050_ElecWS", var.labels = c("Wind and Solar Share [%]"),b.multiyear = T, quantiles=F)
-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Nuclear Share"),catglob = catglob, catsnat = catsnat,
-                             years=c(2030,2050),file_pre="2030_2050_ElecNuc", var.labels = c("Nuclear Share [%]"),b.multiyear = T, quantiles=F)
-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Renewables Share|Incl. Hydro and Nuclear"),catglob = catglob, catsnat = catsnat,
-                             years=c(2030,2050),file_pre="2030_2050_Elec_REN_incl_hydro_nuc", var.labels = c("REN Share incl. hydro/nuclear/biomass [%]"),b.multiyear = T, quantiles=F)
-# TO run (after updated data processing)
-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Fossil Share"),catglob = catglob, catsnat = catsnat,
+# plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Wind and Solar Share"),catglob = catglob, catsnat = catsnat,
+#                              years=c(2030,2050),file_pre="2030_2050_ElecWS", var.labels = c("Wind and Solar Share [%]"),b.multiyear = T, quantiles=F)
+# plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Renewables Share|Incl. Hydro and Nuclear"),catglob = catglob, catsnat = catsnat,
+#                              years=c(2030,2050),file_pre="2030_2050_Elec_REN_incl_hydro_nuc", var.labels = c("REN Share incl. hydro/nuclear/biomass [%]"),b.multiyear = T, quantiles=F)
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Fossil Share"),catglob = catglob, catsnat = catsnat,ylim=c(0,100),
                              years=c(2030,2050),file_pre="2030_2050_ElecFossil", var.labels = c("Fossil Share (coal, oil, gas) [%]"),b.multiyear = T, quantiles=F)
-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Renewables Share|Excl. Nuclear"),catglob = catglob, catsnat = catsnat,
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Renewables Share|Excl. Nuclear"),catglob = catglob, catsnat = catsnat,ylim=c(0,100),
                              years=c(2030,2050),file_pre="2030_2050_ElecREN_excl_nuc", var.labels = c("REN Share excl. nuclear [%]"),b.multiyear = T, quantiles=F)
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Nuclear Share"),catglob = catglob, catsnat = catsnat,ylim=c(0,100),
+                             years=c(2030,2050),file_pre="2030_2050_ElecNuc", var.labels = c("Nuclear Share [%]"),b.multiyear = T, quantiles=F)
 
 regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA",  "World")
 plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Share of Elec in FE","Share of Elec in Transport"),catglob = catglob, catsnat = catsnat, 
                              years=c(2050),file_pre="2050_ElecFETrans", var.labels = c("Share of Elec in FE [%]","Share of Elec in Transport [%]"),b.multivar = T, quantiles=F)
-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Share of Elec in FE"),catglob = catglob, catsnat = catsnat, 
+plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Share of Elec in FE"),catglob = catglob, catsnat = catsnat, increasefont=T,
                              years=c(2020,2030,2050),file_pre="2020_2030_2050_ElecFE", var.labels = c("Share of electricity in FE [%]"),b.multiyear = T, quantiles=F)
 catsnat <- c("NPi", "NPi1000",  "NDC1000","NPi400")
 catglob <- "NPi1000"
