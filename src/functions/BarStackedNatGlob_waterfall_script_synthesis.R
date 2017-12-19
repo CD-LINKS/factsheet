@@ -199,8 +199,14 @@ ggplot()+
   scale_x_continuous(breaks=unique(dtn_all$bar_position),minor_breaks = NULL,
                    labels=c(tt[1], paste0(tt[2],"\n",catsnat[2]), "Supply","Industry","Buildings","Transport",paste0(tt[2],"\n",labcat[icat])))+
   ggtitle(regs[ireg])+
-  scale_alpha(guide = "none")+#coord_cartesian(ylim=c(0,62))+
-  ylab(ylab)+xlab("") + theme_bw()
+  scale_alpha(guide = "none")+#coord_cartesian(ylim=c(-1000,12000))+
+  ylab(ylab)+xlab("") + theme_bw() #+
+  # if(ireg%in%c(2,6)){
+  #   coord_cartesian(ylim=c(-1000,12000))}
+  # if(ireg%in%c(1,4,5)){
+  #   coord_cartesian(ylim=c(-500,1500))}
+  # if(ireg%in%c(3,7)){
+  #   coord_cartesian(ylim=c(-1000,6000))}
 
 #plot[[i]]<<-p
 # ggsave(filename=paste0(file.prefix,"nat_",labcat[icat],"_",tt[2],"1030.pdf"),width=7, height=3.5)
