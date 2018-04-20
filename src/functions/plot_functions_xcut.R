@@ -475,7 +475,7 @@ plot_boxplot4 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
 #############################################################
 
 #plot function for pointrange (instead of boxplot) - multi-year, one variable
-plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years, out=cfg$outdir, title="Title",plottitle="", file_pre="pointrange",connect=T,noglobrange=F,
+plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years, out=cfg$outdir, title="Title",plottitle="", file_pre="pointrange",connect=T,noglobrange=F,increasefont=F,
                                          b.multivar =  F, b.multiyear = F, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,quantiles=T,minprob=0.1,maxprob=0.9){
   
   
@@ -545,19 +545,45 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
   
   if(b.multivar)  {
     p = p + ggtitle(plottitle)
-    p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
-                  plot.title = element_text( size = 18) ) + theme_bw()
+    if(increasefont){
+      p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 18),
+                    axis.text.y  = element_text(size = 22),
+                    axis.title = element_text(size=18),
+                    legend.title = element_text(size=22),
+                    legend.text = element_text(size=20),
+                    strip.text = element_text(size=22),
+                    plot.title=element_text(size=22))}else{
+                      p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
+                  plot.title = element_text( size = 18) )}
+    p = p + theme_bw()
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
   }  else   {
     p = p + ggtitle(paste0( var.labels[1]))
+    if(increasefont){
+      p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 18),
+                    axis.text.y  = element_text(size = 22),
+                    axis.title = element_text(size=18),
+                    legend.title = element_text(size=22),
+                    legend.text = element_text(size=20),
+                    strip.text = element_text(size=22),
+                    plot.title=element_text(size=22))}else{
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
-                  plot.title = element_text(hjust = 1, size = 13) ) + theme_bw()
+                  plot.title = element_text(hjust = 1, size = 13) ) }
+    p = p + theme_bw()
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     if(b.multiyear){
-    p = p + theme(axis.text.x=element_text(angle=45,vjust=0.5))
+      if(increasefont){
+        p = p + theme(axis.text.x  = element_text(angle=45, vjust=0.5, hjust = 1, size = 18),
+                      axis.text.y  = element_text(size = 22),
+                      axis.title = element_text(size=18),
+                      legend.title = element_text(size=22),
+                      legend.text = element_text(size=20),
+                      strip.text = element_text(size=22),
+                      plot.title=element_text(size=22))}else{
+      p = p + theme(axis.text.x=element_text(angle=45,vjust=0.5))}
       ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
-             width=8, height=6, dpi=120) 
+             width=10, height=6, dpi=120) 
     }else{
       ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
                                  width=6.5, height=6, dpi=120)}
