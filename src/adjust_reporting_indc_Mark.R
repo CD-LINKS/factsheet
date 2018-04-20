@@ -434,37 +434,87 @@ tmpA=tmp
 tmpM=tmp
 tmpI=tmp
 tmpP=tmp
+tmpR=tmp
 tmpC$model<-"China TIMES"
 tmpA$model<-"AIM-India [IIMA]"
 tmpM$model<-"India MARKAL"
 tmpI$model<-"IPAC-AIM/technology V1.0"
 tmpP$model<-"PRIMES_V1"
-tmpC$Scope<-"national"
-tmpA$Scope<-"national"
-tmpM$Scope<-"national"
-tmpI$Scope<-"national"
-tmpP$Scope<-"national"
-scenarios=all[model%in%c("China TIMES","AIM-India [IIMA]","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category","model")]
+tmpR$model<-"RU-TIMES 3.2"
+tmpC$Scope<-"global"
+tmpA$Scope<-"global"
+tmpM$Scope<-"global"
+tmpI$Scope<-"global"
+tmpP$Scope<-"global"
+tmpR$Scope<-"global"
+scenarios=all[model%in%c("China TIMES","AIM-India [IIMA]","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1","RU-TIMES 3.2"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category","model")]
 tmpC=merge(tmpC,scenarios[model=="China TIMES"],by=c("Category","model"))
 tmpA=merge(tmpA,scenarios[model=="AIM-India [IIMA]"],by=c("Category","model"))
 tmpM=merge(tmpM,scenarios[model=="India MARKAL"],by=c("Category","model"))
 tmpI=merge(tmpI,scenarios[model=="IPAC-AIM/technology V1.0"],by=c("Category","model"))
 tmpP=merge(tmpP,scenarios[model=="PRIMES_V1"],by=c("Category","model"))
+tmpR=merge(tmpR,scenarios[model=="RU-TIMES 3.2"],by=c("Category","model"))
 setcolorder(tmpC,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 setcolorder(tmpA,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 setcolorder(tmpM,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 setcolorder(tmpI,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 setcolorder(tmpP,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
-regions=all[model%in%c("China TIMES","AIM-India [IIMA]","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1"),list(region=unique(region)),by=c("model")]
-years=all[model%in%c("China TIMES","AIM-India [IIMA]","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1"),list(period=unique(period)),by=c("model")]
+setcolorder(tmpR,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
+regions=all[model%in%c("China TIMES","AIM-India [IIMA]","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1","RU-TIMES 3.2"),list(region=unique(region)),by=c("model")]
+years=all[model%in%c("China TIMES","AIM-India [IIMA]","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1","RU-TIMES 3.2"),list(period=unique(period)),by=c("model")]
 tmpC=tmpC[region%in%regions[model=="China TIMES"]$region & period%in%years[model=="China TIMES"]$period]
 tmpA=tmpA[region%in%regions[model=="AIM-India [IIMA]"]$region& period%in%years[model=="AIM-India [IIMA]"]$period]  
 tmpM=tmpM[region%in%regions[model=="India MARKAL"]$region& period%in%years[model=="India MARKAL"]$period] 
 tmpI=tmpI[region%in%regions[model=="IPAC-AIM/technology V1.0"]$region& period%in%years[model=="IPAC-AIM/technology V1.0"]$period] 
 tmpP=tmpP[region%in%regions[model=="PRIMES_V1"]$region& period%in%years[model=="PRIMES_V1"]$period]
+tmpR=tmpR[region%in%regions[model=="RU-TIMES 3.2"]$region& period%in%years[model=="RU-TIMES 3.2"]$period]
 tmpI=tmpI[!c(scenario%in%c("NoPOL_V3","NPi2020_low_V3","INDC2030_low_V3","INDC2030_high_V3","INDC_V3")&variable%in%c("Emissions|CH4","Emissions|N2O"))]
 all<-all[!c(model=="IPAC-AIM/technology V1.0"&variable%in%c("Emissions|CH4","Emissions|N2O")&scenario%in%c("NPi_V3","NPi2020_high_V3"))]
-all<-rbind(all,tmpC,tmpA,tmpM,tmpI,tmpP)
+all<-rbind(all,tmpC,tmpA,tmpM,tmpI,tmpP,tmpR)
+
+#AFOLU CO2 for RU-TIMES - also to total CO2
+tmp=all[variable%in%c("Emissions|CO2|AFOLU")]
+tmp=tmp[,list(value=mean(value)),by=c("Category","region","variable","unit","period","Scope")]
+tmpC=tmp
+tmpC$model<-"RU-TIMES 3.2"
+tmpC$Scope<-"global"
+scenarios=all[model%in%c("RU-TIMES 3.2"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category","model")]
+tmpC=merge(tmpC,scenarios[model=="RU-TIMES 3.2"],by=c("Category","model"))
+setcolorder(tmpC,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
+regions=all[model%in%c("RU-TIMES 3.2"),list(region=unique(region)),by=c("model")]
+years=all[model%in%c("RU-TIMES 3.2"),list(period=unique(period)),by=c("model")]
+tmpC=tmpC[region%in%regions[model=="RU-TIMES 3.2"]$region & period%in%years[model=="RU-TIMES 3.2"]$period]
+all<-all[!(model=="RU-TIMES 3.2"&variable=="Emissions|CO2|AFOLU")]
+all<-rbind(all,tmpC)
+
+tmp=all[model%in%c("RU-TIMES 3.2")&variable%in%c("Emissions|CO2","Emissions|CO2|AFOLU")] 
+tmp$unit<-NULL
+tmp=spread(tmp,variable,value)
+tmp=tmp%>%mutate(`Emissions|CO2`=`Emissions|CO2`+`Emissions|CO2|AFOLU`)
+tmp=gather(tmp,variable,value,c(`Emissions|CO2`,`Emissions|CO2|AFOLU`))
+tmp=data.table(tmp)
+tmp=tmp[variable%in%c("Emissions|CO2")]
+tmp$unit<-""
+tmp[variable%in%c("Emissions|CO2")]$unit<-"Mt CO2/yr"
+setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+all=all[!(variable%in%c("Emissions|CO2") & model%in%c("RU-TIMES 3.2"))] 
+all<-rbind(all,tmp)
+
+# Add Kyoto Gases for IIM, IPAC, China TIMES, Markal, RU-TIMES
+tmp=all[model%in%c("India MARKAL","RU-TIMES 3.2","IPAC-AIM/technology V1.0","China TIMES","AIM-India [IIMA]")&variable%in%c("Emissions|CO2", "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases")]
+tmp[variable=="Emissions|CO2"]$unit<-"Mt CO2-equiv/yr"
+tmp[variable=="Emissions|CH4"]$value<-tmp[variable=="Emissions|CH4"]$value*25
+tmp[variable=="Emissions|CH4"]$unit<-"Mt CO2-equiv/yr"
+tmp[variable=="Emissions|N2O"]$value<-tmp[variable=="Emissions|N2O"]$value*298/1000
+tmp[variable=="Emissions|N2O"]$unit<-"Mt CO2-equiv/yr"
+tmp=spread(tmp,variable,value)
+tmp=tmp%>%mutate(`Emissions|Kyoto Gases`=`Emissions|CO2`+`Emissions|CH4`+`Emissions|N2O`+`Emissions|F-Gases`) #+`Emissions|N2O|AFOLU`+`Emissions|CH4|AFOLU`
+tmp=gather(tmp,variable,value,c(`Emissions|Kyoto Gases`, `Emissions|CO2`, `Emissions|CH4`, `Emissions|N2O`, `Emissions|F-Gases`))
+tmp=data.table(tmp)
+tmp=tmp[variable=="Emissions|Kyoto Gases"]
+setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+all=all[!(variable=="Emissions|Kyoto Gases" & model%in%c("India MARKAL"))]
+all<-rbind(all,tmp)
 
 # CH4 and N2O sub-categories ----------------------------------------------
 # Adding emissions sub-categories to models that don't report it, needed for calculation of total waste emissions - copy for other sub-categories

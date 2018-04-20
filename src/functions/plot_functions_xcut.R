@@ -475,7 +475,7 @@ plot_boxplot4 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
 #############################################################
 
 #plot function for pointrange (instead of boxplot) - multi-year, one variable
-plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years, out=cfg$outdir, title="Title", file_pre="pointrange",connect=T,noglobrange=F,
+plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years, out=cfg$outdir, title="Title",plottitle="", file_pre="pointrange",connect=T,noglobrange=F,
                                          b.multivar =  F, b.multiyear = F, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F,quantiles=T,minprob=0.1,maxprob=0.9){
   
   
@@ -544,7 +544,7 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
     p = p + coord_cartesian(ylim = ylim)
   
   if(b.multivar)  {
-    
+    p = p + ggtitle(plottitle)
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) ) + theme_bw()
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))

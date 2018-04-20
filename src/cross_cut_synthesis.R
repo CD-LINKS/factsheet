@@ -5,6 +5,8 @@ source("functions/calcRegion.R")
 source("functions/order.levels.R")
 source("functions/script_RegionalBudgets_synthesis.R")
 source("functions/plot_LineNationalScens.R")
+library(grid)
+library(gridExtra)
 
 # Setting regions and scenarios -------------------------------------------
 regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
@@ -130,10 +132,154 @@ regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA")
 catsnat <- c("NPi", "NPi1000",  "NDC1000","NPi400")
 catglob <- "NPi1000"
 
-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
-                             catglob = catglob, catsnat = catsnat, years=c(2030, 2050),file_pre="Comp2030-50_sectorCO2_national", noglobrange=T,
-                             var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2","AFOLU CO2"),b.multivar = T,b.multiyear=T)
+# plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply","Emissions|CO2|AFOLU"),
+#                              catglob = catglob, catsnat = catsnat, years=c(2030, 2050),file_pre="Comp2030-50_sectorCO2_national", noglobrange=T,
+#                              var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2","AFOLU CO2"),b.multivar = T,b.multiyear=T)
+# 
+# plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Final Energy|Transportation","Final Energy|Industry","Final Energy|Residential and Commercial"),
+#                              catglob = catglob, catsnat = catsnat, years=c(2030, 2050),file_pre="Comp2030-50_sectorFE_national", noglobrange=T,
+#                              var.labels = c("Transport FE [EJ/yr]","Industry FE [EJ/yr]","Buildings FE [EJ/yr]"),b.multivar = T,b.multiyear=T)
 
-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Final Energy|Transportation","Final Energy|Industry","Final Energy|Residential and Commercial"),
-                             catglob = catglob, catsnat = catsnat, years=c(2030, 2050),file_pre="Comp2030-50_sectorFE_national", noglobrange=T,
-                             var.labels = c("Transport FE [EJ/yr]","Industry FE [EJ/yr]","Buildings FE [EJ/yr]"),b.multivar = T,b.multiyear=T)
+#### CO2 ####
+#2030-CO2
+a1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply"),
+                             catglob = catglob, catsnat = c("NPi"), years=c(2030),file_pre="Comp2030_sectorCO2_NPi", noglobrange=T,
+                             var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi")
+b1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply"),
+                                 catglob = catglob, catsnat = c("NDC1000"), years=c(2030),file_pre="Comp2030_sectorCO2_NDC1000", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NDC1000")
+c1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply"),
+                                 catglob = catglob, catsnat = c("NPi1000"), years=c(2030),file_pre="Comp2030_sectorCO2_NPi1000", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi1000")
+d1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply"),
+                                 catglob = catglob, catsnat = c("NPi400"), years=c(2030),file_pre="Comp2030_sectorCO2_NPi400", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi400")
+a1=a1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+b1=b1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+c1=c1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+d1=d1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+g=arrangeGrob(a1,b1,c1,d1,ncol=2)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_2030.png",sep=""),g,width=24,height=18,dpi=200)
+
+#2050-CO2
+a2<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply"),
+                                 catglob = catglob, catsnat = c("NPi"), years=c(2050),file_pre="Comp2030_sectorCO2_NPi", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi")
+b2<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply"),
+                                 catglob = catglob, catsnat = c("NDC1000"), years=c(2050),file_pre="Comp2030_sectorCO2_NDC1000", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NDC1000")
+c2<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply"),
+                                 catglob = catglob, catsnat = c("NPi1000"), years=c(2050),file_pre="Comp2030_sectorCO2_NPi1000", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi1000")
+d2<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply"),
+                                 catglob = catglob, catsnat = c("NPi400"), years=c(2050),file_pre="Comp2030_sectorCO2_NPi400", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi400")
+
+a2=a2+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+b2=b2+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+c2=c2+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+d2=d2+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+h=arrangeGrob(a2,b2,c2,d2,ncol=2)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_2050.png",sep=""),h,width=24,height=18,dpi=200)
+
+## Per capita
+#2030-CO2/cap
+a1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Transport CO2 per capita","Industry CO2 per capita","Buildings CO2 per capita","Energy supply CO2 per capita"),
+                                 catglob = catglob, catsnat = c("NPi"), years=c(2030),file_pre="Comp2030_sectorCO2cap_NPi", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi")
+b1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Transport CO2 per capita","Industry CO2 per capita","Buildings CO2 per capita","Energy supply CO2 per capita"),
+                                 catglob = catglob, catsnat = c("NDC1000"), years=c(2030),file_pre="Comp2030_sectorCO2cap_NDC1000", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NDC1000")
+c1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Transport CO2 per capita","Industry CO2 per capita","Buildings CO2 per capita","Energy supply CO2 per capita"),
+                                 catglob = catglob, catsnat = c("NPi1000"), years=c(2030),file_pre="Comp2030_sectorCO2cap_NPi1000", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi1000")
+d1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Transport CO2 per capita","Industry CO2 per capita","Buildings CO2 per capita","Energy supply CO2 per capita"),
+                                 catglob = catglob, catsnat = c("NPi400"), years=c(2030),file_pre="Comp2030_sectorCO2cap_NPi400", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi400")
+a1=a1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+b1=b1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+c1=c1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+d1=d1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+g=arrangeGrob(a1,b1,c1,d1,ncol=2)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_capita_2030.png",sep=""),g,width=24,height=18,dpi=200)
+
+#2050-CO2/cap
+a1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Transport CO2 per capita","Industry CO2 per capita","Buildings CO2 per capita","Energy supply CO2 per capita"),
+                                 catglob = catglob, catsnat = c("NPi"), years=c(2050),file_pre="Comp2050_sectorCO2cap_NPi", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi")
+b1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Transport CO2 per capita","Industry CO2 per capita","Buildings CO2 per capita","Energy supply CO2 per capita"),
+                                 catglob = catglob, catsnat = c("NDC1000"), years=c(2050),file_pre="Comp2050_sectorCO2cap_NDC1000", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NDC1000")
+c1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Transport CO2 per capita","Industry CO2 per capita","Buildings CO2 per capita","Energy supply CO2 per capita"),
+                                 catglob = catglob, catsnat = c("NPi1000"), years=c(2050),file_pre="Comp2050_sectorCO2cap_NPi1000", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi1000")
+d1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Transport CO2 per capita","Industry CO2 per capita","Buildings CO2 per capita","Energy supply CO2 per capita"),
+                                 catglob = catglob, catsnat = c("NPi400"), years=c(2050),file_pre="Comp2050_sectorCO2cap_NPi400", noglobrange=T,
+                                 var.labels = c("Transport CO2","Industry CO2","Buildings CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi400")
+a1=a1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+b1=b1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+c1=c1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+d1=d1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+g=arrangeGrob(a1,b1,c1,d1,ncol=2)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_capita_2050.png",sep=""),g,width=24,height=18,dpi=200)
+
+
+##Relative to 2010
+#2030-CO2/2010
+a1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Industry|rel2010","Emissions|CO2|Energy|Demand|Residential and Commercial|rel2010","Emissions|CO2|Energy|Demand|Transportation|rel2010","Emissions|CO2|Energy|Supply|rel2010"),
+                                 catglob = catglob, catsnat = c("NPi"), years=c(2030),file_pre="Comp2030_sectorCO2rel_NPi", noglobrange=T,
+                                 var.labels = c("Industry CO2","Buildings CO2","Transport CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi")
+b1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Industry|rel2010","Emissions|CO2|Energy|Demand|Residential and Commercial|rel2010","Emissions|CO2|Energy|Demand|Transportation|rel2010","Emissions|CO2|Energy|Supply|rel2010"),
+                                 catglob = catglob, catsnat = c("NDC1000"), years=c(2030),file_pre="Comp2030_sectorCO2rel_NDC1000", noglobrange=T,
+                                 var.labels = c("Industry CO2","Buildings CO2","Transport CO2","Energy supply CO2"),b.multivar = T,plottitle="NDC1000")
+c1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Industry|rel2010","Emissions|CO2|Energy|Demand|Residential and Commercial|rel2010","Emissions|CO2|Energy|Demand|Transportation|rel2010","Emissions|CO2|Energy|Supply|rel2010"),
+                                 catglob = catglob, catsnat = c("NPi1000"), years=c(2030),file_pre="Comp2030_sectorCO2rel_NPi1000", noglobrange=T,
+                                 var.labels = c("Industry CO2","Buildings CO2","Transport CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi1000")
+d1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Industry|rel2010","Emissions|CO2|Energy|Demand|Residential and Commercial|rel2010","Emissions|CO2|Energy|Demand|Transportation|rel2010","Emissions|CO2|Energy|Supply|rel2010"),
+                                 catglob = catglob, catsnat = c("NPi400"), years=c(2030),file_pre="Comp2030_sectorCO2rel_NPi400", noglobrange=T,
+                                 var.labels = c("Industry CO2","Buildings CO2","Transport CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi400")
+a1=a1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+b1=b1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+c1=c1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+d1=d1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+g=arrangeGrob(a1,b1,c1,d1,ncol=2)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_rel2010_2030.png",sep=""),g,width=24,height=18,dpi=200)
+
+#2050-CO2/2010
+a1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Industry|rel2010","Emissions|CO2|Energy|Demand|Residential and Commercial|rel2010","Emissions|CO2|Energy|Demand|Transportation|rel2010","Emissions|CO2|Energy|Supply|rel2010"),
+                                 catglob = catglob, catsnat = c("NPi"), years=c(2050),file_pre="Comp2050_sectorCO2rel_NPi", noglobrange=T,
+                                 var.labels = c("Industry CO2","Buildings CO2","Transport CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi")
+b1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Industry|rel2010","Emissions|CO2|Energy|Demand|Residential and Commercial|rel2010","Emissions|CO2|Energy|Demand|Transportation|rel2010","Emissions|CO2|Energy|Supply|rel2010"),
+                                 catglob = catglob, catsnat = c("NDC1000"), years=c(2050),file_pre="Comp2050_sectorCO2rel_NDC1000", noglobrange=T,
+                                 var.labels = c("Industry CO2","Buildings CO2","Transport CO2","Energy supply CO2"),b.multivar = T,plottitle="NDC1000")
+c1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Industry|rel2010","Emissions|CO2|Energy|Demand|Residential and Commercial|rel2010","Emissions|CO2|Energy|Demand|Transportation|rel2010","Emissions|CO2|Energy|Supply|rel2010"),
+                                 catglob = catglob, catsnat = c("NPi1000"), years=c(2050),file_pre="Comp2050_sectorCO2rel_NPi1000", noglobrange=T,
+                                 var.labels = c("Industry CO2","Buildings CO2","Transport CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi1000")
+d1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Industry|rel2010","Emissions|CO2|Energy|Demand|Residential and Commercial|rel2010","Emissions|CO2|Energy|Demand|Transportation|rel2010","Emissions|CO2|Energy|Supply|rel2010"),
+                                 catglob = catglob, catsnat = c("NPi400"), years=c(2050),file_pre="Comp2050_sectorCO2rel_NPi400", noglobrange=T,
+                                 var.labels = c("Industry CO2","Buildings CO2","Transport CO2","Energy supply CO2"),b.multivar = T,plottitle="NPi400")
+a1=a1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+b1=b1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+c1=c1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+d1=d1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
+g=arrangeGrob(a1,b1,c1,d1,ncol=2)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_rel2010_2050.png",sep=""),g,width=24,height=18,dpi=200)
+
+#### Final Energy ####
+# "Final Energy|Industry|rel2010"
+# "Final Energy|Residential and Commercial|rel2010"
+# "Final Energy|Transportation|rel2010"
+
+#### To do: other layout? ####
+
+# a1=a1+theme(legend.position = "bottom")
+# tmp<-ggplot_gtable(ggplot_build(a1))
+# leg<-which(sapply(tmp$grobs,function(x) x$name) =="guide-box")
+# legend<-tmp$grobs[[leg]]
+# a1=a1+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+# b1=b1+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+# c1=c1+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+# d1=d1+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+# lay<-rbind(c(1,2,1,2),c(3,4,5,5))
+# h=grid.arrange(a1,b1,c1,d1,legend,layout_matrix=lay)
+# ggsave(file=paste(cfg$outdir,"/sectors_CO2_2030_grid.png",sep=""),h,width=24,height=14,dpi=200)
