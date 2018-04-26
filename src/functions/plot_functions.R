@@ -432,6 +432,6 @@ plot_funnel2 <- function(reg, dt, vars, cats, out=cfg$outdir, title="Title", fil
                 legend.text=element_text(size=18),
                 legend.title=element_text(size=18),
                 plot.title=element_text(size=18))
-  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=7, height=8, dpi=120)
+  ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=12, height=8, dpi=120)
   return(p)
 }
