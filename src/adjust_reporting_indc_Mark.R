@@ -7,10 +7,10 @@
 all<-all[!model=="GEM-E3_V1"]
 
 #Relabel COFFEE's baseline to NoPolicy, in line with other global models
-all[model=="COPPE-COFFEE 1.0"]$scenario=str_replace_all(all[model=="COPPE-COFFEE 1.0"]$scenario,"NoPOL_V3","NoPolicy_V3")
+all[model=="COPPE-COFFEE 1.0"]$scenario=str_replace_all(all[model=="COPPE-COFFEE 1.0"]$scenario,"NoPOL_V4","NoPolicy_V4")
 
 #Relabel COPPE-MSB's baseline categorization to NoPOL
-all[model=="COPPE-MSB_v2.0"]$Baseline=str_replace_all(all[model=="COPPE-MSB_v2.0"]$Baseline,"NoPolicy_V3","NoPOL_V3")
+all[model=="COPPE-MSB_v2.0"]$Baseline=str_replace_all(all[model=="COPPE-MSB_v2.0"]$Baseline,"NoPolicy_V4","NoPOL_V4")
 
 #RU-TIMES: use PPP values for MER comparisons
 tmp <- all[model=="RU-TIMES 3.2"&variable=="GDP|PPP"&region=="RUS"]
@@ -468,8 +468,8 @@ tmpM=tmpM[region%in%regions[model=="India MARKAL"]$region& period%in%years[model
 tmpI=tmpI[region%in%regions[model=="IPAC-AIM/technology V1.0"]$region& period%in%years[model=="IPAC-AIM/technology V1.0"]$period] 
 tmpP=tmpP[region%in%regions[model=="PRIMES_V1"]$region& period%in%years[model=="PRIMES_V1"]$period]
 tmpR=tmpR[region%in%regions[model=="RU-TIMES 3.2"]$region& period%in%years[model=="RU-TIMES 3.2"]$period]
-tmpI=tmpI[!c(scenario%in%c("NoPOL_V3","NPi2020_low_V3","INDC2030_low_V3","INDC2030_high_V3","INDC_V3")&variable%in%c("Emissions|CH4","Emissions|N2O"))]
-all<-all[!c(model=="IPAC-AIM/technology V1.0"&variable%in%c("Emissions|CH4","Emissions|N2O")&scenario%in%c("NPi_V3","NPi2020_high_V3"))]
+tmpI=tmpI[!c(scenario%in%c("NoPOL_V4","NPi2020_low_V4","INDC2030_low_V4","INDC2030_high_V4","INDC_V4")&variable%in%c("Emissions|CH4","Emissions|N2O"))]
+all<-all[!c(model=="IPAC-AIM/technology V1.0"&variable%in%c("Emissions|CH4","Emissions|N2O")&scenario%in%c("NPi_V4","NPi2020_high_V4"))]
 all<-rbind(all,tmpC,tmpA,tmpM,tmpI,tmpP,tmpR)
 
 #AFOLU CO2 for RU-TIMES - also to total CO2
