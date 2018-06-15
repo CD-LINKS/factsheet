@@ -239,3 +239,6 @@ Emissions|HFC
 Emissions|PFC
 Emissions|SF6
 Emissions|CO2|Energy|Demand|AFOFI
+Emissions|CO2|Energy|Demand|Industry
+Emissions|CO2|Energy|Demand|Transportation
+Emissions|CO2|Energy|Demand|Residential and Commercial
