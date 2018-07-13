@@ -41,6 +41,7 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Emissions|CO2|FFI` ~ `Emissions|CO2|Energy and Industrial Processes` ' , newUnit='Mt CO2/yr')
     all <- calcVariable(all,'`Emissions Intensity of GDP|MER` ~ `Emissions|CO2|FFI`/`GDP|MER` ' , newUnit='kg CO2/$US 2005')
     all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2|FFI`/`GDP|PPP` ' , newUnit='kg CO2/$US 2005')
+    all <- calcVariable(all,'`Carbon Intensity of GDP|MER` ~ `Emissions|CO2`/`GDP|MER` ' , newUnit='kg CO2/$US 2005')
     all <- calcVariable(all,'`Emissions per capita` ~ `Emissions|CO2|FFI`/`Population` ' , newUnit='t CO2/cap')
     all <- calcVariable(all,'`LU Emissions per capita` ~ `Emissions|CO2|AFOLU`/`Population` ' , newUnit='t CO2/cap')
     all <- calcVariable(all,'`GHG emissions per capita` ~ `Emissions|Kyoto Gases`/`Population` ' , newUnit='t CO2eq/cap')
@@ -110,7 +111,7 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Industry FE per capita` ~ `Final Energy|Industry`/`Population` ' , newUnit='TJ/cap')
     all <- calcVariable(all,'`Buildings FE per capita` ~ `Final Energy|Residential and Commercial`/`Population` ' , newUnit='TJ/cap')
     
-    if(cfg$r!="RUS"){all <- calcRel2Base(all,var="Emissions|Non-CO2",baseEq1=F,"Non-CO2 emissions rel. to Base",scens)}
+    #if(cfg$r!="RUS"){all <- calcRel2Base(all,var="Emissions|Non-CO2",baseEq1=F,"Non-CO2 emissions rel. to Base",scens[!scenario=="NPi2020_verylow_V4"] )} #later include 2020_verylow, when submited
     all <- calcRel2Base(all,var="Emissions|CO2",baseEq1=F,"CO2 emissions rel. to Base",scens)
     source("functions/calcBudget.R")
     all <- calcBudget(all,'Emissions|CO2','Carbon budget')
@@ -120,7 +121,7 @@ add_variables <- function(all,scens){
     all <- calcPeak(all,'Emissions|CO2','Peak year|CO2')
     all <- calcPeak(all,'Emissions|Kyoto Gases','Peak year|Kyoto Gases')
     source("functions/calcRate.R")
-    all <- calcRate(all, c("Emissions Intensity of GDP|MER","Carbon Intensity of FE","Energy Intensity of GDP|MER","Emissions|CO2|FFI"))
+    all <- calcRate(all, c("Emissions Intensity of GDP|MER","Carbon Intensity of GDP|MER","Carbon Intensity of FE","Energy Intensity of GDP|MER","Emissions|CO2|FFI"))
 
 #    all <- overwrite(remind::calcCumulatedDiscount(all, discount = 0.05, nameVar = "GDP|MER"), all)
     
