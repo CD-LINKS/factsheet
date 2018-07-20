@@ -156,8 +156,16 @@ emis$scenario<-str_replace_all(emis$scenario,"2020_verylow","1.5C")
 
 write.csv(emis,"GHGemissions.csv")
 
+emisrange=data.table(gather(emis,period,value,c(`2005`,`2010`,`2015`,`2020`,`2025`,`2030`,`2035`,`2040`,`2045`,`2050`,`2055`,`2060`,`2065`,`2070`,`2075`,`2080`,`2085`,`2090`,`2095`,`2100`)))
+emisrange=emisrange[,list(min=min(value),tenp=quantile(value,probs=c(0.1),na.rm=T),mean=mean(value),median=median(value),ninetyp=quantile(value,probs=c(0.9),na.rm=T),max=max(value)),
+               by=c("variable","scenario","region","unit","period")]
+emisrange=gather(emisrange,statistic,value,c(min,tenp,mean,median,ninetyp,max))
+emisrange=na.omit(emisrange)
+emisrange=spread(emisrange,period,value)
+write.csv(emisrange,"GHGemissionsrange.csv")
 
 # 2. Carbon intensity --------------------------------------------------------
+#TO DO: calculate %/year with [[C/GDP(t)-C/GDP(t-5)]/5]/(C/GDP)(2010), t=2015,2020,2025,2030 etc.
 
 intens=all[variable%in%c("Carbon Intensity of GDP|MER","GHG Intensity of GDP|MER")&
            Category%in%c("NoPOL","NPi","INDC","2020_verylow","2020_low","2030_low")]
@@ -176,6 +184,15 @@ intens$scenario<-str_replace_all(intens$scenario,"2020_verylow","1.5C")
 
 write.csv(intens,"Cintensity.csv")
 
+intensrange=data.table(gather(intens,period,value,c(`2005`,`2010`,`2015`,`2020`,`2025`,`2030`,`2035`,`2040`,`2045`,`2050`,`2055`,`2060`,`2065`,`2070`,`2075`,`2080`,`2085`,`2090`,`2095`,`2100`)))
+intensrange=intensrange[,list(min=min(value),tenp=quantile(value,probs=c(0.1),na.rm=T),mean=mean(value),median=median(value),ninetyp=quantile(value,probs=c(0.9),na.rm=T),max=max(value)),
+                    by=c("variable","scenario","region","unit","period")]
+intensrange=gather(intensrange,statistic,value,c(min,tenp,mean,median,ninetyp,max))
+intensrange=na.omit(intensrange)
+intensrange=spread(intensrange,period,value)
+write.csv(intensrange,"Cintensityrange.csv")
+
+
 rintens=all[variable%in%c("Rate of Change| Carbon Intensity of GDP|MER","Rate of Change| GHG Intensity of GDP|MER")&
              Category%in%c("NoPOL","NPi","INDC","2020_verylow","2020_low","2030_low")]
 rintens=spread(rintens,period,value)
@@ -193,6 +210,13 @@ rintens$scenario<-str_replace_all(rintens$scenario,"2020_verylow","1.5C")
 
 write.csv(rintens,"Cintensity_rateofchange.csv")
 
+rintensrange=data.table(gather(rintens,period,value,c(`2020-2050`,`2030-2050`,`2050-2100`)))
+rintensrange=rintensrange[,list(min=min(value),tenp=quantile(value,probs=c(0.1),na.rm=T),mean=mean(value),median=median(value),ninetyp=quantile(value,probs=c(0.9),na.rm=T),max=max(value)),
+                        by=c("variable","scenario","region","unit","period")]
+rintensrange=gather(rintensrange,statistic,value,c(min,tenp,mean,median,ninetyp,max))
+rintensrange=na.omit(rintensrange)
+rintensrange=spread(rintensrange,period,value)
+write.csv(rintensrange,"Cintensity_rateofchange_range.csv")
 
 # 3. Carbon budget --------------------------------------------------------
 
@@ -216,3 +240,11 @@ setnames(budget,"2100","2011-2100")
 setnames(budget,"2105","2051-2100")
 
 write.csv(budget,"Cbudget.csv")
+
+budgetrange=data.table(gather(budget,period,value,c(`2011-2030`,`2011-2050`,`2011-2100`,`2051-2100`)))
+budgetrange=budgetrange[,list(min=min(value),tenp=quantile(value,probs=c(0.1),na.rm=T),mean=mean(value),median=median(value),ninetyp=quantile(value,probs=c(0.9),na.rm=T),max=max(value)),
+                          by=c("variable","scenario","region","unit","period")]
+budgetrange=gather(budgetrange,statistic,value,c(min,tenp,mean,median,ninetyp,max))
+budgetrange=na.omit(budgetrange)
+budgetrange=spread(budgetrange,period,value)
+write.csv(budgetrange,"Cbudgetrange.csv")
