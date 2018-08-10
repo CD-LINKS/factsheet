@@ -3,6 +3,7 @@
 ########## and produces the national fact sheet    ##########
 #############################################################
 
+#Load libraries - if needed, install them first: install.packages("name of library")
 library(reshape2)   # melt
 library(data.table) # setnames, nice view option
 library(dplyr)      # %>%
@@ -15,15 +16,10 @@ library(stringr) #str_replace_all
 #set working directory for R right if it is not by default (it is the right one by default if you open Rstudio by clicking on this main.R file)
 #setwd("D:/location-of-srcfolder-on-your-system")
 
-#source configuration file for region-specific data
+#source configuration file for region-specific data - adjust region code here (currently, settings files exist for BRA, CAN, CHN, EUR, IND, JPN, RUS, USA, World)
 source("settings/config_CAN.R")
 
-# for (reg in c("JPN","BRA","CHN","IND","EUR","RUS")){
-# #source configuration file for region-specific data
-# source(paste0("settings/config_",reg,".R"))
-
-
-#overwrite file to be used for analysis
+#overwrite file to be used for analysis - adjust name of database snapshot here
 cfg$infile    <- "cdlinks_compare_20180615-153808"
 
 #source function for factorizing data frames
@@ -67,12 +63,12 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
       save("all",file = paste0("data/",cfg$infile,".Rdata"))
    }
 
-  # Add new column "Category" and fill with name according to scenario-to-Category-mapping in "scens"
+  # Add new column "Category" and fill with name according to scenario-to-Category-mapping in "scens" - adjust the name here for your project-specific scenario names file
   scens <- fread("settings/scen_categ_cdlinks.csv", header=TRUE)
   #get rid of duplicated scenarios
   scens <- scens[!duplicated(scens$scenario)]
 
-  #reduce size of the data frame
+  #reduce size of the data frame - adjust this csv file if you want to delete or add variables to be maintained from the snapshot, for further analysis
   vars <- fread("settings/variables.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
   all  <- all[VARIABLE %in% vars$variable & REGION %in% cfg$r]
 
@@ -82,37 +78,16 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   #############################################################
   cat("Processing data\n")
 
-  #manual change before addition of scenario categories
-  # all[SCENARIO=="Baseline"]$SCENARIO <- "NoPOL"
-  # all <- all[!(MODEL=="GEM-E3_V1"&SCENARIO=="INDC")]
-  
-  # Change scenario names for some models to V4 to not mix up old global model results with new ones, while using latest version of other models (V3)
-  #Special case for RU_TIMES: no V3/V4 at all
-  all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO <- 
-    paste(all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO,'_V4',sep="")
-  #Special case for GEM-E3: select the recGenTaxation scenarios for standard analysis
-  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDCi_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDCi_recGenTaxation_V4")]$SCENARIO,"INDCi_recGenTaxation_V4","INDCi_V4")
-  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V4")]$SCENARIO,"INDC2030i_1000_recGenTaxation_V4","INDC2030i_1000_V4")
-  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_1000_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_1000_recGenTaxation_V4")]$SCENARIO,"NPi2020_1000_recGenTaxation_V4","NPi2020_1000_V4")
-  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO,"NPi2020_400_recGenTaxation_V4","NPi2020_400_V4")
-  #Rest: use latest version V3 for national (and some global) models, rename to V4
-  all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","China TIMES","COPPE-COFFEE 1.0","DNE21+ V.14","DNE21+ V.14 (national)","GCAM-USA_CDLINKS","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","China TIMES","COPPE-COFFEE 1.0","DNE21+ V.14","DNE21+ V.14 (national)","GCAM-USA_CDLINKS","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1")]$SCENARIO,"_V3","_V4")
-  
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
   
   #re-factorize all character and numeric columns
   all <- factor.data.frame(all)
   
-  ###### Manual changes before addition of calculated variables  
+  ###### Manual changes before addition of calculated variables  - adjust this file for project specific fixing of data, where needed
   if(b.adjustrep){source("adjust_reporting.R")}
   
-  #### add variables
+  #### add variables - add required indicators to this function (in folder 'functions', data_processing.R)
   all <- add_variables(all,scens)
   
   #set scope to "national" for national models
