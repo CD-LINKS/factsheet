@@ -2,23 +2,19 @@
 ##################################
 ##### cross-cut plotting
 ##################################
-
-source("functions/plot_functions_xcut.R")
+#Make the functions available for use
+source("functions/plot_functions.R")
 source("functions/mipStackedBarDiscreteX.R")
-
-
-# regs <- c("BRA","R5LAM","CHN","IND","R5MAF","R5ASIA", "RUS", "EU","JPN","USA",  "World")
+#Function to Calculate new regions from existing ones
 regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
-
 source("functions/calcRegion.R")
+source("functions/order.levels.R")
 
 #emission year plot script
-source("functions/order.levels.R")
 source("functions/script_RegionalBudgets.R")
+#Plot national scenarios
 source("functions/plot_LineNationalScens.R")
-
-
-
+#Plot stacked bars to compare global and national models
 source("functions/BarStackedNatGlob_script.R")
 
 
@@ -473,7 +469,7 @@ plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Primary Energy|Biomass|w/ 
 # WP2 ---------------------------------------------------------------------
 
 
-source("functions/plot_functions_xcut_wp2.R")
+source("functions/plot_functions.R")
 # regs <- c("BRA","R5LAM","CHN","IND","R5MAF","R5ASIA", "RUS", "EU","JPN","USA",  "World")
 regs <- c("IND","BRA","CHN", "RUS", "EU","JPN","USA",  "World")
 
