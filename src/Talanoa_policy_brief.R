@@ -1,0 +1,252 @@
+
+# Data processing ---------------------------------------------------------
+library(reshape2)   # melt
+library(data.table) # setnames, nice view option
+library(dplyr)      # %>%
+library(tidyr)      # spread
+library(ggplot2)    # ggplot
+library(rmarkdown)  # render pdf
+library(directlabels) # year labels for scatter plots
+library(stringr) #str_replace_all
+library(gridExtra) #arrangeGrob
+
+#set working directory for R right if it is not by default (it is the right one by default if you open Rstudio by clicking on this main.R file)
+#setwd("D:/location-of-srcfolder-on-your-system")
+
+#source configuration file for region-specific data
+source("settings/config_policybrief.R")
+cfg$infile <- "cdlinks_compare_20171127-154822"
+cfg$outdir    <- "paper graphs"#source function for factorizing data frames
+source("functions/factor.data.frame.R")
+# source functions process_data() and add_variables()
+source("functions/data_processing.R")
+#source function overwrite for overwriting a dataframe for a subset of variables
+source("functions/overwrite.R")
+#source file with plot functions
+source("functions/plot_functions.R")
+
+# flag to process data, reprocess even if _proc.rdata file is available
+# set to true if you always want data re-processed
+b.procdata = T
+
+# Create plot directory
+if(!file.exists(cfg$outdir)) {
+  dir.create(cfg$outdir, recursive = TRUE)
+}
+
+#input reference budgets for national scenarios:
+bud <- read.csv2("data/ref_budgets.csv")
+bud$high <- as.numeric(as.character(bud$high))
+bud$low <- as.numeric(as.character(bud$low))
+ref_budgets <- data.frame(region =c(rep("IND",2),rep("BRA",2), rep("JPN",2),rep("RUS",2) ,rep("CHN",2), rep("EU",2),rep("USA",2),rep("World",2)),scen=rep(c("high","low"),8),
+                          value=c(bud[bud$country=="IND",]$high,bud[bud$country=="IND",]$low,
+                                  bud[bud$country=="BRA",]$high,bud[bud$country=="BRA",]$low,
+                                  bud[bud$country=="JPN",]$high,bud[bud$country=="JPN",]$low,
+                                  bud[bud$country=="RUS",]$high,bud[bud$country=="RUS",]$low,
+                                  bud[bud$country=="CHN",]$high,bud[bud$country=="CHN",]$low,
+                                  bud[bud$country=="EUR",]$high,bud[bud$country=="EUR",]$low,
+                                  bud[bud$country=="USA",]$high,bud[bud$country=="USA",]$low,
+                                  bud[bud$country=="World",]$high,bud[bud$country=="World",]$low))
+
+#if processed data is already available, just load it. To redo processing (e.g. after adding new calculated variable, set b.procdata = TRUE)
+if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
+  cat("Loading processed data from file", paste0("data/",cfg$infile,"_proc.Rdata"),"\n",
+      "set b.procdata flag and re-run if you want to do the data processing again", "\n")
+  load(paste0("data/",cfg$infile,"_proc.Rdata"))
+  Sys.sleep(2)#give everybody the chance to read the above message
+} else {
+  
+  if (file.exists(paste0("data/",cfg$infile,".Rdata"))) {
+    cat("Loading file", paste0("data/",cfg$infile,".Rdata"),"\n")
+    load(paste0("data/",cfg$infile,".Rdata"))
+  } else {
+    cat("Reading data from file",paste0("data/",cfg$infile,".csv"),"\n")
+    all <- invisible(fread(paste0("data/",cfg$infile,".csv"),header=TRUE))
+    save("all",file = paste0("data/",cfg$infile,".Rdata"))
+  }
+  
+  #reduce size of the data frame
+  vars <- fread("settings/variables_xCut.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
+  all  <- all[VARIABLE %in% vars$variable & REGION %in% cfg$regions]
+  
+  cat("Processing stocktaking data\n")
+  
+  # Add information for new column "Category"
+  scens <- fread("settings/scen_categ_cdlinks_indc_bycountry_V3.csv", header=TRUE)
+  #get rid of duplicated scenarios
+  scens <- scens[!duplicated(scens$scenario)]
+  
+  #all <- all[!(MODEL=="GEM-E3_V1"&SCENARIO=="INDC")]
+  
+  # Change scenario names for some models to V4 to not mix up old global model results with new ones, while using latest version of other models (V3)
+  #Special case for RU_TIMES: no V3/V4 at all
+  all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO <- 
+    paste(all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO,'_V3',sep="")
+  all=all[!c(MODEL=="GEM-E3"&SCENARIO%in%c("NPi_V3"))]
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi_V4")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi_V4")]$SCENARIO,"NPi_V4","NPi_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDCi_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDCi_recGenTaxation_V4")]$SCENARIO,"INDCi_recGenTaxation_V4","INDCi_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V4")]$SCENARIO,"INDC2030i_1000_recGenTaxation_V4","INDC2030i_1000_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_1000_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_1000_recGenTaxation_V4")]$SCENARIO,"NPi2020_1000_recGenTaxation_V4","NPi2020_1000_V3")
+  all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
+    all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO,"NPi2020_400_recGenTaxation_V4","NPi2020_400_V3")
+  
+  #### from raw wide format to long format with additional columns
+  all <- process_data(all,scens)
+  
+  #re-factorize all character and numeric columns
+  all <- factor.data.frame(all)
+  
+  # model specific adjustments
+  source("adjust_reporting_indc_Mark.R")
+  
+  #### add variables
+  all <- add_variables(all,scens)
+  
+  #correct scope for added variables
+  all[all$model %in% cfg$models_nat,]$Scope <- "national"
+  #special case GEM-E3: national model for EU, global for other regions
+  all[model=="GEM-E3"&region!="EU"]$Scope<-"global"
+  
+  #### manual changes after addition of variables
+  
+  # categorize national models
+  all[all$Scope=="national",]$model <- paste0("*",all[all$Scope=="national",]$model)
+  nat_models <- paste0("*",cfg$models_nat)
+  
+  #get rid of Historical duplicates
+  #all <- all[Category!="Historical"]
+  
+  save("all",file = paste0("data/",cfg$infile,"_proc.Rdata"))
+  
+}# end if-else: load and process stocktaking data
+
+
+# Change scenario names for paper -----------------------------------------
+all$Category=str_replace_all(all$Category,"NoPOL","No policy")
+all$Category=str_replace_all(all$Category,"INDC","NDC")
+all$Category=str_replace_all(all$Category,"NPip","National policies planned")
+all$Category=str_replace_all(all$Category,"NPi","National policies")
+all$Category=str_replace_all(all$Category,"2020_low","Carbon budget 1000")
+all$Category=str_replace_all(all$Category,"2020_verylow","Carbon budget 400")
+all$Category=str_replace_all(all$Category,"2030_low","Carbon budget 1000 (2030)")
+
+# Figure 1 - time series -------------------------------------------------
+source("functions/plot_functions.R")
+# See poster figure 1a-gap.R
+# cats <- c("National policies","NDC","Carbon budget 1000","Carbon budget 400")
+# a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto greenhouse gas emissions",
+#                 file_pre="1_GHG_funnel",glob_lines=T,xlim=c(2010,2032),ylim=c(20000,75000),range=T,median=T,linetypemanual=F)
+# 
+
+#Figure 5
+cats <- c("Carbon budget 1000","Carbon budget 1000 (2030)")
+a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="",
+                file_pre="1_GHG_funnel",glob_lines=F,xlim=c(2010,2052),ylim=c(20000,75000),range=T,median=T,linetypemanual=F)
+
+dt <- dt[region==reg & Category%in% cats & variable%in% vars]
+unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
+unitsy <- paste(rev(unitsy),sep='',collapse='')
+models=dt[,list(number=length(unique(model))),by=c('region','variable','Category')]
+dt=merge(dt, models, by=c('region','variable','Category'))
+minmax=dt[Scope=="global" ,list(ymax=max(value),ymin=min(value),med=median(value)),by=c('region','period','Category','variable')]
+minmax=minmax[!period %in% c("2015","2025","2035","2045","2055","2065","2075","2085","2095")]
+minmax<-minmax[order(region, Category, period),]
+minmax$period=as.numeric(minmax$period)
+dt$period=as.numeric(dt$period)
+
+minmax$ymax=minmax$ymax/1000
+minmax$ymin=minmax$ymin/1000
+minmax$med=minmax$med/1000
+ylim=c(0,80)
+
+p = ggplot()
+p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax,fill=Category),alpha=.15)
+if(median){p = p + geom_path(data=minmax[region==reg],aes(x=period,y=med,group = Category,
+                                                          color=Category),size=1.3)}
+p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario")
+p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario")
+if (range & length(unique(dt$Category))==5){
+  p = p + geom_segment(data=minmax[period %in% c(2050) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2050, xend=2050, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2050) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2050.5, xend=2050.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2050) & Category %in% unique(minmax$Category)[3]], stat="identity", aes(x=2051, xend=2051, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2050) & Category %in% unique(minmax$Category)[4]], stat="identity", aes(x=2051.5, xend=2051.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2050) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2052, xend=2052, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+}
+if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
+if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
+p = p + ylab("GtCO2-equiv/year") + xlab("")
+p = p + ggplot2::theme_bw() 
+p = p + theme(axis.text=element_text(size=18),
+              axis.title=element_text(size=18),
+              strip.text=element_text(size=18),
+              legend.text=element_text(size=18),
+              legend.title=element_text(size=18),
+              plot.title=element_text(size=18))
+
+ggsave(file=paste0(cfg$outdir,"/",file_pre,"_",reg,cfg$format),p, width=12, height=8, dpi=120)
+
+
+# Figure 2 - operational targets ------------------------------------------
+
+#2a: 2030/2050 emission reductions in NPi1000 for world and major / R5 regions
+emisred=all[Category=="Carbon budget 1000"&variable=="Emissions|Kyoto Gases"&Scope=="global"&period%in%c(2010,2030,2050)&!region=="Bunkers"] #&region%in%c("World","BRA","CAN","CHN","EU","IND","JPN","RUS","TUR","USA")
+emisred=spread(emisred,period,value)
+emisred=emisred%>%mutate(red2050=(`2050`-`2010`)/`2010`*100,red2030=(`2030`-`2010`)/`2010`*100)
+emisred=data.table(gather(emisred,period,value,c(`2010`,`2030`,`2050`,red2030,red2050)))
+emisred=emisred[period%in%c("red2030","red2050")]
+emisred$unit<-"%"
+emisred$period=str_replace_all(emisred$period,"red2030","2030")
+emisred$period=str_replace_all(emisred$period,"red2050","2050")
+emisredrange=data.table(emisred[,list(median=median(value),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable","period")])
+
+F2=ggplot(emisredrange)
+F2=F2+facet_grid(variable~period,scale="free")
+F2=F2+geom_bar(aes(x=region,y=median),stat = "identity")
+F2=F2+geom_errorbar(aes(x=region,ymin=min,ymax=max))
+F2=F2+coord_flip()
+F2=F2+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),axis.text.x=element_text(angle=45))
+F2=F2+ylab("")  + xlab("")
+ggsave(file=paste0(cfg$outdir,"/","F2a",".png"),F2, width=10, height=8, dpi=300)
+
+#2b: peak years for NPi1000 for world and major / R5 regions
+peak=all[Category=="Carbon budget 1000"&variable=="Emissions|Kyoto Gases"&Scope=="global"&!region=="Bunkers"]
+check=peak[,list(unique(period)),by=c("model")]
+check=check[V1=="2100"]
+peak=peak[model%in%check$model]
+peak=peak[,list(value=period[which.max(value)]),by=c("Category","model","region","unit","variable")]
+peak=peak[!value%in%c("2005")]
+peak$value=as.numeric(peak$value)
+peakrange=data.table(peak[,list(median=median(value),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable")])
+
+F2b=ggplot(peakrange)
+F2b=F2b+geom_point(aes(x=region,y=median),size=3)
+F2b=F2b+geom_errorbar(aes(x=region,ymin=min,ymax=max))
+F2b=F2b+coord_flip()
+F2b=F2b+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),axis.text.x=element_text(angle=45))
+F2b=F2b+ylab("")  + xlab("")
+ggsave(file=paste0(cfg$outdir,"/","F2b",".png"),F2b, width=10, height=8, dpi=300)
+
+#2c: phase-out years for NPi1000 for world and major / R5 regions
+poy=all[Category=="Carbon budget 1000"&variable%in%c("Emissions|Kyoto Gases","Emissions|CO2")&Scope=="global"&!region=="Bunkers"]
+check=poy[,list(unique(period)),by=c("model")]
+check=check[V1=="2100"]
+poy=poy[model%in%check$model]
+poy2=poy[!duplicated(poy[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE]
+poy=merge(poy2,poy[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy[is.na(V1),]$V1=2100
+setnames(poy,"V1","value")
+poy$value=as.numeric(poy$value)
+poyrange=data.table(poy[,list(median=median(value),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable")])
+
+F2c=ggplot(poyrange)
+F2c=F2c+facet_grid(~variable,scale="free")
+F2c=F2c+geom_point(aes(x=region,y=median),size=3)
+F2c=F2c+geom_errorbar(aes(x=region,ymin=min,ymax=max))
+F2c=F2c+coord_flip()
+F2c=F2c+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),axis.text.x=element_text(angle=45))
+F2c=F2c+ylab("")  + xlab("")
+ggsave(file=paste0(cfg$outdir,"/","F2c",".png"),F2c, width=11, height=8, dpi=300)
