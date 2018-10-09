@@ -16,7 +16,7 @@ library(gridExtra) #arrangeGrob
 #source configuration file for region-specific data
 source("settings/config_policybrief.R")
 cfg$infile <- "cdlinks_compare_20171127-154822"
-cfg$outdir    <- "paper graphs"#source function for factorizing data frames
+#source function for factorizing data frames
 source("functions/factor.data.frame.R")
 # source functions process_data() and add_variables()
 source("functions/data_processing.R")
@@ -130,29 +130,43 @@ all$Category=str_replace_all(all$Category,"NoPOL","No policy")
 all$Category=str_replace_all(all$Category,"INDC","NDC")
 all$Category=str_replace_all(all$Category,"NPip","National policies planned")
 all$Category=str_replace_all(all$Category,"NPi","National policies")
-all$Category=str_replace_all(all$Category,"2020_low","Carbon budget 1000")
-all$Category=str_replace_all(all$Category,"2020_verylow","Carbon budget 400")
-all$Category=str_replace_all(all$Category,"2030_low","Carbon budget 1000 (2030)")
+all$Category=str_replace_all(all$Category,"2020_low","2°C")
+all$Category=str_replace_all(all$Category,"2020_verylow","1.5°C")
+all$Category=str_replace_all(all$Category,"2030_low","2°C (2030)")
+
+# And region names
+#all$region=str_replace_all(all$region,"R5OECD90+EU","OECD90+EU")
+oecd=all[region=="R5OECD90+EU"]
+oecd$region<-"OECD90+EU"
+all=all[!region=="R5OECD90+EU"]
+all=rbind(all,oecd)
+all$region=str_replace_all(all$region,"R5REF","Reforming")
+all$region=str_replace_all(all$region,"R5MAF","ME+Africa")
+all$region=str_replace_all(all$region,"R5LAM","Latin America")
+all$region=str_replace_all(all$region,"R5ASIA","Asia")
 
 # Figure 1 - time series -------------------------------------------------
 source("functions/plot_functions.R")
-# See poster figure 1a-gap.R
-# cats <- c("National policies","NDC","Carbon budget 1000","Carbon budget 400")
-# a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="Kyoto greenhouse gas emissions",
-#                 file_pre="1_GHG_funnel",glob_lines=T,xlim=c(2010,2032),ylim=c(20000,75000),range=T,median=T,linetypemanual=F)
-# 
-
-#Figure 5
-cats <- c("Carbon budget 1000","Carbon budget 1000 (2030)")
-a<-plot_funnel2(reg="World",dt=all,vars=c("Emissions|Kyoto Gases"),cats=cats,title="",
-                file_pre="1_GHG_funnel",glob_lines=F,xlim=c(2010,2052),ylim=c(20000,75000),range=T,median=T,linetypemanual=F)
+# Figure 1. See poster figure 1a-gap.R
+cats <- c("No policy","National policies","NDC","2°C","1.5°C")
+reg="World"
+dt=all
+vars=c("Emissions|Kyoto Gases")
+title=""
+file_pre="1_GHG_funnel_all"
+glob_lines=F
+xlim=c(2010,2032)
+ylim=c(20000,75000)
+range=T
+median=T
+linetypemanual=F
 
 dt <- dt[region==reg & Category%in% cats & variable%in% vars]
 unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
 unitsy <- paste(rev(unitsy),sep='',collapse='')
 models=dt[,list(number=length(unique(model))),by=c('region','variable','Category')]
 dt=merge(dt, models, by=c('region','variable','Category'))
-minmax=dt[Scope=="global" ,list(ymax=max(value),ymin=min(value),med=median(value)),by=c('region','period','Category','variable')]
+minmax=dt[Scope=="global" ,list(ymax=max(value,na.rm=TRUE),ymin=min(value,na.rm=TRUE),med=median(value,na.rm=TRUE)),by=c('region','period','Category','variable')]
 minmax=minmax[!period %in% c("2015","2025","2035","2045","2055","2065","2075","2085","2095")]
 minmax<-minmax[order(region, Category, period),]
 minmax$period=as.numeric(minmax$period)
@@ -161,7 +175,7 @@ dt$period=as.numeric(dt$period)
 minmax$ymax=minmax$ymax/1000
 minmax$ymin=minmax$ymin/1000
 minmax$med=minmax$med/1000
-ylim=c(0,80)
+ylim=c(20,80)
 
 p = ggplot()
 p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax,fill=Category),alpha=.15)
@@ -170,11 +184,68 @@ if(median){p = p + geom_path(data=minmax[region==reg],aes(x=period,y=med,group =
 p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario")
 p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario")
 if (range & length(unique(dt$Category))==5){
-  p = p + geom_segment(data=minmax[period %in% c(2050) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2050, xend=2050, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-  p = p + geom_segment(data=minmax[period %in% c(2050) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2050.5, xend=2050.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-  p = p + geom_segment(data=minmax[period %in% c(2050) & Category %in% unique(minmax$Category)[3]], stat="identity", aes(x=2051, xend=2051, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-  p = p + geom_segment(data=minmax[period %in% c(2050) & Category %in% unique(minmax$Category)[4]], stat="identity", aes(x=2051.5, xend=2051.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-  p = p + geom_segment(data=minmax[period %in% c(2050) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2052, xend=2052, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2030, xend=2030, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2030.5, xend=2030.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[3]], stat="identity", aes(x=2031, xend=2031, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[4]], stat="identity", aes(x=2031.5, xend=2031.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2032, xend=2032, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+}
+if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
+if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
+p = p + ylab("GtCO2-equiv/year") + xlab("")
+p = p + ggplot2::theme_bw() 
+p = p + theme(axis.text=element_text(size=18),
+              axis.title=element_text(size=18),
+              strip.text=element_text(size=18),
+              legend.text=element_text(size=18),
+              legend.title=element_text(size=18),
+              plot.title=element_text(size=18))
+
+ggsave(file=paste0(cfg$outdir,"/",file_pre,"_",reg,cfg$format),p, width=12, height=8, dpi=120)
+
+
+#Figure 5
+cats <- c("2°C","2°C (2030)")
+reg="World"
+dt=all
+vars=c("Emissions|Kyoto Gases")
+title=""
+file_pre="1_GHG_funnel"
+glob_lines=F
+xlim=c(2010,2102)
+ylim=c(20000,75000)
+range=T
+median=T
+linetypemanual=F
+
+dt <- dt[region==reg & Category%in% cats & variable%in% vars]
+unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
+unitsy <- paste(rev(unitsy),sep='',collapse='')
+models=dt[,list(number=length(unique(model))),by=c('region','variable','Category')]
+dt=merge(dt, models, by=c('region','variable','Category'))
+minmax=dt[Scope=="global" ,list(ymax=max(value,na.rm=TRUE),ymin=min(value,na.rm=TRUE),med=median(value,na.rm=TRUE)),by=c('region','period','Category','variable')]
+minmax=minmax[!period %in% c("2015","2025","2035","2045","2055","2065","2075","2085","2095")]
+minmax<-minmax[order(region, Category, period),]
+minmax$period=as.numeric(minmax$period)
+dt$period=as.numeric(dt$period)
+
+minmax$ymax=minmax$ymax/1000
+minmax$ymin=minmax$ymin/1000
+minmax$med=minmax$med/1000
+ylim=c(-20,80)
+
+p = ggplot()
+p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax,fill=Category),alpha=.15)
+if(median){p = p + geom_path(data=minmax[region==reg],aes(x=period,y=med,group = Category,
+                                                          color=Category),size=1.3)}
+p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario (2°C)",labels=c("2°C"="Start 2020","2°C (2030)"="Start 2030"))
+p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario (2°C)",labels=c("2°C"="Start 2020","2°C (2030)"="Start 2030"))
+if (range & length(unique(dt$Category))==5){
+  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2100, xend=2100, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2100.5, xend=2100.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[3]], stat="identity", aes(x=2101, xend=2101, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[4]], stat="identity", aes(x=2101.5, xend=2101.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2102, xend=2102, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
 }
 if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
 if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
@@ -193,7 +264,7 @@ ggsave(file=paste0(cfg$outdir,"/",file_pre,"_",reg,cfg$format),p, width=12, heig
 # Figure 2 - operational targets ------------------------------------------
 
 #2a: 2030/2050 emission reductions in NPi1000 for world and major / R5 regions
-emisred=all[Category=="Carbon budget 1000"&variable=="Emissions|Kyoto Gases"&Scope=="global"&period%in%c(2010,2030,2050)&!region=="Bunkers"] #&region%in%c("World","BRA","CAN","CHN","EU","IND","JPN","RUS","TUR","USA")
+emisred=all[Category=="2°C"&variable=="Emissions|Kyoto Gases"&Scope=="global"&period%in%c(2010,2030,2050)&region%in%c("World","Reforming","OECD90+EU","ME+Africa","Latin America","Asia")] #&region%in%c("World","BRA","CAN","CHN","EU","IND","JPN","RUS","TUR","USA")
 emisred=spread(emisred,period,value)
 emisred=emisred%>%mutate(red2050=(`2050`-`2010`)/`2010`*100,red2030=(`2030`-`2010`)/`2010`*100)
 emisred=data.table(gather(emisred,period,value,c(`2010`,`2030`,`2050`,red2030,red2050)))
@@ -204,16 +275,17 @@ emisred$period=str_replace_all(emisred$period,"red2050","2050")
 emisredrange=data.table(emisred[,list(median=median(value),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable","period")])
 
 F2=ggplot(emisredrange)
-F2=F2+facet_grid(variable~period,scale="free")
-F2=F2+geom_bar(aes(x=region,y=median),stat = "identity")
+F2=F2+facet_grid(variable~period,scale="fixed")
+F2=F2+geom_bar(aes(x=region,y=median),stat = "identity",fill="#a50000")
 F2=F2+geom_errorbar(aes(x=region,ymin=min,ymax=max))
 F2=F2+coord_flip()
-F2=F2+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),axis.text.x=element_text(angle=45))
+F2=F2+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),axis.text.x=element_text(angle=45),plot.title = element_text(size=22))
 F2=F2+ylab("")  + xlab("")
+F2=F2+ggtitle("a) GHG emission reductions by 2030 and 2050")
 ggsave(file=paste0(cfg$outdir,"/","F2a",".png"),F2, width=10, height=8, dpi=300)
 
 #2b: peak years for NPi1000 for world and major / R5 regions
-peak=all[Category=="Carbon budget 1000"&variable=="Emissions|Kyoto Gases"&Scope=="global"&!region=="Bunkers"]
+peak=all[Category=="2°C"&variable=="Emissions|Kyoto Gases"&Scope=="global"&region%in%c("World","Reforming","OECD90+EU","ME+Africa","Latin America","Asia")]
 check=peak[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 peak=peak[model%in%check$model]
@@ -223,15 +295,18 @@ peak$value=as.numeric(peak$value)
 peakrange=data.table(peak[,list(median=median(value),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable")])
 
 F2b=ggplot(peakrange)
-F2b=F2b+geom_point(aes(x=region,y=median),size=3)
-F2b=F2b+geom_errorbar(aes(x=region,ymin=min,ymax=max))
+F2b=F2b+geom_point(aes(x=region,y=median,colour=Category),size=5)
+F2b=F2b+geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=unit))
 F2b=F2b+coord_flip()
-F2b=F2b+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),axis.text.x=element_text(angle=45))
+F2b=F2b+scale_colour_manual(name="Statistics",values=c("2°C"="#a50000","Mt CO2-equiv/yr"="black"),labels=c("2°C"="median","Mt CO2-equiv/yr"="10-90 percentile range"))
+F2b=F2b+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),axis.text.x=element_text(angle=45),plot.title = element_text(size=22),legend.text=element_text(size=18),legend.title=element_text(size=20))
+F2b=F2b+theme(legend.position = c(0.2,0.1))
 F2b=F2b+ylab("")  + xlab("")
+F2b=F2b+ggtitle("b) GHG emission peak years")
 ggsave(file=paste0(cfg$outdir,"/","F2b",".png"),F2b, width=10, height=8, dpi=300)
 
 #2c: phase-out years for NPi1000 for world and major / R5 regions
-poy=all[Category=="Carbon budget 1000"&variable%in%c("Emissions|Kyoto Gases","Emissions|CO2")&Scope=="global"&!region=="Bunkers"]
+poy=all[Category=="2°C"&variable%in%c("Emissions|Kyoto Gases","Emissions|CO2")&Scope=="global"&region%in%c("World","Reforming","OECD90+EU","ME+Africa","Latin America","Asia")] #!region=="Bunkers"
 check=poy[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 poy=poy[model%in%check$model]
@@ -241,12 +316,42 @@ poy[is.na(V1),]$V1=2100
 setnames(poy,"V1","value")
 poy$value=as.numeric(poy$value)
 poyrange=data.table(poy[,list(median=median(value),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable")])
+poyrange$unit<-"Mt CO2-equiv/yr"
 
 F2c=ggplot(poyrange)
-F2c=F2c+facet_grid(~variable,scale="free")
-F2c=F2c+geom_point(aes(x=region,y=median),size=3)
-F2c=F2c+geom_errorbar(aes(x=region,ymin=min,ymax=max))
+F2c=F2c+facet_grid(~variable,scale="fixed")
+F2c=F2c+geom_point(aes(x=region,y=median,colour=Category),size=5) #,colour="#a50000"
+F2c=F2c+geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=unit))
 F2c=F2c+coord_flip()
-F2c=F2c+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),axis.text.x=element_text(angle=45))
+F2c=F2c+scale_colour_manual(name="Statistics",values=c("2°C"="#a50000","Mt CO2-equiv/yr"="black"),labels=c("2°C"="median","Mt CO2-equiv/yr"="10-90 percentile range"))
+F2c=F2c+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),axis.text.x=element_text(angle=45),plot.title = element_text(size=22),legend.text=element_text(size=16),legend.title=element_text(size=18))
+F2c=F2c+theme(legend.position = c(0.7,0.1))
 F2c=F2c+ylab("")  + xlab("")
+F2c=F2c+ggtitle("c) Phase-out year of CO2 and GHG emissions")
 ggsave(file=paste0(cfg$outdir,"/","F2c",".png"),F2c, width=11, height=8, dpi=300)
+
+#2d negative emissions/ remaining emissions
+dt=all[Category%in%c("2°C","NDC")&variable%in%c("Emissions|Kyoto Gases","Emissions|CO2","Emissions|F-Gases","Emissions|N2O","Emissions|CH4")&Scope=="global"&region%in%c("World")]
+sectors=dt[Category%in%c("2°C")&variable%in%c("Emissions|CO2","Emissions|F-Gases","Emissions|N2O","Emissions|CH4")]
+sectors[variable=="Emissions|N2O"]$value<-sectors[variable=="Emissions|N2O"]$value*298/1000
+sectors[variable=="Emissions|CH4"]$value<-sectors[variable=="Emissions|CH4"]$value*25
+sectors$unit<-"Mt CO2-equiv/yr"
+total=dt[Category%in%c("2°C","NDC")&variable%in%c("Emissions|Kyoto Gases")]
+dt=rbind(sectors,total)
+dt$value=dt$value/1000
+dtrange=data.table(dt[,list(median=median(value,na.rm=T),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable","period")])
+dtrange=dtrange[!period %in% c("2015","2025","2035","2045","2055","2065","2075","2085","2095")]
+
+setnames(dtrange,"variable","Emissions")
+setnames(dtrange,"Category","Scenario")
+dtrange$Emissions=str_replace_all(dtrange$Emissions,"Emissions|","")
+# dtrange$Emissions=str_replace_all(dtrange$Emissions,"Emissions|N2O","N2O")
+# dtrange$Emissions=str_replace_all(dtrange$Emissions,"Emissions|F-Gases","F-Gases")
+# dtrange$Emissions=str_replace_all(dtrange$Emissions,"Emissions|CO2","CO2")
+# dtrange$Emissions=str_replace_all(dtrange$Emissions,"Emissions|Kyoto Gases","Kyoto GHG")
+         
+F2d=ggplot(dtrange)
+F2d=F2d+geom_line(aes(x=period,y=median,colour=Emissions,linetype=Scenario),size=2)
+F2d=F2d+theme_bw()+theme(axis.text=element_text(size=20),plot.title = element_text(size=22),legend.text=element_text(size=16),legend.title=element_text(size=18),axis.title=element_text(size=20))
+F2d=F2d+ggtitle("d) Individual GHG emissions") + ylab("GtCO2eq/year") + xlab("")
+ggsave(file=paste0(cfg$outdir,"/","F2d",".png"),F2d, width=11, height=8, dpi=300)
