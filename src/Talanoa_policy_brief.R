@@ -204,63 +204,6 @@ p = p + theme(axis.text=element_text(size=18),
 ggsave(file=paste0(cfg$outdir,"/",file_pre,"_",reg,cfg$format),p, width=12, height=8, dpi=120)
 
 
-#Figure 5
-cats <- c("2°C","2°C (2030)")
-reg="World"
-dt=all
-vars=c("Emissions|Kyoto Gases")
-title=""
-file_pre="1_GHG_funnel"
-glob_lines=F
-xlim=c(2010,2102)
-ylim=c(20000,75000)
-range=T
-median=T
-linetypemanual=F
-
-dt <- dt[region==reg & Category%in% cats & variable%in% vars]
-unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
-unitsy <- paste(rev(unitsy),sep='',collapse='')
-models=dt[,list(number=length(unique(model))),by=c('region','variable','Category')]
-dt=merge(dt, models, by=c('region','variable','Category'))
-minmax=dt[Scope=="global" ,list(ymax=max(value,na.rm=TRUE),ymin=min(value,na.rm=TRUE),med=median(value,na.rm=TRUE)),by=c('region','period','Category','variable')]
-minmax=minmax[!period %in% c("2015","2025","2035","2045","2055","2065","2075","2085","2095")]
-minmax<-minmax[order(region, Category, period),]
-minmax$period=as.numeric(minmax$period)
-dt$period=as.numeric(dt$period)
-
-minmax$ymax=minmax$ymax/1000
-minmax$ymin=minmax$ymin/1000
-minmax$med=minmax$med/1000
-ylim=c(-20,80)
-
-p = ggplot()
-p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax,fill=Category),alpha=.15)
-if(median){p = p + geom_path(data=minmax[region==reg],aes(x=period,y=med,group = Category,
-                                                          color=Category),size=1.3)}
-p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario (2°C)",labels=c("2°C"="Start 2020","2°C (2030)"="Start 2030"))
-p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario (2°C)",labels=c("2°C"="Start 2020","2°C (2030)"="Start 2030"))
-if (range & length(unique(dt$Category))==5){
-  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2100, xend=2100, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2100.5, xend=2100.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[3]], stat="identity", aes(x=2101, xend=2101, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[4]], stat="identity", aes(x=2101.5, xend=2101.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2102, xend=2102, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-}
-if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
-if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
-p = p + ylab("GtCO2-equiv/year") + xlab("")
-p = p + ggplot2::theme_bw() 
-p = p + theme(axis.text=element_text(size=18),
-              axis.title=element_text(size=18),
-              strip.text=element_text(size=18),
-              legend.text=element_text(size=18),
-              legend.title=element_text(size=18),
-              plot.title=element_text(size=18))
-
-ggsave(file=paste0(cfg$outdir,"/",file_pre,"_",reg,cfg$format),p, width=12, height=8, dpi=120)
-
-
 # Figure 2 - operational targets ------------------------------------------
 
 #2a: 2030/2050 emission reductions in NPi1000 for world and major / R5 regions
@@ -355,3 +298,228 @@ F2d=F2d+geom_line(aes(x=period,y=median,colour=Emissions,linetype=Scenario),size
 F2d=F2d+theme_bw()+theme(axis.text=element_text(size=20),plot.title = element_text(size=22),legend.text=element_text(size=16),legend.title=element_text(size=18),axis.title=element_text(size=20))
 F2d=F2d+ggtitle("d) Individual GHG emissions") + ylab("GtCO2eq/year") + xlab("")
 ggsave(file=paste0(cfg$outdir,"/","F2d",".png"),F2d, width=11, height=8, dpi=300)
+
+
+# Figure 4 ----------------------------------------------------------------
+#4a
+cats <- c("No policy","National policies","NDC","2°C","1.5°C")
+reg="World"
+dt=all
+vars=c("Emissions|Kyoto Gases")
+title=""
+file_pre="4a_GHG_funnel_all"
+glob_lines=F
+xlim=c(2010,2032)
+ylim=c(20000,75000)
+range=T
+median=T
+linetypemanual=F
+
+dt <- dt[region==reg & Category%in% cats & variable%in% vars]
+unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
+unitsy <- paste(rev(unitsy),sep='',collapse='')
+models=dt[,list(number=length(unique(model))),by=c('region','variable','Category')]
+dt=merge(dt, models, by=c('region','variable','Category'))
+minmax=dt[Scope=="global" ,list(ymax=max(value,na.rm=TRUE),ymin=min(value,na.rm=TRUE),med=median(value,na.rm=TRUE)),by=c('region','period','Category','variable')]
+minmax=minmax[!period %in% c("2015","2025","2035","2045","2055","2065","2075","2085","2095")]
+minmax<-minmax[order(region, Category, period),]
+minmax$period=as.numeric(minmax$period)
+dt$period=as.numeric(dt$period)
+
+minmax$ymax=minmax$ymax/1000
+minmax$ymin=minmax$ymin/1000
+minmax$med=minmax$med/1000
+ylim=c(20,80)
+
+p = ggplot()
+p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax,fill=Category),alpha=.15)
+if(median){p = p + geom_path(data=minmax[region==reg],aes(x=period,y=med,group = Category,
+                                                          color=Category),size=1.3)}
+p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario")
+p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario")
+if (range & length(unique(dt$Category))==5){
+  p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2030, xend=2030, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2030.5, xend=2030.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[3]], stat="identity", aes(x=2031, xend=2031, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[4]], stat="identity", aes(x=2031.5, xend=2031.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2032, xend=2032, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+}
+if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
+if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
+p = p + ylab("GtCO2-equiv/year") + xlab("") + ggtitle("a) Global greenhouse gas emissions until 2030")
+p = p + ggplot2::theme_bw() 
+p = p + theme(axis.text=element_text(size=18),
+              axis.title=element_text(size=18),
+              strip.text=element_text(size=18),
+              legend.text=element_text(size=18),
+              legend.title=element_text(size=18),
+              plot.title=element_text(size=18))
+
+ggsave(file=paste0(cfg$outdir,"/",file_pre,"_",reg,cfg$format),p, width=12, height=8, dpi=120)
+
+#4b
+source("functions/plot_functions_xcut.R")
+dt_all <- all
+dt_all[model == "COPPE-COFFEE 1.0" & region == "EU", "value"] <- NA
+dt_all[model == "DNE21+ V.14" & (region == "CHN" | region == "IND"), "value"] <- NA
+dt_all[model == "MESSAGE" & region == "EU", "value"] <- NA
+
+UseErrorBars = F
+ylim_top = c(-1000,17500)
+ylim_bottom=c(-250,2750)
+breaks_top = c(5000, 10000, 15000)
+breaks_bottom = c(500, 1000, 1500, 2000, 2500)
+regs <- c("BRA")
+cats <- c("Historical","No policy","National policies","NDC", "2°C", "1.5°C")
+catsnat <- c("Historical","No policy","National policies","NDC")
+g2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial CO2","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                          per=c(2030),file_pre="2g_BRA_2030_alt",lab = "Brazil GHG emissions (Mt CO2eq/yr)", ylim=ylim_bottom, ybreaks=breaks_bottom, hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+                                                                                                                                                                                   "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
+                                                                                                                                                                                   "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
+                                                                                                                                                                                   "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
+                                                                                                                                                                                   "Emissions|CO2|AFOLU" ="AFOLU CO2",
+                                                                                                                                                                                   "Emissions|Non-CO2" = "Non-CO2"),
+                          TotalEmis_var = "Emissions|Kyoto Gases", natpoints=F, error_bar=UseErrorBars, catsnat=catsnat,total=T)
+
+regs <- c("CHN")
+b2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                          per=c(2030),file_pre="bc_CHN_2030_alt",lab = "China GHG emissions (Mt CO2eq/yr)", ylim=ylim_top, ybreaks=breaks_top,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+                                                                                                                                                                           "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
+                                                                                                                                                                           "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
+                                                                                                                                                                           "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
+                                                                                                                                                                           "Emissions|CO2|AFOLU" ="AFOLU CO2",
+                                                                                                                                                                           "Emissions|Non-CO2" = "Non-CO2"),
+                          TotalEmis_var = "Emissions|Kyoto Gases", natpoints=F,error_bar=UseErrorBars,catsnat=catsnat,total=T)
+
+regs <- c("IND")
+e2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                          per=c(2030),file_pre="2e_IND_2030_alt",lab = "India GHG emissions (Mt CO2eq/yr)", ylim=ylim_top, ybreaks=breaks_top,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+                                                                                                                                                                           "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
+                                                                                                                                                                           "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
+                                                                                                                                                                           "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
+                                                                                                                                                                           "Emissions|CO2|AFOLU" ="AFOLU CO2",
+                                                                                                                                                                           "Emissions|Non-CO2" = "Non-CO2"),
+                          TotalEmis_var = "Emissions|Kyoto Gases", natpoints=F,error_bar=UseErrorBars,catsnat=catsnat,total=T)
+
+regs <- c("JPN")
+h2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                          per=c(2030),file_pre="2h_JPN_2030_alt",lab = "Japan GHG emissions (Mt CO2eq/yr)", ylim=ylim_bottom, ybreaks=breaks_bottom,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+                                                                                                                                                                                 "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
+                                                                                                                                                                                 "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
+                                                                                                                                                                                 "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
+                                                                                                                                                                                 "Emissions|CO2|AFOLU" ="AFOLU CO2",
+                                                                                                                                                                                 "Emissions|Non-CO2" = "Non-CO2"),
+                          TotalEmis_var = "Emissions|Kyoto Gases", natpoints=F,error_bar=UseErrorBars,catsnat=catsnat,total=T)
+
+regs <- c("USA")
+c2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                          per=c(2030),file_pre="2c_USA_2030_alt",lab = "USA GHG emissions (Mt CO2eq/yr)", ylim=ylim_top, ybreaks=breaks_top,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+                                                                                                                                                                         "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
+                                                                                                                                                                         "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
+                                                                                                                                                                         "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings CO2",
+                                                                                                                                                                         "Emissions|CO2|AFOLU" ="AFOLU CO2",
+                                                                                                                                                                         "Emissions|Non-CO2" = "Non-CO2"),
+                          TotalEmis_var = "Emissions|Kyoto Gases", natpoints=F,error_bar=UseErrorBars,catsnat=catsnat,total=T)
+
+regs <- c("EU")
+d2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                          per=c(2030),file_pre="2d_EU_2030_alt",lab = "EU GHG emissions (Mt CO2eq/yr)", ylim=ylim_top, ybreaks=breaks_top,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply CO2",
+                                                                                                                                                                       "Emissions|CO2|Energy|Demand|Transportation"="Transport CO2",
+                                                                                                                                                                       "Emissions|CO2|Energy|Demand|Industry"="Industry CO2",
+                                                                                                                                                                       "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings  CO2",
+                                                                                                                                                                       "Emissions|CO2|AFOLU" ="AFOLU  CO2",
+                                                                                                                                                                       "Emissions|Non-CO2" = "Non-CO2 emissions"),
+
+                          TotalEmis_var = "Emissions|Kyoto Gases2", natpoints=F,error_bar=UseErrorBars,catsnat=catsnat,total=T)
+
+
+regs <- c("RUS")
+f2_alt<-plot_stackbar_ghg(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|AFOLU", "Emissions|Non-CO2"),cats = cats,
+                          per=c(2030),file_pre="2f_RUS_2030_alt",lab = "Russia GHG emissions (Mt CO2eq/yr)", ylim=ylim_bottom, ybreaks=breaks_bottom,hist=T,labels=T,var.labels=c("Emissions|CO2|Energy|Supply"="Energy Supply  CO2",
+                                                                                                                                                                                  "Emissions|CO2|Energy|Demand|Transportation"="Transport  CO2",
+                                                                                                                                                                                  "Emissions|CO2|Energy|Demand|Industry"="Industry  CO2",
+                                                                                                                                                                                  "Emissions|CO2|Energy|Demand|Residential and Commercial"="Buildings  CO2",
+                                                                                                                                                                                  "Emissions|CO2|AFOLU" ="AFOLU CO2",
+                                                                                                                                                                                  "Emissions|Non-CO2" = "Non-CO2 emissions"),
+                          TotalEmis_var = "Emissions|Kyoto Gases", natpoints=F,error_bar=UseErrorBars,catsnat=catsnat,total=T)
+
+tmp<-ggplot_gtable(ggplot_build(b2_alt))
+leg<-which(sapply(tmp$grobs,function(x) x$name) =="guide-box")
+legend<-tmp$grobs[[leg]]
+b2_alt=b2_alt+theme(legend.position = "none")
+c2_alt=c2_alt+theme(legend.position = "none")
+d2_alt=d2_alt+theme(legend.position = "none")
+e2_alt=e2_alt+theme(legend.position = "none")
+f2_alt=f2_alt+theme(legend.position = "none")
+g2_alt=g2_alt+theme(legend.position = "none")
+h2_alt=h2_alt+theme(legend.position = "none")
+lay<-rbind(c(1,2,3,4),c(5,6,7,8))
+h=grid.arrange(b2_alt,c2_alt,d2_alt,e2_alt,f2_alt,g2_alt,h2_alt,legend,layout_matrix=lay)
+ggsave(file=paste(cfg$outdir,"/Fig4b_arrange_alt.png",sep=""),h,width=20,height=16,dpi=200)
+
+#4d
+regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA",  "World")
+catsglob <- c("NDC","2°C")
+
+plot_stackbar_diff(regs=regs,dt=all,vars=c("Renewables Share|Excl. Nuclear"),cats = catsglob, ylim=c(0,100),ybreaks=c(0,10,20,30,40,50,60,70,80,90,100),
+                  lab="%",per=c(2030,2050),file_pre="2030_2050_ElecREN_excl_nuc",labels=T,scen.labels = c("2°C","NDC"),b.multiyear = T,title=T,
+                  Title="d) Increase in renewable energy share",out=cfg$outdir)
+
+
+# Figure 5 ----------------------------------------------------------------
+#Figure 5a
+cats <- c("2°C","2°C (2030)")
+reg="World"
+dt=all
+vars=c("Emissions|Kyoto Gases")
+title=""
+file_pre="1_GHG_funnel"
+glob_lines=F
+xlim=c(2010,2102)
+ylim=c(20000,75000)
+range=T
+median=T
+linetypemanual=F
+
+dt <- dt[region==reg & Category%in% cats & variable%in% vars]
+unitsy <- paste0("(",unique(dt[variable%in%vars]$unit),")    ")
+unitsy <- paste(rev(unitsy),sep='',collapse='')
+models=dt[,list(number=length(unique(model))),by=c('region','variable','Category')]
+dt=merge(dt, models, by=c('region','variable','Category'))
+minmax=dt[Scope=="global" ,list(ymax=max(value,na.rm=TRUE),ymin=min(value,na.rm=TRUE),med=median(value,na.rm=TRUE)),by=c('region','period','Category','variable')]
+minmax=minmax[!period %in% c("2015","2025","2035","2045","2055","2065","2075","2085","2095")]
+minmax<-minmax[order(region, Category, period),]
+minmax$period=as.numeric(minmax$period)
+dt$period=as.numeric(dt$period)
+
+minmax$ymax=minmax$ymax/1000
+minmax$ymin=minmax$ymin/1000
+minmax$med=minmax$med/1000
+ylim=c(-20,80)
+
+p = ggplot()
+p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax,fill=Category),alpha=.15)
+if(median){p = p + geom_path(data=minmax[region==reg],aes(x=period,y=med,group = Category,
+                                                          color=Category),size=1.3)}
+p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario (2°C)",labels=c("2°C"="Start 2020","2°C (2030)"="Start 2030"))
+p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario (2°C)",labels=c("2°C"="Start 2020","2°C (2030)"="Start 2030"))
+if (range & length(unique(dt$Category))==5){
+  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2100, xend=2100, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2100.5, xend=2100.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[3]], stat="identity", aes(x=2101, xend=2101, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[4]], stat="identity", aes(x=2101.5, xend=2101.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  p = p + geom_segment(data=minmax[period %in% c(2100) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2102, xend=2102, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+}
+if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
+if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
+p = p + ylab("GtCO2-equiv/year") + xlab("") + ggtitle("a) Global greenhouse gas emissions until 2030")
+p = p + ggplot2::theme_bw() 
+p = p + theme(axis.text=element_text(size=18),
+              axis.title=element_text(size=18),
+              strip.text=element_text(size=18),
+              legend.text=element_text(size=18),
+              legend.title=element_text(size=18),
+              plot.title=element_text(size=18))
+
+ggsave(file=paste0(cfg$outdir,"/",file_pre,"_",reg,cfg$format),p, width=12, height=8, dpi=120)
+
