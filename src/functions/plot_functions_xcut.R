@@ -820,7 +820,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
 ####################### plot_stackbar_ghg ########################
 #############################################################
 
-plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir, lab="ylab",title=F,Title="Title",file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F, var.labels=NA, TotalEmis_var = "Emissions|Kyoto Gases", natpoints, error_bar=F,quantiles=T,minprob=0.1,maxprob=0.9){
+plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir, lab="ylab",title=F,Title="Title",file_pre="stackbar",ylim=NA,ybreaks=NA,hist=F,labels=F, var.labels=NA, TotalEmis_var = "Emissions|Kyoto Gases", natpoints, error_bar=F,quantiles=T,minprob=0.1,maxprob=0.9,total=F){
   
   if(hist){dt[Category=="Historical"]$period<-per}
   
@@ -858,8 +858,8 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir
   #dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
   dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
   dtl=data.table(dtl)
-  if(quantiles){dtl=dtl[,list(min=quantile(value,prob=minprob),max=quantile(value,prob=maxprob)),by=c("Category","variable","region","period","Scope","unit")]
-  }else{dtl=dtl[,list(min=min(value),max=max(value)),by=c("Category","variable","region","period","Scope","unit")]}
+  if(quantiles){dtl=dtl[,list(min=quantile(value,prob=minprob,na.rm=T),max=quantile(value,prob=maxprob,na.rm=T),med=median(value,na.rm=T)),by=c("Category","variable","region","period","Scope","unit")]
+  }else{dtl=dtl[,list(min=min(value),max=max(value),med=median(value)),by=c("Category","variable","region","period","Scope","unit")]}
 
   #if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="national")}
   if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable==TotalEmis_var, period %in% per,Scope=="national")}
@@ -876,17 +876,72 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir
   if(natpoints){
   p = p + geom_point(data=dtn,aes(x=Category,y=value,shape=model, group=interaction(Category,region,variable)), size = 3,show.legend = F)
   }
-  p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1,size=18),
-                axis.text.y  = element_text(size = 18),
-                plot.title = element_text(size = 20),
-                axis.title = element_text(size=18),
-                legend.title = element_text(size=18),
-                legend.text = element_text(size=18))
+  if(total){
+    p = p + geom_point(data=dtl,aes(Category, y=med, group = interaction(variable, region, Category)),size=3)  
+  }
+  p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1,size=22),
+                axis.text.y  = element_text(size = 22),
+                plot.title = element_text(size = 24),
+                axis.title = element_text(size=22),
+                legend.title = element_text(size=24),
+                legend.text = element_text(size=22))
   p = p + ylab(lab) + xlab("")
   if(title){p = p + ggtitle(Title)}
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
   if(labels){p = p + scale_fill_brewer(palette="Spectral",labels=var.labels,name="Variable")}else{p = p + scale_fill_brewer(palette="Spectral",name="Variable")}
   #p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"), name=strsplit(regs[1], "|", fixed=T)[[1]][1])
   ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
+  return(p)
+}
+
+#############################################################
+####################### plot_stackbar_diff ########################
+#############################################################
+
+plot_stackbar_diff <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="ylab",title=F,Title="Title",file_pre="stackbar",ylim=NA,ybreaks=NA,labels=F, scen.labels=NA,b.multiyear=T){
+  
+  dta <-filter(dt, region %in% regs, Category%in% cats, variable%in% vars, period %in% per,Scope=="global")
+  dta <- factor.data.frame(dta)
+  #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
+  for (cat in cats){
+    for (mod in unique(dta[dta$Category==cat,]$model)){
+      if(length(unique(dta[dta$Category==cat & dta$model == mod,]$scenario))==1){
+      } else {
+        dta <- dta[!(dta$scenario %in% unique(dta[dta$Category==cat & dta$model == mod,]$scenario)[seq(2,length(unique(dta[dta$Category==cat & dta$model == mod,]$scenario)))] & dta$Category==cat & dta$model == mod),]
+      }
+    }
+  }
+  
+  dta=data.table(dta)
+  dta=na.omit(dta)
+  # Calculate median, only for models that have the region in their spatial aggregation
+  regions=all[,list(region=unique(region)),by=c("model")]
+  dta=data.table(dta)
+  for(mod in unique(dta[!region=="RoW"]$model)){
+    dta[model==mod&!region=="RoW"]=dta[model==mod&region %in% regions[model==mod]$region]
+  }
+  dta=dta[,list(mean(value)),by=c("Category","variable","region","period","Scope","unit")]
+  setnames(dta,"V1","value")
+  
+  #calculate difference NDC-2C
+  dta=spread(dta,Category,value)
+  dta=dta%>%mutate(diff=`2°C`-`NDC`)
+  dta=data.table(gather(dta,Category,value,c("2°C","NDC","diff")))
+  dta=dta[Category%in%c("NDC","diff")]
+  
+  p = ggplot() + ggplot2::theme_bw()
+  p = p + geom_bar(data=dta,aes(x=region, y=value, group = interaction(variable, region), fill = Category), stat="identity", position="stack")
+  if(b.multiyear){p = p + facet_wrap(~ period, scales="free_x")}
+  p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1,size=22),
+                axis.text.y  = element_text(size = 22),
+                plot.title = element_text(size = 24),
+                axis.title = element_text(size=22),
+                legend.title = element_text(size=24),
+                legend.text = element_text(size=22))
+  p = p + ylab(lab) + xlab("")
+  if(title){p = p + ggtitle(Title)}
+  if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
+  if(labels){p = p + scale_fill_brewer(palette="Paired",labels=scen.labels,name="Scenario")}else{p = p + scale_fill_brewer(palette="Paired",name="Scenario")}
+  ggsave(file=paste0(out,"/",file_pre,"_",cfg$format),p, width=10, height=8, dpi=120)
   return(p)
 }
