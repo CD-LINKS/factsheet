@@ -12,6 +12,7 @@ library(gridExtra) #arrangeGrob
 
 #set working directory for R right if it is not by default (it is the right one by default if you open Rstudio by clicking on this main.R file)
 #setwd("D:/location-of-srcfolder-on-your-system")
+setwd("~/disks/local/factsheet/src")
 
 #source configuration file for region-specific data
 source("settings/config_policybrief.R")
@@ -463,10 +464,11 @@ catsglob <- c("NDC","2°C")
 
 plot_stackbar_diff(regs=regs,dt=all,vars=c("Renewables Share|Excl. Nuclear"),cats = catsglob, ylim=c(0,100),ybreaks=c(0,10,20,30,40,50,60,70,80,90,100),
                   lab="%",per=c(2030,2050),file_pre="2030_2050_ElecREN_excl_nuc",labels=T,scen.labels = c("2°C","NDC"),b.multiyear = T,title=T,
-                  Title="d) Increase in renewable energy share",out=cfg$outdir)
+                  Title="c) Increase in renewable energy share",out=cfg$outdir)
 
 
 # Figure 5 ----------------------------------------------------------------
+# Figure 5a ---------------------------------------------------------------
 #Figure 5a
 cats <- c("2°C","2°C (2030)")
 reg="World"
@@ -522,4 +524,53 @@ p = p + theme(axis.text=element_text(size=18),
               plot.title=element_text(size=18))
 
 ggsave(file=paste0(cfg$outdir,"/",file_pre,"_",reg,cfg$format),p, width=12, height=8, dpi=120)
+
+
+
+# Figure 5b ---------------------------------------------------------------
+#Rates of change
+rate=all[Category%in%c("2°C","2°C (2030)","1.5°C")&variable%in%c("Rate of Change| GHG Intensity of GDP|MER","Rate of Change| GHG Intensity of FE","Rate of Change| Energy Intensity of GDP|MER","Rate of Change| Emissions|CO2|FFI")&Scope=="global"&period%in%c("2030-2050")&region%in%c("World","Reforming","OECD90+EU","ME+Africa","Latin America","Asia")] #&region%in%c("World","BRA","CAN","CHN","EU","IND","JPN","RUS","TUR","USA") #Renewables Share|Excl. Nuclear
+raterange=data.table(rate[,list(median=median(value,na.rm=T),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable","period")])
+raterange$variable=str_replace_all(raterange$variable,"Rate of Change","")
+
+F5=ggplot(raterange[region=="World"])
+F5=F5+facet_wrap(~variable,scale="fixed")
+F5=F5+geom_bar(aes(x=Category,y=median,fill=Category),stat = "identity",show.legend = F)
+F5=F5+geom_errorbar(aes(x=Category,ymin=min,ymax=max))
+F5=F5+theme_bw()+theme(strip.text=element_text(size=18),axis.text=element_text(size=20),axis.text.x=element_text(angle=45),plot.title = element_text(size=22),
+                       legend.text=element_text(size=20),legend.title=element_text(size=20))
+F5=F5+ylab("")  + xlab("")
+F5=F5+ggtitle("b) Global rate of change in 2030-2050 period (%/year)")
+ggsave(file=paste0(cfg$outdir,"/","F5b",".png"),F5, width=10, height=8, dpi=300)
+
+#renewables deployment
+Ren=all[Category%in%c("2°C","2°C (2030)","1.5°C")&variable%in%c("Renewables Share|TPES|Excl. Nuclear")&Scope=="global"&period%in%c(2030,2050)&region%in%c("World","Reforming","OECD90+EU","ME+Africa","Latin America","Asia")] 
+Renrange=data.table(Ren[,list(median=median(value,na.rm=T),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable","period")])
+
+F5c=ggplot(Renrange)
+F5c=F5c+facet_wrap(~region,scale="fixed")
+F5c=F5c+geom_bar(aes(x=Category,y=median,fill=period),stat = "identity",position=position_dodge(width=0.66),width=0.66)
+F5c=F5c+geom_errorbar(aes(x=Category,ymin=min,ymax=max,colour=period),position=position_dodge(width=0.66),width=0.66)
+F5c=F5c+theme_bw()+theme(strip.text=element_text(size=18),axis.text=element_text(size=20),axis.text.x=element_text(angle=45),plot.title = element_text(size=22),
+                       legend.text=element_text(size=20),legend.title=element_text(size=20))
+F5c=F5c+ylab("")  + xlab("")
+F5c=F5c+ggtitle("c) Renewable energy share in total primary energy use (%)")
+ggsave(file=paste0(cfg$outdir,"/","F5c",".png"),F5c, width=10, height=8, dpi=300)
+
+
+# Figure 10 ---------------------------------------------------------------
+sector=all[Category%in%c("2°C","1.5°C")&variable%in%c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Industrial Processes","Emissions|CO2|AFOLU")&Scope=="global"&region%in%c("World")]
+sectorrange=data.table(sector[,list(median=median(value,na.rm=T),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable","period")])
+sectorrange$period=as.numeric(sectorrange$period)
+
+F10=ggplot(sectorrange)
+F10=F10+facet_wrap(~Category,scale="fixed")
+F10=F10+geom_line(aes(x=period,y=median,colour=variable))
+F10=F10+geom_ribbon(aes(x=period,ymin=min,ymax=max,fill=variable))
+F10=F10+theme_bw()+theme(strip.text=element_text(size=18),axis.text=element_text(size=20),axis.text.x=element_text(angle=45),plot.title = element_text(size=22),
+                       legend.text=element_text(size=20),legend.title=element_text(size=20))
+F10=F10+ylab("")  + xlab("")
+F10=F10+ggtitle("Sectoral CO2 emissions (MtCO2/year)")
+ggsave(file=paste0(cfg$outdir,"/","F10",".png"),F10, width=10, height=8, dpi=300)
+
 
