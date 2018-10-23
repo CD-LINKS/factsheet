@@ -628,3 +628,39 @@ F10b=F10b+ylab("")  + xlab("")
 F10b=F10b+ggtitle("c) Phase-out year of sectoral CO2 emissions")
 ggsave(file=paste0(cfg$outdir,"/","F10b",".png"),F10b, width=11, height=8, dpi=300)
 
+# 2050 reductions per sector
+emisreds=sector
+emisreds=spread(emisreds,period,value)
+emisreds=emisreds%>%mutate(red2050=(`2050`-`2010`)/`2010`*100,red2030=(`2030`-`2010`)/`2010`*100)
+emisreds=data.table(gather(emisreds,period,value,c(`2010`,`2030`,`2050`,red2030,red2050)))
+emisreds=emisreds[period%in%c("red2030","red2050")]
+emisreds$unit<-"%"
+emisreds$period=str_replace_all(emisreds$period,"red2030","2030")
+emisreds$period=str_replace_all(emisreds$period,"red2050","2050")
+emisredsrange=data.table(emisreds[,list(median=median(value),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable","period")])
+
+emisredsrange1=emisredsrange[variable=="Emissions|CO2|AFOLU"]
+emisredsrange1$variable<-"AFOLU"
+emisredsrange2=emisredsrange[variable=="Emissions|CO2|Energy|Demand|Industry"]
+emisredsrange2$variable<-"Industry"
+emisredsrange3=emisredsrange[variable=="Emissions|CO2|Energy|Demand|Residential and Commercial"]
+emisredsrange3$variable<-"Buildings"
+emisredsrange4=emisredsrange[variable=="Emissions|CO2|Energy|Demand|Transportation"]
+emisredsrange4$variable<-"Transportation"
+emisredsrange5=emisredsrange[variable=="Emissions|CO2|Energy|Supply"]
+emisredsrange5$variable<-"Energy supply"
+emisredsrange6=emisredsrange[variable=="Emissions|CO2|Industrial Processes"]
+emisredsrange6$variable<-"Industrial processes"
+emisredsrange=rbind(emisredsrange1,emisredsrange2,emisredsrange3,emisredsrange4,emisredsrange5,emisredsrange6)
+setnames(emisredsrange,"variable","sector")
+
+F10c=ggplot(emisredsrange)
+F10c=F10c+facet_grid(Category~period,scale="fixed")
+F10c=F10c+geom_bar(aes(x=sector,y=median),stat = "identity",fill="#a50000")
+F10c=F10c+geom_errorbar(aes(x=sector,ymin=min,ymax=max))
+F10c=F10c+coord_flip()
+F10c=F10c+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),axis.text.x=element_text(angle=45),plot.title = element_text(size=22))
+F10c=F10c+ylab("")  + xlab("")
+F10c=F10c+ggtitle("Sectoral CO2 emission reductions by 2030 and 2050")
+ggsave(file=paste0(cfg$outdir,"/","F10c",".png"),F10c, width=11, height=8, dpi=300)
+
