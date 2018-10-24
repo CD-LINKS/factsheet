@@ -544,7 +544,7 @@ F5=F5+ggtitle("b) Global rate of change in 2030-2050 period (%/year)")
 ggsave(file=paste0(cfg$outdir,"/","F5b",".png"),F5, width=10, height=8, dpi=300)
 
 #renewables deployment
-Ren=all[Category%in%c("2°C","2°C (2030)","1.5°C")&variable%in%c("Renewables Share|TPES|Excl. Nuclear")&Scope=="global"&period%in%c(2030,2050)&region%in%c("World","Reforming","OECD90+EU","ME+Africa","Latin America","Asia")] 
+Ren=all[Category%in%c("2°C","2°C (2030)","1.5°C")&variable%in%c("Renewables Share|TPES|Excl. Nuclear")&Scope=="global"&period%in%c(2030,2050)&region%in%c("World","Reforming","OECD90+EU","ME+Africa","Latin America","Asia")&!model=="DNE21+ V.14"] 
 Renrange=data.table(Ren[,list(median=median(value,na.rm=T),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable","period")])
 
 F5c=ggplot(Renrange)
