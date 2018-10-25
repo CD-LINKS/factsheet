@@ -149,7 +149,7 @@ all$region=str_replace_all(all$region,"R5ASIA","Asia")
 # Figure 1 - time series -------------------------------------------------
 source("functions/plot_functions.R")
 # Figure 1. See poster figure 1a-gap.R
-cats <- c("No policy","National policies","NDC","2°C","1.5°C")
+cats <- c("National policies","NDC","2°C","1.5°C")
 reg="World"
 dt=all
 vars=c("Emissions|Kyoto Gases")
@@ -178,18 +178,21 @@ minmax$ymin=minmax$ymin/1000
 minmax$med=minmax$med/1000
 ylim=c(20,80)
 
+#minmax$Category=str_replace_all(minmax$Category,"National policies","Current (national) policies")
+minmax$Category =  factor(minmax$Category, levels = c("National policies","NDC","2°C","1.5°C"), ordered = T)
+
 p = ggplot()
 p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax,fill=Category),alpha=.15)
 if(median){p = p + geom_path(data=minmax[region==reg],aes(x=period,y=med,group = Category,
                                                           color=Category),size=1.3)}
 p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario")
 p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario")
-if (range & length(unique(dt$Category))==5){
+if (range & length(unique(dt$Category))==4){
   p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2030, xend=2030, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
   p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2030.5, xend=2030.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
   p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[3]], stat="identity", aes(x=2031, xend=2031, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
   p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[4]], stat="identity", aes(x=2031.5, xend=2031.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-  p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2032, xend=2032, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+  #p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2032, xend=2032, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
 }
 if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
 if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
@@ -201,7 +204,7 @@ p = p + theme(axis.text=element_text(size=18),
               legend.text=element_text(size=18),
               legend.title=element_text(size=18),
               plot.title=element_text(size=18))
-
+#p=p+guides(colour = guide_legend(reverse=T),fill=guide_legend(reverse=T))
 ggsave(file=paste0(cfg$outdir,"/",file_pre,"_",reg,cfg$format),p, width=12, height=8, dpi=120)
 
 
