@@ -466,7 +466,7 @@ catsglob <- c("NDC","2°C")
 
 plot_stackbar_diff(regs=regs,dt=all,vars=c("Renewables Share|Excl. Nuclear"),cats = catsglob, ylim=c(0,100),ybreaks=c(0,10,20,30,40,50,60,70,80,90,100),
                   lab="%",per=c(2030,2050),file_pre="2030_2050_ElecREN_excl_nuc",labels=T,scen.labels = c("2°C","NDC"),b.multiyear = T,title=T,
-                  Title="c) Increase in renewable energy share",out=cfg$outdir)
+                  Title="b) Increase in renewable energy share",out=cfg$outdir)
 
 
 # Figure 5 ----------------------------------------------------------------
