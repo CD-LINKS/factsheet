@@ -274,6 +274,7 @@ F2c=F2c+scale_colour_manual(name="Statistics",values=c("2°C"="#a50000","Mt CO2-
 F2c=F2c+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),plot.title = element_text(size=22),legend.text=element_text(size=16),legend.title=element_text(size=18)) #,axis.text.x=element_text(angle=45)
 F2c=F2c+theme(legend.position = c(0.2,0.1))
 F2c=F2c+ggtitle("c) Phase-out year of CO2 emissions")
+F2c=F2c+ylab("")  + xlab("")
 ggsave(file=paste0(cfg$outdir,"/","F2c",".png"),F2c, width=11, height=8, dpi=300)
 
 #2d negative emissions/ remaining emissions
@@ -302,7 +303,9 @@ F2d=F2d+theme_bw()+theme(axis.text=element_text(size=20),plot.title = element_te
 F2d=F2d+ggtitle("d) Individual GHG emissions") + ylab("GtCO2eq/year") + xlab("")
 ggsave(file=paste0(cfg$outdir,"/","F2d",".png"),F2d, width=11, height=8, dpi=300)
 
-
+F2all = arrangeGrob(F2,F2b,F2c,F2d,ncol=2)
+ggsave(file=paste(cfg$outdir,"/Fig2_arrange.png",sep=""),F2all,width=22,height=18,dpi=200)
+  
 # Figure 4 ----------------------------------------------------------------
 #4a
 cats <- c("No policy","National policies","NDC","2°C","1.5°C")
@@ -464,10 +467,12 @@ ggsave(file=paste(cfg$outdir,"/Fig4b_arrange_alt.png",sep=""),h,width=20,height=
 regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA",  "World")
 catsglob <- c("NDC","2°C")
 
-plot_stackbar_diff(regs=regs,dt=all,vars=c("Renewables Share|Excl. Nuclear"),cats = catsglob, ylim=c(0,100),ybreaks=c(0,10,20,30,40,50,60,70,80,90,100),
+F4b<-plot_stackbar_diff(regs=regs,dt=all,vars=c("Renewables Share|Excl. Nuclear"),cats = catsglob, ylim=c(0,100),ybreaks=c(0,10,20,30,40,50,60,70,80,90,100),
                   lab="%",per=c(2030,2050),file_pre="2030_2050_ElecREN_excl_nuc",labels=T,scen.labels = c("2°C","NDC"),b.multiyear = T,title=T,
                   Title="b) Increase in renewable energy share",out=cfg$outdir)
 
+F4all = arrangeGrob(h,F4b,ncol=1)
+ggsave(file=paste(cfg$outdir,"/Fig4_arrange.png",sep=""),F4all,width=18,height=24,dpi=200)
 
 # Figure 5 ----------------------------------------------------------------
 # Figure 5a ---------------------------------------------------------------
@@ -559,6 +564,8 @@ F5c=F5c+ylab("")  + xlab("")
 F5c=F5c+ggtitle("c) Renewable energy share in total primary energy use (%)")
 ggsave(file=paste0(cfg$outdir,"/","F5c",".png"),F5c, width=10, height=8, dpi=300)
 
+# F5all = arrangeGrob(p,F5,F5c,ncol=2)
+# ggsave(file=paste(cfg$outdir,"/Fig5_arrange.png",sep=""),F5all,width=22,height=16,dpi=200)
 
 # Figure 10 ---------------------------------------------------------------
 sector=all[Category%in%c("2°C","1.5°C")&variable%in%c("Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Industrial Processes","Emissions|CO2|AFOLU")&Scope=="global"&region%in%c("World")]
@@ -665,7 +672,9 @@ F10c=F10c+coord_flip()
 F10c=F10c+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),plot.title = element_text(size=20)) #axis.text.x=element_text(angle=45),
 F10c=F10c+ylab("")  + xlab("")
 F10c=F10c+ylim(-200,50)
-F10c=F10c+ggtitle("Sectoral CO2 emissions by 2030 and 2050, relative to 2010 (%)")
+F10c=F10c+ggtitle("c) Sectoral CO2 emissions by 2030 and 2050, relative to 2010 (%)")
 F10c=F10c+geom_hline(yintercept=-100,linetype="dashed")
 ggsave(file=paste0(cfg$outdir,"/","F10c",".png"),F10c, width=12, height=8, dpi=300)
 
+F10all = arrangeGrob(F10,F10c,ncol=1)
+ggsave(file=paste(cfg$outdir,"/Fig10_arrange.png",sep=""),F10all,width=18,height=18,dpi=200)
