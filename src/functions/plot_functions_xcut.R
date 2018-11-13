@@ -850,7 +850,7 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir
     dta[model==mod&!region=="RoW"]=dta[model==mod&region %in% regions[model==mod]$region]
   }
   
-  dta=dta[,list(mean(value)),by=c("Category","variable","region","period","Scope","unit")]
+  dta=dta[,list(mean(value,na.rm=T)),by=c("Category","variable","region","period","Scope","unit")]
   setnames(dta,"V1","value")
   dta <- filter(dta,!region %in% c("World"))
   
@@ -859,7 +859,7 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir
   dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="global")
   dtl=data.table(dtl)
   if(quantiles){dtl=dtl[,list(min=quantile(value,prob=minprob,na.rm=T),max=quantile(value,prob=maxprob,na.rm=T),med=median(value,na.rm=T)),by=c("Category","variable","region","period","Scope","unit")]
-  }else{dtl=dtl[,list(min=min(value),max=max(value),med=median(value)),by=c("Category","variable","region","period","Scope","unit")]}
+  }else{dtl=dtl[,list(min=min(value),max=max(value),med=median(value,na.rm=T)),by=c("Category","variable","region","period","Scope","unit")]}
 
   #if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable%in% c("Emissions|Kyoto Gases"), period %in% per,Scope=="national")}
   if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable==TotalEmis_var, period %in% per,Scope=="national")}
