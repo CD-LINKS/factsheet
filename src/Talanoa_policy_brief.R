@@ -679,3 +679,49 @@ ggsave(file=paste0(cfg$outdir,"/","F10c",".png"),F10c, width=12, height=8, dpi=3
 
 F10all = arrangeGrob(F10,F10c,ncol=1)
 ggsave(file=paste(cfg$outdir,"/Fig10_arrange.png",sep=""),F10all,width=18,height=18,dpi=200)
+
+# Figure investment changes ------------------------------------------------------
+invest <- read.csv2("data/Data_investment_to_2050.csv",sep=",")
+
+
+# Figure SDG investments --------------------------------------------------
+investsdg <- read.csv2("data/SDG_investments_figure.csv",sep=",")
+
+#change labels
+investsdg$Scenario=str_replace_all(investsdg$Scenario,"2C-CPol","2 °C")
+investsdg$Scenario=str_replace_all(investsdg$Scenario,"1.5C-CPol","1.5 °C")
+investsdg$Scenario=str_replace_all(investsdg$Scenario,"2C","2 °C")
+investsdg$Scenario=str_replace_all(investsdg$Scenario,"1.5C","1.5 °C")
+investsdg$SDG=str_replace_all(investsdg$SDG,"Incr-Investment","Energy Incremental Investment")
+investsdg$SDG=str_replace_all(investsdg$SDG,"Disinvestment","Energy Disinvestment")
+
+#numbers
+investsdg$Bar.value<-as.numeric(as.character(investsdg$Bar.value))
+investsdg$Min<-as.numeric(as.character(investsdg$Min))
+investsdg$Max<-as.numeric(as.character(investsdg$Max))
+
+# insert enter in variable names
+investsdg=data.table(investsdg)
+investsdg[SDG=="Water availability"]$SDG<-paste("Water\navailability")
+investsdg[SDG=="Food security"]$SDG<-paste("Food\nsecurity")
+investsdg[SDG=="Energy Incremental Investment"]$SDG<-paste("Energy\nIncremental\nInvestment")
+investsdg[SDG=="Energy Disinvestment"]$SDG<-paste("Energy\nDisinvestment")
+
+#order of variables
+investsdg$SDG=  factor(investsdg$SDG, levels = c("Energy\nIncremental\nInvestment","Energy\nDisinvestment","Energy","Access","Food\nsecurity","Water\navailability","Air pollution"), ordered = T)
+investsdg$Scenario=  factor(investsdg$Scenario, levels = c("2 °C","1.5 °C"), ordered = T)
+
+# plot
+F37=ggplot(investsdg)
+F37=F37+facet_wrap(~panel,scale="free")
+F37=F37+geom_bar(aes(x=SDG,y=Bar.value,fill=Scenario),stat = "identity",position=position_dodge(width=0.66),width=0.66,show.legend = T)
+F37=F37+scale_fill_manual(values=c("2 °C"="#56B4E9","1.5 °C"="#008000"))
+F37=F37+geom_errorbar(aes(x=SDG,ymin=Min,ymax=Max,colour=Scenario),position=position_dodge(width=0.66),width=0.66)
+F37=F37+scale_colour_manual(values=c("2 °C"="black","1.5 °C"="black"))
+F37=F37+theme_bw()+theme(strip.text=element_text(size=0),axis.text.y=element_text(size=22),axis.text.x=element_text(size=19),plot.title = element_text(size=26), #,axis.text.x=element_text(angle=45)
+                       legend.text=element_text(size=22),legend.title=element_text(size=22),axis.title.y = element_text(size=22))
+F37=F37+theme(legend.position = c(0.4,0.8))
+F37=F37+ylab("Billion US$2015/year")  + xlab("")
+F37=F37+ggtitle("Energy investments in relation to SDGs")
+ggsave(file=paste0(cfg$outdir,"/","F37",".png"),F37, width=22, height=9, dpi=300)
+
