@@ -683,6 +683,14 @@ ggsave(file=paste(cfg$outdir,"/Fig10_arrange.png",sep=""),F10all,width=18,height
 # Figure investment changes ------------------------------------------------------
 invest <- read.csv2("data/Data_investment_to_2050.csv",sep=",")
 
+#change scenario names
+invest$Scenario=str_replace_all(invest$Scenario,"CPol","National policies")
+invest$Scenario=str_replace_all(invest$Scenario,"2c-NPi","2 °C")
+invest$Scenario=str_replace_all(invest$Scenario,"1.5c-NPi","1.5 °C")
+invest$Scenario=str_replace_all(invest$Scenario,"1.5c-2c","1.5 °C - 2 °C")
+invest$Scenario=str_replace_all(invest$Scenario,"2C","2 °C")
+invest$Scenario=str_replace_all(invest$Scenario,"1.5C","1.5 °C")
+
 
 # Figure SDG investments --------------------------------------------------
 investsdg <- read.csv2("data/SDG_investments_figure.csv",sep=",")
