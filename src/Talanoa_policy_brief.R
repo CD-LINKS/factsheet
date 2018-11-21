@@ -688,8 +688,54 @@ invest$Scenario=str_replace_all(invest$Scenario,"CPol","National policies")
 invest$Scenario=str_replace_all(invest$Scenario,"2c-NPi","2 °C")
 invest$Scenario=str_replace_all(invest$Scenario,"1.5c-NPi","1.5 °C")
 invest$Scenario=str_replace_all(invest$Scenario,"1.5c-2c","1.5 °C - 2 °C")
-invest$Scenario=str_replace_all(invest$Scenario,"2C","2 °C")
-invest$Scenario=str_replace_all(invest$Scenario,"1.5C","1.5 °C")
+#invest$Scenario=str_replace_all(invest$Scenario,"2C","2 °C")
+#invest$Scenario=str_replace_all(invest$Scenario,"1.5C","1.5 °C")
+
+#numbers
+invest$mean<-as.numeric(as.character(invest$mean))
+invest$min<-as.numeric(as.character(invest$min))
+invest$max<-as.numeric(as.character(invest$max))
+
+invest=select(invest,c(Scenario,Variable,mean,max,min))
+
+# insert enter in variable names
+invest=data.table(invest)
+invest[Variable=="Fossil Fuels Extraction and Conversion"]$Variable<-paste("Fossil Fuels Extraction\nand Conversion")
+invest[Variable=="Fossil Electricity and Hydrogen w/o CCS"]$Variable<-paste("Fossil Electricity and\nHydrogen w/o CCS")
+invest[Variable=="Electricity T&D and Storage"]$Variable<-paste("Electricity T&D\nand Storage")
+
+#order of variables
+invest$Variable=  factor(invest$Variable, levels = c("Energy Efficiency","Renewables","Nuclear and CCS","Electricity T&D\nand Storage","Fossil Fuels Extraction\nand Conversion","Fossil Electricity and\nHydrogen w/o CCS","Incr-Investment","Disinvestment"), ordered = T)
+
+# get the right numbers for the error bar for the 'difference' scenario
+invest[Scenario=="1.5 °C - 2 °C"]$max=invest[Scenario=="1.5 °C"]$max
+invest[Scenario=="1.5 °C - 2 °C"]$min=invest[Scenario=="1.5 °C"]$min
+invest1=invest
+invest1[Scenario=="1.5 °C - 2 °C"]$mean=invest1[Scenario=="1.5 °C"]$mean
+
+#selection for plotting
+invest=invest[Scenario%in%c("1.5 °C - 2 °C","2 °C")&Variable%in%c("Energy Efficiency","Renewables","Nuclear and CCS","Electricity T&D\nand Storage","Fossil Fuels Extraction\nand Conversion","Fossil Electricity and\nHydrogen w/o CCS")]
+invest1=invest1[Scenario%in%c("1.5 °C - 2 °C","2 °C")&Variable%in%c("Energy Efficiency","Renewables","Nuclear and CCS","Electricity T&D\nand Storage","Fossil Fuels Extraction\nand Conversion","Fossil Electricity and\nHydrogen w/o CCS")]
+
+# plot
+# library(patternplot)
+# pattern.color<-c("white","black")
+# pattern.type<-c("blank","hatch")
+
+F32=ggplot(invest)
+F32=F32+geom_bar(data=invest,aes(x=Variable,y=mean,fill=Scenario),stat = "identity",position="stack",show.legend = T) #,group=interaction(Variable,Scenario) ,position="stack"
+#F32=F32+patternbar(data=invest[Scenario=="1.5 °C - 2 °C"],x=Variable,y=mean,pattern.type=pattern.type, pattern.color = pattern.color) #,stat = "identity",show.legend = T
+F32=F32+scale_fill_manual(values=c("2 °C"="#56B4E9","1.5 °C - 2 °C"="#008000"),labels=c("2 °C"="Baseline to 2 °C (model mean)","1.5 °C - 2 °C"="2 °C to 1.5 °C (model mean)"),name="Change in investment:")
+F32=F32+geom_errorbar(aes(x=Variable,ymin=min,ymax=max,colour=Scenario),position=position_dodge(width=0.66),width=0.66) 
+F32=F32+geom_point(data=invest1,aes(x=Variable,y=mean,colour=Scenario),position=position_dodge(width=0.66)) 
+F32=F32+scale_colour_manual(values=c("2 °C"="dark blue","1.5 °C - 2 °C"="#7aeb7a"),labels=c("2 °C"="2 °C (model ranges)","1.5 °C - 2 °C"="1.5 °C (model ranges)"),name="Statistics")
+F32=F32+theme_bw()+theme(strip.text=element_text(size=0),axis.text.y=element_text(size=22),axis.text.x=element_text(size=19),plot.title = element_text(size=26), #,axis.text.x=element_text(angle=45)
+                         legend.text=element_text(size=22),legend.title=element_text(size=22),axis.title = element_text(size=22))
+F32=F32+theme(legend.position = c(0.2,0.2))
+F32=F32+ylab("Investment (Billion US$2015/year)")  + xlab("Mitigation Investment & Disinvestment (relative to the baseline, 2016-2050)")
+F32=F32+ggtitle("Investments and disinvestments")
+F32
+ggsave(file=paste0(cfg$outdir,"/","F32",".png"),F32, width=17, height=12, dpi=300)
 
 
 # Figure SDG investments --------------------------------------------------
@@ -732,4 +778,70 @@ F37=F37+theme(legend.position = c(0.4,0.8))
 F37=F37+ylab("Billion US$2015/year")  + xlab("")
 F37=F37+ggtitle("Energy investments in relation to SDGs")
 ggsave(file=paste0(cfg$outdir,"/","F37",".png"),F37, width=22, height=9, dpi=300)
+
+
+
+# Figure good practice Mark -----------------------------------------------
+# First run GPP_output_sector_article.R in Timer users Mark ClimatePolicies 6R
+
+# **************** FIGURE 1a *****************************
+# PREPARE DATA FOR FIGURE 1a
+# graphs consists of two lines: current policies and good practice policies
+# and nine areas of reductions
+# PREPARE data for figure 1a
+CPS_fig1a_1 <- select(CPS_Total, year, value, Scenario)
+GPP_fig1a_1 <- select(GPP_Total, year, value, Scenario)
+NDC_fig1a_1 <- CPS_fig1a_1
+NDC_fig1a_1$value <- 0
+NDC_fig1a_1$Scenario <- "NDC range (2030)"
+TwoC_fig1a_1 <- SSP2_2_6 %>% mutate(Scenario="2-degree scenario (2.6 W/m2) with 66% probability") %>%
+  filter(year>=2010, year<=2030)
+TwoC_fig1a_1$value[1:9]=GPP_fig1a_1$value[1:9]
+
+# collect data for lines graph
+data_fig1a_1 <- rbind(CPS_fig1a_1, GPP_fig1a_1) %>% rbind(NDC_fig1a_1) %>% rbind(TwoC_fig1a_1)
+data_fig1a_1$Scenario = factor(data_fig1a_1$Scenario, levels=Scenarios)
+data_fig1a_1$value <- data_fig1a_1$value*10^-3
+# collect data for areas graph
+data_fig1a_2 <- #red_elec_demand %>% rbind(red_RENElectricity_cor_overlap) %>% 
+  red_RENElectricity_cor_overlap %>% 
+  rbind(red_OilGas_cor_overlap) %>% rbind(red_Industry_cor_overlap) %>% 
+  rbind(red_FGases_cor_overlap) %>% rbind(red_BuildingCodes_cor_overlap) %>% 
+  rbind(red_Appliances_cor_overlap) %>%
+  rbind(red_CAFEStandards_cor_overlap) %>% rbind(red_ElectricCars_cor_overlap) %>%
+  rbind(red_Deforestation_cor_overlap)
+# total reductions
+tmp_GPP_total <- GPP_Total %>% filter(year>=2015, year<=2030, Scenario=="Good practice policies") %>% setNames(c('year', 'value', 'measure'))
+tmp_GPP_total$measure <- " "
+data_fig1a_2 <- rbind(data_fig1a_2, tmp_GPP_total)
+min <- 0
+data_fig1a_2$value[data_fig1a_2$value < min] <- min
+
+# show data in GtCO2eq
+data_fig1a_2$value <- data_fig1a_2$value*10^-3
+
+#FIGURE 1a graph
+data_fig1a_2$measure = factor(data_fig1a_2$measure, levels=Measures)
+fig1a_left <- ggplot() +
+  geom_area(data=data_fig1a_2, aes(x=year, y=value, fill=measure)) +
+  geom_line(data=data_fig1a_1, aes(x=year, y=value, linetype=Scenario, colour=Scenario), size=1.5) +
+  geom_segment(mapping=aes(x=2030.25, y=53.4, xend=2030.25, yend=55.9), arrow=arrow(ends="both", type="closed", length=unit(0.1, "cm")), size=3, color="darkgreen") +
+  # use blues palete (brewer), but white for total GPP policies
+  scale_fill_manual("Reduction", values = c("#f7fbff", "#deebf7", "#c6dbef", "#9ecae1", "#6baed6", 
+                                            "#4292c6", "#2171b5", "#08519c", "#08306b", "white")) +
+  scale_colour_manual("Scenario", values = c("black","black", "white","#56B4E9"),labels=c("Current policies"="National policies","Good practice policies"="Good practice policies",
+                                                                                                   "NDC range (2030)"="NDC range (2030)","2-degree scenario (2.6 W/m2) with 66% probability"="2 °C")) + # colour lines 
+  scale_linetype_manual("Scenario", values = c("solid","dotted","solid","dashed"), labels=c("Current policies"="National policies","Good practice policies"="Good practice policies",
+                                 "NDC range (2030)"="NDC range (2030)","2-degree scenario (2.6 W/m2) with 66% probability"="2 °C"))+
+  scale_y_continuous(breaks=seq(0,60,10)) +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  ylab(bquote(paste("Gt",CO[2],"e/yr")))+xlab("")+
+  theme(axis.title = element_text(face="bold", size=20)) +
+  theme(axis.text = element_text(face="bold", size=20)) +
+  theme(legend.text=element_text(size=20)) +
+  theme(legend.title=element_text(size=20))
+#scale_fill_brewer(palette="Blues")
+setwd("~/disks/local/factsheet/src")
+ggsave(file=paste0(cfg$outdir,"/","F24",".png"),fig1a_left, width=12, height=8, dpi=300)
+
 
