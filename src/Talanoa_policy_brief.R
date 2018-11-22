@@ -544,6 +544,7 @@ raterange$variable=str_replace_all(raterange$variable,"Rate of Change","")
 F5=ggplot(raterange[region=="World"])
 F5=F5+facet_wrap(~variable,scale="fixed")
 F5=F5+geom_bar(aes(x=Category,y=median,fill=Category),stat = "identity",show.legend = F)
+F5 = F5 + scale_fill_manual(values=plotstyle(c("2 °C","2 °C (2030)","1.5 °C")))
 F5=F5+geom_errorbar(aes(x=Category,ymin=min,ymax=max))
 F5=F5+theme_bw()+theme(strip.text=element_text(size=18),axis.text=element_text(size=20),axis.text.x=element_text(angle=45),plot.title = element_text(size=22),
                        legend.text=element_text(size=20),legend.title=element_text(size=20))
@@ -779,6 +780,38 @@ F37=F37+ylab("Billion US$2015/year")  + xlab("")
 F37=F37+ggtitle("Energy investments in relation to SDGs")
 ggsave(file=paste0(cfg$outdir,"/","F37",".png"),F37, width=22, height=9, dpi=300)
 
+
+
+# Figure ADVANCE ----------------------------------------------------------
+adv=data.table(read.csv2("data/ADVANCE.csv",sep=","))
+adv <- invisible(melt(adv,measure.vars=names(adv)[grep("[0-9]+",names(adv))],variable.name = "period",variable.factor=FALSE))
+adv$period <- substring(adv$period,2)
+adv$period <- as.numeric(as.character(adv$period))
+adv <- adv[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
+adv$value<-as.numeric(adv$value)
+adv$value=adv$value/1000
+
+#rename scenarios
+adv$Scenario=str_replace_all(adv$Scenario,"INDC2020_1000","2 °C")
+adv$Scenario=str_replace_all(adv$Scenario,"INDC","NDC")
+
+#add min/max
+advr=adv[,list(min=min(value),max=max(value)),by=c("Scenario","Region","Variable","Unit","period")]
+advr=na.omit(advr)
+
+#plot
+F31 = ggplot(adv)
+F31 = F31 + geom_line(aes(x=period,y=value,colour=Scenario,linetype=Model),show.legend = F)
+F31 = F31 + geom_ribbon(data=advr,aes(x=period,ymin=min,ymax=max,fill=Scenario),alpha=0.3)
+F31=F31+scale_fill_manual(values=c("2 °C"="#56B4E9","NDC"="#ff7f00"))
+F31=F31+scale_colour_manual(values=c("2 °C"="#56B4E9","NDC"="#ff7f00"))
+F31=F31+geom_hline(aes(yintercept=0),linetype="dashed")
+F31=F31+theme_bw()+theme(axis.text=element_text(size=24),plot.title = element_text(size=28), 
+                         legend.text=element_text(size=24),legend.title=element_text(size=24),axis.title.y = element_text(size=26))
+F31=F31+theme(legend.position = c(0.1,0.1))
+F31=F31+ylab(bquote(paste(CO[2]," emissions (Gt",CO[2],")/yr")))  + xlab("")
+F31=F31+ggtitle("Key characteristics of decarbonisation pathways")
+ggsave(file=paste0(cfg$outdir,"/","F31",".png"),F31, width=16, height=12, dpi=400)
 
 
 # Figure good practice Mark -----------------------------------------------
