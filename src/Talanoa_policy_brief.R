@@ -814,6 +814,36 @@ F31=F31+ggtitle("Key characteristics of decarbonisation pathways")
 ggsave(file=paste0(cfg$outdir,"/","F31",".png"),F31, width=16, height=12, dpi=400)
 
 
+# Figure CDR --------------------------------------------------------------
+cdr=read.csv2("data/CDR.csv",sep=",")
+cdr$Scenario=str_replace_all(cdr$Scenario,"2C","2 °C")
+cdr$Scenario=str_replace_all(cdr$Scenario,"1.5C","1.5 °C")
+
+cdr=gather(cdr,annual,value,c(X,X.1,X.2,X.3,X.4,X.5,X.6,X.7,X.8,X.9,X.10,X.11,X.12,X.13))
+cdr=spread(cdr,Variable,value)
+setnames(cdr,"avg. CO2 reduction rate","redrate")
+setnames(cdr,"Cumulative CDR","cdr")
+cdr=data.table(cdr)
+cdr$redrate=as.numeric(cdr$redrate)
+cdr$cdr=as.numeric(cdr$cdr)
+cdr=na.omit(cdr)
+cdr[Scenario=="1.5 °C"]$cdr=cdr[Scenario=="1.5 °C"]$cdr*1000
+
+#plot
+F23=ggplot(cdr)
+F23=F23+geom_line(aes(x=cdr,y=redrate,linetype=CO2_2030,colour=Scenario))
+F23=F23+scale_linetype_manual(values=c("39.1"="solid","18.4"="dashed","26.4"="dotted","30.6"="dotdash"),
+                              labels=c("39.1"="39.1 (NDCs)","18.4"="18.4","26.4"="26.4","30.6"="30.6"),
+                              name=bquote(paste("2030 ",CO[2]," fossil fuel & industrial emissions (Gt ",CO[2],"/yr)")))
+F23=F23+scale_colour_manual(values=c("2 °C"="#56B4E9","1.5 °C"="#008000"))
+F23=F23+theme_bw()+theme(axis.text=element_text(size=24),plot.title = element_text(size=28), 
+                         legend.text=element_text(size=24),legend.title=element_text(size=24),axis.title = element_text(size=26))
+F23=F23+theme(legend.position = c(0.7,0.8))
+F23=F23+ylab(bquote(paste("Average ",CO[2]," emissions reduction rate (%)")))  + xlab(bquote(paste("Cumulative CDR 2010-2100 (Gt",CO[2],")")))
+F23=F23+ggtitle("2030-2050 transition speed vs. CDR requirement")
+ggsave(file=paste0(cfg$outdir,"/","F23",".png"),F23, width=16, height=12, dpi=400)
+
+
 # Figure good practice Mark -----------------------------------------------
 # First run GPP_output_sector_article.R in Timer users Mark ClimatePolicies 6R
 
