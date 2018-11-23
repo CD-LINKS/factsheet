@@ -829,13 +829,22 @@ cdr$cdr=as.numeric(cdr$cdr)
 cdr=na.omit(cdr)
 cdr[Scenario=="1.5 °C"]$cdr=cdr[Scenario=="1.5 °C"]$cdr*1000
 
-cdrfill3=cdr[Scenario=="2 °C"&CO2_2030%in%c("39.1","18.4")]
+cdrfill3=cdr[CO2_2030%in%c("39.1","18.4")]#Scenario=="2 °C"&
 cdrfill3$annual<-NULL
 cdrfill3=spread(cdrfill3,CO2_2030,redrate)
 library(zoo)
 cdrfill3$`18.4`=na.approx(cdrfill3$`18.4`,rule=2)
 cdrfill3$`39.1`=na.approx(cdrfill3$`39.1`,rule=2)
-  
+cdrfill3[10,4]<-13
+cdrfill3[13,4]<-9
+cdrfill3[23,3]<-2
+cdrfill3[24,3]<-1.8
+cdrfill3[26,3]<-0.7
+cdrfill3[21,3]<-2.5
+cdrfill3[22,4]<-14
+cdrfill3[23,4]<-11
+cdrfill3[25,4]<-8
+
 #plot
 F23=ggplot(cdr[CO2_2030%in%c("39.1","18.4")])
 F23=F23+geom_line(aes(x=cdr,y=redrate,linetype=CO2_2030,colour=Scenario),size=2)
@@ -843,13 +852,13 @@ F23=F23+scale_linetype_manual(values=c("39.1"="solid","18.4"="dotted"), #,"26.4"
                               labels=c("39.1"="39.1 (NDCs)","18.4"="18.4"), #"26.4"="26.4","30.6"="30.6"
                               name=bquote(paste("2030 ",CO[2]," fossil fuel & industrial emissions (Gt ",CO[2],"/yr)")))
 F23=F23+scale_colour_manual(values=c("2 °C"="#56B4E9","1.5 °C"="#008000"))
-F23=F23+geom_ribbon(data=cdrfill3,aes(x=cdr,ymin=`18.4`,ymax=`39.1`),alpha=0.1,show.legend=F)
+F23=F23+geom_ribbon(data=cdrfill3,aes(x=cdr,ymin=`18.4`,ymax=`39.1`,fill=Scenario),alpha=0.1,show.legend=F)
 F23=F23+scale_fill_manual(values=c("2 °C"="#56B4E9","1.5 °C"="#008000"))
 F23=F23+theme_bw()+theme(axis.text=element_text(size=26),plot.title = element_text(size=28), 
                          legend.text=element_text(size=26),legend.title=element_text(size=26),axis.title = element_text(size=26))
 F23=F23+theme(legend.position = c(0.3,0.85),legend.background = element_blank())
 F23=F23+ylab(bquote(paste("Average ",CO[2]," emissions reduction rate (%)")))  + xlab(bquote(paste("Cumulative CDR 2010-2100 (Gt",CO[2],")")))
-F23=F23+ggtitle("2030-2050 transition speed vs. CDR requirement")
+F23=F23+ggtitle("2030-2050 transition speed vs. CDR requirement, in relation to near-term action")
 ggsave(file=paste0(cfg$outdir,"/","F23",".png"),F23, width=16, height=12, dpi=400)
 
 
