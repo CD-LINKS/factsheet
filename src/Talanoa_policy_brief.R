@@ -844,6 +844,7 @@ cdrfill3[21,3]<-2.5
 cdrfill3[22,4]<-14
 cdrfill3[23,4]<-11
 cdrfill3[25,4]<-8
+cdrfill3[`18.4`<0]$`18.4`<-0
 
 #plot
 F23=ggplot(cdr[CO2_2030%in%c("39.1","18.4")])
@@ -854,10 +855,12 @@ F23=F23+scale_linetype_manual(values=c("39.1"="solid","18.4"="dotted"), #,"26.4"
 F23=F23+scale_colour_manual(values=c("2 °C"="#56B4E9","1.5 °C"="#008000"))
 F23=F23+geom_ribbon(data=cdrfill3,aes(x=cdr,ymin=`18.4`,ymax=`39.1`,fill=Scenario),alpha=0.1,show.legend=F)
 F23=F23+scale_fill_manual(values=c("2 °C"="#56B4E9","1.5 °C"="#008000"))
+F23=F23+scale_x_continuous(limits = c(0,1200), expand = c(0, 0)) 
+F23=F23+scale_y_continuous(limits = c(0,17), expand = c(0, 0))
 F23=F23+theme_bw()+theme(axis.text=element_text(size=26),plot.title = element_text(size=28), 
                          legend.text=element_text(size=26),legend.title=element_text(size=26),axis.title = element_text(size=26))
 F23=F23+theme(legend.position = c(0.3,0.85),legend.background = element_blank())
-F23=F23+ylab(bquote(paste("Average ",CO[2]," emissions reduction rate (%)")))  + xlab(bquote(paste("Cumulative CDR 2010-2100 (Gt",CO[2],")")))
+F23=F23+ylab(bquote(paste("Average ",CO[2]," emissions reduction rate (%/yr)")))  + xlab(bquote(paste("Cumulative CDR 2010-2100 (Gt",CO[2],")")))
 F23=F23+ggtitle("2030-2050 transition speed vs. CDR requirement, in relation to near-term action")
 ggsave(file=paste0(cfg$outdir,"/","F23",".png"),F23, width=16, height=12, dpi=400)
 
