@@ -21,39 +21,12 @@ source("functions/BarStackedNatGlob_script.R")
 # National Emission pathways for different scenarios ----------------------
 
 scensglob = c("INDCi_V4",  "NPi2020_1000_V4")
-
 scensnat <- c("NPi_V4", "INDC_V4", "NPi2020_high_V4", "NPi2020_low_V4",  "INDC2030_high_V4",  "INDC2030_low_V4")
-
-
 regs = c("BRA", "CHN", "IND", "RUS", "EU", "JPN", "USA")
-
 vars = "Emissions|CO2|Energy"
-
-#exemplary line plot: 
-tmp_p <- all[model == "MESSAGEix-GLOBIOM_1.0" & scenario %in% c("NoPolicy_V4","NPi_V4","NPi2020_1600_V4","NPi2020_1000_V4","INDCi_V4","INDC2030i_1600_V4","INDC2030i_1000_V4") &
-               region == "World" & variable==vars & period < 2051,]
-tmp_p[period==2030 & scenario == "NPi_V4"]$value <- 0.95*tmp_p[period==2030 & scenario == "NPi_V4"]$value
-tmp_p[period>2030 & scenario =="INDCi_V4"]$value <- 1.05 * tmp_p[period>2030 & scenario =="INDCi_V4"]$value 
-tmp_p[period==2045 & scenario %in% c("INDC2030i_1600_V4","INDC2030i_1000_V4"),]$value <- 0.8*tmp_p[period==2045 & scenario %in% c("INDC2030i_1600_V4","INDC2030i_1000_V4"),]$value 
-tmp_p[period==2050 & scenario %in% c("INDC2030i_1600_V4","INDC2030i_1000_V4"),]$value <- 0.6*tmp_p[period==2050 & scenario %in% c("INDC2030i_1600_V4","INDC2030i_1000_V4"),]$value 
-tmp_p$scenario <- factor(tmp_p$scenario, levels=c("NoPolicy_V4","NPi_V4","NPi2020_1600_V4","NPi2020_1000_V4","INDCi_V4","INDC2030i_1600_V4","INDC2030i_1000_V4"))
-tmp_p$value <- tmp_p$value /tmp_p[period==2005]$value[1]
-ggplot(tmp_p) +
-  geom_path(aes(x=period,y=value,group=(scenario),color=scenario,linetype=scenario),size=1) +
-  scale_linetype_manual(values=c(1,1,1,1,2,2,2),name="scenario",
-                        breaks= c("NoPolicy_V4","NPi_V4","NPi2020_1600_V4","NPi2020_1000_V4","INDCi_V4","INDC2030i_1600_V4","INDC2030i_1000_V4"),
-                        labels= c("NoPOL","NPi","NPi2020_high","NPi2020_low","INDC","INDC2030_high","INDC2030_low"))+
-  scale_color_manual(values=(c("#000000","#aa3333","#3333aa","#33aa33","#ff6666","#6666ff","#44dd44")),name="scenario",
-                     breaks= c("NoPolicy_V4","NPi_V4","NPi2020_1600_V4","NPi2020_1000_V4","INDCi_V4","INDC2030i_1600_V4","INDC2030i_1000_V4"),
-                     labels= c("NoPOL","NPi","NPi2020_high","NPi2020_low","INDC","INDC2030_high","INDC2030_low"))+
-  ggtitle(label="Illustrative emission trajectories for national scenarios")+
-  ylab("Emissions (rel. to 2005)")+xlab("year")+
-  theme_bw()
-ggsave(filename=paste0(cfg$outdir,"/Illustrative_natscen_trajectories.png"),width = 6,height = 4)
 
 for (reg in regs)
 {
-
     plot_lineNationalScens(reg = reg, dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
                            ylab = "Energy CO2 [MtCO2]", file_pre = "EneCO2")
 }
@@ -98,97 +71,30 @@ ggsave(file=paste(cfg$outdir,"/natscens_gridarrange.png",sep=""),h,width=24,heig
   regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA",  "World")
   catsnat <- c("INDC", "NPi", "2020_high", "2020_low",  "2030_low")
   catglob <- "2020_low"
-
-  plot_boxplot_multiScenNat(regs=regs,dt=all,vars="Emissions|CO2|FFI|rel2010",catglob = catglob, catsnat = catsnat,
-                            year=2010,file_pre="RedRel2010_2010", var.labels = "Energy CO2 [indexed 2010 = 1]", ylim = c(0,1.8))
-  plot_boxplot_multiScenNat(regs=regs,dt=all,vars="Emissions|CO2|FFI|rel2010",catglob = catglob, catsnat = catsnat,
-                            year=2020,file_pre="RedRel2010_2020", var.labels = "Energy CO2 [indexed 2010 = 1]", ylim = c(0,1.8))
-  plot_boxplot_multiScenNat(regs=regs,dt=all,vars="Emissions|CO2|FFI|rel2010",catglob = catglob, catsnat = catsnat,
-                            year=2030,file_pre="RedRel2010_2030", var.labels = "Energy CO2 [indexed 2010 = 1]", ylim = c(0,1.8))
+  
+  #one year, one variable (multiple scenarios)
   plot_boxplot_multiScenNat(regs=regs,dt=all,vars="Emissions|CO2|FFI|rel2010",catglob = catglob, catsnat = catsnat,
                             year=2050,file_pre="RedRel2010_2050", var.labels = "Energy CO2 [indexed 2010 = 1]", ylim = c(0,1.8))
+  #multiple years in one plot
   plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|FFI|rel2010"),catglob = catglob, catsnat = catsnat, ylim = c(-2,3),
                                years=c(2030,2050),file_pre="RedRel2010_2030_2050", var.labels = c("Energy CO2 [indexed 2010 = 1]"),b.multiyear = T)
-  
-
-  plot_boxplot_multiScenNat(regs=regs,dt=all,vars="Emissions per capita",catglob = catglob, catsnat = catsnat,
-                            year=2050,file_pre="CO2perCap2050", var.labels = "Per capita CO2 [tCO2]")
-  plot_boxplot_multiScenNat(regs=regs,dt=all,vars="Emissions per capita",catglob = catglob, catsnat = catsnat,
-                            year=2030,file_pre="CO2perCap2030", var.labels = "Per capita CO2 [tCO2]")
-  plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions per capita"),catglob = catglob, catsnat = catsnat,
-                               years=c(2030,2050),file_pre="CO2perCap2030", var.labels = c("Per capita CO2 [tCO2]"),b.multiyear = T)
-
-  plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,
-                            year=2030,file_pre="Comp2050_FE_CI_2030_low", var.labels = c("Final Energy per Capita [GJ]","Carbon Intensity of FE [kgCO2/GJ]"), b.multivar = T)
-  plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,
-                            year=2050,file_pre="Comp2050_FE_CI_2050_low", var.labels = c("Final Energy per Capita [GJ]","Carbon Intensity of FE [kgCO2/GJ]"), b.multivar = T)
   plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Final Energy per capita"),catglob = catglob, catsnat = catsnat,
-                            years=c(2030,2050),file_pre="2030_2050_FE", var.labels = c("Final Energy per Capita [GJ]"),b.multiyear = T)
-  plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Final Energy per capita"),catglob = catglob, catsnat = catsnat, 
                                years=c(2030,2050),file_pre="2030_2050_FE", var.labels = c("Final Energy per Capita [GJ]"),b.multiyear = T)
 
-  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,
-                               years=c(2030,2050),file_pre="2030_2050_CI", var.labels = c("Carbon Intensity of FE [kgCO2/GJ]"),b.multiyear = T)
-  plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,
-                               years=c(2030,2050),file_pre="2030_2050_CI", var.labels = c("Carbon Intensity of FE [kgCO2/GJ]"),b.multiyear = T)
+  #multiple variables in one plot
+  plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity of FE"),catglob = catglob, catsnat = catsnat,
+                            year=2050,file_pre="Comp2050_FE_CI_2050_low", var.labels = c("Final Energy per Capita [GJ]","Carbon Intensity of FE [kgCO2/GJ]"), b.multivar = T)
   
-  
-  plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Wind and Solar Share", "Nuclear Share"),catglob = catglob, catsnat = catsnat,
-                            year=2050,file_pre="ElecLowCarb", var.labels = c("Wind and Solar Share [%]", "Nuclear Share [%]"), b.multivar = T)
-  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Wind and Solar Share"),catglob = catglob, catsnat = catsnat,
-                               years=c(2030,2050),file_pre="2030_2050_ElecWS", var.labels = c("Wind and Solar Share [%]"),b.multiyear = T)
-  plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Wind and Solar Share"),catglob = catglob, catsnat = catsnat,
-                               years=c(2030,2050),file_pre="2030_2050_ElecWS", var.labels = c("Wind and Solar Share [%]"),b.multiyear = T)
-  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Nuclear Share"),catglob = catglob, catsnat = catsnat,
-                               years=c(2030,2050),file_pre="2030_2050_ElecNuc", var.labels = c("Nuclear Share [%]"),b.multiyear = T)
-  plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Nuclear Share"),catglob = catglob, catsnat = catsnat,
-                               years=c(2030,2050),file_pre="2030_2050_ElecNuc", var.labels = c("Nuclear Share [%]"),b.multiyear = T)
-  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Low-carbon Electricity Share|All excl. Fossil w/o CCS"),catglob = catglob, catsnat = catsnat,
-                               years=c(2030,2050),file_pre="2030_2050_Elec_lowC", var.labels = c("Low-carbon Share [%]"),b.multiyear = T)
-  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Renewables Share|Excl. Nuclear"),catglob = catglob, catsnat = catsnat,
-                               years=c(2030,2050),file_pre="2030_2050_Elec_REN_excl.nuc", var.labels = c("REN Share excl. nuclear [%]"),b.multiyear = T)
-  plot_boxplot_multiScenNat_yr(regs=regs,dt=all,vars=c("Renewables Share|Incl. Hydro and Nuclear"),catglob = catglob, catsnat = catsnat,
-                               years=c(2030,2050),file_pre="2030_2050_Elec_REN_incl_hydro_nuc", var.labels = c("REN Share incl. hydro/nuclear/biomass [%]"),b.multiyear = T)
-  plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Renewables Share|Incl. Hydro and Nuclear"),catglob = catglob, catsnat = catsnat,
-                               years=c(2030,2050),file_pre="2030_2050_Elec_REN_incl_hydro_nuc", var.labels = c("REN Share incl. hydro/nuclear/biomass [%]"),b.multiyear = T)
-  
+  plot_boxplot(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity of FE"),cats="2030_low",
+               year=2050,file_pre="Comp2050_FE_CI_2030_low", var.labels = c("Final Energy per Capita [GJ]","Carbon Intensity of FE [kgCO2/GJ]") , b.multivar = T)
   
   regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA")
-
-  plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","BECCS per capita"),catglob = catglob, catsnat = catsnat,
-                            year=2050,file_pre="CCS_2030", var.labels = c("CCS [GtCO2/yr]","BECCS [GtCO2/yr]","BECCS per cap. [tCO2/yr]"), b.multivar = T)
-
-
-  vars <- c("Emissions|CO2|FFI|rel2010","Emissions per capita")
-  var_labels <- c("CO2 [indexed to 2010]","CO2 per capita" )
-  # all[ (model == "*India MARKAL" & variable %in% vars), ]$value <- NA
-
-  plot_boxplot_multiScenNat(regs=regs,dt=all,vars=vars,catglob = catglob, catsnat = catsnat,
-                            year=2030,file_pre="Emi2030", var.labels = var_labels, b.multivar = T)
-
   vars <- c(  "Price|Carbon", "Mitigation Costs"  )
   var_labels <- c("CO2 Price [$/tCO2]","Migation Costs [% of GDP]" )
-  plot_boxplot_multiScenNat(regs=regs,dt=all,vars=vars,catglob = catglob, catsnat = catsnat,
-                            year=2030,file_pre="Cost2030", var.labels = var_labels, b.multivar = T)
   plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=vars,catglob = catglob, catsnat = catsnat,
                                years=c(2030),file_pre="Cost2030", var.labels = var_labels,b.multivar = T)
   
-
-
-  # plot_boxplot_multiScenNat(regs=regs,dt=all,vars=c("Primary Energy|Biomass"),catglob = catglob, catsnat = catsnat,
-  #                           year=2050,file_pre="PEBio2050", var.labels = "PE Biomass [EJ]", b.multivar = T)
-
-
-plot_boxplot(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity of FE"),cats="2030_low",
-             year=2050,file_pre="Comp2050_FE_CI_2030_low", var.labels = c("Final Energy per Capita [GJ]","Carbon Intensity of FE [kgCO2/GJ]") , b.multivar = T)
-
-
-
-#Final energy + carbon intensity of FE
-plot_boxplot(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity of FE"),cats="2030_low",
-             year=2050,file_pre="Comp2050_FE_CI_2030_low", var.labels = c("Final Energy per Capita [GJ]","Carbon Intensity of FE [kgCO2/GJ]") , b.multivar = T)
-
-
+#TODO: make selection from here
 
 vars <- c("Reduction rel to 2010", "relative Abatement|CO2", "Mitigation Costs", "Price|Carbon"  )
 var_labels <- c("Red. rel to 2010 [%]","Red. rel to Base [%]","Migation Costs [% of GDP]","CO2 Price [$/tCO2]" )
