@@ -35,7 +35,7 @@ source("functions/plot_functions.R")
 # set to true if you always want data re-processed
 b.procdata = T
 # flag to adjust reporting, set to T if you want to call the script with manual corrections of (missing) data, set to F if you don't want to use this functionality
-b.adjustrep = T
+b.adjustrep = F
 
 # Create plot directory
 if(!file.exists(cfg$outdir)) {
