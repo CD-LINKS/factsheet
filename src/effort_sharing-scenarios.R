@@ -23,18 +23,49 @@ data$variable <- factor(data$variable)
 
 
 # Prepare data for use ----------------------------------------------------
+data$implementation<-""
+data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_CO","NPi2020_1000_domestic_GF",
+                   "NPi2020_1000_domestic_PCC", "NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_GF_V4",
+                   "NPi2020_1000_domestic_PCC_V4")]$implementation<-"domestic"
+data[scenario%in%c("NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_PCC",
+                   "NPi2020_1000_flexibility_AP_V4","NPi2020_1000_flexibility_GF_V4",
+                   "NPi2020_1000_flexibility_PCC_V4","NPi2020_1000_flexibility_CO")]$implementation<-"flexibility"
+data$regime<-""
+data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_AP_V4","NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_AP_V4")]$regime<-"AP"
+data[scenario%in%c("NPi2020_1000_domestic_PCC","NPi2020_1000_domestic_PCC_V4","NPi2020_1000_flexibility_PCC","NPi2020_1000_flexibility_PCC_V4")]$regime<-"PCC"
+data[scenario%in%c("NPi2020_1000_domestic_GF","NPi2020_1000_domestic_GF_V4","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_GF_V4")]$regime<-"GF"
+data[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO")]$regime<-"CO"
 
-data$implementation<-
-data$regime<-
-
-# Financial flows ---------------------------------------------------------
+# Trade ---------------------------------------------------------
 finflow = data[variable=="Trade|Emissions Allowances|Value"]
 
-f = ggplot(finflow)
-f = f + geom_bar(stat="identity", aes(x=region, y=value,fill=scenario))
-f = f + facet_grid(~model)
+f = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+f = f + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+f = f + facet_grid(period~model)
 f = f + theme_bw()
+
+trade = data[variable=="Trade|Emissions Allowances|Volume"]
+
+t = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+t = t + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+t = t + facet_grid(period~model)
+t = t + theme_bw()
     
+#Also check:
+# Emissions|GHG|Allowance Allocation	Mt CO2-equiv/yr
+# Trade|Emissions Allowances|Volume	Mt CO2-equiv/yr
+# Trade|Emissions Allowances|Value	billion US$2010/yr
+# Trade|Emissions|Value|Carbon|Absolute	billion US$2010/yr
+# Trade|Emissions|Value|Carbon|Exports	billion US$2010/yr
+# Trade|Emissions|Value|Carbon|Imports	billion US$2010/yr
+# Trade|Emissions|Value|Carbon|Net Exports	billion US$2010/yr
+# Trade|Emissions|Volume|Carbon|Absolute	Mt CO2-equiv/yr
+# Trade|Emissions|Volume|Carbon|Exports	Mt CO2-equiv/yr
+# Trade|Emissions|Volume|Carbon|Imports	Mt CO2-equiv/yr
+# Trade|Emissions|Volume|Carbon|Net Exports	Mt CO2-equiv/yr
+
 # Costs -------------------------------------------------------------------
 
+#as % of GDP
 
+# and costs Annex I / non-Annex I, X 2030 & 2050, facet/dodge trade/no trade, fill regime
