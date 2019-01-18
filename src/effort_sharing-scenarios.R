@@ -20,3 +20,21 @@ setnames(data, "VARIABLE", "variable")
 setnames(data, "UNIT", "unit")
 data=na.omit(data)
 data$variable <- factor(data$variable)
+
+
+# Prepare data for use ----------------------------------------------------
+
+data$implementation<-
+data$regime<-
+
+# Financial flows ---------------------------------------------------------
+finflow = data[variable=="Trade|Emissions Allowances|Value"]
+
+f = ggplot(finflow)
+f = f + geom_bar(stat="identity", aes(x=region, y=value,fill=scenario))
+f = f + facet_grid(~model)
+f = f + theme_bw()
+    
+# Costs -------------------------------------------------------------------
+
+
