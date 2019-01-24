@@ -101,13 +101,8 @@ var_labels <- c("Red. rel to 2010 [%]","Red. rel to Base [%]","Migation Costs [%
 
 #Scenario overview - example without model identifiers
 plot_boxplot(regs=regs,dt=all,vars=vars,cats="2030_low",year=2050,file_pre="Comp2050_2030_low", var.labels = var_labels, b.multivar = T,globpoints=F)
-plot_boxplot(regs=regs,dt=all,vars=vars,cats="2030_low",year=2030,file_pre="Comp2030_2030_low", var.labels = var_labels, b.multivar = T,globpoints=F)
 vars <- c("Reduction rel to 2010", "relative Abatement|CO2")
 plot_boxplot_yr(regs=regs,dt=all,vars=vars,cats="2030_low",years=c(2030,2050),file_pre="Comp2030_2050_2030_low", var.labels = var_labels, b.multiyear=T,globpoints=F)
-plot_boxplot_yr(regs=regs,dt=all,vars=vars,cats="2030_high",years=c(2030,2050),file_pre="Comp2030_2050_2030_high", var.labels = var_labels, b.multiyear=T,globpoints=F)
-plot_boxplot_yr(regs=regs,dt=all,vars=vars,cats="2020_low",years=c(2030,2050),file_pre="Comp2030_2050_2020_low", var.labels = var_labels, b.multiyear=T,globpoints=F)
-plot_boxplot_yr(regs=regs,dt=all,vars=vars,cats="2020_high",years=c(2030,2050),file_pre="Comp2030_2050_2020_high", var.labels = var_labels, b.multiyear=T,globpoints=F)
-
 
 #Final energy + carbon intensity of FE
 plot_boxplot(regs=regs,dt=all,vars=c("Final Energy per capita","Carbon Intensity of FE"),cats="2030_low",
