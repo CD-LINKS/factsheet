@@ -5,6 +5,11 @@ Policy Cost|GDP Loss
 Policy Cost|Other
 Price|Carbon
 GDP|PPP
+Investment
+Investment|Energy Efficiency
+Investment|Energy Supply
+Investment|Infrastructure
+Investment|RnD|Energy Supply
 GDP|MER
 Emissions|CO2
 Primary Energy
@@ -124,8 +129,11 @@ Final Energy|Transportation|Liquids
 Final Energy|Transportation|Other
 Carbon Sequestration|CCS
 Carbon Sequestration|CCS|Fossil
+Emissions|BC
 Emissions|N2O|Energy
 Emissions|N2O|Other
+Emissions|NOx
+Emissions|OC
 Emissions|CH4|Energy|Supply
 Emissions|CH4|Energy|Demand|Industry
 Emissions|CH4|Energy|Demand|Residential and Commercial
@@ -133,4 +141,5 @@ Emissions|CH4|Energy|Demand|Transportation
 Emissions|HFC
 Emissions|PFC
 Emissions|SF6
+Emissions|Sulfur
 Emissions|CO2|Energy|Demand|AFOFI
