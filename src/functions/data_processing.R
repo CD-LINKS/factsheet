@@ -138,16 +138,16 @@ add_variables <- function(all,scens){
     all <- calcBudget(all,'Emissions|CO2','Carbon budget')
     all <- calcBudget(all,'Emissions|CO2|Energy and Industrial Processes','Carbon budget|Energy and Industry')
     all <- calcBudget(all,'Emissions|CO2|Energy','Carbon budget|Energy')
-    source("functions/calcBudget_2015.R")
-    all <- calcBudget_2015(all,'Emissions|CO2','Carbon budget_2015')
-    all <- calcBudget_2015(all,'Emissions|CO2|Energy and Industrial Processes','Carbon budget_2015|Energy and Industry')
-    all <- calcBudget_2015(all,'Emissions|CO2|Energy','Carbon budget_2015|Energy')
+    # source("functions/calcBudget_2015.R")
+    # all <- calcBudget_2015(all,'Emissions|CO2','Carbon budget_2015')
+    # all <- calcBudget_2015(all,'Emissions|CO2|Energy and Industrial Processes','Carbon budget_2015|Energy and Industry')
+    # all <- calcBudget_2015(all,'Emissions|CO2|Energy','Carbon budget_2015|Energy')
     source("functions/calcPeak.R")
     all <- calcPeak(all,'Emissions|CO2','Peak year|CO2')
     all <- calcPeak(all,'Emissions|Kyoto Gases','Peak year|Kyoto Gases')
     source("functions/calcRate.R")
     all <- calcRate(all, c("Emissions Intensity of GDP|MER","Carbon Intensity of GDP|MER","GHG Intensity of GDP|MER","Carbon Intensity of FE","Energy Intensity of GDP|MER","Emissions|CO2|FFI","Renewables Share|Excl. Nuclear","GHG Intensity of FE"))
-    all <- overwrite(remind::calcCumulatedDiscount(all, discount = 0.05, nameVar = "GDP|MER"), all)
+    #all <- overwrite(remind::calcCumulatedDiscount(all, discount = 0.05, nameVar = "GDP|MER"), all)
     
     all=all[!c(region=="Bunkers"&variable%in%c("GHG Intensity of FE","Emissions|Kyoto Gases|Excl. AFOLU CO2","Non-CO2 GHG per capita","GHG emissions per capita"))]
 
