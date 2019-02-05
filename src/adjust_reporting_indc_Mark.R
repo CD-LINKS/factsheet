@@ -40,7 +40,7 @@ tmp1$value<-0
 all<-rbind(all,tmp1)
 
 # Adding R5 regions to get World total for DNE21+
-# if("World"%in%cfg$regions){
+# if("World"%in%cfg$r){
 #   tmp1<-all[model=="DNE21+ V.14"&region%in%c("R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")]
 # tmp=spread(tmp1,region, value)
 # tmp=na.omit(tmp)
@@ -279,7 +279,7 @@ all<-rbind(all,tmp)
 # Add bunker emissions as separate region -------------------------------
 # to check if error in data processing can be solved
 # GHG emissions
-if("World"%in%cfg$regions){
+if("World"%in%cfg$r){
   tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
   tmp=spread(tmp1,region, value)
   tmp=na.omit(tmp)
@@ -293,7 +293,7 @@ if("World"%in%cfg$regions){
   tmp2$unit<-"Mt CO2/yr"
   all <- rbind(all,tmp1,tmp2)}
 # Final Energy
-if("World"%in%cfg$regions){
+if("World"%in%cfg$r){
   tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Final Energy"]
   tmp=spread(tmp1,region, value)
   tmp=na.omit(tmp)

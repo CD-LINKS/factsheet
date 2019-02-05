@@ -925,8 +925,8 @@ plot_stackbar_diff <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="y
   
   #calculate difference NDC-2C
   dta=spread(dta,Category,value)
-  dta=dta%>%mutate(diff=`2°C`-`NDC`)
-  dta=data.table(gather(dta,Category,value,c("2°C","NDC","diff")))
+  dta=dta%>%mutate(diff=`2 °C`-`NDC`)
+  dta=data.table(gather(dta,Category,value,c("2 °C","NDC","diff")))
   dta=dta[Category%in%c("NDC","diff")]
   
   p = ggplot() + ggplot2::theme_bw()

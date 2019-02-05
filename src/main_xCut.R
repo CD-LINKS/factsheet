@@ -76,7 +76,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
   
   #reduce size of the data frame
   vars <- fread("settings/variables_xCut.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
-  all  <- all[VARIABLE %in% vars$variable & REGION %in% cfg$regions]
+  all  <- all[VARIABLE %in% vars$variable & REGION %in% cfg$r]
 
 
   #####################################
@@ -194,7 +194,7 @@ if (file.exists(paste0("data/",cfg$infile,"_proc.Rdata")) & !b.procdata) {
 #   
 #   #reduce size of the data frame
 #   vars <- fread("settings/variables_xCut.csv",header=TRUE,stringsAsFactors=FALSE,sep='\n')
-#   diag  <- diag[VARIABLE %in% vars$variable & REGION %in% cfg$regions]
+#   diag  <- diag[VARIABLE %in% vars$variable & REGION %in% cfg$r]
 #   #get rid of unnecessary year columns
 #   source("functions/reduce_diag_t.R")
 #   diag <- reduce_diag_t(diag)

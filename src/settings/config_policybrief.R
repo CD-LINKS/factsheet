@@ -115,6 +115,6 @@ cfg$man_lines=c("POLES 2014"        =  "dotted",
                 "*India MARKAL"     = "solid",
                 "*AIM-India [IIMA]"   = "dashed")
 
-cfg$regions <- c( "BRA",  "CHN", "EU",  "IND", "JPN",
+cfg$r <- c( "BRA",  "CHN", "EU",  "IND", "JPN",
                  "R5ASIA", "R5LAM", "R5MAF", "R5OECD90+EU", "R5REF", "RUS",
                   "USA", "World","CAN","TUR")

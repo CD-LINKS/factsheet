@@ -1,7 +1,7 @@
 #### script for doing analysis of regional emission budgets
 
 #process data for all regions (first run main_xCut until 156)
-cfg$regions <-c("ARG","AUS","BRA","CAN","CHN","EU","IDN","IND","JPN","MEX","R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF","ROK","RUS","SAF","SAU","TUR","USA","World")
+cfg$r <-c("ARG","AUS","BRA","CAN","CHN","EU","IDN","IND","JPN","MEX","R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF","ROK","RUS","SAF","SAU","TUR","USA","World")
 
 regs <- unique(all$region)
 
