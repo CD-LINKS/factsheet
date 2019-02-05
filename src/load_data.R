@@ -18,6 +18,19 @@ library(stringr) #str_replace_all
 #set working directory for R right if it is not by default (it is the right one by default if you open Rstudio by clicking on this main.R file)
 #setwd("~/disks/local/factsheet/src")
 
+if(!exists("variables")){
+  stop("Please specify 'variables', i.e. the name of the settings/variables_....csv file you want to use (without the extension)")
+}
+if(!exists("config")){
+  stop("Please specify 'config', i.e. the name of the settings/config_....R file you want to use (without the extension)")
+}
+if(!exists("scencateg")){
+  stop("Please specify 'scencateg', i.e. the name of the settings/scenario categorisation_....csv file you want to use (without the extension)")
+}
+if(!exists("adjust")){
+  stop("Please specify 'adjust', i.e. the name of the src/adjust_reporting_....R file you want to use (without the extension)")
+}
+
 #source configuration file for region-specific data
 source(paste("settings/",config,".R",sep=""))
 
