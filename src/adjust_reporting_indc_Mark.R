@@ -77,8 +77,9 @@ tmp2 <- all[model=="IMAGE 3.0" & variable %in% c("Emissions|Kyoto Gases"," Emiss
                                                  "Emissions|CO2|Energy|Demand|Transportation",
                                                  "Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O",
                                                  "Emissions|F-Gases",
-                                                 "Emissions|CO2|Energy|Demand|Industry",
-                                                 "Emissions|CO2|Industrial Processes") & region=="TUR"]
+                                                 "Emissions|CO2|Energy|Demand|Industry") #,
+                                                 #"Emissions|CO2|Industrial Processes") & 
+                                                 & region=="TUR"]
 tmp3 <- tmp2[!c(variable%in%c("Emissions|F-Gases","Emissions|CO2|Energy|Demand|Residential and Commercial"))]
 tmp2$model<-"MESSAGEix-GLOBIOM_1.0"
 tmp3$model<-"COPPE-COFFEE 1.0"
@@ -277,6 +278,7 @@ all<-rbind(all,tmp)
 
 # Add bunker emissions as separate region -------------------------------
 # to check if error in data processing can be solved
+# GHG emissions
 if("World"%in%cfg$regions){
   tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
   tmp=spread(tmp1,region, value)
@@ -290,7 +292,20 @@ if("World"%in%cfg$regions){
   tmp2$variable<-"Emissions|CO2|Energy and Industrial Processes"
   tmp2$unit<-"Mt CO2/yr"
   all <- rbind(all,tmp1,tmp2)}
-
+# Final Energy
+if("World"%in%cfg$regions){
+  tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Final Energy"]
+  tmp=spread(tmp1,region, value)
+  tmp=na.omit(tmp)
+  tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
+  tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
+  tmp1=data.table(tmp1)
+  tmp1=tmp1[region=="Bunkers"]
+  setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+  tmp2=tmp1
+  tmp2$variable<-"Final Energy|Transportation"
+  tmp2$unit<-"EJ/yr"
+  all <- rbind(all,tmp1,tmp2)}
 
 # Other model-specific fixes - part 2 -------------------------------------
 
@@ -627,7 +642,14 @@ setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Sc
 all=all_original[!(variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","Emissions|CO2") & model%in%c("POLES CDL"))]
 all<-rbind(all,tmp)
 
-
+# For figure 2 Nature Communciations paper
+# add variables 'Secondary Energy|Electricity|Coal|w/ CCS' and 'Secondary Energy|Electricity|Gas|w/ CCS' with zero value for AIM/CGE
+tmp_var <- c('Secondary Energy|Electricity|Coal|w/ CCS', 'Secondary Energy|Electricity|Gas|w/ CCS')
+tmp <- filter(all, variable %in% tmp_var, model=="IMAGE 3.0")
+tmp$model <- "AIM/CGE"
+tmp$value <- 0
+#setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+all<-rbind(all,tmp)
 
 # Plausibility checks -----------------------------------------------------
 
