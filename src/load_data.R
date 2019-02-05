@@ -3,6 +3,9 @@
 ########## and produces the national fact sheet    ##########
 #############################################################
 
+# INPUT needed: variables (your settings/variables csv file), scencateg (your settings/scenario categorisation file), 
+# config (your settings/configuration file), adjust (your adjust_reporting file)
+
 library(reshape2)   # melt
 library(data.table) # setnames, nice view option
 library(dplyr)      # %>%
@@ -42,12 +45,12 @@ if(!file.exists(cfg$outdir)) {
 #############################################################
 ####################### Load data ###########################
 #############################################################
-
+if(length(cfg$r)>0){reg=""}else{reg=paste0("_",cfg$r)}
 #if processed data is already available, just load it. To redo processing (e.g. after adding new calculated variable, please set b.procdata = TRUE)
-if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdata) {
+if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
   cat("Loading processed data from file", paste0("data/",cfg$infile,".Rdata"),"\n",
       "set b.procdata flag and re-run if you want to do the data processing again", "\n")
-  load(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata"))
+  load(paste0("data/",cfg$infile,reg,"_proc.Rdata"))
   Sys.sleep(2)#give everybody the chance to read the above message
 } else {
   
@@ -118,6 +121,6 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   #all <- all[Category!="Historical"]
   
   #save country specific file with processed data
-  save("all",file = paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata"))
+  save("all",file = paste0("data/",cfg$infile,reg,"_proc.Rdata"))
   
 }# end if-else: process data
