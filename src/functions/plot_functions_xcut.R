@@ -1,3 +1,17 @@
+# plot_boxplot
+# plot_boxplot_yr
+# plot_boxplot_multiScenNat
+# plot_boxplot_multiScenNat_yr
+# plot_stackbar
+# plot_scatter_xcut
+# plot_boxplot2
+# plot_boxplot3
+# plot_boxplot4 
+# plot_pointrange_multiScen_yr
+# plot_pointrange_multiScen_glob
+# plot_stackbar_regions
+# plot_stackbar_ghg
+
 theme_set(ggplot2::theme_bw(base_size = 15))
 
 source("functions/plotstyle.R") # load plotstyle() function that provides colors etc. for entities
@@ -169,7 +183,6 @@ plot_boxplot_multiScenNat <- function(regs, dt, vars, catsnat, catglob, year = 2
   return(p)
 }
 
-
 #plot function for boxplots - multi-year, one variable
 plot_boxplot_multiScenNat_yr <- function(regs, dt, vars, catsnat, catglob, years, out=cfg$outdir, title="Title", file_pre="boxplot",connect=T,
                                       b.multivar =  F, b.multiyear = T, var.labels = NA, ylim=NULL,xlim=NULL,xlog=F,ylog=F,yearlab=T,globpoints=F){
@@ -265,7 +278,6 @@ plot_stackbar <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title"
   return(p)
 }
 
-
 #plot function for scatter plots
 plot_scatter_xcut <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, title="Title", file_pre="scatter",connect=T,ylim=NA,xlim=NA,xlog=F,ylog=F,yearlab=T) {
   
@@ -307,6 +319,7 @@ plot_scatter_xcut <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, tit
   ggsave(file=paste0(out,"/",file_pre,"_",reg[1],cfg$format),p, width=8, height=6, dpi=120)
   return(p)
 }
+
 
 #for peak year plot
 plot_boxplot2 <- function(regs, dt, vars, cats, out=cfg$outdir, title="Title", file_pre="boxplot",connect=T,
@@ -360,7 +373,6 @@ plot_boxplot2 <- function(regs, dt, vars, cats, out=cfg$outdir, title="Title", f
   }
   return(p)
 }
-
 
 plot_boxplot3 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, title="Title", file_pre="boxplot",connect=T,
                          b.multivar =  F, var.labels = NA, ylim=F,xlim=NA,xlog=F,ylog=F,yearlab=T){
