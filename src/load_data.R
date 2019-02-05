@@ -107,11 +107,11 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   all <- add_variables(all,scens)
   
   #set scope to "national" for national models
-  all[all$model %in% cfg$model_nat,]$Scope <- "national"
+  all[all$model %in% cfg$models_nat,]$Scope <- "national"
   #change model name for national models, so that they appear first
-  if(!substr(cfg$model_nat[1],1,1)=="*"){
-    all[all$model %in% cfg$model_nat,]$model <- paste0("*",all[all$model %in% cfg$model_nat,]$model)
-    cfg$model_nat <- paste0("*",cfg$model_nat)
+  if(!substr(cfg$models_nat[1],1,1)=="*"){
+    all[all$model %in% cfg$models_nat,]$model <- paste0("*",all[all$model %in% cfg$models_nat,]$model)
+    cfg$models_nat <- paste0("*",cfg$models_nat)
   }
   
   #get rid of Historical duplicates
