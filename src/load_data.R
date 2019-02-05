@@ -101,7 +101,7 @@ if (file.exists(paste0("data/",cfg$infile,"_",cfg$r,"_proc.Rdata")) & !b.procdat
   all <- factor.data.frame(all)
   
   ###### Manual changes before addition of calculated variables  
-  #source("adjust_reporting_indc.R")  
+  source(paste(adjust,".R",sep=""))  
   
   #### add variables
   #all <- add_variables(all,scens)
