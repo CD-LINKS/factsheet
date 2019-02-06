@@ -3,7 +3,7 @@ setwd("~/disks/local/factsheet/src")
 config <-"config_xCut"
 scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
-adjust <- "adjust_reporting_indc_Mark" #comment out for paper? also add_variables
+adjust <- "adjust_reporting_empty" #no adjust reporting for paper? also skip add_variables
 source("load_data.R")
 
 mods=unique(all[period=="2010"& variable=="Emissions|CO2"& region=="EU" & value>1000,model,with=TRUE])
