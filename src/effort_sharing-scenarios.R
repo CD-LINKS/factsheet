@@ -52,7 +52,13 @@ a = a + theme_bw()
 a = a + ylab(allocation$unit)
 ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=12,dpi=200)
 
+# Emissions ---------------------------------------------------------------
+
+# TODO Another indicator to look at is just emissions: first you can check how much the global profiles are still met in the flexibility cases, and in the domestic scenarios, you might have lower global emissions due to hot air, or higher due to the infeasibilities in your model (if I understand correctly, infeasibility in IMAGE means you hit the max allowable carbon price of 1200$/t CO2.
+
 # Trade ---------------------------------------------------------
+# TODO For carbon prices and trade, I find it also useful to plot all regions for one scenario-model combination into one graph, you then see the net importers/exporters in the flexibility cases, and differentiated carbon prices in the domestic one. 
+
 #Value
 finflow = data[variable=="Trade|Emissions Allowances|Value"]
 
@@ -169,3 +175,8 @@ c1 = c1 + ylab(costs$unit)
 
 
 # and costs Annex I / non-Annex I, X 2030 & 2050, facet/dodge trade/no trade, fill regime
+
+
+# Socioeconomic impacts ---------------------------------------------------
+
+# TODO the % change in GDP, the % change in private consumption  or a welfare indicator such as equivalent variation and maybe also a % change in employment.
