@@ -42,22 +42,40 @@ data[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO")]$re
 
 data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA")] #,"ARG","AUS","CAN","MEX","IDN","ROK","SAF","SAU","TUR",
 
-# Initial allocation ------------------------------------------------------
-allocation = data[variable=="Emissions|GHG|Allowance Allocation"]
+#IMAGE allowance allocation data mistakenly reported in Gt instead of Mt
+data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"]$value <- data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"]$value*1000
 
-a = ggplot(allocation[period%in%c(2050)])
-a = a + geom_bar(stat="identity", aes(x=regime, y=value,fill=implementation),position="dodge")
-a = a + facet_grid(model~region)
+# Initial allocation ------------------------------------------------------
+allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"]
+
+a = ggplot(allocation) #[period%in%c(2050)]
+#a = a + geom_bar(stat="identity", aes(x=regime, y=value,fill=implementation),position="dodge")
+a = a + geom_line(aes(x=period,y=value,colour=implementation,linetype=regime))
+a = a + facet_grid(region~model,scales="free_y")
 a = a + theme_bw()
 a = a + ylab(allocation$unit)
 ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=12,dpi=200)
 
 # Emissions ---------------------------------------------------------------
 
-# TODO Another indicator to look at is just emissions: first you can check how much the global profiles are still met in the flexibility cases, and in the domestic scenarios, you might have lower global emissions due to hot air, or higher due to the infeasibilities in your model (if I understand correctly, infeasibility in IMAGE means you hit the max allowable carbon price of 1200$/t CO2.
+# TODO Another indicator to look at is just emissions: first you can check how much the global profiles are still met in the flexibility cases, 
+# and in the domestic scenarios, you might have lower global emissions due to hot air, or higher due to the infeasibilities in your model 
+# (if I understand correctly, infeasibility in IMAGE means you hit the max allowable carbon price of 1200$/t CO2.
+# TODO reductions relative to 2010! relative to baseline?
+# TODO check cumulative emissions in line with carbon budgets?
+
+e = ggplot(data[variable=="Emissions|Kyoto Gases"]) #&!region=="World"
+e = e + geom_line(aes(x=period,y=value,colour=implementation,linetype=regime))
+e = e + facet_grid(region~model,scales="free_y")
+e = e + theme_bw()
+e = e + ylab(data[variable=="Emissions|Kyoto Gases"]$unit)
+ggsave(file=paste(outdir,"/GHGemissions.png",sep=""),e,width=20,height=12,dpi=200)
+
 
 # Trade ---------------------------------------------------------
-# TODO For carbon prices and trade, I find it also useful to plot all regions for one scenario-model combination into one graph, you then see the net importers/exporters in the flexibility cases, and differentiated carbon prices in the domestic one. 
+# TODO For carbon prices and trade, I find it also useful to plot all regions for one scenario-model combination into one graph, 
+# you then see the net importers/exporters in the flexibility cases, and differentiated carbon prices in the domestic one. 
+# TODO total financial flows 2030, 2050?
 
 #Value
 finflow = data[variable=="Trade|Emissions Allowances|Value"]
@@ -174,9 +192,14 @@ c1 = c1 + theme_bw()
 c1 = c1 + ylab(costs$unit)
 
 
-# and costs Annex I / non-Annex I, X 2030 & 2050, facet/dodge trade/no trade, fill regime
+# and costs Annex I / non-Annex I, X 2030 & 2050, facet/dodge trade/no trade, fill regime. horizontal line at 1
 
 
 # Socioeconomic impacts ---------------------------------------------------
 
 # TODO the % change in GDP, the % change in private consumption  or a welfare indicator such as equivalent variation and maybe also a % change in employment.
+
+
+# Technologies employed ---------------------------------------------------
+
+#National models?
