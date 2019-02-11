@@ -3,8 +3,10 @@
 
 # Model-specific issues ---------------------------------------------------
 
+all <- as.data.table(all)
 # Remove GEM-E3_V1 as newest results are uploaded under GEM-E3
-all<-all[!model=="GEM-E3_V1"]
+all<-all[model!="GEM-E3_V1"]
+#all <- filter(all, model != "GEM-E3_V1")
 
 #Relabel COFFEE's baseline to NoPolicy, in line with other global models
 all[model=="COPPE-COFFEE 1.0"]$scenario=str_replace_all(all[model=="COPPE-COFFEE 1.0"]$scenario,"NoPOL_V4","NoPolicy_V4")
@@ -669,3 +671,4 @@ all[unit=="EJ/yr" & value >600 & !(variable %in% c("Primary Energy","Secondary E
 
 
 
+all <- as.data.frame(all)

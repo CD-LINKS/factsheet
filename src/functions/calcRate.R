@@ -1,6 +1,11 @@
 calcRate = function(data,var){
-  if(!(var %in% data$variable)){
-    stop("Error: The dataframe does not contain the variable provided!")
+  #if(!(var %in% data$variable)){
+  #  stop("Error: The dataframe does not contain the variable provided!")
+  #}
+  for(v in var){
+    if(!v %in% data$variable){
+  #  stop("Error: The dataframe does not contain the variable provided!")
+    }
   }
   
   dat=data[variable %in% var]

@@ -115,7 +115,7 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
   
   #re-factorize all character and numeric columns
   all <- factor.data.frame(all)
-  
+all_check4 <- all  
   ###### Manual changes before addition of calculated variables  
   source(paste(adjust,".R",sep=""))  
   
