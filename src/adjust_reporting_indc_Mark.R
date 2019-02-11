@@ -6,7 +6,6 @@
 all <- as.data.table(all)
 # Remove GEM-E3_V1 as newest results are uploaded under GEM-E3
 all<-all[model!="GEM-E3_V1"]
-#all <- filter(all, model != "GEM-E3_V1")
 
 #Relabel COFFEE's baseline to NoPolicy, in line with other global models
 all[model=="COPPE-COFFEE 1.0"]$scenario=str_replace_all(all[model=="COPPE-COFFEE 1.0"]$scenario,"NoPOL_V4","NoPolicy_V4")
@@ -79,8 +78,8 @@ tmp2 <- all[model=="IMAGE 3.0" & variable %in% c("Emissions|Kyoto Gases"," Emiss
                                                  "Emissions|CO2|Energy|Demand|Transportation",
                                                  "Emissions|CO2|AFOLU","Emissions|CH4","Emissions|N2O",
                                                  "Emissions|F-Gases",
-                                                 "Emissions|CO2|Energy|Demand|Industry") #,
-                                                 #"Emissions|CO2|Industrial Processes") & 
+                                                 "Emissions|CO2|Energy|Demand|Industry",
+                                                 "Emissions|CO2|Industrial Processes")  
                                                  & region=="TUR"]
 tmp3 <- tmp2[!c(variable%in%c("Emissions|F-Gases","Emissions|CO2|Energy|Demand|Residential and Commercial"))]
 tmp2$model<-"MESSAGEix-GLOBIOM_1.0"

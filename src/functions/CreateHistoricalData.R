@@ -118,6 +118,9 @@ all_PRIMAP <- rbind(PRIMAP_Kyoto,PRIMAP_CO2) %>% rbind(PRIMAP_CO2_energy_industr
 write.table(PRIMAP_IAM, file="data/PRIMAP_IAM.csv", sep=";", row.names=F)  
 all_hist <- all_PRIMAP
 
+# add variables
+all_hist <- calcVariable(all_hist,'`Emissions|Kyoto Gases|Excl. AFOLU CO2` ~ (`Emissions|Kyoto Gases`)-(`Emissions|CO2|AFOLU`)' , newUnit='GgCO2eq')
+
 ################# IEA NERGY DATA ##############################
 
 # Impport historical energy data
@@ -325,7 +328,7 @@ all_IEA <- rbind(IEA_Electricity, IEA_Coal_Electricity) %>% rbind(IEA_CrudeOil_E
 all_hist <- rbind(all_hist, all_IEA)
 
 # make one oil variable
-all_hist <- calcVariable(all_hist,'`Secondary Energy|Electricity|Oil` ~ (`Secondary Energy|Electricity|Crude oil`)+(`Secondary Energy|Electricity|Light oil`)' , newUnit='EJ/yr')
+
 all_hist <- calcVariable(all_hist,'`Secondary Energy|Heat|Oil` ~ (`Secondary Energy|Heat|Crude oil`)+(`Secondary Energy|Heat|Light oil`)' , newUnit='EJ/yr')
 all_hist <- calcVariable(all_hist,'`Final Energy|Oil` ~ (`Final Energy|Crude oil`)+(`Final Energy|Light oil`)' , newUnit='EJ/yr')
 all_hist <- calcVariable(all_hist,'`Primary Energy|Oil` ~ (`Primary Energy|Crude oil`)+(`Primary Energy|Light oil`)' , newUnit='EJ/yr')

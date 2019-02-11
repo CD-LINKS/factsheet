@@ -75,6 +75,9 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
     all <- invisible(fread(paste0("data/",cfg$infile,".csv"),header=TRUE))
     save("all",file = paste0("data/",cfg$infile,".Rdata"))
   }
+
+  # keep original data
+  all_import <- all  
   
   # Add new column "Category" and fill with name according to scenario-to-Category-mapping in "scens"
   scens <- fread(paste("settings/",scencateg,".csv",sep=""), header=TRUE)

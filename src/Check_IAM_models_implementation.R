@@ -1,21 +1,16 @@
 # create CD-LINKS data
 # set variables
-config <- "config_WP2_3_indicators"
-scencateg <- "scen_categ_V4"
-variables <- "variables_xCut"
 
-memory.limit(size=12000)
-
-adjust <- "adjust_reporting_empty"
-source('load_data.R')
-all_import <- all
-
-adjust <- "adjust_reporting_indc_Mark"
-source('load_data.R')
-
-
-# create historical data
-source("functions/CreateHistoricalData.R")
+source('Data Natcom paper.R')
+all$period <- as.integer(all$period)
+# Change scenario names for paper -----------------------------------------
+all$Category=str_replace_all(all$Category,"NoPOL","No policy")
+all$Category=str_replace_all(all$Category,"INDC","NDC")
+all$Category=str_replace_all(all$Category,"NPip","National policies planned")
+all$Category=str_replace_all(all$Category,"NPi","National policies")
+all$Category=str_replace_all(all$Category,"2020_low","Carbon budget 1000")
+all$Category=str_replace_all(all$Category,"2020_verylow","Carbon budget 400")
+all$Category=str_replace_all(all$Category,"2030_low","Carbon budget 1000 (2030)")
 
 # Data processing ---------------------------------------------------------
 library(reshape2)   # melt
@@ -30,19 +25,28 @@ library(gridExtra) #arrangeGrob
 library(grid)
 library(scales)
 
+# settings
+regs<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World")
+scens <- c("National policies","NDC")
+models_global <- filter(all, Scope=="global", model != "AIM/CGE") %>% select(model) %>% unique() %>% as.matrix() %>% as.vector()
+#models_global <- as.vector(as.matrix((models_global))
+models_national <- filter(all, Scope=="national") %>% select(model) %>% unique()
+
 all[model=="*GEM-E3"]$model<-"GEM-E3"
 all[model=="GEM-E3"]$Scope<-"global"
-all_import[model=="*GEM-E3"]$model<-"GEM-E3"
-all_import[model=="GEM-E3"]$Scope<-"global"
+all_before_adj[model=="*GEM-E3"]$model<-"GEM-E3"
+all_before_adj[model=="GEM-E3"]$Scope<-"global"
+
+# I. Check model gaps
 # data export to Excel
-all_import_emissions <- filter(all_import, grepl("Emissions", variable), Scope=="global")
-write.table(all_import_emissions, "data/all_import_emissions.csv", sep=";", row.names = F)
-all_import_final_energy <- filter(all_import, grepl("Final Energy", variable), Scope=="global")
-all_import_secondary_energy <- filter(all_import, grepl("Secondary Energy", variable), Scope=="global")
-all_import_primary_energy <- filter(all_import, grepl("Primary Energy", variable), Scope=="global")
-all_import_gdp <- filter(all_import, grepl("GDP|MER", variable), Scope=="global")
-all_import_select <- rbind(all_import_emissions, all_import_final_energy) %>% rbind(all_import_secondary_energy) %>% rbind(all_import_primary_energy) %>% rbind(all_import_gdp)
-write.table(all_import_select, "data/all_import_select.csv", sep=";", row.names = F)
+all_before_adj_emissions <- filter(all_before_adj, grepl("Emissions", variable), Scope=="global")
+write.table(all_before_adj_emissions, "data/all_before_adj_emissions.csv", sep=";", row.names = F)
+all_before_adj_final_energy <- filter(all_before_adj, grepl("Final Energy", variable), Scope=="global")
+all_before_adj_secondary_energy <- filter(all_before_adj, grepl("Secondary Energy", variable), Scope=="global")
+all_before_adj_primary_energy <- filter(all_before_adj, grepl("Primary Energy", variable), Scope=="global")
+all_before_adj_gdp <- filter(all_before_adj, grepl("GDP|MER", variable), Scope=="global")
+all_before_adj_select <- rbind(all_before_adj_emissions, all_before_adj_final_energy) %>% rbind(all_before_adj_secondary_energy) %>% rbind(all_before_adj_primary_energy) %>% rbind(all_before_adj_gdp)
+write.table(all_before_adj_select, "data/all_before_adj_select.csv", sep=";", row.names = F)
 
 all_emissions <- filter(all, grepl("Emissions", variable), Scope=="global")
 write.table(all_emissions, "data/all_emissions.csv", sep=";", row.names = F)
@@ -52,24 +56,6 @@ all_primary_energy <- filter(all, grepl("Primary Energy", variable), Scope=="glo
 all_gdp <- filter(all, grepl("GDP|MER", variable), Scope=="global")
 all_select <- rbind(all_emissions, all_final_energy) %>% rbind(all_secondary_energy) %>% rbind(all_primary_energy) %>% rbind(all_gdp)
 write.table(all_select, "data/all_select.csv", sep=";", row.names = F)
-
-# settings
-regs<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World")
-scens <- c("National policies","NDC")
-
-# I. Check model gaps
-gap_vars <- c("Emissions|Kyoto Gases", "Emissions|CO2", "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases", 
-              "Emissions|Non-CO2", 
-              "Emissions|CO2|Energy|Supply", "Emissions|CH4|Energy|Supply", "Emissions|N2O|Energy", "Emissions|CO2|Energy|Demand|Industry", "Emissions|CH4|Energy|Demand|Industry", 
-              "Emissions|CO2|Industrial Processes", "Emissions|CO2|Energy|Demand|Residential and Commercial", "Emissions|CH4|Energy|Demand|Residential and Commercial",
-              "Emissions|CO2|Energy|Demand|Transportation", "Emissions|CH4|Energy|Demand|Transportation", "Emissions|CO2|Energy|Demand|AFOFI", 
-              "Emissions|CO2|AFOLU", "Emissions|CH4|AFOLU", "Emissions|N2O|AFOLU",
-              "Emissions|HFC", "Emissions|PFC", "Emissions|SF6",
-              "Emissions|CH4|Waste", "Emissions|N2O|Waste")
-data_all_import_GHG <- filter(all_import, region%in% regs, variable%in%gap_vars, Category%in%scens)
-write.table(data_all_import_GHG, "data/data_all_import_GHG.csv", sep=";", row.names = F)
-data_all_GHG <- filter(all, region%in% regs, variable%in%gap_vars, Category%in%scens)
-write.table(data_all_GHG, "data/data_all_GHG.csv", sep=";", row.names = F)
 
 # II. Compare CD-LINKS NPi and INDCi with PBL factsheet report
 
@@ -151,16 +137,17 @@ minmax_NDC_World = data.frame(region="World", year=2030, NDC='incl', min=49500.0
 minmax_NDC <- bind_rows(minmax_NDC, minmax_NDC_World)
 
 # Filter model data for scope, scenarios, regions and variables
-Model_global_data <- filter(all, Scope=="global", Category %in% scens, region %in% regs, 
-                            variable%in%c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|Excl. AFOLU CO2"))
+Model_global_data <- filter(all, Scope=="global", Category %in% scens, region %in% regs, variable%in%c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|Excl. AFOLU CO2"))
+
+all_hist_graph <- filter(all_hist, variable %in% c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|Excl. AFOLU CO2")) %>% select(region, period, value, variable)
 
 # also add NDC and CPS from PBL CLIMA factsheet report
 for (r in regs) { 
-  #i=1
+  #r="World"
   cat(r, "\n")
   if (INDC_type[INDC_type$region==r,]$NDC=="incl") var="Emissions|Kyoto Gases" else var="Emissions|Kyoto Gases|Excl. AFOLU CO2"
   g <- ggplot(data=filter(Model_global_data, region==r, period<=2030, variable==var)) + geom_line(aes(x=period,y=value, colour=Category)) +
-  geom_line(data=filter(all_hist, region %in% r), aes(x=period, y=value), linetype="dashed") +
+  geom_line(data=filter(all_hist_graph, region %in% r, variable==var), aes(x=period, y=value), linetype="dashed") +
   # add min/max NDCs from factsheet
   geom_point(data=minmax_NDC[minmax_NDC$region==r,], aes(x=year+0.5, y=min), colour="green", size=4) +
   geom_point(data=minmax_NDC[minmax_NDC$region==r,], aes(x=year+0.5, y=max), colour="green", size=4) +
@@ -169,7 +156,7 @@ for (r in regs) {
   geom_point(data=minmax_NPi[minmax_NPi$region==r,], aes(x=year+1.5, y=min), colour="blue", size=3) +
   geom_point(data=minmax_NPi[minmax_NPi$region==r,], aes(x=year+1.5, y=max), colour="blue", size=3) +
   geom_segment(data=minmax_NPi[minmax_NPi$region==r,], stat="identity", aes(x=year+1.5, xend=year+1.5, y=min, yend=max, size=1.5), show.legend=FALSE, colour="blue") +
-  geom_text(data=minmax_NPi[minmax_NPi$region==r,], aes(x=2030, y=max, label="Compare"), show.legend=FALSE) + 
+  geom_text(data=minmax_NPi[minmax_NPi$region==r,], aes(x=2030, y=1.1*max, label="Compare"), show.legend=FALSE) + 
   scale_colour_manual(values=c("blue", "green")) +
   facet_wrap(~model) +
   ylim(0,NA) +
@@ -177,6 +164,41 @@ for (r in regs) {
   ggtitle(paste(r, " Total GHG ", INDC_type[INDC_type$region==r,]$NDC, " AFOLU CO[2]", sep=""))
   gg <- plot(g)
   ggsave(file=paste("graphs/check_", r, ".png", sep=""),gg, height=10, width=15)
+}
+
+
+vars_GHG <- c("Emissions|Kyoto Gases", "Emissions|CO2", "Emissions|CO2|Energy and Industrial Processes", "Emissions|CO2|AFOLU", 
+              "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases")
+
+for (v in vars_GHG) { 
+  cat(paste0(v, "\n"))
+  for (r in regs) { 
+    #v="Emissions|Kyoto Gases"
+    #r="World"
+    cat(paste0("- ", r, "\n"))
+    d1 <- filter(all, model %in% models_global, period>=2005, period<=2015, Category=="NoPOL", region==r, variable==v)
+    d2 <- filter(all_hist, model=="PRIMAP", period>=2005, period<=2015, region==r, variable==v) %>% select(period, value)
+    d2$period  <- as.integer(d2$period)
+    d <- left_join(d1, d2, by=c('period'))
+    d <- mutate(d, diff=round(value.x/value.y, digits=2))
+    #d <- rbind(d1, d2)
+    g_hist <- ggplot(data=d) + 
+              geom_point(aes(x=period, y=value.x, colour="model"), show.legend = TRUE) +
+              geom_point(aes(x=period, y=value.y, colour="PRIMAP"), show.legend = TRUE) +
+              geom_line(aes(x=period, y=value.x, colour="model")) +
+              geom_line(aes(x=period, y=value.y, colour="PRIMAP"),linetype=2) +
+              geom_text(aes(x=period, y=diff, label=diff)) +
+              facet_wrap(~model) +
+              theme_bw() +
+              ylim(0,NA) + 
+              xlab("Year") +
+              ylab("MtCO2eq") +
+              scale_x_continuous(breaks=seq(2005, 2015, 5)) +
+              scale_colour_manual(name="Source", values=c(model="cornflowerblue", PRIMAP="darkgrey")) +
+              ggtitle(paste(r, "-", v, sep=""))
+    gg_hist <- plot(g_hist)
+    ggsave(file=paste("graphs/hist/check_hist_", v, "_", r, ".png", sep=""),gg_hist, height=10, width=15)
+  }
 }
 
 # check final energy
