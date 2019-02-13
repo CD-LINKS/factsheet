@@ -6,22 +6,46 @@ variables <- "variables_neutrality"
 adjust <- "adjust_reporting_empty" #no adjust reporting for paper? also skip add_variables
 source("load_data.R")
 
-mods=unique(all[period=="2010"& variable=="Emissions|CO2"& region=="EU" & value>1000,model,with=TRUE])
-all2=subset(all, model %in% mods & region=="EU")
-all=rbind(subset(all, !region=="EU"),all2)
+# Change scenario names for paper -----------------------------------------
+all$Category=str_replace_all(all$Category,"NoPOL","No policy")
+all$Category=str_replace_all(all$Category,"INDC","NDC")
+all$Category=str_replace_all(all$Category,"NPip","National policies planned")
+all$Category=str_replace_all(all$Category,"NPi","National policies")
+all$Category=str_replace_all(all$Category,"2020_low","2 °C")
+all$Category=str_replace_all(all$Category,"2020_verylow","1.5 °C")
+all$Category=str_replace_all(all$Category,"2030_low","2 °C (2030)")
 
-# Removing MESSAGE model for India, as MESSAGE has South Asia, not India separately
-India = all[region=="India"]
+# And region names
+#all$region=str_replace_all(all$region,"R5OECD90+EU","OECD90+EU")
+oecd=all[region=="R5OECD90+EU"]
+oecd$region<-"OECD90+EU"
+all=all[!region=="R5OECD90+EU"]
+all=rbind(all,oecd)
+all$region=str_replace_all(all$region,"R5REF","Reforming")
+all$region=str_replace_all(all$region,"R5MAF","ME+Africa")
+all$region=str_replace_all(all$region,"R5LAM","Latin America")
+all$region=str_replace_all(all$region,"R5ASIA","Asia")
+
+# Data preparation --------------------------------------------------------
+np=all
+
+# keep only models with reasonable EU emissions
+mods=unique(np[period=="2010"& variable=="Emissions|CO2"& region=="EU" & value>1000,model,with=TRUE])
+np2=subset(np, model %in% mods & region=="EU")
+np=rbind(subset(np, !region=="EU"),np2)
+
+# Removing MESSAGE model for India, as MESSAGE has South Asia, not India separately - or use adjust reporting Mark!
+India = np[region=="India"]
 India = India[!model=="MESSAGE V.4"]
-all=rbind(subset(all, !region=="India"),India)
+np=rbind(subset(np, !region=="India"),India)
 
 # Removing MESSAGE model for EU, as MESSAGE has EU including Turkey
-EU = all[region=="EU"]
+EU = np[region=="EU"]
 EU = EU[!model=="MESSAGE V.4"]
-all=rbind(subset(all, !region=="EU"),EU)
+np=rbind(subset(np, !region=="EU"),EU)
 
 # write output: overview of original scenarios per category, model and region
-u=all[,list(unique(scenario)),by=c("model","Category","region")]
+u=np[,list(unique(scenario)),by=c("model","Category","region")]
 write.csv(u,paste("Neutrality","/Scenario overview.csv",sep=""))
 
 
@@ -35,7 +59,7 @@ write.csv(u,paste("Neutrality","/Scenario overview.csv",sep=""))
 
 ### Policy brief ###
 #2c: phase-out years for NPi1000 for world and major / R5 regions
-poy=all[Category=="2 °C"&variable%in%c("Emissions|CO2")&Scope=="global"&region%in%c("World","Reforming","OECD90+EU","ME+Africa","Latin America","Asia")] #!region=="Bunkers"
+poy=np[Category=="2 °C"&variable%in%c("Emissions|CO2"&"Emissions|Kyoto Gases")&Scope=="global"&!region%in%c("World","Reforming","OECD90+EU","ME+Africa","Latin America","Asia")] #!region=="Bunkers"
 check=poy[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 poy=poy[model%in%check$model]
@@ -48,7 +72,7 @@ poyrange=data.table(poy[,list(median=median(value),min=quantile(value,prob=0.1,n
 poyrange$unit<-"Mt CO2-equiv/yr"
 
 F2c=ggplot(poyrange)
-#F2c=F2c+facet_grid(~variable,scale="fixed")
+F2c=F2c+facet_grid(~variable,scale="fixed")
 F2c=F2c+geom_point(aes(x=region,y=median,colour=Category),size=5) #,colour="#a50000"
 F2c=F2c+geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=unit))
 F2c=F2c+coord_flip()
