@@ -14,6 +14,7 @@ library(ggplot2)    # ggplot
 library(rmarkdown)  # render pdf
 library(directlabels) # year labels for scatter plots
 library(stringr) #str_replace_all
+library(tidyverse)
 
 #set working directory for R right if it is not by default (it is the right one by default if you open Rstudio by clicking on this main.R file)
 #setwd("~/disks/local/factsheet/src")
