@@ -27,6 +27,35 @@ if(!file.exists(outdir)) {
 }
 
 # Prepare data for use ----------------------------------------------------
+#IMAGE reporting only for effort sharing variables, need to get GDP and emissions from NPi2020_1000 (only works if 'all' exists in workspace - by running load_data)
+image=all[model=="IMAGE 3.0"&scenario=="NPi2020_1000_V4"]
+image$Baseline<-NULL
+image$Category<-NULL
+image$Scope<-NULL
+setcolorder(image,c("model","scenario","region","variable","unit","period","value"))
+image1=image
+image$scenario<-"NPi2020_1000_domestic_CO"
+image1$scenario<-"NPi2020_1000_flexibility_CO"
+data=rbind(data,image)
+#IMAGE allowance allocation data mistakenly reported in Gt instead of Mt
+data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"]$value <- data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"]$value*1000
+# IMAGE use CO GDP also for effort sharing scenarios
+ig <- data[model=="IMAGE 3.0"&variable=="GDP|MER"&scenario=="NPi2020_1000_domestic_CO"]
+ig1=ig
+ig2=ig
+ig3=ig
+ig4=ig
+ig5=ig
+ig6=ig
+ig1$scenario <- "NPi2020_1000_domestic_AP_V4"
+ig2$scenario <- "NPi2020_1000_flexibility_AP_V4"
+ig3$scenario <- "NPi2020_1000_domestic_PCC_V4"
+ig4$scenario <- "NPi2020_1000_flexibility_PCC_V4"
+ig5$scenario <- "NPi2020_1000_domestic_GF_V4"
+ig6$scenario <- "NPi2020_1000_flexibility_GF_V4"
+data <- rbind(data,ig1,ig2,ig3,ig4,ig5,ig6)
+
+#add implementation and regime for easier selection
 data$implementation<-""
 data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_CO","NPi2020_1000_domestic_GF",
                    "NPi2020_1000_domestic_PCC", "NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_GF_V4",
@@ -41,9 +70,6 @@ data[scenario%in%c("NPi2020_1000_domestic_GF","NPi2020_1000_domestic_GF_V4","NPi
 data[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO")]$regime<-"CO"
 
 data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA")] #,"ARG","AUS","CAN","MEX","IDN","ROK","SAF","SAU","TUR",
-
-#IMAGE allowance allocation data mistakenly reported in Gt instead of Mt
-data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"]$value <- data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"]$value*1000
 
 # Initial allocation ------------------------------------------------------
 allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"]
@@ -73,11 +99,7 @@ ggsave(file=paste(outdir,"/GHGemissions.png",sep=""),e,width=20,height=12,dpi=20
 
 
 # Trade ---------------------------------------------------------
-# TODO For carbon prices and trade, I find it also useful to plot all regions for one scenario-model combination into one graph, 
-# you then see the net importers/exporters in the flexibility cases, and differentiated carbon prices in the domestic one. 
-# TODO total financial flows 2030, 2050?
-
-#Value
+###Value
 finflow = data[variable=="Trade|Emissions Allowances|Value"]
 
 f = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"])
@@ -87,6 +109,7 @@ f = f + theme_bw()
 f = f + ylab(finflow$unit)
 ggsave(file=paste(outdir,"/Trade-allowances-value.png",sep=""),f,width=20,height=12,dpi=200)
 
+# per model
 for(mod in unique(finflow$model)){
   f0 = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"])
   f0 = f0 + geom_bar(stat="identity", aes(x=region, y=value,fill=region),position="dodge")
@@ -97,6 +120,33 @@ for(mod in unique(finflow$model)){
   ggsave(file=paste(outdir,"/Trade-allowances-value_",mod,".png",sep=""),f0,width=20,height=12,dpi=200)
 }
 
+#total financial flows
+finflows = finflow[,list(sum(value)),by=c("model","variable","unit","period","implementation","regime")]
+setnames(finflows,"V1","value")
+finflows$variable<-"Total financial flows"
+finflowsstat=finflows[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
+                            min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime")]
+
+finflows$period<-as.factor(finflows$period)
+f5 = ggplot(finflows[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+f5 = f5 + geom_bar(stat="identity", aes(x=regime, y=value,fill=period),position="dodge")
+f5 = f5 + scale_fill_manual(values=c("2030"="dark blue","2050"="light blue","2100"="grey"))
+f5 = f5 + facet_grid(model~.,scale="free_y")
+f5 = f5 + theme_bw()
+f5 = f5 + ylab(finflows$unit)
+ggsave(file=paste(outdir,"/total_financial_flows_models.png",sep=""),f5,width=20,height=12,dpi=200)
+
+finflowsstat$period<-as.factor(finflowsstat$period)
+f5b = ggplot(finflowsstat[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+f5b = f5b + geom_bar(stat="identity", aes(x=regime, y=median,fill=period),position=position_dodge(width=0.66),width=0.66)
+f5b = f5b + geom_errorbar(aes(x=regime,ymin=min,ymax=max,colour=period),position=position_dodge(width=0.66),width=0.66)
+f5b = f5b + scale_fill_manual(values=c("2030"="dark blue","2050"="light blue","2100"="grey"))
+f5b = f5b + scale_colour_manual(values=c("2030"="black","2050"="black","2100"="black"))
+f5b = f5b + theme_bw()
+f5b = f5b + ylab(finflowsstat$unit)
+ggsave(file=paste(outdir,"/total_financial_flows.png",sep=""),f5b,width=20,height=12,dpi=200)
+
+# the other indicators
 f1 = ggplot(data[period%in%c(2030,2050,2100)&implementation=="flexibility"&variable=="Trade|Emissions|Value|Carbon|Absolute"])
 f1 = f1 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
 f1 = f1 + facet_grid(period~model)
@@ -125,7 +175,7 @@ f4 = f4 + theme_bw()
 f4 = f4 + ylab(data[variable=="Trade|Emissions|Value|Carbon|Net Exports"]$unit)
 ggsave(file=paste(outdir,"/Trade-carbon_value-net exports.png",sep=""),f4,width=20,height=12,dpi=200)
 
-#Volume
+###Volume
 trade = data[variable=="Trade|Emissions Allowances|Volume"]
 
 t = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"])
@@ -135,6 +185,7 @@ t = t + theme_bw()
 t = t + ylab(trade$unit)
 ggsave(file=paste(outdir,"/Trade-allowances-volume.png",sep=""),t,width=20,height=12,dpi=200)
 
+# per model
 for(mod in unique(trade$model)){
   t0 = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"])
   t0 = t0 + geom_bar(stat="identity", aes(x=region, y=value,fill=region),position="dodge")
@@ -145,6 +196,7 @@ for(mod in unique(trade$model)){
   ggsave(file=paste(outdir,"/Trade-allowances-volume_",mod,".png",sep=""),t0,width=20,height=12,dpi=200)
 }
 
+#the other indicators
 t1 = ggplot(data[period%in%c(2030,2050,2100)&implementation=="flexibility"&variable=="Trade|Emissions|Volume|Carbon|Absolute"])
 t1 = t1 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
 t1 = t1 + facet_grid(period~model)
@@ -186,7 +238,7 @@ price=data[variable=="Price|Carbon"]
 price[model=="AIM/CGE[Japan]"]$model<-"AIM-CGE[Japan]"
 price[model=="AIM/Enduse[Japan]"]$model<-"AIM-Enduse[Japan]"
 for(mod in unique(price$model)){  
-  p0 = ggplot(price[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+  p0 = ggplot(price[period%in%c(2030,2050,2100)]) #&implementation=="flexibility"
   p0 = p0 + geom_path(aes(x=period, y=value,colour=region))
   p0 = p0 + facet_grid(implementation~regime)
   p0 = p0 + theme_bw()
@@ -195,38 +247,49 @@ for(mod in unique(price$model)){
   ggsave(file=paste0(outdir,"/carbonprice_",mod,".png"),p0,width=20,height=12,dpi=200)
 }
 
-# Policy costs as % of GDP (which policy cost indicator? Now one per model, but check with teams - TODO)
-# Check who reports what
+# Policy costs as % of GDP (one policy cost indicator per model, but check with teams (TODO). 1) GDP loss, 2) direct costs (energy system, MAC), 3) consumption loss)
+# Check who reports what and make ranking of variables to use
 costvar = data[variable%in%c("Policy Cost|Welfare Change","Policy Cost|Additional Total Energy System Cost","Policy Cost|Area under MAC Curve","Policy Cost|Consumption Loss",
                            "Policy Cost|Equivalent Variation","Policy Cost|GDP Loss","Policy Cost|Other","Policy Cost|Default for CAV")]
-costvar = costvar[,list(unique(variable)),by=c("model")]
-#Other options: "Policy Cost|Welfare Change","Policy Cost|Equivalent Variation","Policy Cost|Other","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve"
+costvar = costvar[,list(variable=unique(variable)),by=c("model")]
+costvar$select=ifelse(costvar$variable=="Policy Cost|GDP Loss",1,ifelse(costvar$variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Area under MAC Curve"),
+                                                                  2,ifelse(costvar$variable=="Policy Cost|Consumption Loss",3,4)))
+costvar=costvar[select<4]
+costvars=costvar[,list(select=min(select)),by=c("model")]
+costvars=merge(costvars,costvar,by=c("select","model"))
+costvars$select<-NULL
 
-# One per model, divide by GDP
-costs = data[variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Consumption Loss","Policy Cost|Default for CAV","GDP|MER")] 
-costs = costs[!c(model=="WITCH2016"&variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Consumption Loss"))]
-costs = spread(costs,variable,value) #to be fixed
-costs = costs%>%mutate(ATESC=`Policy Cost|Additional Total Energy System Cost`/`GDP|MER`*100,Consloss=`Policy Cost|Consumption Loss`/`GDP|MER`*100,default=`Policy Cost|Default for CAV`/`GDP|MER`*100)
-costs = gather(costs,variable,value,c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Consumption Loss","Policy Cost|Default for CAV","GDP|MER",
-                                      "ATESC",'Consloss',"default"))
-costs = costs[variable%in%c("ATESC","Consloss","default")]
+# One variable per model, divide by GDP
+costs = data[variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve")] 
+costs = merge(costs,costvars,by=c("variable","model"))
+gdp = data[variable=="GDP|MER"]
+gdp$unit <- unique(costs$unit)
+costs = rbind(costs,gdp)
+costs[variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve")]$variable<-"Policy Cost"
+costs = spread(costs,variable,value) 
+costs = costs%>%mutate(CostGDP=`Policy Cost`/`GDP|MER`*100)
+costs = data.table(gather(costs,variable,value,c("Policy Cost","GDP|MER","CostGDP")))
+costs = costs[variable%in%c("CostGDP")]
 costs$unit <- '%'
+setnames(costvars,"variable","costvariable")
+costs=merge(costs,costvars,by=c("model"))
 
 c = ggplot(costs[implementation=="flexibility"])
-c = c + geom_path(aes(x=period,y=value,colour=regime,linetype=model))
-c = c + facet_grid(variable~region,scale="free_y")
+c = c + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable))
+c = c + facet_grid(model~region,scale="free_y")
 c = c + theme_bw()
 c = c + ylab(costs$unit)
+ggsave(file=paste(outdir,"/costs_GDP_flexibility.png",sep=""),c,width=20,height=12,dpi=200)
   
 c1 = ggplot(costs[implementation=="domestic"])
-c1 = c1 + geom_path(aes(x=period,y=value,colour=regime,linetype=model))
-c1 = c1 + facet_grid(variable~region,scale="free_y")
+c1 = c1 + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable))
+c1 = c1 + facet_grid(model~region,scale="free_y")
 c1 = c1 + theme_bw()
 c1 = c1 + ylab(costs$unit)
+ggsave(file=paste(outdir,"/costs_GDP_domestic.png",sep=""),c1,width=20,height=12,dpi=200)
 
-
-# and costs Annex I / non-Annex I, X 2030 & 2050, facet/dodge trade/no trade, fill regime. horizontal line at 1
-
+# TODO and costs Annex I fraction GDP / fraction GDP non-Annex I, X 2030 & 2050, facet/dodge trade/no trade, fill regime. horizontal line at 1
+# TODO and cost ratio vs. financial flows
 
 # Socioeconomic impacts ---------------------------------------------------
 
@@ -235,4 +298,4 @@ c1 = c1 + ylab(costs$unit)
 
 # Technologies employed ---------------------------------------------------
 
-#National models?
+#National models? TODO
