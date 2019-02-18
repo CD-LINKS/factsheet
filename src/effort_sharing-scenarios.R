@@ -33,10 +33,11 @@ image$Baseline<-NULL
 image$Category<-NULL
 image$Scope<-NULL
 setcolorder(image,c("model","scenario","region","variable","unit","period","value"))
+image$period<-as.numeric(image$period)
 image1=image
 image$scenario<-"NPi2020_1000_domestic_CO"
 image1$scenario<-"NPi2020_1000_flexibility_CO"
-data=rbind(data,image)
+data=rbind(data,image,image1)
 #IMAGE allowance allocation data mistakenly reported in Gt instead of Mt
 data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"]$value <- data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"]$value*1000
 # IMAGE use CO GDP also for effort sharing scenarios
@@ -87,7 +88,7 @@ ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=1
 # TODO Another indicator to look at is just emissions: first you can check how much the global profiles are still met in the flexibility cases, 
 # and in the domestic scenarios, you might have lower global emissions due to hot air, or higher due to the infeasibilities in your model 
 # (if I understand correctly, infeasibility in IMAGE means you hit the max allowable carbon price of 1200$/t CO2.
-# TODO reductions relative to 2010! relative to baseline?
+# TODO reductions relative to baseline? (get NoPolicy from 'all' - only Kyoto Gases)
 # TODO check cumulative emissions in line with carbon budgets?
 
 e = ggplot(data[variable=="Emissions|Kyoto Gases"]) #&!region=="World"
@@ -97,6 +98,29 @@ e = e + theme_bw()
 e = e + ylab(data[variable=="Emissions|Kyoto Gases"]$unit)
 ggsave(file=paste(outdir,"/GHGemissions.png",sep=""),e,width=20,height=12,dpi=200)
 
+# Reduction targets
+targets=data[variable=="Emissions|Kyoto Gases"&period%in%c(2010,2030,2050)]
+targets=spread(targets,period,value)
+targets=targets%>%mutate(rel2030=(`2030`-`2010`)/`2010`*100,rel2050=(`2050`-`2010`)/`2010`*100)
+targets=data.table(gather(targets,period,value,c("2010","2030","2050","rel2030","rel2050")))
+targets=targets[period%in%c("rel2030","rel2050")]
+targets$unit<-"%"  
+targets$period=str_replace_all(targets$period,"rel2030","2030")
+targets$period=str_replace_all(targets$period,"rel2050","2050")
+
+e1 = ggplot(targets[period==2030]) #[implementation=="flexibility"]
+e1 = e1 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+e1 = e1 + facet_grid(implementation~model)
+e1 = e1 + theme_bw()
+e1 = e1 + ylab(targets$unit)
+ggsave(file=paste(outdir,"/emissiontargets2030.png",sep=""),e1,width=20,height=12,dpi=200)
+
+e2 = ggplot(targets[period==2050]) #[implementation=="flexibility"]
+e2 = e2 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+e2 = e2 + facet_grid(implementation~model)
+e2 = e2 + theme_bw()
+e2 = e2 + ylab(targets$unit)
+ggsave(file=paste(outdir,"/emissiontargets2050.png",sep=""),e2,width=20,height=12,dpi=200)
 
 # Trade ---------------------------------------------------------
 ###Value
@@ -289,6 +313,9 @@ c1 = c1 + ylab(costs$unit)
 ggsave(file=paste(outdir,"/costs_GDP_domestic.png",sep=""),c1,width=20,height=12,dpi=200)
 
 # TODO and costs Annex I fraction GDP / fraction GDP non-Annex I, X 2030 & 2050, facet/dodge trade/no trade, fill regime. horizontal line at 1
+# OECD countries (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
+# Or R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF ?
+
 # TODO and cost ratio vs. financial flows
 
 # Socioeconomic impacts ---------------------------------------------------
