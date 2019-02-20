@@ -14,7 +14,7 @@ library(ggplot2)    # ggplot
 library(rmarkdown)  # render pdf
 library(directlabels) # year labels for scatter plots
 library(stringr) #str_replace_all
-library(tidyverse)
+#library(tidyverse)
 
 #set working directory for R right if it is not by default (it is the right one by default if you open Rstudio by clicking on this main.R file)
 #setwd("~/disks/local/factsheet/src")
@@ -30,6 +30,10 @@ if(!exists("scencateg")){
 }
 if(!exists("adjust")){
   stop("Please specify 'adjust', i.e. the name of the src/adjust_reporting_....R file you want to use (without the extension)")
+}
+
+if(!exists("addvars")){
+  stop("Please set flag 'addvars' to TRUE or FALSE, i.e. whether you want to add calculated indicators from reported variables (takes some time)")
 }
 
 #source configuration file for region-specific data
@@ -128,8 +132,10 @@ all_check4 <- all
   source(paste(adjust,".R",sep=""))  
   
   #### add variables
+  if(addvars){
   all <- add_variables(all,scens)
-  
+  }
+
   #set scope to "national" for national models
   all[all$model %in% cfg$models_nat,]$Scope <- "national"
   #change model name for national models, so that they appear first
