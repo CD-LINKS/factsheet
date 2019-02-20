@@ -3,7 +3,8 @@ setwd("~/disks/local/factsheet/src")
 config <-"config_xCut"
 scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
-adjust <- "adjust_reporting_empty" #no adjust reporting for paper? also skip add_variables
+adjust <- "adjust_reporting_neutrality"
+addvars <- F
 source("load_data.R")
 
 # Change scenario names for paper -----------------------------------------
@@ -16,7 +17,6 @@ all$Category=str_replace_all(all$Category,"2020_verylow","1.5 °C")
 all$Category=str_replace_all(all$Category,"2030_low","2 °C (2030)")
 
 # And region names
-#all$region=str_replace_all(all$region,"R5OECD90+EU","OECD90+EU")
 oecd=all[region=="R5OECD90+EU"]
 oecd$region<-"OECD90+EU"
 all=all[!region=="R5OECD90+EU"]
@@ -27,22 +27,8 @@ all$region=str_replace_all(all$region,"R5LAM","Latin America")
 all$region=str_replace_all(all$region,"R5ASIA","Asia")
 
 # Data preparation --------------------------------------------------------
-np=all
-
-# keep only models with reasonable EU emissions
-mods=unique(np[period=="2010"& variable=="Emissions|CO2"& region=="EU" & value>1000,model,with=TRUE])
-np2=subset(np, model %in% mods & region=="EU")
-np=rbind(subset(np, !region=="EU"),np2)
-
-# Removing MESSAGE model for India, as MESSAGE has South Asia, not India separately - or use adjust reporting Mark!
-India = np[region=="India"]
-India = India[!model=="MESSAGE V.4"]
-np=rbind(subset(np, !region=="India"),India)
-
-# Removing MESSAGE model for EU, as MESSAGE has EU including Turkey
-EU = np[region=="EU"]
-EU = EU[!model=="MESSAGE V.4"]
-np=rbind(subset(np, !region=="EU"),EU)
+np=data.table(all)
+np=np[Scope=="global"]
 
 # write output: overview of original scenarios per category, model and region
 u=np[,list(unique(scenario)),by=c("model","Category","region")]
