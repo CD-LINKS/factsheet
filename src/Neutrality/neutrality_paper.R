@@ -3,7 +3,7 @@ setwd("~/disks/local/factsheet/src")
 config <-"config_xCut"
 scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
-adjust <- "adjust_reporting_neutrality"
+adjust <- "adjust_reporting_neutrality" # TODO to decide: remove MESSAGE for China and India due to region definition?
 addvars <- F
 source("load_data.R")
 
@@ -17,18 +17,18 @@ all$Category=str_replace_all(all$Category,"2020_verylow","1.5 °C")
 all$Category=str_replace_all(all$Category,"2030_low","2 °C (2030)")
 
 # And region names
-oecd=all[region=="R5OECD90+EU"]
-oecd$region<-"OECD90+EU"
-all=all[!region=="R5OECD90+EU"]
-all=rbind(all,oecd)
-all$region=str_replace_all(all$region,"R5REF","Reforming")
-all$region=str_replace_all(all$region,"R5MAF","ME+Africa")
-all$region=str_replace_all(all$region,"R5LAM","Latin America")
-all$region=str_replace_all(all$region,"R5ASIA","Asia")
+# oecd=all[region=="R5OECD90+EU"]
+# oecd$region<-"OECD90+EU"
+# all=all[!region=="R5OECD90+EU"]
+# all=rbind(all,oecd)
+# all$region=str_replace_all(all$region,"R5REF","Reforming")
+# all$region=str_replace_all(all$region,"R5MAF","ME+Africa")
+# all$region=str_replace_all(all$region,"R5LAM","Latin America")
+# all$region=str_replace_all(all$region,"R5ASIA","Asia")
 
 # Data preparation --------------------------------------------------------
 np=data.table(all)
-np=np[Scope=="global"]
+np=np[Scope=="global"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5REF","R5OECD90+EU")]
 
 # write output: overview of original scenarios per category, model and region
 u=np[,list(unique(scenario)),by=c("model","Category","region")]
@@ -36,277 +36,56 @@ write.csv(u,paste("Neutrality","/Scenario overview.csv",sep=""))
 
 
 # Regional phase-out years ------------------------------------------------
-
-# TODO: continue cleaning up / selecting / adjusting from here
-# GHG vs. CO2, fossil/energy vs. including land
-# Graph like Joeri’s
-# Only individual regions, not R5
+# GHG vs. CO2, TODO: fossil/energy vs. including land
+# TODO: Graph like Joeri’s
 # See functions - pbl_colors.r?
 
-### Policy brief ###
-#2c: phase-out years for NPi1000 for world and major / R5 regions
-poy=np[Category=="2 °C"&variable%in%c("Emissions|CO2"&"Emissions|Kyoto Gases")&Scope=="global"&!region%in%c("World","Reforming","OECD90+EU","ME+Africa","Latin America","Asia")] #!region=="Bunkers"
-check=poy[,list(unique(period)),by=c("model")]
-check=check[V1=="2100"]
-poy=poy[model%in%check$model]
-poy2=poy[!duplicated(poy[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE]
-poy=merge(poy2,poy[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
-poy[is.na(V1),]$V1=2100
-setnames(poy,"V1","value")
-poy$value=as.numeric(poy$value)
-poyrange=data.table(poy[,list(median=median(value),min=quantile(value,prob=0.1,na.rm = T),max=quantile(value,prob=0.9,na.rm = T)),by=c("Category","region","unit","variable")])
-poyrange$unit<-"Mt CO2-equiv/yr"
-
-F2c=ggplot(poyrange)
-F2c=F2c+facet_grid(~variable,scale="fixed")
-F2c=F2c+geom_point(aes(x=region,y=median,colour=Category),size=5) #,colour="#a50000"
-F2c=F2c+geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=unit))
-F2c=F2c+coord_flip()
-F2c=F2c+scale_colour_manual(name="Statistics",values=c("2 °C"="#a50000","Mt CO2-equiv/yr"="black"),labels=c("2 °C"="median","Mt CO2-equiv/yr"="10-90 percentile range"))
-F2c=F2c+theme_bw()+theme(strip.text=element_text(size=20),axis.text=element_text(size=20),plot.title = element_text(size=22),legend.text=element_text(size=16),legend.title=element_text(size=18)) #,axis.text.x=element_text(angle=45)
-F2c=F2c+theme(legend.position = c(0.2,0.1))
-F2c=F2c+ggtitle(bquote(paste("c) Phase-out year of ",CO[2], " emissions")))
-F2c=F2c+ylab("")  + xlab("")
-ggsave(file=paste0(cfg$outdir,"/","F2c",".png"),F2c, width=11, height=8, dpi=300)
-
-### CLIMA/MILES ###
-dt=dat[Variable %in% c("Emissions|Kyoto Gases") & Scenario %in% c("Delayed 450","Delayed 450_2030")] #"Optimal 450", ,"Realistic 450"
-write.csv(dt,paste(outt,"/GHG_delayed_fullset.csv",sep=""))
-write.xlsx(dt,paste(outt,"/GHG_delayed_fullset.xlsx",sep=""))
-
-# To make sure we only use the models with data until 2100, important for this indicator
-check=dt[,list(unique(Year)), by=c("Model")]
-check=subset(check, subset=V1=="2100")
-dt=subset(dt, subset=Model %in% check$Model)
-write.csv(dt,paste(outt,"/GHG_delayed_2100.csv",sep=""))
-write.xlsx(dt,paste(outt,"/GHG_delayed_2100.xlsx",sep=""))
-
-poy=dt[!duplicated(dt[,list(Model,Scenario,Region,Variable),with=TRUE]),!c('value','Year'),with=FALSE]
-poy=merge(poy,dt[value<=0,min(Year),by=c('Model','Scenario_original', 'Scenario','Region','Variable')],by=c('Model','Scenario_original','Scenario','Region','Variable'),all=TRUE)
-poy$V1=as.factor(poy$V1)
-poy[is.na(V1),]$V1="No phase out"
-write.csv(poy,paste(outt,"/POY_GHG_delayed_2100.csv",sep=""))
-write.xlsx(poy,paste(outt,"/POY_GHG_delayed_2100.xlsx",sep=""))
-
-#poy=na.omit(poy)
-models=poy[,list(number=length(unique(Model))),by=c('Region','Variable')]
-poy=merge(poy, models, by=c('Region','Variable'))
-poy$Region <- paste(poy$Region,' [',poy$number,' models]',sep="")
-
-#check if each scenario category has only one scenario
-check=poy[,list(number=length(unique(Scenario_original))),by=c('Model','Scenario','Region')]
-
-# !! Mean per scenario category per model - fix (doesn't work with factor) !!
-#poy=poy[,mean(V1,na.rm=TRUE),by=c('Scenario','Region','Variable','Model')]
-
-# poy=poy[Region%in%c("USA [4 models]","Turkey [1 models]","South Korea [1 models]","South Africa [1 models]",
-#          "Russia [2 models]","Mexico [1 models]","Japan [2 models]","Indonesia [1 models]","India [3 models]",
-#          "EU [4 models]","China [4 models]","Canada [1 models]","Brazil [1 models]")]
-
-S = ggplot()
-S = S + geom_point(data=poy, aes(y=Region, x=V1, colour=Model, shape=Model), size=4)
-S = S + scale_shape_manual(values=c("POLES 2014" = 1, "REMIND 1.5" = 2, "MESSAGE V.4" = 3,
-                                    "DNE21+ V.12A" = 4, "WITCH2013" = 5, "IMAGE 2.4" = 6, 
-                                    "GEM-E3_V1" = 7, "GEM-E3_IPTS_World" = 8, "DNE21+ V.12E" = 9,
-                                    "GCAM4"=10, "GCAM_LAMP" =11, "POLES AMPERE" = 12, "POLES EMF27" = 13
-                                    #,"DNE21+ V.MILES" = 14, "MESSAGE-Brazil v.1.3" = 15, "PRIMES_V1" = 16, "REMIND 1.6" = 17
-))
-S = S + facet_grid(.~Scenario, scales="free_y")
-S = S + scale_x_discrete(limits=c("2005", "2010","2015", "2020","2025", "2030","2035" , "2040", "2045","2050","2055", "2060","2065","2070","2075","2080","2085","2090","2095" ,"2100","No phase out"),
-                         breaks=c("2010", "2020", "2030", "2040", "2050","2060","2070","2080","2090","2100","No phase out"))
-S = S + ggtitle(bquote("Phase-out year Kyoto gas emissions"))
-S = S + xlab("Phase out year")
-S = S + theme_bw()
-S = S + theme(axis.text.y=element_text(angle=45, size=16))
-S = S + theme(strip.text.x=element_text(size=14))
-S = S + theme(axis.title=element_text(size=18))
-S = S + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
-S = S + theme(plot.title=element_text(size=18))
-ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_450_reg.png",sep=""),S,width=11, height=8, dpi=120)
-#ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_450_reg_exPOLES.png",sep=""),S,width=11, height=8, dpi=120)
-#ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_450_exPOLES.png",sep=""),S,width=11, height=8, dpi=120)
-
-### repeat for first calculating mean per model
-
-dt=dt[,mean(value,na.rm=TRUE),by=c('Scenario','Model','Region','Variable','Unit','Year')]
-setnames(dt,"V1","value")
-
-poy=dt[!duplicated(dt[,list(Model,Scenario,Region,Variable),with=TRUE]),!c('value','Year'),with=FALSE]
-poy=merge(poy,dt[value<=0,min(Year),by=c('Model','Scenario','Region','Variable')],by=c('Model','Scenario','Region','Variable'),all=TRUE)
-poy$V1=as.factor(poy$V1)
-poy[is.na(V1),]$V1="No phase out"
-write.csv(poy,paste(outt,"/POY_GHG_delayed_2100_1scenpermodel.csv",sep=""))
-write.xlsx(poy,paste(outt,"/POY_GHG_delayed_2100_1scenpermodel.xlsx",sep=""))
-
-#poy=na.omit(poy)
-models=poy[,list(number=length(unique(Model))),by=c('Region','Variable')]
-poy=merge(poy, models, by=c('Region','Variable'))
-poy$Region <- paste(poy$Region,' [',poy$number,' models]',sep="")
-poy=poy[!number<2]
-
-# poy=poy[Region%in%c("USA [4 models]","Turkey [1 models]","South Korea [1 models]","South Africa [1 models]",
-#          "Russia [2 models]","Mexico [1 models]","Japan [2 models]","Indonesia [1 models]","India [3 models]",
-#          "EU [4 models]","China [4 models]","Canada [1 models]","Brazil [1 models]")]
-
-S = ggplot()
-S = S + geom_point(data=poy, aes(y=Region, x=V1, colour=Model, shape=Model), size=4)
-S = S + scale_shape_manual(values=c("POLES 2014" = 1, "REMIND 1.5" = 2, "MESSAGE V.4" = 3,
-                                    "DNE21+ V.12A" = 4, "WITCH2013" = 5, "IMAGE 2.4" = 6, 
-                                    "GEM-E3_V1" = 7, "GEM-E3_IPTS_World" = 8, "DNE21+ V.12E" = 9,
-                                    "GCAM4"=10, "GCAM_LAMP" =11, "POLES AMPERE" = 12, "POLES EMF27" = 13
-                                    #,"DNE21+ V.MILES" = 14, "MESSAGE-Brazil v.1.3" = 15, "PRIMES_V1" = 16, "REMIND 1.6" = 17
-))
-S = S + facet_grid(.~Scenario, scales="free_y")
-S = S + scale_x_discrete(limits=c("2005", "2010","2015", "2020","2025", "2030","2035" , "2040", "2045","2050","2055", "2060","2065","2070","2075","2080","2085","2090","2095" ,"2100","No phase out"),
-                         breaks=c("2010", "2020", "2030", "2040", "2050","2060","2070","2080","2090","2100","No phase out"))
-S = S + ggtitle(bquote("Phase-out year Kyoto gas emissions"))
-S = S + xlab("Phase out year")
-S = S + theme_bw()
-S = S + theme(axis.text.y=element_text(angle=45, size=16))
-S = S + theme(strip.text.x=element_text(size=14))
-S = S + theme(axis.title=element_text(size=18))
-S = S + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
-S = S + theme(plot.title=element_text(size=18))
-ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_450_reg_1scenpermodel.png",sep=""),S,width=11, height=8, dpi=120)
-
 ### relative to global ###
-poy=dt[!duplicated(dt[,list(Model,Scenario,Region,Variable),with=TRUE]),!c('value','Year'),with=FALSE]
-poy=merge(poy,dt[value<=0,min(Year),by=c('Model','Scenario','Region','Variable')],by=c('Model','Scenario','Region','Variable'),all=TRUE)
+ghg=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CO2")]
+check=ghg[,list(unique(period)),by=c("model")]
+check=check[V1=="2100"]
+ghg=ghg[model%in%check$model]
+
+poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
+poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
 poy[is.na(V1),]$V1=2105
-world=poy[Region=="World"]
-poy=merge(poy,world, by=c("Model","Scenario","Variable","Unit"))
+world=poy[region=="World"]
+poy=merge(poy,world, by=c("model","Category","variable","unit"))
 setnames(poy,"V1.x","poy")
 setnames(poy,"V1.y","world")
-poy$Region.y<-NULL
-setnames(poy,"Region.x","Region")
+poy$region.y<-NULL
+setnames(poy,"region.x","region")
 poy$diff=ifelse(poy$poy<poy$world,"earlier",ifelse(poy$poy>poy$world,"later","same"))
 poy$years=poy$poy-poy$world
 
-models=poy[,list(number=length(unique(Model))),by=c('Region','Variable')]
-poy=merge(poy, models, by=c('Region','Variable'))
-poy$Region <- paste(poy$Region,' [',poy$number,' models]',sep="")
+models=poy[,list(number=length(unique(model))),by=c('region','variable')]
+poy=merge(poy, models, by=c('region','variable'))
+poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
 poy=poy[!number<2]
 
+poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","unit","variable")])
+
 S = ggplot()
-S = S + geom_point(data=poy[Scenario=="Delayed 450"], aes(y=Region, x=years, colour=Model, shape=Model), size=4)
-S = S + scale_shape_manual(values=c("POLES 2014" = 1, "REMIND 1.5" = 2, "MESSAGE V.4" = 3,
-                                    "DNE21+ V.12A" = 4, "WITCH2013" = 5, "IMAGE 2.4" = 6, 
-                                    "GEM-E3_V1" = 7, "GEM-E3_IPTS_World" = 8, "DNE21+ V.12E" = 9,
-                                    "GCAM4"=10, "GCAM_LAMP" =11, "POLES AMPERE" = 12, "POLES EMF27" = 13
-                                    #,"DNE21+ V.MILES" = 14, "MESSAGE-Brazil v.1.3" = 15, "PRIMES_V1" = 16, "REMIND 1.6" = 17
-))
-S = S + facet_grid(.~Scenario, scales="free_y")
-S = S + geom_vline(xintercept=0)
-#S = S + geom_rect()
-S = S + xlab("Phase out year relative to world (years)")
-S = S + scale_x_continuous(breaks=c(-50,-40,-30,-20,-10,0,10,20))
+S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [7 models]"], aes(ymin=min,ymax=max, x=region, colour=variable)) #variable as fill?
+S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [7 models]"], aes(y=median,x=region,colour=variable))
+S = S + coord_flip()
+S = S + facet_grid(.~Category, scales="free_y")
+#S = S + geom_vline(xintercept=0)
+S = S + ylab("Phase out year relative to world (years)")
+#S = S + scale_x_continuous(breaks=c(-50,-40,-30,-20,-10,0,10,20))
 S = S + theme_bw()
 S = S + theme(axis.text.y=element_text(angle=45, size=16))
 S = S + theme(strip.text.x=element_text(size=14))
 S = S + theme(axis.title=element_text(size=18))
 S = S + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
 S = S + theme(plot.title=element_text(size=18))
-ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_450_reg_1scenpermodel_diffworld.png",sep=""),S,width=11, height=8, dpi=120)
-
-### CO2 ###
-
-dt=dat[Variable %in% c("Emissions|CO2") & Scenario %in% c("Delayed 450","Delayed 450_2030")] #"Optimal 450", ,"Realistic 450"
-write.csv(dt,paste(outt,"/CO2_delayed_fullset.csv",sep=""))
-write.xlsx(dt,paste(outt,"/CO2_delayed_fullset.xlsx",sep=""))
-
-# To make sure we only use the models with data until 2100, important for this indicator
-check=dt[,list(unique(Year)), by=c("Model")]
-check=subset(check, subset=V1=="2100")
-dt=subset(dt, subset=Model %in% check$Model)
-write.csv(dt,paste(outt,"/CO2_delayed_2100.csv",sep=""))
-write.xlsx(dt,paste(outt,"/CO2_delayed_2100.xlsx",sep=""))
-
-poy=dt[!duplicated(dt[,list(Model,Scenario,Region,Variable),with=TRUE]),!c('value','Year'),with=FALSE]
-poy=merge(poy,dt[value<=0,min(Year),by=c('Model','Scenario_original', 'Scenario','Region','Variable')],by=c('Model','Scenario_original','Scenario','Region','Variable'),all=TRUE)
-poy$V1=as.factor(poy$V1)
-poy[is.na(V1),]$V1="No phase out"
-#poy=na.omit(poy)
-write.csv(poy,paste(outt,"/POY_CO2_delayed_2100.csv",sep=""))
-write.xlsx(poy,paste(outt,"/POY_CO2_delayed_2100.xlsx",sep=""))
-
-models=poy[,list(number=length(unique(Model))),by=c('Region','Variable')]
-poy=merge(poy, models, by=c('Region','Variable'))
-poy$Region <- paste(poy$Region,' [',poy$number,' models]',sep="")
-
-#check if each scenario category has only one scenario
-check=poy[,list(number=length(unique(Scenario_original))),by=c('Model','Scenario','Region')]
-
-# !! Mean per scenario category per model - fix (doesn't work with factor) !!
-#poy=poy[,mean(V1,na.rm=TRUE),by=c('Scenario','Region','Variable','Model')]
-
-S = ggplot()
-S = S + geom_point(data=poy, aes(y=Region, x=V1, colour=Model, shape=Model), size=4)
-S = S + scale_shape_manual(values=c("POLES 2014" = 1, "REMIND 1.5" = 2, "MESSAGE V.4" = 3,
-                                    "DNE21+ V.12A" = 4, "WITCH2013" = 5, "IMAGE 2.4" = 6, 
-                                    "GEM-E3_V1" = 7, "GEM-E3_IPTS_World" = 8, "DNE21+ V.12E" = 9,
-                                    "GCAM4"=10, "GCAM_LAMP" =11, "POLES AMPERE" = 12, "POLES EMF27" = 13
-                                    #,"DNE21+ V.MILES" = 14, "MESSAGE-Brazil v.1.3" = 15, "PRIMES_V1" = 16, "REMIND 1.6" = 17
-))
-S = S + facet_grid(.~Scenario, scales="free_y")
-S = S + scale_x_discrete(limits=c("2005", "2010","2015", "2020","2025", "2030","2035" , "2040", "2045","2050","2055", "2060","2065","2070","2075","2080","2085","2090","2095" ,"2100","No phase out"),
-                         breaks=c("2010", "2020", "2030", "2040", "2050","2060","2070","2080","2090","2100","No phase out"))
-S = S + ggtitle(bquote("Phase-out year"~CO[2]~"emissions"))
-S = S + xlab("Phase out year")
-S = S + theme_bw()
-S = S + theme(axis.text.y=element_text(angle=45, size=16))
-S = S + theme(strip.text.x=element_text(size=14))
-S = S + theme(axis.title=element_text(size=18))
-S = S + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
-S = S + theme(plot.title=element_text(size=18))
-ggsave(file=paste(out,"/Phase_out_year_all_CO2_450.png",sep=""),S,width=11, height=8, dpi=120)
-#ggsave(file=paste(out,"/Phase_out_year_all_CO2_450_exPOLES.png",sep=""),S,width=11, height=8, dpi=120)
-
-### repeat for first calculating mean per model
-
-dt=dt[,mean(value,na.rm=TRUE),by=c('Scenario','Model','Region','Variable','Unit','Year')]
-setnames(dt,"V1","value")
-
-poy=dt[!duplicated(dt[,list(Model,Scenario,Region,Variable),with=TRUE]),!c('value','Year'),with=FALSE]
-poy=merge(poy,dt[value<=0,min(Year),by=c('Model','Scenario','Region','Variable')],by=c('Model','Scenario','Region','Variable'),all=TRUE)
-poy$V1=as.factor(poy$V1)
-poy[is.na(V1),]$V1="No phase out"
-#poy=na.omit(poy)
-write.csv(poy,paste(outt,"/POY_CO2_delayed_2100_1scenpermodel.csv",sep=""))
-write.xlsx(poy,paste(outt,"/POY_CO2_delayed_2100_1scenpermodel.xlsx",sep=""))
-
-models=poy[,list(number=length(unique(Model))),by=c('Region','Variable')]
-poy=merge(poy, models, by=c('Region','Variable'))
-poy$Region <- paste(poy$Region,' [',poy$number,' models]',sep="")
-poy=poy[!number<2]
-
-S = ggplot()
-S = S + geom_point(data=poy, aes(y=Region, x=V1, colour=Model, shape=Model), size=4)
-S = S + scale_shape_manual(values=c("POLES 2014" = 1, "REMIND 1.5" = 2, "MESSAGE V.4" = 3,
-                                    "DNE21+ V.12A" = 4, "WITCH2013" = 5, "IMAGE 2.4" = 6, 
-                                    "GEM-E3_V1" = 7, "GEM-E3_IPTS_World" = 8, "DNE21+ V.12E" = 9,
-                                    "GCAM4"=10, "GCAM_LAMP" =11, "POLES AMPERE" = 12, "POLES EMF27" = 13
-                                    #,"DNE21+ V.MILES" = 14, "MESSAGE-Brazil v.1.3" = 15, "PRIMES_V1" = 16, "REMIND 1.6" = 17
-))
-S = S + facet_grid(.~Scenario, scales="free_y")
-S = S + scale_x_discrete(limits=c("2005", "2010","2015", "2020","2025", "2030","2035" , "2040", "2045","2050","2055", "2060","2065","2070","2075","2080","2085","2090","2095" ,"2100","No phase out"),
-                         breaks=c("2010", "2020", "2030", "2040", "2050","2060","2070","2080","2090","2100","No phase out"))
-S = S + ggtitle(bquote("Phase-out year"~CO[2]~"emissions"))
-S = S + xlab("Phase out year")
-S = S + theme_bw()
-S = S + theme(axis.text.y=element_text(angle=45, size=16))
-S = S + theme(strip.text.x=element_text(size=14))
-S = S + theme(axis.title=element_text(size=18))
-S = S + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
-S = S + theme(plot.title=element_text(size=18))
-ggsave(file=paste(out,"/Phase_out_year_all_CO2_450_1scenpermodel.png",sep=""),S,width=11, height=8, dpi=120)
-#ggsave(file=paste(out,"/Phase_out_year_all_CO2_450_exPOLES.png",sep=""),S,width=11, height=8, dpi=120)
-
-
+ggsave(file=paste(out,"/Phase_out_year_diffworld.png",sep=""),S,width=11, height=8, dpi=120)
 
 # Effect of LULUCF definitions --------------------------------------------
 
 #	Land CO2 in models vs. in inventories: effect on neutrality of different definitions 
 # Graph: ‘harmonisation’ effect on phase-out year (don't call it harmonisation)
+# TODO: continue cleaning up / selecting / adjusting from here
 
 ### MILES ###
 dt=dat[Variable %in% c("Emissions|Kyoto Gases","Emissions|CO2|Land Use") & Scenario %in% c("Delayed 450","Delayed 450_2030")] #"Optimal 450",,"Realistic 450"
