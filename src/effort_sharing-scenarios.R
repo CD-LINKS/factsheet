@@ -366,7 +366,7 @@ c2 = c2 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 c2 = c2 + ylab(costratio$variable)
 ggsave(file=paste(outdir,"/costratio_OECD_R5rest.png",sep=""),c2,width=20,height=12,dpi=200)
 
-# cost ratio vs. financial flows - update for native model regions financial flows? TODO
+# cost ratio vs. financial flows - update for native model regions financial flows? TODO: cdlinks_effort_sharing_native_20190226-141849
 costratiostat=costratio[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
                             min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime")]
 
