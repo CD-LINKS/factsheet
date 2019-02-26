@@ -76,9 +76,10 @@ allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World
 
 a = ggplot(allocation) #[period%in%c(2050)]
 #a = a + geom_bar(stat="identity", aes(x=regime, y=value,fill=implementation),position="dodge")
-a = a + geom_line(aes(x=period,y=value,colour=implementation,linetype=regime))
+a = a + geom_line(aes(x=period,y=value,linetype=implementation,colour=regime),size=2)
+a = a + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 a = a + facet_grid(region~model,scales="free_y")
-a = a + theme_bw()
+a = a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 a = a + ylab(allocation$unit)
 ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=12,dpi=200)
 
@@ -91,9 +92,10 @@ ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=1
 # TODO check cumulative emissions in line with carbon budgets?
 
 e = ggplot(data[variable=="Emissions|Kyoto Gases"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]) #&!region=="World"
-e = e + geom_line(aes(x=period,y=value,colour=implementation,linetype=regime))
+e = e + geom_line(aes(x=period,y=value,linetype=implementation,colour=regime),size=1)
+e = e + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 e = e + facet_grid(region~model,scales="free_y")
-e = e + theme_bw()
+e = e + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 e = e + ylab(data[variable=="Emissions|Kyoto Gases"]$unit)
 ggsave(file=paste(outdir,"/GHGemissions.png",sep=""),e,width=20,height=12,dpi=200)
 
@@ -109,15 +111,17 @@ targets$period=str_replace_all(targets$period,"rel2050","2050")
 
 e1 = ggplot(targets[period==2030&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]) #[implementation=="flexibility"]
 e1 = e1 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+e1 = e1 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 e1 = e1 + facet_grid(implementation~model)
-e1 = e1 + theme_bw()
+e1 = e1 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 e1 = e1 + ylab(targets$unit)
 ggsave(file=paste(outdir,"/emissiontargets2030.png",sep=""),e1,width=20,height=12,dpi=200)
 
 e2 = ggplot(targets[period==2050&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]) #[implementation=="flexibility"]
 e2 = e2 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+e2 = e2 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 e2 = e2 + facet_grid(implementation~model)
-e2 = e2 + theme_bw()
+e2 = e2 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 e2 = e2 + ylab(targets$unit)
 ggsave(file=paste(outdir,"/emissiontargets2050.png",sep=""),e2,width=20,height=12,dpi=200)
 
@@ -127,8 +131,9 @@ finflow = data[variable=="Trade|Emissions Allowances|Value"&!region%in%c("R5ASIA
 
 f = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"])
 f = f + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+f = f + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 f = f + facet_grid(period~model)
-f = f + theme_bw()
+f = f + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 f = f + ylab(finflow$unit)
 ggsave(file=paste(outdir,"/Trade-allowances-value.png",sep=""),f,width=20,height=12,dpi=200)
 
@@ -136,15 +141,19 @@ ggsave(file=paste(outdir,"/Trade-allowances-value.png",sep=""),f,width=20,height
 for(mod in unique(finflow$model)){
   f0 = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"])
   f0 = f0 + geom_bar(stat="identity", aes(x=region, y=value,fill=region),position="dodge")
+  f0 = f0 + scale_fill_brewer(palette="Accent")
   f0 = f0 + facet_grid(period~regime)
-  f0 = f0 + theme_bw()
+  f0 = f0 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
   f0 = f0 + ylab(finflow$unit)
   f0 = f0 + ggtitle(mod)
   ggsave(file=paste(outdir,"/Trade-allowances-value_",mod,".png",sep=""),f0,width=20,height=12,dpi=200)
 }
 
-#total financial flows
-finflows = finflow[,list(sum(value)),by=c("model","variable","unit","period","implementation","regime")]
+#total financial flows TODO: only sum the positive values (otherwise double counting), to do for native model regions
+finflowscheck = data[variable=="Trade|Emissions Allowances|Value"&region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF"),list(sum(value)),by=c("model","variable","unit","period","implementation","regime")]
+finflowscheck2 = finflowscheck[V1!=0,list(unique(model))]
+
+finflows = data[variable=="Trade|Emissions Allowances|Value"&value>0&region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF"),list(sum(value)),by=c("model","variable","unit","period","implementation","regime")]
 setnames(finflows,"V1","value")
 finflows$variable<-"Total financial flows"
 finflowsstat=finflows[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
@@ -155,7 +164,7 @@ f5 = ggplot(finflows[period%in%c(2030,2050,2100)&implementation=="flexibility"])
 f5 = f5 + geom_bar(stat="identity", aes(x=regime, y=value,fill=period),position="dodge")
 f5 = f5 + scale_fill_manual(values=c("2030"="dark blue","2050"="light blue","2100"="grey"))
 f5 = f5 + facet_grid(model~.,scale="free_y")
-f5 = f5 + theme_bw()
+f5 = f5 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 f5 = f5 + ylab(finflows$unit)
 ggsave(file=paste(outdir,"/total_financial_flows_models.png",sep=""),f5,width=20,height=12,dpi=200)
 
@@ -165,36 +174,40 @@ f5b = f5b + geom_bar(stat="identity", aes(x=regime, y=median,fill=period),positi
 f5b = f5b + geom_errorbar(aes(x=regime,ymin=min,ymax=max,colour=period),position=position_dodge(width=0.66),width=0.66)
 f5b = f5b + scale_fill_manual(values=c("2030"="dark blue","2050"="light blue","2100"="grey"))
 f5b = f5b + scale_colour_manual(values=c("2030"="black","2050"="black","2100"="black"))
-f5b = f5b + theme_bw()
+f5b = f5b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 f5b = f5b + ylab(finflowsstat$unit)
 ggsave(file=paste(outdir,"/total_financial_flows.png",sep=""),f5b,width=20,height=12,dpi=200)
 
 # the other indicators
 f1 = ggplot(data[period%in%c(2030,2050,2100)&implementation=="flexibility"&variable=="Trade|Emissions|Value|Carbon|Absolute"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
 f1 = f1 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+f1 = f1 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 f1 = f1 + facet_grid(period~model)
-f1 = f1 + theme_bw()
+f1 = f1 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 f1 = f1 + ylab(data[variable=="Trade|Emissions|Value|Carbon|Absolute"]$unit)
 ggsave(file=paste(outdir,"/Trade-carbon_value-absolute.png",sep=""),f1,width=20,height=12,dpi=200)
 
 f2 = ggplot(data[period%in%c(2030,2050,2100)&implementation=="flexibility"&variable=="Trade|Emissions|Value|Carbon|Exports"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
 f2 = f2 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+f2 = f2 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 f2 = f2 + facet_grid(period~model)
-f2 = f2 + theme_bw()
+f2 = f2 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 f2 = f2 + ylab(data[variable=="Trade|Emissions|Value|Carbon|Exports"]$unit)
 ggsave(file=paste(outdir,"/Trade-carbon_value-exports.png",sep=""),f2,width=20,height=12,dpi=200)
 
 f3 = ggplot(data[period%in%c(2030,2050,2100)&implementation=="flexibility"&variable=="Trade|Emissions|Value|Carbon|Imports"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
 f3 = f3 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+f3 = f3 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 f3 = f3 + facet_grid(period~model)
-f3 = f3 + theme_bw()
+f3 = f3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 f3 = f3 + ylab(data[variable=="Trade|Emissions|Value|Carbon|Imports"]$unit)
 ggsave(file=paste(outdir,"/Trade-carbon_value-imports.png",sep=""),f3,width=20,height=12,dpi=200)
 
 f4 = ggplot(data[period%in%c(2030,2050,2100)&implementation=="flexibility"&variable=="Trade|Emissions|Value|Carbon|Net Exports"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
 f4 = f4 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+f4 = f4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 f4 = f4 + facet_grid(period~model)
-f4 = f4 + theme_bw()
+f4 = f4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 f4 = f4 + ylab(data[variable=="Trade|Emissions|Value|Carbon|Net Exports"]$unit)
 ggsave(file=paste(outdir,"/Trade-carbon_value-net exports.png",sep=""),f4,width=20,height=12,dpi=200)
 
@@ -203,8 +216,9 @@ trade = data[variable=="Trade|Emissions Allowances|Volume"&!region%in%c("R5ASIA"
 
 t = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"])
 t = t + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+t = t + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 t = t + facet_grid(period~model)
-t = t + theme_bw()
+t = t + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 t = t + ylab(trade$unit)
 ggsave(file=paste(outdir,"/Trade-allowances-volume.png",sep=""),t,width=20,height=12,dpi=200)
 
@@ -212,8 +226,9 @@ ggsave(file=paste(outdir,"/Trade-allowances-volume.png",sep=""),t,width=20,heigh
 for(mod in unique(trade$model)){
   t0 = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"])
   t0 = t0 + geom_bar(stat="identity", aes(x=region, y=value,fill=region),position="dodge")
+  t0 = t0 + scale_fill_brewer(palette="Accent")
   t0 = t0 + facet_grid(period~regime)
-  t0 = t0 + theme_bw()
+  t0 = t0 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
   t0 = t0 + ylab(trade$unit)
   t0 = t0 + ggtitle(mod)
   ggsave(file=paste(outdir,"/Trade-allowances-volume_",mod,".png",sep=""),t0,width=20,height=12,dpi=200)
@@ -222,38 +237,43 @@ for(mod in unique(trade$model)){
 #the other indicators
 t1 = ggplot(data[period%in%c(2030,2050,2100)&implementation=="flexibility"&variable=="Trade|Emissions|Volume|Carbon|Absolute"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
 t1 = t1 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+t1 = t1 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 t1 = t1 + facet_grid(period~model)
-t1 = t1 + theme_bw()
+t1 = t1 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 t1 = t1 + ylab(data[variable=="Trade|Emissions|Volume|Carbon|Absolute"]$unit)
 ggsave(file=paste(outdir,"/Trade-carbon_volume-absolute.png",sep=""),t1,width=20,height=12,dpi=200)
 
 t2 = ggplot(data[period%in%c(2030,2050,2100)&implementation=="flexibility"&variable=="Trade|Emissions|Volume|Carbon|Exports"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
 t2 = t2 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+t2 = t2 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 t2 = t2 + facet_grid(period~model)
-t2 = t2 + theme_bw()
+t2 = t2 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 t2 = t2 + ylab(data[variable=="Trade|Emissions|Volume|Carbon|Exports"]$unit)
 ggsave(file=paste(outdir,"/Trade-carbon_volume-exports.png",sep=""),t2,width=20,height=12,dpi=200)
 
 t3 = ggplot(data[period%in%c(2030,2050,2100)&implementation=="flexibility"&variable=="Trade|Emissions|Volume|Carbon|Imports"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
 t3 = t3 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+t3 = t3 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 t3 = t3 + facet_grid(period~model)
-t3 = t3 + theme_bw()
+t3 = t3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 t3 = t3 + ylab(data[variable=="Trade|Emissions|Volume|Carbon|Imports"]$unit)
 ggsave(file=paste(outdir,"/Trade-carbon_volume-imports.png",sep=""),t3,width=20,height=12,dpi=200)
 
 t4 = ggplot(data[period%in%c(2030,2050,2100)&implementation=="flexibility"&variable=="Trade|Emissions|Volume|Carbon|Net Exports"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
 t4 = t4 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+t4 = t4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 t4 = t4 + facet_grid(period~model)
-t4 = t4 + theme_bw()
+t4 = t4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 t4 = t4 + ylab(data[variable=="Trade|Emissions|Volume|Carbon|Net Exports"]$unit)
 ggsave(file=paste(outdir,"/Trade-carbon_volume-net exports.png",sep=""),t4,width=20,height=12,dpi=200)
 
 # Costs -------------------------------------------------------------------
 # Carbon price
 p = ggplot(data[variable=="Price|Carbon"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
-p = p + geom_path(aes(x=period,y=value,colour=regime,linetype=model))
+p = p + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1)
+p = p + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 p = p + facet_grid(implementation~region)
-p = p + theme_bw()
+p = p + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 p = p + ylab(data[variable=="Price|Carbon"]$unit)
 ggsave(file=paste(outdir,"/carbon price.png",sep=""),p,width=20,height=12,dpi=200)
 
@@ -262,9 +282,10 @@ price[model=="AIM/CGE[Japan]"]$model<-"AIM-CGE[Japan]"
 price[model=="AIM/Enduse[Japan]"]$model<-"AIM-Enduse[Japan]"
 for(mod in unique(price$model)){  
   p0 = ggplot(price[period%in%c(2030,2050,2100)]) #&implementation=="flexibility"
-  p0 = p0 + geom_path(aes(x=period, y=value,colour=region))
+  p0 = p0 + geom_path(aes(x=period, y=value,colour=region),size=1)
+  p0 = p0 + scale_color_brewer(palette="Accent")
   p0 = p0 + facet_grid(implementation~regime)
-  p0 = p0 + theme_bw()
+  p0 = p0 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
   p0 = p0 + ylab(price$unit)
   p0 = p0 + ggtitle(mod)
   ggsave(file=paste0(outdir,"/carbonprice_",mod,".png"),p0,width=20,height=12,dpi=200)
@@ -298,25 +319,39 @@ setnames(costvars,"variable","costvariable")
 costs=merge(costs,costvars,by=c("model"))
 
 c = ggplot(costs[implementation=="flexibility"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
-c = c + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable))
+c = c + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable),size=1)
+c = c + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 c = c + facet_grid(model~region,scale="free_y")
-c = c + theme_bw()
+c = c + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 c = c + ylab(costs$unit)
 ggsave(file=paste(outdir,"/costs_GDP_flexibility.png",sep=""),c,width=20,height=12,dpi=200)
   
 c1 = ggplot(costs[implementation=="domestic"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
 c1 = c1 + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable))
+c1 = c1 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 c1 = c1 + facet_grid(model~region,scale="free_y")
-c1 = c1 + theme_bw()
+c1 = c1 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 c1 = c1 + ylab(costs$unit)
 ggsave(file=paste(outdir,"/costs_GDP_domestic.png",sep=""),c1,width=20,height=12,dpi=200)
 
-# TODO and costs Annex I fraction GDP / fraction GDP non-Annex I, X 2030 & 2050, facet/dodge trade/no trade, fill regime. horizontal line at 1
-# OECD countries (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
-# Or R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF --> TODO check code below
+costsstat=costs[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
+                              min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime","region")]
+
+c3 = ggplot(costsstat[!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&period%in%c(2030,2050)])
+c3 = c3 + geom_bar(stat="identity", aes(x=region, y=median,fill=regime),position=position_dodge(width=0.66),width=0.66)
+c3 = c3 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c3 = c3 + geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=regime),position=position_dodge(width=0.66),width=0.66)
+c3 = c3 + scale_colour_manual(values=c("AP"="black","CO"="black","GF"="black","PCC"="black"))
+c3 = c3 + facet_grid(implementation~period,scale="free_y")
+c3 = c3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c3 = c3 + ylab(costsstat$unit)
+ggsave(file=paste(outdir,"/costs_GDP_compare.png",sep=""),c3,width=20,height=12,dpi=200)
+
+# costs Annex I fraction GDP / fraction GDP non-Annex I. Now for R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF. 
+# TODO for OECD countries (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
 
 costratio=spread(costs[region%in%c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU")],region,value)
-costratio=costratio%>%mutate(R5mean=(`R5ASIA`+`R5LAM`+`R5MAF`+`R5REF`)/4,ratio=`R5OECD90+EU`/R5mean)
+costratio=costratio%>%mutate(R5mean=(`R5ASIA`+`R5LAM`+`R5MAF`+`R5REF`)/4,ratio=ifelse(R5mean==0&`R5OECD90+EU`==0,0,`R5OECD90+EU`/R5mean))
 costratio=data.table(gather(costratio,region,value,c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU","R5mean","ratio")))
 costratio=costratio[region=="ratio"]
 costratio$region<-"OECD90+EU/non-OECD"
@@ -324,26 +359,30 @@ costratio$variable<-"%GDP-OECD/%GDP-non-OECD"
 
 c2 = ggplot(costratio[period%in%c(2030,2050)])
 c2 = c2 + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
+c2 = c2 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 c2 = c2 + facet_grid(period~model)
-c2 = c2 + geom_hline(aes(yintercept = 1,size=2))
-c2 = c2 + theme_bw()
+c2 = c2 + geom_hline(aes(yintercept = 1),size=1)
+c2 = c2 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 c2 = c2 + ylab(costratio$variable)
 ggsave(file=paste(outdir,"/costratio_OECD_R5rest.png",sep=""),c2,width=20,height=12,dpi=200)
 
-# TODO and cost ratio vs. financial flows (check code below)
+# cost ratio vs. financial flows - update for native model regions financial flows? TODO
 costratiostat=costratio[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
                             min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime")]
 
-indicator=merge(finflowsstat,costratiostat,by=c("variable","implementation","regime","period"))
+finflowsstat$period<-as.numeric(as.character(finflowsstat$period))
+indicator=merge(finflowsstat,costratiostat,by=c("implementation","regime","period"))
+indicator$period<-as.factor(indicator$period)
 
-i = ggplot(indicator[implementation=="flexibility"])
-i = i + geom_point(aes(x=mean.x,y=mean.y,fill=regime,colour=regime))
-i = i + geom_hline(aes(yintercept=1,size=2))
-i = i + geom_vline(aes(xintercept=100,size=2))
-i = i + theme_bw()
+i = ggplot(indicator[implementation=="flexibility"&period%in%c(2030,2050,2100)])
+i = i + geom_point(aes(x=median.x,y=median.y,fill=regime,colour=regime,shape=period),size=5)
+i = i + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+i = i + geom_hline(aes(yintercept=1),size=1)
+i = i + geom_vline(aes(xintercept=100),size=1)
+i = i + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 i = i + ylab(costratio$variable)
 i = i + xlab(finflowsstat$unit)
-ggsave(file=paste(outdir,"/costratio_financialflows",sep=""),i,width=20,height=12,dpi=200)
+ggsave(file=paste(outdir,"/costratio_financialflows.png",sep=""),i,width=20,height=12,dpi=200)
 
 # Socioeconomic impacts ---------------------------------------------------
 
