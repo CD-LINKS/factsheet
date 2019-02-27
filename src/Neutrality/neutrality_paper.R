@@ -7,6 +7,11 @@ adjust <- "adjust_reporting_neutrality" # TODO to decide: remove MESSAGE for Chi
 addvars <- F
 source("load_data.R")
 
+outdir <- "Neutrality/graphs"
+if(!file.exists(outdir)) {
+  dir.create(outdir, recursive = TRUE)
+}
+
 # Change scenario names for paper -----------------------------------------
 all$Category=str_replace_all(all$Category,"NoPOL","No policy")
 all$Category=str_replace_all(all$Category,"INDC","NDC")
@@ -36,12 +41,11 @@ write.csv(u,paste("Neutrality","/Scenario overview.csv",sep=""))
 
 
 # Regional phase-out years ------------------------------------------------
-# GHG vs. CO2, TODO: fossil/energy vs. including land
-# TODO: Graph like Joeri’s
+# TODO: Graph like Joeri’s (something better than errorbars?)
 # See functions - pbl_colors.r?
 
 ### relative to global ###
-ghg=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CO2")]
+ghg=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CO2","Emissions|CO2|Energy and Industrial Processes")]
 check=ghg[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 ghg=ghg[model%in%check$model]
@@ -70,317 +74,115 @@ S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="W
 S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [7 models]"], aes(y=median,x=region,colour=variable))
 S = S + coord_flip()
 S = S + facet_grid(.~Category, scales="free_y")
-#S = S + geom_vline(xintercept=0)
+S = S + geom_hline(yintercept=0)
 S = S + ylab("Phase out year relative to world (years)")
-#S = S + scale_x_continuous(breaks=c(-50,-40,-30,-20,-10,0,10,20))
+S = S + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
 S = S + theme_bw()
 S = S + theme(axis.text.y=element_text(angle=45, size=16))
 S = S + theme(strip.text.x=element_text(size=14))
 S = S + theme(axis.title=element_text(size=18))
 S = S + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
 S = S + theme(plot.title=element_text(size=18))
-ggsave(file=paste(out,"/Phase_out_year_diffworld.png",sep=""),S,width=11, height=8, dpi=120)
+ggsave(file=paste(outdir,"/Phase_out_year_diffworld.png",sep=""),S,width=11, height=8, dpi=120)
 
 # Effect of LULUCF definitions --------------------------------------------
-
 #	Land CO2 in models vs. in inventories: effect on neutrality of different definitions 
-# Graph: ‘harmonisation’ effect on phase-out year (don't call it harmonisation)
-# TODO: continue cleaning up / selecting / adjusting from here
+# TODO: new inventory data?
+  # Phase-out year (model AFOLU data) ---------------------------------------
+poyrange1=poyrange[variable=="Emissions|Kyoto Gases"]
+poyrange1$variable<-"Model AFOLU data"
+poyrange1$unit<-NULL
 
-### MILES ###
-dt=dat[Variable %in% c("Emissions|Kyoto Gases","Emissions|CO2|Land Use") & Scenario %in% c("Delayed 450","Delayed 450_2030")] #"Optimal 450",,"Realistic 450"
-write.csv(dt,paste(outt,"/Harmo_delayed_fullset.csv",sep=""))
-write.xlsx(dt,paste(outt,"/Harmo_delayed_fullset.xlsx",sep=""))
+  # Phase-out year (inventory AFOLU data) -------------------------------------------
+dt=np[variable %in% c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU") & Category %in% c("2 °C","1.5 °C")] 
+dt$scenario<-NULL
+dt$Baseline<-NULL
+dt$Scope<-NULL
 
 # To make sure we only use the models with data until 2100, important for this indicator
-check=dt[,list(unique(Year)), by=c("Model")]
+check=dt[,list(unique(period)), by=c("model")]
 check=subset(check, subset=V1=="2100")
-dt=subset(dt, subset=Model %in% check$Model)
-write.csv(dt,paste(outt,"/Harmo_delayed_2100_input.csv",sep=""))
-write.xlsx(dt,paste(outt,"/Harmo_delayed_2100_input.xlsx",sep=""))
+dt=subset(dt, subset=model %in% check$model)
 
 # Read data for harmonisation
-har=fread("harmonisation.csv",header=TRUE)
-har1=har[Variable=="Emissions|CO2|Land Use"]
+har=fread("data/landuseinventory.csv",header=TRUE)
+har1=har[variable=="Emissions|CO2|AFOLU"]
 
 # Merge and calculate model deviation in 2010
-dt1=dt[Year==2010 & Variable=="Emissions|CO2|Land Use"]
-harmo=merge(dt1,har1, by=c("Region","Variable"))
-setnames(harmo,"value.x","model")
+dt1=dt[period==2010 & variable=="Emissions|CO2|AFOLU"]
+harmo=merge(dt1,har1, by=c("region","variable"))
+setnames(harmo,"value.x","modelvalue")
 setnames(harmo,"value.y","hist")
-harmo=harmo %>% mutate(factor=model-hist)
-harmo$model<-NULL
+harmo=harmo %>% mutate(factor=modelvalue-hist)
+harmo$modelvalue<-NULL
 harmo$hist<-NULL 
-harmo$Year<-NULL
-write.csv(harmo,paste(outt,"/Harmo_delayed_2100_offset.csv",sep=""))
-write.xlsx(harmo,paste(outt,"/Harmo_delayed_2100_offset.xlsx",sep=""))
+harmo$period<-NULL
 
 # Harmonise - only land use
-dth=merge(dt[Variable=="Emissions|CO2|Land Use"],harmo,by=c("Region","Variable","Scenario_original","Scenario","Model","Unit"))
-dth=dth %>% mutate(harmonised=value-factor)
-
-# Intermezzo: plot harmonised/unharmonised pathways
-dthplot=data.table(gather(dth,Harmo,value,c('value','factor','harmonised')))
-setnames(dthplot,"Harmo","Harmonisation")
-library(stringr)
-dthplot$Harmonisation<-str_replace_all(dthplot$Harmonisation,"harmonised","Harmonised")
-dthplot$Harmonisation<-str_replace_all(dthplot$Harmonisation,"value","Unharmonised")
-dthplot$Harmonisation<-str_replace_all(dthplot$Harmonisation,"factor","Offset")
-h = ggplot (dthplot[Region%in%c("China","EU","India","Japan","Russia","USA")&Scenario=="Delayed 450"])
-h = h + geom_line(aes(x=Year, y=value,colour=Harmonisation)) #,linetype=Model
-h = h + facet_grid(Region~Model,scales='free_y')
-h = h + theme_bw() + theme(legend.text=element_text(size=14), legend.title=element_text(size=16),axis.text=element_text(size=14),
-                           axis.title=element_text(size=16),strip.text=element_text(size=14),axis.text.x=element_text(angle=90))
-h = h + ylab("Land use CO2 emissions (Mt CO2/yr) - Delayed 450")
-ggsave(file=paste(out,"/landuseCO2_pathways_harmo.png",sep=""),h,width=13, height=10, dpi=120)
-
-#continue calculations  
-dth$factor<-NULL
-dth$value<-NULL
-setnames(dth,"harmonised","value")
-dth$Variable<-"Emissions|CO2|Land Use|Harmo"
-dth=data.table(dth)
-dth=setcolorder(dth,c("Scenario_original","Scenario","Model","Region","Variable","Unit","Year","value"))
-write.csv(dth,paste(outt,"/Harmo_delayed_2100_harmonised.csv",sep=""))
-write.xlsx(dth,paste(outt,"/Harmo_delayed_2100_harmonised.xlsx",sep=""))
-
-# Add harmonised land use tot GHG excl. land use
-dtm=rbind(dt,dth)
-dtm=spread(dtm[,!c('Unit'),with=FALSE],Variable, value)
-dtm=na.omit(dtm)
-dtm=dtm %>% mutate(`Emissions|Kyoto Gases|Harmo`=`Emissions|Kyoto Gases` - `Emissions|CO2|Land Use` + `Emissions|CO2|Land Use|Harmo`)
-dtm=gather(dtm,Variable,value,c(`Emissions|Kyoto Gases|Harmo`,`Emissions|Kyoto Gases`, `Emissions|CO2|Land Use`,`Emissions|CO2|Land Use|Harmo`))
-dtm=data.table(dtm)
-
-# Intermezzo: plot harmonised/unharmonised pathways
-dtmplot=dtm[Variable%in%c("Emissions|Kyoto Gases|Harmo","Emissions|Kyoto Gases")]
-# dtmplot$Variable<-str_replace_all(dtmplot$Variable,"Emissions|Kyoto Gases|Harmo","Harmonised")
-# dtmplot$Variable<-str_replace_all(dtmplot$Variable,"Emissions|Kyoto Gases","Unharmonised")
-setnames(dtmplot,"Variable","Harmonisation")
-#dtmplot=dtmplot[!Year%in%c(2005,2015,2025,2035,2045,2055,2065,2075,2085,2095)]
-h = ggplot (dtmplot[Region%in%c("China","EU","India","Japan","Russia","USA")&Scenario=="Delayed 450"])
-h = h + geom_line(aes(x=Year, y=value,colour=Harmonisation)) #,linetype=Model
-h = h + facet_grid(Region~Model,scales='free_y')
-h = h + theme_bw() + theme(legend.text=element_text(size=14), legend.title=element_text(size=16),axis.text=element_text(size=14),
-                           axis.title=element_text(size=16),strip.text=element_text(size=14),axis.text.x=element_text(angle=90))
-h = h + ylab("GHG emissions (Mt CO2eq/yr) - Delayed 450")
-ggsave(file=paste(out,"/GHG_pathways_harmo.png",sep=""),h,width=13, height=10, dpi=120)
-
-#continue calculations
-dth=dtm[Variable=="Emissions|Kyoto Gases|Harmo"]
-dth$Variable<-"Emissions|Kyoto Gases"
-write.csv(dth,paste(outt,"/Harmo_delayed_2100_harmonised_GHG.csv",sep=""))
-write.xlsx(dth,paste(outt,"/Harmo_delayed_2100_harmonised_GHG.xlsx",sep=""))
-
-# Calculate phase-out year
-poy=dth[!duplicated(dth[,list(Model,Scenario,Region,Variable),with=TRUE]),!c('value','Year'),with=FALSE]
-poy=merge(poy,dth[value<=0,min(Year),by=c('Model','Scenario_original', 'Scenario','Region','Variable')],by=c('Model','Scenario_original','Scenario','Region','Variable'),all=TRUE)
-poy$V1=as.factor(poy$V1)
-poy[is.na(V1),]$V1="No phase out"
-#poy=na.omit(poy)
-write.csv(poy,paste(outt,"/Harmo_delayed_2100_harmonised_poy.csv",sep=""))
-write.xlsx(poy,paste(outt,"/Harmo_delayed_2100_harmonised_poy.xlsx",sep=""))
-
-# Add number of models per region
-models=poy[,list(number=length(unique(Model))),by=c('Region','Variable')]
-poy=merge(poy, models, by=c('Region','Variable'))
-poy$Region <- paste(poy$Region,' [',poy$number,' models]',sep="")
-
-#check if each scenario category has only one scenario
-check=poy[,list(number=length(unique(Scenario_original))),by=c('Model','Scenario','Region')]
-
-# !! Mean per scenario category per model - fix (doesn't work with factor) !!
-#poy=poy[,mean(V1,na.rm=TRUE),by=c('Scenario','Region','Variable','Model')]
-
-# Plot
-S = ggplot()
-S = S + geom_point(data=poy, aes(y=Region, x=V1, colour=Model, shape=Model), size=4)
-S = S + scale_shape_manual(values=c("POLES 2014" = 1, "REMIND 1.5" = 2, "MESSAGE V.4" = 3,
-                                    "DNE21+ V.12A" = 4, "WITCH2013" = 5, "IMAGE 2.4" = 6, 
-                                    "GEM-E3_V1" = 7, "GEM-E3_IPTS_World" = 8, "DNE21+ V.12E" = 9,
-                                    "GCAM4"=10, "GCAM_LAMP" =11, "POLES AMPERE" = 12, "POLES EMF27" = 13
-                                    #,"DNE21+ V.MILES" = 14, "MESSAGE-Brazil v.1.3" = 15, "PRIMES_V1" = 16, "REMIND 1.6" = 17
-))
-S = S + facet_grid(.~Scenario, scales="free_y")
-S = S + scale_x_discrete(limits=c("2005", "2010","2015", "2020","2025", "2030","2035" , "2040", "2045","2050","2055", "2060","2065","2070","2075","2080","2085","2090","2095" ,"2100","No phase out"),
-                         breaks=c("2010", "2020", "2030", "2040", "2050","2060","2070","2080","2090","2100","No phase out"))
-S = S + ggtitle(bquote("Phase-out year GHG emissions - harmonised to 2010 (land use)"))
-S = S + xlab("Phase out year")
-S = S + theme_bw()
-S = S + theme(axis.text.y=element_text(angle=45, size=16))
-S = S + theme(strip.text.x=element_text(size=14))
-S = S + theme(axis.title=element_text(size=18))
-S = S + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
-S = S + theme(plot.title=element_text(size=18))
-ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_450_harmo_only.png",sep=""),S,width=11, height=8, dpi=120)
-#ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_450_harmo_only_exPOLES.png",sep=""),S,width=11, height=8, dpi=120)
-
-### Repeat for mean scenario per model and category
-
-dth=dth[,mean(value,na.rm=TRUE),by=c('Scenario','Model','Region','Variable','Year')]
-setnames(dth,"V1","value")
-
-# Calculate phase-out year
-poy=dth[!duplicated(dth[,list(Model,Scenario,Region,Variable),with=TRUE]),!c('value','Year'),with=FALSE]
-poy=merge(poy,dth[value<=0,min(Year),by=c('Model', 'Scenario','Region','Variable')],by=c('Model','Scenario','Region','Variable'),all=TRUE)
-poy$V1=as.factor(poy$V1)
-poy[is.na(V1),]$V1="No phase out"
-#poy=na.omit(poy)
-
-# Add number of models per region
-models=poy[,list(number=length(unique(Model))),by=c('Region','Variable')]
-poy=merge(poy, models, by=c('Region','Variable'))
-poy$Region <- paste(poy$Region,' [',poy$number,' models]',sep="")
-
-# Plot
-S = ggplot()
-S = S + geom_point(data=poy, aes(y=Region, x=V1, colour=Model, shape=Model), size=4)
-S = S + scale_shape_manual(values=c("POLES 2014" = 1, "REMIND 1.5" = 2, "MESSAGE V.4" = 3,
-                                    "DNE21+ V.12A" = 4, "WITCH2013" = 5, "IMAGE 2.4" = 6, 
-                                    "GEM-E3_V1" = 7, "GEM-E3_IPTS_World" = 8, "DNE21+ V.12E" = 9,
-                                    "GCAM4"=10, "GCAM_LAMP" =11, "POLES AMPERE" = 12, "POLES EMF27" = 13
-                                    #,"DNE21+ V.MILES" = 14, "MESSAGE-Brazil v.1.3" = 15, "PRIMES_V1" = 16, "REMIND 1.6" = 17
-))
-S = S + facet_grid(.~Scenario, scales="free_y")
-S = S + scale_x_discrete(limits=c("2005", "2010","2015", "2020","2025", "2030","2035" , "2040", "2045","2050","2055", "2060","2065","2070","2075","2080","2085","2090","2095" ,"2100","No phase out"),
-                         breaks=c("2010", "2020", "2030", "2040", "2050","2060","2070","2080","2090","2100","No phase out"))
-S = S + ggtitle(bquote("Phase-out year GHG emissions - harmonised to 2010 (land use)"))
-S = S + xlab("Phase out year")
-S = S + theme_bw()
-S = S + theme(axis.text.y=element_text(angle=45, size=16))
-S = S + theme(strip.text.x=element_text(size=14))
-S = S + theme(axis.title=element_text(size=18))
-S = S + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
-S = S + theme(plot.title=element_text(size=18))
-ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_450_harmo_only_1scenpermodel.png",sep=""),S,width=11, height=8, dpi=120)
-#ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_450_harmo_only_exPOLES.png",sep=""),S,width=11, height=8, dpi=120)
-
-  ### Combined figure ####
-
-  # Phase-out year (no harmonisation) ---------------------------------------
-dt=dat[Variable %in% c("Emissions|Kyoto Gases") & Scenario %in% c("Delayed 450","Delayed 450_2030")] #"Optimal 450", ,"Realistic 450"
-
-# To make sure we only use the models with data until 2100, important for this indicator
-check=dt[,list(unique(Year)), by=c("Model")]
-check=subset(check, subset=V1=="2100")
-dt=subset(dt, subset=Model %in% check$Model)
-
-poy=dt[!duplicated(dt[,list(Model,Scenario,Region,Variable),with=TRUE]),!c('value','Year'),with=FALSE]
-poy=merge(poy,dt[value<=0,min(Year),by=c('Model','Scenario_original', 'Scenario','Region','Variable')],by=c('Model','Scenario_original','Scenario','Region','Variable'),all=TRUE)
-poy$V1=as.factor(poy$V1)
-poy[is.na(V1),]$V1="No phase out"
-
-poy=poy[Region%in%c("Brazil","Canada","China","EU","India","Indonesia","Japan","Mexico","Russia","South Africa","South Korea","Turkey","USA","World")]
-#poy=na.omit(poy)
-models=poy[,list(number=length(unique(Model))),by=c('Region','Variable')]
-poy=merge(poy, models, by=c('Region','Variable'))
-poy$Region <- paste(poy$Region,' [',poy$number,' models]',sep="")
-
-#check if each scenario category has only one scenario
-check=poy[,list(number=length(unique(Scenario_original))),by=c('Model','Scenario','Region')]
-
-# poy=poy[Region%in%c("USA [4 models]","Turkey [1 models]","South Korea [1 models]","South Africa [1 models]",
-#                     "Russia [2 models]","Mexico [1 models]","Japan [2 models]","Indonesia [1 models]","India [3 models]",
-#                     "EU [4 models]","China [4 models]","Canada [1 models]","Brazil [1 models]")]
-poy0=poy
-poy0$Variable<-paste(poy0$Variable,'|No harmo',sep="")
-poy0$Unit<-NULL
-
-  # Harmonisation - only land use -------------------------------------------
-dt=dat[Variable %in% c("Emissions|Kyoto Gases","Emissions|CO2|Land Use") & Scenario %in% c("Delayed 450","Delayed 450_2030")] #"Optimal 450",,"Realistic 450"
-
-# To make sure we only use the models with data until 2100, important for this indicator
-check=dt[,list(unique(Year)), by=c("Model")]
-check=subset(check, subset=V1=="2100")
-dt=subset(dt, subset=Model %in% check$Model)
-
-# Read data for harmonisation
-har=fread("harmonisation.csv",header=TRUE)
-har1=har[Variable=="Emissions|CO2|Land Use"]
-
-# Merge and calculate model deviation in 2010
-dt1=dt[Year==2010 & Variable=="Emissions|CO2|Land Use"]
-harmo=merge(dt1,har1, by=c("Region","Variable"))
-setnames(harmo,"value.x","model")
-setnames(harmo,"value.y","hist")
-harmo=harmo %>% mutate(factor=model-hist)
-harmo$model<-NULL
-harmo$hist<-NULL 
-harmo$Year<-NULL
-
-# Harmonise - only land use
-dth=merge(dt[Variable=="Emissions|CO2|Land Use"],harmo,by=c("Region","Variable","Scenario_original","Scenario","Model","Unit"))
+dth=merge(dt[variable=="Emissions|CO2|AFOLU"],harmo,by=c("region","variable","Category","model","unit"))
 dth=dth %>% mutate(harmonised=value-factor)
 dth$factor<-NULL
 dth$value<-NULL
 setnames(dth,"harmonised","value")
-dth$Variable<-"Emissions|CO2|Land Use|Harmo"
+dth$variable<-"Emissions|CO2|AFOLU|Harmo"
 dth=data.table(dth)
-dth=setcolorder(dth,c("Scenario_original","Scenario","Model","Region","Variable","Unit","Year","value"))
+dth=setcolorder(dth,c("Category","model","region","variable","unit","period","value"))
 
-# Add harmonised land use tot GHG excl. land use
+# Add harmonised land use to GHG excl. land use
 dtm=rbind(dt,dth)
-dtm=spread(dtm[,!c('Unit'),with=FALSE],Variable, value)
+dtm=spread(dtm[,!c('unit'),with=FALSE],variable, value)
 dtm=na.omit(dtm)
-dtm=dtm %>% mutate(`Emissions|Kyoto Gases|Harmo`=`Emissions|Kyoto Gases` - `Emissions|CO2|Land Use` + `Emissions|CO2|Land Use|Harmo`)
-dtm=gather(dtm,Variable,value,c(`Emissions|Kyoto Gases|Harmo`,`Emissions|Kyoto Gases`, `Emissions|CO2|Land Use`,`Emissions|CO2|Land Use|Harmo`))
+dtm=dtm %>% mutate(`Emissions|Kyoto Gases|Harmo`=`Emissions|Kyoto Gases` - `Emissions|CO2|AFOLU` + `Emissions|CO2|AFOLU|Harmo`)
+dtm=gather(dtm,variable,value,c(`Emissions|Kyoto Gases|Harmo`,`Emissions|Kyoto Gases`, `Emissions|CO2|AFOLU`,`Emissions|CO2|AFOLU|Harmo`))
 dtm=data.table(dtm)
-dth=dtm[Variable=="Emissions|Kyoto Gases|Harmo"]
-dth$Variable<-"Emissions|Kyoto Gases"
+dth=dtm[variable=="Emissions|Kyoto Gases|Harmo"]
+dth$variable<-"Emissions|Kyoto Gases"
 
 # Calculate phase-out year
-poy=dth[!duplicated(dth[,list(Model,Scenario,Region,Variable),with=TRUE]),!c('value','Year'),with=FALSE]
-poy=merge(poy,dth[value<=0,min(Year),by=c('Model','Scenario_original', 'Scenario','Region','Variable')],by=c('Model','Scenario_original','Scenario','Region','Variable'),all=TRUE)
-poy$V1=as.factor(poy$V1)
-poy[is.na(V1),]$V1="No phase out"
-#poy=na.omit(poy)
+poy=dth[!duplicated(dth[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE]
+poy=merge(poy,dth[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy[is.na(V1),]$V1=2105
+
+# Relative to global
+world=poy[region=="World"]
+poy=merge(poy,world, by=c("model","Category","variable"))
+setnames(poy,"V1.x","poy")
+setnames(poy,"V1.y","world")
+poy$region.y<-NULL
+setnames(poy,"region.x","region")
+poy$diff=ifelse(poy$poy<poy$world,"earlier",ifelse(poy$poy>poy$world,"later","same"))
+poy$years=poy$poy-poy$world
 
 # Add number of models per region
-models=poy[,list(number=length(unique(Model))),by=c('Region','Variable')]
-poy=merge(poy, models, by=c('Region','Variable'))
-poy$Region <- paste(poy$Region,' [',poy$number,' models]',sep="")
-
-#check if each scenario category has only one scenario
-check=poy[,list(number=length(unique(Scenario_original))),by=c('Model','Scenario','Region')]
-
-poy2=poy
-poy2$Variable<-paste(poy2$Variable,'|Harmo|Land',sep="")
-
-  # Plotting ----------------------------------------------------------------
-poy=rbind(poy0,poy2) #poy1,poy3
-poy=spread(poy, Variable, V1)
-poy=setnames(poy,"Emissions|Kyoto Gases|No harmo","No harmonisation")
-#poy=setnames(poy,"Emissions|Kyoto Gases|Harmo|Total","Total")
-#poy=setnames(poy,"Emissions|Kyoto Gases|Harmo|Excl. land","Excl. land")
-poy=setnames(poy,"Emissions|Kyoto Gases|Harmo|Land","Land")
-poy=gather(poy,Variable,V1,c(`No harmonisation`,Land)) #Total,`Excl. land`,
-poy=data.table(poy)
-poy$Variable=factor(poy$Variable, levels=c("No harmonisation","Land")) #c("No harmonisation","Total","Land","Excl. land")
+models=poy[,list(number=length(unique(model))),by=c('region','variable')]
+poy=merge(poy, models, by=c('region','variable'))
+poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
 poy=poy[!number<2]
 
+poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","variable")])
+
+poyrange2=poyrange
+poyrange2$variable<-"Inventory AFOLU data"
+
+  # Plotting ----------------------------------------------------------------
+poy=rbind(poyrange1,poyrange2) 
 
 # Plot
-S = ggplot()
-S = S + geom_point(data=poy[Scenario=="Delayed 450"], aes(y=Region, x=V1, colour=Model, shape=Model), size=4)
-S = S + scale_shape_manual(values=c("POLES 2014" = 1, "REMIND 1.5" = 2, "MESSAGE V.4" = 3,
-                                    "DNE21+ V.12A" = 4, "WITCH2013" = 5, "IMAGE 2.4" = 6, 
-                                    "GEM-E3_V1" = 7, "GEM-E3_IPTS_World" = 8, "DNE21+ V.12E" = 9,
-                                    "GCAM4"=10, "GCAM_LAMP" =11, "POLES AMPERE" = 12, "POLES EMF27" = 13
-                                    #,"DNE21+ V.MILES" = 14, "MESSAGE-Brazil v.1.3" = 15, "PRIMES_V1" = 16, "REMIND 1.6" = 17
-))
-S = S + facet_grid(Scenario~Variable, scales="free_y")
-S = S + scale_x_discrete(limits=c("2005", "2010","2015", "2020","2025", "2030","2035" , "2040", "2045","2050","2055", "2060","2065","2070","2075","2080","2085","2090","2095" ,"2100","No phase out"),
-                         breaks=c("2010", "2020", "2030", "2040", "2050","2060","2070","2080","2090","2100","No phase out"))
-S = S + ggtitle(bquote("Phase-out year GHG emissions - harmonised to 2010 - Delayed 450"))
-S = S + xlab("Phase out year")
-S = S + theme_bw()
-S = S + theme(axis.text.y=element_text(angle=45, size=16))
-S = S + theme(strip.text.x=element_text(size=14))
-S = S + theme(axis.title=element_text(size=18))
-S = S + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
-S = S + theme(plot.title=element_text(size=18))
-ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_delay450_harmo.png",sep=""),S,width=11, height=8, dpi=120)
-#ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_delay450_harmo_exPOLES.png",sep=""),S,width=13, height=8, dpi=120)
+S1 = ggplot()
+S1 = S1 + geom_errorbar(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [7 models]"], aes(ymin=min,ymax=max, x=region, colour=variable)) #variable as fill?
+S1 = S1 + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [7 models]"], aes(y=median,x=region,colour=variable))
+S1 = S1 + coord_flip()
+S1 = S1 + facet_grid(.~Category, scales="free_y")
+S1 = S1 + geom_hline(yintercept=0)
+S1 = S1 + ylab("Phase out year relative to world (years)")
+S1 = S1 + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
+S1 = S1 + theme_bw()
+S1 = S1 + theme(axis.text.y=element_text(angle=45, size=16))
+S1 = S1 + theme(strip.text.x=element_text(size=14))
+S1 = S1 + theme(axis.title=element_text(size=18))
+S1 = S1 + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
+S1 = S1 + theme(plot.title=element_text(size=18))
+ggsave(file=paste(outdir,"/Phase_out_year_diffworld_inventory.png",sep=""),S1,width=11, height=8, dpi=120)
 
 
 # Effect of allocation of negative emissions ------------------------------
@@ -394,6 +196,7 @@ ggsave(file=paste(out,"/Phase_out_year_all_Kyoto_delay450_harmo.png",sep=""),S,w
 #	Graph: X indicator with effect on neutrality, e.g. afforestation  capacity; Y phase-out year 
 # Graph: Emissions in phase-out year (like Joeri’s) 
 # En dus bijvoorbeeld ook de strategie waarlangs een regio neutraliteit krijgt (meer uit reductie emissies, over meer uit negatieve emissies).
+# TODO: continue cleaning up / selecting / adjusting from here
 
 ### MILES ###
 sdt=dat[Variable %in% c("Emissions|CH4","Emissions|F-Gases","Emissions|Kyoto Gases","Emissions|N2O",
