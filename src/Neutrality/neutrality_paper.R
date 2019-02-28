@@ -3,7 +3,7 @@ setwd("~/disks/local/factsheet/src")
 config <-"config_xCut"
 scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
-adjust <- "adjust_reporting_neutrality" # TODO to decide: remove MESSAGE for China and India due to region definition?
+adjust <- "adjust_reporting_neutrality" # TODO to decide: remove MESSAGE for China and India due to region definition? and COFFEE & DNE for EU and DNE for China and India?
 addvars <- F
 source("load_data.R")
 
