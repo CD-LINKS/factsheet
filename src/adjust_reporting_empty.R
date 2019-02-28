@@ -4,6 +4,10 @@
 # Model-specific issues ---------------------------------------------------
 
 all <- as.data.table(all)
+# 1. change AIM|Enduse 3.0 to AIM-India[IIMA]
+all=data.table(all)
+all[model=="AIM/Enduse 3.0"]$model <- "AIM-India [IIMA]"
+
 # Remove GEM-E3_V1 as newest results are uploaded under GEM-E3
 all<-all[model!="GEM-E3_V1"]
 
@@ -133,5 +137,3 @@ tmp1=gather(tmp, variable, value, c(`Final Energy`,`Final Energy|Transportation`
 tmp1=data.table(tmp1)
 tmp1=tmp1[variable=="Final Energy"]
 all <- rbind(all,tmp1)} 
-
-all <- as.data.frame(all)
