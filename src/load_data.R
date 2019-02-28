@@ -35,7 +35,8 @@ if(!exists("adjust")){
 source(paste("settings/",config,".R",sep=""))
 
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20190123-155652"
+cfg$infile    <- "cdlinks_compare_20190222-175217"
+#cfg$infile    <- "cdlinks_compare_20190123-155652"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -88,7 +89,7 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
   vars <- fread(paste("settings/",variables,".csv",sep=""),header=TRUE,stringsAsFactors=FALSE,sep='\n')
   all  <- all[VARIABLE %in% vars$variable & REGION %in% cfg$r]
   
-  
+
   #############################################################
   ####################### Process data ########################
   #############################################################
@@ -116,19 +117,19 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
   gem <- all[MODEL=="GEM-E3"&REGION=="EU"]
   gem$MODEL <- "GEM-E3_EU"
   all <- rbind(all,gem)
-  
+ 
   #### from raw wide format to long format with additional columns
   all <- process_data(all,scens)
-  
+
   #re-factorize all character and numeric columns
   all <- factor.data.frame(all)
-all_check4 <- all  
+ 
   ###### Manual changes before addition of calculated variables  
   source(paste(adjust,".R",sep=""))  
   
   #### add variables
   all <- add_variables(all,scens)
-  
+
   #set scope to "national" for national models
   all[all$model %in% cfg$models_nat,]$Scope <- "national"
   #change model name for national models, so that they appear first

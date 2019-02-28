@@ -40,6 +40,88 @@ tmp1$variable<-"Secondary Energy|Electricity|Geothermal"
 tmp1$value<-0
 all<-rbind(all,tmp1)
 
+
+
+
+# Adding final energy other sector to models that don't report it, needed for calculation of total renewable energy share
+# Final Energy|Other Sector|
+tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy"]$model),unique(all[variable=="Final Energy|Other Sector"]$model))
+          &variable=="Final Energy"]
+tmp1$variable<-"Final Energy|Other Sector"
+tmp1$value<-0
+# Final Energy|Other Sector|Electricity
+tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy|Electricity"]$model),unique(all[variable=="Final Energy|Other Sector|Electricity"]$model))
+          &variable=="Final Energy|Electricity"]
+tmp1$variable<-"Final Energy|Other Sector|Electricity"
+tmp1$value<-0
+
+# Adding final energy biomass variables to models that don't report it, needed for calculation of total renewable energy share
+# Final Energy|Residential and Commercial|Biomass
+tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy"]$model),unique(all[variable=="Final Energy|Residential and Commercial|Solids|Biomass"]$model))
+          &variable=="Final Energy"]
+tmp1$variable<-"Final Energy|Residential and Commercial|Solids|Biomass"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+# Final Energy|Indudstry|Biomass
+tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy"]$model),unique(all[variable=="Final Energy|Industry|Solids|Biomass"]$model))
+          &variable=="Final Energy"]
+tmp1$variable<-"Final Energy|Industry|Solids|Biomass"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+# Final Energy|Other Sector|Solids|Biomass
+tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy"]$model),unique(all[variable=="Final Energy|Other Sector|Solids|Biomass"]$model))
+          &variable=="Final Energy"]
+tmp1$variable<-"Final Energy|Other Sector|Solids|Biomass"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+# Final Energy|Solids|Biomass
+tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy"]$model),unique(all[variable=="Final Energy|Solids|Biomass"]$model))
+          &variable=="Final Energy"]
+tmp1$variable<-"Final Energy|Solids|Biomass"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+# Final Energy|Non-Energy Use|Biomass
+tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy"]$model),unique(all[variable=="Final Energy|Non-Energy Use|Biomass"]$model))
+          &variable=="Final Energy"]
+tmp1$variable<-"Final Energy|Non-Energy Use|Biomass"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+# Adding final energy renewable variables to models that don't report it, needed for calculation of total renewable energy share
+# Final Energy|Solar
+tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy"]$model),unique(all[variable=="Final Energy|Solar"]$model))
+          &variable=="Final Energy"]
+tmp1$variable<-"Final Energy|Solar"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+# Final Energy|Solar
+tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy"]$model),unique(all[variable=="Final Energy|Wind"]$model))
+          &variable=="Final Energy"]
+tmp1$variable<-"Final Energy|Wind"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+# Final Energy|Solar
+tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy"]$model),unique(all[variable=="Final Energy|Geothermal"]$model))
+          &variable=="Final Energy"]
+tmp1$variable<-"Final Energy|Geothermal"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
+
+# Adding electricity CCS varialbes to models that don't report it, needed for calculation of total renewable energy share
+# Secondary Energy|Electricity|Coal|w/ CCS
+tmp1<-all[model %in% setdiff(unique(all[variable=="Secondary Energy|Electricity"]$model),unique(all[variable=="Secondary Energy|Electricity|Coal|w/ CCS"]$model))
+          &variable=="Secondary Energy|Electricity"]
+tmp1$variable<-"Secondary Energy|Electricity|Coal|w/ CCS"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+# Secondary Energy|Electricity|Gas|w/ CCS
+tmp1<-all[model %in% setdiff(unique(all[variable=="Secondary Energy|Electricity"]$model),unique(all[variable=="Secondary Energy|Electricity|Gas|w/ CCS"]$model))
+          &variable=="Final Energy"]
+tmp1$variable<-"Secondary Energy|Electricity"
+tmp1$value<-0
+all<-rbind(all,tmp1)
+
 # Adding R5 regions to get World total for DNE21+
 # if("World"%in%cfg$r){
 #   tmp1<-all[model=="DNE21+ V.14"&region%in%c("R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")]
@@ -63,7 +145,7 @@ tmp1=data.table(tmp1)
 tmp1=tmp1[variable=="Final Energy"]
 all <- rbind(all,tmp1)} 
 
-# MESSAGE and COPPE adjust regions 
+# MESSAGE and COPPE adjust regions (EU without Turkey)
 all[Category=="NoPOL"]$Baseline <- str_replace_na(all[Category=="NoPOL"]$Baseline,"-")
 tmp1 <- all[model%in%c("MESSAGEix-GLOBIOM_1.0","COPPE-COFFEE 1.0") & variable %in% c("Emissions|Kyoto Gases"," Emissions|CO2|Energy|Supply",
                                                                                      "Emissions|CO2|Energy|Demand|Residential and Commercial",
@@ -102,6 +184,7 @@ all <- all[!c(model%in%c("MESSAGEix-GLOBIOM_1.0","COPPE-COFFEE 1.0") & variable 
                                                                                        "Emissions|CO2|Industrial Processes") & region%in%c("EU"))]
 all<-rbind(all,tmp1)
 
+# MESSAGE  adjust regions (USA without CAN)
 tmp1 <- all[model%in%c("MESSAGEix-GLOBIOM_1.0","IMAGE 3.0") & variable %in% c("Emissions|Kyoto Gases"," Emissions|CO2|Energy|Supply",
                                                                               "Emissions|CO2|Energy|Demand|Residential and Commercial",
                                                                               "Emissions|CO2|Energy|Demand|Transportation",
@@ -197,6 +280,29 @@ tmp1$variable <- alternatives[i,2]
 all <- rbind(all,tmp1)
 }
 
+#Adding "Secondary Energy|Electricity|Coal|w/ CCS" to scenarios that don't report them, but have "Secondary Energy|Electricity|Coal" and "Secondary Energy|Electricity|Coal|w/o CCS"
+tmp1 <- all[model %in% setdiff(unique(all[variable=="Secondary Energy|Electricity|Coal|w/ CCS"]$model),unique(all[variable=="Secondary Energy|Electricity|Coal|w/o CCS"]$model)) &
+              variable %in% c("Secondary Energy|Electricity|Coal","Secondary Energy|Electricity|Coal|w/o CCS")]
+if(dim(tmp1)[1]!=0 & "Secondary Energy|Electricity|Coal" %in% unique(tmp1$variable)){
+  tmp=spread(tmp1,variable, value)
+  tmp=na.omit(tmp)
+  tmp=tmp %>% mutate(`Secondary Energy|Electricity|Coal|w/ CCS`=`Secondary Energy|Electricity|Coal` - `Secondary Energy|Electricity|Coal|w/o CCS`)
+  tmp1=gather(tmp, variable, value, c(`Secondary Energy|Electricity|Coal|w/ CCS`,`Secondary Energy|Electricity|Coal`, `Secondary Energy|Electricity|Coal|w/o CCS`))
+  tmp1=data.table(tmp1)
+  tmp1=tmp1[variable=="Secondary Energy|Electricity|Coal|w/ CCS"]
+  all <- rbind(all,tmp1)} 
+
+#Adding "Secondary Energy|Electricity|Gas|w/ CCS" to scenarios that don't report them, but have "Secondary Energy|Electricity|Gas" and "Secondary Energy|Electricity|Gas|w/o CCS"
+tmp1 <- all[model %in% setdiff(unique(all[variable=="Secondary Energy|Electricity|Gas|w/o CCS"]$model),unique(all[variable=="Secondary Energy|Electricity|Gas|w/ CCS"]$model)) &
+              variable %in% c("Secondary Energy|Electricity|Gas","Secondary Energy|Electricity|Gas|w/o CCS")]
+if(dim(tmp1)[1]!=0 & "Secondary Energy|Electricity|Gas" %in% unique(tmp1$variable)){
+  tmp=spread(tmp1,variable, value)
+  tmp=na.omit(tmp)
+  tmp=tmp %>% mutate(`Secondary Energy|Electricity|Gas|w/ CCS`=`Secondary Energy|Electricity|Gas` - `Secondary Energy|Electricity|Gas|w/o CCS`)
+  tmp1=gather(tmp, variable, value, c(`Secondary Energy|Electricity|Gas|w/ CCS`,`Secondary Energy|Electricity|Gas`, `Secondary Energy|Electricity|Gas|w/o CCS`))
+  tmp1=data.table(tmp1)
+  tmp1=tmp1[variable=="Secondary Energy|Electricity|Gas|w/ CCS"]
+  all <- rbind(all,tmp1)} 
 
 # Replace missing variables by other models' average  ----------------------
 
@@ -225,8 +331,11 @@ all <- rbind(all,tmp1)
 # 2. DNE21+: change from SAR GWP to AR4 GWP for Emissions|Kyoto Gases
 # 3. GEM-E3: Add AFOLU CO2 emissions based on average other models
 #    DNE21+: Add AFOLU emisisons based on average other models, except for World
-# 4. COPPE-COFEE: Add F-gases emissions based on average other models
+# 4. a) COPPE-COFEE: Add F-gases emissions based on average other models
+#    b) Final Energy|Biomass, and Final Energy|Solids|Biomass should include traditional biomass
 # 5. POLES: harmonise AFOLU CO2 emissions using FAOSTAT data
+# 6. a) Add Secondary Energy|Electricity|Geothermal for AIM V2.1 if this is missing
+#    b) Add  "Secondary Energy|Electricity|Coal|w/o CCS", "Secondary Energy|Electricity|Gas|w/o CCS","Secondary Energy|Electricity|Oil|w/o CCS" with zero values
 
 # 1. change AIM|Enduse 3.0 to AIM-India[IIMA]
 all[model=="AIM/Enduse 3.0","model"] <- "AIM-India [IIMA]"
@@ -276,6 +385,136 @@ tmp=tmp[variable=="Emissions|Kyoto Gases"]
 setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
 all=all[!(variable=="Emissions|Kyoto Gases" & model%in%c("COPPE-COFFEE 1.0"))]
 all<-rbind(all,tmp)
+
+#4 b)
+#b) Final Energy|Biomass, and Final Energy|Solids|Biomass should include traditional biomass
+#tmp=all[model%in%c("COPPE-COFFEE 1.0")&variable%in%c("Final Energy|Solids|Biomass", "Final Energy|Solids|Biomass|Traditional")]
+#tmp=spread(tmp,variable,value)
+#tmp=tmp%>%mutate(`Final Energy|Solids|Biomass`=`Final Energy|Solids|Biomass`+`Final Energy|Solids|Biomass|Traditional`) 
+#tmp=gather(tmp,variable,value,c(`Final Energy|Solids|Biomass`, `Final Energy|Solids|Biomass|Traditional`))
+#tmp=data.table(tmp)
+#tmp=tmp[variable%in%c("Final Energy|Solids|Biomass")]
+#setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+#all=all[!(variable%in%c("Final Energy|Solids|Biomass") & model%in%c("COPPE-COFFEE 1.0"))]
+#all<-rbind(all,tmp)
+
+## 5. COPPE-COFFEE, WITCH, GEM-E3 and DNE21+ V.14: using average of other models for missing emission sources/sectors 
+# First calculate average over other models, then add traditional biomass to database
+# CALCULATE AVERAGE
+#tmp=all[variable%in%c("Final Energy|Solids|Biomass|Traditional") & value>0]
+#tmp=tmp[,list(value=mean(value)),by=c("Category","region","variable","unit","period","Scope")]
+#tmpCOPPE=tmp
+#tmpCOPPE$model<-"COPPE-COFFEE 1.0"
+#scenarios=all[model%in%c("COPPE-COFFEE 1.0"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category")]
+#tmpCOPPE=merge(tmpCOPPE,scenarios,by=c("Category"))
+#setcolorder(tmpCOPPE,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
+#regions=all[model%in%c("COPPE-COFFEE 1.0"),list(region=unique(region)),by=c("model")]
+#scenarios=all[model%in%c("COPPE-COFFEE 1.0"),list(scenario=unique(scenario)),by=c("model")]
+#tmpCOPPE=tmpCOPPE[region%in%regions[model=="COPPE-COFFEE 1.0"]$region & scenario%in%scenarios[model=="COPPE-COFFEE 1.0"]$scenario]
+#all<-rbind(all,tmpCOPPE)
+tmp1<-all[variable=="Final Energy|Solids|Biomass" & model=="COPPE-COFFEE 1.0"]
+tmp1$variable="Final Energy|Solids|Biomass|Traditional"
+tmp1$value<-0
+all <- rbind(all,tmp1)
+
+tmp=all[variable%in%c("Final Energy|Solids|Biomass|Traditional") & value>0]
+tmp=tmp[,list(value=mean(value)),by=c("Category","region","variable","unit","period","Scope")]
+
+tmpGEME3=tmp
+tmpGEME3$model<-"GEM-E3"
+scenarios=all[model%in%c("GEM-E3"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category")]
+tmpGEME3=merge(tmpGEME3,scenarios,by=c("Category"))
+setcolorder(tmpGEME3,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
+regions=all[model%in%c("GEM-E3"),list(region=unique(region)),by=c("model")]
+scenarios=all[model%in%c("GEM-E3"),list(scenario=unique(scenario)),by=c("model")]
+tmpGEME3=tmpGEME3[region%in%regions[model=="GEM-E3"]$region & scenario%in%scenarios[model=="GEM-E3"]$scenario]
+all<-rbind(all,tmpGEME3)
+
+tmpWITCH=tmp
+tmpWITCH$model<-"WITCH2016"
+scenarios=all[model%in%c("WITCH2016"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category")]
+tmpWITCH=merge(tmpWITCH,scenarios,by=c("Category"))
+setcolorder(tmpWITCH,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
+regions=all[model%in%c("WITCH2016"),list(region=unique(region)),by=c("model")]
+scenarios=all[model%in%c("WITCH2016"),list(scenario=unique(scenario)),by=c("model")]
+tmpWITCH=tmpWITCH[region%in%regions[model=="WITCH2016"]$region & scenario%in%scenarios[model=="WITCH2016"]$scenario]
+all<-rbind(all,tmpWITCH)
+
+# check if traditional biomass is now not higher than total solid biomass
+tmp=all[model%in%c("GEM-E3")&variable%in%c("Final Energy|Solids|Biomass", "Final Energy|Solids|Biomass|Traditional")]
+tmp=spread(tmp,variable,value)
+tmp=tmp%>%mutate(`Final Energy|Solids|Biomass|Traditional`=pmin(`Final Energy|Solids|Biomass`,`Final Energy|Solids|Biomass|Traditional`))
+tmp=gather(tmp,variable,value,c(`Final Energy|Solids|Biomass`, `Final Energy|Solids|Biomass|Traditional`))
+tmp=data.table(tmp)
+tmp=tmp[variable%in%c("Final Energy|Solids|Biomass|Traditional")]
+setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+all=all[!(variable%in%c("Final Energy|Solids|Biomass|Traditional") & model%in%c("GEM-E3"))]
+all<-rbind(all,tmp)
+
+tmp=all[model%in%c("WITCH2016")&variable%in%c("Final Energy|Solids|Biomass", "Final Energy|Solids|Biomass|Traditional")]
+tmp=spread(tmp,variable,value)
+tmp=tmp%>%mutate(`Final Energy|Solids|Biomass|Traditional`=pmin(`Final Energy|Solids|Biomass`,`Final Energy|Solids|Biomass|Traditional`))
+tmp=gather(tmp,variable,value,c(`Final Energy|Solids|Biomass`, `Final Energy|Solids|Biomass|Traditional`))
+tmp=data.table(tmp)
+tmp=tmp[variable%in%c("Final Energy|Solids|Biomass|Traditional")]
+setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+all=all[!(variable%in%c("Final Energy|Solids|Biomass|Traditional") & model%in%c("WITCH2016"))]
+all<-rbind(all,tmp)
+
+# database contains traditinoal biomass for DNE, but these are zero, so first delete
+#all=all[!(variable%in%c("Final Energy|Solids|Biomass|Traditional") & model%in%c("DNE21+ V.14"))]
+#tmpDNE=tmp
+#tmpDNE$model<-"DNE21+ V.14"
+#scenarios=all[model%in%c("DNE21+ V.14"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category")]
+#tmpDNE=merge(tmpDNE,scenarios,by=c("Category"))
+#setcolorder(tmpDNE,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
+#regions=all[model%in%c("DNE21+ V.14"),list(region=unique(region)),by=c("model")]
+#scenarios=all[model%in%c("DNE21+ V.14"),list(scenario=unique(scenario)),by=c("model")]
+#tmpDNE=tmpDNE[region%in%regions[model=="DNE21+ V.14"]$region & scenario%in%scenarios[model=="DNE21+ V.14"]$scenario]
+#all<-rbind(all,tmpDNE)
+
+# For COPPE-COFFEE, GEM-E3 and DNE, also add traditional biomass to Final Energy|Solids|Biomass
+#b) Final Energy|Biomass, and Final Energy|Solids|Biomass should include traditional biomass
+#tmp=all[model%in%c("COPPE-COFFEE 1.0")&variable%in%c("Final Energy|Solids|Biomass", "Final Energy|Solids|Biomass|Traditional")]
+#tmp=spread(tmp,variable,value)
+#tmp=tmp%>%mutate(`Final Energy|Solids|Biomass`=`Final Energy|Solids|Biomass`+`Final Energy|Solids|Biomass|Traditional`) 
+#tmp=gather(tmp,variable,value,c(`Final Energy|Solids|Biomass`, `Final Energy|Solids|Biomass|Traditional`))
+#tmp=data.table(tmp)
+#tmp=tmp[variable%in%c("Final Energy|Solids|Biomass")]
+#setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+#all=all[!(variable%in%c("Final Energy|Solids|Biomass") & model%in%c("COPPE-COFFEE 1.0"))]
+#all<-rbind(all,tmp)
+
+#tmp=all[model%in%c("DNE21+ V.14")&variable%in%c("Final Energy|Solids|Biomass", "Final Energy|Solids|Biomass|Traditional")]
+#tmp=spread(tmp,variable,value)
+#tmp=tmp%>%mutate(`Final Energy|Solids|Biomass`=`Final Energy|Solids|Biomass`+`Final Energy|Solids|Biomass|Traditional`) 
+#tmp=gather(tmp,variable,value,c(`Final Energy|Solids|Biomass`, `Final Energy|Solids|Biomass|Traditional`))
+#tmp=data.table(tmp)
+#tmp=tmp[variable%in%c("Final Energy|Solids|Biomass")]
+#setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+#all=all[!(variable%in%c("Final Energy|Solids|Biomass") & model%in%c("DNE21+ V.14"))]
+#all<-rbind(all,tmp)
+
+# 6.
+# 6 a)
+reg_tmp <- c('BRA', 'CHN', 'IND', 'RUS')
+tmp1 <- all[model =="AIM V2.1" &  region %in% reg_tmp & variable == "Final Energy|Geothermal"]
+tmp1$variable <- "Secondary Energy|Electricity|Geothermal"
+all <- rbind(all,tmp1)
+
+# 6b) Add (for AIM V2.1 "Secondary Energy|Electricity|Coal|w/o CCS", "Secondary Energy|Electricity|Gas|w/o CCS","Secondary Energy|Electricity|Oil|w/o CCS" with zero values
+tmp1<-all[variable=="Secondary Energy|Electricity|Coal|w/o CCS" & model=="AIM V2.1"]
+tmp1$variable="Secondary Energy|Electricity|Coal|w/ CCS"
+tmp1$value<-0
+all <- rbind(all,tmp1)
+tmp1<-all[variable=="Secondary Energy|Electricity|Gas|w/o CCS" & model=="AIM V2.1"]
+tmp1$variable="Secondary Energy|Electricity|Gas|w/ CCS"
+tmp1$value<-0
+all <- rbind(all,tmp1)
+tmp1<-all[variable=="Secondary Energy|Electricity|Oil|w/o CCS" & model=="AIM V2.1"]
+tmp1$variable="Secondary Energy|Electricity|Oil|w/ CCS"
+tmp1$value<-0
+all <- rbind(all,tmp1)
 
 # Add bunker emissions as separate region -------------------------------
 # to check if error in data processing can be solved

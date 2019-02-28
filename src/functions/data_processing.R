@@ -2,7 +2,6 @@
 
 #### processing function
 process_data <- function(all,scens){
-  library(tidyverse)
     # move years from rows to a new column
     #all <- invisible(melt(all,measure.vars=names(all)[grep("[0-9]+",names(all))],variable.name = "period",variable.factor=FALSE))
     all_check1 <- all
@@ -98,19 +97,15 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Emissions|CH4|Waste` ~ `Emissions|CH4` - `Emissions|CH4|Energy|Supply` - `Emissions|CH4|Energy|Demand|Industry`- `Emissions|CH4|Energy|Demand|Residential and Commercial` - `Emissions|CH4|Energy|Demand|Transportation`- `Emissions|CH4|AFOLU`' , newUnit='Mt CH4/yr')
     all <- calcVariable(all,'`Emissions|N2O|Waste` ~ `Emissions|N2O` - `Emissions|N2O|Energy` - `Emissions|N2O|Other` - `Emissions|N2O|AFOLU`' , newUnit='kt N2O/yr')
     
-    # Check if this is possible with new snapshot?
-    #all <- calcVariable(all,'`FE freight/tkm` ~ `Final Energy|Transportation|Freight`/`Energy Service|Transportation|Freight` ' , newUnit='EJ/bn tkm')
-    #all <- calcVariable(all,'`FE passenger/pkm` ~ `Final Energy|Transportation|Passenger`/`Energy Service|Transportation|Passenger` ' , newUnit='EJ/bn pkm')
-    #all <- calcVariable(all,'`FE residential and commercial/floor space` ~ `Final Energy|Residential and Commercial`/`Energy Service|Residential and Commercial|Floor Space` ' , newUnit='EJ/bn m2')
-    #all <- calcVariable(all,'`FE residential/floor space` ~ `Final Energy|Residential`/`Energy Service|Residential|Floor Space` ' , newUnit='EJ/bn m2')
-    #all <- calcVariable(all,'`FE commercial/floor space` ~ `Final Energy|Commercial`/`Energy Service|Commercial|Floor Space` ' , newUnit='EJ/bn m2')
-    
     all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Area under MAC Curve` ' , newUnit='billion US$2010/yr')
     all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Consumption Loss` ' , newUnit='billion US$2010/yr')
-#    all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Other` ' , newUnit='billion US$2010/yr')
+    #all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Other` ' , newUnit='billion US$2010/yr')
     all <- calcVariable(all,'`Mitigation Costs` ~ `Policy Cost` / `GDP|MER` *100 ' , newUnit='% of GDP')
     
     all <- calcVariable(all,'`Emissions|Non-CO2` ~ (`Emissions|CH4`*25)+(`Emissions|N2O`*0.298) + `Emissions|F-Gases`' , newUnit='Mt CO2-equiv/yr') #`Emissions|F-Gases`
+    all <- calcVariable(all,'`Emissions|Non-CO2|AFOLU` ~ (`Emissions|CH4|AFOLU`*25)+(`Emissions|N2O|AFOLU`*0.298)' , newUnit='Mt CO2-equiv/yr') #`Emissions|F-Gases`
+    all <- calcVariable(all,'`Emissions|Non-CO2|Energy and Industrial Processes` ~ (`Emissions|CH4`*25)+(`Emissions|N2O`*0.298) + `Emissions|F-Gases`' , newUnit='Mt CO2-equiv/yr') #`Emissions|F-Gases`
+    
     #Demand sector emissions and final energy per capita for comparison across countries
     all <- calcVariable(all,'`Transport CO2 per capita` ~ `Emissions|CO2|Energy|Demand|Transportation`/`Population` ' , newUnit='t CO2/cap')
     all <- calcVariable(all,'`Industry CO2 per capita` ~ `Emissions|CO2|Energy|Demand|Industry`/`Population` ' , newUnit='t CO2/cap')
@@ -120,25 +115,58 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Industry FE per capita` ~ `Final Energy|Industry`/`Population` ' , newUnit='TJ/cap')
     all <- calcVariable(all,'`Buildings FE per capita` ~ `Final Energy|Residential and Commercial`/`Population` ' , newUnit='TJ/cap')
     
-    all <- calcVariable(all,'`Secondary Energy|Electricity|Non-fossil` ~ (`Secondary Energy|Electricity|Biomass`)+(`Secondary Energy|Electricity|Coal|w/ CCS`)+(`Secondary Energy|Electricity|Gas|w/ CCS`)+(`Secondary Energy|Electricity|Nuclear`)' , newUnit='EJ/yr')
-    all <- calcVariable(all,'`Secondary Energy|Electricity|Fossil` ~ (`Secondary Energy|Electricity`) - (`Secondary Energy|Electricity|Biomass`)+(`Secondary Energy|Electricity|Coal|w/ CCS`) + (`Secondary Energy|Electricity|Gas|w/ CCS`) + (`Secondary Energy|Electricity|Nuclear`)' , newUnit='EJ/yr')
+    all <- calcVariable(all,'`Secondary Energy|Electricity|Non-fossil` ~ (`Secondary Energy|Electricity|Coal|w/ CCS`)+(`Secondary Energy|Electricity|Gas|w/ CCS`)+(`Secondary Energy|Electricity|Biomass`)+(`Secondary Energy|Electricity|Hydro`)+(`Secondary Energy|Electricity|Solar`)+(`Secondary Energy|Electricity|Wind`)+(`Secondary Energy|Electricity|Geothermal`)+(`Secondary Energy|Electricity|Nuclear`)' , newUnit='EJ/yr')
+    all <- calcVariable(all,'`Secondary Energy|Electricity|Fossil` ~ (`Secondary Energy|Electricity`) - (`Secondary Energy|Electricity|Non-fossil`)' , newUnit='EJ/yr')
     all <- calcVariable(all,'`Secondary Energy|Electricity|Non-fossil share` ~ 100*((`Secondary Energy|Electricity|Non-fossil`))/(`Secondary Energy|Electricity`)' , newUnit='%')
     
-    all <- calcVariable(all,'`Final Energy|Residential and Commercial|Non-fossil` ~ (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Residential and Commercial|Electricity`)' , newUnit='EJ/yr') 
+    all <- calcVariable(all,'`Final Energy|Residential and Commercial|Non-fossil` ~ (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Residential and Commercial|Electricity`)+
+                                                                                    (`Final Energy|Residential and Commercial|Solids|Biomass`)-
+                                                                                    (`Final Energy|Residential and Commercial|Solids|Biomass|Traditional`)' , newUnit='EJ/yr')
     all <- calcVariable(all,'`Final Energy|Residential and Commercial|Fossil` ~ (`Final Energy|Residential and Commercial`) - (`Final Energy|Residential and Commercial|Non-fossil`)' , newUnit='EJ/yr')
     all <- calcVariable(all,'`Final Energy|Residential and Commercial|Non-fossil share` ~ 100*((`Final Energy|Residential and Commercial|Non-fossil`))/(`Final Energy|Residential and Commercial`)' , newUnit='%')
     
-    all <- calcVariable(all,'`Final Energy|Transportation|Non-fossil` ~ (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Transportation|Electricity`)' , newUnit='EJ/yr') 
+    all <- calcVariable(all,'`Final Energy|Transportation|Non-fossil` ~ (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Transportation|Electricity`)+
+                                                                        (`Final Energy|Transportation|Liquids|Biomass`)' , newUnit='EJ/yr')
     all <- calcVariable(all,'`Final Energy|Transportation|Fossil` ~ (`Final Energy|Transportation`) - (`Final Energy|Transportation|Non-fossil`)' , newUnit='EJ/yr')
     all <- calcVariable(all,'`Final Energy|Transportation|Non-fossil share` ~ 100*((`Final Energy|Transportation|Non-fossil`))/(`Final Energy|Transportation`)' , newUnit='%')
     
-    all <- calcVariable(all,'`Final Energy|Industry|Non-fossil` ~ (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Industry|Electricity`)' , newUnit='EJ/yr') 
+    all <- calcVariable(all,'`Final Energy|Industry|Non-fossil` ~ (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Industry|Electricity`)+
+                                                                  (`Final Energy|Industry|Solids|Biomass`)' , newUnit='EJ/yr')
     all <- calcVariable(all,'`Final Energy|Industry|Fossil` ~ (`Final Energy|Industry`) - (`Final Energy|Industry|Non-fossil`)' , newUnit='EJ/yr')
     all <- calcVariable(all,'`Final Energy|Industry|Non-fossil share` ~ 100*((`Final Energy|Industry|Non-fossil`))/(`Final Energy|Industry`)' , newUnit='%')
+
+    # Electricity is zero in all global models(1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Other Sector|Electricity`)+
+    all <- calcVariable(all,'`Final Energy|Other Sector|Non-fossil` ~ (`Final Energy|Other Sector|Solids|Biomass`)' , newUnit='EJ/yr')
+    all <- calcVariable(all,'`Final Energy|Other Sector|Fossil` ~ (`Final Energy|Other Sector`) - (`Final Energy|Other Sector|Non-fossil`)' , newUnit='EJ/yr')
+    all <- calcVariable(all,'`Final Energy|Other Sector|Non-fossil share` ~ 100*((`Final Energy|Other Sector|Non-fossil`))/(`Final Energy|Other Sector`)' , newUnit='%')
     
-    all <- calcVariable(all,'`Final Energy|Non-fossil` ~ (`Final Energy|Residential and Commercial|Non-fossil`)+(`Final Energy|Transportation|Non-fossil`)+(`Final Energy|Industry|Non-fossil`)' , newUnit='EJ/yr') 
+    all <- calcVariable(all,'`Final Energy|Biomass|Excl. traditional` ~ (`Final Energy|Transportation|Liquids|Biomass`)+
+                                                      #(`Final Energy|Residential and Commercial|Solids|Biomass`)+
+                                                      #(`Final Energy|Industry|Solids|Biomass`)+
+                                                      #(`Final Energy|Other Sector|Solids|Biomass`)+
+                                                      (`Final Energy|Solids|Biomass`)-(`Final Energy|Solids|Biomass|Traditional`)', newUnit='EJ/yr') 
+    all <- calcVariable(all,'`Final Energy|Biomass` ~ (`Final Energy|Transportation|Liquids|Biomass`)+
+                                                      #(`Final Energy|Industry|Solids|Biomass`)+
+                                                      #(`Final Energy|Other Sector|Solids|Biomass`)+
+                                                      #(`Final Energy|Residential and Commercial|Solids|Biomass`)+
+                                                      (`Final Energy|Solids|Biomass`)', newUnit='EJ/yr') 
+    all <- calcVariable(all,'`Final Energy|Other Renewables` ~ (`Final Energy|Solar`)+
+                                                               (`Final Energy|Wind`)+
+                                                               (`Final Energy|Geothermal`)', newUnit='EJ/yr') 
+
+    all <- calcVariable(all,'`Final Energy|Non-fossil` ~ (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Electricity`)+
+                                                         (`Final Energy|Biomass|Excl. traditional`)+
+                                                         (`Final Energy|Other Renewables`)', 
+                                                         newUnit='EJ/yr') 
     all <- calcVariable(all,'`Final Energy|Fossil` ~ (`Final Energy`) - (`Final Energy|Non-fossil`)' , newUnit='EJ/yr')
     all <- calcVariable(all,'`Final Energy|Non-fossil share` ~ 100*(`Final Energy|Non-fossil`)/(`Final Energy`)' , newUnit='%')
+
+    # Kaya indicators
+    all <- calcVariable(all,'`Energy intensity of GDP` ~ `Primary Energy`/`GDP|MER`' , newUnit='EJ/$US 2005')
+    all <- calcVariable(all,'`Conversion efficiency` ~ `Final Energy`/`Primary Energy`' , newUnit='%')
+    all <- calcVariable(all,'`Carbon intensity of fossil-fuel use` ~ `Emissions|CO2|Energy`/`Final Energy|Fossil`' , newUnit='Mt CO2/EJ')
+    
+    all <- calcVariable(all,'`Land Cover|Agriculture` ~ (`Land Cover|Cropland`) + (`Land Cover|Pasture`)' , newUnit='million ha')
     
     if(length(cfg$r)>0 | cfg$r[1]!="RUS"){all <- calcRel2Base(all,var="Emissions|Non-CO2",baseEq1=F,"Non-CO2 emissions rel. to Base",scens)}
     all <- calcRel2Base(all,var="Emissions|CO2",baseEq1=F,"CO2 emissions rel. to Base",scens)

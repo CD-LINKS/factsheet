@@ -1,21 +1,38 @@
 variable
+Price|Carbon
+GDP|PPP
+GDP|MER
 Policy Cost|Area under MAC Curve
 Policy Cost|Consumption Loss
 Policy Cost|GDP Loss
-Policy Cost|Other
-Price|Carbon
-GDP|PPP
-Investment
-Investment|Energy Efficiency
-Investment|Energy Supply
-Investment|Infrastructure
-Investment|RnD|Energy Supply
-GDP|MER
 Emissions|CO2
 Primary Energy
 Emissions|Kyoto Gases
 Emissions|CO2|Energy
 Emissions|CO2|Industrial Processes
+Emissions|CO2|AFOLU
+Emissions|CH4|AFOLU
+Emissions|N2O|AFOLU
+Emissions|CH4
+Emissions|N2O
+Emissions|F-Gases
+Emissions|HFC
+Emissions|PFC
+Emissions|SF6
+Emissions|CO2|Energy|Supply
+Emissions|CO2|Energy|Demand
+Emissions|CO2|Energy and Industrial Processes
+Emissions|CO2|Energy|Demand|Transportation
+Emissions|CO2|Energy|Demand|Industry
+Emissions|CO2|Energy|Demand|Residential and Commercial
+Emissions|CH4|Energy|Supply
+Emissions|CH4|Energy|Demand|Industry
+Emissions|CH4|Energy|Demand|Residential and Commercial
+Emissions|CH4|Energy|Demand|Transportation
+Emissions|HFC
+Emissions|PFC
+Emissions|SF6
+Emissions|CO2|Energy|Demand|AFOFI
 Population
 Secondary Energy|Electricity
 Secondary Energy|Electricity|Non-Biomass Renewables
@@ -30,22 +47,28 @@ Secondary Energy|Electricity|Gas|w/ CCS
 Secondary Energy|Electricity|Gas|w/o CCS
 Secondary Energy|Electricity|Oil
 Secondary Energy|Electricity|Fossil|w/o CCS
-Emissions|CO2|AFOLU
-Emissions|CH4|AFOLU
-Emissions|N2O|AFOLU
+Secondary Energy|Electricity|Biomass
+Secondary Energy|Electricity|Geothermal
+Secondary Energy|Electricity|Hydro
+Secondary Energy|Electricity|Ocean
+Secondary Energy|Electricity|Solar
+Secondary Energy|Electricity|Wind
+Secondary Energy|Electricity|Other
 Carbon Sequestration|CCS|Biomass
-Emissions|CH4
-Emissions|N2O
-Emissions|F-Gases
-Emissions|HFC
-Emissions|PFC
-Emissions|SF6
 Final Energy
 Final Energy|Electricity
 Final Energy|Gases
 Final Energy|Geothermal
 Final Energy|Heat
 Final Energy|Hydrogen
+Final Energy|Liquids
+Final Energy|Solar
+Final Energy|Wind
+Final Energy|Solids
+Final Energy|Solids|Coal
+Final Energy|Non-Energy Use
+Final Energy|Non-Energy Use|Biomass
+Final Energy|Solids|Biomass
 Final Energy|Industry
 Final Energy|Industry|Electricity
 Final Energy|Industry|Heat
@@ -54,10 +77,9 @@ Final Energy|Industry|Hydrogen
 Final Energy|Industry|Liquids
 Final Energy|Industry|Other
 Final Energy|Industry|Solids
-Final Energy|Liquids
+Final Energy|Industry|Solids|Biomass
+Final Energy|Solids|Biomass|Traditional
 Final Energy|Residential and Commercial
-Final Energy|Residential
-Final Energy|Commercial
 Final Energy|Residential and Commercial|Electricity
 Final Energy|Residential and Commercial|Gases
 Final Energy|Residential and Commercial|Hydrogen
@@ -65,14 +87,30 @@ Final Energy|Residential and Commercial|Liquids
 Final Energy|Residential and Commercial|Other
 Final Energy|Residential and Commercial|Heat
 Final Energy|Residential and Commercial|Solids
-Final Energy|Solar
-Final Energy|Solids
-Final Energy|Solids|Biomass
-Final Energy|Solids|Biomass|Traditional
-Final Energy|Solids|Coal
+Final Energy|Residential and Commercial|Solids|Biomass
+Final Energy|Residential and Commercial|Solids|Biomass|Traditional
+Final Energy|Commercial
+Final Energy|Commercial|Solids|Biomass
+Final Energy|Residential
+Final Energy|Residential|Solids|Biomass
 Final Energy|Transportation
 Final Energy|Transportation|Electricity
-Final Energy|Non-Energy Use
+Final Energy|Transportation|Freight|Liquids|Biomass
+Final Energy|Transportation|Liquids|Biomass
+Final Energy|Transportation|Passenger|Liquids|Biomass
+Final Energy|Transportation|Freight
+Final Energy|Transportation|Passenger
+Final Energy|Transportation|Freight|Liquids|Biomass
+Final Energy|Transportation|Passenger|Liquids|Biomass
+Final Energy|Transportation|Liquids|Biomass
+Final Energy|Transportation|Gases
+Final Energy|Transportation|Hydrogen
+Final Energy|Transportation|Liquids
+Final Energy|Transportation|Other
+Final Energy|Other
+Final Energy|Other Sector
+Final Energy|Other Sector|Solids|Biomass
+Final Energy|Non-Energy Use|Biomass
 Primary Energy
 Primary Energy|Biomass
 Primary Energy|Biomass|w/ CCS
@@ -94,39 +132,16 @@ Primary Energy|Other
 Primary Energy|Secondary Energy Trade
 Primary Energy|Solar
 Primary Energy|Wind
-Final Energy|Other
-Final Energy|Other Sector
-Emissions|CO2|Energy|Supply
-Emissions|CO2|Energy and Industrial Processes
-Secondary Energy|Electricity|Biomass
-Secondary Energy|Electricity|Geothermal
-Secondary Energy|Electricity|Hydro
-Secondary Energy|Electricity|Ocean
-Secondary Energy|Electricity|Solar
-Secondary Energy|Electricity|Wind
-Secondary Energy|Electricity|Other
-Emissions|CO2|Energy|Demand
-Emissions|CO2|Energy|Demand|Transportation
-Emissions|CO2|Energy|Demand|Industry
-Emissions|CO2|Energy|Demand|Residential and Commercial
+Land Cover|Forest
+Land Cover|Forest|Forestry|Harvested Area
 Land Cover|Cropland
 Land Cover|Cropland|Energy Crops
+Land Cover|Pasture
+Agricultural Production
+Agricultural Production|Energy
+Agricultural Production|Non-Energy
 Land Cover
 Primary Energy|Biomass|Traditional
-Energy Service|Residential and Commercial|Floor Space
-Energy Service|Residential|Floor Space
-Energy Service|Commercial|Floor Space
-Final Energy|Transportation|Freight
-Final Energy|Transportation|Passenger
-Energy Service|Transportation|Freight
-Energy Service|Transportation|Passenger
-Final Energy|Transportation|Freight|Liquids|Biomass
-Final Energy|Transportation|Passenger|Liquids|Biomass
-Final Energy|Transportation|Liquids|Biomass
-Final Energy|Transportation|Gases
-Final Energy|Transportation|Hydrogen
-Final Energy|Transportation|Liquids
-Final Energy|Transportation|Other
 Carbon Sequestration|CCS
 Carbon Sequestration|CCS|Fossil
 Emissions|BC
@@ -134,12 +149,4 @@ Emissions|N2O|Energy
 Emissions|N2O|Other
 Emissions|NOx
 Emissions|OC
-Emissions|CH4|Energy|Supply
-Emissions|CH4|Energy|Demand|Industry
-Emissions|CH4|Energy|Demand|Residential and Commercial
-Emissions|CH4|Energy|Demand|Transportation
-Emissions|HFC
-Emissions|PFC
-Emissions|SF6
 Emissions|Sulfur
-Emissions|CO2|Energy|Demand|AFOFI

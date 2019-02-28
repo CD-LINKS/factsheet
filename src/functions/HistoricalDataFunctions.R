@@ -42,9 +42,10 @@ ConvertPRIMAP2IAM <- function(data, CATEGORY="CAT0", ENTITY="KYOTOGHGAR4", varia
   colnames(data) = gsub("X", "", colnames(data))
   data <- gather(data, 6:ncol(data), key="period", value=value)
   data$value <- data$value/1000
+  data$unit <- "Mt"
   data <- group_by(data, scenario, region, entity, unit, period) %>%
           summarise(value=sum(value))
-  data <- mutate(data, Category="Historical") %>% mutate(Baseline="") %>% mutate(model="PRIMAP") %>% mutate(Scope="") %>%
+  data <- mutate(data, Category="Historical") %>% mutate(Baseline="") %>% mutate(model="History") %>% mutate(Scope="") %>%
           mutate(variable=variable)
   data$scenario <- ""
   data <- ungroup(data)
@@ -58,10 +59,11 @@ ConvertIEA2IAM <- function(data, flow="TFC", product="TOTAL", variable="Final En
   data <- filter(data, FLOW%in%flow, PRODUCT%in%product) %>% 
               group_by(region, period, unit) %>%
               summarise(value=sum(value)) %>%
-              mutate(Category="Historical") %>% mutate(scenario="") %>% mutate(Baseline="") %>% mutate(model="IEA") %>% mutate(Scope="") %>%
+              mutate(Category="Historical") %>% mutate(scenario="") %>% mutate(Baseline="") %>% mutate(model="History") %>% mutate(Scope="") %>%
               mutate(variable=variable)  %>%
               select(scenario, Category, Baseline, model, region, period, Scope, value, unit, variable)
-  data$value <- data$value/1000
+  # convert TJ/yr to EJ/yr
+  data$value <- 10^-6*data$value
   data$unit <- "EJ/yr"
   data <- as.data.frame(data)
 }

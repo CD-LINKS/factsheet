@@ -1,0 +1,1135 @@
+"model";"scenario";"Category";"Scope";"region";"Baseline";"variable";"value";"unit";"period"
+"AIM V2.1";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";17419.6139;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";16230.185999;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";23650.0130966355;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";14050.4556067467;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";11750.9544383241;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";16929.2471694416;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";11953.8267705664;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";13398.1792;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";15881.7074284843;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Emissions|CO2";17617.3817;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Emissions|CO2";16194.758716;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Emissions|CO2";23708.4599000926;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Emissions|CO2";11760.2004964711;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Emissions|CO2";16929.2471694416;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Emissions|CO2";11953.8240850195;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Emissions|CO2";13341.8239;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Emissions|CO2";15881.7074284843;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";17435.215;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";16938.95015;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";23702.8673870164;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";14121.1690921673;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";11750.950857595;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";16929.2471694416;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";11953.8267705664;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";13426.0205;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";15881.7074284843;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";17427.2616;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";16069.655848;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";23701.8159201218;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";14122.2097751653;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";11727.1320150228;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";16929.2471694416;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";11953.8267705664;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";13426.0205;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";15881.7074284843;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";17427.2616;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";16018.902517;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";23644.2802004287;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";14043.7317495978;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";11790.3485575904;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";16929.2471694416;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";11953.8267705664;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";13426.0205;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Emissions|CO2";15881.7074284843;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Emissions|CO2";33954.0254;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Emissions|CO2";33934.114173;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Emissions|CO2";36533.193;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Emissions|CO2";37516.3676644468;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Emissions|CO2";35161.0488313215;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Emissions|CO2";38542.0181565179;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Emissions|CO2";35102.8850625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Emissions|CO2";36463.2378;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Emissions|CO2";35674.1208033488;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"World";"-";"Emissions|CO2";35001.8032;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"World";"-";"Emissions|CO2";33840.725663;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"World";"-";"Emissions|CO2";36533.193;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"World";"-";"Emissions|CO2";35113.4537792338;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"World";"-";"Emissions|CO2";38542.0181565179;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"World";"-";"Emissions|CO2";35102.8850625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"World";"-";"Emissions|CO2";36169.0957;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"World";"-";"Emissions|CO2";35674.1208033488;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Emissions|CO2";33926.8721;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Emissions|CO2";34631.985746;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Emissions|CO2";36533.193;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Emissions|CO2";37520.4945769468;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Emissions|CO2";35161.0452505923;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Emissions|CO2";38542.0181565179;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Emissions|CO2";35102.8850625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Emissions|CO2";36445.8913;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Emissions|CO2";35674.1208033488;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Emissions|CO2";33910.2215;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Emissions|CO2";33559.163608;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Emissions|CO2";36533.193;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Emissions|CO2";37505.0378829184;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Emissions|CO2";35037.7464224561;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Emissions|CO2";38542.0181565179;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Emissions|CO2";35102.8850625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Emissions|CO2";36445.8913;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Emissions|CO2";35674.1208033488;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Emissions|CO2";33910.2215;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Emissions|CO2";33481.708177;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Emissions|CO2";36533.193;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Emissions|CO2";37520.8686809945;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Emissions|CO2";35234.371422474;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Emissions|CO2";38542.0181565179;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Emissions|CO2";35102.8850625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Emissions|CO2";36445.8913;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Emissions|CO2";35674.1208033488;"MtCO2";2050
+"*COPPE-MSB_v2.0";"INDC_V4";"NDC";"national";"BRA";"NoPOL_V4";"Emissions|CO2";564.468876;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";557.2408;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";717.774542;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";654.862105383726;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";656.49729364912;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";573.249954275746;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";910.470067578125;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NoPOL_V4";"No policy";"national";"BRA";"-";"Emissions|CO2";569.592804;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"BRA";"-";"Emissions|CO2";588.8326;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"BRA";"-";"Emissions|CO2";717.774542;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"BRA";"-";"Emissions|CO2";660.29639000774;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"BRA";"-";"Emissions|CO2";598.81289169669;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"BRA";"-";"Emissions|CO2";910.470067578125;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NPi_V4";"National policies";"national";"BRA";"NoPOL_V4";"Emissions|CO2";551.873689;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";575.2417;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";717.774542;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";655.736305383726;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";657.37149364912;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";573.249954275746;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";910.470067578125;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";564.3028;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";705.20956;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";648.602082832273;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";650.237271097667;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";538.469772387819;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";910.470067578125;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";564.3028;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";702.86586;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";649.65567452581;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";651.290862791203;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";539.364842781781;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Emissions|CO2";910.470067578125;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NPi2020_low_V4";"Carbon budget 1000";"national";"BRA";"NoPOL_V4";"Emissions|CO2";562.132776;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NPi2020_verylow_V4";"Carbon budget 400";"national";"BRA";"NoPOL_V4";"Emissions|CO2";560.370266;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"INDC_V4";"NDC";"national";"CHN";"NoPOL_V4";"Emissions|CO2";8127.06221964839;"MtCO2";2050
+"*China TIMES";"INDC_V4";"NDC";"national";"CHN";NA;"Emissions|CO2";7834.4944311252;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";6565.1344;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";7060.50658;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8655.25533534116;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8965.2273771171;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8408.39105201953;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8771.205421875;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";7803.563;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8937.96033834495;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"NoPOL_V4";"No policy";"national";"CHN";"-";"Emissions|CO2";8127.06221964839;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Emissions|CO2";7058.5809;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Emissions|CO2";7026.668363;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Emissions|CO2";8911.81901122683;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Emissions|CO2";8408.39105201953;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Emissions|CO2";8771.205421875;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Emissions|CO2";7578.1316;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Emissions|CO2";8937.96033834495;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";6457.8058;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";7055.509544;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8647.71826391259;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8965.2273771171;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8408.39105201953;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8771.205421875;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";7751.5787;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8937.96033834495;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"NPi_V4";"National policies";"national";"CHN";"NoPolicy_V4";"Emissions|CO2";8127.06221964839;"MtCO2";2050
+"*China TIMES";"NPi_V4";"National policies";"national";"CHN";NA;"Emissions|CO2";7836.41650588569;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";6457.3957;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";7048.34158;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8630.55690893779;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8845.09659911139;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8408.39105201953;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8771.205421875;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";7751.5787;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8937.96033834495;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";6457.3957;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";7043.33658;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8647.60149219725;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";9042.53531983246;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8408.39105201953;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8771.205421875;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";7751.5787;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Emissions|CO2";8937.96033834495;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"NPi2020_low_V4";"Carbon budget 1000";"national";"CHN";"NoPOL_V4";"Emissions|CO2";8127.06221964839;"MtCO2";2050
+"*China TIMES";"NPi2020_low_V4";"Carbon budget 1000";"national";"CHN";NA;"Emissions|CO2";7836.41650588569;"MtCO2";2050
+"*India MARKAL";"INDC_V4";"NDC";"national";"IND";"NoPOL_V4";"Emissions|CO2";1837.53618;"MtCO2";2050
+"*AIM-India [IIMA]";"INDC_V4";"NDC";"national";"IND";"NoPOL_V4";"Emissions|CO2";1809.81435631335;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1635.455;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Emissions|CO2";2034.246026;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1956.47986065741;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1765.11641454849;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1873.5279307014;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1727.82306136719;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Emissions|CO2";2555.4828;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1827.61120462304;"MtCO2";2050
+"*India MARKAL";"NoPOL_V4";"No policy";"national";"IND";"-";"Emissions|CO2";1878.7323;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"IND";"-";"Emissions|CO2";1770.8634;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"Emissions|CO2";2041.150242;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"Emissions|CO2";1745.43963638915;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"Emissions|CO2";1873.5279307014;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"IND";"-";"Emissions|CO2";1727.82306136719;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"Emissions|CO2";2474.7953;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"IND";"-";"Emissions|CO2";1827.61120462304;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1673.8641;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Emissions|CO2";2045.611247;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1950.2846495463;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1765.11641454849;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1873.5279307014;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1727.82306136719;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Emissions|CO2";2492.8589;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1827.61120462304;"MtCO2";2050
+"*India MARKAL";"NPi_V4";"National policies";"national";"IND";"NoPolicy_V4";"Emissions|CO2";1837.53618;"MtCO2";2050
+"*AIM-India [IIMA]";"NPi_V4";"National policies";"national";"IND";"NoPolicy_V4";"Emissions|CO2";1809.81435631335;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1669.4837;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Emissions|CO2";2015.01303;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1949.89716060008;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1762.09774796293;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1873.5279307014;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1727.82306136719;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Emissions|CO2";2492.8589;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1827.61120462304;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1669.4837;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Emissions|CO2";2014.65603;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1969.62568129107;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1751.06250015919;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1873.5279307014;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1727.82306136719;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Emissions|CO2";2492.8589;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Emissions|CO2";1827.61120462304;"MtCO2";2050
+"*India MARKAL";"NPi2020_low_V4";"Carbon budget 1000";"national";"IND";"NoPOL_V4";"Emissions|CO2";1803.07784;"MtCO2";2050
+"*AIM-India [IIMA]";"NPi2020_low_V4";"Carbon budget 1000";"national";"IND";"NoPOL_V4";"Emissions|CO2";1809.81435631335;"MtCO2";2050
+"*AIM-India [IIMA]";"NPi2020_verylow_V4";"Carbon budget 400";"national";"IND";"NoPolicy_V4";"Emissions|CO2";1809.81435631335;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3878.72342082909;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3894.38785044328;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3980.51506078667;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Emissions|CO2";4628.992986242;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3613.8129140625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3772.6483;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3612.98599041024;"MtCO2";2050
+"*GEM-E3_EU";"INDCi_V4";"NDC";"national";"EU";"NoPolicy_V4";"Emissions|CO2";4016.42309628085;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"EU";"-";"Emissions|CO2";3878.68259803248;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"EU";"-";"Emissions|CO2";3980.66248612034;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"EU";"-";"Emissions|CO2";4628.992986242;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"EU";"-";"Emissions|CO2";3613.81559960938;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"EU";"-";"Emissions|CO2";3786.4412;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"EU";"-";"Emissions|CO2";3612.98599041024;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3878.66853749576;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3894.33296710995;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3980.51506078667;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Emissions|CO2";4628.992986242;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3613.8129140625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3772.319;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3612.98599041024;"MtCO2";2050
+"*PRIMES_V1";"NPi_V4";"National policies";"national";"EU";"NoPolicy_V4";"Emissions|CO2";4019.61439374788;"MtCO2";2050
+"*GEM-E3_EU";"NPi_V4";"National policies";"national";"EU";"NoPolicy_V4";"Emissions|CO2";4016.42309628085;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3880.59203263699;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3896.25646225117;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Emissions|CO2";4003.31350744402;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Emissions|CO2";4628.992986242;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3613.8129140625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3772.319;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3612.98599041024;"MtCO2";2050
+"*GEM-E3_EU";"NPi2020_1000_V4";"Carbon budget 1000";"national";"EU";"NoPolicy_V4";"Emissions|CO2";4016.42309628085;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3878.54537844735;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3894.20980806154;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3976.86109451843;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Emissions|CO2";4628.992986242;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3613.8129140625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3772.319;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Emissions|CO2";3612.98599041024;"MtCO2";2050
+"*GEM-E3_EU";"NPi2020_400_V4";"Carbon budget 400";"national";"EU";"NoPolicy_V4";"Emissions|CO2";4016.42309628085;"MtCO2";2050
+"*PRIMES_V1";"NPi2020_low_V4";"Carbon budget 1000";"national";"EU";"NoPOL_V4";"Emissions|CO2";4019.61439374788;"MtCO2";2050
+"*PRIMES_V1";"NPi2020_verylow_V4";"Carbon budget 400";"national";"EU";"NoPolicy_V4";"Emissions|CO2";4019.61439374788;"MtCO2";2050
+"*AIM/Enduse[Japan]";"INDC_V4";"NDC";"national";"JPN";"NoPOL_V4";"Emissions|CO2";1218.060164;"MtCO2";2050
+"*DNE21+ V.14 (national)";"INDC_V4";"NDC";"national";"JPN";"NoPOL_V4";"Emissions|CO2";1202.92;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1419.5375;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1413.763773;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1192.82387043602;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1154.70337028786;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1156.3867493727;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1143.72712929688;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1335.9251;"MtCO2";2050
+"*AIM/Enduse[Japan]";"NoPOL_V4";"No policy";"national";"JPN";"-";"Emissions|CO2";1218.072564;"MtCO2";2050
+"*DNE21+ V.14 (national)";"NoPOL_V4";"No policy";"national";"JPN";"-";"Emissions|CO2";1202.92;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Emissions|CO2";1455.8471;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Emissions|CO2";1413.231886;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Emissions|CO2";1192.90196725119;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Emissions|CO2";1156.92173268981;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Emissions|CO2";1143.72712929688;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Emissions|CO2";1335.9251;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1430.1381;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1413.246979;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1192.81962043602;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1154.69912028786;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1156.3867493727;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1143.72712929688;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1335.9251;"MtCO2";2050
+"*AIM/Enduse[Japan]";"NPi_V4";"National policies";"national";"JPN";"NoPolicy_V4";"Emissions|CO2";1218.060164;"MtCO2";2050
+"*DNE21+ V.14 (national)";"NPi_V4";"National policies";"national";"JPN";"NoPolicy_V4";"Emissions|CO2";1202.92;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1430.0773;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1388.6378;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1193.24727920798;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1155.12677905982;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1158.95267751421;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1143.72712929688;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1335.9251;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1430.0773;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1388.6378;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1189.37302672648;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1151.25252657833;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1157.53694671981;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1143.72712929688;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Emissions|CO2";1335.9251;"MtCO2";2050
+"*AIM/Enduse[Japan]";"NPi2020_low_V4";"Carbon budget 1000";"national";"JPN";"NoPOL_V4";"Emissions|CO2";1218.060164;"MtCO2";2050
+"*DNE21+ V.14 (national)";"NPi2020_low_V4";"Carbon budget 1000";"national";"JPN";"NoPOL_V4";"Emissions|CO2";1202.92;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6357.0438;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5115.843863;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5585.924212269;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5587.62548832701;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5319.07560269709;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6701.85901811336;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5541.9958515625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6159.564;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5413.85584148628;"MtCO2";2050
+"*GCAM-USA_CDLINKS";"NoPOL_V4";"No policy";"national";"USA";"-";"Emissions|CO2";4933.98628193139;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"USA";"-";"Emissions|CO2";6510.2975;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"Emissions|CO2";5085.944911;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"USA";"-";"Emissions|CO2";5520.97334729353;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"Emissions|CO2";5306.76281786524;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"Emissions|CO2";6701.85901811336;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"USA";"-";"Emissions|CO2";5541.9958515625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"Emissions|CO2";6212.2631;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"USA";"-";"Emissions|CO2";5413.85584148628;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6354.6074;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5099.098423;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5531.99728022141;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5533.69855627942;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5319.07560269709;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6701.85901811336;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5541.9958515625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6228.2834;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5413.85584148628;"MtCO2";2050
+"*GCAM-USA_CDLINKS";"NPi_V4";"National policies";"national";"USA";"NoPolicy_V4";"Emissions|CO2";4933.98530960329;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6361.7004;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Emissions|CO2";4966.0574;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5531.66885679099;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5533.370132849;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5327.50911506765;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6701.85901811336;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5541.9958515625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6228.2834;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5413.85584148628;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6361.7004;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Emissions|CO2";4967.283;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5598.67593102858;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5600.37720708659;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5320.21248420761;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6701.85901811336;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5541.9958515625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Emissions|CO2";6228.2834;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Emissions|CO2";5413.85584148628;"MtCO2";2050
+"*GCAM-USA_CDLINKS";"NPi2020_low_V4";"Carbon budget 1000";"national";"USA";"NoPOL_V4";"Emissions|CO2";4934.01997147128;"MtCO2";2050
+"*RU-TIMES 3.2";"INDC_V4";"NDC";"national";"RUS";"NoPOL_V4";"Emissions|CO2";1367.67086728491;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1361.79339;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1570.8462944467;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1560.96285899433;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1650.52323419953;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1440.02384619141;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1437.8754;"MtCO2";2050
+"*RU-TIMES 3.2";"NoPOL_V4";"No policy";"national";"RUS";"-";"Emissions|CO2";1368.70555757368;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"RUS";"-";"Emissions|CO2";1361.197003;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"RUS";"-";"Emissions|CO2";1571.87879732248;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"RUS";"-";"Emissions|CO2";1652.83470677461;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"RUS";"-";"Emissions|CO2";1440.02384619141;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"RUS";"-";"Emissions|CO2";1439.7155;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1361.794861;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1571.1038694467;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1561.22043399433;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1650.52323419953;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1440.02384619141;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1438.9057;"MtCO2";2050
+"*RU-TIMES 3.2";"NPi_V4";"National policies";"national";"RUS";"NoPolicy_V4";"Emissions|CO2";1367.92844228491;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1366.24839;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1577.26682841001;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1567.38339295763;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1675.17498794526;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1440.02384619141;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1438.9057;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1346.02639;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1572.66278884311;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1562.77935339074;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1656.44967666426;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1440.02384619141;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Emissions|CO2";1438.9057;"MtCO2";2050
+"*RU-TIMES 3.2";"NPi2020_low_V4";"Carbon budget 1000";"national";"RUS";"NoPOL_V4";"Emissions|CO2";1374.09140124821;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";784.2879719;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";727.387244071;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";1429.41715158679;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";699.921830797646;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";573.952572813713;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";772.882125212393;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";604.979359419763;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";722.1815649;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";764.279454683563;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Budget|Emissions|CO2";930.1842918;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Budget|Emissions|CO2";754.010893442;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Budget|Emissions|CO2";1566.7589605688;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Budget|Emissions|CO2";682.169807582564;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Budget|Emissions|CO2";817.641070668385;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Budget|Emissions|CO2";687.195191580713;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Budget|Emissions|CO2";821.5399541;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"RoW";"-";"Budget|Emissions|CO2";849.824494161287;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";894.334042;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";737.41588864;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";1465.12988292608;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";719.941588069964;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";646.827207222295;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";810.749774145382;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";652.265098990381;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";800.7419879;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";846.0397867397;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";485.7583131;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";533.311855356;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";850.976623562268;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";444.700496626443;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";416.442853261659;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";545.087650623283;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";421.372921240747;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";450.1128465;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";432.573294238836;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";405.3534711;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";420.558773131;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";593.532861488824;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";369.415465992985;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";297.85143294203;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";434.842197523642;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";352.481581000745;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";345.4750551;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"Budget|Emissions|CO2";340.204913759916;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1513.0549541;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1674.011849854;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1882.47165593866;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1653.77183431685;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1620.79092527755;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1696.55046619341;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1610.9055821875;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1707.9984002;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1665.19434711024;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"World";"-";"Budget|Emissions|CO2";1880.8832327;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"World";"-";"Budget|Emissions|CO2";1855.62277963;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"World";"-";"Budget|Emissions|CO2";2190.39249760533;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"World";"-";"Budget|Emissions|CO2";1865.00625082059;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"World";"-";"Budget|Emissions|CO2";1877.36935234473;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"World";"-";"Budget|Emissions|CO2";1922.65331265625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"World";"-";"Budget|Emissions|CO2";2057.5600988;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"World";"-";"Budget|Emissions|CO2";2073.2665397417;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1703.6167096;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1771.15554649;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";2043.63131093866;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1771.40603460712;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1745.31370751544;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1792.53294113006;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1845.76735953125;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1874.8270443;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";2020.17204528533;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";917.0019714;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1349.04764527;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1221.553114272;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1058.77261903575;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1112.34685288433;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1204.0082056306;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1213.22657925781;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1128.6751949;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";968.919893503093;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";781.1271105;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";1055.249697265;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";821.880840938662;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";915.605564902388;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";855.932091694125;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";943.282205656166;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";995.888058505859;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";931.1714476;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"Budget|Emissions|CO2";785.426011025798;"MtCO2";2050
+"*COPPE-MSB_v2.0";"INDC_V4";"NDC";"national";"BRA";"NoPOL_V4";"Budget|Emissions|CO2";25.36668232;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";17.5996628;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";26.261351806;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";16.7343928112161;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";24.4098855090743;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";31.5991078062174;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";20.0087708809204;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NoPOL_V4";"No policy";"national";"BRA";"-";"Budget|Emissions|CO2";33.713078701;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"BRA";"-";"Budget|Emissions|CO2";27.4616475;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"BRA";"-";"Budget|Emissions|CO2";40.734807703;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"BRA";"-";"Budget|Emissions|CO2";40.8613203292588;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"BRA";"-";"Budget|Emissions|CO2";48.1693471113126;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"BRA";"-";"Budget|Emissions|CO2";23.2773212272949;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NPi_V4";"National policies";"national";"BRA";"NoPOL_V4";"Budget|Emissions|CO2";28.932501647;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";26.1551024;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";39.242999278;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";35.5168027669705;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";27.4910515204926;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";39.211641447453;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";22.9858941032715;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";1.6520746;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";24.605595373;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";14.8268349941673;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";15.2109331007523;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";35.7845439129618;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";-7.91238853527832;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";-3.9054908;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";17.682832957;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";0.579782865235633;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";8.11387993357808;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";15.9044182737822;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"Budget|Emissions|CO2";-11.2965204627686;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NPi2020_low_V4";"Carbon budget 1000";"national";"BRA";"NoPOL_V4";"Budget|Emissions|CO2";24.560140312;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NPi2020_verylow_V4";"Carbon budget 400";"national";"BRA";"NoPOL_V4";"Budget|Emissions|CO2";18.291657213;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"INDC_V4";"NDC";"national";"CHN";"NoPOL_V4";"Budget|Emissions|CO2";398.010782351483;"MtCO2";2050
+"*China TIMES";"INDC_V4";"NDC";"national";"CHN";NA;"Budget|Emissions|CO2";418.296119213062;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";342.4329423;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";461.775972272;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";405.242086671385;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";453.355889771032;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";378.881801390206;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";462.605278398438;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";398.2822783;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";435.144349763009;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"NoPOL_V4";"No policy";"national";"CHN";"-";"Budget|Emissions|CO2";481.561510064483;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Budget|Emissions|CO2";426.0272385;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Budget|Emissions|CO2";563.790280984;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Budget|Emissions|CO2";493.126836470611;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Budget|Emissions|CO2";407.273383074151;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Budget|Emissions|CO2";579.75478328125;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Budget|Emissions|CO2";475.5268582;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"CHN";"-";"Budget|Emissions|CO2";681.124213597447;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";324.2477885;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";518.318414118;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";449.022978219264;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";475.578834027609;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";377.623057819243;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";573.559975664062;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";422.5712453;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";645.692509445538;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"NPi_V4";"National policies";"national";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";453.529926178202;"MtCO2";2050
+"*China TIMES";"NPi_V4";"National policies";"national";"CHN";NA;"Budget|Emissions|CO2";478.623613110804;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";166.6586311;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";430.079162765;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";221.469006895673;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";293.440836472803;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";242.089152215582;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";379.562234941406;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";243.6197009;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";280.6456932298;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";149.7147014;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";344.178725865;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";202.226229117529;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";245.474841670418;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";187.717678274958;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";304.811538408203;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";216.1362474;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"Budget|Emissions|CO2";241.208482869734;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"NPi2020_low_V4";"Carbon budget 1000";"national";"CHN";"NoPOL_V4";"Budget|Emissions|CO2";287.760778655691;"MtCO2";2050
+"*China TIMES";"NPi2020_low_V4";"Carbon budget 1000";"national";"CHN";NA;"Budget|Emissions|CO2";282.54928487106;"MtCO2";2050
+"*India MARKAL";"INDC_V4";"NDC";"national";"IND";"NoPOL_V4";"Budget|Emissions|CO2";231.34286191;"MtCO2";2050
+"*AIM-India [IIMA]";"INDC_V4";"NDC";"national";"IND";"NoPOL_V4";"Budget|Emissions|CO2";144.32576133504;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";102.8054845;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";142.754185696;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";122.436858133054;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";154.471633965866;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";170.999084340502;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";173.093153411719;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";197.8677868;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";161.917641369865;"MtCO2";2050
+"*India MARKAL";"NoPOL_V4";"No policy";"national";"IND";"-";"Budget|Emissions|CO2";288.2258726;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"IND";"-";"Budget|Emissions|CO2";111.3710378;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"Budget|Emissions|CO2";143.267182291;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"Budget|Emissions|CO2";162.875694391434;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"Budget|Emissions|CO2";181.66091151008;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"IND";"-";"Budget|Emissions|CO2";182.589694671484;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"Budget|Emissions|CO2";218.0366013;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"IND";"-";"Budget|Emissions|CO2";165.199869990622;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";107.0348191;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";141.355660486;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";121.815167382036;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";156.454413954653;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";178.511530222664;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";173.471665130469;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";203.1725275;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";163.724167786445;"MtCO2";2050
+"*India MARKAL";"NPi_V4";"National policies";"national";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";256.45343381;"MtCO2";2050
+"*AIM-India [IIMA]";"NPi_V4";"National policies";"national";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";159.760881403546;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";42.2476171;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";101.93321839;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";60.0235999148589;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";68.7613354758148;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";94.7801483683208;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";100.55017343125;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";109.5323953;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";67.6068360048303;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";36.8720586;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";66.64354477;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";50.6234955676337;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";48.9604784628555;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";66.5610235241195;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";74.0007026976074;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";94.8007927;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";52.6064730270159;"MtCO2";2050
+"*India MARKAL";"NPi2020_low_V4";"Carbon budget 1000";"national";"IND";"NoPOL_V4";"Budget|Emissions|CO2";193.50591298;"MtCO2";2050
+"*AIM-India [IIMA]";"NPi2020_low_V4";"Carbon budget 1000";"national";"IND";"NoPOL_V4";"Budget|Emissions|CO2";128.364750891706;"MtCO2";2050
+"*AIM-India [IIMA]";"NPi2020_verylow_V4";"Carbon budget 400";"national";"IND";"NoPolicy_V4";"Budget|Emissions|CO2";110.705401064211;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";126.256875481507;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";97.324152774703;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";124.002880756207;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";167.166283138477;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";92.8005396337891;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";105.5493855;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";114.921506361426;"MtCO2";2050
+"*GEM-E3_EU";"INDCi_V4";"NDC";"national";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";101.846184104234;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"EU";"-";"Budget|Emissions|CO2";182.709065158794;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"EU";"-";"Budget|Emissions|CO2";152.497583626941;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"EU";"-";"Budget|Emissions|CO2";200.956762814784;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"EU";"-";"Budget|Emissions|CO2";125.546640341797;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"EU";"-";"Budget|Emissions|CO2";141.8351166;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"EU";"-";"Budget|Emissions|CO2";136.341941991813;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";163.953561215522;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";119.099948471077;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";135.649241675947;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";177.883788879814;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";108.899869101563;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";125.3652378;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";125.794621449535;"MtCO2";2050
+"*PRIMES_V1";"NPi_V4";"National policies";"national";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";124.169333926756;"MtCO2";2050
+"*GEM-E3_EU";"NPi_V4";"National policies";"national";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";123.012216462823;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";111.936959643927;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";95.2400287159743;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";94.0350260216051;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";127.313947205165;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";94.2607581396484;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";100.2536202;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";69.6218978350538;"MtCO2";2050
+"*GEM-E3_EU";"NPi2020_1000_V4";"Carbon budget 1000";"national";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";100.090801668601;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";68.8759583379347;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";87.9666825371118;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";84.915542136064;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";96.8360535252608;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";81.3045614538574;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";87.4747916;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";49.4544005933246;"MtCO2";2050
+"*GEM-E3_EU";"NPi2020_400_V4";"Carbon budget 400";"national";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";92.9259142976722;"MtCO2";2050
+"*PRIMES_V1";"NPi2020_low_V4";"Carbon budget 1000";"national";"EU";"NoPOL_V4";"Budget|Emissions|CO2";98.8956327396382;"MtCO2";2050
+"*PRIMES_V1";"NPi2020_verylow_V4";"Carbon budget 400";"national";"EU";"NoPolicy_V4";"Budget|Emissions|CO2";95.7786909999228;"MtCO2";2050
+"*AIM/Enduse[Japan]";"INDC_V4";"NDC";"national";"JPN";"NoPOL_V4";"Budget|Emissions|CO2";39.8009836786;"MtCO2";2050
+"*DNE21+ V.14 (national)";"INDC_V4";"NDC";"national";"JPN";"NoPOL_V4";"Budget|Emissions|CO2";39.7640341267862;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";47.3689037;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";42.88617668;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";40.8458493088009;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";39.8793541283161;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";41.0065034827318;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";38.552521512207;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";41.5446326;"MtCO2";2050
+"*AIM/Enduse[Japan]";"NoPOL_V4";"No policy";"national";"JPN";"-";"Budget|Emissions|CO2";50.3265986;"MtCO2";2050
+"*DNE21+ V.14 (national)";"NoPOL_V4";"No policy";"national";"JPN";"-";"Budget|Emissions|CO2";49.5067891267862;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Budget|Emissions|CO2";65.5078948;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Budget|Emissions|CO2";41.534024579;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Budget|Emissions|CO2";49.2883411328834;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Budget|Emissions|CO2";41.0821542192295;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Budget|Emissions|CO2";38.5972488681641;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"JPN";"-";"Budget|Emissions|CO2";48.1930005;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";60.0894276;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";41.464250761;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";46.7292405707399;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";40.1187513778586;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";40.8183649227375;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";37.9070152866211;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";45.9535682;"MtCO2";2050
+"*AIM/Enduse[Japan]";"NPi_V4";"National policies";"national";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";46.044678524;"MtCO2";2050
+"*DNE21+ V.14 (national)";"NPi_V4";"National policies";"national";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";45.5188307934529;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";42.56866;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";29.801284655;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";35.0476847816487;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";30.1417350891846;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";28.9118993047931;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";31.3244604770508;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";33.0710188;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";38.709975;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";22.362224085;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";25.2542925147834;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";26.9190866537729;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";21.0443830445665;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";28.3013302890625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"Budget|Emissions|CO2";29.5573603;"MtCO2";2050
+"*AIM/Enduse[Japan]";"NPi2020_low_V4";"Carbon budget 1000";"national";"JPN";"NoPOL_V4";"Budget|Emissions|CO2";31.7445493751;"MtCO2";2050
+"*DNE21+ V.14 (national)";"NPi2020_low_V4";"Carbon budget 1000";"national";"JPN";"NoPOL_V4";"Budget|Emissions|CO2";31.5256391267862;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";218.5599889;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";203.305790093;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";188.031578574807;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";189.769851221279;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";163.074961074395;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";206.621172111829;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";150.844142412109;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";169.3335848;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";188.931394932378;"MtCO2";2050
+"*GCAM-USA_CDLINKS";"NoPOL_V4";"No policy";"national";"USA";"-";"Budget|Emissions|CO2";229.584542647279;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"USA";"-";"Budget|Emissions|CO2";320.3311223;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"Budget|Emissions|CO2";245.830023576;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"USA";"-";"Budget|Emissions|CO2";267.846200932363;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"Budget|Emissions|CO2";206.146200946475;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"Budget|Emissions|CO2";269.837224277335;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"USA";"-";"Budget|Emissions|CO2";215.42307234375;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"Budget|Emissions|CO2";277.0298254;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"USA";"-";"Budget|Emissions|CO2";240.776020000527;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";291.75553;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";226.03171699;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";248.520443939577;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";220.438078964829;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";171.474759984664;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";247.764790062961;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";207.76074421875;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";201.9085657;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";238.920959864107;"MtCO2";2050
+"*GCAM-USA_CDLINKS";"NPi_V4";"National policies";"national";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";206.751882159968;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";178.1166755;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";179.65997348;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";149.627573606409;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";144.882993785941;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";121.053299276548;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";194.737307218249;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";147.529471086426;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";149.6850112;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";118.472172194573;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";154.3823952;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";146.963327892;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";100.645397237639;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";132.729044950761;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";96.0309878703634;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";157.325252808186;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";127.192740508003;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";120.3041343;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"Budget|Emissions|CO2";101.951740775808;"MtCO2";2050
+"*GCAM-USA_CDLINKS";"NPi2020_low_V4";"Carbon budget 1000";"national";"USA";"NoPOL_V4";"Budget|Emissions|CO2";100.646781623385;"MtCO2";2050
+"*RU-TIMES 3.2";"INDC_V4";"NDC";"national";"RUS";"NoPOL_V4";"Budget|Emissions|CO2";59.3399232340728;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";69.641129236;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";81.1858081755428;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";74.7878150813927;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";79.3273756073906;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";68.0218165185547;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";73.2391673;"MtCO2";2050
+"*RU-TIMES 3.2";"NoPOL_V4";"No policy";"national";"RUS";"-";"Budget|Emissions|CO2";60.0951837184419;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"RUS";"-";"Budget|Emissions|CO2";66.455567055;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"RUS";"-";"Budget|Emissions|CO2";82.9286094832297;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"RUS";"-";"Budget|Emissions|CO2";78.93862647202;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"RUS";"-";"Budget|Emissions|CO2";70.2693603417969;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"RUS";"-";"Budget|Emissions|CO2";75.3987427;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";67.326616217;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";83.781379519776;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";73.4784706015938;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";79.2992442800769;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";68.9170970361328;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";75.1139119;"MtCO2";2050
+"*RU-TIMES 3.2";"NPi_V4";"National policies";"national";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";59.7466920758;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";49.656555251;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";59.1374376835758;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";47.1038249069206;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";53.9170591581405;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";46.5389484765625;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";42.400602;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";36.860268565;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";32.9925484942455;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";37.6116801490162;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";45.7500072940456;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";39.0921246111488;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"Budget|Emissions|CO2";37.4230662;"MtCO2";2050
+"*RU-TIMES 3.2";"NPi2020_low_V4";"Carbon budget 1000";"national";"RUS";"NoPOL_V4";"Budget|Emissions|CO2";44.082011653505;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"CO2rel2010";45.0232695398605;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"CO2rel2010";44.8169382726616;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"CO2rel2010";60.4404380558311;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"CO2rel2010";49.8148850391415;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"CO2rel2010";48.8430600106699;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"CO2rel2010";45.6536618242242;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"CO2rel2010";50.6096809859574;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"CO2rel2010";53.9014707983604;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"RoW";"NoPolicy_V4";"CO2rel2010";48.1232548908945;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"RoW";"-";"CO2rel2010";52.7992358705607;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"CO2rel2010";46.5589458086249;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"RoW";"-";"CO2rel2010";66.0843836829183;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"CO2rel2010";58.0066477427202;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"CO2rel2010";48.2975446270451;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"RoW";"-";"CO2rel2010";57.4874773706853;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"RoW";"-";"CO2rel2010";61.5762852408808;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"RoW";"-";"CO2rel2010";53.5096429642762;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"CO2rel2010";51.294695362231;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"CO2rel2010";43.533742180592;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"CO2rel2010";61.8123478060137;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"CO2rel2010";50.9831433481878;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"CO2rel2010";55.0446695812904;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"CO2rel2010";47.8904800686492;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"CO2rel2010";54.5653798996348;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"CO2rel2010";59.6410520824097;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"RoW";"NoPolicy_V4";"CO2rel2010";53.2713368854979;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"CO2rel2010";27.8734734262553;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"CO2rel2010";33.1875094526293;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"CO2rel2010";35.9034356873824;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"CO2rel2010";31.4894413626736;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"CO2rel2010";35.5110569854747;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"CO2rel2010";32.1979852481096;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"CO2rel2010";35.2500441346768;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"CO2rel2010";33.5254103403164;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RoW";"NoPolicy_V4";"CO2rel2010";27.2372033162507;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"CO2rel2010";23.2597341110665;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"CO2rel2010";26.2539067632557;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"CO2rel2010";25.1025980261418;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"CO2rel2010";26.3046512550744;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"CO2rel2010";25.2623093784856;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"CO2rel2010";25.685855559399;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"CO2rel2010";29.4869239588323;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"CO2rel2010";25.7317538804592;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"RoW";"NoPolicy_V4";"CO2rel2010";21.4211800142942;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"CO2rel2010";44.5618725990586;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"CO2rel2010";49.33123762476;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"CO2rel2010";51.5277067607713;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"CO2rel2010";44.0813420187286;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"CO2rel2010";46.0962052939033;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"CO2rel2010";44.0182052559824;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"CO2rel2010";45.8909738991343;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"CO2rel2010";46.841654862586;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"World";"NoPolicy_V4";"CO2rel2010";46.6779365436786;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"World";"-";"CO2rel2010";53.7367524168012;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"World";"-";"CO2rel2010";54.8340126659535;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"World";"-";"CO2rel2010";59.9562293283625;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"World";"-";"CO2rel2010";53.1137228068279;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"World";"-";"CO2rel2010";48.709679517061;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"World";"-";"CO2rel2010";54.7719456458637;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"World";"-";"CO2rel2010";56.8872419666273;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"World";"-";"CO2rel2010";58.1168223085423;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"CO2rel2010";50.2143759253303;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"CO2rel2010";51.1421885964067;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"CO2rel2010";55.9390281309017;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"CO2rel2010";47.2116920253896;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"CO2rel2010";49.6377082955472;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"CO2rel2010";46.5085386512622;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"CO2rel2010";52.5816426839246;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"CO2rel2010";51.4413827574578;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"World";"NoPolicy_V4";"CO2rel2010";56.6285026734475;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"CO2rel2010";27.0420519488497;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"CO2rel2010";40.1990842509677;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"CO2rel2010";33.4368012747201;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"CO2rel2010";28.2301439700175;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"CO2rel2010";31.7471003834713;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"CO2rel2010";31.2388469317086;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"CO2rel2010";34.5620189650419;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"CO2rel2010";30.9685167419681;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"World";"NoPolicy_V4";"CO2rel2010";27.1603019691557;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"CO2rel2010";23.0351521148277;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"CO2rel2010";31.5172001286928;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"CO2rel2010";22.496824762584;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"CO2rel2010";24.4025684129795;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"CO2rel2010";24.2925318982184;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"CO2rel2010";24.4741259221436;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"CO2rel2010";28.3705472280327;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"CO2rel2010";25.5494217423625;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"World";"NoPolicy_V4";"CO2rel2010";22.0166886622212;"MtCO2";2050
+"*COPPE-MSB_v2.0";"INDC_V4";"NDC";"national";"BRA";"NoPOL_V4";"CO2rel2010";44.9390274619853;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"CO2rel2010";31.5835861265004;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"CO2rel2010";36.587187576792;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"CO2rel2010";25.5540711145751;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"CO2rel2010";37.1820047778;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"CO2rel2010";55.1227393400148;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"BRA";"NoPolicy_V4";"CO2rel2010";21.9763082757287;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NoPOL_V4";"No policy";"national";"BRA";"-";"CO2rel2010";59.1880347930098;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"BRA";"-";"CO2rel2010";46.6374441564547;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"BRA";"-";"CO2rel2010";56.7515359203141;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"BRA";"-";"CO2rel2010";61.8833011169118;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"BRA";"-";"CO2rel2010";80.4413996078616;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"BRA";"-";"CO2rel2010";25.566267421853;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NPi_V4";"National policies";"national";"BRA";"NoPOL_V4";"CO2rel2010";52.425948588754;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"CO2rel2010";45.4680222243972;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"CO2rel2010";54.67315568013;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"CO2rel2010";54.1632398196813;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"CO2rel2010";41.8196587258258;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"CO2rel2010";68.4023455300466;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"BRA";"NoPolicy_V4";"CO2rel2010";25.2461831770204;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"CO2rel2010";2.92763849479393;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"CO2rel2010";34.8911823784692;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"CO2rel2010";22.8596783553677;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"CO2rel2010";23.3928963731574;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"CO2rel2010";66.4559939070989;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"BRA";"NoPolicy_V4";"CO2rel2010";-8.69044334024674;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"CO2rel2010";-6.92091338196443;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"CO2rel2010";25.1581901516742;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"CO2rel2010";0.892446395790851;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"CO2rel2010";12.4581510307159;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"CO2rel2010";29.4873099102176;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"BRA";"NoPolicy_V4";"CO2rel2010";-12.4073496373336;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NPi2020_low_V4";"Carbon budget 1000";"national";"BRA";"NoPOL_V4";"CO2rel2010";43.6909950114704;"MtCO2";2050
+"*COPPE-MSB_v2.0";"NPi2020_verylow_V4";"Carbon budget 400";"national";"BRA";"NoPOL_V4";"CO2rel2010";32.6420909938144;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"INDC_V4";"NDC";"national";"CHN";"NoPOL_V4";"CO2rel2010";48.9735123953194;"MtCO2";2050
+"*China TIMES";"INDC_V4";"NDC";"national";"CHN";NA;"CO2rel2010";53.3915905985252;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"CO2rel2010";52.1593194344963;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"CO2rel2010";65.4026686385441;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"CO2rel2010";46.8203502924633;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"CO2rel2010";50.5682533973628;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"CO2rel2010";45.0599643910717;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"CO2rel2010";52.7413572192393;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"CO2rel2010";51.038516418718;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"CHN";"NoPolicy_V4";"CO2rel2010";48.6849721066882;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"NoPOL_V4";"No policy";"national";"CHN";"-";"CO2rel2010";59.2540695579069;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"CHN";"-";"CO2rel2010";60.3559333718198;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"CO2rel2010";80.2357891191684;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"CO2rel2010";55.3340273012036;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"CO2rel2010";48.4365416111721;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"CHN";"-";"CO2rel2010";66.0975037519207;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"CHN";"-";"CO2rel2010";62.7498812768044;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"CHN";"-";"CO2rel2010";76.2057771363496;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"CO2rel2010";50.2102104866641;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"CO2rel2010";73.4629314701697;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"CO2rel2010";51.9238676048296;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"CO2rel2010";53.0470465524923;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"CO2rel2010";44.910263507374;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"CO2rel2010";65.3912373587362;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"CO2rel2010";54.5142172522869;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"CHN";"NoPolicy_V4";"CO2rel2010";72.2415948385268;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"NPi_V4";"National policies";"national";"CHN";"NoPolicy_V4";"CO2rel2010";55.8049039026335;"MtCO2";2050
+"*China TIMES";"NPi_V4";"National policies";"national";"CHN";NA;"CO2rel2010";61.076847147076;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"CO2rel2010";25.8089543900802;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"CO2rel2010";61.0184903616717;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"CO2rel2010";25.6610331444915;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"CO2rel2010";33.175537789184;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"CO2rel2010";28.7913764616641;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"CO2rel2010";43.2736684053477;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"CO2rel2010";31.4283980500643;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"CHN";"NoPolicy_V4";"CO2rel2010";31.3992994605039;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"CO2rel2010";23.1849972272878;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"CO2rel2010";48.8658637785843;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"CO2rel2010";23.3852391671839;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"CO2rel2010";27.1466832020033;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"CO2rel2010";22.3250413918215;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"CO2rel2010";34.751385214171;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"CO2rel2010";27.8828682214115;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"CHN";"NoPolicy_V4";"CO2rel2010";26.9869717182476;"MtCO2";2050
+"*IPAC-AIM/technology V1.0";"NPi2020_low_V4";"Carbon budget 1000";"national";"CHN";"NoPOL_V4";"CO2rel2010";35.4077243262623;"MtCO2";2050
+"*China TIMES";"NPi2020_low_V4";"Carbon budget 1000";"national";"CHN";NA;"CO2rel2010";36.0559299851974;"MtCO2";2050
+"*India MARKAL";"INDC_V4";"NDC";"national";"IND";"NoPOL_V4";"CO2rel2010";125.898398316163;"MtCO2";2050
+"*AIM-India [IIMA]";"INDC_V4";"NDC";"national";"IND";"NoPOL_V4";"CO2rel2010";79.7461688993535;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"CO2rel2010";62.8604788881382;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"CO2rel2010";70.1754772389561;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"CO2rel2010";62.5801781020703;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"CO2rel2010";87.5135672030898;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"CO2rel2010";91.2711689739715;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"CO2rel2010";100.179906890902;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"CO2rel2010";77.4287296318332;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"IND";"NoPolicy_V4";"CO2rel2010";88.5952334721331;"MtCO2";2050
+"*India MARKAL";"NoPOL_V4";"No policy";"national";"IND";"-";"CO2rel2010";153.415083458138;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"IND";"-";"CO2rel2010";62.8908123574071;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"CO2rel2010";70.1894350268999;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"CO2rel2010";93.3149969759948;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"CO2rel2010";96.9619446463609;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"IND";"-";"CO2rel2010";105.676153278684;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"IND";"-";"CO2rel2010";88.1028832162401;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"IND";"-";"CO2rel2010";90.39114532278;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"CO2rel2010";63.9447486208707;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"CO2rel2010";69.1019179197933;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"CO2rel2010";62.4601990331896;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"CO2rel2010";88.6368812080158;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"CO2rel2010";95.2809548752412;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"CO2rel2010";100.398975455973;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"CO2rel2010";81.5018160474305;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"IND";"NoPolicy_V4";"CO2rel2010";89.5836966704383;"MtCO2";2050
+"*India MARKAL";"NPi_V4";"National policies";"national";"IND";"NoPolicy_V4";"CO2rel2010";139.563746608788;"MtCO2";2050
+"*AIM-India [IIMA]";"NPi_V4";"National policies";"national";"IND";"NoPolicy_V4";"CO2rel2010";88.27473428213;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"CO2rel2010";25.3057978942831;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"CO2rel2010";50.586878036218;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"CO2rel2010";30.7829567259777;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"CO2rel2010";39.0224296894463;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"CO2rel2010";50.5891301726352;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"CO2rel2010";58.1947166231749;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"CO2rel2010";43.9384657109955;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"IND";"NoPolicy_V4";"CO2rel2010";36.9919137253127;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"CO2rel2010";22.0859051214456;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"CO2rel2010";33.0793662926172;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"CO2rel2010";25.7020895129934;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"CO2rel2010";27.9604402803467;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"CO2rel2010";35.5271050051552;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"CO2rel2010";42.8288661913404;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"CO2rel2010";38.0289444781652;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"IND";"NoPolicy_V4";"CO2rel2010";28.784280209021;"MtCO2";2050
+"*India MARKAL";"NPi2020_low_V4";"Carbon budget 1000";"national";"IND";"NoPOL_V4";"CO2rel2010";107.319777708543;"MtCO2";2050
+"*AIM-India [IIMA]";"NPi2020_low_V4";"Carbon budget 1000";"national";"IND";"NoPOL_V4";"CO2rel2010";70.9270265449706;"MtCO2";2050
+"*AIM-India [IIMA]";"NPi2020_verylow_V4";"Carbon budget 400";"national";"IND";"NoPolicy_V4";"CO2rel2010";61.1694788904873;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"CO2rel2010";32.551141647145;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"CO2rel2010";24.9908731518934;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"CO2rel2010";31.1524711909268;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"CO2rel2010";36.112883220026;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"CO2rel2010";25.67939786608;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"CO2rel2010";27.9775311947313;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"EU";"NoPolicy_V4";"CO2rel2010";31.8079025676978;"MtCO2";2050
+"*GEM-E3_EU";"INDCi_V4";"NDC";"national";"EU";"NoPolicy_V4";"CO2rel2010";25.3574341305183;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"EU";"-";"CO2rel2010";47.1059594439297;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"EU";"-";"CO2rel2010";38.3095990073676;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"EU";"-";"CO2rel2010";43.4126306546704;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"EU";"-";"CO2rel2010";34.7407433725637;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"EU";"-";"CO2rel2010";37.4586872232428;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"EU";"-";"CO2rel2010";37.7366373281541;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"CO2rel2010";42.2705780683641;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"CO2rel2010";30.5828878724418;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"CO2rel2010";34.078313887635;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"CO2rel2010";38.4281828485178;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"CO2rel2010";30.1343405680461;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"CO2rel2010";33.2329365040443;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"EU";"NoPolicy_V4";"CO2rel2010";34.8173565531184;"MtCO2";2050
+"*PRIMES_V1";"NPi_V4";"National policies";"national";"EU";"NoPolicy_V4";"CO2rel2010";30.8908571229841;"MtCO2";2050
+"*GEM-E3_EU";"NPi_V4";"National policies";"national";"EU";"NoPolicy_V4";"CO2rel2010";30.6273053196837;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"CO2rel2010";28.8453304811488;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"CO2rel2010";24.4439835105071;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"CO2rel2010";23.489298514031;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"CO2rel2010";27.5035947523704;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"CO2rel2010";26.0834637490086;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"CO2rel2010";26.5761247126767;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"EU";"NoPolicy_V4";"CO2rel2010";19.2699052860563;"MtCO2";2050
+"*GEM-E3_EU";"NPi2020_1000_V4";"Carbon budget 1000";"national";"EU";"NoPolicy_V4";"CO2rel2010";24.9203829549938;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"CO2rel2010";17.7581932444753;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"CO2rel2010";22.5890968573416;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"CO2rel2010";21.3524033447154;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"CO2rel2010";20.9194643009983;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"CO2rel2010";22.4982763046408;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"CO2rel2010";23.1885987372754;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"EU";"NoPolicy_V4";"CO2rel2010";13.6879580282317;"MtCO2";2050
+"*GEM-E3_EU";"NPi2020_400_V4";"Carbon budget 400";"national";"EU";"NoPolicy_V4";"CO2rel2010";23.1364853926172;"MtCO2";2050
+"*PRIMES_V1";"NPi2020_low_V4";"Carbon budget 1000";"national";"EU";"NoPOL_V4";"CO2rel2010";24.6032636596836;"MtCO2";2050
+"*PRIMES_V1";"NPi2020_verylow_V4";"Carbon budget 400";"national";"EU";"NoPolicy_V4";"CO2rel2010";23.8278306369131;"MtCO2";2050
+"*AIM/Enduse[Japan]";"INDC_V4";"NDC";"national";"JPN";"NoPOL_V4";"CO2rel2010";32.6757124606203;"MtCO2";2050
+"*DNE21+ V.14 (national)";"INDC_V4";"NDC";"national";"JPN";"NoPOL_V4";"CO2rel2010";33.0562582106759;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"CO2rel2010";33.3692513934996;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"CO2rel2010";30.3347542913734;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"CO2rel2010";34.2429845018697;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"CO2rel2010";34.5364490608305;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"CO2rel2010";35.4608901433506;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"CO2rel2010";33.7077966629224;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"JPN";"NoPolicy_V4";"CO2rel2010";31.0980253309111;"MtCO2";2050
+"*AIM/Enduse[Japan]";"NoPOL_V4";"No policy";"national";"JPN";"-";"CO2rel2010";41.3165849781015;"MtCO2";2050
+"*DNE21+ V.14 (national)";"NoPOL_V4";"No policy";"national";"JPN";"-";"CO2rel2010";41.1555125251772;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"JPN";"-";"CO2rel2010";44.9964112302727;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"JPN";"-";"CO2rel2010";29.3893910761931;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"JPN";"-";"CO2rel2010";41.31801479585;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"JPN";"-";"CO2rel2010";35.5098820070695;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"JPN";"-";"CO2rel2010";33.7469033298986;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"JPN";"-";"CO2rel2010";36.0746276119821;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"CO2rel2010";42.0165210618471;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"CO2rel2010";29.3397059234046;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"CO2rel2010";39.1754459518855;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"CO2rel2010";34.7439005304318;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"CO2rel2010";35.2981949550009;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"CO2rel2010";33.1434083494418;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"JPN";"NoPolicy_V4";"CO2rel2010";34.3983118514653;"MtCO2";2050
+"*AIM/Enduse[Japan]";"NPi_V4";"National policies";"national";"JPN";"NoPolicy_V4";"CO2rel2010";37.8016455055828;"MtCO2";2050
+"*DNE21+ V.14 (national)";"NPi_V4";"National policies";"national";"JPN";"NoPolicy_V4";"CO2rel2010";37.8402809774988;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"CO2rel2010";29.7666846400541;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"CO2rel2010";21.4608047217208;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"CO2rel2010";29.3716863154398;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"CO2rel2010";26.0938761316896;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"CO2rel2010";24.9465744941415;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"CO2rel2010";27.388054086212;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"JPN";"NoPolicy_V4";"CO2rel2010";24.7551444313757;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"CO2rel2010";27.0684493768274;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"CO2rel2010";16.103712634785;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"CO2rel2010";21.2332816932052;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"CO2rel2010";23.3824343767392;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"CO2rel2010";18.1803121742259;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"CO2rel2010";24.7448272967532;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"JPN";"NoPolicy_V4";"CO2rel2010";22.1250130714664;"MtCO2";2050
+"*AIM/Enduse[Japan]";"NPi2020_low_V4";"Carbon budget 1000";"national";"JPN";"NoPOL_V4";"CO2rel2010";26.061561089769;"MtCO2";2050
+"*DNE21+ V.14 (national)";"NPi2020_low_V4";"Carbon budget 1000";"national";"JPN";"NoPOL_V4";"CO2rel2010";26.2075941266137;"MtCO2";2050
+"AIM V2.1";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"CO2rel2010";34.3807586947883;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"CO2rel2010";39.7404212359559;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"CO2rel2010";33.6616773571349;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"CO2rel2010";33.9625215787499;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"CO2rel2010";30.6585153615238;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"CO2rel2010";30.8304265358889;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"CO2rel2010";27.2183788029326;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"CO2rel2010";27.4911641148627;"MtCO2";2050
+"WITCH2016";"INDCi_V4";"NDC";"global";"USA";"NoPolicy_V4";"CO2rel2010";34.897751337337;"MtCO2";2050
+"*GCAM-USA_CDLINKS";"NoPOL_V4";"No policy";"national";"USA";"-";"CO2rel2010";46.531248675748;"MtCO2";2050
+"AIM V2.1";"NoPolicy_V4";"No policy";"global";"USA";"-";"CO2rel2010";49.2037610109215;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"CO2rel2010";48.3351722989199;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"USA";"-";"CO2rel2010";48.5143079097938;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"CO2rel2010";38.8459420595325;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"CO2rel2010";40.2630409783369;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"USA";"-";"CO2rel2010";38.8710273543446;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"USA";"-";"CO2rel2010";44.5940265150714;"MtCO2";2050
+"WITCH2016";"NoPolicy_V4";"No policy";"global";"USA";"-";"CO2rel2010";44.4740360752616;"MtCO2";2050
+"AIM V2.1";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"CO2rel2010";45.9124398464018;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"CO2rel2010";44.3277807642349;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"CO2rel2010";44.9241804272237;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"CO2rel2010";39.835577728513;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"CO2rel2010";32.2376993283788;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"CO2rel2010";36.9695616385421;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"CO2rel2010";37.488433730995;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"CO2rel2010";32.4180119517362;"MtCO2";2050
+"WITCH2016";"NPi_V4";"National policies";"global";"USA";"NoPolicy_V4";"CO2rel2010";44.1313856259822;"MtCO2";2050
+"*GCAM-USA_CDLINKS";"NPi_V4";"National policies";"national";"USA";"NoPolicy_V4";"CO2rel2010";41.903627430255;"MtCO2";2050
+"AIM V2.1";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"CO2rel2010";27.9982810099011;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"CO2rel2010";36.1775869686887;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"CO2rel2010";27.049264422746;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"CO2rel2010";26.1834994420197;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"CO2rel2010";22.7223073038348;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"CO2rel2010";29.0572073646917;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"CO2rel2010";26.6202781521086;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"CO2rel2010";24.0331085769154;"MtCO2";2050
+"WITCH2016";"NPi2020_1000_V4";"Carbon budget 1000";"global";"USA";"NoPolicy_V4";"CO2rel2010";21.8831412699841;"MtCO2";2050
+"AIM V2.1";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"CO2rel2010";24.2674733943774;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"CO2rel2010";29.5862603141395;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"CO2rel2010";17.9766427772413;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"CO2rel2010";23.700018774237;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"CO2rel2010";18.0502166324032;"MtCO2";2050
+"MESSAGEix-GLOBIOM_1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"CO2rel2010";23.4748675528651;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"CO2rel2010";22.9507101619614;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"CO2rel2010";19.3157771690351;"MtCO2";2050
+"WITCH2016";"NPi2020_400_V4";"Carbon budget 400";"global";"USA";"NoPolicy_V4";"CO2rel2010";18.8316319755974;"MtCO2";2050
+"*GCAM-USA_CDLINKS";"NPi2020_low_V4";"Carbon budget 1000";"national";"USA";"NoPOL_V4";"CO2rel2010";20.3985355157315;"MtCO2";2050
+"*RU-TIMES 3.2";"INDC_V4";"NDC";"national";"RUS";"NoPOL_V4";"CO2rel2010";43.387575661295;"MtCO2";2050
+"COPPE-COFFEE 1.0";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"CO2rel2010";51.1392768883979;"MtCO2";2050
+"DNE21+ V.14";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"CO2rel2010";51.6828466684188;"MtCO2";2050
+"GEM-E3";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"CO2rel2010";47.9113353981886;"MtCO2";2050
+"IMAGE 3.0";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"CO2rel2010";48.0619563322069;"MtCO2";2050
+"POLES CDL";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"CO2rel2010";47.236590351236;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"INDCi_V4";"NDC";"global";"RUS";"NoPolicy_V4";"CO2rel2010";50.9356842046258;"MtCO2";2050
+"*RU-TIMES 3.2";"NoPOL_V4";"No policy";"national";"RUS";"-";"CO2rel2010";43.906582672882;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NoPolicy_V4";"No policy";"global";"RUS";"-";"CO2rel2010";48.8214174058096;"MtCO2";2050
+"DNE21+ V.14";"NoPolicy_V4";"No policy";"global";"RUS";"-";"CO2rel2010";52.7576360368812;"MtCO2";2050
+"IMAGE 3.0";"NoPolicy_V4";"No policy";"global";"RUS";"-";"CO2rel2010";47.7595407141851;"MtCO2";2050
+"POLES CDL";"NoPolicy_V4";"No policy";"global";"RUS";"-";"CO2rel2010";48.7973588268321;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NoPolicy_V4";"No policy";"global";"RUS";"-";"CO2rel2010";52.3705848134579;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"CO2rel2010";49.4396168946917;"MtCO2";2050
+"DNE21+ V.14";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"CO2rel2010";53.3264420953156;"MtCO2";2050
+"GEM-E3";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"CO2rel2010";47.064763566796;"MtCO2";2050
+"IMAGE 3.0";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"CO2rel2010";48.04491244774;"MtCO2";2050
+"POLES CDL";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"CO2rel2010";47.858302637422;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi_V4";"National policies";"global";"RUS";"NoPolicy_V4";"CO2rel2010";52.2021087969837;"MtCO2";2050
+"*RU-TIMES 3.2";"NPi_V4";"National policies";"national";"RUS";"NoPolicy_V4";"CO2rel2010";43.6767671677348;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"CO2rel2010";36.3451884843575;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"CO2rel2010";37.4936165640346;"MtCO2";2050
+"GEM-E3";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"CO2rel2010";30.0525226428718;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"CO2rel2010";32.1859265725274;"MtCO2";2050
+"POLES CDL";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"CO2rel2010";32.3181790354718;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_1000_V4";"Carbon budget 1000";"global";"RUS";"NoPolicy_V4";"CO2rel2010";29.4672555678944;"MtCO2";2050
+"COPPE-COFFEE 1.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"CO2rel2010";27.3845066031729;"MtCO2";2050
+"DNE21+ V.14";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"CO2rel2010";20.9787811654879;"MtCO2";2050
+"GEM-E3";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"CO2rel2010";24.0671724177893;"MtCO2";2050
+"IMAGE 3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"CO2rel2010";27.6193161425685;"MtCO2";2050
+"POLES CDL";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"CO2rel2010";27.1468592096861;"MtCO2";2050
+"REMIND-MAgPIE 1.7-3.0";"NPi2020_400_V4";"Carbon budget 400";"global";"RUS";"NoPolicy_V4";"CO2rel2010";26.0080046941228;"MtCO2";2050
+"*RU-TIMES 3.2";"NPi2020_low_V4";"Carbon budget 1000";"national";"RUS";"NoPOL_V4";"CO2rel2010";32.0808438313939;"MtCO2";2050

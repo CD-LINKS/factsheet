@@ -42,6 +42,8 @@ all_hist <- ""
 
 # general settings
 regions_IAM <- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "CAN", "TUR", "Bunkers", "World")
+GWP_CH4 <- 25
+GWP_N2O <- 298
 
 # Historical GHG emissions (GgCO2eq = MtCO2e)
 #-->"Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|AFOLU", "Emissions|CH4","Emissions|N2O","Emissions|F-Gases"
@@ -73,11 +75,13 @@ PRIMAP_IAM$region=str_replace_all(PRIMAP_IAM$region,"EU28","EU")
 
 PRIMAP_Kyoto <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "KYOTOGHGAR4", "Emissions|Kyoto Gases")
 PRIMAP_CO2 <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "CO2", "Emissions|CO2")
+PRIMAP_CO2_energy <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT1", "CO2", "Emissions|CO2|Energy")
+PRIMAP_CO2_industry <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT2", "CAT3"), "CO2", "Emissions|CO2|Industrial Processes")
 PRIMAP_CO2_energy_industry <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT1", "CAT2", "CAT3"), "CO2", "Emissions|CO2|Energy and Industrial Processes")
 PRIMAP_CO2_AFOLU <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT4", "CAT5"), "CO2", "Emissions|CO2|AFOLU")
 PRIMAP_CH4 <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "CH4", "Emissions|CH4")
 PRIMAP_N2O <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "N2O", "Emissions|N2O")
-PRIMAP_FGases <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "FGASES", "Emissions|F-Gases")
+PRIMAP_FGases <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "FGASESAR4", "Emissions|F-Gases")
 
 # ADD BUNKERS emissions from EDGAR
 # Historical data from EDGAR
@@ -103,7 +107,8 @@ tmp2$period <- 2014
 tmp3 <- filter(EDGAR_bunkers, period==2012)
 tmp3$period <- 2015
 EDGAR_bunkers <- rbind(EDGAR_bunkers, tmp1) %>% rbind(tmp2) %>% rbind(tmp3)
-# add bunkers to World total
+# add bunkers to CO2 andk Kyoto World total
+# Total Kyoto
 tmp <- filter(PRIMAP_Kyoto, region=="World")
 tmp <- left_join(tmp, EDGAR_bunkers, by=c('period')) %>% 
   mutate(value=value.x+value.y) %>%
@@ -112,16 +117,27 @@ tmp <- left_join(tmp, EDGAR_bunkers, by=c('period')) %>%
 tmp <- as.data.frame(tmp)
 PRIMAP_Kyoto <- filter(PRIMAP_Kyoto, region!="World")
 PRIMAP_Kyoto <- rbind(PRIMAP_Kyoto, tmp)
+# CO2
+tmp <- filter(PRIMAP_CO2, region=="World")
+tmp <- left_join(tmp, EDGAR_bunkers, by=c('period')) %>% 
+  mutate(value=value.x+value.y) %>%
+  select(scenario, Category, Baseline, model, region.x, period, Scope, value, unit.x, variable) %>%
+  rename(region=region.x, unit=unit.x)
+tmp <- as.data.frame(tmp)
+PRIMAP_CO2 <- filter(PRIMAP_CO2, region!="World")
+PRIMAP_CO2 <- rbind(PRIMAP_CO2, tmp)
 
 # Add to all
-all_PRIMAP <- rbind(PRIMAP_Kyoto,PRIMAP_CO2) %>% rbind(PRIMAP_CO2_energy_industry) %>% rbind(PRIMAP_CO2_AFOLU) %>% rbind(PRIMAP_CH4) %>% rbind(PRIMAP_N2O) %>% rbind(PRIMAP_FGases)
+all_PRIMAP <- rbind(PRIMAP_Kyoto,PRIMAP_CO2) %>% rbind(PRIMAP_CO2_energy) %>% rbind(PRIMAP_CO2_industry) %>% rbind(PRIMAP_CO2_energy_industry) %>% 
+              rbind(PRIMAP_CO2_AFOLU) %>% rbind(PRIMAP_CH4) %>% rbind(PRIMAP_N2O) %>% rbind(PRIMAP_FGases)
 write.table(PRIMAP_IAM, file="data/PRIMAP_IAM.csv", sep=";", row.names=F)  
 all_hist <- all_PRIMAP
 
 # add variables
-all_hist <- calcVariable(all_hist,'`Emissions|Kyoto Gases|Excl. AFOLU CO2` ~ (`Emissions|Kyoto Gases`)-(`Emissions|CO2|AFOLU`)' , newUnit='GgCO2eq')
+all_hist <- calcVariable(all_hist,'`Emissions|Kyoto Gases|Excl. AFOLU CO2` ~ (`Emissions|Kyoto Gases`)-(`Emissions|CO2|AFOLU`)' , newUnit='Mt')
+all_hist <- calcVariable(all_hist,'`Emissions|Non-CO2` ~ 25*(`Emissions|CH4`)+298*(`Emissions|N2O`)+(`Emissions|F-Gases`)' , newUnit='EJ/$US 2005')
 
-################# IEA NERGY DATA ##############################
+################# IEA ENERGY DATA ##############################
 
 # Impport historical energy data
 # IEA codes
@@ -142,6 +158,7 @@ IEA_light_oil_product <- c("REFINGAS",	"ETHANE",	"LPG",	"NONBIOGASO",	"AVGAS",	"
                            "NONBIODIES",	"RESFUEL",	"NAPHTHA",	"WHITESP",	"LUBRIC",	"BITUMEN",	"PARWAX",	"PETCOKE",	
                            "ONONSPEC",	"NONBIOJETK")
 IEA_other_ren_product <- c("GEOTHERM", "SOLARPV", "SOLARTH", "WIND", "TIDE", "OTHER")
+# biomass include CHARCOAL?
 IEA_biomass_product <- c("PRIMSBIO", "CHARCOAL", "BIOGASES", "BIODIESEL", "BIOGASOL", "BIOJETKERO", 
                          "OBIOLIQ", "INDWASTE", "MUNWASTEN", "MUNWASTER")
 IEA_ren_products <- c("NUCLEAR", "HYDRO", IEA_other_ren_product, IEA_biomass_product, "ELECTR", "HEAT")
@@ -159,8 +176,6 @@ regions_IEA_IAM <- c("BRAZIL",  "CHINA+", "EU28", "INDIA", "JAPAN", "RUSSIA", "U
 IEA_energy_import <- read.csv("data/IEA-tj-1990-2015-v2.csv", header=TRUE, sep=",")
 IEA_energy <- rename(IEA_energy_import, region=COUNTRY, period=Year, unit=UNIT, value=VALUE) %>%
   select(region, FLOW, PRODUCT, period, value, unit)
-# remove bunkers for COUNTRIES, not for WORLD
-#IEA_energy[which(IEA_energy$region!="WORLD" & IEA_energy$FLOW%in%IEA_bunkers_flow),]$value <- 0
 # detect missing records and add zero's (necassary for CalVariables function)
 IEA_empty <- CreateEmptyIEA_energy(IEA_energy, regions_IEA_IAM_import, IEA_flows_import, c(IEA_products))
 IEA_tmp <- anti_join(IEA_empty, IEA_energy, by=c('region', 'FLOW', 'PRODUCT', 'period', 'unit'))
@@ -326,6 +341,7 @@ all_IEA <- rbind(IEA_Electricity, IEA_Coal_Electricity) %>% rbind(IEA_CrudeOil_E
            rbind(IEA_Biomass_PrimaryEnergy) %>% rbind(IEA_Nuclear_PrimaryEnergy)
   
 all_hist <- rbind(all_hist, all_IEA)
+all_hist$value <- as.numeric(all_hist$value)
 
 # make one oil variable
 
@@ -346,14 +362,19 @@ all_hist <- calcVariable(all_hist,'`Secondary Energy|Heat|Renewable share` ~ ife
 all_hist <- calcVariable(all_hist,'`Secondary Energy|Heat|Non-fossil share` ~ ifelse(`Secondary Energy|Heat`==0,0,100*((`Secondary Energy|Heat|Non-fossil`))/(`Secondary Energy|Heat`))' , newUnit='%')
 
 # add renewable final energy
-all_hist <- calcVariable(all_hist,'`Final Energy|Renewable` ~ (`Final Energy|Biomass`)+(`Final Energy|Other Renewables`)+
-                                  (1/100)*(`Secondary Energy|Electricity|Renewable share`)*(`Final Energy|Electricity`)+
-                                  (1/100)*(`Secondary Energy|Heat|Renewable share`)*(`Final Energy|Heat`)', 
-                                  newUnit='EJ/yr')
-all_hist <- calcVariable(all_hist,'`Final Energy|Non-fossil` ~ (`Final Energy|Biomass`)+(`Final Energy|Other Renewables`)+
-                                  (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Electricity`)+
-                                  (1/100)*(`Secondary Energy|Heat|Non-fossil share`)*(`Final Energy|Heat`)', 
-                                  newUnit='EJ/yr')
+all_hist <- calcVariable(all_hist,'`Final Energy|Solids|Biomass|Traditional` ~ (`Final Energy|Residential and Commercial|Biomass`)', newUnit='EJ/yr')
+all_hist <- calcVariable(all_hist,'`Final Energy|Renewable` ~ (`Final Energy|Biomass`)-(`Final Energy|Solids|Biomass|Traditional`)+ 
+                                                              (`Final Energy|Other Renewables`)+
+                                                              (1/100)*(`Secondary Energy|Electricity|Renewable share`)*(`Final Energy|Electricity`)+
+                                                              (1/100)*(`Secondary Energy|Heat|Renewable share`)*(`Final Energy|Heat`)', 
+                                                              newUnit='EJ/yr')
+all_hist <- calcVariable(all_hist,'`Final Energy|Non-fossil` ~ (`Final Energy|Biomass`)-(`Final Energy|Solids|Biomass|Traditional`)+ 
+                                                               #nuclear is zero (`Final Energy|Nuclear`)+
+                                                               (`Final Energy|Other Renewables`)+
+                                                               (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Electricity`)+
+                                                               (1/100)*(`Secondary Energy|Heat|Non-fossil share`)*(`Final Energy|Heat`)', 
+                                                               newUnit='EJ/yr')
+all_hist <- calcVariable(all_hist,'`Final Energy|Fossil` ~ (`Final Energy`)-(`Final Energy|Non-fossil`)' , newUnit='EJ/yr')
 all_hist <- calcVariable(all_hist,'`Final Energy|Renewable share` ~ 100*((`Final Energy|Renewable`))/(`Final Energy`)' , newUnit='%')
 all_hist <- calcVariable(all_hist,'`Final Energy|Non-fossil share` ~ 100*((`Final Energy|Non-fossil`))/(`Final Energy`)' , newUnit='%')
 
@@ -365,7 +386,8 @@ all_hist <- calcVariable(all_hist,'`Final Energy|Industry|Renewable` ~ (`Final E
                                   newUnit='EJ/yr')
 all_hist <- calcVariable(all_hist,'`Final Energy|Industry|Non-fossil` ~ (`Final Energy|Industry|Biomass`)+(`Final Energy|Industry|Other Renewables`)+
                                   (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Industry|Electricity`)+
-                                  (1/100)*(`Secondary Energy|Heat|Non-fossil share`)*(`Final Energy|Industry|Heat`)' , newUnit='EJ/yr')
+                                  (1/100)*(`Secondary Energy|Heat|Non-fossil share`)*(`Final Energy|Industry|Heat`)' , 
+                                  newUnit='EJ/yr')
 all_hist <- calcVariable(all_hist,'`Final Energy|Industry|Renewable share` ~ 100*((`Final Energy|Industry|Renewable`))/(`Final Energy|Industry`)' , newUnit='%')
 all_hist <- calcVariable(all_hist,'`Final Energy|Industry|Non-fossil share` ~ 100*((`Final Energy|Industry|Non-fossil`))/(`Final Energy|Industry`)' , newUnit='%')
 # transport
@@ -389,10 +411,12 @@ all_hist <- calcVariable(all_hist,'`Final Energy|Residential and Commercial|Non-
 # other
 all_hist <- calcVariable(all_hist,'`Final Energy|Other|Renewable` ~ (`Final Energy|Other|Biomass`)+(`Final Energy|Other|Other Renewables`)+
                                     (1/100)*(`Secondary Energy|Electricity|Renewable share`)*(`Final Energy|Other|Electricity`)+
-                                    (1/100)*(`Secondary Energy|Heat|Renewable share`)*(`Final Energy|Other|Heat`)', newUnit='EJ/yr')
+                                    (1/100)*(`Secondary Energy|Heat|Renewable share`)*(`Final Energy|Other|Heat`)', 
+                                    newUnit='EJ/yr')
 all_hist <- calcVariable(all_hist,'`Final Energy|Other|Non-fossil` ~ (`Final Energy|Other|Biomass`)+(`Final Energy|Other|Other Renewables`)+
                                     (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Other|Electricity`)+
-                                    (1/100)*(`Secondary Energy|Heat|Non-fossil share`)*(`Final Energy|Other|Heat`)', newUnit='EJ/yr')
+                                    (1/100)*(`Secondary Energy|Heat|Non-fossil share`)*(`Final Energy|Other|Heat`)', 
+                                    newUnit='EJ/yr')
 all_hist <- calcVariable(all_hist,'`Final Energy|Other|Renewable share` ~ 100*((`Final Energy|Other|Renewable`))/(`Final Energy|Other`)', newUnit='%')
 all_hist <- calcVariable(all_hist,'`Final Energy|Other|Non-fossil share` ~ 100*((`Final Energy|Other|Non-fossil`))/(`Final Energy|Other`)',newUnit='%')
 
@@ -416,7 +440,7 @@ vars_IEA_balance <- c("Secondary Energy|Electricity", "Secondary Energy|Electric
                       "Final Energy|Other", "Final Energy|Other|Renewable", "Final Energy|Other|Non-fossil", "Final Energy|Other|Biomass",
                       "Final Energy|Other|Renewable share", "Final Energy|Other|Non-fossil share")
 
-IEA_balance <- filter(all_hist, model=="IEA", variable %in% vars_IEA_balance) %>% 
+IEA_balance <- filter(all_hist, model=="History", variable %in% vars_IEA_balance) %>% 
                select(Category, region, period, value, unit, variable)
 IEA_balance$value <- format(IEA_balance$value, scientific=FALSE)
 write.table(IEA_balance, file="data/IEA_balance.csv", sep=";", row.names=F)  
@@ -436,19 +460,25 @@ OECD_GDP_MER <- subset(OECD_GDP_MER, region != "dummy")
 EU <- inner_join(filter(OECD_GDP_MER, region=='WEU'), filter(OECD_GDP_MER, region=='CEU'), by=c("year"))
 EU$region <- "EU"
 EU <- EU %>% mutate(value=value.x+value.y) %>% select(year, region, value)
-EU$region = factor(EU$region, levels=regions_IMAGE_EU)
+#EU$region = factor(EU$region, levels=regions_IMAGE_EU)
 OECD_GDP_MER <- rbind(OECD_GDP_MER, EU)
-OECD_GDP_MER$region = factor(OECD_GDP_MER$region,labels=regions_IMAGE_EU)
+#OECD_GDP_MER$region = factor(OECD_GDP_MER$region,labels=regions_IMAGE_EU)
 OECD_GDP_MER <- mutate(OECD_GDP_MER, unit="billion US$2010/yr")
 # convert to IAM structure (all)
 OECD_GDP_MER <- filter(OECD_GDP_MER, region%in%regions_IAM)
 OECD_GDP_MER <- rename(OECD_GDP_MER, period=year)
-OECD_GDP_MER <- mutate(OECD_GDP_MER, scenario="") %>% mutate(Category="Historical") %>% mutate(Baseline="") %>% mutate(model="OECD") %>% mutate(Scope="") %>% 
+OECD_GDP_MER <- mutate(OECD_GDP_MER, scenario="") %>% mutate(Category="Historical") %>% mutate(Baseline="") %>% mutate(model="History") %>% mutate(Scope="") %>% 
                 mutate(variable="GDP|MER")
 OECD_GDP_MER <- select(OECD_GDP_MER, scenario, Category, Baseline, model, region, period, Scope, value, unit, variable)
 OECD_GDP_MER <- as.data.frame(OECD_GDP_MER)
 all_hist <- rbind(all_hist, OECD_GDP_MER)
 # calculate co2-intensity
-all_hist <- calcVariable(all_hist,'`Carbon Intensity of GDP|MER` ~ `Emissions|CO2`/`GDP|MER` ' , newUnit='kg CO2/$US 2010')
+all_hist <- calcVariable(all_hist,'`Carbon Intensity of GDP|MER` ~ (`Emissions|CO2`)/(`GDP|MER`)' , newUnit='kg CO2/$US 2010')
 all_hist[variable=="Carbon Intensity of GDP|MER"]$model <- "PRIMAP/OECD"
+
+# Kaya indicators
+all_hist <- calcVariable(all_hist,'`Energy intensity of GDP` ~ (`Primary Energy`)/(`GDP|MER`)' , newUnit='EJ/$US 2005')
+all_hist <- calcVariable(all_hist,'`Conversion efficiency` ~ (`Final Energy`)/(`Primary Energy`)' , newUnit='%')
+all_hist <- calcVariable(all_hist,'`Carbon intensity of fossil-fuel use` ~ (`Emissions|CO2|Energy`)/(`Final Energy|Fossil`)' , newUnit='Mt CO2/EJ')
+
 
