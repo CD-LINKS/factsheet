@@ -433,6 +433,5 @@ d_nuclear_IND_NDC      <- filter(INDCi$ElecCap, region=="INDIA", year>=2010, yea
 d_nuclear_IND_NPi_1000 <- filter(NPi2020_1000$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Nuclear")  %>% mutate(scenario="NPi2020_1000")
 d_nuclear_IND_NDC_1000 <- filter(INDC2030i_1000$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Nuclear")  %>% mutate(scenario="INDC2030i_1000")
 d_nuclear_IND <- rbind(d_nuclear_IND_NoPolicy, d_nuclear_IND_NPi) %>% rbind(d_nuclear_IND_NDC) %>% rbind(d_nuclear_IND_NPi_1000) %>% rbind(d_nuclear_IND_NDC_1000)
-
 ggplot(data=d_nuclear_IND) + geom_line(aes(x=year, y=value, colour=scenario)) + theme_bw() + ylab("MW")
 
