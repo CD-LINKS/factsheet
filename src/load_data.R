@@ -124,17 +124,21 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
   all <- rbind(all,gem)
  
   #### from raw wide format to long format with additional columns
+  cat("- change format data\n")
   all <- process_data(all,scens)
 
   #re-factorize all character and numeric columns
+  cat("- factorise data\n")
   all <- factor.data.frame(all)
  
   ###### Manual changes before addition of calculated variables  
+  cat("- make adjustments to data\n")
   source(paste(adjust,".R",sep=""))  
   
   #### add variables
   if(addvars){
-  all <- add_variables(all,scens)
+    cat("- add variables to data\n")
+    all <- add_variables(all,scens)
   }
 
   #set scope to "national" for national models
