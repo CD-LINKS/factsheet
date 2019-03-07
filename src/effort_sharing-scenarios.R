@@ -84,10 +84,6 @@ a = a + ylab(allocation$unit)
 ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=12,dpi=200)
 
 # Emissions ---------------------------------------------------------------
-
-# TODO Another indicator to look at is just emissions: first you can check how much the global profiles are still met in the flexibility cases, 
-# and in the domestic scenarios, you might have lower global emissions due to hot air, or higher due to the infeasibilities in your model 
-# (if I understand correctly, infeasibility in IMAGE means you hit the max allowable carbon price of 1200$/t CO2.
 # TODO reductions relative to baseline? (get NoPolicy from 'all' - only Kyoto Gases)
 # TODO check cumulative emissions in line with carbon budgets?
 
@@ -347,6 +343,26 @@ c3 = c3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 c3 = c3 + ylab(costsstat$unit)
 ggsave(file=paste(outdir,"/costs_GDP_compare.png",sep=""),c3,width=20,height=12,dpi=200)
 
+costsrel = spread(costs[period%in%c(2020,2030,2050,2100)],period,value)
+costsrel = costsrel%>%mutate(rel2030=(`2030`-`2020`)/`2020`*100,rel2050=(`2050`-`2020`)/`2020`*100,rel2100=(`2100`-`2020`)/`2020`*100)
+costsrel=data.table(gather(costsrel,period,value,c("2020","2030","2050","2100","rel2030","rel2050","rel2100")))
+costsrel=costsrel[period%in%c("rel2030","rel2050","rel2100")]
+costsrel$unit<-"%"  
+costsrel$period=str_replace_all(costsrel$period,"rel2030","2030")
+costsrel$period=str_replace_all(costsrel$period,"rel2050","2050")
+costsrel$period=str_replace_all(costsrel$period,"rel2100","2100")
+costsrel<-na.omit(costsrel)
+
+c4 = ggplot(costsrel[period%in%c(2030,2050,2100)&implementation=="flexibility"&!model=="IMAGE 3.0"]) #TODO: check what goes wrong with IMAGE
+c4 = c4 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+c4 = c4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c4 = c4 + facet_grid(period~model)
+c4 = c4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16),
+                             axis.text.x = element_text(angle=45))
+c4 = c4 + ylab(costsrel$unit)
+ggsave(file=paste(outdir,"/costs_GDP_rel2020.png",sep=""),c4,width=20,height=12,dpi=200)
+
+  
 # costs Annex I fraction GDP / fraction GDP non-Annex I. Now for R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF. 
 # TODO for OECD countries (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
 
