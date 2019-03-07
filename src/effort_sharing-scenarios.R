@@ -135,7 +135,7 @@ ggsave(file=paste(outdir,"/Trade-allowances-value.png",sep=""),f,width=20,height
 
 # per model
 for(mod in unique(finflow$model)){
-  f0 = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+  f0 = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"&model==mod])
   f0 = f0 + geom_bar(stat="identity", aes(x=region, y=value,fill=region),position="dodge")
   f0 = f0 + scale_fill_brewer(palette="Accent")
   f0 = f0 + facet_grid(period~regime)
@@ -220,7 +220,7 @@ ggsave(file=paste(outdir,"/Trade-allowances-volume.png",sep=""),t,width=20,heigh
 
 # per model
 for(mod in unique(trade$model)){
-  t0 = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+  t0 = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"&model==mod])
   t0 = t0 + geom_bar(stat="identity", aes(x=region, y=value,fill=region),position="dodge")
   t0 = t0 + scale_fill_brewer(palette="Accent")
   t0 = t0 + facet_grid(period~regime)
@@ -277,7 +277,7 @@ price=data[variable=="Price|Carbon"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OEC
 price[model=="AIM/CGE[Japan]"]$model<-"AIM-CGE[Japan]"
 price[model=="AIM/Enduse[Japan]"]$model<-"AIM-Enduse[Japan]"
 for(mod in unique(price$model)){  
-  p0 = ggplot(price[period%in%c(2030,2050,2100)]) #&implementation=="flexibility"
+  p0 = ggplot(price[period%in%c(2030,2050,2100)&model==mod]) #&implementation=="flexibility"
   p0 = p0 + geom_path(aes(x=period, y=value,colour=region),size=1)
   p0 = p0 + scale_color_brewer(palette="Accent")
   p0 = p0 + facet_grid(implementation~regime)
@@ -382,7 +382,9 @@ c2 = c2 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 c2 = c2 + ylab(costratio$variable)
 ggsave(file=paste(outdir,"/costratio_OECD_R5rest.png",sep=""),c2,width=20,height=12,dpi=200)
 
-# cost ratio vs. financial flows - update for native model regions financial flows? TODO: cdlinks_effort_sharing_native_20190226-141849
+
+# Cost ratio vs financial flows -------------------------------------------
+# model median - update for native model regions financial flows? TODO: cdlinks_effort_sharing_native_20190226-141849
 costratiostat=costratio[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
                             min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime")]
 
@@ -399,6 +401,24 @@ i = i + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_te
 i = i + ylab(costratio$variable)
 i = i + xlab(finflowsstat$unit)
 ggsave(file=paste(outdir,"/costratio_financialflows.png",sep=""),i,width=20,height=12,dpi=200)
+
+# per model
+finflows$period<-as.numeric(as.character(finflows$period))
+indicatorm=merge(finflows,costratio,by=c("implementation","regime","period","model"))
+indicatorm$period<-as.factor(indicatorm$period)
+
+for(mod in unique(indicatorm$model)){  
+  i0 = ggplot(indicatorm[implementation=="flexibility"&period%in%c(2030,2050,2100)&model==mod])
+  i0 = i0 + geom_point(aes(x=value.x,y=value.y,fill=regime,colour=regime,shape=period),size=5)
+  i0 = i0 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+  i0 = i0 + geom_hline(aes(yintercept=1),size=1)
+  i0 = i0 + geom_vline(aes(xintercept=100),size=1)
+  i0 = i0 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+  i0 = i0 + ylab(costratio$variable)
+  i0 = i0 + xlab(finflowsstat$unit)
+  i0 = i0 + ggtitle(mod)
+  ggsave(file=paste0(outdir,"/costratio_financialflows_",mod,".png"),i0,width=20,height=12,dpi=200)
+  }
 
 # Socioeconomic impacts ---------------------------------------------------
 
