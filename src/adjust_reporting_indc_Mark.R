@@ -40,8 +40,8 @@ tmp1$variable<-"Secondary Energy|Electricity|Geothermal"
 tmp1$value<-0
 all<-rbind(all,tmp1)
 
-
-
+# do not use AIM/CGE
+all<-all[!(model=="AIM/CGE")]
 
 # Adding final energy other sector to models that don't report it, needed for calculation of total renewable energy share
 # Final Energy|Other Sector|
@@ -49,12 +49,13 @@ tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy"]$model),unique(
           &variable=="Final Energy"]
 tmp1$variable<-"Final Energy|Other Sector"
 tmp1$value<-0
+all<-rbind(all,tmp1)
 # Final Energy|Other Sector|Electricity
 tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy|Electricity"]$model),unique(all[variable=="Final Energy|Other Sector|Electricity"]$model))
           &variable=="Final Energy|Electricity"]
 tmp1$variable<-"Final Energy|Other Sector|Electricity"
 tmp1$value<-0
-
+all<-rbind(all,tmp1)
 # Adding final energy biomass variables to models that don't report it, needed for calculation of total renewable energy share
 # Final Energy|Residential and Commercial|Biomass
 tmp1<-all[model %in% setdiff(unique(all[variable=="Final Energy"]$model),unique(all[variable=="Final Energy|Residential and Commercial|Solids|Biomass"]$model))
@@ -336,6 +337,8 @@ if(dim(tmp1)[1]!=0 & "Secondary Energy|Electricity|Gas" %in% unique(tmp1$variabl
 # 5. POLES: harmonise AFOLU CO2 emissions using FAOSTAT data
 # 6. a) Add Secondary Energy|Electricity|Geothermal for AIM V2.1 if this is missing
 #    b) Add  "Secondary Energy|Electricity|Coal|w/o CCS", "Secondary Energy|Electricity|Gas|w/o CCS","Secondary Energy|Electricity|Oil|w/o CCS" with zero values
+# 7. For AIM V2.1 and REMIND, Primary Energy|Fossil is zero, replace by sum coal, oil, gas
+#    For DNE21+ V.14 and WITCH both NoPolicy_V4 and NPi_V4
 
 # 1. change AIM|Enduse 3.0 to AIM-India[IIMA]
 all[model=="AIM/Enduse 3.0","model"] <- "AIM-India [IIMA]"
@@ -461,40 +464,6 @@ setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Sc
 all=all[!(variable%in%c("Final Energy|Solids|Biomass|Traditional") & model%in%c("WITCH2016"))]
 all<-rbind(all,tmp)
 
-# database contains traditinoal biomass for DNE, but these are zero, so first delete
-#all=all[!(variable%in%c("Final Energy|Solids|Biomass|Traditional") & model%in%c("DNE21+ V.14"))]
-#tmpDNE=tmp
-#tmpDNE$model<-"DNE21+ V.14"
-#scenarios=all[model%in%c("DNE21+ V.14"),list(scenario=unique(scenario),Baseline=unique(Baseline)),by=c("Category")]
-#tmpDNE=merge(tmpDNE,scenarios,by=c("Category"))
-#setcolorder(tmpDNE,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
-#regions=all[model%in%c("DNE21+ V.14"),list(region=unique(region)),by=c("model")]
-#scenarios=all[model%in%c("DNE21+ V.14"),list(scenario=unique(scenario)),by=c("model")]
-#tmpDNE=tmpDNE[region%in%regions[model=="DNE21+ V.14"]$region & scenario%in%scenarios[model=="DNE21+ V.14"]$scenario]
-#all<-rbind(all,tmpDNE)
-
-# For COPPE-COFFEE, GEM-E3 and DNE, also add traditional biomass to Final Energy|Solids|Biomass
-#b) Final Energy|Biomass, and Final Energy|Solids|Biomass should include traditional biomass
-#tmp=all[model%in%c("COPPE-COFFEE 1.0")&variable%in%c("Final Energy|Solids|Biomass", "Final Energy|Solids|Biomass|Traditional")]
-#tmp=spread(tmp,variable,value)
-#tmp=tmp%>%mutate(`Final Energy|Solids|Biomass`=`Final Energy|Solids|Biomass`+`Final Energy|Solids|Biomass|Traditional`) 
-#tmp=gather(tmp,variable,value,c(`Final Energy|Solids|Biomass`, `Final Energy|Solids|Biomass|Traditional`))
-#tmp=data.table(tmp)
-#tmp=tmp[variable%in%c("Final Energy|Solids|Biomass")]
-#setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
-#all=all[!(variable%in%c("Final Energy|Solids|Biomass") & model%in%c("COPPE-COFFEE 1.0"))]
-#all<-rbind(all,tmp)
-
-#tmp=all[model%in%c("DNE21+ V.14")&variable%in%c("Final Energy|Solids|Biomass", "Final Energy|Solids|Biomass|Traditional")]
-#tmp=spread(tmp,variable,value)
-#tmp=tmp%>%mutate(`Final Energy|Solids|Biomass`=`Final Energy|Solids|Biomass`+`Final Energy|Solids|Biomass|Traditional`) 
-#tmp=gather(tmp,variable,value,c(`Final Energy|Solids|Biomass`, `Final Energy|Solids|Biomass|Traditional`))
-#tmp=data.table(tmp)
-#tmp=tmp[variable%in%c("Final Energy|Solids|Biomass")]
-#setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
-#all=all[!(variable%in%c("Final Energy|Solids|Biomass") & model%in%c("DNE21+ V.14"))]
-#all<-rbind(all,tmp)
-
 # 6.
 # 6 a)
 reg_tmp <- c('BRA', 'CHN', 'IND', 'RUS')
@@ -515,6 +484,7 @@ tmp1<-all[variable=="Secondary Energy|Electricity|Oil|w/o CCS" & model=="AIM V2.
 tmp1$variable="Secondary Energy|Electricity|Oil|w/ CCS"
 tmp1$value<-0
 all <- rbind(all,tmp1)
+
 
 # Add bunker emissions as separate region -------------------------------
 # to check if error in data processing can be solved
@@ -882,6 +852,7 @@ setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Sc
 all=all_original[!(variable%in%c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU","Emissions|CO2") & model%in%c("POLES CDL"))]
 all<-rbind(all,tmp)
 
+
 # For figure 2 Nature Communciations paper
 # add variables 'Secondary Energy|Electricity|Coal|w/ CCS' and 'Secondary Energy|Electricity|Gas|w/ CCS' with zero value for AIM/CGE
 tmp_var <- c('Secondary Energy|Electricity|Coal|w/ CCS', 'Secondary Energy|Electricity|Gas|w/ CCS')
@@ -891,21 +862,63 @@ tmp$value <- 0
 #setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
 all<-rbind(all,tmp)
 
+# 7
+#all <- as.data.table(all)
+#tmp=all[model%in%c("AIM V2.1")&variable%in%c("Primary Energy|Coal","Primary Energy|Oil","Primary Energy|Gas")&scenario%in%c("NoPolicy_V4")]
+#tmp=spread(tmp,variable,value)
+#tmp=tmp%>%mutate(`Primary Energy|Fossil`=`Primary Energy|Coal`+`Primary Energy|Oil`+`Primary Energy|Gas`)
+#tmp=gather(tmp,variable,value,c("Primary Energy|Fossil","Primary Energy|Coal","Primary Energy|Oil","Primary Energy|Gas"))
+#tmp=data.table(tmp)
+#tmp=tmp[variable%in%c("Primary Energy|Fossil")]
+#setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+#all <- all[!(variable=="Primary Energy|Fossil" & scenario=="NoPolicy_V4" & model=="AIM V2.1")]
+#all<-rbind(all,tmp)
+
+#tmp=all[model%in%c("REMIND-MAgPIE 1.7-3.0")&variable%in%c("Primary Energy|Coal","Primary Energy|Oil","Primary Energy|Gas")&scenario%in%c("NoPolicy_V4")]
+#tmp=spread(tmp,variable,value)
+#tmp=tmp%>%mutate(`Primary Energy|Fossil`=`Primary Energy|Coal`+`Primary Energy|Oil`+`Primary Energy|Gas`)
+#tmp=gather(tmp,variable,value,c("Primary Energy|Fossil","Primary Energy|Coal","Primary Energy|Oil","Primary Energy|Gas"))
+#tmp=data.table(tmp)
+#tmp=tmp[variable%in%c("Primary Energy|Fossil")]
+#setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+#all <- all[!(variable=="Primary Energy|Fossil" & scenario=="NoPolicy_V4" & model=="REMIND-MAgPIE 1.7-3.0")]
+#all<-rbind(all,tmp)
+
+#tmp=all[model%in%c("DNE21+ V.14")&variable%in%c("Primary Energy|Coal","Primary Energy|Oil","Primary Energy|Gas")&scenario%in%c("NoPolicy_V4", "NPi_V4")]
+#tmp=spread(tmp,variable,value)
+#tmp=tmp%>%mutate(`Primary Energy|Fossil`=`Primary Energy|Coal`+`Primary Energy|Oil`+`Primary Energy|Gas`)
+#tmp=gather(tmp,variable,value,c("Primary Energy|Fossil","Primary Energy|Coal","Primary Energy|Oil","Primary Energy|Gas"))
+#tmp=data.table(tmp)
+#tmp=tmp[variable%in%c("Primary Energy|Fossil")]
+#setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+#all <- all[!(variable=="Primary Energy|Fossil" & scenario%in%c("NoPolicy_V4", "NPi_V4") & model=="DNE21+ V.14")]
+#all<-rbind(all,tmp)
+
+#tmp=all[model%in%c("WITCH2016")&variable%in%c("Primary Energy|Coal","Primary Energy|Oil","Primary Energy|Gas")&scenario%in%c("NoPolicy_V4", "NPi_V4", "NPip_V4")]
+#tmp=spread(tmp,variable,value)
+#tmp=tmp%>%mutate(`Primary Energy|Fossil`=`Primary Energy|Coal`+`Primary Energy|Oil`+`Primary Energy|Gas`)
+#tmp=gather(tmp,variable,value,c("Primary Energy|Fossil","Primary Energy|Coal","Primary Energy|Oil","Primary Energy|Gas"))
+#tmp=data.table(tmp)
+#tmp=tmp[variable%in%c("Primary Energy|Fossil")]
+#setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+#all <- all[!(variable=="Primary Energy|Fossil" & scenario%in%c("NoPolicy_V4", "NPi_V4", "NPip_V4") & model=="WITCH2016")]
+#all<-rbind(all,tmp)
+
 # Plausibility checks -----------------------------------------------------
 
 
 #plausibility check: get rid of negative energy values, write model-scenario-region-variable into file
-tmp <- all[unit=="EJ/yr" & value <0 & variable!="Primary Energy|Secondary Energy Trade"]
-tmp <- tmp %>% select(model,scenario,region,variable,unit,period,value) %>% arrange(model,scenario,variable)
-write.csv(tmp,file="Check_negative_energy_values.csv",row.names=F,quote=F)
-all[unit=="EJ/yr" & value <0 & variable!="Primary Energy|Secondary Energy Trade"]$value<- 0
+#tmp <- all[unit=="EJ/yr" & value <0 & variable!="Primary Energy|Secondary Energy Trade"]
+#tmp <- tmp %>% select(model,scenario,region,variable,unit,period,value) %>% arrange(model,scenario,variable)
+#write.csv(tmp,file="Check_negative_energy_values.csv",row.names=F,quote=F)
+#all[unit=="EJ/yr" & value <0 & variable!="Primary Energy|Secondary Energy Trade"]$value<- 0
 
 #plausibility check: get rid of excesively high values:
-tmp <- all[unit=="EJ/yr" & value >600 & !(variable %in% c("Primary Energy","Secondary Energy","Final Energy"))]
-tmp <- tmp %>% select(model,scenario,region,variable,unit,period,value) %>% arrange(model,scenario,variable)
-write.csv(tmp,file="Check_toohigh_energy_values.csv",row.names=F,quote=F)
-all[unit=="EJ/yr" & value >600 & !(variable %in% c("Primary Energy","Secondary Energy","Final Energy","Primary Energy|Non-Biomass Renewables",
-                      "Secondary Energy|Electricity","Secondary Energy|Electricity|Non-Biomass Renewables"))]$value<- 0
+#tmp <- all[unit=="EJ/yr" & value >600 & !(variable %in% c("Primary Energy","Primary Energy|Fossil", "Secondary Energy","Final Energy"))]
+#tmp <- tmp %>% select(model,scenario,region,variable,unit,period,value) %>% arrange(model,scenario,variable)
+#write.csv(tmp,file="Check_toohigh_energy_values.csv",row.names=F,quote=F)
+#all[unit=="EJ/yr" & value >600 & !(variable %in% c("Primary Energy","Primary Energy|Fossil","Secondary Energy","Final Energy","Primary Energy|Non-Biomass Renewables",
+#                      "Secondary Energy|Electricity","Secondary Energy|Electricity|Non-Biomass Renewables"))]$value<- 0
 
 
 

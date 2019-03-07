@@ -344,7 +344,6 @@ all_hist <- rbind(all_hist, all_IEA)
 all_hist$value <- as.numeric(all_hist$value)
 
 # make one oil variable
-
 all_hist <- calcVariable(all_hist,'`Secondary Energy|Heat|Oil` ~ (`Secondary Energy|Heat|Crude oil`)+(`Secondary Energy|Heat|Light oil`)' , newUnit='EJ/yr')
 all_hist <- calcVariable(all_hist,'`Final Energy|Oil` ~ (`Final Energy|Crude oil`)+(`Final Energy|Light oil`)' , newUnit='EJ/yr')
 all_hist <- calcVariable(all_hist,'`Primary Energy|Oil` ~ (`Primary Energy|Crude oil`)+(`Primary Energy|Light oil`)' , newUnit='EJ/yr')
@@ -477,8 +476,10 @@ all_hist <- calcVariable(all_hist,'`Carbon Intensity of GDP|MER` ~ (`Emissions|C
 all_hist[variable=="Carbon Intensity of GDP|MER"]$model <- "PRIMAP/OECD"
 
 # Kaya indicators
-all_hist <- calcVariable(all_hist,'`Energy intensity of GDP` ~ (`Primary Energy`)/(`GDP|MER`)' , newUnit='EJ/$US 2005')
+all_hist <- calcVariable(all_hist,'`Energy intensity of GDP` ~ 1000*(`Primary Energy`)/(`GDP|MER`)' , newUnit='TJ/$US(2010)')
 all_hist <- calcVariable(all_hist,'`Conversion efficiency` ~ (`Final Energy`)/(`Primary Energy`)' , newUnit='%')
 all_hist <- calcVariable(all_hist,'`Carbon intensity of fossil-fuel use` ~ (`Emissions|CO2|Energy`)/(`Final Energy|Fossil`)' , newUnit='Mt CO2/EJ')
-
+all_hist <- calcVariable(all_hist, '`Primary Energy|Fossil` ~ (`Primary Energy|Coal`)+(`Primary Energy|Oil`)+(`Primary Energy|Gas`)' , newUnit='EJ')
+all_hist <- calcVariable(all_hist, '`Fossil fuel utilisation rate` ~ `Primary Energy|Fossil`/`Final Energy|Fossil`' , newUnit='%')
+all_hist <- calcVariable(all_hist, '`Energy utilisation rate` ~ `Final Energy`/`Primary Energy`' , newUnit='%')
 

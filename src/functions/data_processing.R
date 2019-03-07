@@ -162,9 +162,16 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Final Energy|Non-fossil share` ~ 100*(`Final Energy|Non-fossil`)/(`Final Energy`)' , newUnit='%')
 
     # Kaya indicators
-    all <- calcVariable(all,'`Energy intensity of GDP` ~ `Primary Energy`/`GDP|MER`' , newUnit='EJ/$US 2005')
+    all <- calcVariable(all,'`Energy intensity of GDP` ~ 1000*`Primary Energy`/`GDP|MER`' , newUnit='TJ/$US(2010)')
     all <- calcVariable(all,'`Conversion efficiency` ~ `Final Energy`/`Primary Energy`' , newUnit='%')
     all <- calcVariable(all,'`Carbon intensity of fossil-fuel use` ~ `Emissions|CO2|Energy`/`Final Energy|Fossil`' , newUnit='Mt CO2/EJ')
+    all <- calcVariable(all, '`Energy utilisation rate` ~ `Final Energy`/`Primary Energy`' , newUnit='%')
+    all <- calcVariable(all, '`Fossil fuel utilisation rate` ~ `Primary Energy|Fossil`/`Final Energy|Fossil`' , newUnit='%')
+    #all <- calcRel2BaseYear(all,c("Energy intensity of GDP"), baseyear=2010)
+    #all <- calcRel2BaseYear(all,c("Conversion efficiency"), baseyear=2010)
+    #all <- calcRel2BaseYear(all,c("Carbon intensity of fossil-fuel use"), baseyear=2010)
+    #all <- calcRel2BaseYear(all, c("Energy utilisation rate"), baseyear=2010)
+    #all <- calcRel2BaseYear(all, c("Fossil fuel utilisation rate"), baseyear=2010)
     
     all <- calcVariable(all,'`Land Cover|Agriculture` ~ (`Land Cover|Cropland`) + (`Land Cover|Pasture`)' , newUnit='million ha')
     
@@ -189,7 +196,15 @@ add_variables <- function(all,scens){
 
     hist=all[period==2010& Category=="NPi"]
     hist$Category<-"Historical"
+    
+    hist2=all[period==2010& Category=="NPi"]
+    hist2$Category<-"2010_model"
+    
+    hist3=all[period==2015& Category=="NPi"]
+    hist3$Category<-"2015_model"
 
+    hist <- rbind(hist, hist2) %>% rbind(hist3)
+    
     # add variables indexed relative to baseyear
     source("functions/calcRel2BaseYear.R")
 
@@ -197,7 +212,8 @@ add_variables <- function(all,scens){
               "Carbon Intensity of FE","Energy Intensity of GDP|MER","Total CO2 Intensity of FE","Carbon Intensity of Electricity","Carbon Intensity of Fuel",
               "Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply",
               "Final Energy|Transportation","Final Energy|Industry","Final Energy|Residential and Commercial")
-    all <- rbind(all, calcRel2BaseYear(df=all,vars=vars))
+    #vars <- c("Emissions|CO2", "Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2")
+    all <- rbind(all, calcRel2BaseYear(df=all,vars=vars,baseyear=2010))
 
     all <- calcVariable(all,'`Reduction rel to 2010` ~ 100.0 - `Emissions|CO2|FFI|rel2010` * 100 ' , newUnit='%')
     all <- rbind(all,hist)

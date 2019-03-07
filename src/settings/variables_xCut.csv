@@ -109,9 +109,11 @@ Final Energy|Transportation|Liquids
 Final Energy|Transportation|Other
 Final Energy|Other
 Final Energy|Other Sector
+Final Energy|Other Sector|Electricity
 Final Energy|Other Sector|Solids|Biomass
 Final Energy|Non-Energy Use|Biomass
 Primary Energy
+Primary Energy|Fossil
 Primary Energy|Biomass
 Primary Energy|Biomass|w/ CCS
 Primary Energy|Biomass|w/o CCS

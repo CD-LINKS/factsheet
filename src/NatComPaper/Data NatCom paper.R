@@ -37,7 +37,7 @@ if (keep_original == TRUE){
   write.table(m, "data/import_models.csv", sep=";", row.names=F)
 }
 
-# II. retrieve data before changes (adjust_reporting_indc_Mark)
+# II. retrieve data after changes (adjust_reporting_indc_Mark)
 cat("load adjusted data\n")
 adjust <- "adjust_reporting_indc_Mark"
 rm(all); rm(all_paper)
@@ -52,7 +52,6 @@ all_paper$Category=str_replace_all(all_paper$Category,"2020_verylow","Carbon bud
 all_paper$Category=str_replace_all(all_paper$Category,"2030_low","Carbon budget 1000 (2030)")
 all_paper$period <- as.integer(all_paper$period)
 #write.table(all_paper, "data/all_paper.csv", sep=";", row.names = F)
-
 # III. Retrieve historical data
 rm(all_hist); rm(all_hist_paper)
 source('functions/CreateHistoricalData.R')
@@ -86,3 +85,37 @@ NPi2020_1000 <- ImportTimerScenario('NPi2020_1000','NPi2020_1000', Rundir, Proje
 INDC2030i_1000 <- ImportTimerScenario('INDC2030i_1000','INDC2030i_1000', Rundir, Project, TIMERGeneration, Policy=FALSE)
 setwd(currentdir)
 
+# paper data
+emissions <- c("Emissions|Kyoto Gases", "Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|AFOLU", "Emissions|CH4","Emissions|N2O","Emissions|F-Gases")
+final_energy <- c("Final Energy", "Final Energy|Transportation", "Final Energy|Residential and Commercial", "Final Energy|Industry",
+                  "Final Energy|Non-fossil share","Final Energy|Transportation|Non-fossil share","Final Energy|Residential and Commercial|Non-fossil share","Final Energy|Industry|Non-fossil share")
+kaya <- c("Energy intensity of GDP","Conversion efficiency", "Carbon intensity of fossil-fuel use","Fossil fuel utilisation rate","Energy utilisation rate",
+          "Emissions|CO2|Energy", "Primary Energy", "Primary Energy|Fossil", "Final Energy|Fossil", "GDP|MER")
+nf_share <- c("Final Energy|Solids|Biomass", "Final Energy|Solids|Biomass|Traditional",
+              "Final Energy|Transportation|Liquids|Biomass",
+              "Final Energy|Solar", "Final Energy|Wind", "Final Energy|Geothermal")
+red <- c("Emissions|Kyoto Gases|rel2010")
+
+vars_natcom <- c(emissions, final_energy, kaya)
+regs_natcom <- c("World", "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA")
+scens_natcom <- c("No policy", "National policies", "NDC", "Carbon budget 1000", "Carbon budget 400")
+results_nactcom <- filter(all_paper, variable%in%vars_natcom, 
+                          region%in%regs_natcom,
+                          Category%in%scens_natcom,
+                          Scope=="global",
+                          period>=2010)
+write.table(results_nactcom, "NatComPaper/data/data_NatCOM.csv", sep=";", row.names=F)
+results_natcom_stat <- group_by(results_nactcom, Category, region, period, variable) %>% summarise(median=median(value, na.rm=T), 
+                                                                                         perc_10=quantile(value,0.1, na.rm=T),
+                                                                                         perc_90=quantile(value,0.9, na.rm=T),
+                                                                                         min=min(value),
+                                                                                         max=max(value))
+write.table(results_natcom_stat, "NatComPaper/data/data_NatCOM_stat.csv", sep=";", row.names=F)
+vars_reduction = c("Emissions|Kyoto Gases")
+reductions_natcom <- filter(all_paper, period>=2010, period<=2050, variable%in%c(), 
+                            region%in%regs_natcom,
+                            Category%in%scens_natcom,
+                            Scope=="global")
+
+reductions_natcom <- calcRel2BaseYear(reductions_natcom,"Emissions|Kyoto Gases", baseyear=2010)
+tmp <- filter(all_paper, grepl("Kyoto", variable), Scope=="global", region %in% regs_natcom, Category%in%scens_natcom)

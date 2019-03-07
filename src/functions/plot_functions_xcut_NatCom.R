@@ -819,9 +819,11 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
   
   # to use historical, we need to set the data to 2030, while Category is "Historical"
   dt_tmp <- dt
-  if(hist){dt_tmp[dt_tmp$Category%in%c("Historical", "2005", "2010", "2015")]$period<-per}
+  if(hist){dt_tmp[dt_tmp$Category%in%c("Historical", "2005", "2010", "2015")]$period<-per
+           dt_tmp[dt_tmp$Category=="2010_model"]$period<-per
+           dt_tmp[dt_tmp$Category=="2015_model"]$period<-per}
   # make selection in data
-  dt_tmp <-filter(dt_tmp, region %in% regs, Category%in% cats, variable%in% c(vars_stack,var_line), period%in%per,Scope=="global") #[2:length(vars)]
+  dt_tmp <-filter(dt_tmp, region %in% regs, Category%in% cats, variable%in% c(vars_stack, var_line), period %in% per,Scope=="global",!variable==TotalEmis_var) #[2:length(vars)]
   dt_tmp <- factor.data.frame(dt_tmp)
   #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
   for (cat in cats){
@@ -837,17 +839,18 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
   dtline <- filter(dt_tmp, variable %in% var_line)
   
   # Calculate median, only for models that have the region in their spatial aggregation
+  #dt_check <- as.data.table(all)
   regions=all[,list(region=unique(region)),by=c("model")]
   dta=data.table(dta)
   for(mod in unique(dta[!region=="RoW"]$model)){
-    if (!(mod %in% c("PRIMAP","IEA", "OECD", "PRIMAP/OECD")))
+    if (!(mod %in% c("History", "PRIMAP","IEA", "OECD", "PRIMAP/OECD")))
     {dta[model==mod&!region=="RoW"]=dta[model==mod&region %in% regions[model==mod]$region]
     }
   }
   
   dta=dta[,list(mean(value)),by=c("Category","variable","region","period","Scope","unit")]
   setnames(dta,"V1","value")
-  dta <- filter(dta,!region %in% c("World"))
+  #dta <- filter(dta,!region %in% c("World"))
   
   #build data frame for overlaid errorbar showing model range for GHG total
   dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% TotalEmis_var, period %in% per,Scope=="global")
