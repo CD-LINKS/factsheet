@@ -26,6 +26,20 @@ if(!file.exists(outdir)) {
   dir.create(outdir, recursive = TRUE)
 }
 
+
+# read native model region data -------------------------------------------
+native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190226-141849",".csv"),header=TRUE))
+native <- data.table(invisible(melt(native,measure.vars=names(native)[grep("[0-9]+",names(native))],variable.name = "period",variable.factor=FALSE)))
+native$period <- as.numeric(native$period)
+native <- native[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
+setnames(native, "MODEL", "model")
+setnames(native, "SCENARIO", "scenario")
+setnames(native, "REGION", "region")
+setnames(native, "VARIABLE", "variable")
+setnames(native, "UNIT", "unit")
+native=na.omit(native)
+native$variable <- factor(native$variable)
+
 # Prepare data for use ----------------------------------------------------
 #IMAGE reporting only for effort sharing variables, need to get GDP and emissions from NPi2020_1000 (only works if 'all' exists in workspace - by running load_data)
 image=all[model=="IMAGE 3.0"&scenario=="NPi2020_1000_V4"]
@@ -68,8 +82,22 @@ data[scenario%in%c("NPi2020_1000_domestic_PCC","NPi2020_1000_domestic_PCC_V4","N
 data[scenario%in%c("NPi2020_1000_domestic_GF","NPi2020_1000_domestic_GF_V4","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_GF_V4")]$regime<-"GF"
 data[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO")]$regime<-"CO"
 
+native$implementation<-""
+native[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_CO","NPi2020_1000_domestic_GF",
+                   "NPi2020_1000_domestic_PCC", "NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_GF_V4",
+                   "NPi2020_1000_domestic_PCC_V4")]$implementation<-"domestic"
+native[scenario%in%c("NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_PCC",
+                   "NPi2020_1000_flexibility_AP_V4","NPi2020_1000_flexibility_GF_V4",
+                   "NPi2020_1000_flexibility_PCC_V4","NPi2020_1000_flexibility_CO")]$implementation<-"flexibility"
+native$regime<-""
+native[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_AP_V4","NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_AP_V4")]$regime<-"AP"
+native[scenario%in%c("NPi2020_1000_domestic_PCC","NPi2020_1000_domestic_PCC_V4","NPi2020_1000_flexibility_PCC","NPi2020_1000_flexibility_PCC_V4")]$regime<-"PCC"
+native[scenario%in%c("NPi2020_1000_domestic_GF","NPi2020_1000_domestic_GF_V4","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_GF_V4")]$regime<-"GF"
+native[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO")]$regime<-"CO"
+
 #R5=data[region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA","R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")] #,"ARG","AUS","CAN","MEX","IDN","ROK","SAF","SAU","TUR",
+#native=native[region%in%c("JPN","BRA","CHN","EEU","EU15","IND","INDIA","JAP","EUR","CHINA","EUROPE","USA","RUS")]
 
 # Initial allocation ------------------------------------------------------
 allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
@@ -145,7 +173,7 @@ for(mod in unique(finflow$model)){
   ggsave(file=paste(outdir,"/Trade-allowances-value_",mod,".png",sep=""),f0,width=20,height=12,dpi=200)
 }
 
-#total financial flows TODO: only sum the positive values (otherwise double counting), to do for native model regions
+#total financial flows (only summing the positive values (otherwise double counting))
 finflowscheck = data[variable=="Trade|Emissions Allowances|Value"&region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF"),list(sum(value)),by=c("model","variable","unit","period","implementation","regime")]
 finflowscheck2 = finflowscheck[V1!=0,list(unique(model))]
 
@@ -173,6 +201,23 @@ f5b = f5b + scale_colour_manual(values=c("2030"="black","2050"="black","2100"="b
 f5b = f5b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 f5b = f5b + ylab(finflowsstat$unit)
 ggsave(file=paste(outdir,"/total_financial_flows.png",sep=""),f5b,width=20,height=12,dpi=200)
+
+#for native model regions
+finflowsnative = native[variable=="Trade|Emissions Allowances|Value"&value>0,list(sum(value)),by=c("model","variable","unit","period","implementation","regime")]
+setnames(finflowsnative,"V1","value")
+finflowsnative$variable<-"Total financial flows"
+finflowsnative$period<-as.factor(finflowsnative$period)
+finflowsnativestat=finflowsnative[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
+                            min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime")]
+
+f5c = ggplot(finflowsnative[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+f5c = f5c + geom_bar(stat="identity", aes(x=regime, y=value,fill=period),position="dodge")
+f5c = f5c + scale_fill_manual(values=c("2030"="dark blue","2050"="light blue","2100"="grey"))
+f5c = f5c + facet_grid(model~.,scale="free_y")
+f5c = f5c + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+f5c = f5c + ylab(finflowsnative$unit)
+ggsave(file=paste(outdir,"/total_financial_flows_models_native.png",sep=""),f5c,width=20,height=12,dpi=200)
+
 
 # the other indicators
 f1 = ggplot(data[period%in%c(2030,2050,2100)&implementation=="flexibility"&variable=="Trade|Emissions|Value|Carbon|Absolute"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
@@ -364,7 +409,7 @@ ggsave(file=paste(outdir,"/costs_GDP_rel2020.png",sep=""),c4,width=20,height=12,
 
   
 # costs Annex I fraction GDP / fraction GDP non-Annex I. Now for R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF. 
-# TODO for OECD countries (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
+# TODO for OECD countries / native model regions? (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
 
 costratio=spread(costs[region%in%c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU")],region,value)
 costratio=costratio%>%mutate(R5mean=(`R5ASIA`+`R5LAM`+`R5MAF`+`R5REF`)/4,ratio=ifelse(R5mean==0&`R5OECD90+EU`==0,0,`R5OECD90+EU`/R5mean))
@@ -384,7 +429,7 @@ ggsave(file=paste(outdir,"/costratio_OECD_R5rest.png",sep=""),c2,width=20,height
 
 
 # Cost ratio vs financial flows -------------------------------------------
-# model median - update for native model regions financial flows? TODO: cdlinks_effort_sharing_native_20190226-141849
+# model median
 costratiostat=costratio[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
                             min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime")]
 
@@ -402,6 +447,21 @@ i = i + ylab(costratio$variable)
 i = i + xlab(finflowsstat$unit)
 ggsave(file=paste(outdir,"/costratio_financialflows.png",sep=""),i,width=20,height=12,dpi=200)
 
+# for the native model regions
+finflowsnativestat$period<-as.numeric(as.character(finflowsnativestat$period))
+indicatorn=merge(finflowsnativestat,costratiostat,by=c("implementation","regime","period"))
+indicatorn$period<-as.factor(indicatorn$period)
+
+i2 = ggplot(indicatorn[implementation=="flexibility"&period%in%c(2030,2050,2100)])
+i2 = i2 + geom_point(aes(x=median.x,y=median.y,fill=regime,colour=regime,shape=period),size=5)
+i2 = i2 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+i2 = i2 + geom_hline(aes(yintercept=1),size=1)
+i2 = i2 + geom_vline(aes(xintercept=100),size=1)
+i2 = i2 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+i2 = i2 + ylab(costratio$variable)
+i2 = i2 + xlab(finflowsnativestat$unit)
+ggsave(file=paste(outdir,"/costratio_financialflows_native.png",sep=""),i2,width=20,height=12,dpi=200)
+
 # per model
 finflows$period<-as.numeric(as.character(finflows$period))
 indicatorm=merge(finflows,costratio,by=c("implementation","regime","period","model"))
@@ -418,7 +478,24 @@ for(mod in unique(indicatorm$model)){
   i0 = i0 + xlab(finflowsstat$unit)
   i0 = i0 + ggtitle(mod)
   ggsave(file=paste0(outdir,"/costratio_financialflows_",mod,".png"),i0,width=20,height=12,dpi=200)
-  }
+}
+
+finflowsnative$period<-as.numeric(as.character(finflowsnative$period))
+indicatormn=merge(finflowsnative,costratio,by=c("implementation","regime","period","model"))
+indicatormn$period<-as.factor(indicatormn$period)
+
+for(mod in unique(indicatormn$model)){  
+  i1 = ggplot(indicatormn[implementation=="flexibility"&period%in%c(2030,2050,2100)&model==mod])
+  i1 = i1 + geom_point(aes(x=value.x,y=value.y,fill=regime,colour=regime,shape=period),size=5)
+  i1 = i1 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+  i1 = i1 + geom_hline(aes(yintercept=1),size=1)
+  i1 = i1 + geom_vline(aes(xintercept=100),size=1)
+  i1 = i1 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+  i1 = i1 + ylab(costratio$variable)
+  i1 = i1 + xlab(finflowsnative$unit)
+  i1 = i1 + ggtitle(mod)
+  ggsave(file=paste0(outdir,"/costratio_financialflows_native",mod,".png"),i1,width=20,height=12,dpi=200)
+}
 
 # Socioeconomic impacts ---------------------------------------------------
 
