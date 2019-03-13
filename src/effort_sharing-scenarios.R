@@ -153,7 +153,7 @@ ggsave(file=paste(outdir,"/emissiontargets2050.png",sep=""),e2,width=20,height=1
 ###Value
 finflow = data[variable=="Trade|Emissions Allowances|Value"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 
-f = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+f = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"&regime%in%c("AP","PCC")])
 f = f + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
 f = f + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 f = f + facet_grid(period~model)
@@ -255,7 +255,7 @@ ggsave(file=paste(outdir,"/Trade-carbon_value-net exports.png",sep=""),f4,width=
 ###Volume
 trade = data[variable=="Trade|Emissions Allowances|Volume"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 
-t = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+t = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"&regime%in%c("AP","PCC")])
 t = t + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
 t = t + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 t = t + facet_grid(period~model)
@@ -310,12 +310,13 @@ ggsave(file=paste(outdir,"/Trade-carbon_volume-net exports.png",sep=""),t4,width
 
 # Costs -------------------------------------------------------------------
 # Carbon price
-p = ggplot(data[variable=="Price|Carbon"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
-p = p + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1)
+p = ggplot(data[variable=="Price|Carbon"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]) #&regime%in%c("AP","CO")
+p = p + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1.5)
 p = p + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 p = p + facet_grid(implementation~region)
 p = p + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 p = p + ylab(data[variable=="Price|Carbon"]$unit)
+p = p + ylim(0,2000)
 ggsave(file=paste(outdir,"/carbon price.png",sep=""),p,width=20,height=12,dpi=200)
 
 price=data[variable=="Price|Carbon"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
@@ -407,7 +408,34 @@ c4 = c4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 c4 = c4 + ylab(costsrel$unit)
 ggsave(file=paste(outdir,"/costs_GDP_rel2020.png",sep=""),c4,width=20,height=12,dpi=200)
 
-  
+#Relative to global average - leave out relative to 2020?
+costsworld = spread(costs[!region%in%c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU")],region,value)
+costsworld = costsworld%>%mutate(BRAworld=BRA/World,CHNworld=CHN/World,EUworld=EU/World,INDworld=IND/World,JPNworld=JPN/World,RUSworld=RUS/World,USAworld=USA/World)
+costsworld=data.table(gather(costsworld,region,value,c("BRA","CHN","EU","IND","JPN","RUS","USA","World","BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")))
+costsworld=costsworld[region%in%c("BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")]
+costsworld$unit<-"fraction of world"  
+costsworld$region=str_replace_all(costsworld$region,"BRAworld","BRA")
+costsworld$region=str_replace_all(costsworld$region,"CHNworld","CHN")
+costsworld$region=str_replace_all(costsworld$region,"EUworld","EU")
+costsworld$region=str_replace_all(costsworld$region,"INDworld","IND")
+costsworld$region=str_replace_all(costsworld$region,"JPNworld","JPN")
+costsworld$region=str_replace_all(costsworld$region,"RUSworld","RUS")
+costsworld$region=str_replace_all(costsworld$region,"USAworld","USA")
+costsworld<-na.omit(costsworld)
+
+c5 = ggplot(costsworld[period%in%c(2030,2050,2100)&implementation=="domestic"])
+c5 = c5 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+c5 = c5 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c5 = c5 + facet_grid(period~model)
+# c5 = c5 + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1)
+# c5 = c5 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+# c5 = c5 + facet_grid(implementation~region,scale="free_y")
+#c5 = c5 + ylim(-3,8)
+c5 = c5 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c5 = c5 + ylab(costsworld$unit)
+c5 = c5 + ggtitle("Domestic")
+ggsave(file=paste(outdir,"/costs_GDP_relworld_domestic.png",sep=""),c5,width=20,height=12,dpi=200)
+
 # costs Annex I fraction GDP / fraction GDP non-Annex I. Now for R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF. 
 # TODO for OECD countries / native model regions? (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
 
