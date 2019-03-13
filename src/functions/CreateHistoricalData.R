@@ -76,8 +76,9 @@ PRIMAP_IAM$region=str_replace_all(PRIMAP_IAM$region,"EU28","EU")
 PRIMAP_Kyoto <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "KYOTOGHGAR4", "Emissions|Kyoto Gases")
 PRIMAP_CO2 <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "CO2", "Emissions|CO2")
 PRIMAP_CO2_energy <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT1", "CO2", "Emissions|CO2|Energy")
-PRIMAP_CO2_industry <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT2", "CAT3"), "CO2", "Emissions|CO2|Industrial Processes")
+PRIMAP_CO2_industry_process <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT2", "CAT3"), "CO2", "Emissions|CO2|Industrial Processes")
 PRIMAP_CO2_energy_industry <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT1", "CAT2", "CAT3"), "CO2", "Emissions|CO2|Energy and Industrial Processes")
+
 PRIMAP_CO2_AFOLU <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT4", "CAT5"), "CO2", "Emissions|CO2|AFOLU")
 PRIMAP_CH4 <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "CH4", "Emissions|CH4")
 PRIMAP_N2O <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "N2O", "Emissions|N2O")
@@ -87,18 +88,21 @@ PRIMAP_FGases <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "FGASESAR4", "Emissions|F
 # Historical data from EDGAR
 # http://edgar.jrc.ec.europa.eu/overview.php?v=432_GHG&SECURE=123
 EDGAR <- read.csv("data/EDGAR.csv", header=TRUE, sep=";")
-EDGAR_bunkers <- filter(EDGAR, Name %in% c('Int. Aviation', 'Int. Shipping'))
-colnames(EDGAR_bunkers) = gsub("X", "", colnames(EDGAR_bunkers))
-colnames(EDGAR_bunkers)[colnames(EDGAR_bunkers)=="World.Region"] <- "region"
-EDGAR_bunkers <- gather(EDGAR_bunkers, 7:ncol(EDGAR_bunkers), key="period", value=value) %>%
-  select(-IPCC.Annex, -ISO_A3, -Name, -IPCC, -IPCC_description)
-EDGAR_bunkers <- group_by(EDGAR_bunkers, period) %>% summarize(value=sum(value)) %>%
-  mutate(region="Bunkers") %>%
-  select(period, region, value)
-EDGAR_bunkers$value <- 10^-3*EDGAR_bunkers$value
-EDGAR_bunkers$unit <- "Mt CO2eq/yr"
-EDGAR_bunkers$period <- as.numeric(EDGAR_bunkers$period )
+EDGAR_bunkers_split <- filter(EDGAR, Name %in% c('Int. Aviation', 'Int. Shipping'))
+colnames(EDGAR_bunkers_split) = gsub("X", "", colnames(EDGAR_bunkers_split))
+colnames(EDGAR_bunkers_split)[colnames(EDGAR_bunkers_split)=="World.Region"] <- "region"
+EDGAR_bunkers_split <- gather(EDGAR_bunkers_split, 7:ncol(EDGAR_bunkers_split), key="period", value=value) 
+EDGAR_bunkers_split$value <- 10^-3*EDGAR_bunkers_split$value
+EDGAR_bunkers_split$unit <- "Mt CO2eq/yr"
+EDGAR_bunkers_split <- select(EDGAR_bunkers_split, period, region, unit, value, -IPCC.Annex, -ISO_A3, -Name, -IPCC, -IPCC_description)
+EDGAR_bunkers_split$period <- as.numeric(EDGAR_bunkers_split$period)
+EDGAR_bunkers <- group_by(EDGAR_bunkers_split, period, unit) %>% summarize(value=sum(value)) %>%
+                 mutate(region="Bunkers") %>%
+                 select(period, region, unit, value)
 write.table(EDGAR_bunkers, file="data/EDGAR_bunkers.txt", sep=";", row.names=FALSE)
+EDGAR_bunkers_add <- mutate(EDGAR_bunkers, scenario="", Category="Historical", Baseline="", model="History", Scope="", variable="Emissions|Kyoto Gases") %>% 
+                     select(scenario, Category, Baseline, model, region, period, Scope, value, unit, variable)
+
 # add missing 2013, 2014, 2015 data
 tmp1 <- filter(EDGAR_bunkers, period==2012)
 tmp1$period <- 2013
@@ -107,8 +111,8 @@ tmp2$period <- 2014
 tmp3 <- filter(EDGAR_bunkers, period==2012)
 tmp3$period <- 2015
 EDGAR_bunkers <- rbind(EDGAR_bunkers, tmp1) %>% rbind(tmp2) %>% rbind(tmp3)
-# add bunkers to CO2 andk Kyoto World total
-# Total Kyoto
+# add bunkers to CO2 and Kyoto World total
+# Total Kyoto_
 tmp <- filter(PRIMAP_Kyoto, region=="World")
 tmp <- left_join(tmp, EDGAR_bunkers, by=c('period')) %>% 
   mutate(value=value.x+value.y) %>%
@@ -128,8 +132,8 @@ PRIMAP_CO2 <- filter(PRIMAP_CO2, region!="World")
 PRIMAP_CO2 <- rbind(PRIMAP_CO2, tmp)
 
 # Add to all
-all_PRIMAP <- rbind(PRIMAP_Kyoto,PRIMAP_CO2) %>% rbind(PRIMAP_CO2_energy) %>% rbind(PRIMAP_CO2_industry) %>% rbind(PRIMAP_CO2_energy_industry) %>% 
-              rbind(PRIMAP_CO2_AFOLU) %>% rbind(PRIMAP_CH4) %>% rbind(PRIMAP_N2O) %>% rbind(PRIMAP_FGases)
+all_PRIMAP <- rbind(PRIMAP_Kyoto,PRIMAP_CO2) %>% rbind(PRIMAP_CO2_energy) %>% rbind(PRIMAP_CO2_industry_process) %>% rbind(PRIMAP_CO2_energy_industry) %>% 
+              rbind(PRIMAP_CO2_AFOLU) %>% rbind(PRIMAP_CH4) %>% rbind(PRIMAP_N2O) %>% rbind(PRIMAP_FGases) %>% rbind(EDGAR_bunkers_add)
 write.table(PRIMAP_IAM, file="data/PRIMAP_IAM.csv", sep=";", row.names=F)  
 all_hist <- all_PRIMAP
 

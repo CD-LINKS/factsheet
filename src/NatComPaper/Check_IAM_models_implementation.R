@@ -70,7 +70,7 @@ all_check_hist <- rbind(tmp2, tmp1)
 NDCgrowth <- read.table("data/INDC growth rates protocol.csv", sep=";", header=TRUE)
 
 # settings
-regs_check<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World")
+regs_check<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World", "Bunkers")
 cats_check <- c("No policy", "National policies","NDC")
 models_global <- filter(all_check, Scope=="global", model != "AIM/CGE") %>% select(model) %>% unique() %>% as.matrix() %>% as.vector()
 models_national <- filter(all_check, Scope=="national") %>% select(model) %>% unique()
@@ -84,7 +84,8 @@ vars_FE <- c("Final Energy", "Final Energy|Other",
 
 # I. Check model gaps, data export to Excel
 write.table(all_hist, "NatComPaper/data/all_hist.csv", sep=";", row.names=F)
-all_check_before_adj_emissions <- filter(all_check_before_adj, grepl("Emissions", variable), Scope=="global", region %in% regs_check)
+all_check_before_adj_emissions <- filter(all_check_before_adj, grepl("Emissions", variable), Scope=="global", region %in% regs_check, Category%in%cats_check) %>%
+                                  select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
 write.table(all_check_before_adj_emissions, "NatComPaper/data/all_before_emissions.csv", sep=";", row.names = F)
 
 all_check_before_adj_final_energy <- filter(all_check_before_adj, grepl("Final Energy", variable), Scope=="global", region %in% regs_check)
@@ -98,7 +99,8 @@ all_check_before_adj_gdp <- filter(all_check_before_adj, grepl("GDP|MER", variab
 all_check_before_adj_select <- rbind(all_check_before_adj_emissions, all_check_before_adj_final_energy) %>% rbind(all_check_before_adj_secondary_energy) %>% rbind(all_check_before_adj_primary_energy) %>% rbind(all_check_before_adj_gdp)
 write.table(all_check_before_adj_select, "NatComPaper/data/all_before_select.csv", sep=";", row.names = F)
 
-all_check_emissions <- filter(all_check, grepl("Emissions", variable), Scope=="global", region %in% regs_check, Category%in%scens)
+all_check_emissions <- filter(all_check, grepl("Emissions", variable), Scope=="global", region %in% regs_check, Category%in%cats_check) %>%
+                       select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
 write.table(all_check_emissions, "NatComPaper/data/all_emissions.csv", sep=";", row.names = F)
 
 all_check_final_energy <- filter(all_paper, grepl("Final Energy", variable), Scope=="global", region %in% regs_check, Category%in%cats_check)
@@ -304,16 +306,16 @@ for (i in 1:2) {
       #r="World"
       cat(paste0("- ", r, "\n"))
       d1 <- filter(all_check_graph, model %in% models_global, period>=2005, period<=2015, Category=="National policies", region==r, variable==v)
-      d2 <- filter(all_check_hist, model=="PRIMAP", period>=2005, period<=2015, region==r, variable==v) %>% select(period, value)
+      d2 <- filter(all_check_hist, model=="History", period>=2005, period<=2015, region==r, variable==v) %>% select(period, value)
       d2$period  <- as.integer(d2$period)
       d <- left_join(d1, d2, by=c('period'))
       d <- mutate(d, diff=round(value.x/value.y, digits=2))
       #d <- rbind(d1, d2)
       g_hist <- ggplot(data=d) + 
                 geom_point(aes(x=period, y=value.x, colour="model"), show.legend = TRUE) +
-                geom_point(aes(x=period, y=value.y, colour="PRIMAP"), show.legend = TRUE) +
+                geom_point(aes(x=period, y=value.y, colour="History"), show.legend = TRUE) +
                 geom_line(aes(x=period, y=value.x, colour="model")) +
-                geom_line(aes(x=period, y=value.y, colour="PRIMAP"),linetype=2) +
+                geom_line(aes(x=period, y=value.y, colour="History"),linetype=2) +
                 geom_text(aes(x=period, y=diff, label=diff)) +
                 facet_wrap(~model) +
                 theme_bw() +
@@ -321,11 +323,11 @@ for (i in 1:2) {
                 xlab("Year") +
                 ylab(d1$unit) +
                 scale_x_continuous(breaks=seq(2005, 2015, 5)) +
-                scale_colour_manual(name="Source", values=c(model="cornflowerblue", PRIMAP="darkgrey")) +
+                scale_colour_manual(name="Source", values=c(model="cornflowerblue", History="darkgrey")) +
                 ggtitle(paste(r, "-", v, sep=""))
       gg_hist <- plot(g_hist)
       ggsave(file=paste("NatComPaper/graphs/review/hist/check_hist_GHG_", check, "_", v, "_", r, ".png", sep=""),gg_hist, height=10, width=15)
-      d_plot <-rbind(mutate(d2,model="PRIMAP"), select(d1,period, model, value)) %>% filter(period==2010)
+      d_plot <-rbind(mutate(d2,model="History"), select(d1,period, model, value)) %>% filter(period==2010)
       d_plot$value<-as.double(d_plot$value)
       #d_plot$model<-factor(d_plot$model, levels=c("PRIMAP", unique(d1$model)))
       p = ggplot(data=d_plot) + 
@@ -351,20 +353,20 @@ for (i in 1:2) {
   for (v in vars_FE) { 
     cat(paste0(v, "-", check, "\n"))
     for (r in regs_check) { 
-      #v="Emissions|Kyoto Gases"
+      #v="Final Energy"
       #r="World"
       cat(paste0("- ", r, "\n"))
       d1 <- filter(all_check_graph, model %in% models_global, period>=2005, period<=2015, Category=="National policies", region==r, variable==v)
-      d2 <- filter(all_check_hist, model=="IEA", period>=2005, period<=2015, region==r, variable==v) %>% select(period, value)
+      d2 <- filter(all_check_hist, model=="History", period>=2005, period<=2015, region==r, variable==v) %>% select(period, value)
       d2$period  <- as.integer(d2$period)
       d <- left_join(d1, d2, by=c('period'))
       d <- mutate(d, diff=round(value.x/value.y, digits=2))
       #d <- rbind(d1, d2)
       g_hist <- ggplot(data=d) + 
         geom_point(aes(x=period, y=value.x, colour="model"), show.legend = TRUE) +
-        geom_point(aes(x=period, y=value.y, colour="IEA"), show.legend = TRUE) +
+        geom_point(aes(x=period, y=value.y, colour="History"), show.legend = TRUE) +
         geom_line(aes(x=period, y=value.x, colour="model")) +
-        geom_line(aes(x=period, y=value.y, colour="IEA"),linetype=2) +
+        geom_line(aes(x=period, y=value.y, colour="History"),linetype=2) +
         geom_text(aes(x=period, y=diff, label=diff)) +
         facet_wrap(~model) +
         theme_bw() +
@@ -372,7 +374,7 @@ for (i in 1:2) {
         xlab("Year") +
         ylab("EJ/yr") +
         scale_x_continuous(breaks=seq(2005, 2015, 5)) +
-        scale_colour_manual(name="Source", values=c(model="brown3", IEA="darkgoldenrod3")) +
+        scale_colour_manual(name="Source", values=c(model="brown3", History="darkgoldenrod3")) +
         ggtitle(paste(r, "-", v, sep=""))
       gg_hist <- plot(g_hist)
       ggsave(file=paste("NatComPaper/graphs/review/hist/check_hist_FE_", check, "_", v, "_", r, ".png", sep=""),gg_hist, height=10, width=15)
@@ -381,16 +383,24 @@ for (i in 1:2) {
 }
 
 # Compare bunkers
-b <- mutate(EDGAR_bunkers, region=="World", model="EDGAR")
-d1 <- filter(all_check, variable=="Emissions|Kyoto Gases", Category=="National policies", region=="Bunkers", model%in%models_global, period>=2010, period<=2030)
-d2 <- filter(b, period>=2010, period<=2030)
+#b <- mutate(EDGAR_bunkers, region=="World", model="EDGAR")
+
+d1 <- filter(all_check, variable=="Emissions|CO2|Energy and Industrial Processes", Category=="National policies", region=="Bunkers", model%in%models_global, 
+             period>=2010, period<=2030) %>% as.data.frame()
+#d1 <- filter(all_check, variable=="Emissions|Kyoto Gases", Category=="National policies", region=="Bunkers", model%in%models_global, period>=2010, period<=2030)
+#d2 <- filter(all_hist, variable=="Emissions|Kyoto Gases", region=="Bunkers", period>=2010, period<=2030)
+d2_1 <- filter(EDGAR_bunkers, period>=2010, period<=2030) %>% as.data.frame()
+d2_2 <- filter(EDGAR_bunkers_split, period>=2010, period<=2030) %>% as.data.frame()
+d2 <- rbind(d2_1, d2_2) %>% as.data.frame()
+d2$value <- as.double(d2$value)
 p = ggplot()+
-  geom_line(data=d1, aes(x=period, y=value, colour=model, linetype=model))+
-  geom_point(data=d2, aes(x=period, y=value, size=model))+
+  geom_line(data=d1, aes(x=period, y=value, colour=model))+
+  geom_point(data=d2, aes(x=period, y=value, shape=region), size=3)+
   #facet_wrap(~region, scales = "free")+
-  scale_size_discrete(name="source")
+  scale_shape_discrete(name="EDGAR bunkers", labels=c('total', 'aviation', 'shipping')) +
+  theme_bw()
 plot(p)
-ggsave(file=paste("NatComPaper/graphs/Bunkers.png", sep=""),gg_hist, height=10, width=15)
+ggsave(file=paste("NatComPaper/graphs/review/Bunkers.png", sep=""),p, height=10, width=15)
 
 
 # Compare GDP
@@ -518,7 +528,7 @@ for (r in regs){
   xs <- data.frame(region=r, model=d_NDC_smallest[1,]$model, location="small", outlier=ds_outlier)
   test_DDT <- rbind(test_DDT, xs)
 }
-outlier_IAM <- filter(outlier_IAM, outlier==TRUE) %>% arrange(desc(outlier))
+outlier_IAM <- filter(test_DDT, outlier==TRUE) %>% arrange(desc(outlier))
 # html table
 html.head <- paste("<head>" ,
                    '<link rel="stylesheet" type="text/css" href="mystyle.css"/>',
