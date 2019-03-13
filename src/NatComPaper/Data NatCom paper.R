@@ -9,6 +9,7 @@ config <- "config_WP2_3_indicators"
 scencateg <- "scen_categ_V4"
 variables <- "variables_xCut"
 addvars <- TRUE
+keep_original <- TRUE
 
 # I. retrieve data before changes (adjust_reporting_indc_Mark)
 if (keep_original == TRUE){
