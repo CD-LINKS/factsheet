@@ -114,6 +114,9 @@ native[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO")]$
 data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA","R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")] #,"ARG","AUS","CAN","MEX","IDN","ROK","SAF","SAU","TUR",
 #native=native[region%in%c("JPN","BRA","CHN","EEU","EU15","IND","INDIA","JAP","EUR","CHINA","EUROPE","USA","RUS")]
 
+#Order of regimes
+data$regime = factor(data$regime,levels=c("CO","AP","PCC","GF"))
+
 # Initial allocation ------------------------------------------------------
 allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 
