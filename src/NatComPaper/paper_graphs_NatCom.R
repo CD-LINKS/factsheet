@@ -38,10 +38,22 @@ GWP_N2O <- 298
 # choose selection of secenarios and variables
 #cats_stack_fig1 <- c("2010", "2015","No policy","National policies","NDC")
 #cats_stack_fig1 <- c("2010", "2010_model", "2015", "2015_model", "No policy","National policies","NDC")
-cats_stack_fig1 <- c("2015", "2015_model", "No policy","National policies","NDC")
+cats_stack_fig1 <- c("2015_model", "No policy","National policies","NDC")
 catsnat_fig1 <- c("No policy","National policies","NDC")
-vars_fig1b_h=c("Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|AFOLU", "Emissions|CH4","Emissions|N2O","Emissions|F-Gases")
-var.labels_fig1b_h=c("Emissions|CO2|Energy and Industrial Processes"="CO2 energy/industry","Emissions|CO2|AFOLU"="CO2 AFOLU","Emissions|CH4"="CH4","Emissions|N2O"="N2O","Emissions|F-Gases"="F-gases")
+#vars_fig1b_h=c("Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|AFOLU", "Emissions|CH4","Emissions|N2O","Emissions|F-Gases")
+#var.labels_fig1b_h=c("Emissions|CO2|Energy and Industrial Processes"="CO2 energy/industry","Emissions|CO2|AFOLU"="CO2 AFOLU","Emissions|CH4"="CH4","Emissions|N2O"="N2O","Emissions|F-Gases"="F-gases")
+vars_fig1b_h <- c("Emissions|CO2|Energy|Supply",
+                  "Emissions|CO2|Energy|Demand|Transportation",
+                  "Emissions|CO2|Energy|Demand|Residential and Commercial",
+                  "Emissions|CO2|Industry",
+                  "Emissions|CO2|AFOLU",
+                  "Emissions|Non-CO2")
+var.labels_fig1b_h <- c("Emissions|CO2|Energy|Supply"="CO2 energy supply",
+                        "Emissions|CO2|Energy|Demand|Transportation"="CO2 transport",
+                        "Emissions|CO2|Energy|Demand|Residential and Commercial"="CO2 buildings",
+                        "Emissions|CO2|Industry"="CO2 industry",
+                        "Emissions|CO2|AFOLU"="AFOLU CO2",
+                        "Emissions|Non-CO2"="Non-CO2")
 cats_a1 <- c("NDC","National policies","No policy")
 TotalEmis_var_fig1 = "Emissions|Kyoto Gases"
 legend_name_fig1 <- "Greenhouse gas"
@@ -180,8 +192,9 @@ all_fig2_hist[period==2015]$Category <- "2015"
 all_fig2_hist[period==2010]$Scope <- "global"
 all_fig2_hist[period==2015]$Scope <- "global"
 all_fig2 <- rbind(all_fig2, all_fig2_hist)
+all_fig2_stat <- group_by(all_fig2, Category, region, period, variable) %>% summarise(median=median(value, na.rm=T))
 
-palette_fig2 <- "Pastel2"
+palette_fig2 <- "Blues"
 source("functions/plot_functions_xcut_NatCom.R")
 regs_fig2 <- c("World")
 a2<-plot_stackbar_ghg(regs=regs_fig2, dt=all_fig2, vars=vars_stack_fig2,var_line=vars_line_fig2, cats = cats_stack_fig2, catsnat=catsnat_fig2, 
@@ -623,88 +636,6 @@ fig3b <- ggplot(data=data_fig3b_stat) + geom_line(aes(period, median, colour=Cat
         strip.text.y = element_text(size=8, face="bold"),
         strip.background = element_rect(colour="black", fill="white"))
 ggsave(file=paste("NatComPaper/graphs","/Figure3b_", k, "_NatCom.jpg",sep=""),fig3b,width=20,height=12,dpi=200)
-
-# FIGURE 3 ALTERNATIVE
-# - AFOLU CO2 Emissions gap
-# - AFOLU Non-CO2 Emissions gap
-# - Forest area/harvested forest area
-
-# ADD PERCENTAGE REDUCTION NEXT TO ARROW
-
-# tmp
-cats_agri <- c("NDC","National policies","No policy")
-all_agri <- filter(all_paper, variable=="Emissions|CO2|AFOLU", Category%in%cats_agri)
-all_agri$value <- all_fig1_agri$value/1000 # in GtCO2eq
-all_agri <- as.data.table(all_fig1_agri)
-all_hist_agri <- filter(all_hist_paper,variable=="Emissions|CO2|AFOLU")
-all_hist_agri$value <- all_hist_fig1_agri$value/1000
-all_hist_agri <- as.data.table(all_hist_fig1_agri)
-agri_emiss<-plot_funnel2(reg="World",dt=all_agri,vars=c("Emissions|CO2|AFOLU"),cats=cats_a1,start_scen=2010, title="CO2 AFOLU emissions",
-                         file_pre="agri",glob_lines=T,xlim=c(1990,2032),ylim=c(NA,NA),range=T,median=T,linetypemanual=F,
-                         dt_hist=all_hist_agri, hist=T)
-
-cats_fig3_alt <- c('National policies', 'Carbon budget 1000', 'Carbon budget 400')
-regs_fig3_alt <- c("World")
-#regs_fig3 <- c( "World", "CHN", "USA", "EU",  "IND")
-vars_fig3_alt <- c("Emissions|CO2|AFOLU", "Emissions|Non-CO2|AFOLU", "Land Cover|Forest", "Land Cover|Agriculture")
-gaps_alt <- c("2C", "1.5C")
-
-data_fig3_alt <- filter(all_paper, Scope=="global", Category %in% cats_fig3_alt, region %in% regs_fig3_alt, period<=2030, variable %in% vars_fig3_alt, !is.na(value))
-data_fig3_alt$variable <- factor(data_fig3_alt$variable, levels=vars_fig3_alt)
-data_fig3_alt$region <- factor(data_fig3_alt$region, levels=regs_fig3_alt)
-data_fig3_alt_stat <-  group_by(data_fig3_alt, Category, region, period, variable) %>%
-  summarise(median=median(value), perc_10=quantile(value, probs=0.1, na.rm=T), perc_90=quantile(value, probs=0.9, na.rm=T))
-
-d1_alt <- filter(data_fig3_alt, Category %in% c("National policies"), period==2030) %>% select(Category, model, region, value, variable)
-d2_alt <- filter(data_fig3_alt, Category %in% c("Carbon budget 1000"), period==2030) %>% select(Category, model, region, value, variable)
-d3_alt <- filter(data_fig3, Category %in% c("Carbon budget 400"), period==2030) %>% select(Category, model, region, value, variable)
-TwoC_gap_alt <- inner_join(d1_alt, d2_alt, by=c('model', 'region', 'variable')) %>%
-  mutate(start=value.x) %>%
-  mutate(gap=value.x-value.y) %>%
-  select(model, region, variable, start, gap)
-TwoC_gap_alt_stat <- group_by(TwoC_gap_alt, region, variable) %>% summarise(start_median = median(start), gap_median = median(gap))
-OnePointFiveC_alt_gap <- inner_join(d1_alt, d3_alt, by=c('model', 'region', 'variable')) %>%
-  mutate(start=value.x) %>%
-  mutate(gap=value.x-value.y) %>%
-  select(model, region, variable, start, gap)
-OnePointFiveC_gap_alt_stat <- group_by(OnePointFiveC_alt_gap, region, variable) %>% summarise(start_median = median(start), gap_median = median(gap))
-
-Gap_alt_stat <- rbind(mutate(TwoC_gap_alt_stat, gap="2C"), mutate(OnePointFiveC_gap_alt_stat, gap="1.5C"))
-Gap_alt_stat$gap <- factor(Gap_alt_stat$gap, levels=gaps)
-
-reg_labels_alt <- c("World"="World")
-var_labels_alt <- c("Emissions|CO2|AFOLU"="CO2 AFOLU emissions", "Emissions|Non-CO2|AFOLU"="Non-CO2 AFOLU emissions", 
-                    "Land Cover|Forest"="Land cover forests", "Land Cover|Agriculture"="Land cover agriculture")
-colours_fig3_alt <- brewer.pal(5,"Dark2")
-names(colours_fig3_alt) <- levels(cats_fig3_alt)
-data_fig3_alt_stat <- mutate(data_fig3_alt_stat, ymin=0)
-data_fig3_alt_stat <- mutate(data_fig3_alt_stat, ymax=ifelse(variable=="Emissions|CO2|AFOLU", NA, ifelse(variable=="Emissions|Non-CO2|AFOLU", NA, NA)))
-
-fig3_alt <- ggplot(data=data_fig3_alt_stat) + geom_line(aes(period, median, colour=Category), size=2) + 
-  geom_ribbon(aes(x=period,ymin=perc_10,ymax=perc_90,fill=Category),alpha=.15, show.legend = F) +
-  #geom_segment(data=filter(Gap_alt_stat, gap=="1.5C"), mapping=aes(x=2032, y=start_median, xend=2032, yend=start_median-gap_median, linetype=gap), 
-  #             arrow=arrow(length = unit(0.25, "cm")), size=1)+#, color="dark blue") +
-  geom_segment(data=filter(Gap_alt_stat, gap=="2C"), mapping=aes(x=2031, y=start_median, xend=2031, yend=start_median-gap_median, linetype=gap), 
-               arrow=arrow(length = unit(0.25, "cm")), size=1)+#, color="dark blue") +
-  facet_wrap(variable~region, scales = "free_y", nrow=3, labeller=labeller(variable = var_labels_alt, region=reg_labels_alt)) +
-  #facet_grid(variable~region, scales = "free_y", labeller=labeller(variable = var_labels, region=reg_labels)) +
-  ylim(0,NA) +
-  #https://stackoverflow.com/questions/42588238/setting-individual-y-axis-limits-with-facet-wrap-not-with-scales-free-y/42590452
-  #geom_blank(aes(y = ymin))+
-  #geom_blank(aes(y = ymax))+
-  xlab("year") + ylab("") +
-  scale_linetype_discrete(name="Median gap with", breaks=gaps_alt, labels=c("2° C", "1.5° C")) +                 
-  scale_colour_manual(name= "Scenario", values=colours_fig3_alt, labels=c("National policies"="National policies", "Carbon budget 1000"="2° C", "Carbon budget 400"="1.5° C"),
-                      guide = guide_legend(reverse=TRUE)) +
-  scale_fill_manual(values=colours_fig3_alt) +
-  
-  guides(color = guide_legend(order = 1), linetype = guide_legend(order = 0)) +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme(strip.text.x = element_text(size=12, face="bold"),
-        strip.text.y = element_text(size=8, face="bold"),
-        strip.background = element_rect(colour="black", fill="white"))
-ggsave(file=paste("NatComPaper/graphs","/Figure3_alt_AFOLU_NatCom.jpg",sep=""),fig3_alt,width=20,height=12,dpi=200)
 
 # FIGURE 4
 # Carbon budgets ------------------------------------------------
