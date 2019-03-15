@@ -38,7 +38,7 @@ GWP_N2O <- 298
 # choose selection of secenarios and variables
 #cats_stack_fig1 <- c("2010", "2015","No policy","National policies","NDC")
 #cats_stack_fig1 <- c("2010", "2010_model", "2015", "2015_model", "No policy","National policies","NDC")
-cats_stack_fig1 <- c("2015_model", "No policy","National policies","NDC")
+cats_stack_fig1 <- c("2010_model", "2015_model", "No policy","National policies","NDC")
 catsnat_fig1 <- c("No policy","National policies","NDC")
 #vars_fig1b_h=c("Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|AFOLU", "Emissions|CH4","Emissions|N2O","Emissions|F-Gases")
 #var.labels_fig1b_h=c("Emissions|CO2|Energy and Industrial Processes"="CO2 energy/industry","Emissions|CO2|AFOLU"="CO2 AFOLU","Emissions|CH4"="CH4","Emissions|N2O"="N2O","Emissions|F-Gases"="F-gases")

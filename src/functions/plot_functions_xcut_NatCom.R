@@ -818,25 +818,26 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
 
   
   # to use historical, we need to set the data to 2030, while Category is "Historical"
-  dt_tmp <- dt
-  if(hist){dt_tmp[dt_tmp$Category%in%c("Historical", "2005", "2010", "2015")]$period<-per
-           dt_tmp[dt_tmp$Category=="2010_model"]$period<-per
-           dt_tmp[dt_tmp$Category=="2015_model"]$period<-per}
+  dt_tmp1 <- dt
+  if(hist){dt_tmp1[dt_tmp1$Category%in%c("Historical", "2005", "2010", "2015")]$period<-per
+           dt_tmp1[dt_tmp1$Category=="2010_model"]$period<-per
+           dt_tmp1[dt_tmp1$Category=="2015_model"]$period<-per}
   # make selection in data
-  dt_tmp <-filter(dt_tmp, region %in% regs, Category%in% cats, variable%in% c(vars_stack, var_line), period %in% per,Scope=="global",!variable==TotalEmis_var) #[2:length(vars)]
-  dt_tmp <- factor.data.frame(dt_tmp)
+  dt_tmp2 <- dt_tmp1
+  dt_tmp1 <-filter(dt_tmp1, region %in% regs, Category%in% cats, variable%in% c(vars_stack, var_line), period %in% per,Scope=="global",!variable==TotalEmis_var) #[2:length(vars)]
+  dt_tmp1 <- factor.data.frame(dt_tmp1)
   #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
   for (cat in cats){
-    for (mod in unique(dt_tmp[dt_tmp$Category==cat,]$model)){
+    for (mod in unique(dt_tmp1[dt_tmp1$Category==cat,]$model)){
       if (!(mod %in% c("History")))
-      if(length(unique(dt_tmp[dt_tmp$Category==cat & dt_tmp$model == mod,]$scenario))==1){
+      if(length(unique(dt_tmp1[dt_tmp1$Category==cat & dt_tmp1$model == mod,]$scenario))==1){
       } else {
-        dt_tmp <- dt_tmp[!(dt_tmp$scenario %in% unique(dt_tmp[dt_tmp$Category==cat & dt_tmp$model == mod,]$scenario)[seq(2,length(unique(dt_tmp[dt_tmp$Category==cat & dt_tmp$model == mod,]$scenario)))] & dt_tmp$Category==cat & dt_tmp$model == mod),]
+        dt_tmp1 <- dt_tmp1[!(dt_tmp1$scenario %in% unique(dt_tmp1[dt_tmp1$Category==cat & dt_tmp1$model == mod,]$scenario)[seq(2,length(unique(dt_tmp1[dt_tmp1$Category==cat & dt_tmp1$model == mod,]$scenario)))] & dt_tmp1$Category==cat & dt_tmp1$model == mod),]
         }
     }
   }
-  dta <- filter(dt_tmp, variable %in% vars_stack)
-  dtline <- filter(dt_tmp, variable %in% var_line)
+  dta <- filter(dt_tmp1, variable %in% vars_stack)
+  dtline <- filter(dt_tmp1, variable %in% var_line)
   
   # Calculate median, only for models that have the region in their spatial aggregation
   #dt_check <- as.data.table(all)
@@ -853,7 +854,7 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
   #dta <- filter(dta,!region %in% c("World"))
   
   #build data frame for overlaid errorbar showing model range for GHG total
-  dtl <- filter(dt, region %in% regs, Category%in% cats, variable%in% TotalEmis_var, period %in% per,Scope=="global")
+  dtl <- filter(dt_tmp2, region %in% regs, Category%in% cats, variable%in% TotalEmis_var, period %in% per,Scope=="global")
   dtl=data.table(dtl)
   if(quantiles){dtl=dtl[,list(min=quantile(value,prob=minprob),max=quantile(value,prob=maxprob)),by=c("Category","variable","region","period","Scope","unit")]
   }else{dtl=dtl[,list(min=min(value),max=max(value)),by=c("Category","variable","region","period","Scope","unit")]}

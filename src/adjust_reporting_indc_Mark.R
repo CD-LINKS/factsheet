@@ -380,6 +380,51 @@ if(dim(tmp1)[1]!=0 & "Secondary Energy|Electricity|Gas" %in% unique(tmp1$variabl
 # setcolorder(tmp4,c("scenario","Category","Baseline","model","region","variable","unit","period","value","Scope"))
 # all<-rbind(all,tmp4)
 
+# Add bunker emissions as separate region -------------------------------
+# to check if error in data processing can be solved
+# GHG emissions
+if("World"%in%cfg$r){
+  # with "Emissions|Kyoto Gases"
+  tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
+  tmp=spread(tmp1,region, value)
+  tmp=na.omit(tmp)
+  tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
+  tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
+  tmp1=data.table(tmp1)
+  tmp1=tmp1[region=="Bunkers"]
+  setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+  
+  # with "Emissions|Kyoto Gases"
+  #tmp2=tmp1
+  #tmp2$variable<-"Emissions|CO2|Energy and Industrial Processes"
+  #tmp2$unit<-"Mt CO2/yr"
+  tmp2<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|CO2|Energy and Industrial Processes"]
+  tmp=spread(tmp2,region, value)
+  tmp=na.omit(tmp)
+  tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
+  tmp2=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
+  tmp2=data.table(tmp2)
+  tmp2=tmp2[region=="Bunkers"]
+  setcolorder(tmp2,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+  
+  # add to all
+  all <- rbind(all,tmp1,tmp2)}
+# POLES only reports it as 'Emissions|CO2|FF'
+
+# Final Energy
+if("World"%in%cfg$r){
+  tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Final Energy"]
+  tmp=spread(tmp1,region, value)
+  tmp=na.omit(tmp)
+  tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
+  tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
+  tmp1=data.table(tmp1)
+  tmp1=tmp1[region=="Bunkers"]
+  setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+  tmp2=tmp1
+  tmp2$variable<-"Final Energy|Transportation"
+  tmp2$unit<-"EJ/yr"
+  all <- rbind(all,tmp1,tmp2)}
 
 # Other model-specific fixes - part 1 ----------------------------------------------
 
@@ -540,52 +585,6 @@ tmp1$variable="Secondary Energy|Electricity|Oil|w/ CCS"
 tmp1$value<-0
 all <- rbind(all,tmp1)
 
-
-# Add bunker emissions as separate region -------------------------------
-# to check if error in data processing can be solved
-# GHG emissions
-if("World"%in%cfg$r){
-  # with "Emissions|Kyoto Gases"
-  tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
-  tmp=spread(tmp1,region, value)
-  tmp=na.omit(tmp)
-  tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
-  tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
-  tmp1=data.table(tmp1)
-  tmp1=tmp1[region=="Bunkers"]
-  setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
-  
-  # with "Emissions|Kyoto Gases"
-  #tmp2=tmp1
-  #tmp2$variable<-"Emissions|CO2|Energy and Industrial Processes"
-  #tmp2$unit<-"Mt CO2/yr"
-  tmp2<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|CO2|Energy and Industrial Processes"]
-  tmp=spread(tmp2,region, value)
-  tmp=na.omit(tmp)
-  tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
-  tmp2=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
-  tmp2=data.table(tmp2)
-  tmp2=tmp2[region=="Bunkers"]
-  setcolorder(tmp2,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
-  
-  # add to all
-  all <- rbind(all,tmp1,tmp2)}
-# POLES only reports it as 'Emissions|CO2|FF'
-
-# Final Energy
-if("World"%in%cfg$r){
-  tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Final Energy"]
-  tmp=spread(tmp1,region, value)
-  tmp=na.omit(tmp)
-  tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
-  tmp1=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
-  tmp1=data.table(tmp1)
-  tmp1=tmp1[region=="Bunkers"]
-  setcolorder(tmp1,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
-  tmp2=tmp1
-  tmp2$variable<-"Final Energy|Transportation"
-  tmp2$unit<-"EJ/yr"
-  all <- rbind(all,tmp1,tmp2)}
 
 # Other model-specific fixes - part 2 -------------------------------------
 
@@ -931,7 +930,6 @@ tmp$model <- "AIM/CGE"
 tmp$value <- 0
 #setcolorder(tmp,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
 all<-rbind(all,tmp)
-
 
 # interpolate variables that only report 10 years, add 5 year interpolations
 source("functions/interpolate_variables_5yr.R")

@@ -70,11 +70,11 @@ all_check_hist <- rbind(tmp2, tmp1)
 NDCgrowth <- read.table("data/INDC growth rates protocol.csv", sep=";", header=TRUE)
 
 # settings
-regs_check<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World", "Bunkers")
+regs_check<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World")
 cats_check <- c("No policy", "National policies","NDC")
 models_global <- filter(all_check, Scope=="global", model != "AIM/CGE") %>% select(model) %>% unique() %>% as.matrix() %>% as.vector()
 models_national <- filter(all_check, Scope=="national") %>% select(model) %>% unique()
-vars_GHG <- c("Emissions|Kyoto Gases", "Emissions|CO2", "Emissions|CO2|Energy and Industrial Processes", "Emissions|CO2|AFOLU", 
+vars_GHG <- c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|Excl. AFOLU CO2", "Emissions|CO2", "Emissions|CO2|Energy and Industrial Processes", "Emissions|CO2|AFOLU", 
               "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases")
 vars_FE <- c("Final Energy", "Final Energy|Other",  
              "Secondary Energy|Electricity", 
@@ -290,7 +290,7 @@ write(paste(html.head,html.body,sep='\n'),"NatComPaper/graphs/NDCgrowth.html")
 
 # IIIa. Compare CD-LINKS NPi and INDCi with historical PRIMAP data
 # before and after adjustments (adjust_reporting_indc_Mark)
-for (i in 1:2) {
+for (i in 1:1) {
   if (i==1){
     all_check_graph <- all_check_before_adj
     check<-"before"
@@ -302,7 +302,7 @@ for (i in 1:2) {
   for (v in vars_GHG) { 
     cat(paste0(v, "-", check, "\n"))
     for (r in regs_check) { 
-      #v="Emissions|Kyoto Gases"
+      #v="Emissions|Kyoto Gases|Excl. AFOLU CO2"
       #r="World"
       cat(paste0("- ", r, "\n"))
       d1 <- filter(all_check_graph, model %in% models_global, period>=2005, period<=2015, Category=="National policies", region==r, variable==v)
@@ -486,14 +486,15 @@ test_DDT$location <- factor(test_DDT$location, levels=c('small', 'large'))
 IAM_models <- unique(all_paper$model)
 test_DDT$model <- factor(test_DDT$model, levels=IAM_models)
 alpha_DDT <- 0.05
+d_regions <- NULL
 
 for (r in regs){
   cat(r,"\n")
   #r="BRA"
-  d_NDC_largest <- filter(all_paper, Category=="NDC", region==r, period==2030, variable=="Emissions|Kyoto Gases") %>%
+  d_NDC_largest <- filter(all_paper, Category=="NDC", region==r, period==2030, variable=="Emissions|CO2|Energy and Industrial Processes") %>%
     select(Category, model, region, period, value, variable) %>%
     arrange(desc(value))
-  d_NDC_smallest <- filter(all_paper, Category=="NDC", region==r, period==2030, variable=="Emissions|Kyoto Gases") %>%
+  d_NDC_smallest <- filter(all_paper, Category=="NDC", region==r, period==2030, variable=="Emissions|CO2|Energy and Industrial Processes") %>%
     select(Category, model, region, period, value, variable) %>%
     arrange(value) 
   
@@ -508,6 +509,8 @@ for (r in regs){
            theme_bw()
   d_new <- ggplot_build(p_tmp)$data[[1]]
   d_new <- cbind(d_new, d_NDC_smallest$model) %>% rename(model=`d_NDC_smallest$model`)
+  d_new_tmp <- mutate(d_new, region=r)
+  d_regions <- rbind(d_regions, d_new_tmp)
   p <- ggplot(data=d_new, aes(theoretical,sample, label=model)) + 
                stat_qq_line(aes(sample=sample),colour="red") +
                geom_text(size=4) +
@@ -528,6 +531,24 @@ for (r in regs){
   xs <- data.frame(region=r, model=d_NDC_smallest[1,]$model, location="small", outlier=ds_outlier)
   test_DDT <- rbind(test_DDT, xs)
 }
+p <- ggplot(data=d_regions, aes(theoretical,sample, label=model)) + 
+     stat_qq_line(aes(sample=sample),colour="red") +
+     facet_wrap(~region,nrow=3, scales = "free_y") +
+     theme_bw() +
+     ylab("MtCO2eq") +
+     ylim(0, NA) +
+     theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+     theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+     theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") +
+     theme(strip.text.x = element_text(size=16, face="bold"),
+           strip.text.y = element_text(size=16, face="bold"))+
+     scale_colour_brewer(palette="Set2")+
+     geom_text(size=4) +
+     ggtitle(paste0("QQ-plot ", r))
+plot(p)
+ggsave(file=paste0("NatComPaper/graphs/review/outliers_DDT.jpg",sep=""),p,width=20,height=12,dpi=200)
+
+
 outlier_IAM <- filter(test_DDT, outlier==TRUE) %>% arrange(desc(outlier))
 # html table
 html.head <- paste("<head>" ,
@@ -546,3 +567,231 @@ html.table <- paste(print(xtable(outlier_IAM),type='html','NatComPaper/graphs/re
                     collapse = "\n", caption=paste0("Dean Dixon test for outliers, with alpha=",round(alpha_DDT,2)))
 html.body <- paste("<body>", html.table,"</body>")
 write(paste(html.head,html.body,sep='\n'),"NatComPaper/graphs/review/outliers/outliers_table.html")
+
+# check DNE bunkers
+x1<-filter(all_paper, variable%in%c("Emissions|Kyoto Gases", "Emissions|CO2|Energy and Industrial Processes"), model=="DNE21+ V.14", region%in%c("Bunkers"), 
+           Category=="National policies", period>=2010, period<=2030)
+x2<-filter(all_paper_before_adj, variable%in%c("Emissions|Kyoto Gases", "Emissions|CO2|Energy and Industrial Processes"), model=="DNE21+ V.14", 
+                                 region%in%c("World", "R5MAF", "R5LAM", "R5ASIA", "R5OECD90+EU", "R5REF"), 
+                                 Category=="National policies", period>=2010, period<=2030)
+x2<-spread(x2, key=region, value=value) %>% mutate(diff=`World`-`R5MAF`-`R5LAM`-`R5ASIA`-`R5OECD90+EU`-`R5REF`)
+
+# Check REMIND double counting
+remind<-filter(all_import, VARIABLE%in%c("Emissions|Kyoto Gases", "Emissions|CO2", "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases"),
+                           MODEL=="REMIND-MAgPIE 1.7-3.0", 
+                           REGION%in%c('World'),
+                           SCENARIO%in%c('NPi_V3')
+)
+write.table(remind, "NatComPaper/data/remind.csv", row.names=F, sep=";")
+
+# IMAGE update policies scenario
+timer_NPi <- filter(NPi_indicators$EMISCO2EQ, year>=2010, year<=2030, 
+                                              region%in%c('USA', 'INDIA', 'CHN', 'EU', 'World'),
+                                              main_sector=="Total", GHG_Category=="EMISCO2EQ") %>% 
+             mutate(scenario="NPi")
+timer_NPi_update <- filter(NPi_update_indicators$EMISCO2EQ, year>=2010, year<=2030, 
+                                                            region%in%c('USA','INDIA', 'CHN', 'EU', 'World'),
+                                                            main_sector=="Total", GHG_Category=="EMISCO2EQ") %>% 
+                    mutate(scenario="NPi_update")
+timer_NPi_compare <- rbind(timer_NPi, timer_NPi_update) %>% as.data.frame()
+timer_NPi_compare$value <- timer_NPi_compare$value/1000
+ggplot(data=timer_NPi_compare) + geom_line(aes(x=year,y=value,colour=scenario)) +
+                                 facet_wrap(~region,nrow=3, scales = "free_y") +
+                                 theme_bw() +
+                                 ylab("Total Kyoto emissions (GtCO2eq)") +
+                                 ylim(0, NA) +
+                                 theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+                                 theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+                                 theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") +
+                                 theme(strip.text.x = element_text(size=16, face="bold"),
+                                 strip.text.y = element_text(size=16, face="bold"))+
+                                 scale_colour_brewer(palette="Set1")
+
+# DRIVERS
+# compare GDP between models
+regs_GDP_models<- c("World", "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "RoW")
+GDP_models <- filter(all_paper, variable=="GDP|MER", region%in%regs_GDP_models, Category%in%c('National policies'), period>=2010, period<=2030, Scope=="global")
+g <- ggplot(data=GDP_models) + geom_line(aes(x=period,y=value,colour=model), size=1.5) +
+  facet_wrap(~region,nrow=3, scales = "free_y") +
+  theme_bw() +
+  ylab("bn US$2010)") +
+  ggtitle("GDP (MER)")+
+  ylim(0, NA) +
+  theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+  theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+  scale_y_continuous(labels=function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  theme(strip.text.x = element_text(size=16, face="bold"),
+        strip.text.y = element_text(size=16, face="bold"))+
+  scale_colour_brewer(palette="Set2")
+ggsave(file=paste("NatComPaper/graphs/review","/Compare_GDP_MER.jpg",sep=""),g,width=20,height=12,dpi=200)
+
+# compare population between models
+regs_POP_models<- c("World", "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "RoW")
+POP_models <- filter(all_paper, variable=="Population", region%in%regs_GDP_models, Category%in%c('National policies'), period>=2010, period<=2030, Scope=="global")
+g <- ggplot(data=POP_models) + geom_line(aes(x=period,y=value,colour=model), size=1.5) +
+  facet_wrap(~region,nrow=3, scales = "free_y") +
+  theme_bw() +
+  ylab("mln")+
+  ggtitle("Population") +
+  theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+  theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+  scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  theme(strip.text.x = element_text(size=16, face="bold"),
+        strip.text.y = element_text(size=16, face="bold"))+
+  scale_colour_brewer(palette="Set2")
+ggsave(file=paste("NatComPaper/graphs/review","/Compare_POP.jpg",sep=""),g,width=20,height=12,dpi=200)
+
+# compare final energy between models
+regs_FE_models<- c("World", "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "RoW")
+FE_models <- filter(all_paper, variable=="Final Energy", region%in%regs_GDP_models, Category%in%c('National policies'), period>=2010, period<=2030, Scope=="global")
+g <- ggplot(data=FE_models) + geom_line(aes(x=period,y=value,colour=model), size=1.5) +
+  facet_wrap(~region,nrow=3, scales = "free_y") +
+  theme_bw() +
+  ylab("EJ") +
+  ggtitle("Final Energy") +
+  theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+  theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+  scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  theme(strip.text.x = element_text(size=16, face="bold"),
+        strip.text.y = element_text(size=16, face="bold"))+
+  scale_colour_brewer(palette="Set2")
+ggsave(file=paste("NatComPaper/graphs/review","/Compare_FE.jpg",sep=""),g,width=20,height=12,dpi=200)
+
+# compare final energy industry between models
+regs_FE_industry_models<- c("World", "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "RoW")
+FE_industry_models <- filter(all_paper, variable=="Final Energy|Industry", region%in%regs_GDP_models, Category%in%c('National policies'), period>=2010, period<=2030, Scope=="global")
+g <- ggplot(data=FE_industry_models) + geom_line(aes(x=period,y=value,colour=model), size=1.5) +
+  facet_wrap(~region,nrow=3, scales = "free_y") +
+  theme_bw() +
+  ylab("EJ") +
+  ggtitle("Final Energy industry") +
+  theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+  theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+  scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  theme(strip.text.x = element_text(size=16, face="bold"),
+        strip.text.y = element_text(size=16, face="bold"))+
+  scale_colour_brewer(palette="Set2")
+ggsave(file=paste("NatComPaper/graphs/review","/Compare_FE_Industry.jpg",sep=""),g,width=20,height=12,dpi=200)
+
+# compare final energy between models
+regs_FE_transport_models<- c("World", "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "RoW")
+FE_transport_models <- filter(all_paper, variable=="Final Energy|Transportation", region%in%regs_GDP_models, Category%in%c('National policies'), period>=2010, period<=2030, Scope=="global")
+g <- ggplot(data=FE_transport_models) + geom_line(aes(x=period,y=value,colour=model), size=1.5) +
+  facet_wrap(~region,nrow=3, scales = "free_y") +
+  theme_bw() +
+  ylab("EJ") +
+  ggtitle("Final Energy transport") +
+  theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+  theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+  scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  theme(strip.text.x = element_text(size=16, face="bold"),
+        strip.text.y = element_text(size=16, face="bold"))+
+  scale_colour_brewer(palette="Set2")
+ggsave(file=paste("NatComPaper/graphs/review","/Compare_FE_transport.jpg",sep=""),g,width=20,height=12,dpi=200)
+
+# compare final energy between models
+regs_FE_buildings_models<- c("World", "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "RoW")
+FE_buildings_models <- filter(all_paper, variable=="Final Energy|Residential and Commercial", region%in%regs_GDP_models, Category%in%c('National policies'), period>=2010, period<=2030, Scope=="global")
+g <- ggplot(data=FE_buildings_models) + geom_line(aes(x=period,y=value,colour=model), size=1.5) +
+  facet_wrap(~region,nrow=3, scales = "free_y") +
+  theme_bw() +
+  ylab("EJ") +
+  ggtitle("Final Energy buildings") +
+  theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+  theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+  scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  theme(strip.text.x = element_text(size=16, face="bold"),
+        strip.text.y = element_text(size=16, face="bold"))+
+  scale_colour_brewer(palette="Set2")
+ggsave(file=paste("NatComPaper/graphs/review","/Compare_FE_buildings.jpg",sep=""),g,width=20,height=12,dpi=200)
+
+
+# HISTORICAL EMISSIONS/ENERGY
+
+# Historical total Kyoto
+period_hist=2015
+Kyoto_hist_models <- filter(all_paper, variable=="Emissions|Kyoto Gases", region%in%regs_GDP_models, 
+                            Category%in%c('National policies'), period%in%c(period_hist), Scope=="global")
+Kyoto_hist_primap <- filter(all_hist, variable=="Emissions|Kyoto Gases", region%in%regs_GDP_models, 
+                            period%in%c(period_hist))
+Kyoto_hist <- rbind(Kyoto_hist_models, Kyoto_hist_primap) 
+k<-select(Kyoto_hist_primap, region, value)
+g <- ggplot(data=Kyoto_hist) + geom_bar(aes(x=model,y=value,fill=model), stat="identity", position=position_dodge()) +
+  geom_hline(data=k, aes(yintercept=value))+
+  facet_wrap(~region,nrow=3, scales = "free_y") +
+  theme_bw() +
+  ylab("(MtCO2eq)") +
+  ggtitle(paste0(period_hist, " Total GHG emissions"))+
+  theme(axis.text.x = element_text(angle=90, size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+  theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+  scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark = ",", scientific = FALSE))
+ggsave(file=paste("NatComPaper/graphs/review",paste0("/Compare_Kyoto_hist_", period_hist, ".jpg"),sep=""),g,width=20,height=12,dpi=200)
+
+# Historical total Kyoto excl AFOLU CO2
+period_hist=2010
+Kyoto_hist_models <- filter(all_paper, variable=="Emissions|Kyoto Gases|Excl. AFOLU CO2", region%in%regs_GDP_models, 
+                            Category%in%c('National policies'), period%in%c(period_hist), Scope=="global")
+Kyoto_hist_primap <- filter(all_hist, variable=="Emissions|Kyoto Gases|Excl. AFOLU CO2", region%in%regs_GDP_models, 
+                            period%in%c(period_hist))
+Kyoto_hist <- rbind(Kyoto_hist_models, Kyoto_hist_primap) 
+k<-select(Kyoto_hist_primap, region, value)
+g <- ggplot(data=Kyoto_hist) + geom_bar(aes(x=model,y=value,fill=model), stat="identity", position=position_dodge()) +
+  geom_hline(data=k, aes(yintercept=value))+
+  facet_wrap(~region,nrow=3, scales = "free_y") +
+  theme_bw() +
+  ylab("(MtCO2eq)") +
+  ggtitle(paste0(period_hist, " Total GHG emissions (excl AFOLU CO2)"))+
+  theme(axis.text.x = element_text(angle=90, size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+  theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+  scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark = ",", scientific = FALSE))
+ggsave(file=paste("NatComPaper/graphs/review",paste0("/Compare_Kyoto_hist_exclAFOLU", period_hist, ".jpg"),sep=""),g,width=20,height=12,dpi=200)
+
+
+# POLICY IMPLEMENTATION
+# compare total reductions between models
+Reduction_abs_models <- filter(all_paper, variable=="Emissions|Kyoto Gases", region%in%regs_GDP_models, 
+                           Category%in%c('No policy', 'National policies'), period>=2010, period<=2030, Scope=="global") %>%
+                    select(Category, model, period, region, value) %>%
+                    spread(key=Category, value=value) %>%
+                    mutate(reduction=`No policy`-`National policies`)
+g <- ggplot(data=Reduction_abs_models) + geom_line(aes(x=period,y=reduction,colour=model)) +
+  facet_wrap(~region,nrow=3, scales = "free_y") +
+  theme_bw() +
+  ylab("Total GHG emissions (MtCO2eq") +
+  ggtitle("Absolut reductions relative to no policy scenario")+
+  theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+  theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+  scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  theme(strip.text.x = element_text(size=16, face="bold"),
+        strip.text.y = element_text(size=16, face="bold")) +
+  scale_colour_brewer(palette="Set2")
+ggsave(file=paste("NatComPaper/graphs/review","/Compare_Reductions_abs.jpg",sep=""),g,width=20,height=12,dpi=200)
+
+Reduction_rel_models <- filter(all_paper, variable=="Emissions|Kyoto Gases", region%in%regs_GDP_models, 
+                               Category%in%c('No policy', 'National policies'), period>=2010, period<=2030, Scope=="global") %>%
+  select(Category, model, period, region, value) %>%
+  spread(key=Category, value=value) %>%
+  mutate(reduction=ifelse(is.na(`No policy`), 0, `National policies`/`No policy`-1)) %>%
+  select(model, period, region, reduction)
+g <- ggplot(data=Reduction_rel_models) + geom_line(aes(x=period,y=reduction,colour=model)) +
+  facet_wrap(~region,nrow=3, scales = "free_y") +
+  theme_bw() +
+  ylab("Total GHG emissions (MtCO2eq") +
+  ggtitle("Relative reductions relative to no policy scenario")+
+  theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+  theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+  scale_y_continuous(labels=function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  theme(strip.text.x = element_text(size=16, face="bold"),
+        strip.text.y = element_text(size=16, face="bold")) +
+  scale_colour_brewer(palette="Set2")
+ggsave(file=paste("NatComPaper/graphs/review","/Compare_Reductions_rel.jpg",sep=""),g,width=20,height=12,dpi=200)
