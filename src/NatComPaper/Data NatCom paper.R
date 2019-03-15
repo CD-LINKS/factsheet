@@ -26,7 +26,7 @@ if (keep_original == TRUE){
   all_paper_before_adj$Category=str_replace_all(all_paper_before_adj$Category,"2020_low","Carbon budget 1000")
   all_paper_before_adj$Category=str_replace_all(all_paper_before_adj$Category,"2020_verylow","Carbon budget 400")
   all_paper_before_adj$Category=str_replace_all(all_paper_before_adj$Category,"2030_low","Carbon budget 1000 (2030)")
-  write.table(all_before_adj, "data/all_before_Mark.csv", sep=";", row.names = F)
+  write.table(all_paper_before_adj, "data/all_before_Mark.csv", sep=";", row.names = F)
 
 
   # save variables in original all file
@@ -53,6 +53,36 @@ all_paper$Category=str_replace_all(all_paper$Category,"2020_verylow","Carbon bud
 all_paper$Category=str_replace_all(all_paper$Category,"2030_low","Carbon budget 1000 (2030)")
 all_paper$period <- as.integer(all_paper$period)
 write.table(all_paper, "data/all_paper.csv", sep=";", row.names = F)
+
+# additional adjustments
+all_paper<-all_paper[model!="GEM-E3_EU"]
+all_paper<-all_paper[!(model=="COPPE-COFFEE 1.0" & region=="EU")]
+all_paper<-all_paper[!(model=="MESSAGEix-GLOBIOM_1.0" & region=="EU")]
+all_paper<-all_paper[!(model=="MESSAGEix-GLOBIOM_1.0" & region=="USA")]
+
+regs_paper <- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA")
+vars_RoW <- c("Emissions|Kyoto Gases", "Emissions|CO2", "Emissions|CO2|Energy and Industrial Processes", "Emissions|CO2|AFOLU", 
+              "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases", 
+              "Emissions|CO2|Energy", "Emissions|CO2|Industrial Processes", "Emissions|CO2|Energy and Industrial Processes",
+              "Secondary Energy|Electricity",
+              "Final Energy", "Final Energy|Other",  
+              "Final Energy|Residential and Commercial", 
+              "Final Energy|Transportation",  
+              "Final Energy|Industry",
+              "GDP|MER", "Population")
+all_tmp <- filter(all_paper, region%in%regs_paper, variable%in%vars_RoW, period>=2010, period<=2050, Scope=="global")
+all_tmp$value <- -1*all_tmp$value
+all_tmp_world <- filter(all_paper, region%in%c('World'), variable%in%vars_RoW, period>=2010, period<=2050, Scope=="global")
+all_tmp <- rbind(all_tmp, all_tmp_world)
+all_tmp <- spread(all_tmp, key=region, value=value) %>%
+           rowwise() %>%
+           mutate(RoW = sum(c(`World`, `BRA`,`CHN`, `EU`,`IND`, `JPN`, `RUS`, `USA`), na.rm = TRUE)) %>%
+           mutate(region="RoW") %>%
+           select(scenario, Category, Baseline, model, region, period, Scope, unit, variable, RoW) %>%
+           rename(value=RoW) %>%
+           as.data.frame()
+all_paper <- rbind(all_paper, all_tmp)
+
 # III. Retrieve historical data
 rm(all_hist); rm(all_hist_paper)
 source('functions/CreateHistoricalData.R')
@@ -69,8 +99,8 @@ all_hist_paper$period <- as.integer(all_hist_paper$period)
 
 # data from IMAGE
 currentdir <- getwd()
-setwd("~/disks/y/Kennisbasis/IMAGE/model/Timer/ontwapps_Timer/Users/Mathijs/Projects/CD-LINKS/CD-LINKS/6_R/factsheet")
-Rundir=paste("~/disks/y/Kennisbasis/IMAGE/model/Timer/ontwapps_Timer/Users/Mathijs/Projects/CD-LINKS", sep="")
+setwd("~/disks/y/Kennisbasis/IMAGE/model/users/mathijs/Projects/CD-LINKS/CD-LINKS/6_R/factsheet")
+Rundir=paste("~/disks/y/Kennisbasis/IMAGE/model/users/mathijs/Projects/CD-LINKS", sep="")
 Project=paste("CD-LINKS")
 TIMERGeneration = 'TIMER_2015'
 # Source scripts (after setting working directory)
@@ -81,9 +111,22 @@ source('../TIMER_output/functions/Process_TIMER_output.R')
 # Read no policy scenario
 NoPolicy <- ImportTimerScenario('NoPolicy','NoPolicy', Rundir, Project, TIMERGeneration, Policy=FALSE)
 NPi <- ImportTimerScenario('NPi','NPi', Rundir, Project, TIMERGeneration, Policy=FALSE)
+NPi_indicators <- ProcessTimerScenario(NPi, Rundir, Project, Policy=FALSE)
 INDCi <- ImportTimerScenario('INDCi','INDCi', Rundir, Project, TIMERGeneration, Policy=FALSE)
 NPi2020_1000 <- ImportTimerScenario('NPi2020_1000','NPi2020_1000', Rundir, Project, TIMERGeneration, Policy=FALSE)
 INDC2030i_1000 <- ImportTimerScenario('INDC2030i_1000','INDC2030i_1000', Rundir, Project, TIMERGeneration, Policy=FALSE)
+setwd(currentdir)
+
+# updated CD-LINKS runs
+currentdir <- getwd()
+setwd("~/disks/y/Kennisbasis/IMAGE/model/users/mark/timer/CD_LINKSupdate/6_R/factsheet")
+Rundir=paste("~/disks/y/Kennisbasis/IMAGE/model/users/mark/timer", sep="")
+Project=paste("CD_LINKSupdate")
+TIMERGeneration = 'TIMER_2015'
+# Read no policy scenario
+NoPolicy_update <- ImportTimerScenario('NoPolicy_update','NoPolicy_update', Rundir, Project, TIMERGeneration, Policy=FALSE)
+NPi_update <- ImportTimerScenario('NPi_update','NPi_update', Rundir, Project, TIMERGeneration, Policy=FALSE)
+NPi_update_indicators <- ProcessTimerScenario(NPi_update, Rundir, Project, Policy=FALSE)
 setwd(currentdir)
 
 # paper data
@@ -112,13 +155,13 @@ results_nactcom <- filter(all_paper, variable%in%vars_natcom,
                           region%in%regs_natcom,
                           Category%in%scens_natcom,
                           Scope=="global",
-                          period>=2010)
+                          period>=2010, period<=2050)
 write.table(results_nactcom, "NatComPaper/data/data_NatCOM.csv", sep=";", row.names=F)
 results_natcom_stat <- group_by(results_nactcom, Category, region, period, variable) %>% summarise(average=mean(value, na.rm=T),
                                                                                                    median=median(value, na.rm=T), 
                                                                                                    perc_10=quantile(value,0.1, na.rm=T),
                                                                                                    perc_90=quantile(value,0.9, na.rm=T),
-                                                                                                   min=min(value),
-                                                                                                   max=max(value))
+                                                                                                   min=min(value, na.rm=T),
+                                                                                                   max=max(value, na.rm=T))
 write.table(results_natcom_stat, "NatComPaper/data/data_NatCOM_stat.csv", sep=";", row.names=F)
 
