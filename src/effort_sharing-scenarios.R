@@ -9,7 +9,7 @@ library(directlabels) # year labels for scatter plots
 library(stringr) #str_replace_all
 library(gridExtra) #arrangeGrob
 
-data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190220-120059",".csv"),header=TRUE))
+data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190314-165034",".csv"),header=TRUE))
 data <- data.table(invisible(melt(data,measure.vars=names(data)[grep("[0-9]+",names(data))],variable.name = "period",variable.factor=FALSE)))
 data$period <- as.numeric(data$period)
 data <- data[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -28,7 +28,7 @@ if(!file.exists(outdir)) {
 
 
 # read native model region data -------------------------------------------
-native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190226-141849",".csv"),header=TRUE))
+native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190314-165919",".csv"),header=TRUE))
 native <- data.table(invisible(melt(native,measure.vars=names(native)[grep("[0-9]+",names(native))],variable.name = "period",variable.factor=FALSE)))
 native$period <- as.numeric(native$period)
 native <- native[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -68,6 +68,21 @@ ig5$scenario <- "NPi2020_1000_domestic_GF_V4"
 ig6$scenario <- "NPi2020_1000_flexibility_GF_V4"
 data <- rbind(data,ig1,ig2,ig3,ig4,ig5,ig6)
 
+# MESSAGE use trade carbon net exports variable for trade emissions allowances variable (reported 0)
+msg1=data[model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions|Value|Carbon|Net Exports")]
+msg2=data[model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions|Volume|Carbon|Net Exports")]
+msg1$variable<-"Trade|Emissions Allowances|Value"
+msg2$variable<-"Trade|Emissions Allowances|Volume"
+data=data[!c(model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions Allowances|Value","Trade|Emissions Allowances|Volume"))]
+data=rbind(data,msg1,msg2)
+
+msg3=native[model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions|Value|Carbon|Net Exports")]
+msg4=native[model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions|Volume|Carbon|Net Exports")]
+msg3$variable<-"Trade|Emissions Allowances|Value"
+msg4$variable<-"Trade|Emissions Allowances|Volume"
+native=native[!c(model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions Allowances|Value","Trade|Emissions Allowances|Volume"))]
+native=rbind(native,msg3,msg4)
+
 #add implementation and regime for easier selection
 data$implementation<-""
 data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_CO","NPi2020_1000_domestic_GF",
@@ -99,10 +114,13 @@ native[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO")]$
 data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA","R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")] #,"ARG","AUS","CAN","MEX","IDN","ROK","SAF","SAU","TUR",
 #native=native[region%in%c("JPN","BRA","CHN","EEU","EU15","IND","INDIA","JAP","EUR","CHINA","EUROPE","USA","RUS")]
 
+#Order of regimes
+data$regime = factor(data$regime,levels=c("CO","AP","PCC","GF"))
+
 # Initial allocation ------------------------------------------------------
 allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 
-a = ggplot(allocation) #[period%in%c(2050)]
+a = ggplot(allocation[!regime=="GF"]) #[period%in%c(2050)]
 #a = a + geom_bar(stat="identity", aes(x=regime, y=value,fill=implementation),position="dodge")
 a = a + geom_line(aes(x=period,y=value,linetype=implementation,colour=regime),size=2)
 a = a + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
@@ -115,13 +133,22 @@ ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=1
 # TODO reductions relative to baseline? (get NoPolicy from 'all' - only Kyoto Gases)
 # TODO check cumulative emissions in line with carbon budgets?
 
-e = ggplot(data[variable=="Emissions|Kyoto Gases"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]) #&!region=="World"
+e = ggplot(data[variable=="Emissions|Kyoto Gases"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")&!regime=="GF"]) #&!region=="World"
 e = e + geom_line(aes(x=period,y=value,linetype=implementation,colour=regime),size=1)
 e = e + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 e = e + facet_grid(region~model,scales="free_y")
 e = e + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 e = e + ylab(data[variable=="Emissions|Kyoto Gases"]$unit)
 ggsave(file=paste(outdir,"/GHGemissions.png",sep=""),e,width=20,height=12,dpi=200)
+
+# separately for Japan
+e3 = ggplot(data[variable=="Emissions|Kyoto Gases"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")&!regime=="GF"]) #&!region=="World"
+e3 = e3 + geom_line(aes(x=period,y=value,linetype=implementation,colour=regime),size=1)
+e3 = e3 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+e3 = e3 + facet_grid(region~model,scales="free_y")
+e3 = e3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+e3 = e3 + ylab(data[variable=="Emissions|Kyoto Gases"]$unit)
+ggsave(file=paste(outdir,"/GHGemissions_JPN.png",sep=""),e3,width=20,height=12,dpi=200)
 
 # Reduction targets
 targets=data[variable=="Emissions|Kyoto Gases"&period%in%c(2010,2030,2050)]
@@ -133,7 +160,7 @@ targets$unit<-"%"
 targets$period=str_replace_all(targets$period,"rel2030","2030")
 targets$period=str_replace_all(targets$period,"rel2050","2050")
 
-e1 = ggplot(targets[period==2030&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]) #[implementation=="flexibility"]
+e1 = ggplot(targets[period==2030&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")&!regime=="GF"]) #[implementation=="flexibility"]
 e1 = e1 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
 e1 = e1 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 e1 = e1 + facet_grid(implementation~model)
@@ -141,7 +168,7 @@ e1 = e1 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 e1 = e1 + ylab(targets$unit)
 ggsave(file=paste(outdir,"/emissiontargets2030.png",sep=""),e1,width=20,height=12,dpi=200)
 
-e2 = ggplot(targets[period==2050&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]) #[implementation=="flexibility"]
+e2 = ggplot(targets[period==2050&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")&!regime=="GF"]) #[implementation=="flexibility"]
 e2 = e2 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
 e2 = e2 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 e2 = e2 + facet_grid(implementation~model)
@@ -149,11 +176,28 @@ e2 = e2 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 e2 = e2 + ylab(targets$unit)
 ggsave(file=paste(outdir,"/emissiontargets2050.png",sep=""),e2,width=20,height=12,dpi=200)
 
+#Separately for Japan
+e4 = ggplot(targets[period==2050&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")&!regime=="GF"]) #[implementation=="flexibility"]
+e4 = e4 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+e4 = e4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+e4 = e4 + facet_grid(implementation~model)
+e4 = e4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+e4 = e4 + ylab(targets$unit)
+ggsave(file=paste(outdir,"/emissiontargets2050_JPN.png",sep=""),e4,width=20,height=12,dpi=200)
+
+e5 = ggplot(targets[period==2030&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")&!regime=="GF"]) #[implementation=="flexibility"]
+e5 = e5 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+e5 = e5 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+e5 = e5 + facet_grid(implementation~model)
+e5 = e5 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+e5 = e5 + ylab(targets$unit)
+ggsave(file=paste(outdir,"/emissiontargets2030_JPN.png",sep=""),e5,width=20,height=12,dpi=200)
+
 # Trade ---------------------------------------------------------
 ###Value
 finflow = data[variable=="Trade|Emissions Allowances|Value"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 
-f = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+f = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"&regime%in%c("AP","PCC")])
 f = f + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
 f = f + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 f = f + facet_grid(period~model)
@@ -255,7 +299,7 @@ ggsave(file=paste(outdir,"/Trade-carbon_value-net exports.png",sep=""),f4,width=
 ###Volume
 trade = data[variable=="Trade|Emissions Allowances|Volume"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 
-t = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"])
+t = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"&regime%in%c("AP","PCC")])
 t = t + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
 t = t + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 t = t + facet_grid(period~model)
@@ -310,13 +354,44 @@ ggsave(file=paste(outdir,"/Trade-carbon_volume-net exports.png",sep=""),t4,width
 
 # Costs -------------------------------------------------------------------
 # Carbon price
-p = ggplot(data[variable=="Price|Carbon"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
-p = p + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1)
+p = ggplot(data[variable=="Price|Carbon"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]) #&regime%in%c("AP","CO")
+p = p + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1.5)
 p = p + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 p = p + facet_grid(implementation~region)
 p = p + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 p = p + ylab(data[variable=="Price|Carbon"]$unit)
+p = p + ylim(0,2000)
 ggsave(file=paste(outdir,"/carbon price.png",sep=""),p,width=20,height=12,dpi=200)
+
+#for 1 country
+p1 = ggplot(data[variable=="Price|Carbon"&region=="CHN"])
+p1 = p1 + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1.5)
+p1 = p1 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+p1 = p1 + facet_grid(implementation~model)
+p1 = p1 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+p1 = p1 + ylab(data[variable=="Price|Carbon"]$unit)
+p1 = p1 + ylim(0,2000)
+ggsave(file=paste(outdir,"/carbon price_CHN.png",sep=""),p1,width=20,height=12,dpi=200)
+
+#only 2030
+p2 = ggplot(data[variable=="Price|Carbon"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&period==2030&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")]) #&regime%in%c("AP","CO")
+p2 = p2 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+p2 = p2 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+p2 = p2 + facet_grid(implementation~model)
+p2 = p2 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+p2 = p2 + ylab(data[variable=="Price|Carbon"]$unit)
+p2 = p2 + ylim(0,2000)
+ggsave(file=paste(outdir,"/carbon price_2030.png",sep=""),p2,width=20,height=12,dpi=200)
+
+#Separately for Japan
+p3 = ggplot(data[variable=="Price|Carbon"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&period==2030&model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")]) #&regime%in%c("AP","CO")
+p3 = p3 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+p3 = p3 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+p3 = p3 + facet_grid(implementation~model)
+p3 = p3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+p3 = p3 + ylab(data[variable=="Price|Carbon"]$unit)
+p3 = p3 + ylim(0,2000)
+ggsave(file=paste(outdir,"/carbon price_2030_JPN.png",sep=""),p3,width=20,height=12,dpi=200)
 
 price=data[variable=="Price|Carbon"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 price[model=="AIM/CGE[Japan]"]$model<-"AIM-CGE[Japan]"
@@ -398,7 +473,7 @@ costsrel$period=str_replace_all(costsrel$period,"rel2050","2050")
 costsrel$period=str_replace_all(costsrel$period,"rel2100","2100")
 costsrel<-na.omit(costsrel)
 
-c4 = ggplot(costsrel[period%in%c(2030,2050,2100)&implementation=="flexibility"&!model=="IMAGE 3.0"]) #TODO: check what goes wrong with IMAGE
+c4 = ggplot(costsrel[period%in%c(2030,2050)&implementation=="flexibility"&!model=="IMAGE 3.0"]) #TODO: check what goes wrong with IMAGE
 c4 = c4 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
 c4 = c4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 c4 = c4 + facet_grid(period~model)
@@ -407,7 +482,34 @@ c4 = c4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 c4 = c4 + ylab(costsrel$unit)
 ggsave(file=paste(outdir,"/costs_GDP_rel2020.png",sep=""),c4,width=20,height=12,dpi=200)
 
-  
+#Relative to global average - leave out relative to 2020?
+costsworld = spread(costs[!region%in%c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU")],region,value)
+costsworld = costsworld%>%mutate(BRAworld=BRA/World,CHNworld=CHN/World,EUworld=EU/World,INDworld=IND/World,JPNworld=JPN/World,RUSworld=RUS/World,USAworld=USA/World)
+costsworld=data.table(gather(costsworld,region,value,c("BRA","CHN","EU","IND","JPN","RUS","USA","World","BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")))
+costsworld=costsworld[region%in%c("BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")]
+costsworld$unit<-"fraction of world"  
+costsworld$region=str_replace_all(costsworld$region,"BRAworld","BRA")
+costsworld$region=str_replace_all(costsworld$region,"CHNworld","CHN")
+costsworld$region=str_replace_all(costsworld$region,"EUworld","EU")
+costsworld$region=str_replace_all(costsworld$region,"INDworld","IND")
+costsworld$region=str_replace_all(costsworld$region,"JPNworld","JPN")
+costsworld$region=str_replace_all(costsworld$region,"RUSworld","RUS")
+costsworld$region=str_replace_all(costsworld$region,"USAworld","USA")
+costsworld<-na.omit(costsworld)
+
+c5 = ggplot(costsworld[period%in%c(2030,2050)&implementation=="flexibility"])
+c5 = c5 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+c5 = c5 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c5 = c5 + facet_grid(period~model)
+# c5 = c5 + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1)
+# c5 = c5 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+# c5 = c5 + facet_grid(implementation~region,scale="free_y")
+#c5 = c5 + ylim(-3,8)
+c5 = c5 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c5 = c5 + ylab(costsworld$unit)
+c5 = c5 + ggtitle("Flexibility")
+ggsave(file=paste(outdir,"/costs_GDP_relworld_flexibility.png",sep=""),c5,width=20,height=12,dpi=200)
+
 # costs Annex I fraction GDP / fraction GDP non-Annex I. Now for R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF. 
 # TODO for OECD countries / native model regions? (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
 
