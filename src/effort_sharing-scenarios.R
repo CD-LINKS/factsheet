@@ -439,6 +439,20 @@ p4 = p4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 p4 = p4 + ylab(pricestat$unit)
 ggsave(file=paste(outdir,"/carbonprice_compare.png",sep=""),p4,width=20,height=12,dpi=200)
 
+#without JPN national models
+pricestat2=price[!c(model%in%c("AIM-CGE[Japan]","DNE21+ V.14")&region=="JPN"),list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
+                      min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime","region")]
+
+p5 = ggplot(pricestat2[period%in%c(2030,2050)])
+p5 = p5 + geom_bar(stat="identity", aes(x=region, y=median,fill=regime),position=position_dodge(width=0.66),width=0.66)
+p5 = p5 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+p5 = p5 + geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=regime),position=position_dodge(width=0.66),width=0.66)
+p5 = p5 + scale_colour_manual(values=c("AP"="black","CO"="black","GF"="black","PCC"="black"))
+p5 = p5 + facet_grid(implementation~period,scale="free_y")
+p5 = p5 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+p5 = p5 + ylab(pricestat$unit)
+ggsave(file=paste(outdir,"/carbonprice_compare_wo_JPNmodels.png",sep=""),p5,width=20,height=12,dpi=200)
+
 # Policy costs as % of GDP (one policy cost indicator per model, but check with teams (TODO). 1) GDP loss, 2) direct costs (energy system, MAC), 3) consumption loss)
 # Check who reports what and make ranking of variables to use
 costvar = data[variable%in%c("Policy Cost|Welfare Change","Policy Cost|Additional Total Energy System Cost","Policy Cost|Area under MAC Curve","Policy Cost|Consumption Loss",
