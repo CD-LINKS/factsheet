@@ -19,52 +19,49 @@ library(readxl)
 # retrieve CD-LINKS data from csv files and historical PRIMAP/IEA data
 keep_original = TRUE
 source('NatComPaper/Data Natcom paper.R')
+convert_GWP = FALSE
 
 # adjust data for check IAM models
-all_check <- all_paper
-all_check_before_adj <- all_paper_before_adj
-all_check$period <- as.integer(all_check$period)
-all_check_before_adj$period <- as.integer(all_check_before_adj$period)
-all_check_hist <- all_hist_paper
-all_check_hist$period <- as.integer(all_check_hist$period)
 
 # convert CH4 and N2O emissions to CO2eq
-GWP_CH4 <- 25
-GWP_N2O <- 298
-# CH4
-tmp1 <- filter(all_check, grepl("Emissions\\|CH4", variable))
-tmp1$value<-tmp1$value*GWP_CH4
-tmp1$unit <- "MtCO2eq"
-tmp2 <- filter(all_check, !(grepl("Emissions\\|CH4", variable)))
-all_check <- rbind(tmp2, tmp1)
-tmp1 <- filter(all_check_before_adj, grepl("Emissions\\|CH4", variable))
-tmp1$value<-tmp1$value*GWP_CH4
-tmp1$unit <- "MtCO2eq"
-tmp2 <- filter(all_check_before_adj, !(grepl("Emissions\\|CH4", variable)))
-all_check_before_adj <- rbind(tmp2, tmp1)
-tmp1 <- filter(all_check_hist, grepl("Emissions\\|CH4", variable))
-tmp1$value<-tmp1$value*GWP_CH4
-tmp1$unit <- "MtCO2eq"
-tmp2 <- filter(all_check_hist, !(grepl("Emissions\\|CH4", variable)))
-all_check_hist <- rbind(tmp2, tmp1)
-#N2O
-tmp1 <- filter(all_check_before_adj, grepl("Emissions\\|N2O", variable))
-tmp1$value<-tmp1$value*GWP_N2O/1000
-tmp1$unit <- "MtCO2eq"
-tmp2 <- filter(all_check_before_adj, !(grepl("Emissions\\|N2O", variable)))
-all_check_before_adj <- rbind(tmp2, tmp1)
+if (convert_GWP) {
+  GWP_CH4 <- 25
+  GWP_N2O <- 298
+  # CH4
+  tmp1 <- filter(all_paper, grepl("Emissions\\|CH4", variable))
+  tmp1$value<-tmp1$value*GWP_CH4
+  tmp1$unit <- "MtCO2eq"
+  tmp2 <- filter(all_paper, !(grepl("Emissions\\|CH4", variable)))
+  all_paper <- rbind(tmp2, tmp1)
+  tmp1 <- filter(all_paper_before_adj, grepl("Emissions\\|CH4", variable))
+  tmp1$value<-tmp1$value*GWP_CH4
+  tmp1$unit <- "MtCO2eq"
+  tmp2 <- filter(all_paper_before_adj, !(grepl("Emissions\\|CH4", variable)))
+  all_paper_before_adj <- rbind(tmp2, tmp1)
+  tmp1 <- filter(all_hist_paper, grepl("Emissions\\|CH4", variable))
+  tmp1$value<-tmp1$value*GWP_CH4
+  tmp1$unit <- "MtCO2eq"
+  tmp2 <- filter(all_hist_paper, !(grepl("Emissions\\|CH4", variable)))
+  all_hist_paper <- rbind(tmp2, tmp1)
+  #N2O
+  tmp1 <- filter(all_paper_before_adj, grepl("Emissions\\|N2O", variable))
+  tmp1$value<-tmp1$value*GWP_N2O/1000
+  tmp1$unit <- "MtCO2eq"
+  tmp2 <- filter(all_paper_before_adj, !(grepl("Emissions\\|N2O", variable)))
+  all_paper_before_adj <- rbind(tmp2, tmp1)
+  
+  tmp1 <- filter(all_paper, grepl("Emissions\\|N2O", variable))
+  tmp1$value<-tmp1$value*GWP_N2O/1000
+  tmp1$unit <- "MtCO2eq"
+  tmp2 <- filter(all_paper, !(grepl("Emissions\\|N2O", variable)))
+  all_paper <- rbind(tmp2, tmp1)
 
-tmp1 <- filter(all_check, grepl("Emissions\\|N2O", variable))
-tmp1$value<-tmp1$value*GWP_N2O/1000
-tmp1$unit <- "MtCO2eq"
-tmp2 <- filter(all_check, !(grepl("Emissions\\|N2O", variable)))
-all_check <- rbind(tmp2, tmp1)
-
-tmp1 <- filter(all_check_hist, grepl("Emissions\\|N2O", variable))
-tmp1$value<-tmp1$value*GWP_N2O
-tmp1$unit <- "MtCO2eq"
-tmp2 <- filter(all_check_hist, !(grepl("Emissions\\|N2O", variable)))
-all_check_hist <- rbind(tmp2, tmp1)
+  tmp1 <- filter(all_hist_paper, grepl("Emissions\\|N2O", variable))
+  tmp1$value<-tmp1$value*GWP_N2O
+  tmp1$unit <- "MtCO2eq"
+  tmp2 <- filter(all_hist_paper, !(grepl("Emissions\\|N2O", variable)))
+  all_hist_paper <- rbind(tmp2, tmp1)
+}
 
 # read in NDC growth rates between 2010 and 2030
 NDCgrowth <- read.table("data/INDC growth rates protocol.csv", sep=";", header=TRUE)
@@ -72,8 +69,8 @@ NDCgrowth <- read.table("data/INDC growth rates protocol.csv", sep=";", header=T
 # settings
 regs_check<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World")
 cats_check <- c("No policy", "National policies","NDC")
-models_global <- filter(all_check, Scope=="global", model != "AIM/CGE") %>% select(model) %>% unique() %>% as.matrix() %>% as.vector()
-models_national <- filter(all_check, Scope=="national") %>% select(model) %>% unique()
+models_global <- filter(all_paper, Scope=="global", model != "AIM/CGE") %>% select(model) %>% unique() %>% as.matrix() %>% as.vector()
+models_national <- filter(all_paper, Scope=="national") %>% select(model) %>% unique()
 vars_GHG <- c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|Excl. AFOLU CO2", "Emissions|CO2", 
               "Emissions|CO2|Energy and Industrial Processes", "Emissions|CO2|AFOLU", 
               "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases")
@@ -85,24 +82,24 @@ vars_FE <- c("Final Energy", "Final Energy|Other",
 
 # I. Check model gaps, data export to Excel
 write.table(all_hist, "NatComPaper/data/all_hist.csv", sep=";", row.names=F)
-all_check_before_adj_emissions <- filter(all_check_before_adj, grepl("Emissions", variable), Scope=="global", region %in% regs_check, Category%in%cats_check) %>%
+all_paper_before_adj_emissions <- filter(all_paper_before_adj, grepl("Emissions", variable), Scope=="global", region %in% regs_check, Category%in%cats_check) %>%
                                   select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
-write.table(all_check_before_adj_emissions, "NatComPaper/data/all_before_emissions.csv", sep=";", row.names = F)
+write.table(all_paper_before_adj_emissions, "NatComPaper/data/all_before_emissions.csv", sep=";", row.names = F)
 
-all_check_emissions <- filter(all_check, grepl("Emissions", variable), Scope=="global", region %in% regs_check, Category%in%cats_check) %>%
+all_check_emissions <- filter(all_paper, grepl("Emissions", variable), Scope=="global", region %in% regs_check, Category%in%cats_check) %>%
                        select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
 write.table(all_check_emissions, "NatComPaper/data/all_emissions.csv", sep=";", row.names = F)
 
-all_check_before_adj_final_energy <- filter(all_check_before_adj, grepl("Final Energy", variable), Scope=="global", region %in% regs_check)
-all_check_before_adj_secondary_energy <- filter(all_check_before_adj, grepl("Secondary Energy", variable), Scope=="global", region %in% regs_check)
-all_check_before_adj_energy <- rbind(all_check_before_adj_final_energy, all_check_before_adj_secondary_energy)
-all_check_before_adj_energy <- select(all_check_before_adj_energy, scenario,	Category,	Baseline,	model, region, period, unit, value, Scope, variable)
-write.table(all_check_before_adj_energy, "NatComPaper/data/all_before_energy.csv", sep=";", row.names = F)
+all_paper_before_adj_final_energy <- filter(all_paper_before_adj, grepl("Final Energy", variable), Scope=="global", region %in% regs_check)
+all_paper_before_adj_secondary_energy <- filter(all_paper_before_adj, grepl("Secondary Energy", variable), Scope=="global", region %in% regs_check)
+all_paper_before_adj_energy <- rbind(all_paper_before_adj_final_energy, all_paper_before_adj_secondary_energy)
+all_paper_before_adj_energy <- select(all_paper_before_adj_energy, scenario,	Category,	Baseline,	model, region, period, unit, value, Scope, variable)
+write.table(all_paper_before_adj_energy, "NatComPaper/data/all_before_energy.csv", sep=";", row.names = F)
 
-all_check_before_adj_primary_energy <- filter(all_check_before_adj, grepl("Primary Energy", variable), Scope=="global", region %in% regs_check)
-all_check_before_adj_gdp <- filter(all_check_before_adj, grepl("GDP|MER", variable), Scope=="global", region %in% regs_check)
-all_check_before_adj_select <- rbind(all_check_before_adj_emissions, all_check_before_adj_final_energy) %>% rbind(all_check_before_adj_secondary_energy) %>% rbind(all_check_before_adj_primary_energy) %>% rbind(all_check_before_adj_gdp)
-write.table(all_check_before_adj_select, "NatComPaper/data/all_before_select.csv", sep=";", row.names = F)
+all_paper_before_adj_primary_energy <- filter(all_paper_before_adj, grepl("Primary Energy", variable), Scope=="global", region %in% regs_check)
+all_paper_before_adj_gdp <- filter(all_paper_before_adj, grepl("GDP|MER", variable), Scope=="global", region %in% regs_check)
+all_paper_before_adj_select <- rbind(all_paper_before_adj_emissions, all_paper_before_adj_final_energy) %>% rbind(all_paper_before_adj_secondary_energy) %>% rbind(all_paper_before_adj_primary_energy) %>% rbind(all_paper_before_adj_gdp)
+write.table(all_paper_before_adj_select, "NatComPaper/data/all_before_select.csv", sep=";", row.names = F)
 
 all_check_final_energy <- filter(all_paper, grepl("Final Energy", variable), Scope=="global", region %in% regs_check, Category%in%cats_check)
 all_check_secondary_energy <- filter(all_paper, grepl("Secondary Energy", variable), Scope=="global", region %in% regs_check, Category%in%cats_check)
@@ -115,15 +112,15 @@ all_energy <- select(all_energy, scenario,	Category,	Baseline,	model, region, pe
 write.table(all_check_energy, "NatComPaper/data/all_check_energy.csv", sep=";", row.names = F)
 write.table(all_energy, "NatComPaper/data/all_energy.csv", sep=";", row.names = F)
 
-all_check_primary_energy <- filter(all_check, grepl("Primary Energy", variable), Scope=="global", region %in% regs_check)
-all_check_gdp <- filter(all_check, grepl("GDP|MER", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
+all_check_primary_energy <- filter(all_paper, grepl("Primary Energy", variable), Scope=="global", region %in% regs_check)
+all_check_gdp <- filter(all_paper, grepl("GDP|MER", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
 all_check_select <- rbind(all_check_emissions, all_check_final_energy) %>% rbind(all_check_secondary_energy) %>% rbind(all_check_primary_energy) %>% rbind(all_check_gdp)
 write.table(all_check_select, "NatComPaper/data/all_select.csv", sep=";", row.names = F)
 
-all_check_final_energy_transport <- filter(all_check, grepl("Final Energy\\|Transportation", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
-all_check_final_energy_industry <- filter(all_check, grepl("Final Energy\\|Industry", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
-all_check_final_energy_buildings <- filter(all_check, grepl("Final Energy\\|Residential and Commerical", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
-all_check_final_biomass <- filter(all_check, grepl("Biomass", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
+all_check_final_energy_transport <- filter(all_paper, grepl("Final Energy\\|Transportation", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
+all_check_final_energy_industry <- filter(all_paper, grepl("Final Energy\\|Industry", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
+all_check_final_energy_buildings <- filter(all_paper, grepl("Final Energy\\|Residential and Commerical", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
+all_check_final_biomass <- filter(all_paper, grepl("Biomass", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
 
 p = ggplot() + 
        geom_line(data=filter(all_energy, variable=="Final Energy|Non-fossil share", period>=2010, period<=2030, Category%in%c("National policies")), aes(x=period, y=value, colour=model)) +
@@ -219,7 +216,7 @@ minmax_NDC <- bind_rows(minmax_NDC, minmax_NDC_World)
 
 # Filter model data for scope, scenarios, regions and variables
 cats_check_NDC <- c("National policies","NDC")
-Model_global_data <- filter(all_check, Scope=="global", Category %in% cats_check_NDC, region %in% regs_check, variable%in%c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|Excl. AFOLU CO2"))
+Model_global_data <- filter(all_paper, Scope=="global", Category %in% cats_check_NDC, region %in% regs_check, variable%in%c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|Excl. AFOLU CO2"))
 
 all_hist_graph <- filter(all_hist, variable %in% c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|Excl. AFOLU CO2")) %>% select(region, period, value, variable)
 
@@ -250,12 +247,12 @@ for (r in regs_check) {
 
 
 # II.b make table with NDC growth rates
-NDCgrowth_models_incl <- filter(all_check, variable == "Emissions|Kyoto Gases", model %in% models_global, Category=="NDC", (period==2010 | period==2030)) %>% 
+NDCgrowth_models_incl <- filter(all_paper, variable == "Emissions|Kyoto Gases", model %in% models_global, Category=="NDC", (period==2010 | period==2030)) %>% 
   spread(key=period, value=value) %>%
   mutate(EM_rel_2010=`2030`/`2010`) %>%
   mutate(NDC="incl") %>%
   select(model, region, NDC, EM_rel_2010)
-NDCgrowth_models_excl <- filter(all_check, variable == "Emissions|Kyoto Gases|Excl. AFOLU CO2", model %in% models_global, Category=="NDC", (period==2010 | period==2030)) %>% 
+NDCgrowth_models_excl <- filter(all_paper, variable == "Emissions|Kyoto Gases|Excl. AFOLU CO2", model %in% models_global, Category=="NDC", (period==2010 | period==2030)) %>% 
   spread(key=period, value=value) %>%
   mutate(EM_rel_2010=`2030`/`2010`) %>%
   mutate(NDC="excl") %>%
@@ -293,11 +290,11 @@ write(paste(html.head,html.body,sep='\n'),"NatComPaper/graphs/NDCgrowth.html")
 # before and after adjustments (adjust_reporting_indc_Mark)
 for (i in 1:1) {
   if (i==1){
-    all_check_graph <- all_check_before_adj
+    all_check_graph <- all_paper_before_adj
     check<-"before"
   }
   else{
-    all_check_graph <- all_check
+    all_check_graph <- all_paper
     check<-"after"
     }
   for (v in vars_GHG) { 
@@ -307,7 +304,7 @@ for (i in 1:1) {
       #r="World"
       cat(paste0("- ", r, "\n"))
       d1 <- filter(all_check_graph, model %in% models_global, period>=2005, period<=2015, Category=="National policies", region==r, variable==v)
-      d2 <- filter(all_check_hist, model=="History", period>=2005, period<=2015, region==r, variable==v) %>% select(period, value)
+      d2 <- filter(all_hist_paper, model=="History", period>=2005, period<=2015, region==r, variable==v) %>% select(period, value)
       d2$period  <- as.integer(d2$period)
       d <- left_join(d1, d2, by=c('period'))
       d <- mutate(d, diff=round(value.x/value.y, digits=2))
@@ -344,11 +341,11 @@ for (i in 1:1) {
 # before and after adjustments (adjust_reporting_indc_Mark)
 for (i in 1:2) {
   if (i==1){
-    all_check_graph <- all_check
+    all_check_graph <- all_paper
     check<-"after"
   }
   else{
-    all_check_graph <- all_check_before_adj
+    all_check_graph <- all_paper_before_adj
     check<-"before"
   }
   for (v in vars_FE) { 
@@ -358,7 +355,7 @@ for (i in 1:2) {
       #r="World"
       cat(paste0("- ", r, "\n"))
       d1 <- filter(all_check_graph, model %in% models_global, period>=2005, period<=2015, Category=="National policies", region==r, variable==v)
-      d2 <- filter(all_check_hist, model=="History", period>=2005, period<=2015, region==r, variable==v) %>% select(period, value)
+      d2 <- filter(all_hist_paper, model=="History", period>=2005, period<=2015, region==r, variable==v) %>% select(period, value)
       d2$period  <- as.integer(d2$period)
       d <- left_join(d1, d2, by=c('period'))
       d <- mutate(d, diff=round(value.x/value.y, digits=2))
@@ -386,9 +383,9 @@ for (i in 1:2) {
 # Compare bunkers
 #b <- mutate(EDGAR_bunkers, region=="World", model="EDGAR")
 
-d1 <- filter(all_check, variable=="Emissions|CO2|Energy and Industrial Processes", Category=="National policies", region=="Bunkers", model%in%models_global, 
+d1 <- filter(all_paper, variable=="Emissions|CO2|Energy and Industrial Processes", Category=="National policies", region=="Bunkers", model%in%models_global, 
              period>=2010, period<=2030) %>% as.data.frame()
-#d1 <- filter(all_check, variable=="Emissions|Kyoto Gases", Category=="National policies", region=="Bunkers", model%in%models_global, period>=2010, period<=2030)
+#d1 <- filter(all_paper, variable=="Emissions|Kyoto Gases", Category=="National policies", region=="Bunkers", model%in%models_global, period>=2010, period<=2030)
 #d2 <- filter(all_hist, variable=="Emissions|Kyoto Gases", region=="Bunkers", period>=2010, period<=2030)
 d2_1 <- filter(EDGAR_bunkers, period>=2010, period<=2030) %>% as.data.frame()
 d2_2 <- filter(EDGAR_bunkers_split, period>=2010, period<=2030) %>% as.data.frame()
@@ -405,8 +402,8 @@ ggsave(file=paste("NatComPaper/graphs/review/Bunkers.png", sep=""),p, height=10,
 
 
 # Compare GDP
-d1 <- filter(all_check, variable=="GDP|MER", Category=="National policies", region%in%regs_check, model%in%models_global, period>=2010, period<=2030)
-d2 <- filter(all_check_hist, variable=="GDP|MER", region%in%regs_check, period>=2010, period<=2030)
+d1 <- filter(all_paper, variable=="GDP|MER", Category=="National policies", region%in%regs_check, model%in%models_global, period>=2010, period<=2030)
+d2 <- filter(all_hist_paper, variable=="GDP|MER", region%in%regs_check, period>=2010, period<=2030)
 d <- rbind(d1,d2)
 p = ggplot()+
     geom_line(data=d1, aes(x=period, y=value, colour=model, linetype=model))+
@@ -424,7 +421,7 @@ vars_FE <- c("Final Energy", "Final Energy|Other", "Final Energy|Residential and
              "Final Energy|Transportation|Liquids|Biomass", "Final Energy|Industry", "Final Energy|Industry|Electricity", "Final Energy|Solids|Biomass",
              "Final Energy|Solids|Biomass|Traditional", "Secondary Energy|Electricity|Biomass|w/ CCS", "Secondary Energy|Electricity|Biomass|w/o CCS", 
              "Secondary Energy|Electricity|Non-Biomass Renewables")
-all_FE <- filter(all_check, variable %in% vars_FE, region %in% regs_check)
+all_FE <- filter(all_paper, variable %in% vars_FE, region %in% regs_check)
 write.table(all_FE, "data/all_check_FE.csv", sep=";", row.names=F)
 
 vars_FE_overview <- c("Secondary Energy|Electricity|Fossil", "Secondary Energy|Electricity|Non-fossil", "Secondary Energy|Electricity|Non-fossil share",
@@ -433,7 +430,7 @@ vars_FE_overview <- c("Secondary Energy|Electricity|Fossil", "Secondary Energy|E
                       "Final Energy|Industry|Non-fossil", "Final Energy|Industry|Non-fossil share",
                       "Final Energy|Non-fossil", "Final Energy", "Final Energy|Non-fossil share"
 )
-all_check_FE_overview <- filter(all_check, variable %in% vars_FE_overview, region %in% regs_check)
+all_check_FE_overview <- filter(all_paper, variable %in% vars_FE_overview, region %in% regs_check)
 write.table(all_check_FE_overview, "data/all_check_FE_overview.csv", sep=";", row.names=F)
 
 # check nuclear India

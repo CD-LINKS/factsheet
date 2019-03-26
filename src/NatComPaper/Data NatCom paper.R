@@ -38,6 +38,7 @@ if (keep_original == TRUE){
   write.table(s, "data/import_scenarios.csv", sep=";", row.names=F)
   write.table(m, "data/import_models.csv", sep=";", row.names=F)
 }
+all_paper_before_adj$period <- as.integer(all_paper_before_adj$period)
 
 # II. retrieve data after changes (adjust_reporting_indc_Mark)
 cat("load adjusted data\n")
@@ -71,6 +72,7 @@ vars_RoW <- c("Emissions|Kyoto Gases", "Emissions|CO2", "Emissions|CO2|Energy an
               "Final Energy|Transportation",  
               "Final Energy|Industry",
               "GDP|MER", "Population")
+# calcualte RoW
 all_tmp <- filter(all_paper, region%in%regs_paper, variable%in%vars_RoW, period>=2010, period<=2050, Scope=="global")
 all_tmp$value <- -1*all_tmp$value
 all_tmp_world <- filter(all_paper, region%in%c('World'), variable%in%vars_RoW, period>=2010, period<=2050, Scope=="global")
@@ -83,6 +85,7 @@ all_tmp <- spread(all_tmp, key=region, value=value) %>%
            rename(value=RoW) %>%
            as.data.frame()
 all_paper <- rbind(all_paper, all_tmp)
+all_paper$period <- as.integer(all_paper$period)
 
 # III. Retrieve historical data
 rm(all_hist); rm(all_hist_paper)
@@ -97,6 +100,7 @@ all_hist_paper$Category=str_replace_all(all_hist_paper$Category,"2020_verylow","
 all_hist_paper$Category=str_replace_all(all_hist_paper$Category,"2030_low","Carbon budget 1000 (2030)")
 all_hist_paper$period <- as.integer(all_hist_paper$period)
 #write.table(all_hist_paper, "data/all_hist_paper.csv", sep=";", row.names = F)
+all_hist_paper$period <- as.integer(all_hist_paper$period)
 
 # data from IMAGE
 currentdir <- getwd()
