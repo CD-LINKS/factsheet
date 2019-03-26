@@ -9,7 +9,7 @@ library(directlabels) # year labels for scatter plots
 library(stringr) #str_replace_all
 library(gridExtra) #arrangeGrob
 
-data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190314-165034",".csv"),header=TRUE))
+data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190315-161400",".csv"),header=TRUE))
 data <- data.table(invisible(melt(data,measure.vars=names(data)[grep("[0-9]+",names(data))],variable.name = "period",variable.factor=FALSE)))
 data$period <- as.numeric(data$period)
 data <- data[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -28,7 +28,7 @@ if(!file.exists(outdir)) {
 
 
 # read native model region data -------------------------------------------
-native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190314-165919",".csv"),header=TRUE))
+native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190315-161500",".csv"),header=TRUE))
 native <- data.table(invisible(melt(native,measure.vars=names(native)[grep("[0-9]+",names(native))],variable.name = "period",variable.factor=FALSE)))
 native$period <- as.numeric(native$period)
 native <- native[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -129,6 +129,15 @@ a = a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_te
 a = a + ylab(allocation$unit)
 ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=12,dpi=200)
 
+a1 = ggplot(allocation[regime=="PCC"]) #[period%in%c(2050)]
+#a = a + geom_bar(stat="identity", aes(x=regime, y=value,fill=implementation),position="dodge")
+a1 = a1 + geom_line(aes(x=period,y=value,linetype=implementation,colour=regime),size=2)
+a1 = a1 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+a1 = a1 + facet_grid(region~model,scales="free_y")
+a1 = a1 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+a1 = a1 + ylab(allocation$unit)
+ggsave(file=paste(outdir,"/Allowance allocation_PCC.png",sep=""),a1,width=20,height=12,dpi=200)
+
 # Emissions ---------------------------------------------------------------
 # TODO reductions relative to baseline? (get NoPolicy from 'all' - only Kyoto Gases)
 # TODO check cumulative emissions in line with carbon budgets?
@@ -140,6 +149,15 @@ e = e + facet_grid(region~model,scales="free_y")
 e = e + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 e = e + ylab(data[variable=="Emissions|Kyoto Gases"]$unit)
 ggsave(file=paste(outdir,"/GHGemissions.png",sep=""),e,width=20,height=12,dpi=200)
+
+#PCC only
+e0 = ggplot(data[variable=="Emissions|Kyoto Gases"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF","World")&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")&regime=="PCC"]) #&!region=="World"
+e0 = e0 + geom_line(aes(x=period,y=value,linetype=implementation,colour=regime),size=1)
+e0 = e0 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+e0 = e0 + facet_grid(region~model,scales="free_y")
+e0 = e0 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+e0 = e0 + ylab(data[variable=="Emissions|Kyoto Gases"]$unit)
+ggsave(file=paste(outdir,"/GHGemissions_PCC.png",sep=""),e0,width=20,height=12,dpi=200)
 
 # separately for Japan
 e3 = ggplot(data[variable=="Emissions|Kyoto Gases"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")&!regime=="GF"]) #&!region=="World"
@@ -407,6 +425,34 @@ for(mod in unique(price$model)){
   ggsave(file=paste0(outdir,"/carbonprice_",mod,".png"),p0,width=20,height=12,dpi=200)
 }
 
+# Carbon price overview
+pricestat=price[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
+                      min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime","region")]
+
+p4 = ggplot(pricestat[period%in%c(2030,2050)])
+p4 = p4 + geom_bar(stat="identity", aes(x=region, y=median,fill=regime),position=position_dodge(width=0.66),width=0.66)
+p4 = p4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+p4 = p4 + geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=regime),position=position_dodge(width=0.66),width=0.66)
+p4 = p4 + scale_colour_manual(values=c("AP"="black","CO"="black","GF"="black","PCC"="black"))
+p4 = p4 + facet_grid(implementation~period,scale="free_y")
+p4 = p4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+p4 = p4 + ylab(pricestat$unit)
+ggsave(file=paste(outdir,"/carbonprice_compare.png",sep=""),p4,width=20,height=12,dpi=200)
+
+#without JPN national models
+pricestat2=price[!c(model%in%c("AIM-CGE[Japan]","DNE21+ V.14")&region=="JPN"),list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
+                      min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime","region")]
+
+p5 = ggplot(pricestat2[period%in%c(2030,2050)])
+p5 = p5 + geom_bar(stat="identity", aes(x=region, y=median,fill=regime),position=position_dodge(width=0.66),width=0.66)
+p5 = p5 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+p5 = p5 + geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=regime),position=position_dodge(width=0.66),width=0.66)
+p5 = p5 + scale_colour_manual(values=c("AP"="black","CO"="black","GF"="black","PCC"="black"))
+p5 = p5 + facet_grid(implementation~period,scale="free_y")
+p5 = p5 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+p5 = p5 + ylab(pricestat$unit)
+ggsave(file=paste(outdir,"/carbonprice_compare_wo_JPNmodels.png",sep=""),p5,width=20,height=12,dpi=200)
+
 # Policy costs as % of GDP (one policy cost indicator per model, but check with teams (TODO). 1) GDP loss, 2) direct costs (energy system, MAC), 3) consumption loss)
 # Check who reports what and make ranking of variables to use
 costvar = data[variable%in%c("Policy Cost|Welfare Change","Policy Cost|Additional Total Energy System Cost","Policy Cost|Area under MAC Curve","Policy Cost|Consumption Loss",
@@ -598,6 +644,19 @@ for(mod in unique(indicatormn$model)){
   i1 = i1 + ggtitle(mod)
   ggsave(file=paste0(outdir,"/costratio_financialflows_native",mod,".png"),i1,width=20,height=12,dpi=200)
 }
+
+#all in one plot
+i3 = ggplot(indicatorm[implementation=="flexibility"&period%in%c(2030,2050,2100)])
+i3 = i3 + geom_point(aes(x=value.x,y=value.y,colour=regime,alpha=period, shape=model),size=5)
+i3 = i3 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+i3 = i3 + scale_alpha_manual(values=c("2030"=0.4,"2050"=0.7,"2100"=1))
+i3 = i3 + scale_shape_manual(values=c("WITCH2016"=15,"REMIND 2.0"=16,"IMAGE 3.0"=17,"MESSAGEix-GLOBIOM_1.1"=18))
+i3 = i3 + geom_hline(aes(yintercept=1),size=1)
+i3 = i3 + geom_vline(aes(xintercept=100),size=1)
+i3 = i3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+i3 = i3 + ylab(costratio$variable)
+i3 = i3 + xlab(finflowsstat$unit)
+ggsave(file=paste(outdir,"/costratio_financialflows_allmodels.png",sep=""),i3,width=20,height=12,dpi=200)
 
 # Socioeconomic impacts ---------------------------------------------------
 
