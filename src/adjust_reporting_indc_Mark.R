@@ -109,7 +109,6 @@ tmp1$variable<-"Final Energy|Geothermal"
 tmp1$value<-0
 all<-rbind(all,tmp1)
 
-
 # Adding electricity CCS varialbes to models that don't report it, needed for calculation of total renewable energy share
 # Secondary Energy|Electricity|Coal|w/ CCS
 tmp1<-all[model %in% setdiff(unique(all[variable=="Secondary Energy|Electricity"]$model),unique(all[variable=="Secondary Energy|Electricity|Coal|w/ CCS"]$model))
@@ -271,6 +270,17 @@ all<-rbind(all,tmp1)
   
 # CO2 and sub-categories --------------------------------------------------
 
+#Adding "Emissions|CO2|Energy|Demand|Residential and Commercial" to models that don't report them, but have "Emissions|CO2|Energy|Demand|Residential"
+tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Industrial Processes"]$model),unique(all[variable=="Emissions|CO2|Energy|Demand|Residential and Commercial"]$model)) &
+              variable %in% c("Emissions|CO2|Energy|Demand|Residential","Emissions|CO2|Energy|Demand|Commercial")]
+if(dim(tmp1)[1]!=0 & "Emissions|CO2|Energy|Demand|Residential" %in% unique(tmp1$variable) & "Emissions|CO2|Energy|Demand|Commercial" %in% unique(tmp1$variable)){
+  tmp=spread(tmp1,variable, value)
+  tmp=na.omit(tmp)
+  tmp=tmp %>% mutate(`Emissions|CO2|Energy|Demand|Residential and Commercial`=`Emissions|CO2|Energy|Demand|Residential` + `Emissions|CO2|Energy|Demand|Commercial`)
+  tmp1=gather(tmp, variable, value, c(`Emissions|CO2|Energy|Demand|Residential and Commercial`,`Emissions|CO2|Energy|Demand|Residential`, `Emissions|CO2|Energy|Demand|Commercial`))
+  tmp1=data.table(tmp1)
+  tmp1=tmp1[variable=="Emissions|CO2|Energy|Demand|Residential and Commercial"]
+  all <- rbind(all,tmp1)} 
 
 ## Energy and industrial processes...
 #Adding "Emissions|CO2|Energy and Industrial Processes" to scenarios that don't report them, but have "Emissions|CO2|Energy" and "Emissions|CO2|Industrial Processes"
@@ -385,7 +395,7 @@ if(dim(tmp1)[1]!=0 & "Secondary Energy|Electricity|Gas" %in% unique(tmp1$variabl
 # GHG emissions
 if("World"%in%cfg$r){
   # with "Emissions|Kyoto Gases"
-  tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases"]
+  tmp1<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|Kyoto Gases" & !(is.na(value))]
   tmp=spread(tmp1,region, value)
   tmp=na.omit(tmp)
   tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
@@ -399,6 +409,19 @@ if("World"%in%cfg$r){
   #tmp2$variable<-"Emissions|CO2|Energy and Industrial Processes"
   #tmp2$unit<-"Mt CO2/yr"
   tmp2<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|CO2|Energy and Industrial Processes"]
+  tmp=spread(tmp2,region, value)
+  tmp=na.omit(tmp)
+  tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
+  tmp2=gather(tmp, region, value, c(Bunkers,World,R5MAF,R5LAM,R5ASIA,`R5OECD90+EU`,R5REF))
+  tmp2=data.table(tmp2)
+  tmp2=tmp2[region=="Bunkers"]
+  setcolorder(tmp2,c("scenario","Category","Baseline","model","region","period","Scope","value","unit","variable"))
+
+  # with "Emissions|CO2|Energy"
+  #tmp2=tmp1
+  #tmp2$variable<-"Emissions|CO2|Energy"
+  #tmp2$unit<-"Mt CO2/yr"
+  tmp2<-all[region%in%c("World","R5MAF","R5LAM","R5ASIA","R5OECD90+EU","R5REF")&variable=="Emissions|CO2|Energy"]
   tmp=spread(tmp2,region, value)
   tmp=na.omit(tmp)
   tmp=tmp %>% mutate(Bunkers=World - (R5MAF + R5LAM + R5ASIA + `R5OECD90+EU`+R5REF))
@@ -439,6 +462,10 @@ if("World"%in%cfg$r){
 # 5. POLES: harmonise AFOLU CO2 emissions using FAOSTAT data
 # 6. a) Add Secondary Energy|Electricity|Geothermal for AIM V2.1 if this is missing
 #    b) Add  "Secondary Energy|Electricity|Coal|w/o CCS", "Secondary Energy|Electricity|Gas|w/o CCS","Secondary Energy|Electricity|Oil|w/o CCS" with zero values
+# 7. Add bunker emissions for COPPE to Emissions|CO2|Energy and Industrial Processes
+#    by recalculating Emissions|CO2|Energy and Industrial Processes as sum of Energy and Industrial Processes
+# 8. Add bunker emissions for POLES to Emissions|CO2|Energy|Demand|Transportation (which is not included)
+#    As it is included in CO2 Emissions|Energy, calculate bunkers from difference
 
 # 1. change AIM|Enduse 3.0 to AIM-India[IIMA]
 all[model=="AIM/Enduse 3.0","model"] <- "AIM-India [IIMA]"
@@ -583,6 +610,32 @@ all <- rbind(all,tmp1)
 tmp1<-all[variable=="Secondary Energy|Electricity|Oil|w/o CCS" & model=="AIM V2.1"]
 tmp1$variable="Secondary Energy|Electricity|Oil|w/ CCS"
 tmp1$value<-0
+all <- rbind(all,tmp1)
+
+# 7. Add bunker emissions for COPPE to Emissions|CO2|Energy and Industrial Processes
+#    by recalculating Emissions|CO2|Energy and Industrial Processes as sum of Energy and Industrial Processes
+tmp1 <- all[model %in% c('COPPE-COFFEE 1.0') & region=="World" & 
+           variable %in% c("Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|Energy", "Emissions|CO2|Industrial Processes")]
+tmp=spread(tmp1,variable, value)
+tmp=na.omit(tmp)
+tmp=tmp %>% mutate(`Emissions|CO2|Energy and Industrial Processes`=`Emissions|CO2|Energy` + `Emissions|CO2|Industrial Processes`)
+tmp1=gather(tmp, variable, value, c(`Emissions|CO2|Energy and Industrial Processes`,`Emissions|CO2|Energy`, `Emissions|CO2|Industrial Processes`))
+tmp1=data.table(tmp1)
+tmp1=tmp1[variable=="Emissions|CO2|Energy and Industrial Processes"]
+all <- all[!(model %in% c('COPPE-COFFEE 1.0') & region=="World" & variable %in% c("Emissions|CO2|Energy and Industrial Processes"))]
+all <- rbind(all,tmp1)
+
+# 8. Add bunker emissions for POLES to Emissions|CO2|Energy|Demand|Transportation (which is not included)
+#    As it is included in CO2 Emissions|Energy, calculate bunkers from difference
+tmp1 <- all[model %in% c('COPPE-COFFEE 1.0') & region=="World" & 
+              variable %in% c("Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|Energy", "Emissions|CO2|Industrial Processes")]
+tmp=spread(tmp1,variable, value)
+tmp=na.omit(tmp)
+tmp=tmp %>% mutate(`Emissions|CO2|Energy and Industrial Processes`=`Emissions|CO2|Energy` + `Emissions|CO2|Industrial Processes`)
+tmp1=gather(tmp, variable, value, c(`Emissions|CO2|Energy and Industrial Processes`,`Emissions|CO2|Energy`, `Emissions|CO2|Industrial Processes`))
+tmp1=data.table(tmp1)
+tmp1=tmp1[variable=="Emissions|CO2|Energy and Industrial Processes"]
+all <- all[!(model %in% c('COPPE-COFFEE 1.0') & region=="World" & variable %in% c("Emissions|CO2|Energy and Industrial Processes"))]
 all <- rbind(all,tmp1)
 
 

@@ -25,6 +25,8 @@ Emissions|CO2|Energy and Industrial Processes
 Emissions|CO2|Energy|Demand|Transportation
 Emissions|CO2|Energy|Demand|Industry
 Emissions|CO2|Energy|Demand|Residential and Commercial
+Emissions|CO2|Energy|Demand|Residential
+Emissions|CO2|Energy|Demand|Commercial
 Emissions|CH4|Energy|Supply
 Emissions|CH4|Energy|Demand|Industry
 Emissions|CH4|Energy|Demand|Residential and Commercial

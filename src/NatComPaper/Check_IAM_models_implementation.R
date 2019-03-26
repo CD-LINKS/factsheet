@@ -74,7 +74,8 @@ regs_check<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World")
 cats_check <- c("No policy", "National policies","NDC")
 models_global <- filter(all_check, Scope=="global", model != "AIM/CGE") %>% select(model) %>% unique() %>% as.matrix() %>% as.vector()
 models_national <- filter(all_check, Scope=="national") %>% select(model) %>% unique()
-vars_GHG <- c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|Excl. AFOLU CO2", "Emissions|CO2", "Emissions|CO2|Energy and Industrial Processes", "Emissions|CO2|AFOLU", 
+vars_GHG <- c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|Excl. AFOLU CO2", "Emissions|CO2", 
+              "Emissions|CO2|Energy and Industrial Processes", "Emissions|CO2|AFOLU", 
               "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases")
 vars_FE <- c("Final Energy", "Final Energy|Other",  
              "Secondary Energy|Electricity", 
@@ -88,6 +89,10 @@ all_check_before_adj_emissions <- filter(all_check_before_adj, grepl("Emissions"
                                   select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
 write.table(all_check_before_adj_emissions, "NatComPaper/data/all_before_emissions.csv", sep=";", row.names = F)
 
+all_check_emissions <- filter(all_check, grepl("Emissions", variable), Scope=="global", region %in% regs_check, Category%in%cats_check) %>%
+                       select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
+write.table(all_check_emissions, "NatComPaper/data/all_emissions.csv", sep=";", row.names = F)
+
 all_check_before_adj_final_energy <- filter(all_check_before_adj, grepl("Final Energy", variable), Scope=="global", region %in% regs_check)
 all_check_before_adj_secondary_energy <- filter(all_check_before_adj, grepl("Secondary Energy", variable), Scope=="global", region %in% regs_check)
 all_check_before_adj_energy <- rbind(all_check_before_adj_final_energy, all_check_before_adj_secondary_energy)
@@ -98,10 +103,6 @@ all_check_before_adj_primary_energy <- filter(all_check_before_adj, grepl("Prima
 all_check_before_adj_gdp <- filter(all_check_before_adj, grepl("GDP|MER", variable), Scope=="global", region %in% regs_check)
 all_check_before_adj_select <- rbind(all_check_before_adj_emissions, all_check_before_adj_final_energy) %>% rbind(all_check_before_adj_secondary_energy) %>% rbind(all_check_before_adj_primary_energy) %>% rbind(all_check_before_adj_gdp)
 write.table(all_check_before_adj_select, "NatComPaper/data/all_before_select.csv", sep=";", row.names = F)
-
-all_check_emissions <- filter(all_check, grepl("Emissions", variable), Scope=="global", region %in% regs_check, Category%in%cats_check) %>%
-                       select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
-write.table(all_check_emissions, "NatComPaper/data/all_emissions.csv", sep=";", row.names = F)
 
 all_check_final_energy <- filter(all_paper, grepl("Final Energy", variable), Scope=="global", region %in% regs_check, Category%in%cats_check)
 all_check_secondary_energy <- filter(all_paper, grepl("Secondary Energy", variable), Scope=="global", region %in% regs_check, Category%in%cats_check)
@@ -394,7 +395,7 @@ d2_2 <- filter(EDGAR_bunkers_split, period>=2010, period<=2030) %>% as.data.fram
 d2 <- rbind(d2_1, d2_2) %>% as.data.frame()
 d2$value <- as.double(d2$value)
 p = ggplot()+
-  geom_line(data=d1, aes(x=period, y=value, colour=model))+
+  geom_line(data=d1, aes(x=period, y=value, colour=model, linetype=model))+
   geom_point(data=d2, aes(x=period, y=value, shape=region), size=3)+
   #facet_wrap(~region, scales = "free")+
   scale_shape_discrete(name="EDGAR bunkers", labels=c('total', 'aviation', 'shipping')) +
@@ -642,6 +643,27 @@ g <- ggplot(data=POP_models) + geom_line(aes(x=period,y=value,colour=model), siz
         strip.text.y = element_text(size=16, face="bold"))+
   scale_colour_brewer(palette="Set2")
 ggsave(file=paste("NatComPaper/graphs/review","/Compare_POP.jpg",sep=""),g,width=20,height=12,dpi=200)
+
+pop_gdp <- rbind(POP_models, GDP_models)
+write.table(pop_gdp, "NatComPaper/data/pop_gpd_models.csv", sep=";", row.names=F)
+
+# compare energy intensity between models
+regs_EI_models<- c("World", "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "RoW")
+EI_models <- filter(all_paper, variable=="Energy intensity of GDP", region%in%regs_GDP_models, Category%in%c('National policies'), period>=2010, period<=2030, Scope=="global")
+g <- ggplot(data=FE_models) + geom_line(aes(x=period,y=value,colour=model), size=1.5) +
+  facet_wrap(~region,nrow=3, scales = "free_y") +
+  theme_bw() +
+  ylab("EJ") +
+  ggtitle("Energy intensity of GDP") +
+  theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+  theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+  theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+  scale_y_continuous(limits=c(0,NA), labels=function(x) format(x, big.mark = ",", scientific = FALSE)) +
+  theme(strip.text.x = element_text(size=16, face="bold"),
+        strip.text.y = element_text(size=16, face="bold"))+
+  scale_colour_brewer(palette="Set2")
+ggsave(file=paste("NatComPaper/graphs/review","/Compare_EI.jpg",sep=""),g,width=20,height=12,dpi=200)
+
 
 # compare final energy between models
 regs_FE_models<- c("World", "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "RoW")

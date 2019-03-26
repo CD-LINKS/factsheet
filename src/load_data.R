@@ -40,8 +40,9 @@ if(!exists("addvars")){
 source(paste("settings/",config,".R",sep=""))
 
 #overwrite file to be used for analysis
-cfg$infile    <- "cdlinks_compare_20190225-093329"
+#cfg$infile    <- "cdlinks_compare_20190225-093329"
 #cfg$infile    <- "cdlinks_compare_20190123-155652"
+cfg$infile    <-  "cdlinks_compare_20190222-175217"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")

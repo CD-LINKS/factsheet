@@ -30,7 +30,8 @@ if (keep_original == TRUE){
 
 
   # save variables in original all file
-  v <- unique(all_import$VARIABLE)
+  v <- unique(all_import$VARIABLE) %>% as.data.frame()
+  colnames(v) <- c('variable')
   s <- unique(all_import$SCENARIO)
   m <- unique(all_import$MODEL)
   write.table(v, "data/import_variables.csv", sep=";", row.names=F)
@@ -52,7 +53,7 @@ all_paper$Category=str_replace_all(all_paper$Category,"2020_low","Carbon budget 
 all_paper$Category=str_replace_all(all_paper$Category,"2020_verylow","Carbon budget 400")
 all_paper$Category=str_replace_all(all_paper$Category,"2030_low","Carbon budget 1000 (2030)")
 all_paper$period <- as.integer(all_paper$period)
-write.table(all_paper, "data/all_paper.csv", sep=";", row.names = F)
+#write.table(all_paper, "data/all_paper.csv", sep=";", row.names = F)
 
 # additional adjustments
 all_paper<-all_paper[model!="GEM-E3_EU"]

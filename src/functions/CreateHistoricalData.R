@@ -80,6 +80,8 @@ PRIMAP_CO2_industry_process <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT2", "CAT3"), 
 PRIMAP_CO2_energy_industry <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT1", "CAT2", "CAT3"), "CO2", "Emissions|CO2|Energy and Industrial Processes")
 
 PRIMAP_CO2_AFOLU <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT4", "CAT5"), "CO2", "Emissions|CO2|AFOLU")
+PRIMAP_CH4_AFOLU <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT4", "CAT5"), "CH4", "Emissions|CH4|AFOLU")
+PRIMAP_N2O_AFOLU <- ConvertPRIMAP2IAM(PRIMAP_IAM, c("CAT4", "CAT5"), "N2O", "Emissions|N2O|AFOLU")
 PRIMAP_CH4 <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "CH4", "Emissions|CH4")
 PRIMAP_N2O <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "N2O", "Emissions|N2O")
 PRIMAP_FGases <- ConvertPRIMAP2IAM(PRIMAP_IAM, "CAT0", "FGASESAR4", "Emissions|F-Gases")
@@ -100,8 +102,9 @@ EDGAR_bunkers <- group_by(EDGAR_bunkers_split, period, unit) %>% summarize(value
                  mutate(region="Bunkers") %>%
                  select(period, region, unit, value)
 write.table(EDGAR_bunkers, file="data/EDGAR_bunkers.txt", sep=";", row.names=FALSE)
-EDGAR_bunkers_add <- mutate(EDGAR_bunkers, scenario="", Category="Historical", Baseline="", model="History", Scope="", variable="Emissions|Kyoto Gases") %>% 
-                     select(scenario, Category, Baseline, model, region, period, Scope, value, unit, variable)
+EDGAR_bunkers <- mutate(EDGAR_bunkers, scenario="", Category="Historical", Baseline="", model="History", Scope="", variable="Emissions|Kyoto Gases") %>% 
+                 select(scenario, Category, Baseline, model, region, period, Scope, value, unit, variable) %>%
+                 as.data.frame()
 
 # add missing 2013, 2014, 2015 data
 tmp1 <- filter(EDGAR_bunkers, period==2012)
@@ -116,8 +119,8 @@ EDGAR_bunkers <- rbind(EDGAR_bunkers, tmp1) %>% rbind(tmp2) %>% rbind(tmp3)
 tmp <- filter(PRIMAP_Kyoto, region=="World")
 tmp <- left_join(tmp, EDGAR_bunkers, by=c('period')) %>% 
   mutate(value=value.x+value.y) %>%
-  select(scenario, Category, Baseline, model, region.x, period, Scope, value, unit.x, variable) %>%
-  rename(region=region.x, unit=unit.x)
+  select(scenario.x, Category.x, Baseline.x, model.x, region.x, period, Scope.x, value, unit.x, variable.x) %>%
+  rename(scenario=scenario.x, Category=Category.x, Baseline=Baseline.x, model=model.x, region=region.x, Scope=Scope.x, unit=unit.x, variable=variable.x)
 tmp <- as.data.frame(tmp)
 PRIMAP_Kyoto <- filter(PRIMAP_Kyoto, region!="World")
 PRIMAP_Kyoto <- rbind(PRIMAP_Kyoto, tmp)
@@ -125,20 +128,23 @@ PRIMAP_Kyoto <- rbind(PRIMAP_Kyoto, tmp)
 tmp <- filter(PRIMAP_CO2, region=="World")
 tmp <- left_join(tmp, EDGAR_bunkers, by=c('period')) %>% 
   mutate(value=value.x+value.y) %>%
-  select(scenario, Category, Baseline, model, region.x, period, Scope, value, unit.x, variable) %>%
-  rename(region=region.x, unit=unit.x)
+  select(scenario.x, Category.x, Baseline.x, model.x, region.x, period, Scope.x, value, unit.x, variable.x) %>%
+  rename(scenario=scenario.x, Category=Category.x, Baseline=Baseline.x, model=model.x, region=region.x, Scope=Scope.x, unit=unit.x, variable=variable.x)
 tmp <- as.data.frame(tmp)
 PRIMAP_CO2 <- filter(PRIMAP_CO2, region!="World")
 PRIMAP_CO2 <- rbind(PRIMAP_CO2, tmp)
 
 # Add to all
 all_PRIMAP <- rbind(PRIMAP_Kyoto,PRIMAP_CO2) %>% rbind(PRIMAP_CO2_energy) %>% rbind(PRIMAP_CO2_industry_process) %>% rbind(PRIMAP_CO2_energy_industry) %>% 
-              rbind(PRIMAP_CO2_AFOLU) %>% rbind(PRIMAP_CH4) %>% rbind(PRIMAP_N2O) %>% rbind(PRIMAP_FGases) %>% rbind(EDGAR_bunkers_add)
+              rbind(PRIMAP_CO2_AFOLU) %>% rbind(PRIMAP_CH4_AFOLU) %>% rbind(PRIMAP_N2O_AFOLU) %>% 
+              rbind(PRIMAP_CH4) %>% rbind(PRIMAP_N2O) %>% rbind(PRIMAP_FGases) %>% rbind(EDGAR_bunkers) %>%
+              as.data.frame()
 write.table(PRIMAP_IAM, file="data/PRIMAP_IAM.csv", sep=";", row.names=F)  
 all_hist <- all_PRIMAP
 
 # add variables
 all_hist <- calcVariable(all_hist,'`Emissions|Kyoto Gases|Excl. AFOLU CO2` ~ (`Emissions|Kyoto Gases`)-(`Emissions|CO2|AFOLU`)' , newUnit='Mt')
+all_hist <- calcVariable(all_hist,'`Emissions|Kyoto Gases|Excl. AFOLU` ~ (`Emissions|Kyoto Gases`)-(`Emissions|CO2|AFOLU`)-(25*`Emissions|CH4|AFOLU`)-(298*`Emissions|N2O|AFOLU`)' , newUnit='Mt')
 all_hist <- calcVariable(all_hist,'`Emissions|Non-CO2` ~ 25*(`Emissions|CH4`)+298*(`Emissions|N2O`)+(`Emissions|F-Gases`)' , newUnit='EJ/$US 2005')
 
 ################# IEA ENERGY DATA ##############################
