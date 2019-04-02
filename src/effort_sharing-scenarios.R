@@ -576,6 +576,24 @@ c5 = c5 + ylab(costsworld$unit)
 c5 = c5 + ggtitle("Flexibility")
 ggsave(file=paste(outdir,"/costs_GDP_relworld_flexibility.png",sep=""),c5,width=20,height=12,dpi=200)
 
+c5a = ggplot(costsworld[period%in%c(2030,2050)&implementation=="domestic"])
+c5a = c5a + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+c5a = c5a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c5a = c5a + facet_grid(period~model)
+c5a = c5a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c5a = c5a + ylab(costsworld$unit)
+c5a = c5a + ggtitle("Domestic")
+ggsave(file=paste(outdir,"/costs_GDP_relworld_domestic.png",sep=""),c5a,width=20,height=12,dpi=200)
+
+c5b = ggplot(costsworld)
+c5b = c5b + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1)
+c5b = c5b + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c5b = c5b + facet_grid(implementation~region,scale="free_y")
+#c5 = c5 + ylim(-3,8)
+c5b = c5b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c5b = c5b + ylab(costsworld$unit)
+ggsave(file=paste(outdir,"/costs_GDP_relworld.png",sep=""),c5b,width=20,height=12,dpi=200)
+
 # costs Annex I fraction GDP / fraction GDP non-Annex I. Now for R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF. 
 # TODO for OECD countries / native model regions? (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
 
