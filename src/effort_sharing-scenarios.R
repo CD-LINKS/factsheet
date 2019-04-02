@@ -478,8 +478,8 @@ ggsave(file=paste(outdir,"/carbonprice_compare_wo_JPNmodels.png",sep=""),p5,widt
 costvar = data[variable%in%c("Policy Cost|Welfare Change","Policy Cost|Additional Total Energy System Cost","Policy Cost|Area under MAC Curve","Policy Cost|Consumption Loss",
                            "Policy Cost|Equivalent Variation","Policy Cost|GDP Loss","Policy Cost|Other","Policy Cost|Default for CAV")]
 costvar = costvar[,list(variable=unique(variable)),by=c("model")]
-costvar$select=ifelse(costvar$variable=="Policy Cost|GDP Loss",1,ifelse(costvar$variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Area under MAC Curve"),
-                                                                  2,ifelse(costvar$variable=="Policy Cost|Consumption Loss",3,4)))
+costvar$select=ifelse(costvar$variable=="Policy Cost|Consumption Loss",1,ifelse(costvar$variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Area under MAC Curve"),
+                                                                  2,ifelse(costvar$variable=="Policy Cost|GDP Loss",3,4)))
 costvar=costvar[select<4]
 costvars=costvar[,list(select=min(select)),by=c("model")]
 costvars=merge(costvars,costvar,by=c("select","model"))
