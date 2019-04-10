@@ -43,11 +43,11 @@ ConvertPRIMAP2IAM <- function(data, CATEGORY="CAT0", ENTITY="KYOTOGHGAR4", varia
   data <- gather(data, 6:ncol(data), key="period", value=value)
   data$value <- data$value/1000
   data$unit <- "Mt"
-  data <- group_by(data, scenario, region, entity, unit, period) %>%
+  data <- as.data.frame(data)
+  data <- group_by(data, region, entity, unit, period) %>%
           summarise(value=sum(value))
-  data <- mutate(data, Category="Historical") %>% mutate(Baseline="") %>% mutate(model="History") %>% mutate(Scope="") %>%
+  data <- mutate(data, scenario="Historical") %>% mutate(Category="Historical") %>% mutate(Baseline="") %>% mutate(model="History") %>% mutate(Scope="") %>%
           mutate(variable=variable)
-  data$scenario <- ""
   data <- ungroup(data)
   data$period <- as.numeric(as.character(data$period))
   data <- select(data, scenario, Category, Baseline, model, region, period, Scope, value, unit, variable)
@@ -56,10 +56,11 @@ ConvertPRIMAP2IAM <- function(data, CATEGORY="CAT0", ENTITY="KYOTOGHGAR4", varia
 
 ConvertIEA2IAM <- function(data, flow="TFC", product="TOTAL", variable="Final Energy")
 { 
+  data <- as.data.frame(data)
   data <- filter(data, FLOW%in%flow, PRODUCT%in%product) %>% 
               group_by(region, period, unit) %>%
               summarise(value=sum(value)) %>%
-              mutate(Category="Historical") %>% mutate(scenario="") %>% mutate(Baseline="") %>% mutate(model="History") %>% mutate(Scope="") %>%
+              mutate(scenario="Historical") %>% mutate(Category="Historical") %>% mutate(Baseline="") %>% mutate(model="History") %>% mutate(Scope="") %>%
               mutate(variable=variable)  %>%
               select(scenario, Category, Baseline, model, region, period, Scope, value, unit, variable)
   # convert TJ/yr to EJ/yr

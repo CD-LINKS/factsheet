@@ -66,7 +66,7 @@ GWP_N2O <- 298
 PRIMAP <- read.csv("data/PRIMAP-hist_v1.2_14-Dec-2017.csv", header=TRUE, sep=",")
 PRIMAP_IAM <- PRIMAP
 regions_PRIMAP_IAM <- c("BRA", "CHN", "EU28", "IND", "JPN", "RUS", "USA", "CAN", "TUR", "EARTH")
-years_CDLINKS_history <- c("X1990", "X1995", "X2000", "X2005", "X2010", "X2015")
+#years_CDLINKS_history <- c("X1990", "X1995", "X2000", "X2005", "X2010", "X2015")
 colnames(PRIMAP_IAM)[colnames(PRIMAP_IAM)=="country"] <- "region"
 colnames(PRIMAP_IAM)[colnames(PRIMAP_IAM)=="year"] <- "period"
 PRIMAP_IAM <- filter(PRIMAP_IAM, region %in% regions_PRIMAP_IAM)
@@ -145,6 +145,8 @@ all_hist <- all_PRIMAP
 # add variables
 all_hist <- calcVariable(all_hist,'`Emissions|Kyoto Gases|Excl. AFOLU CO2` ~ (`Emissions|Kyoto Gases`)-(`Emissions|CO2|AFOLU`)' , newUnit='Mt')
 all_hist <- calcVariable(all_hist,'`Emissions|Kyoto Gases|Excl. AFOLU` ~ (`Emissions|Kyoto Gases`)-(`Emissions|CO2|AFOLU`)-(25*`Emissions|CH4|AFOLU`)-(298*`Emissions|N2O|AFOLU`)' , newUnit='Mt')
+all_hist <- calcVariable(all_hist,'`Emissions|Kyoto Gases|Excl. AFOLU` ~ (`Emissions|Kyoto Gases`)-(`Emissions|CO2|AFOLU`)-(298*`Emissions|N2O|AFOLU`)' , newUnit='Mt')
+all_hist <- calcVariable(all_hist,'`Emissions|AFOLU` ~ (`Emissions|CO2|AFOLU`)+(25*`Emissions|CH4|AFOLU`)+(298*`Emissions|N2O|AFOLU`)' , newUnit='Mt')
 all_hist <- calcVariable(all_hist,'`Emissions|Non-CO2` ~ 25*(`Emissions|CH4`)+298*(`Emissions|N2O`)+(`Emissions|F-Gases`)' , newUnit='EJ/$US 2005')
 
 ################# IEA ENERGY DATA ##############################
@@ -462,7 +464,7 @@ OECD_GDP_MER = read.mym2r.nice(mym.folder="data",
                                filename='gdptot.out', varname=NULL, 
                                collist=list(regions_IMAGE), 
                                namecols=c('region'), novarname = TRUE)
-# Convert to from million $(2005) to billion $(2010) dollars (see supermapping)
+# Convert from million $(2005) to billion $(2010) dollars (see supermapping)
 OECD_GDP_MER$value <- 0.00110774*OECD_GDP_MER$value
 # Add EU
 OECD_GDP_MER <- subset(OECD_GDP_MER, region != "dummy")

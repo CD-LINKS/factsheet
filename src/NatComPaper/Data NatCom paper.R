@@ -15,6 +15,7 @@ keep_original <- TRUE
 if (keep_original == TRUE){
   cat("load original data\n")
   adjust <- "adjust_reporting_empty"
+  rm(all);
   source('load_data.R')
   all_paper_before_adj <- all 
   all_paper_before_adj$period <- as.integer(all_paper_before_adj$period)
@@ -58,9 +59,13 @@ all_paper$period <- as.integer(all_paper$period)
 
 # additional adjustments
 all_paper<-all_paper[model!="GEM-E3_EU"]
+all_paper<-all_paper[model!="AIM/CGE"]
 all_paper<-all_paper[!(model=="COPPE-COFFEE 1.0" & region=="EU")]
 all_paper<-all_paper[!(model=="MESSAGEix-GLOBIOM_1.0" & region=="EU")]
 all_paper<-all_paper[!(model=="MESSAGEix-GLOBIOM_1.0" & region=="USA")]
+all_paper<-all_paper[!(model=="MESSAGEix-GLOBIOM_1.1")]
+
+all_paper1 <- all_paper
 
 regs_paper <- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA")
 vars_RoW <- c("Emissions|Kyoto Gases", "Emissions|CO2", "Emissions|CO2|Energy and Industrial Processes", "Emissions|CO2|AFOLU", 
@@ -73,9 +78,9 @@ vars_RoW <- c("Emissions|Kyoto Gases", "Emissions|CO2", "Emissions|CO2|Energy an
               "Final Energy|Industry",
               "GDP|MER", "Population")
 # calcualte RoW
-all_tmp <- filter(all_paper, region%in%regs_paper, variable%in%vars_RoW, period>=2010, period<=2050, Scope=="global")
+all_tmp <- filter(all_paper, region%in%regs_paper, variable%in%vars_RoW, period>=2010, period<=2050, Scope=="global") %>% as.data.frame()
 all_tmp$value <- -1*all_tmp$value
-all_tmp_world <- filter(all_paper, region%in%c('World'), variable%in%vars_RoW, period>=2010, period<=2050, Scope=="global")
+all_tmp_world <- filter(all_paper, region%in%c('World'), variable%in%vars_RoW, period>=2010, period<=2050, Scope=="global") %>% as.data.frame()
 all_tmp <- rbind(all_tmp, all_tmp_world)
 all_tmp <- spread(all_tmp, key=region, value=value) %>%
            rowwise() %>%
@@ -91,16 +96,44 @@ all_paper$period <- as.integer(all_paper$period)
 rm(all_hist); rm(all_hist_paper)
 source('functions/CreateHistoricalData.R')
 all_hist_paper <- all_hist
-all_hist_paper$Category=str_replace_all(all_hist_paper$Category,"NoPOL","No policy")
-all_hist_paper$Category=str_replace_all(all_hist_paper$Category,"INDC","NDC")
-all_hist_paper$Category=str_replace_all(all_hist_paper$Category,"NPip","National policies planned")
-all_hist_paper$Category=str_replace_all(all_hist_paper$Category,"NPi","National policies")
-all_hist_paper$Category=str_replace_all(all_hist_paper$Category,"2020_low","Carbon budget 1000")
-all_hist_paper$Category=str_replace_all(all_hist_paper$Category,"2020_verylow","Carbon budget 400")
-all_hist_paper$Category=str_replace_all(all_hist_paper$Category,"2030_low","Carbon budget 1000 (2030)")
 all_hist_paper$period <- as.integer(all_hist_paper$period)
-#write.table(all_hist_paper, "data/all_hist_paper.csv", sep=";", row.names = F)
 all_hist_paper$period <- as.integer(all_hist_paper$period)
+write.table(all_hist_paper, "data/all_hist_paper.csv", sep=";", row.names = F)
+
+keep_original <- TRUE
+# IV. retrieve data for SSP1, SSP2, SSP3 (NoPolicy, NPi, INDCi)
+if (keep_original == TRUE){
+  cat("load SSP data\n")
+  adjust <- "adjust_reporting_empty"
+  source('load_data.R')
+  all_import_SSP <- all 
+  all_import_SSP$period <- as.integer(all_import_SSP$period)
+  # Change scenario names 
+  all_import_SSP$Category=str_replace_all(all_import_SSP$Category,"NoPOL","No policy")
+  all_import_SSP$Category=str_replace_all(all_import_SSP$Category,"INDC","NDC")
+  all_import_SSP$Category=str_replace_all(all_import_SSP$Category,"NPip","National policies planned")
+  all_import_SSP$Category=str_replace_all(all_import_SSP$Category,"NPi","National policies")
+  all_import_SSP$Category=str_replace_all(all_import_SSP$Category,"2020_low","Carbon budget 1000")
+  all_import_SSP$Category=str_replace_all(all_import_SSP$Category,"2020_verylow","Carbon budget 400")
+  all_import_SSP$Category=str_replace_all(all_import_SSP$Category,"2030_low","Carbon budget 1000 (2030)")
+  write.table(all_import_SSP, "data/all_SSP.csv", sep=";", row.names = F)
+}
+scens_SSP1 <- c("NoPolicy_SSP1_V4", "NPi_SSP1_V4", "INDCi_SSP1_V4")
+scens_SSP2 <- c("NoPolicy_V4",  "NPi_V4","INDCi_V4")
+scens_SSP3 <- c("INDCi_SSP3_V4","NPi_SSP3_V4","NoPolicy_SSP3_V4")
+
+all_paper_SSP <- all_import
+all_paper_SSP <- gather(all_paper_SSP, 6:ncol(all_paper_SSP), key="period", value=value) 
+all_paper_SSP <- filter(all_paper_SSP, !(is.na(value)))
+setnames(all_paper_SSP, "MODEL", "model")
+setnames(all_paper_SSP, "SCENARIO", "scenario")
+setnames(all_paper_SSP, "REGION", "region")
+setnames(all_paper_SSP, "VARIABLE", "variable")
+setnames(all_paper_SSP, "UNIT", "unit")
+all_paper_SSP <- filter(all_paper_SSP, scenario%in%c(scens_SSP1, scens_SSP2, scens_SSP3))
+all_paper_SSP <- mutate(all_paper_SSP, SSP=ifelse(scenario%in%scens_SSP1, "SSP1", ifelse(scenario%in%scens_SSP2,"SSP2", "SSP3")))
+all_paper_SSP <- mutate(all_paper_SSP, Category=str_extract(scenario, "[^_]+"))
+all_paper_SSP$period <- as.integer(all_paper_SSP$period)
 
 # data from IMAGE
 currentdir <- getwd()
@@ -116,10 +149,22 @@ source('../TIMER_output/functions/Process_TIMER_output.R')
 # Read no policy scenario
 NoPolicy <- ImportTimerScenario('NoPolicy','NoPolicy', Rundir, Project, TIMERGeneration, Policy=FALSE)
 NPi <- ImportTimerScenario('NPi','NPi', Rundir, Project, TIMERGeneration, Policy=FALSE)
-NPi_indicators <- ProcessTimerScenario(NPi, Rundir, Project, Policy=FALSE)
 INDCi <- ImportTimerScenario('INDCi','INDCi', Rundir, Project, TIMERGeneration, Policy=FALSE)
 NPi2020_1000 <- ImportTimerScenario('NPi2020_1000','NPi2020_1000', Rundir, Project, TIMERGeneration, Policy=FALSE)
 INDC2030i_1000 <- ImportTimerScenario('INDC2030i_1000','INDC2030i_1000', Rundir, Project, TIMERGeneration, Policy=FALSE)
+
+NoPolicy_indicators <- ProcessTimerScenario(NoPolicy, Rundir, Project, Policy=FALSE)
+NPi_indicators <- ProcessTimerScenario(NPi, Rundir, Project, Policy=FALSE)
+INDCi_indicators <- ProcessTimerScenario(INDCi, Rundir, Project, Policy=FALSE)
+
+NoPolicy_V4 <- ImportTimerScenario('NoPolicy_V4','NoPolicy', Rundir, Project, TIMERGeneration, Policy=FALSE)
+NPi_V4 <- ImportTimerScenario('NPi_V4','NPi', Rundir, Project, TIMERGeneration, Policy=FALSE)
+INDCi_V4 <- ImportTimerScenario('INDCi_V4','INDCi', Rundir, Project, TIMERGeneration, Policy=FALSE)
+
+NoPolicy_V4_indicators <- ProcessTimerScenario(NoPolicy_V4, Rundir, Project, Policy=FALSE)
+NPi_V4_indicators <- ProcessTimerScenario(NPi_V4, Rundir, Project, Policy=FALSE)
+INDCi_V4_indicators <- ProcessTimerScenario(INDCi_V4, Rundir, Project, Policy=FALSE)
+
 setwd(currentdir)
 
 # updated CD-LINKS runs

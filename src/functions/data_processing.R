@@ -46,11 +46,11 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Emis|EI` ~ `Emissions|CO2|Energy and Industrial Processes` ' , newUnit='Mt CO2/yr')
     #FIXME? Sowehow needed a dummy because on first try error: aggregate function missing, defaulting to 'length'
     all <- calcVariable(all,'`Emissions|CO2|FFI` ~ `Emissions|CO2|Energy and Industrial Processes` ' , newUnit='Mt CO2/yr')
-    all <- calcVariable(all,'`Emissions Intensity of GDP|MER` ~ `Emissions|CO2|FFI`/`GDP|MER` ' , newUnit='kg CO2/$US 2005')
-    all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2|FFI`/`GDP|PPP` ' , newUnit='kg CO2/$US 2005')
+    all <- calcVariable(all,'`Emissions Intensity of GDP|MER` ~ `Emissions|CO2|FFI`/`GDP|MER` ' , newUnit='kg CO2/$US 2010')
+    all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2|FFI`/`GDP|PPP` ' , newUnit='kg CO2/$US 2010')
     all <- calcVariable(all,'`Emissions per capita` ~ `Emissions|CO2|FFI`/`Population` ' , newUnit='t CO2/cap')
-    all <- calcVariable(all,'`Carbon Intensity of GDP|MER` ~ `Emissions|CO2`/`GDP|MER` ' , newUnit='kg CO2/$US 2005')
-    all <- calcVariable(all,'`GHG Intensity of GDP|MER` ~ `Emissions|Kyoto Gases`/`GDP|MER` ' , newUnit='kg CO2e/$US 2005')
+    all <- calcVariable(all,'`Carbon Intensity of GDP|MER` ~ `Emissions|CO2`/`GDP|MER` ' , newUnit='kg CO2/$US 2010')
+    all <- calcVariable(all,'`GHG Intensity of GDP|MER` ~ `Emissions|Kyoto Gases`/`GDP|MER` ' , newUnit='kg CO2e/$US 2010')
     all <- calcVariable(all,'`LU Emissions per capita` ~ `Emissions|CO2|AFOLU`/`Population` ' , newUnit='t CO2/cap')
     all <- calcVariable(all,'`GHG emissions per capita` ~ `Emissions|Kyoto Gases`/`Population` ' , newUnit='t CO2eq/cap')
     all <- calcVariable(all,'`Final Energy per capita` ~ `Final Energy`/`Population` * 1000 ' , newUnit='GJ/cap')
@@ -79,10 +79,10 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Carbon Intensity of Electricity` ~ `Emissions|CO2|Energy|Supply`/`Final Energy|Electricity` ' , newUnit='kg CO2/GJ')
     all <- calcVariable(all,'`Carbon Intensity of Fuel` ~ `Emissions|CO2|Energy|Demand`/(`Final Energy`-`Final Energy|Electricity`) ' , newUnit='kg CO2/GJ')
     all <- calcVariable(all,'`GHG Intensity of FE` ~ `Emissions|Kyoto Gases`/`Final Energy` ' , newUnit='kg CO2eq/GJ')
-    all <- calcVariable(all,'`Energy Intensity of GDP|MER` ~ `Final Energy`/`GDP|MER` ' , newUnit='GJ/$2005')
-    all <- calcVariable(all,'`Energy Intensity of GDP|PPP` ~ `Final Energy`/`GDP|PPP` ' , newUnit='GJ/$2005')
-    all <- calcVariable(all,'`GDP per capita|MER` ~ `GDP|MER`/`Population` ' , newUnit='1000 $US 2005/cap')
-    all <- calcVariable(all,'`GDP per capita|PPP` ~ `GDP|PPP`/`Population` ' , newUnit='1000 $US 2005/cap')
+    all <- calcVariable(all,'`Energy Intensity of GDP|MER` ~ `Final Energy`/`GDP|MER` ' , newUnit='GJ/$2010')
+    all <- calcVariable(all,'`Energy Intensity of GDP|PPP` ~ `Final Energy`/`GDP|PPP` ' , newUnit='GJ/$2010')
+    all <- calcVariable(all,'`GDP per capita|MER` ~ `GDP|MER`/`Population` ' , newUnit='1000 $US 2010/cap')
+    all <- calcVariable(all,'`GDP per capita|PPP` ~ `GDP|PPP`/`Population` ' , newUnit='1000 $US 2010/cap')
     all <- calcRel2Base(all,var="Emissions|CO2|FFI",baseEq1=F,"relative Abatement|CO2",scens)
     all <- calcRel2Base(all,var="Carbon Intensity of FE",baseEq1=T,"Carbon intensity rel. to Base",scens)
     all <- calcRel2Base(all,var="Carbon Intensity of FE",baseEq1=F,"Carbon intensity improvement rel. to Base",scens)
@@ -103,6 +103,7 @@ add_variables <- function(all,scens){
     #all <- calcVariable(all,'`Policy Cost` ~ `Policy Cost|Other` ' , newUnit='billion US$2010/yr')
     all <- calcVariable(all,'`Mitigation Costs` ~ `Policy Cost` / `GDP|MER` *100 ' , newUnit='% of GDP')
     
+    all <- calcVariable(all,'`Emissions|AFOLU` ~ (`Emissions|CO2|AFOLU`)+(`Emissions|CH4|AFOLU`*25)+(`Emissions|N2O|AFOLU`*0.298)' , newUnit='Mt CO2-equiv/yr') #`Emissions|F-Gases`
     all <- calcVariable(all,'`Emissions|Non-CO2` ~ (`Emissions|CH4`*25)+(`Emissions|N2O`*0.298) + `Emissions|F-Gases`' , newUnit='Mt CO2-equiv/yr') #`Emissions|F-Gases`
     all <- calcVariable(all,'`Emissions|Non-CO2|AFOLU` ~ (`Emissions|CH4|AFOLU`*25)+(`Emissions|N2O|AFOLU`*0.298)' , newUnit='Mt CO2-equiv/yr') #`Emissions|F-Gases`
     all <- calcVariable(all,'`Emissions|Non-CO2|Energy and Industrial Processes` ~ (`Emissions|CH4`*25)+(`Emissions|N2O`*0.298) + `Emissions|F-Gases`' , newUnit='Mt CO2-equiv/yr') #`Emissions|F-Gases`
@@ -163,7 +164,9 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Final Energy|Non-fossil share` ~ 100*(`Final Energy|Non-fossil`)/(`Final Energy`)' , newUnit='%')
 
     # Kaya indicators
-    all <- calcVariable(all,'`Energy intensity of GDP` ~ 1000*`Primary Energy`/`GDP|MER`' , newUnit='TJ/$US(2010)')
+    all <- calcVariable(all,'`Energy intensity of GDP` ~ 1000*`Final Energy`/`GDP|MER`' , newUnit='TJ/$US(2010)')
+    all <- calcVariable(all,'`Final Energy intensity of GDP` ~ 1000*`Final Energy`/`GDP|MER`' , newUnit='TJ/$US(2010)')
+    all <- calcVariable(all,'`Primary Energy intensity of GDP` ~ 1000*`Primary Energy`/`GDP|MER`' , newUnit='TJ/$US(2010)')
     all <- calcVariable(all,'`Conversion efficiency` ~ `Final Energy`/`Primary Energy`' , newUnit='%')
     all <- calcVariable(all,'`Carbon intensity of fossil-fuel use` ~ `Emissions|CO2|Energy`/`Final Energy|Fossil`' , newUnit='Mt CO2/EJ')
     all <- calcVariable(all, '`Energy utilisation rate` ~ `Final Energy`/`Primary Energy`' , newUnit='%')
@@ -199,10 +202,10 @@ add_variables <- function(all,scens){
     hist$Category<-"Historical"
     
     hist2=all[period==2010& Category=="NPi"]
-    hist2$Category<-"2010_model"
+    hist2$Category<-"2010"
     
     hist3=all[period==2015& Category=="NPi"]
-    hist3$Category<-"2015_model"
+    hist3$Category<-"2015"
 
     hist <- rbind(hist, hist2) %>% rbind(hist3)
     

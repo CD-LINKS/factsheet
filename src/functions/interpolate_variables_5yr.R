@@ -27,8 +27,10 @@ var <- c("Emissions|Kyoto Gases", "Emissions|CO2|Energy|Supply",
          "Secondary Energy|Electricity|Solar",
          "Secondary Energy|Electricity|Wind",
          "Secondary Energy|Electricity|Geothermal",
-         "Secondary Energy|Electricity|Nuclear")
-mods <- c("AIM V2.1", "COPPE-COFFEE 1.0", "DNE21+ V.14")#, "GEM-E3", "IMAGE 3.0", "MESSAGEix-GLOBIOM_1.0", "POLES CDL", "REMIND-MAgPIE 1.7-3.0", "WITCH2016")
+         "Secondary Energy|Electricity|Nuclear",
+         "Population",
+         "GDP|MER")
+mods <- c("AIM V2.1", "COPPE-COFFEE 1.0", "DNE21+ V.14", "GEM-E3", "IMAGE 3.0", "MESSAGEix-GLOBIOM_1.0", "POLES CDL", "REMIND-MAgPIE 1.7-3.0", "WITCH2016")
 #mods <- c("DNE21+ V.14")
 dat=all[variable %in% var & Scope=="global" & model%in%mods & 
          Category%in%c('NoPOL', 'NPi', 'INDC', '2020_low', '2020_very_low') & !(is.na(value))]

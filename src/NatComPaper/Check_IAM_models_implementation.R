@@ -18,10 +18,10 @@ library(readxl)
 
 # retrieve CD-LINKS data from csv files and historical PRIMAP/IEA data
 keep_original = TRUE
-source('NatComPaper/Data Natcom paper.R')
-convert_GWP = FALSE
+#source('NatComPaper/Data Natcom paper.R')
 
 # adjust data for check IAM models
+convert_GWP = FALSE
 
 # convert CH4 and N2O emissions to CO2eq
 if (convert_GWP) {
@@ -67,12 +67,13 @@ if (convert_GWP) {
 NDCgrowth <- read.table("data/INDC growth rates protocol.csv", sep=";", header=TRUE)
 
 # settings
+regs_data<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World", "Bunkers")
 regs_check<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World")
 cats_check <- c("No policy", "National policies","NDC")
 models_global <- filter(all_paper, Scope=="global", model != "AIM/CGE") %>% select(model) %>% unique() %>% as.matrix() %>% as.vector()
 models_national <- filter(all_paper, Scope=="national") %>% select(model) %>% unique()
-vars_GHG <- c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|Excl. AFOLU CO2", "Emissions|CO2", 
-              "Emissions|CO2|Energy and Industrial Processes", "Emissions|CO2|AFOLU", 
+vars_GHG <- c("Emissions|Kyoto Gases", "Emissions|AFOLU", "Emissions|CO2", 
+              "Emissions|CO2|Energy and Industrial Processes", "Emissions|AFOLU", 
               "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases")
 vars_FE <- c("Final Energy", "Final Energy|Other",  
              "Secondary Energy|Electricity", 
@@ -82,29 +83,36 @@ vars_FE <- c("Final Energy", "Final Energy|Other",
 
 # I. Check model gaps, data export to Excel
 write.table(all_hist, "NatComPaper/data/all_hist.csv", sep=";", row.names=F)
-all_paper_before_adj_emissions <- filter(all_paper_before_adj, grepl("Emissions", variable), Scope=="global", region %in% regs_check, Category%in%cats_check) %>%
-                                  select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
+all_paper_before_adj_emissions <- filter(all_paper_before_adj, grepl("Emissions", variable), Scope=="global", region %in% regs_data, Category%in%cats_check) %>%
+  select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
 write.table(all_paper_before_adj_emissions, "NatComPaper/data/all_before_emissions.csv", sep=";", row.names = F)
 
-all_check_emissions <- filter(all_paper, grepl("Emissions", variable), Scope=="global", region %in% regs_check, Category%in%cats_check) %>%
-                       select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
+all_check_emissions_project <- filter(all_paper, grepl("Emissions", variable), Scope=="global", region %in% regs_data, Category%in%cats_check) %>%
+  select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
+all_check_emissions_hist <- filter(all_hist, grepl("Emissions", variable), region %in% regs_data) %>%
+  select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
+all_check_gdp_pop_project <- filter(all_paper, grepl("GDP|Population", variable), Scope=="global", region %in% regs_data, Category%in%cats_check) %>%
+  select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
+all_check_gdp_pop_hist <- filter(all_hist, grepl("GDP|Population", variable), region %in% regs_data) %>% 
+                          select(scenario, Category, Baseline, model, region, period, Scope, value, unit,variable)
+all_check_emissions <- rbind(all_check_emissions_project, all_check_emissions_hist) %>% rbind(all_check_gdp_pop_project) %>% rbind(all_check_gdp_pop_hist)
 write.table(all_check_emissions, "NatComPaper/data/all_emissions.csv", sep=";", row.names = F)
 
-all_paper_before_adj_final_energy <- filter(all_paper_before_adj, grepl("Final Energy", variable), Scope=="global", region %in% regs_check)
-all_paper_before_adj_secondary_energy <- filter(all_paper_before_adj, grepl("Secondary Energy", variable), Scope=="global", region %in% regs_check)
+all_paper_before_adj_final_energy <- filter(all_paper_before_adj, grepl("Final Energy", variable), Scope=="global", region %in% regs_data)
+all_paper_before_adj_secondary_energy <- filter(all_paper_before_adj, grepl("Secondary Energy", variable), Scope=="global", region %in% regs_data)
 all_paper_before_adj_energy <- rbind(all_paper_before_adj_final_energy, all_paper_before_adj_secondary_energy)
 all_paper_before_adj_energy <- select(all_paper_before_adj_energy, scenario,	Category,	Baseline,	model, region, period, unit, value, Scope, variable)
 write.table(all_paper_before_adj_energy, "NatComPaper/data/all_before_energy.csv", sep=";", row.names = F)
 
-all_paper_before_adj_primary_energy <- filter(all_paper_before_adj, grepl("Primary Energy", variable), Scope=="global", region %in% regs_check)
-all_paper_before_adj_gdp <- filter(all_paper_before_adj, grepl("GDP|MER", variable), Scope=="global", region %in% regs_check)
+all_paper_before_adj_primary_energy <- filter(all_paper_before_adj, grepl("Primary Energy", variable), Scope=="global", region %in% regs_data)
+all_paper_before_adj_gdp <- filter(all_paper_before_adj, grepl("GDP|MER", variable), Scope=="global", region %in% regs_data)
 all_paper_before_adj_select <- rbind(all_paper_before_adj_emissions, all_paper_before_adj_final_energy) %>% rbind(all_paper_before_adj_secondary_energy) %>% rbind(all_paper_before_adj_primary_energy) %>% rbind(all_paper_before_adj_gdp)
 write.table(all_paper_before_adj_select, "NatComPaper/data/all_before_select.csv", sep=";", row.names = F)
 
-all_check_final_energy <- filter(all_paper, grepl("Final Energy", variable), Scope=="global", region %in% regs_check, Category%in%cats_check)
-all_check_secondary_energy <- filter(all_paper, grepl("Secondary Energy", variable), Scope=="global", region %in% regs_check, Category%in%cats_check)
-all_hist_final_energy <- filter(all_hist_paper, grepl("Final Energy", variable),region %in% regs_check)
-all_hist_secondary_energy <- filter(all_hist_paper, grepl("Secondary Energy", variable), region %in% regs_check)
+all_check_final_energy <- filter(all_paper, grepl("Final Energy", variable), Scope=="global", region %in% regs_data, Category%in%cats_check)
+all_check_secondary_energy <- filter(all_paper, grepl("Secondary Energy", variable), Scope=="global", region %in% regs_data, Category%in%cats_check)
+all_hist_final_energy <- filter(all_hist_paper, grepl("Final Energy", variable),region %in% regs_data)
+all_hist_secondary_energy <- filter(all_hist_paper, grepl("Secondary Energy", variable), region %in% regs_data)
 all_check_energy <- rbind(all_check_final_energy, all_check_secondary_energy)
 all_hist_energy <- rbind(all_hist_final_energy, all_hist_secondary_energy)
 all_energy <- rbind(all_hist_energy, all_check_energy)
@@ -112,15 +120,15 @@ all_energy <- select(all_energy, scenario,	Category,	Baseline,	model, region, pe
 write.table(all_check_energy, "NatComPaper/data/all_check_energy.csv", sep=";", row.names = F)
 write.table(all_energy, "NatComPaper/data/all_energy.csv", sep=";", row.names = F)
 
-all_check_primary_energy <- filter(all_paper, grepl("Primary Energy", variable), Scope=="global", region %in% regs_check)
-all_check_gdp <- filter(all_paper, grepl("GDP|MER", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
+all_check_primary_energy <- filter(all_paper, grepl("Primary Energy", variable), Scope=="global", region %in% regs_data)
+all_check_gdp <- filter(all_paper, grepl("GDP|MER", variable), Scope=="global", region %in% regs_data, region %in% regs_data)
 all_check_select <- rbind(all_check_emissions, all_check_final_energy) %>% rbind(all_check_secondary_energy) %>% rbind(all_check_primary_energy) %>% rbind(all_check_gdp)
 write.table(all_check_select, "NatComPaper/data/all_select.csv", sep=";", row.names = F)
 
-all_check_final_energy_transport <- filter(all_paper, grepl("Final Energy\\|Transportation", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
-all_check_final_energy_industry <- filter(all_paper, grepl("Final Energy\\|Industry", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
-all_check_final_energy_buildings <- filter(all_paper, grepl("Final Energy\\|Residential and Commerical", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
-all_check_final_biomass <- filter(all_paper, grepl("Biomass", variable), Scope=="global", region %in% regs_check, region %in% regs_check)
+all_check_final_energy_transport <- filter(all_paper, grepl("Final Energy\\|Transportation", variable), Scope=="global", region %in% regs_data, region %in% regs_data)
+all_check_final_energy_industry <- filter(all_paper, grepl("Final Energy\\|Industry", variable), Scope=="global", region %in% regs_data, region %in% regs_data)
+all_check_final_energy_buildings <- filter(all_paper, grepl("Final Energy\\|Residential and Commerical", variable), Scope=="global", region %in% regs_data, region %in% regs_data)
+all_check_final_biomass <- filter(all_paper, grepl("Biomass", variable), Scope=="global", region %in% regs_data)
 
 p = ggplot() + 
        geom_line(data=filter(all_energy, variable=="Final Energy|Non-fossil share", period>=2010, period<=2030, Category%in%c("National policies")), aes(x=period, y=value, colour=model)) +
@@ -160,8 +168,7 @@ INDC_PBLCLIMA$region=str_replace_all(INDC_PBLCLIMA$region,"India","IND")
 INDC_PBLCLIMA$region=str_replace_all(INDC_PBLCLIMA$region,"Russia","RUS")
 INDC_PBLCLIMA$region=str_replace_all(INDC_PBLCLIMA$region,"USA","USA")
 INDC_PBLCLIMA$region=str_replace_all(INDC_PBLCLIMA$region,"Japan","JPN")
-# select regions
-INDC_PBLCLIMA <- filter(INDC_PBLCLIMA, region %in% regs_check)
+# select regionsINDC_PBLCLIMA <- filter(INDC_PBLCLIMA, region %in% regs_check)
 INDC_PBLCLIMA <- arrange(INDC_PBLCLIMA, region, year)
 # determine whether NDC is incl/excl LULUCF CO2
 INDC_type <- select(INDC_PBLCLIMA, region, NDC)
@@ -288,7 +295,9 @@ write(paste(html.head,html.body,sep='\n'),"NatComPaper/graphs/NDCgrowth.html")
 
 # IIIa. Compare CD-LINKS NPi and INDCi with historical PRIMAP data
 # before and after adjustments (adjust_reporting_indc_Mark)
-for (i in 1:1) {
+d_Total_GHG <- data.frame(scenario=character(), Category=character(), Baseline=character(), model=character(), region=character(),
+                         period=numeric(), Scope=character(), value=numeric(), unit=character(), variable=character(), diff=numeric(), adjust=character())
+for (i in 1:2) {
   if (i==1){
     all_check_graph <- all_paper_before_adj
     check<-"before"
@@ -307,7 +316,8 @@ for (i in 1:1) {
       d2 <- filter(all_hist_paper, model=="History", period>=2005, period<=2015, region==r, variable==v) %>% select(period, value)
       d2$period  <- as.integer(d2$period)
       d <- left_join(d1, d2, by=c('period'))
-      d <- mutate(d, diff=round(value.x/value.y, digits=2))
+      d <- mutate(d, diff=round(value.x/value.y, digits=2), adjust=check)
+      d_Total_GHG <- rbind(d_Total_GHG, d)
       #d <- rbind(d1, d2)
       g_hist <- ggplot(data=d) + 
                 geom_point(aes(x=period, y=value.x, colour="model"), show.legend = TRUE) +
@@ -336,9 +346,15 @@ for (i in 1:1) {
     }
   }
 }
+write.table(d_Total_GHG, "NatComPaper/graphs/review/hist/compare_hist_GHG.csv", sep=";", row.names=F)
 
 # IIIb. Compare CD-LINKS NPi and INDCi with historical IEA data
 # before and after adjustments (adjust_reporting_indc_Mark)
+#d_Total <- NA
+#d_Total <- data.frame(colnames(all_paper))
+#d_Total <- all_paper[0,]
+d_Total_FE <- data.frame(scenario=character(), Category=character(), Baseline=character(), model=character(), region=character(),
+                      period=numeric(), Scope=character(), value=numeric(), unit=character(), variable=character(), diff=numeric(), adjust=character())
 for (i in 1:2) {
   if (i==1){
     all_check_graph <- all_paper
@@ -348,7 +364,7 @@ for (i in 1:2) {
     all_check_graph <- all_paper_before_adj
     check<-"before"
   }
-  for (v in vars_FE) { 
+  for (v in vars_FE_overview) { 
     cat(paste0(v, "-", check, "\n"))
     for (r in regs_check) { 
       #v="Final Energy"
@@ -358,7 +374,8 @@ for (i in 1:2) {
       d2 <- filter(all_hist_paper, model=="History", period>=2005, period<=2015, region==r, variable==v) %>% select(period, value)
       d2$period  <- as.integer(d2$period)
       d <- left_join(d1, d2, by=c('period'))
-      d <- mutate(d, diff=round(value.x/value.y, digits=2))
+      d <- mutate(d, diff=round(value.x/value.y, digits=2), adjust=check)
+      d_Total_FE <- rbind(d_Total_FE, d)
       #d <- rbind(d1, d2)
       g_hist <- ggplot(data=d) + 
         geom_point(aes(x=period, y=value.x, colour="model"), show.legend = TRUE) +
@@ -379,16 +396,16 @@ for (i in 1:2) {
     }
   }
 }
+write.table(d_Total_FE, "NatComPaper/graphs/review/hist/compare_hist_FE.csv", sep=";", row.names=F)
 
 # Compare bunkers
-#b <- mutate(EDGAR_bunkers, region=="World", model="EDGAR")
-
-d1 <- filter(all_paper, variable=="Emissions|CO2|Energy and Industrial Processes", Category=="National policies", region=="Bunkers", model%in%models_global, 
+var_bunkers="Emissions|Kyoto Gases"
+#var_bunkers=="Emissions|CO2"
+#var_bunkers=="Emissions|CO2|Energy and Industrial Processes"
+d1 <- filter(all_paper, variable==var_bunkers, Category=="National policies", region=="Bunkers", model%in%models_global, 
              period>=2010, period<=2030) %>% as.data.frame()
-#d1 <- filter(all_paper, variable=="Emissions|Kyoto Gases", Category=="National policies", region=="Bunkers", model%in%models_global, period>=2010, period<=2030)
-#d2 <- filter(all_hist, variable=="Emissions|Kyoto Gases", region=="Bunkers", period>=2010, period<=2030)
-d2_1 <- filter(EDGAR_bunkers, period>=2010, period<=2030) %>% as.data.frame()
-d2_2 <- filter(EDGAR_bunkers_split, period>=2010, period<=2030) %>% as.data.frame()
+d2_1 <- filter(EDGAR_bunkers, period>=2010, period<=2012) %>% as.data.frame() %>% select(period, region, unit, value)
+d2_2 <- filter(EDGAR_bunkers_split, period>=2010, period<=2012) %>% as.data.frame() %>% select(period, region, unit, value)
 d2 <- rbind(d2_1, d2_2) %>% as.data.frame()
 d2$value <- as.double(d2$value)
 p = ggplot()+
@@ -398,7 +415,7 @@ p = ggplot()+
   scale_shape_discrete(name="EDGAR bunkers", labels=c('total', 'aviation', 'shipping')) +
   theme_bw()
 plot(p)
-ggsave(file=paste("NatComPaper/graphs/review/Bunkers.png", sep=""),p, height=10, width=15)
+ggsave(file=paste("NatComPaper/graphs/review/Bunkers_CO2_Kyoto", sep=""),p, height=10, width=15)
 
 
 # Compare GDP
@@ -433,51 +450,16 @@ vars_FE_overview <- c("Secondary Energy|Electricity|Fossil", "Secondary Energy|E
 all_check_FE_overview <- filter(all_paper, variable %in% vars_FE_overview, region %in% regs_check)
 write.table(all_check_FE_overview, "data/all_check_FE_overview.csv", sep=";", row.names=F)
 
-# check nuclear India
-d_CO2_IND_NoPolicy <- filter(NoPolicy$ENEMISCO2, region=="INDIA", year>=2010, year<=2030, sector=="Total", energy_carrier=="Total") %>% mutate(scenario="No policy")
-d_CO2_IND_NPi <- filter(NPi$ENEMISCO2, region=="INDIA", year>=2010, year<=2030, sector=="Total", energy_carrier=="Total")  %>% mutate(scenario="NPi")
-d_CO2_IND_NDC <- filter(INDCi$ENEMISCO2, region=="INDIA", year>=2010, year<=2030, sector=="Total", energy_carrier=="Total")  %>% mutate(scenario="INDCi")
-d_CO2_IND_NPi_1000 <- filter(NPi2020_1000$ENEMISCO2, region=="INDIA", year>=2010, year<=2030, sector=="Total", energy_carrier=="Total")  %>% mutate(scenario="NPi2020_1000")
-d_CO2_IND_NDC_1000 <- filter(INDC2030i_1000$ENEMISCO2, region=="INDIA", year>=2010, year<=2030, sector=="Total", energy_carrier=="Total")  %>% mutate(scenario="INDC2030i_1000")
-d_CO2_IND <- rbind(d_CO2_IND_NoPolicy, d_CO2_IND_NPi) %>% rbind(d_CO2_IND_NDC) %>% rbind(d_CO2_IND_NPi_1000) %>% rbind(d_CO2_IND_NDC_1000)
-d_CO2_IND$value <- d_CO2_IND$value*(44/12)*1000
-ggplot(data=d_CO2_IND) + geom_line(aes(x=year, y=value, colour=scenario)) +theme_bw() + ylab("Mt CO2")
-
-d_coal_IND_NoPolicy <- filter(NoPolicy$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Conv. Coal") %>% mutate(scenario="No policy")
-d_coal_IND_NPi      <- filter(NPi$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Conv. Coal")  %>% mutate(scenario="NPi")
-d_coal_IND_NDC      <- filter(INDCi$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Conv. Coal")  %>% mutate(scenario="INDCi")
-d_coal_IND_NPi_1000 <- filter(NPi2020_1000$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Conv. Coal")  %>% mutate(scenario="NPi2020_1000")
-d_coal_IND_NDC_1000 <- filter(INDC2030i_1000$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Conv. Coal")  %>% mutate(scenario="INDC2030i_1000")
-d_coal_IND <- rbind(d_coal_IND_NoPolicy, d_coal_IND_NPi) %>% rbind(d_coal_IND_NDC) %>% rbind(d_coal_IND_NPi_1000) %>% rbind(d_coal_IND_NDC_1000)
-ggplot(data=d_coal_IND) + geom_line(aes(x=year, y=value, colour=scenario)) + theme_bw() + ylab("MW")
-
-d_nuclear_IND_NoPolicy <- filter(NoPolicy$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Nuclear") %>% mutate(scenario="No policy")
-d_nuclear_IND_NPi      <- filter(NPi$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Nuclear")  %>% mutate(scenario="NPi")
-d_nuclear_IND_NDC      <- filter(INDCi$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Nuclear")  %>% mutate(scenario="INDCi")
-d_nuclear_IND_NPi_1000 <- filter(NPi2020_1000$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Nuclear")  %>% mutate(scenario="NPi2020_1000")
-d_nuclear_IND_NDC_1000 <- filter(INDC2030i_1000$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Nuclear")  %>% mutate(scenario="INDC2030i_1000")
-d_nuclear_IND <- rbind(d_nuclear_IND_NoPolicy, d_nuclear_IND_NPi) %>% rbind(d_nuclear_IND_NDC) %>% rbind(d_nuclear_IND_NPi_1000) %>% rbind(d_nuclear_IND_NDC_1000)
-ggplot(data=d_nuclear_IND) + geom_line(aes(x=year, y=value, colour=scenario)) + theme_bw() + ylab("MW")
-
-d_wind_IND_NoPolicy <- filter(NoPolicy$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Wind Onshore") %>% mutate(scenario="No policy")
-d_wind_IND_NPi      <- filter(NPi$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Wind Onshore")  %>% mutate(scenario="NPi")
-d_wind_IND_NDC      <- filter(INDCi$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Wind Onshore")  %>% mutate(scenario="INDCi")
-d_wind_IND_NPi_1000 <- filter(NPi2020_1000$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Wind Onshore")  %>% mutate(scenario="NPi2020_1000")
-d_wind_IND_NDC_1000 <- filter(INDC2030i_1000$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="Wind Onshore")  %>% mutate(scenario="INDC2030i_1000")
-d_wind_IND <- rbind(d_wind_IND_NoPolicy, d_wind_IND_NPi) %>% rbind(d_wind_IND_NDC) %>% rbind(d_wind_IND_NPi_1000) %>% rbind(d_wind_IND_NDC_1000)
-ggplot(data=d_wind_IND) + geom_line(aes(x=year, y=value, colour=scenario)) + theme_bw() + ylab("MW")
-
-d_solarPV_IND_NoPolicy <- filter(NoPolicy$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="PV") %>% mutate(scenario="No policy")
-d_solarPV_IND_NPi      <- filter(NPi$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="PV")  %>% mutate(scenario="NPi")
-d_solarPV_IND_NDC      <- filter(INDCi$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="PV")  %>% mutate(scenario="INDCi")
-d_solarPV_IND_NPi_1000 <- filter(NPi2020_1000$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="PV")  %>% mutate(scenario="NPi2020_1000")
-d_solarPV_IND_NDC_1000 <- filter(INDC2030i_1000$ElecCap, region=="INDIA", year>=2010, year<=2030, energy_technology=="PV")  %>% mutate(scenario="INDC2030i_1000")
-d_solarPV_IND <- rbind(d_solarPV_IND_NoPolicy, d_solarPV_IND_NPi) %>% rbind(d_solarPV_IND_NDC) %>% rbind(d_solarPV_IND_NPi_1000) %>% rbind(d_solarPV_IND_NDC_1000)
-ggplot(data=d_solarPV_IND) + geom_line(aes(x=year, y=value, colour=scenario)) + theme_bw() + ylab("MW")
 
 # OUTLIER test
 source("functions/DeanDixonTest.R")
+
 regs <- c("World", "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA")
+vars_outlier <- c("Emissions|Kyoto Gases", "Emissions|Kyoto Gases|rel2010", 
+                  "Emissions|CO2|FFI|gross|rel2010", "Emissions|CO2|Energy and Industrial Processes")
+#var_outlier="Emissions|Kyoto Gases|Excl. AFOLU CO2|rel2010"
+for (var_outlier in vars_outlier) {
+cat(var_outlier, "\n")
 test_DDT <- NA
 test_DDT <- data.frame(region=character(), model=character(), location=character(), outlier=logical())
 test_DDT$location <- factor(test_DDT$location, levels=c('small', 'large'))
@@ -485,48 +467,50 @@ IAM_models <- unique(all_paper$model)
 test_DDT$model <- factor(test_DDT$model, levels=IAM_models)
 alpha_DDT <- 0.05
 d_regions <- NULL
-
 for (r in regs){
-  cat(r,"\n")
+  cat(paste0(r,"\n"))
   #r="BRA"
-  d_NDC_largest <- filter(all_paper, Category=="NDC", region==r, period==2030, variable=="Emissions|CO2|Energy and Industrial Processes") %>%
+  d_NPi_largest <- filter(all_paper, Category=="National policies", region==r, period==2030, variable==var_outlier, Scope=="global") %>%
     select(Category, model, region, period, value, variable) %>%
     arrange(desc(value))
-  d_NDC_smallest <- filter(all_paper, Category=="NDC", region==r, period==2030, variable=="Emissions|CO2|Energy and Industrial Processes") %>%
+  d_NPi_smallest <- filter(all_paper, Category=="National policies", region==r, period==2030, variable==var_outlier, Scope=="global") %>%
     select(Category, model, region, period, value, variable) %>%
     arrange(value) 
   
   #http://www.sthda.com/english/wiki/ggplot2-qq-plot-quantile-quantile-graph-quick-start-guide-r-software-and-data-visualization
-  #p <- qplot(sample = value, data = d_NDC_smallest) + theme_bw()
-  p <- qqnorm(d_NDC_smallest$value)
-  p <- qqline(d_NDC_smallest$value, col="red")
+  #p <- qplot(sample = value, data = d_NPi_smallest) + theme_bw()
+  p <- qqnorm(d_NPi_smallest$value)
+  p <- qqline(d_NPi_smallest$value, col="red")
 
-  p_tmp <- ggplot(data=d_NDC_smallest, aes(sample=value))  +
+  p_tmp <- ggplot(data=d_NPi_smallest, aes(sample=value))  +
            stat_qq() +
            stat_qq_line(colour="red") +
            theme_bw()
   d_new <- ggplot_build(p_tmp)$data[[1]]
-  d_new <- cbind(d_new, d_NDC_smallest$model) %>% rename(model=`d_NDC_smallest$model`)
+  d_new <- cbind(d_new, d_NPi_smallest$model) %>% rename(model=`d_NPi_smallest$model`)
   d_new_tmp <- mutate(d_new, region=r)
   d_regions <- rbind(d_regions, d_new_tmp)
   p <- ggplot(data=d_new, aes(theoretical,sample, label=model)) + 
                stat_qq_line(aes(sample=sample),colour="red") +
-               geom_text(size=4) +
+               geom_text(size=8) +
                theme_bw() +
-               ggtitle(paste0("QQ-plot ", r))
+               ggtitle(paste0("QQ-plot for ", var_outlier, "- ", r)) + 
+               theme(plot.title = element_text(size = 48, face = "bold"), 
+                     axis.text.x = element_text(size=40, face="bold"),
+                     axis.text.y = element_text(size=40, face="bold"))
   plot(p)
-  ggsave(file=paste0("NatComPaper/graphs/review/outliers/outlier_DDT_",r,".jpg",sep=""),p,width=20,height=12,dpi=200)
+  ggsave(file=paste0("NatComPaper/graphs/review/outliers/outlier_DDT_", var_outlier, "_",r,".jpg",sep=""),p,width=20,height=12,dpi=200)
   
   cat(" - test largest value for outlier\n")
-  dl <- as.vector(d_NDC_largest$value)
+  dl <- as.vector(d_NPi_largest$value)
   dl_outlier <- DeanDixonTest(dl, alpha_DDT,TRUE)
-  xl <- data.frame(region=r, model=d_NDC_largest[1,]$model, location="large", outlier=dl_outlier)
+  xl <- data.frame(region=r, model=d_NPi_largest[1,]$model, location="large", outlier=dl_outlier)
   test_DDT <- rbind(test_DDT, xl)
   
   cat(" - test smallest value for outlier\n")
-  ds <- as.vector(d_NDC_smallest$value)
+  ds <- as.vector(d_NPi_smallest$value)
   ds_outlier <- DeanDixonTest(ds, alpha_DDT, TRUE)
-  xs <- data.frame(region=r, model=d_NDC_smallest[1,]$model, location="small", outlier=ds_outlier)
+  xs <- data.frame(region=r, model=d_NPi_smallest[1,]$model, location="small", outlier=ds_outlier)
   test_DDT <- rbind(test_DDT, xs)
 }
 p <- ggplot(data=d_regions, aes(theoretical,sample, label=model)) + 
@@ -535,37 +519,36 @@ p <- ggplot(data=d_regions, aes(theoretical,sample, label=model)) +
      theme_bw() +
      ylab("MtCO2eq") +
      ylim(0, NA) +
-     theme(axis.text.x = element_text(size=16, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
-     theme(axis.text.y = element_text(size=16, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
-     theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") +
-     theme(strip.text.x = element_text(size=16, face="bold"),
-           strip.text.y = element_text(size=16, face="bold"))+
+     theme(axis.text.x = element_text(size=40, face="bold"), axis.title.x=element_text(size=40,face="bold")) +
+     theme(axis.text.y = element_text(size=40, face="bold"), axis.title.y=element_text(size=40,face="bold")) +
+     theme(legend.title=element_text(size=32), legend.text=element_text(size=24), legend.position="bottom") +
+     theme(strip.text.x = element_text(size=40, face="bold"),
+           strip.text.y = element_text(size=40, face="bold"))+
      scale_colour_brewer(palette="Set2")+
-     geom_text(size=4) +
-     ggtitle(paste0("QQ-plot ", r))
+     geom_text(size=8) +
+     ggtitle(paste0("NPi scenario (2030): QQ-plot ", var_outlier, "- ", r))
 plot(p)
-ggsave(file=paste0("NatComPaper/graphs/review/outliers_DDT.jpg",sep=""),p,width=20,height=12,dpi=200)
-
+ggsave(file=paste0("NatComPaper/graphs/review/outliers/outliers_DDT_", var_outlier, ".jpg",sep=""),p,width=20,height=12,dpi=200)
 
 outlier_IAM <- filter(test_DDT, outlier==TRUE) %>% arrange(desc(outlier))
 # html table
 html.head <- paste("<head>" ,
                    '<link rel="stylesheet" type="text/css" href="mystyle.css"/>',
                    "</head>",sep='\n')
-html.table <- paste(print(xtable(test_DDT),type='html','NatComPaper/graphs/review/outliers/DeanDixonTestResults_table.html'), 
-                    collapse = "\n", caption=paste0("Dean Dixon test for outliers, with alpha=",round(alpha_DDT,2)))
+html.table <- paste(print(xtable(test_DDT),type='html',"NatComPaper/graphs/review/outliers/DeanDixonTestResults_table.html"), 
+                    collapse = "\n", caption=paste0("NPi scenario: Dean Dixon test for outliers, with alpha=",round(alpha_DDT,2)))
 html.body <- paste("<body>", html.table,"</body>")
-write(paste(html.head,html.body,sep='\n'),"NatComPaper/graphs/review/outliers/DeanDixonTestResults_table.html")
+write(paste(html.head,html.body,sep='\n'),paste0("NatComPaper/graphs/review/outliers/DeanDixonTestResults_table_", var_outlier, ".html"))
 
 # html table
 html.head <- paste("<head>" ,
                    '<link rel="stylesheet" type="text/css" href="mystyle.css"/>',
                    "</head>",sep='\n')
-html.table <- paste(print(xtable(outlier_IAM),type='html','NatComPaper/graphs/review/outliers/outliers_table.html'), 
-                    collapse = "\n", caption=paste0("Dean Dixon test for outliers, with alpha=",round(alpha_DDT,2)))
+html.table <- paste(print(xtable(outlier_IAM),type='html', "NatComPaper/graphs/review/outliers/outliers_table.html"), 
+                    collapse = "\n", caption=paste0("NPi scenario: Dean Dixon test for outliers, with alpha=",round(alpha_DDT,2)))
 html.body <- paste("<body>", html.table,"</body>")
-write(paste(html.head,html.body,sep='\n'),"NatComPaper/graphs/review/outliers/outliers_table.html")
-
+write(paste(html.head,html.body,sep='\n'),paste0("NatComPaper/graphs/review/outliers/outliers_table_", var_outlier, ".html"))
+}
 # check DNE bunkers
 x1<-filter(all_paper, variable%in%c("Emissions|Kyoto Gases", "Emissions|CO2|Energy and Industrial Processes"), model=="DNE21+ V.14", region%in%c("Bunkers"), 
            Category=="National policies", period>=2010, period<=2030)
@@ -775,6 +758,19 @@ ggsave(file=paste("NatComPaper/graphs/review",paste0("/Compare_Kyoto_hist_exclAF
 
 
 # POLICY IMPLEMENTATION
+# Show NPi scenario per model
+NPi_results <- filter(all_paper, variable=="Emissions|Kyoto Gases", region%in%regs_GDP_models, 
+                      Category%in%c('National policies'), period>=2010, period<=2030, Scope=="global")
+p_NPi <- ggplot(NPi_results) + geom_line(aes(x=period, y=value, colour=model)) +
+         facet_wrap(~region, scales = "free_y") +
+         ylim(0,NA) +
+         theme_bw()
+plot(p_NPi)
+p_NPi_reg <- ggplot(filter(NPi_results, region=="World")) + geom_line(aes(x=period, y=value, colour=model)) +
+  ylim(0,NA) +
+  theme_bw()
+plot(p_NPi_reg)
+
 # compare total reductions between models
 Reduction_abs_models <- filter(all_paper, variable=="Emissions|Kyoto Gases", region%in%regs_GDP_models, 
                            Category%in%c('No policy', 'National policies'), period>=2010, period<=2030, Scope=="global") %>%
@@ -814,3 +810,110 @@ g <- ggplot(data=Reduction_rel_models) + geom_line(aes(x=period,y=reduction,colo
         strip.text.y = element_text(size=16, face="bold")) +
   scale_colour_brewer(palette="Set2")
 ggsave(file=paste("NatComPaper/graphs/review","/Compare_Reductions_rel.jpg",sep=""),g,width=20,height=12,dpi=200)
+
+
+# decompostion of drivers NPi reduction relative to NoPolicy by 2030
+regs_drivers<- c("World", "USA", "RUS", "JPN", "IND", "EU", "CHN", "BRA")
+#drivers <- c("EM_growth_NPi", "EM_history", "Population", "GDP_per_capita", "EM_per_GDP", "Policy_implementation")
+drivers <- c("Error_term", "Policy_implementation", "EM_per_GDP", "GDP_per_capita", "Population", "EM_history","EM_growth_NPi")
+
+# read in drivers 2015
+Drivers_NPi <- read.table("data/Compare NPi ranges.csv", sep=";", header=TRUE)
+Drivers_NPi <- filter(Drivers_NPi, !(is.na(EM_growth_NPi)))
+Drivers_NPi <- gather(Drivers_NPi, 3:ncol(Drivers_NPi), key="driver", value=value)
+Drivers_NPi$driver <- factor(Drivers_NPi$driver, levels=drivers)    
+
+Drivers_NPi_median <- group_by(Drivers_NPi, driver, country) %>%
+  summarize(median=median(value),
+            min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)) %>%
+  as.data.frame()
+Drivers_NPi_median$country <- factor(Drivers_NPi_median$country, levels=regs_drivers)   
+
+#Drivers_NPi_models <- filter(Drivers_NPi, country=="USA", model=="IMAGE 3.0")
+Drivers_NPi_models <- Drivers_NPi
+p_drivers <- ggplot(data=Drivers_NPi_models) + geom_bar(aes(x=country, y=value, fill=driver), stat="identity", position=position_dodge(width=1), width=0.6) +
+             facet_wrap(~model, scales = "free_x") +
+             coord_flip() +
+             theme_bw() +
+             ggtitle("Decomposition drivers of change in total GHG emissions excluding AFOLU in National policies scenario") +
+             scale_fill_manual(values=c('moccasin', 'khaki4', 'khaki3', 'khaki2', 'khaki1', 'khaki','blue3'),
+                               labels=c("EM_growth_NPi"="Emission growth 2015-2030", "EM_history"="Difference with historical emissions", 
+                               "Polulation"="Population", "GDP_per_capita"="GDP per capita", "EM_per_GDP"="Emissions per GDP", 
+                               "Policy_implementation"="Policy impact", "Error_term"="Unexplained"))
+plot(p_drivers)
+
+p_drivers_median <- ggplot(data=Drivers_NPi_median) + 
+                    geom_bar(aes(x=country, y=median, fill=driver), stat="identity", position=position_dodge(width=1), width=0.6) +
+                    geom_errorbar(aes(x=country, ymin=min, ymax=max, group=interaction(driver, country)), width=.2,position=position_dodge(.9)) +
+                    coord_flip() +
+                    theme_bw() +
+                    ggtitle("Decomposition drivers of change in total GHG emissions excluding AFOLU in National policies scenario") +
+                    scale_fill_manual(values=c('moccasin', 'khaki4', 'khaki3', 'khaki2', 'khaki1', 'khaki4','blue3'),
+                                      labels=c("EM_growth_NPi"="Emission growth 2015-2030", "EM_history"="Difference with historical emissions", 
+                                               "Polulation"="Population", "GDP_per_capita"="GDP per capita", "EM_per_GDP"="Emissions per GDP", 
+                                               "Policy_implementation"="Policy impact", "Error_term"="Unexplained"))
+plot(p_drivers_median)
+
+p_drivers_median <- ggplot(data=Drivers_NPi_median) + 
+  geom_bar(aes(x=driver, y=median, fill=driver), stat="identity", position=position_dodge(width=1), width=0.6) +
+  geom_errorbar(aes(x=driver, ymin=min, ymax=max), width=.2,position=position_dodge(.9)) +
+  facet_wrap(~country, scales = "free_x") +
+  coord_flip() +
+  theme_bw() +
+  ggtitle("Decomposition drivers of change in total GHG emissions excluding AFOLU in National policies scenario relative to no policy scenario") +
+  scale_fill_manual(values=c('moccasin', 'khaki4', 'khaki3', 'khaki2', 'khaki1', 'khaki4','blue3'),
+                    labels=c("EM_growth_NPi"="Emission growth 2015-2030", "EM_history"="Difference with historical emissions", 
+                             "Polulation"="Population", "GDP_per_capita"="GDP per capita", "EM_per_GDP"="Emissions per GDP", 
+                             "Policy_implementation"="Policy impact", "Error_term"="Unexplained"),
+                    guide = guide_legend(reverse=TRUE))
+plot(p_drivers_median)
+
+
+# read in drivers 2010
+Drivers_NPi_2010 <- read.table("data/Compare NPi ranges_2010.csv", sep=";", header=TRUE)
+Drivers_NPi_2010 <- filter(Drivers_NPi_2010, !(is.na(EM_growth_NPi)))
+Drivers_NPi_2010 <- gather(Drivers_NPi_2010, 3:ncol(Drivers_NPi_2010), key="driver", value=value)
+Drivers_NPi_2010$driver <- factor(Drivers_NPi_2010$driver, levels=drivers)    
+
+Drivers_NPi_median_2010 <- group_by(Drivers_NPi_2010, driver, country) %>%
+  summarize(median=median(value),
+            min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)) %>%
+  as.data.frame()
+Drivers_NPi_median_2010$country <- factor(Drivers_NPi_median_2010$country, levels=regs_drivers)   
+
+p_drivers_median_2010 <- ggplot(data=Drivers_NPi_median_2010) + 
+  geom_bar(aes(x=driver, y=median, fill=driver), stat="identity", position=position_dodge(width=1), width=0.6) +
+  geom_errorbar(aes(x=driver, ymin=min, ymax=max), width=.2,position=position_dodge(.9)) +
+  facet_wrap(~country, scales = "free_x") +
+  coord_flip() +
+  theme_bw() +
+  ggtitle("Decomposition drivers of change in total GHG emissions excluding AFOLU in National policies scenario relative to no policy scenario") +
+  scale_fill_manual(values=c('moccasin', 'khaki4', 'khaki3', 'khaki2', 'khaki1', 'khaki4','blue3'),
+                    labels=c("EM_growth_NPi"="Emission growth 2015-2030", "EM_history"="Difference with historical emissions", 
+                             "Polulation"="Population", "GDP_per_capita"="GDP per capita", "EM_per_GDP"="Emissions per GDP", 
+                             "Policy_implementation"="Policy impact", "Error_term"="Unexplained"),
+                    guide = guide_legend(reverse=TRUE))
+plot(p_drivers_median_2010)
+
+# show differences SSP1, SSP2, SSP3
+
+data_SSP <- filter(all_paper_SSP, model%in%c('AIM V2.1', 'MESSAGEix-GLOBIOM_1.0'), variable=="Emissions|Kyoto Gases", 
+                   region=="World", period>=2010, period<=2030)
+p_SSP <- ggplot(data=data_SSP) + 
+         geom_line(aes(x=period, y=value, group=scenario, colour=Category, linetype=SSP), size=2) +
+         facet_wrap(~model, scales = "free_y") +
+         ylim(0,NA) +
+         theme(axis.text.x = element_text(size=24, face="bold"), axis.title.x=element_text(size=14,face="bold")) +
+         theme(axis.text.y = element_text(size=24, face="bold"), axis.title.y=element_text(size=14,face="bold")) +
+         theme(legend.title=element_text(size=16), legend.text=element_text(size=16), legend.position="bottom") + 
+         theme(strip.text.x = element_text(size=16, face="bold"),
+               strip.text.y = element_text(size=16, face="bold")) +
+         theme_bw()
+plot(p_SSP)
+
+# check DNE
+x1 <-filter(all_paper_before_adj, model=="DNE21+ V.14", region%in%c("World","R5MAF", "R5LAM", "R5ASIA","R5OECD90+EU","R5REF"), 
+            Category=="National policies", variable%in%c("Emissions|Kyoto Gases", "Emissions|CO2|AFOLU"))
+write.table(x1, "data/tmp.csv", sep=";", row.names=F)
+x2<-filter(x1, region!="World") %>% group_by(period, variable) %>% summarize(value=sum(value))
+View(x2)

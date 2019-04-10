@@ -42,7 +42,9 @@ source(paste("settings/",config,".R",sep=""))
 #overwrite file to be used for analysis
 #cfg$infile    <- "cdlinks_compare_20190225-093329"
 #cfg$infile    <- "cdlinks_compare_20190123-155652"
-cfg$infile    <-  "cdlinks_compare_20190222-175217"
+#cfg$infile    <-  "cdlinks_compare_20190222-175217"
+#cfg$infile    <-  "cdlinks_ssp1_ssp2_ssp3_compare_20190328-174943"
+cfg$infile    <-  "cdlinks_compare_20190403-172904"
 
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
@@ -61,6 +63,9 @@ b.procdata = T
 if(!file.exists(cfg$outdir)) {
   dir.create(cfg$outdir, recursive = TRUE)
 }
+
+# keep old version of data
+if (exists('all')) {all_old <- all}
 
 #############################################################
 ####################### Load data ###########################
@@ -135,13 +140,13 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
   ###### Manual changes before addition of calculated variables  
   cat("- make adjustments to data\n")
   source(paste(adjust,".R",sep=""))  
-  
+all1<-all  
   #### add variables
   if(addvars){
     cat("- add variables to data\n")
     all <- add_variables(all,scens)
   }
-
+all2<-all
   #set scope to "national" for national models
   all[all$model %in% cfg$models_nat,]$Scope <- "national"
   #change model name for national models, so that they appear first

@@ -820,8 +820,10 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
   # to use historical, we need to set the data to 2030, while Category is "Historical"
   dt_tmp1 <- dt
   if(hist){dt_tmp1[dt_tmp1$Category%in%c("Historical", "2005", "2010", "2015")]$period<-per
-           dt_tmp1[dt_tmp1$Category=="2010_model"]$period<-per
-           dt_tmp1[dt_tmp1$Category=="2015_model"]$period<-per}
+           dt_tmp1[dt_tmp1$Category=="2010"]$period<-per
+           dt_tmp1[dt_tmp1$Category=="2015"]$period<-per
+           dt_hist<-filter(dt_tmp1, model=="History", variable==TotalEmis_var, region %in% regs)
+           }
   # make selection in data
   dt_tmp2 <- dt_tmp1
   dt_tmp1 <-filter(dt_tmp1, region %in% regs, Category%in% cats, variable%in% c(vars_stack, var_line), period %in% per,Scope=="global",!variable==TotalEmis_var) #[2:length(vars)]
@@ -859,7 +861,7 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
   if(quantiles){dtl=dtl[,list(min=quantile(value,prob=minprob),max=quantile(value,prob=maxprob)),by=c("Category","variable","region","period","Scope","unit")]
   }else{dtl=dtl[,list(min=min(value),max=max(value)),by=c("Category","variable","region","period","Scope","unit")]}
 
-  if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable==TotalEmis_var, period %in% per,Scope=="national")}
+  if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable==TotalEmis_var, period %in% per, Scope=="national")}
 
   dta$Category <- factor(dta$Category, levels = cats, ordered = T )
   dtl$Category <- factor(dtl$Category, levels = cats, ordered = T )
@@ -873,6 +875,9 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
   if(natpoints){
   p = p + geom_point(data=dtn,aes(x=Category,y=value,shape=model, group=interaction(Category,region,variable)), size = 3,show.legend = F)
   }
+  #if(hist){
+  #p = p + geom_point(data=dt_hist,aes(x=Category,y=value,shape=model, group=interaction(Category,region,variable)), size = 3,show.legend = F)
+  #}
   
   # add line graph to plot
   if (linegraph==TRUE) {
