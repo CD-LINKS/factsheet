@@ -9,7 +9,7 @@ library(directlabels) # year labels for scatter plots
 library(stringr) #str_replace_all
 library(gridExtra) #arrangeGrob
 
-data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190315-161400",".csv"),header=TRUE))
+data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190405-113453",".csv"),header=TRUE))
 data <- data.table(invisible(melt(data,measure.vars=names(data)[grep("[0-9]+",names(data))],variable.name = "period",variable.factor=FALSE)))
 data$period <- as.numeric(data$period)
 data <- data[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -28,7 +28,7 @@ if(!file.exists(outdir)) {
 
 
 # read native model region data -------------------------------------------
-native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190315-161500",".csv"),header=TRUE))
+native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190405-113538",".csv"),header=TRUE))
 native <- data.table(invisible(melt(native,measure.vars=names(native)[grep("[0-9]+",names(native))],variable.name = "period",variable.factor=FALSE)))
 native$period <- as.numeric(native$period)
 native <- native[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -42,6 +42,13 @@ native$variable <- factor(native$variable)
 
 # Prepare data for use ----------------------------------------------------
 #IMAGE reporting only for effort sharing variables, need to get GDP and emissions from NPi2020_1000 (only works if 'all' exists in workspace - by running load_data)
+config <-"config_xCut"
+scencateg <- "scen_categ_V4"
+variables <- "variables_xCut"
+adjust <- "adjust_reporting_indc_Mark"
+addvars <- F
+source("load_data.R")
+
 image=all[model=="IMAGE 3.0"&scenario=="NPi2020_1000_V4"]
 image$Baseline<-NULL
 image$Category<-NULL
@@ -67,6 +74,19 @@ ig4$scenario <- "NPi2020_1000_flexibility_PCC_V4"
 ig5$scenario <- "NPi2020_1000_domestic_GF_V4"
 ig6$scenario <- "NPi2020_1000_flexibility_GF_V4"
 data <- rbind(data,ig1,ig2,ig3,ig4,ig5,ig6)
+#IMAGE use CO emissions for all flexibility scenarios
+ie <- data[model=="IMAGE 3.0"&variable=="Emissions|Kyoto Gases"&scenario=="NPi2020_1000_flexibility_CO"]
+ie1=ie
+ie2=ie
+ie3=ie
+ie1$scenario <- "NPi2020_1000_flexibility_AP_V4"
+ie2$scenario <- "NPi2020_1000_flexibility_PCC_V4"
+ie3$scenario <- "NPi2020_1000_flexibility_GF_V4"
+data <- rbind(data,ie1,ie2,ie3)
+# IMAGE use allowances as emissions for domestic scenarios
+ia <- data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"&scenario%in%c("NPi2020_1000_domestic_PCC_V4","NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_GF_V4")]
+ia$variable <- "Emissions|Kyoto Gases"
+data <- rbind(data,ia)
 
 # MESSAGE use trade carbon net exports variable for trade emissions allowances variable (reported 0)
 msg1=data[model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions|Value|Carbon|Net Exports")]
@@ -458,8 +478,8 @@ ggsave(file=paste(outdir,"/carbonprice_compare_wo_JPNmodels.png",sep=""),p5,widt
 costvar = data[variable%in%c("Policy Cost|Welfare Change","Policy Cost|Additional Total Energy System Cost","Policy Cost|Area under MAC Curve","Policy Cost|Consumption Loss",
                            "Policy Cost|Equivalent Variation","Policy Cost|GDP Loss","Policy Cost|Other","Policy Cost|Default for CAV")]
 costvar = costvar[,list(variable=unique(variable)),by=c("model")]
-costvar$select=ifelse(costvar$variable=="Policy Cost|GDP Loss",1,ifelse(costvar$variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Area under MAC Curve"),
-                                                                  2,ifelse(costvar$variable=="Policy Cost|Consumption Loss",3,4)))
+costvar$select=ifelse(costvar$variable=="Policy Cost|Consumption Loss",1,ifelse(costvar$variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Area under MAC Curve"),
+                                                                  2,ifelse(costvar$variable=="Policy Cost|GDP Loss",3,4)))
 costvar=costvar[select<4]
 costvars=costvar[,list(select=min(select)),by=c("model")]
 costvars=merge(costvars,costvar,by=c("select","model"))
@@ -509,26 +529,26 @@ c3 = c3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 c3 = c3 + ylab(costsstat$unit)
 ggsave(file=paste(outdir,"/costs_GDP_compare.png",sep=""),c3,width=20,height=12,dpi=200)
 
-costsrel = spread(costs[period%in%c(2020,2030,2050,2100)],period,value)
-costsrel = costsrel%>%mutate(rel2030=(`2030`-`2020`)/`2020`*100,rel2050=(`2050`-`2020`)/`2020`*100,rel2100=(`2100`-`2020`)/`2020`*100)
-costsrel=data.table(gather(costsrel,period,value,c("2020","2030","2050","2100","rel2030","rel2050","rel2100")))
-costsrel=costsrel[period%in%c("rel2030","rel2050","rel2100")]
-costsrel$unit<-"%"  
-costsrel$period=str_replace_all(costsrel$period,"rel2030","2030")
-costsrel$period=str_replace_all(costsrel$period,"rel2050","2050")
-costsrel$period=str_replace_all(costsrel$period,"rel2100","2100")
-costsrel<-na.omit(costsrel)
+# costsrel = spread(costs[period%in%c(2020,2030,2050,2100)],period,value)
+# costsrel = costsrel%>%mutate(rel2030=(`2030`-`2020`)/`2020`*100,rel2050=(`2050`-`2020`)/`2020`*100,rel2100=(`2100`-`2020`)/`2020`*100)
+# costsrel=data.table(gather(costsrel,period,value,c("2020","2030","2050","2100","rel2030","rel2050","rel2100")))
+# costsrel=costsrel[period%in%c("rel2030","rel2050","rel2100")]
+# costsrel$unit<-"%"  
+# costsrel$period=str_replace_all(costsrel$period,"rel2030","2030")
+# costsrel$period=str_replace_all(costsrel$period,"rel2050","2050")
+# costsrel$period=str_replace_all(costsrel$period,"rel2100","2100")
+# costsrel<-na.omit(costsrel)
+# 
+# c4 = ggplot(costsrel[period%in%c(2030,2050)&implementation=="flexibility"&!model=="IMAGE 3.0"]) #TODO: check what goes wrong with IMAGE
+# c4 = c4 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+# c4 = c4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+# c4 = c4 + facet_grid(period~model)
+# c4 = c4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16),
+#                              axis.text.x = element_text(angle=45))
+# c4 = c4 + ylab(costsrel$unit)
+# ggsave(file=paste(outdir,"/costs_GDP_rel2020.png",sep=""),c4,width=20,height=12,dpi=200)
 
-c4 = ggplot(costsrel[period%in%c(2030,2050)&implementation=="flexibility"&!model=="IMAGE 3.0"]) #TODO: check what goes wrong with IMAGE
-c4 = c4 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
-c4 = c4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-c4 = c4 + facet_grid(period~model)
-c4 = c4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16),
-                             axis.text.x = element_text(angle=45))
-c4 = c4 + ylab(costsrel$unit)
-ggsave(file=paste(outdir,"/costs_GDP_rel2020.png",sep=""),c4,width=20,height=12,dpi=200)
-
-#Relative to global average - leave out relative to 2020?
+#Relative to global average - to do discounting? Tavoni LIMITS: GDP discounted at 5% over 2010-2100
 costsworld = spread(costs[!region%in%c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU")],region,value)
 costsworld = costsworld%>%mutate(BRAworld=BRA/World,CHNworld=CHN/World,EUworld=EU/World,INDworld=IND/World,JPNworld=JPN/World,RUSworld=RUS/World,USAworld=USA/World)
 costsworld=data.table(gather(costsworld,region,value,c("BRA","CHN","EU","IND","JPN","RUS","USA","World","BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")))
@@ -555,6 +575,24 @@ c5 = c5 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 c5 = c5 + ylab(costsworld$unit)
 c5 = c5 + ggtitle("Flexibility")
 ggsave(file=paste(outdir,"/costs_GDP_relworld_flexibility.png",sep=""),c5,width=20,height=12,dpi=200)
+
+c5a = ggplot(costsworld[period%in%c(2030,2050)&implementation=="domestic"])
+c5a = c5a + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+c5a = c5a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c5a = c5a + facet_grid(period~model)
+c5a = c5a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c5a = c5a + ylab(costsworld$unit)
+c5a = c5a + ggtitle("Domestic")
+ggsave(file=paste(outdir,"/costs_GDP_relworld_domestic.png",sep=""),c5a,width=20,height=12,dpi=200)
+
+c5b = ggplot(costsworld)
+c5b = c5b + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1)
+c5b = c5b + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c5b = c5b + facet_grid(implementation~region,scale="free_y")
+#c5 = c5 + ylim(-3,8)
+c5b = c5b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c5b = c5b + ylab(costsworld$unit)
+ggsave(file=paste(outdir,"/costs_GDP_relworld.png",sep=""),c5b,width=20,height=12,dpi=200)
 
 # costs Annex I fraction GDP / fraction GDP non-Annex I. Now for R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF. 
 # TODO for OECD countries / native model regions? (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
@@ -595,7 +633,7 @@ i = i + ylab(costratio$variable)
 i = i + xlab(finflowsstat$unit)
 ggsave(file=paste(outdir,"/costratio_financialflows.png",sep=""),i,width=20,height=12,dpi=200)
 
-# for the native model regions
+# for the native model regions (to do for cost ratio?)
 finflowsnativestat$period<-as.numeric(as.character(finflowsnativestat$period))
 indicatorn=merge(finflowsnativestat,costratiostat,by=c("implementation","regime","period"))
 indicatorn$period<-as.factor(indicatorn$period)

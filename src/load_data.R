@@ -46,6 +46,7 @@ source(paste("settings/",config,".R",sep=""))
 #cfg$infile    <-  "cdlinks_ssp1_ssp2_ssp3_compare_20190328-174943"
 cfg$infile    <-  "cdlinks_compare_20190403-172904"
 
+
 #source function for factorizing data frames
 source("functions/factor.data.frame.R")
 # source functions process_data() and add_variables()

@@ -1,7 +1,4 @@
 variable
-Policy Cost|Area under MAC Curve
-Policy Cost|Consumption Loss
-Policy Cost|GDP Loss
 Price|Carbon
 GDP|PPP
 GDP|MER
@@ -34,15 +31,13 @@ Emissions|CH4|Energy|Supply
 Emissions|CH4|Energy|Demand|Industry
 Emissions|CH4|Energy|Demand|Residential and Commercial
 Emissions|CH4|Energy|Demand|Transportation
-Investment|Energy Demand
-Investment|Energy Supply
-Investment|Energy Supply|Electricity
-Investment|Energy Supply|Electricity|Fossil
-Investment|Energy Supply|Electricity|Non-fossil
-Investment|Energy Supply|Electricity|Nuclear
-Investment|Energy Supply|Electricity|Renewables
-Investment|Energy Supply|Electricity|w/ CCS
 Trade|Primary Energy|Biomass|Volume
 Trade|Primary Energy|Coal|Volume
 Trade|Primary Energy|Gas|Volume
 Trade|Primary Energy|Oil|Volume
+Carbon Sequestration|CCS|Biomass
+Agricultural Production|Energy
+Agricultural Production|Energy|Residues
+Agricultural Production|Energy|Crops
+Agricultural Production|Energy|Crops|1st generation
+Agricultural Production|Energy|Crops|2nd generation

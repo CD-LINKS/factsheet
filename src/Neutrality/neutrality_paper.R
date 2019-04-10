@@ -3,7 +3,7 @@ setwd("~/disks/local/factsheet/src")
 config <-"config_xCut"
 scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
-adjust <- "adjust_reporting_neutrality" # TODO to decide: remove MESSAGE for China and India due to region definition? and COFFEE & DNE for EU and DNE for China and India?
+adjust <- "adjust_reporting_neutrality" # TODO to decide: remove MESSAGE for China due to region definition? and COFFEE & DNE for EU and DNE for China and India?
 addvars <- F
 source("load_data.R")
 
@@ -188,7 +188,9 @@ ggsave(file=paste(outdir,"/Phase_out_year_diffworld_inventory.png",sep=""),S1,wi
 # Effect of allocation of negative emissions ------------------------------
 
 #	Allocation negative emissions: check CO2 BECCS, add to region it belongs to, then allocate based on biomass production  check effect on neutrality   
-# Check effect of different allocations (either to biomass producer or electricity/CCS) on phase-out years. E.g. energy crop production, CCSbiomass carbon sequestration and trade-primary energy-biomass-volume?
+# Check effect of different allocations (either to biomass producer or electricity/CCS) on phase-out years. 
+# E.g. energy crop production, CCSbiomass carbon sequestration and trade-primary energy-biomass-volume?
+alloc=np[variable%in%c("Agricultural Production|Energy","Carbon Sequestration|CCS|Biomass","Trade|Primary Energy|Biomass|Volume","Emissions|CO2|Energy and Industrial Processes")]
 
 # Mitigation strategies / why are some regions earlier or later ---------------------------------------------------
 

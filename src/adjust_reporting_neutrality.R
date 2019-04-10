@@ -68,11 +68,24 @@ all<-rbind(all,tmp1)
 
 # To do/decide:
 # Removing MESSAGE model for India, as MESSAGE has South Asia (including Afghanistan, Bangladesh, Bhutan, Maldives, Nepal, Pakistan, Sri Lanka), not India separately
-# India = all[region=="IND"]
-# India = India[!model=="MESSAGE V.4"]
-# all=rbind(subset(all, !region=="IND"),India)
+India = all[region=="IND"]
+India = India[!model=="MESSAGE V.4"]
+all=rbind(subset(all, !region=="IND"),India)
 
 # Removing MESSAGE model for China, as MESSAGE has CPA (including Cambodia, Hong Kong, Korea, Lao, Macau, Mongolia, Taiwan, Viet Nam), not China separately
 # China = all[region=="CHN"]
 # China = China[!model=="MESSAGE V.4"]
 # all=rbind(subset(all, !region=="CHN"),China)
+
+
+# Add total as sum of sub-categories, when missing ------------------------
+tmp1 <- all[model %in% setdiff(unique(all[variable=="Agricultural Production|Energy|Crops"]$model),unique(all[variable=="Agricultural Production|Energy"]$model)) &
+              variable %in% c("Agricultural Production|Energy|Crops","Agricultural Production|Energy|Residues")]
+if(dim(tmp1)[1]!=0 & "Agricultural Production|Energy|Crops" %in% unique(tmp1$variable)){
+  tmp=spread(tmp1,variable, value)
+  tmp=na.omit(tmp)
+  tmp=tmp %>% mutate(`Agricultural Production|Energy`=`Agricultural Production|Energy|Crops` + `Agricultural Production|Energy|Residues`)
+  tmp1=gather(tmp, variable, value, c(`Agricultural Production|Energy`,`Agricultural Production|Energy|Crops`, `Agricultural Production|Energy|Residues`))
+  tmp1=data.table(tmp1)
+  tmp1=tmp1[variable=="Agricultural Production|Energy"]
+  all <- rbind(all,tmp1)} 
