@@ -137,6 +137,11 @@ data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA","R5ASIA",
 #Order of regimes
 data$regime = factor(data$regime,levels=c("CO","AP","PCC","GF"))
 
+
+# Check AP implementation -------------------------------------------------
+# check step 1 of formula: 
+  #   r_(i,t) 〖APbc〗^*=∛((〖gdp〗_(i,t)/〖pop〗_(i,t) )⁄(〖GDP〗_t/〖POP〗_t ))∙(〖BAU〗_t-A_t)/〖BAU〗_t ∙〖bau〗_(i,t)
+
 # Initial allocation ------------------------------------------------------
 allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 
@@ -595,7 +600,8 @@ c5b = c5b + ylab(costsworld$unit)
 ggsave(file=paste(outdir,"/costs_GDP_relworld.png",sep=""),c5b,width=20,height=12,dpi=200)
 
 # costs Annex I fraction GDP / fraction GDP non-Annex I. Now for R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF. 
-# TODO for OECD countries / native model regions? (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
+# TODO for LIMITS 10 regions!
+# to do for OECD countries / native model regions? (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
 
 costratio=spread(costs[region%in%c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU")],region,value)
 costratio=costratio%>%mutate(R5mean=(`R5ASIA`+`R5LAM`+`R5MAF`+`R5REF`)/4,ratio=ifelse(R5mean==0&`R5OECD90+EU`==0,0,`R5OECD90+EU`/R5mean))
