@@ -41,6 +41,7 @@ native=na.omit(native)
 native$variable <- factor(native$variable)
 
 # Prepare data for use ----------------------------------------------------
+# TODO check what is still needed for IMAGE
 #IMAGE reporting only for effort sharing variables, need to get GDP and emissions from NPi2020_1000 (only works if 'all' exists in workspace - by running load_data)
 config <-"config_xCut"
 scencateg <- "scen_categ_V4"
