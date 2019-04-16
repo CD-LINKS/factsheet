@@ -41,13 +41,14 @@ native=na.omit(native)
 native$variable <- factor(native$variable)
 
 # Prepare data for use ----------------------------------------------------
-# TODO check what is still needed for IMAGE
 #IMAGE reporting only for effort sharing variables, need to get GDP and emissions from NPi2020_1000 (only works if 'all' exists in workspace - by running load_data)
 config <-"config_xCut"
 scencateg <- "scen_categ_V4"
 variables <- "variables_xCut"
-adjust <- "adjust_reporting_indc_Mark"
+adjust <- "adjust_reporting_neutrality"
 addvars <- F
+datafile <-"cdlinks_compare_20190416-"
+#datafile<-"cdlinks_compare_20190123-155652"
 source("load_data.R")
 
 image=all[model=="IMAGE 3.0"&scenario=="NPi2020_1000_V4"]
@@ -88,6 +89,20 @@ data <- rbind(data,ie1,ie2,ie3)
 ia <- data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"&scenario%in%c("NPi2020_1000_domestic_PCC_V4","NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_GF_V4")]
 ia$variable <- "Emissions|Kyoto Gases"
 data <- rbind(data,ia)
+
+# Read in NoPolicy (SSP2) baseline and cost-optimal scenario from 'all' for AP formula check (not available for AIM/CGE[Japan]?)
+nopolco = all[Category%in%c("NoPOL","2020_low")]
+nopolco$implementation<-"flexibility"
+nopolco$regime<-""
+nopolco[Category=="NoPOL"]$regime<-"Baseline"
+nopolco[Category=="2020_low"]$regime<-"CO"
+nopolco$Baseline<-NULL
+nopolco$Category<-NULL
+nopolco$Scope<-NULL
+setcolorder(nopolco,c("model","scenario","region","variable","unit","period","value"))
+nopolco$period<-as.numeric(nopolco$period)
+nopolco$model <- str_replace_all(nopolco$model,"MESSAGEix-GLOBIOM_1.0","MESSAGEix-GLOBIOM_1.1")
+nopolco$model <- str_replace_all(nopolco$model,"REMIND-MAgPIE 1.7-3.0","REMIND 2.0")
 
 # MESSAGE use trade carbon net exports variable for trade emissions allowances variable (reported 0)
 msg1=data[model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions|Value|Carbon|Net Exports")]
@@ -142,6 +157,8 @@ data$regime = factor(data$regime,levels=c("CO","AP","PCC","GF"))
 # Check AP implementation -------------------------------------------------
 # TODO: check step 1 of formula: 
   #   r_(i,t) 〖APbc〗^*=∛((〖gdp〗_(i,t)/〖pop〗_(i,t) )⁄(〖GDP〗_t/〖POP〗_t ))∙(〖BAU〗_t-A_t)/〖BAU〗_t ∙〖bau〗_(i,t)
+AP <- data[regime=="AP"&variable%in%c("GDP|PPP","Population","Emissions|Kyoto Gases","Emissions|GHG|Allowance Allocation")]
+AP = rbind(AP,nopolco)
 
 # Initial allocation ------------------------------------------------------
 allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
