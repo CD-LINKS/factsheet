@@ -5,7 +5,7 @@ scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
 adjust <- "adjust_reporting_neutrality" # TODO to decide: remove MESSAGE for China due to region definition? and COFFEE & DNE for EU and DNE for China and India?
 addvars <- F
-datafile <-"cdlinks_compare_20190416-"
+datafile <-"cdlinks_compare_20190416-124844"
 source("load_data.R")
 
 outdir <- "Neutrality/graphs"
