@@ -45,9 +45,9 @@ native$variable <- factor(native$variable)
 config <-"config_xCut"
 scencateg <- "scen_categ_V4"
 variables <- "variables_xCut"
-adjust <- "adjust_reporting_neutrality"
+adjust <- "adjust_reporting_indc_Mark"
 addvars <- F
-datafile <-"cdlinks_compare_20190416-"
+datafile <-"cdlinks_compare_20190416-124844"
 #datafile<-"cdlinks_compare_20190123-155652"
 source("load_data.R")
 
