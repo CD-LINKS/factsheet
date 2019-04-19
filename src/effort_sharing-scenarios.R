@@ -91,7 +91,7 @@ ia$variable <- "Emissions|Kyoto Gases"
 data <- rbind(data,ia)
 
 # Read in NoPolicy (SSP2) baseline and cost-optimal scenario from 'all' for AP formula check (not available for AIM/CGE[Japan]?)
-nopolco = all[Category%in%c("NoPOL","2020_low")]
+nopolco = all[Category%in%c("NoPOL","2020_low")&!model=="MESSAGEix-GLOBIOM_1.0"]
 nopolco$implementation<-"flexibility"
 nopolco$regime<-""
 nopolco[Category=="NoPOL"]$regime<-"Baseline"
@@ -101,7 +101,7 @@ nopolco$Category<-NULL
 nopolco$Scope<-NULL
 setcolorder(nopolco,c("model","scenario","region","variable","unit","period","value"))
 nopolco$period<-as.numeric(nopolco$period)
-nopolco$model <- str_replace_all(nopolco$model,"MESSAGEix-GLOBIOM_1.0","MESSAGEix-GLOBIOM_1.1")
+#nopolco$model <- str_replace_all(nopolco$model,"MESSAGEix-GLOBIOM_1.0","MESSAGEix-GLOBIOM_1.1")
 nopolco$model <- str_replace_all(nopolco$model,"REMIND-MAgPIE 1.7-3.0","REMIND 2.0")
 
 # MESSAGE use trade carbon net exports variable for trade emissions allowances variable (reported 0)
@@ -155,10 +155,25 @@ data$regime = factor(data$regime,levels=c("CO","AP","PCC","GF"))
 
 
 # Check AP implementation -------------------------------------------------
-# TODO: check step 1 of formula: 
+# TODO: check step 1 of formula (to be continued when data duplication removed) 
   #   r_(i,t) 〖APbc〗^*=∛((〖gdp〗_(i,t)/〖pop〗_(i,t) )⁄(〖GDP〗_t/〖POP〗_t ))∙(〖BAU〗_t-A_t)/〖BAU〗_t ∙〖bau〗_(i,t)
 AP <- data[regime=="AP"&variable%in%c("GDP|PPP","Population","Emissions|Kyoto Gases","Emissions|GHG|Allowance Allocation")]
-AP = rbind(AP,nopolco)
+AP1 = rbind(AP,nopolco)
+AP$unit <-NULL
+
+# first calculate GDP per capita
+AP = spread(AP, variable, value)
+AP = AP %>% mutate(gdpcap=`GDP|PPP`/Population)
+AP = data.table(gather(AP,variable,value,c("GDP|PPP","Population","Emissions|Kyoto Gases","Emissions|GHG|Allowance Allocation","gdpcap")))
+AP2 = AP[variable=="gdpcap"]
+# then divide by global GDP per capita
+AP2 = spread(AP2,region,value)
+AP2 = AP2 %>% mutate(JPN=JPN/World,BRA=BRA/World,CHN=CHN/World,EU=EU/World,IND=IND/World,R5ASIA=R5ASIA/World,R5LAM=R5LAM/World,R5MAF=R5MAF/World,
+                   `R5OECD90+EU`=`R5OECD90+EU`/World,RUS=RUS/World,USA=USA/World) #CAN=CAN/World, ,TUR=TUR/World
+AP2 = data.table(gather(AP2,region,value,c("JPN","BRA","CHN","EU","IND","R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF","RUS","USA","World"))) #,"CAN","TUR"
+
+# reductions before correction factor
+rAPbc <- (gdpcapshare)^(1/3)
 
 # Initial allocation ------------------------------------------------------
 allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
