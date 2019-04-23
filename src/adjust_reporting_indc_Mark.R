@@ -389,8 +389,8 @@ if(dim(tmp1)[1]!=0){
   all <- rbind(all,tmp1)} 
 
 # b.Emissions|CO2|Industrial processes
-tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy"]$model),unique(all[variable=="Emissions|CO2|Industrial processes"]$model)) &
-              variable %in% c("Emissions|CO2|Energy", "Emissions|CO2|Energy and Industrial Processes")]
+tmp1 <- all[model %in% setdiff(unique(all[variable=="Emissions|CO2|Energy"]$model),unique(all[variable=="Emissions|CO2|Industrial processes"]$model)) & !model%in%c("China TIMES","AIM-India [IIMA]","India MARKAL")
+              &variable %in% c("Emissions|CO2|Energy", "Emissions|CO2|Energy and Industrial Processes")]
 if(dim(tmp1)[1]!=0){
   tmp=spread(tmp1,variable, value)
   tmp=na.omit(tmp)
@@ -882,8 +882,9 @@ country_Europe <- c("ALB", "AND", "AUT", "BEL", "BIH", "BGR", "HRV", "CYP", "CZE
 regions_PRIMAP_EU <- c("EU28", country_Europe)
 
 # read in PRIMAP data
-PRIMAP_IAM <- read.csv("data/PRIMAP-hist_v1.2_14-Dec-2017.csv", header=TRUE, sep=",")
-PRIMAP_IAM <- PRIMAP
+source("functions/HistoricalDataFunctions.R")
+PRIMAP_IAM <- read.csv("data/PRIMAP-hist_v1.2_14-Dec-2017.csv", header=TRUE, sep=",",skipNul = T)
+#PRIMAP_IAM <- PRIMAP
 #years_CDLINKS_history <- c("X1990", "X1995", "X2000", "X2005", "X2010", "X2015")
 colnames(PRIMAP_IAM)[colnames(PRIMAP_IAM)=="country"] <- "region"
 colnames(PRIMAP_IAM)[colnames(PRIMAP_IAM)=="year"] <- "period"
