@@ -973,10 +973,10 @@ all <- as.data.table(all)
 #all <- rbind (all, all_tmp3)
 #all <- as.data.table(all)
 
-# IV. 18 add GDP and population to COPPE data
-gdp_pop_COPPE <- read.table("data/COFFEE_GDP_CDLinks.csv", sep=";", header=TRUE) 
-gdp_pop_COPPE <- as.data.frame(gdp_pop_COPPE)
-all <- rbind(all, gdp_pop_COPPE)
+# IV. 18 add GDP and population to COPPE data - HvS: already added baed on IMAGE data, and file not found
+# gdp_pop_COPPE <- read.table("data/COFFEE_GDP_CDLinks.csv", sep=";", header=TRUE) 
+# gdp_pop_COPPE <- as.data.frame(gdp_pop_COPPE)
+# all <- rbind(all, gdp_pop_COPPE)
 
 # .................................................................................................................................
 # .................................................................................................................................
@@ -1106,7 +1106,7 @@ tmp[variable=="Emissions|CH4"]$value<-tmp[variable=="Emissions|CH4"]$value*25
 tmp[variable=="Emissions|CH4"]$unit<-"Mt CO2-equiv/yr"
 tmp[variable=="Emissions|N2O"]$value<-tmp[variable=="Emissions|N2O"]$value*298/1000
 tmp[variable=="Emissions|N2O"]$unit<-"Mt CO2-equiv/yr"
-tmp=spread(tmp,variable,value)
+tmp=spread(tmp[!duplicated(tmp)],variable,value)
 tmp=tmp%>%mutate(`Emissions|Kyoto Gases`=`Emissions|CO2`+`Emissions|CH4`+`Emissions|N2O`+`Emissions|F-Gases`) #+`Emissions|N2O|AFOLU`+`Emissions|CH4|AFOLU`
 tmp=gather(tmp,variable,value,c(`Emissions|Kyoto Gases`, `Emissions|CO2`, `Emissions|CH4`, `Emissions|N2O`, `Emissions|F-Gases`))
 tmp=data.table(tmp)
