@@ -151,8 +151,9 @@ all2<-all
   #set scope to "national" for national models
   all[all$model %in% cfg$models_nat,]$Scope <- "national"
   #change model name for national models, so that they appear first
+  all<-data.table(all)
   if(!substr(cfg$models_nat[1],1,1)=="*"){
-    all[all$model %in% cfg$models_nat,]$model <- paste0("*",all[all$model %in% cfg$models_nat,]$model)
+    all[model %in% cfg$models_nat]$model <- paste0("*",all[model %in% cfg$models_nat]$model)
     cfg$models_nat <- paste0("*",cfg$models_nat)
   }
   
