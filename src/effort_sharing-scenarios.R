@@ -155,7 +155,7 @@ data$regime = factor(data$regime,levels=c("CO","AP","PCC","GF"))
 
 
 # Check AP implementation -------------------------------------------------
-# TODO: check step 1 of formula (to be continued - check duplication) 
+# TODO: check step 1 of formula (to be continued - check duplication IMAGE adding CO?) 
   #   r_(i,t) 〖APbc〗^*=∛((〖gdp〗_(i,t)/〖pop〗_(i,t) )⁄(〖GDP〗_t/〖POP〗_t ))∙(〖BAU〗_t-A_t)/〖BAU〗_t ∙〖bau〗_(i,t)
 AP <- data[regime=="AP"&variable%in%c("GDP|PPP","Population","Emissions|Kyoto Gases","Emissions|GHG|Allowance Allocation")]
 AP1 = rbind(AP,nopolco)
