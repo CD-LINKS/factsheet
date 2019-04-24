@@ -50,7 +50,6 @@ addvars <- F
 datafile <-"cdlinks_compare_20190416-124844"
 #datafile<-"cdlinks_compare_20190123-155652"
 source("load_data.R")
-all<-data.table(all)
 
 image=all[model=="IMAGE 3.0"&scenario=="NPi2020_1000_V4"]
 image$Baseline<-NULL
