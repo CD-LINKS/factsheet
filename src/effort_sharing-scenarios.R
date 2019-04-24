@@ -45,11 +45,12 @@ native$variable <- factor(native$variable)
 config <-"config_xCut"
 scencateg <- "scen_categ_V4"
 variables <- "variables_xCut"
-adjust <- "adjust_reporting_neutrality" # to use _indc_Mark but first check 'convertPRIMAP2IAM' function error! TODO
+adjust <- "adjust_reporting_indc_Mark"
 addvars <- F
 datafile <-"cdlinks_compare_20190416-124844"
 #datafile<-"cdlinks_compare_20190123-155652"
 source("load_data.R")
+all<-data.table(all)
 
 image=all[model=="IMAGE 3.0"&scenario=="NPi2020_1000_V4"]
 image$Baseline<-NULL
@@ -155,7 +156,7 @@ data$regime = factor(data$regime,levels=c("CO","AP","PCC","GF"))
 
 
 # Check AP implementation -------------------------------------------------
-# TODO: check step 1 of formula (to be continued when data duplication removed) 
+# TODO: check step 1 of formula (to be continued - check duplication) 
   #   r_(i,t) 〖APbc〗^*=∛((〖gdp〗_(i,t)/〖pop〗_(i,t) )⁄(〖GDP〗_t/〖POP〗_t ))∙(〖BAU〗_t-A_t)/〖BAU〗_t ∙〖bau〗_(i,t)
 AP <- data[regime=="AP"&variable%in%c("GDP|PPP","Population","Emissions|Kyoto Gases","Emissions|GHG|Allowance Allocation")]
 AP1 = rbind(AP,nopolco)
