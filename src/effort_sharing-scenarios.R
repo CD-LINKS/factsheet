@@ -50,6 +50,7 @@ addvars <- F
 datafile <-"cdlinks_compare_20190416-124844"
 #datafile<-"cdlinks_compare_20190123-155652"
 source("load_data.R")
+all=all[!duplicated(all)] #TODO check what goes wrong here: why is some data duplicated in load_data?
 
 image=all[model=="IMAGE 3.0"&scenario=="NPi2020_1000_V4"]
 image$Baseline<-NULL
@@ -61,8 +62,8 @@ image1=image
 image$scenario<-"NPi2020_1000_domestic_CO"
 image1$scenario<-"NPi2020_1000_flexibility_CO"
 data=rbind(data,image,image1)
-# IMAGE use CO GDP also for effort sharing scenarios
-ig <- data[model=="IMAGE 3.0"&variable=="GDP|MER"&scenario=="NPi2020_1000_domestic_CO"]
+# IMAGE use CO GDP & population also for effort sharing scenarios
+ig <- data[model=="IMAGE 3.0"&variable%in%c("GDP|PPP","Population","GDP|MER")&scenario=="NPi2020_1000_domestic_CO"]
 ig1=ig
 ig2=ig
 ig3=ig
@@ -155,25 +156,50 @@ data$regime = factor(data$regime,levels=c("CO","AP","PCC","GF"))
 
 
 # Check AP implementation -------------------------------------------------
-# TODO: check step 1 of formula (to be continued - check duplication IMAGE adding CO?) 
+# TODO: check step 1 of formula (to check outcome, and check also for domestic?) 
   #   r_(i,t) 〖APbc〗^*=∛((〖gdp〗_(i,t)/〖pop〗_(i,t) )⁄(〖GDP〗_t/〖POP〗_t ))∙(〖BAU〗_t-A_t)/〖BAU〗_t ∙〖bau〗_(i,t)
 AP <- data[regime=="AP"&variable%in%c("GDP|PPP","Population","Emissions|Kyoto Gases","Emissions|GHG|Allowance Allocation")]
-AP1 = rbind(AP,nopolco)
 AP$unit <-NULL
 
 # first calculate GDP per capita
-AP = spread(AP, variable, value)
-AP = AP %>% mutate(gdpcap=`GDP|PPP`/Population)
-AP = data.table(gather(AP,variable,value,c("GDP|PPP","Population","Emissions|Kyoto Gases","Emissions|GHG|Allowance Allocation","gdpcap")))
-AP2 = AP[variable=="gdpcap"]
+AP2 = spread(AP[variable%in%c("GDP|PPP","Population")], variable, value)
+AP2 = AP2 %>% mutate(gdpcap=`GDP|PPP`/Population)
+AP2 = data.table(gather(AP2,variable,value,c("GDP|PPP","Population","gdpcap")))
+AP2 = AP2[variable=="gdpcap"]
+AP2 = na.omit(AP2) #drops DNE21+ as they don't have GDP|PPP (only MER). TODO: check with team.
 # then divide by global GDP per capita
-AP2 = spread(AP2,region,value)
-AP2 = AP2 %>% mutate(JPN=JPN/World,BRA=BRA/World,CHN=CHN/World,EU=EU/World,IND=IND/World,R5ASIA=R5ASIA/World,R5LAM=R5LAM/World,R5MAF=R5MAF/World,
-                   `R5OECD90+EU`=`R5OECD90+EU`/World,RUS=RUS/World,USA=USA/World) #CAN=CAN/World, ,TUR=TUR/World
-AP2 = data.table(gather(AP2,region,value,c("JPN","BRA","CHN","EU","IND","R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF","RUS","USA","World"))) #,"CAN","TUR"
+AP3 = spread(AP2,region,value)
+AP3 = AP3 %>% mutate(JPN=JPN/World,BRA=BRA/World,CHN=CHN/World,EU=EU/World,IND=IND/World,R5ASIA=R5ASIA/World,R5LAM=R5LAM/World,R5MAF=R5MAF/World,
+                   `R5OECD90+EU`=`R5OECD90+EU`/World,RUS=RUS/World,USA=USA/World)
+AP3 = data.table(gather(AP3,region,value,c("JPN","BRA","CHN","EU","IND","R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF","RUS","USA","World")))
+AP3 = na.omit(AP3)
+# 3rd-order root
+AP3$value = AP3$value^(1/3)
 
-# reductions before correction factor
-rAPbc <- (gdpcapshare)^(1/3)
+#Second part of formula: global BAU - global allowances / global BAU
+AP1 = nopolco[variable%in%c("Emissions|Kyoto Gases")]
+AP1 = na.omit(AP1)
+AP1$scenario <- NULL
+AP1a = spread(AP1[region=="World"],regime,value)
+AP1a = na.omit(AP1a)
+AP1a = AP1a %>% mutate(global=(Baseline-CO)/Baseline)
+AP1a = data.table(gather(AP1a,regime,value,c("global","Baseline","CO")))
+AP1a = AP1a[regime=="global"]
+setnames(AP1a,"regime","factor")
+
+# multiplied by regional bau
+AP1b = merge(AP1[regime=="Baseline"],AP1a,by=c("model","variable","unit","period","implementation"))
+AP1b = AP1b %>%mutate(totalfactor=value.x*value.y)
+AP1b$value.x<-NULL
+AP1b$value.y<-NULL
+AP1b$region.y<-NULL
+AP1b$regime<-NULL
+AP1b$factor<-NULL
+setnames(AP1b,"region.x","region")
+
+# reductions before correction factor: AP3$value *AP1b$totalfactor
+AP4 = merge(AP3,AP1b,by=c("model","region","period","implementation"))
+AP4 = AP4 %>% mutate(ritAPbc=value*totalfactor)
 
 # Initial allocation ------------------------------------------------------
 allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
