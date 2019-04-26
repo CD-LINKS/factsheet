@@ -9,7 +9,7 @@ library(directlabels) # year labels for scatter plots
 library(stringr) #str_replace_all
 library(gridExtra) #arrangeGrob
 
-data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190415-093150",".csv"),header=TRUE))
+data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190426-091858",".csv"),header=TRUE))
 data <- data.table(invisible(melt(data,measure.vars=names(data)[grep("[0-9]+",names(data))],variable.name = "period",variable.factor=FALSE)))
 data$period <- as.numeric(data$period)
 data <- data[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -28,7 +28,7 @@ if(!file.exists(outdir)) {
 
 
 # read native model region data -------------------------------------------
-native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190415-093436",".csv"),header=TRUE))
+native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190426-092123",".csv"),header=TRUE))
 native <- data.table(invisible(melt(native,measure.vars=names(native)[grep("[0-9]+",names(native))],variable.name = "period",variable.factor=FALSE)))
 native$period <- as.numeric(native$period)
 native <- native[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -156,8 +156,9 @@ data$regime = factor(data$regime,levels=c("CO","AP","PCC","GF"))
 
 
 # Check AP implementation -------------------------------------------------
-# TODO: check step 1 of formula (to check outcome, and check also for domestic?) 
-  #   r_(i,t) 〖APbc〗^*=∛((〖gdp〗_(i,t)/〖pop〗_(i,t) )⁄(〖GDP〗_t/〖POP〗_t ))∙(〖BAU〗_t-A_t)/〖BAU〗_t ∙〖bau〗_(i,t)
+###   r_(i,t) 〖APbc〗^*=∛((〖gdp〗_(i,t)/〖pop〗_(i,t) )⁄(〖GDP〗_t/〖POP〗_t ))∙(〖BAU〗_t-A_t)/〖BAU〗_t ∙〖bau〗_(i,t)
+
+# Check step 1 of formula 
 AP <- data[regime=="AP"&variable%in%c("GDP|PPP","Population","Emissions|Kyoto Gases","Emissions|GHG|Allowance Allocation")]
 AP$unit <-NULL
 
@@ -176,19 +177,22 @@ AP3 = na.omit(AP3)
 # 3rd-order root
 AP3$value = AP3$value^(1/3)
 
-#Second part of formula: global BAU - global allowances / global BAU
+#Second part of step 1: global BAU - global allowances / global BAU
 AP1 = nopolco[variable%in%c("Emissions|Kyoto Gases")]
 AP1 = na.omit(AP1)
 AP1$scenario <- NULL
+AP1$implementation <- NULL
 AP1a = spread(AP1[region=="World"],regime,value)
 AP1a = na.omit(AP1a)
-AP1a = AP1a %>% mutate(global=(Baseline-CO)/Baseline)
-AP1a = data.table(gather(AP1a,regime,value,c("global","Baseline","CO")))
+AP1a = AP1a %>% mutate(necred=Baseline-CO,global=(Baseline-CO)/Baseline)
+AP1a = data.table(gather(AP1a,regime,value,c("global","Baseline","CO","necred")))
+AP1c=AP1a[regime=="necred"]
 AP1a = AP1a[regime=="global"]
 setnames(AP1a,"regime","factor")
+setnames(AP1c,"regime","factor")
 
 # multiplied by regional bau
-AP1b = merge(AP1[regime=="Baseline"],AP1a,by=c("model","variable","unit","period","implementation"))
+AP1b = merge(AP1[regime=="Baseline"],AP1a,by=c("model","variable","unit","period")) #,"implementation"
 AP1b = AP1b %>%mutate(totalfactor=value.x*value.y)
 AP1b$value.x<-NULL
 AP1b$value.y<-NULL
@@ -198,8 +202,50 @@ AP1b$factor<-NULL
 setnames(AP1b,"region.x","region")
 
 # reductions before correction factor: AP3$value *AP1b$totalfactor
-AP4 = merge(AP3,AP1b,by=c("model","region","period","implementation"))
+AP4 = merge(AP3,AP1b,by=c("model","region","period")) #,"implementation"
 AP4 = AP4 %>% mutate(ritAPbc=value*totalfactor)
+AP4 = data.table(AP4)
+write.csv(AP4[period==2030],paste(outdir,"/APstep1.csv",sep=""))
+
+# check also step 2 and 3 to compare allowance
+# Step 2: calculate global correction factor
+AP5 = AP4[,list(sum(ritAPbc)),by=c("model","period","regime","implementation")]
+AP6 = merge(AP5,AP1c,by=c("period","model"))
+AP6$corr = AP6$V1 / AP6$value
+write.csv(AP6,paste(outdir,"/APstep2.csv",sep=""))
+
+# Step 3: bau - (AP4$ritAPbc/AP6$corr)
+AP6$regime<-NULL
+AP6$V1<-NULL
+AP6$variable<-NULL
+AP6$unit<-NULL
+AP6$region<-NULL
+AP6$factor<-NULL
+AP6$value<-NULL
+AP4$scenario<-NULL
+AP4$regime<-NULL
+AP4$variable.x<-NULL
+AP4$value<-NULL
+AP4$variable.y<-NULL
+AP4$unit<-NULL
+AP4$totalfactor<-NULL
+AP7 = merge(AP1[regime=="Baseline"],AP6,by=c("model","period")) #,"implementation"
+AP7 = merge(AP7,AP4, by=c("model","region","period","implementation"))
+AP7$allowance=AP7$value-(AP7$ritAPbc/AP7$corr)
+write.csv(AP7,paste(outdir,"/APstep3.csv",sep=""))
+
+#check against reported allowances
+AP7$variable<-NULL
+AP7$unit<-NULL
+AP7$regime<-NULL
+setnames(AP7,"value","baseline")
+# AP7$value<-NULL
+# AP7$corr<-NULL
+# AP7$ritAPbc<-NULL
+AP$regime<-NULL
+AP8 = merge(AP7,AP[variable=="Emissions|GHG|Allowance Allocation"],by=c("model","region","period","implementation"))
+AP8$check = ifelse(AP8$value==AP8$allowance,"same","diff")
+write.csv(AP8,paste(outdir,"/APfinalcheck.csv",sep=""))
 
 # Initial allocation ------------------------------------------------------
 allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
