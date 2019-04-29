@@ -188,10 +188,88 @@ ggsave(file=paste(outdir,"/Phase_out_year_diffworld_inventory.png",sep=""),S1,wi
 
 # Effect of allocation of negative emissions ------------------------------
 
-#	Allocation negative emissions: check CO2 BECCS, add to region it belongs to, then allocate based on biomass production  check effect on neutrality   
+#	Allocation negative emissions: check CO2 BECCS, add to region it belongs to, then allocate based on biomass production --> check effect on neutrality   
 # Check effect of different allocations (either to biomass producer or electricity/CCS) on phase-out years. 
 # E.g. energy crop production, CCSbiomass carbon sequestration and trade-primary energy-biomass-volume?
-alloc=np[variable%in%c("Agricultural Production|Energy","Carbon Sequestration|CCS|Biomass","Trade|Primary Energy|Biomass|Volume","Emissions|CO2|Energy and Industrial Processes")]
+alloc=np[variable%in%c("Agricultural Production|Energy","Carbon Sequestration|CCS|Biomass","Emissions|CO2") #|Energy and Industrial Processes, "Trade|Primary Energy|Biomass|Volume",
+         & Category%in%c("2 °C","2 °C (2030)","1.5 °C")]
+allocw1=alloc[region=="World"&variable=="Agricultural Production|Energy"]
+allocw2=alloc[region=="World"&variable=="Carbon Sequestration|CCS|Biomass"]
+alloc$unit<-NULL
+alloc=spread(alloc,variable,value)
+alloc=alloc%>%mutate(EmisCO2BECCS=`Emissions|CO2`+`Carbon Sequestration|CCS|Biomass`)
+alloc=merge(alloc,allocw1,by=c("scenario","Category","Baseline","model","period","Scope"))
+alloc=merge(alloc,allocw2,by=c("scenario","Category","Baseline","model","period","Scope"))
+alloc=alloc%>%mutate(CCSbioshare=(`Agricultural Production|Energy`/value.x)*value.y,`Emissions|CO2|Allocation`=EmisCO2BECCS-CCSbioshare)
+alloc=data.table(alloc)
+allocation=alloc[ ,`:=`("Agricultural Production|Energy" = NULL, "Carbon Sequestration|CCS|Biomass" = NULL, "EmisCO2BECCS"=NULL,"region.y"=NULL,"variable.x"=NULL,"unit.x"=NULL,
+                        "value.x"=NULL,"region"=NULL,"variable.y"=NULL,"unit.y"=NULL,"value.y"=NULL,"CCSbioshare"=NULL)]
+setnames(allocation,"region.x","region")
+allocation=data.table(gather(allocation,variable,value,c("Emissions|CO2","Emissions|CO2|Allocation")))
+
+# check effect on phase-out year
+check=allocation[,list(unique(period)),by=c("model")]
+check=check[V1=="2100"]
+allocation=allocation[model%in%check$model]
+
+poy=allocation[!duplicated(allocation[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
+poy=merge(poy,allocation[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy[is.na(V1),]$V1=2105
+poy1=poy
+world=poy[region=="World"]
+poy=merge(poy,world, by=c("model","Category","variable")) #,"unit"
+setnames(poy,"V1.x","poy")
+setnames(poy,"V1.y","world")
+poy$region.y<-NULL
+setnames(poy,"region.x","region")
+poy$diff=ifelse(poy$poy<poy$world,"earlier",ifelse(poy$poy>poy$world,"later","same"))
+poy$years=poy$poy-poy$world
+
+models=poy[,list(number=length(unique(model))),by=c('region','variable')]
+poy=merge(poy, models, by=c('region','variable'))
+poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
+poy=poy[!number<2]
+
+poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","variable")]) #,"unit"
+
+a = ggplot()
+a = a + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(ymin=min,ymax=max, x=region, colour=variable)) #variable as fill?
+a = a + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=median,x=region,colour=variable))
+#a = a + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
+a = a + coord_flip()
+a = a + facet_grid(.~Category, scales="free_y")
+a = a + geom_hline(yintercept=0)
+a = a + ylab("Phase out year relative to world (years)")
+#a = a + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
+a = a + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+        theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
+ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS.png",sep=""),a,width=11, height=8, dpi=120)
+
+# calculate difference with and without allocation for easier plot
+poy1=spread(poy1,variable,V1)
+poy1=poy1%>%mutate(diff=`Emissions|CO2|Allocation`-`Emissions|CO2`)
+poy1=data.table(gather(poy1,variable,value,c("Emissions|CO2|Allocation","Emissions|CO2","diff")))
+
+models=poy1[,list(number=length(unique(model))),by=c('region','variable')]
+poy1=merge(poy1, models, by=c('region','variable'))
+poy1$region <- paste(poy1$region,' [',poy1$number,' models]',sep="")
+poy1=poy1[!number<2]
+
+poyrange1=data.table(poy1[,list(median=median(value),min=min(value),max=max(value)),by=c("Category","region","variable")]) #,"unit"
+
+a1 = ggplot()
+a1 = a1 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
+a1 = a1 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"&variable=="diff"], aes(y=median,x=region)) #,colour=variable
+#a1 = a1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
+a1 = a1 + coord_flip()
+a1 = a1 + facet_grid(.~Category, scales="free_y")
+a1 = a1 + geom_hline(yintercept=0)
+a1 = a1 + ylab("Phase-out year difference due to BECCS allocation (<0: earlier if based on biomass production)")
+#a1 = a1 + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
+a1 = a1 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
+ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,width=12, height=8, dpi=120)
+
 
 # Mitigation strategies / why are some regions earlier or later ---------------------------------------------------
 
