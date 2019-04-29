@@ -54,6 +54,7 @@ ghg=ghg[model%in%check$model]
 poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
 poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
 poy[is.na(V1),]$V1=2105
+poymodel=poy
 world=poy[region=="World"]
 poy=merge(poy,world, by=c("model","Category","variable","unit"))
 setnames(poy,"V1.x","poy")
@@ -71,8 +72,8 @@ poy=poy[!number<2]
 poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","unit","variable")])
 
 S = ggplot()
-S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [7 models]"], aes(ymin=min,ymax=max, x=region, colour=variable)) #variable as fill?
-S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [7 models]"], aes(y=median,x=region,colour=variable))
+S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
+S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
 S = S + coord_flip()
 S = S + facet_grid(.~Category, scales="free_y")
 S = S + geom_hline(yintercept=0)
@@ -143,6 +144,7 @@ dth$variable<-"Emissions|Kyoto Gases"
 poy=dth[!duplicated(dth[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE]
 poy=merge(poy,dth[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
 poy[is.na(V1),]$V1=2105
+poyinventory=poy
 
 # Relative to global
 world=poy[region=="World"]
@@ -170,8 +172,8 @@ poy=rbind(poyrange1,poyrange2)
 
 # Plot
 S1 = ggplot()
-S1 = S1 + geom_errorbar(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [7 models]"], aes(ymin=min,ymax=max, x=region, colour=variable)) #variable as fill?
-S1 = S1 + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [7 models]"], aes(y=median,x=region,colour=variable))
+S1 = S1 + geom_errorbar(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
+S1 = S1 + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
 S1 = S1 + coord_flip()
 S1 = S1 + facet_grid(.~Category, scales="free_y")
 S1 = S1 + geom_hline(yintercept=0)
@@ -184,6 +186,33 @@ S1 = S1 + theme(axis.title=element_text(size=18))
 S1 = S1 + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
 S1 = S1 + theme(plot.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Phase_out_year_diffworld_inventory.png",sep=""),S1,width=11, height=8, dpi=120)
+
+# Other plot: difference between model and inventory data (not relative to world)
+poy1=merge(poymodel[variable=="Emissions|Kyoto Gases"],poyinventory,by=c("model","Category","region","variable"))
+
+# calculate difference with and without inventory data for easier plot
+poy1=poy1%>%mutate(diff=V1.y-V1.x)
+poy1=data.table(gather(poy1,variable,value,c("V1.y","V1.x","diff")))
+
+models=poy1[,list(number=length(unique(model))),by=c('region','variable')]
+poy1=merge(poy1, models, by=c('region','variable'))
+poy1$region <- paste(poy1$region,' [',poy1$number,' models]',sep="")
+poy1=poy1[!number<2]
+
+poyrange1=data.table(poy1[,list(median=median(value),min=min(value),max=max(value)),by=c("Category","region","variable")]) #,"unit"
+
+S2 = ggplot()
+S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
+S2 = S2 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"&variable=="diff"], aes(y=median,x=region)) #,colour=variable
+#S2 = S2 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
+S2 = S2 + coord_flip()
+S2 = S2 + facet_grid(.~Category, scales="free_y")
+S2 = S2 + geom_hline(yintercept=0)
+S2 = S2 + ylab("Phase-out year difference due to inventory vs. model LULUCF (<0: earlier if based on inventory)")
+#S2 = S2 + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
+S2 = S2 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
+ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_diff.png",sep=""),S2,width=12, height=8, dpi=120)
 
 
 # Effect of allocation of negative emissions ------------------------------
@@ -233,8 +262,8 @@ poy=poy[!number<2]
 poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","variable")]) #,"unit"
 
 a = ggplot()
-a = a + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(ymin=min,ymax=max, x=region, colour=variable)) #variable as fill?
-a = a + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=median,x=region,colour=variable))
+a = a + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
+a = a + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
 #a = a + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
 a = a + coord_flip()
 a = a + facet_grid(.~Category, scales="free_y")
