@@ -595,9 +595,15 @@ costvars=costvar[,list(select=min(select)),by=c("model")]
 costvars=merge(costvars,costvar,by=c("select","model"))
 costvars$select<-NULL
 
-# One variable per model, divide by GDP
+# One variable per model
 costs = data[variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve")] 
 costs = merge(costs,costvars,by=c("variable","model"))
+
+# discounting (todo: check if this is correct, should it be in 2020 as present value? decreasing discount rate over time?). Tavoni LIMITS: GDP discounted at 5% over 2010-2100
+costsd = costs
+costsd$discounted = ifelse(costsd$period>2019,costsd$value * (1/(1+0.05)^(costsd$period-2020)),costsd$value)
+
+# divide costs by GDP
 gdp = data[variable=="GDP|MER"]
 gdp$unit <- unique(costs$unit)
 costs = rbind(costs,gdp)
@@ -610,6 +616,19 @@ costs$unit <- '%'
 setnames(costvars,"variable","costvariable")
 costs=merge(costs,costvars,by=c("model"))
 
+# also for discounted costs
+costsdi = costsd
+costsdi$value = costsdi$discounted
+costsdi$discounted <- NULL
+costsdi = rbind(costsdi,gdp)
+costsdi[variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve")]$variable<-"Policy Cost"
+costsdi = spread(costsdi,variable,value) 
+costsdi = costsdi%>%mutate(CostGDP=`Policy Cost`/`GDP|MER`*100)
+costsdi = data.table(gather(costsdi,variable,value,c("Policy Cost","GDP|MER","CostGDP")))
+costsdi = costsdi[variable%in%c("CostGDP")]
+costsdi$unit <- '%'
+costsdi=merge(costsdi,costvars,by=c("model"))
+
 c = ggplot(costs[implementation=="flexibility"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
 c = c + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable),size=1)
 c = c + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
@@ -617,7 +636,15 @@ c = c + facet_grid(model~region,scale="free_y")
 c = c + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 c = c + ylab(costs$unit)
 ggsave(file=paste(outdir,"/costs_GDP_flexibility.png",sep=""),c,width=20,height=12,dpi=200)
-  
+
+ca = ggplot(costsdi[implementation=="flexibility"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
+ca = ca + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable),size=1)
+ca = ca + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+ca = ca + facet_grid(model~region,scale="free_y")
+ca = ca + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+ca = ca + ylab(costsdi$unit)
+ggsave(file=paste(outdir,"/costs_GDP_flexibility_discounted.png",sep=""),ca,width=20,height=12,dpi=200)
+
 c1 = ggplot(costs[implementation=="domestic"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
 c1 = c1 + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable))
 c1 = c1 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
@@ -626,8 +653,18 @@ c1 = c1 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 c1 = c1 + ylab(costs$unit)
 ggsave(file=paste(outdir,"/costs_GDP_domestic.png",sep=""),c1,width=20,height=12,dpi=200)
 
+c1a = ggplot(costsdi[implementation=="domestic"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")])
+c1a = c1a + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable))
+c1a = c1a + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c1a = c1a + facet_grid(model~region,scale="free_y")
+c1a = c1a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c1a = c1a + ylab(costsdi$unit)
+ggsave(file=paste(outdir,"/costs_GDP_domestic_discounted.png",sep=""),c1a,width=20,height=12,dpi=200)
+
 costsstat=costs[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
                               min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime","region")]
+costsdistat=costsdi[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
+                      min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime","region")]
 
 c3 = ggplot(costsstat[!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&period%in%c(2030,2050)])
 c3 = c3 + geom_bar(stat="identity", aes(x=region, y=median,fill=regime),position=position_dodge(width=0.66),width=0.66)
@@ -638,6 +675,16 @@ c3 = c3 + facet_grid(implementation~period,scale="free_y")
 c3 = c3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 c3 = c3 + ylab(costsstat$unit)
 ggsave(file=paste(outdir,"/costs_GDP_compare.png",sep=""),c3,width=20,height=12,dpi=200)
+
+c3a = ggplot(costsdistat[!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&period%in%c(2030,2050)])
+c3a = c3a + geom_bar(stat="identity", aes(x=region, y=median,fill=regime),position=position_dodge(width=0.66),width=0.66)
+c3a = c3a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c3a = c3a + geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=regime),position=position_dodge(width=0.66),width=0.66)
+c3a = c3a + scale_colour_manual(values=c("AP"="black","CO"="black","GF"="black","PCC"="black"))
+c3a = c3a + facet_grid(implementation~period,scale="free_y")
+c3a = c3a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c3a = c3a + ylab(costsdistat$unit)
+ggsave(file=paste(outdir,"/costs_GDP_compare_discounted.png",sep=""),c3a,width=20,height=12,dpi=200)
 
 # costsrel = spread(costs[period%in%c(2020,2030,2050,2100)],period,value)
 # costsrel = costsrel%>%mutate(rel2030=(`2030`-`2020`)/`2020`*100,rel2050=(`2050`-`2020`)/`2020`*100,rel2100=(`2100`-`2020`)/`2020`*100)
@@ -658,7 +705,7 @@ ggsave(file=paste(outdir,"/costs_GDP_compare.png",sep=""),c3,width=20,height=12,
 # c4 = c4 + ylab(costsrel$unit)
 # ggsave(file=paste(outdir,"/costs_GDP_rel2020.png",sep=""),c4,width=20,height=12,dpi=200)
 
-#Relative to global average - todo discounting? Tavoni LIMITS: GDP discounted at 5% over 2010-2100
+#Relative to global average
 costsworld = spread(costs[!region%in%c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU")],region,value)
 costsworld = costsworld%>%mutate(BRAworld=BRA/World,CHNworld=CHN/World,EUworld=EU/World,INDworld=IND/World,JPNworld=JPN/World,RUSworld=RUS/World,USAworld=USA/World)
 costsworld=data.table(gather(costsworld,region,value,c("BRA","CHN","EU","IND","JPN","RUS","USA","World","BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")))
@@ -672,6 +719,21 @@ costsworld$region=str_replace_all(costsworld$region,"JPNworld","JPN")
 costsworld$region=str_replace_all(costsworld$region,"RUSworld","RUS")
 costsworld$region=str_replace_all(costsworld$region,"USAworld","USA")
 costsworld<-na.omit(costsworld)
+
+# also for discounted costs
+costsworlddi = spread(costsdi[!region%in%c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU")],region,value)
+costsworlddi = costsworlddi%>%mutate(BRAworld=BRA/World,CHNworld=CHN/World,EUworld=EU/World,INDworld=IND/World,JPNworld=JPN/World,RUSworld=RUS/World,USAworld=USA/World)
+costsworlddi=data.table(gather(costsworlddi,region,value,c("BRA","CHN","EU","IND","JPN","RUS","USA","World","BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")))
+costsworlddi=costsworlddi[region%in%c("BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")]
+costsworlddi$unit<-"fraction of world"  
+costsworlddi$region=str_replace_all(costsworlddi$region,"BRAworld","BRA")
+costsworlddi$region=str_replace_all(costsworlddi$region,"CHNworld","CHN")
+costsworlddi$region=str_replace_all(costsworlddi$region,"EUworld","EU")
+costsworlddi$region=str_replace_all(costsworlddi$region,"INDworld","IND")
+costsworlddi$region=str_replace_all(costsworlddi$region,"JPNworld","JPN")
+costsworlddi$region=str_replace_all(costsworlddi$region,"RUSworld","RUS")
+costsworlddi$region=str_replace_all(costsworlddi$region,"USAworld","USA")
+costsworlddi<-na.omit(costsworlddi)
 
 c5 = ggplot(costsworld[period%in%c(2030,2050)&implementation=="flexibility"])
 c5 = c5 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
@@ -704,9 +766,18 @@ c5b = c5b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=elemen
 c5b = c5b + ylab(costsworld$unit)
 ggsave(file=paste(outdir,"/costs_GDP_relworld.png",sep=""),c5b,width=20,height=12,dpi=200)
 
+c5c = ggplot(costsworlddi)
+c5c = c5c + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1)
+c5c = c5c + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c5c = c5c + facet_grid(implementation~region,scale="free_y")
+#c5 = c5 + ylim(-3,8)
+c5c = c5c + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c5c = c5c + ylab(costsworlddi$unit)
+ggsave(file=paste(outdir,"/costs_GDP_relworld_discounted.png",sep=""),c5c,width=20,height=12,dpi=200)
+
 # costs Annex I fraction GDP / fraction GDP non-Annex I. Now for R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF. 
 # TODO for LIMITS 10 regions!
-# to do for OECD countries / native model regions? (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
+# to do for OECD countries / native model regions? not enough countries reported separately, and by not enough models... (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
 
 costratio=spread(costs[region%in%c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU")],region,value)
 costratio=costratio%>%mutate(R5mean=(`R5ASIA`+`R5LAM`+`R5MAF`+`R5REF`)/4,ratio=ifelse(R5mean==0&`R5OECD90+EU`==0,0,`R5OECD90+EU`/R5mean))
@@ -724,6 +795,22 @@ c2 = c2 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 c2 = c2 + ylab(costratio$variable)
 ggsave(file=paste(outdir,"/costratio_OECD_R5rest.png",sep=""),c2,width=20,height=12,dpi=200)
 
+# with discounted costs
+costratiodi=spread(costsdi[region%in%c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU")],region,value)
+costratiodi=costratiodi%>%mutate(R5mean=(`R5ASIA`+`R5LAM`+`R5MAF`+`R5REF`)/4,ratio=ifelse(R5mean==0&`R5OECD90+EU`==0,0,`R5OECD90+EU`/R5mean))
+costratiodi=data.table(gather(costratiodi,region,value,c("R5ASIA","R5REF","R5LAM","R5MAF","R5OECD90+EU","R5mean","ratio")))
+costratiodi=costratiodi[region=="ratio"]
+costratiodi$region<-"OECD90+EU/non-OECD"
+costratiodi$variable<-"%GDP-OECD/%GDP-non-OECD"
+
+c2a = ggplot(costratiodi[period%in%c(2030,2050)])
+c2a = c2a + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
+c2a = c2a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c2a = c2a + facet_grid(period~model)
+c2a = c2a + geom_hline(aes(yintercept = 1),size=1)
+c2a = c2a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c2a = c2a + ylab(costratio$variable)
+ggsave(file=paste(outdir,"/costratio_OECD_R5rest_discounted.png",sep=""),c2a,width=20,height=12,dpi=200)
 
 # Cost ratio vs financial flows -------------------------------------------
 # model median
