@@ -686,6 +686,36 @@ c3a = c3a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=elemen
 c3a = c3a + ylab(costsdistat$unit)
 ggsave(file=paste(outdir,"/costs_GDP_compare_discounted.png",sep=""),c3a,width=20,height=12,dpi=200)
 
+# Cumulative discounted costs (todo: not with %gdp but 'raw' costs?)
+costsdicu=costsdi
+yy=seq(2020,2100)
+costsdicu = costsdicu[,list(approx(x=period,y=value,xout=yy)$y,approx(x=period,y=value,xout=yy)$x),by=c('scenario','model','region','unit','variable','implementation','regime','costvariable')]
+setnames(costsdicu,"V1","value")
+setnames(costsdicu,"V2","period")
+costsdicu=costsdicu[period %in% c(2020:2100),sum(value,na.rm=TRUE),by=c('scenario','model','region','unit','variable','implementation','regime','costvariable')]
+setnames(costsdicu,"V1","value")
+#costsdicu$unit<-
+
+c4 = ggplot(costsdicu[!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")])
+c4 = c4 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position=position_dodge(width=0.66),width=0.66)
+c4 = c4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+#c4 = c4 + geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=regime),position=position_dodge(width=0.66),width=0.66)
+#c4 = c4 + scale_colour_manual(values=c("AP"="black","CO"="black","GF"="black","PCC"="black"))
+c4 = c4 + facet_grid(implementation~model,scale="free_y")
+c4 = c4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c4 = c4 + ylab(costsdicu$unit)
+ggsave(file=paste(outdir,"/costs_GDP_cumulative_discounted.png",sep=""),c4,width=20,height=12,dpi=200)
+
+c4a = ggplot(costsdicu[!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")&model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")])
+c4a = c4a + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position=position_dodge(width=0.66),width=0.66)
+c4a = c4a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+#c4 = c4 + geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=regime),position=position_dodge(width=0.66),width=0.66)
+#c4 = c4 + scale_colour_manual(values=c("AP"="black","CO"="black","GF"="black","PCC"="black"))
+c4a = c4a + facet_grid(implementation~model,scale="free_y")
+c4a = c4a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c4a = c4a + ylab(costsdicu$unit)
+ggsave(file=paste(outdir,"/costs_GDP_cumulative_discounted_JPN.png",sep=""),c4a,width=20,height=12,dpi=200)
+
 # costsrel = spread(costs[period%in%c(2020,2030,2050,2100)],period,value)
 # costsrel = costsrel%>%mutate(rel2030=(`2030`-`2020`)/`2020`*100,rel2050=(`2050`-`2020`)/`2020`*100,rel2100=(`2100`-`2020`)/`2020`*100)
 # costsrel=data.table(gather(costsrel,period,value,c("2020","2030","2050","2100","rel2030","rel2050","rel2100")))
