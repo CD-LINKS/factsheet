@@ -105,19 +105,19 @@ nopolco$period<-as.numeric(nopolco$period)
 #nopolco$model <- str_replace_all(nopolco$model,"MESSAGEix-GLOBIOM_1.0","MESSAGEix-GLOBIOM_1.1")
 nopolco$model <- str_replace_all(nopolco$model,"REMIND-MAgPIE 1.7-3.0","REMIND 2.0")
 
-# MESSAGE use trade carbon net exports variable for trade emissions allowances variable (reported 0)
-msg1=data[model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions|Value|Carbon|Net Exports")]
-msg2=data[model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions|Volume|Carbon|Net Exports")]
+# MESSAGE and WITCH use trade carbon net exports variable for trade emissions allowances variable (reported 0)
+msg1=data[model%in%c("MESSAGEix-GLOBIOM_1.1","WITCH2016")&variable%in%c("Trade|Emissions|Value|Carbon|Net Exports")]
+msg2=data[model%in%c("MESSAGEix-GLOBIOM_1.1","WITCH2016")&variable%in%c("Trade|Emissions|Volume|Carbon|Net Exports")]
 msg1$variable<-"Trade|Emissions Allowances|Value"
 msg2$variable<-"Trade|Emissions Allowances|Volume"
-data=data[!c(model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions Allowances|Value","Trade|Emissions Allowances|Volume"))]
+data=data[!c(model%in%c("MESSAGEix-GLOBIOM_1.1","WITCH2016")&variable%in%c("Trade|Emissions Allowances|Value","Trade|Emissions Allowances|Volume"))]
 data=rbind(data,msg1,msg2)
 
-msg3=native[model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions|Value|Carbon|Net Exports")]
-msg4=native[model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions|Volume|Carbon|Net Exports")]
+msg3=native[model%in%c("MESSAGEix-GLOBIOM_1.1","WITCH2016")&variable%in%c("Trade|Emissions|Value|Carbon|Net Exports")]
+msg4=native[model%in%c("MESSAGEix-GLOBIOM_1.1","WITCH2016")&variable%in%c("Trade|Emissions|Volume|Carbon|Net Exports")]
 msg3$variable<-"Trade|Emissions Allowances|Value"
 msg4$variable<-"Trade|Emissions Allowances|Volume"
-native=native[!c(model=="MESSAGEix-GLOBIOM_1.1"&variable%in%c("Trade|Emissions Allowances|Value","Trade|Emissions Allowances|Volume"))]
+native=native[!c(model%in%c("MESSAGEix-GLOBIOM_1.1","WITCH2016")&variable%in%c("Trade|Emissions Allowances|Value","Trade|Emissions Allowances|Volume"))]
 native=rbind(native,msg3,msg4)
 
 #add implementation and regime for easier selection
