@@ -167,7 +167,7 @@ AP2 = spread(AP[variable%in%c("GDP|PPP","Population")], variable, value)
 AP2 = AP2 %>% mutate(gdpcap=`GDP|PPP`/Population)
 AP2 = data.table(gather(AP2,variable,value,c("GDP|PPP","Population","gdpcap")))
 AP2 = AP2[variable=="gdpcap"]
-AP2 = na.omit(AP2) #drops DNE21+ as they don't have GDP|PPP (only MER). TODO: check with team.
+AP2 = na.omit(AP2)
 # then divide by global GDP per capita
 AP3 = spread(AP2,region,value)
 AP3 = AP3 %>% mutate(JPN=JPN/World,BRA=BRA/World,CHN=CHN/World,EU=EU/World,IND=IND/World,R5ASIA=R5ASIA/World,R5LAM=R5LAM/World,R5MAF=R5MAF/World,
