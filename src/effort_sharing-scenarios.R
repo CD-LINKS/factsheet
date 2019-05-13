@@ -247,6 +247,20 @@ AP8 = merge(AP7,AP[variable=="Emissions|GHG|Allowance Allocation"],by=c("model",
 AP8$check = ifelse(AP8$value==AP8$allowance,"same","diff")
 write.csv(AP8,paste(outdir,"/APfinalcheck.csv",sep=""))
 
+
+# Drivers: Population and GDP ---------------------------------------------
+drivers = data[variable%in%c("Population","GDP|PPP")&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
+drivers[variable=="GDP|PPP"]$unit<-"billion US$2010/yr"
+drivers$variable<-paste(drivers$variable," (",drivers$unit, ")")
+
+d = ggplot(drivers[implementation=="flexibility"&regime=="PCC"])
+d = d + geom_line(aes(x=period,y=value,colour=model),size=2) #,linetype=model
+d = d + scale_colour_manual(values=c("DNE21+ V.14"="#241E4E","IMAGE 3.0"="#ECA27C","MESSAGEix-GLOBIOM_1.1"="#6B0504",
+                                       "REMIND 2.0"="#73937E", "WITCH2016"="#515751"))
+d = d + facet_grid(variable~region,scales="free_y")
+d = d + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+ggsave(file=paste(outdir,"/drivers.png",sep=""),d,width=20,height=12,dpi=200)
+
 # Initial allocation ------------------------------------------------------
 allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 
