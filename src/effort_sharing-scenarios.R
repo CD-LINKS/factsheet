@@ -247,7 +247,6 @@ AP8 = merge(AP7,AP[variable=="Emissions|GHG|Allowance Allocation"],by=c("model",
 AP8$check = ifelse(AP8$value==AP8$allowance,"same","diff")
 write.csv(AP8,paste(outdir,"/APfinalcheck.csv",sep=""))
 
-
 # Drivers: Population and GDP ---------------------------------------------
 drivers = data[variable%in%c("Population","GDP|PPP")&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 drivers[variable=="GDP|PPP"]$unit<-"billion US$2010/yr"
@@ -263,6 +262,16 @@ ggsave(file=paste(outdir,"/drivers.png",sep=""),d,width=20,height=12,dpi=200)
 
 # Initial allocation ------------------------------------------------------
 allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
+
+#REMIND 2005, 2010 and 2015 reported zero - taking CO there
+remind=allocation[model=="REMIND 2.0"&period%in%c(2005,2010,2015)&implementation=="domestic"]
+remind$scenario<-NULL
+remind=spread(remind,regime,value)
+remind=remind%>%mutate(AP=CO,PCC=CO)
+remind=gather(remind,regime,value,c("AP","CO","PCC"))
+remind$scenario<-"NPi2020_1000_"
+setcolorder(remind,colnames(allocation))
+allocation=rbind(allocation[!c(model=="REMIND 2.0"&period%in%c(2005,2010,2015)&regime%in%c("AP","PCC"))],remind)
 
 a = ggplot(allocation[!regime=="GF"]) #[period%in%c(2050)]
 #a = a + geom_bar(stat="identity", aes(x=regime, y=value,fill=implementation),position="dodge")
