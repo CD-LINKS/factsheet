@@ -301,49 +301,39 @@ ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,
 
 
 # Mitigation strategies / why are some regions earlier or later ---------------------------------------------------
+# EU late vs. US early: space for afforestation (e.g. population density).  Check database for other reasons , e.g. non-CO2 share in 2015? 
+# Mogelijk bevolkingsdichtheid of misschien productieve grond per persoon tegen jaar CO2 neutraliteit? Evt. ook iets van CCS capaciteit.
+#	TODO Graph: X indicator with effect on neutrality, e.g. afforestation  capacity; Y phase-out year 
 
-# EU late vs. US early: space for afforestation (e.g. population density).  Check database for other reasons , e.g. non-CO2 share in 2015? Mogelijk bevolkingsdichtheid of misschien productieve grond per persoon tegen jaar CO2 neutraliteit? Evt. ook iets van CCS capaciteit.
-#	Graph: X indicator with effect on neutrality, e.g. afforestation  capacity; Y phase-out year 
-# Graph: Emissions in phase-out year (like Joeri’s) 
+
+# Emissions in phase-out year ---------------------------------------------
+# Graph: Emissions in phase-out year (like Joeri’s) TODO plot CCS + CCSbio
 # En dus bijvoorbeeld ook de strategie waarlangs een regio neutraliteit krijgt (meer uit reductie emissies, over meer uit negatieve emissies).
-# TODO: continue cleaning up / selecting / adjusting from here
 
-### MILES ###
-sdt=dat[Variable %in% c("Emissions|CH4","Emissions|F-Gases","Emissions|Kyoto Gases","Emissions|N2O",
-                        "Emissions|CO2",
-                        "Emissions|CO2|Fossil Fuels and Industry",
-                        "Emissions|CO2|Fossil Fuels and Industry|Energy Supply",
-                        "Emissions|CO2|Fossil Fuels and Industry|Energy Demand",
-                        "Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Agriculture",
-                        "Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Residential and Commercial",
-                        "Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Industry",
-                        "Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Transportation",
-                        "Emissions|CO2|Carbon Capture and Storage",
-                        "Emissions|CO2|Carbon Capture and Storage|Biomass",
-                        "Emissions|CO2|Land Use") & Scenario %in% c("Delayed 450","Delayed 450_2030")] #"Optimal 450",,"Realistic 450"
-dt=sdt[Variable %in% c("Emissions|Kyoto Gases")]
-write.csv(dt,paste(outt,"/emissionsbreakdown_delayed_fullset.csv",sep=""))
-write.xlsx(dt,paste(outt,"/emissionsbreakdown_delayed_fullset.xlsx",sep=""))
+# select data
+bd=np[variable %in% c("Emissions|CH4","Emissions|F-Gases","Emissions|Kyoto Gases","Emissions|N2O","Emissions|CO2","Emissions|CO2|AFOLU",
+                        "Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand",
+                        "Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Demand|Industry", #"Emissions|CO2|Energy|Demand|AFOFI",
+                        "Emissions|CO2|Energy|Demand|Transportation","Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass") 
+      & Category%in%c("2 °C","2 °C (2030)","1.5 °C")]
+ghg=bd[variable %in% c("Emissions|Kyoto Gases")]
 
 # To make sure we only use the models with data until 2100, important for this indicator
-check=dt[,list(unique(Year)), by=c("Model")]
+check=ghg[,list(unique(period)), by=c("model")]
 check=subset(check, subset=V1=="2100")
-dt=subset(dt, subset=Model %in% check$Model)
-write.csv(dt,paste(outt,"/emissionsbreakdown_delayed_2100.csv",sep=""))
-write.xlsx(dt,paste(outt,"/emissionsbreakdown_delayed_2100.xlsx",sep=""))
+ghg=subset(ghg, subset=model %in% check$model)
 
-#Phase-out year
-poy=dt[!duplicated(dt[,list(Model,Scenario,Region,Variable),with=TRUE]),!c('value','Year'),with=FALSE]
-poy=merge(poy,dt[value<=0,min(Year),by=c('Model','Scenario_original', 'Scenario','Region','Variable')],by=c('Model','Scenario_original','Scenario','Region','Variable'),all=TRUE)
-poy$Unit<-NULL
+# Calculate phase-out year
+poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
+poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy$unit<-NULL
 poy=na.omit(poy)
-setnames(poy,"V1","Year")
+setnames(poy,"V1","period")
 
 #selection for merge
-library(tidyr)
-emis=spread(sdt[,!c('Unit'),with=FALSE],Variable,value)
-poyemis=merge(poy,emis, by=c('Model','Scenario_original','Scenario','Region','Year'))
-poyemis$Variable<-NULL
+emis=spread(bd[,!c('unit'),with=FALSE],variable,value)
+poyemis=merge(poy,emis, by=c('model','Category','region','period'))
+poyemis$variable<-NULL
 
 #Calculations for final plotting
 setnames(poyemis,"Emissions|CH4","CH4")
@@ -353,16 +343,16 @@ poyemis$N2O=poyemis$N2O*298/1000
 
 #Selection of categories to avoid double counting
 setnames(poyemis,"Emissions|CO2","CO2")
-setnames(poyemis,"Emissions|CO2|Carbon Capture and Storage","CCS")
-setnames(poyemis,"Emissions|CO2|Carbon Capture and Storage|Biomass","CCSbio")
-setnames(poyemis,"Emissions|CO2|Fossil Fuels and Industry","CO2ffi")
-setnames(poyemis,"Emissions|CO2|Fossil Fuels and Industry|Energy Demand","CO2demand")
-setnames(poyemis,"Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Agriculture","CO2agriculture")
-setnames(poyemis,"Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Industry","CO2industry")
-setnames(poyemis,"Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Residential and Commercial","CO2buildings")
-setnames(poyemis,"Emissions|CO2|Fossil Fuels and Industry|Energy Demand|Transportation","CO2transport")
-setnames(poyemis,"Emissions|CO2|Fossil Fuels and Industry|Energy Supply","CO2supply")
-setnames(poyemis,"Emissions|CO2|Land Use","CO2land")
+setnames(poyemis,"Carbon Sequestration|CCS","CCS")
+setnames(poyemis,"Carbon Sequestration|CCS|Biomass","CCSbio")
+setnames(poyemis,"Emissions|CO2|Energy and Industrial Processes","CO2ffi")
+setnames(poyemis,"Emissions|CO2|Energy|Demand","CO2demand")
+#setnames(poyemis,"Emissions|CO2|Energy|Demand|AFOFI","CO2agriculture") 
+setnames(poyemis,"Emissions|CO2|Energy|Demand|Industry","CO2industry")
+setnames(poyemis,"Emissions|CO2|Energy|Demand|Residential and Commercial","CO2buildings")
+setnames(poyemis,"Emissions|CO2|Energy|Demand|Transportation","CO2transport")
+setnames(poyemis,"Emissions|CO2|Energy|Supply","CO2supply")
+setnames(poyemis,"Emissions|CO2|AFOLU","CO2afolu")
 setnames(poyemis,"Emissions|F-Gases","Fgases")
 setnames(poyemis,"Emissions|Kyoto Gases","Kyoto")
 poyemis$CO2<-NULL
@@ -376,251 +366,58 @@ poyemis$CCS=poyemis$CCS*-1
 poyemis$CCSbio=poyemis$CCSbio*-1
 
 #Gather for plotting (exclude CCS because of double counting - plot separately?)
-poyemis=gather(poyemis,Variable,value,c(CH4,CO2agriculture,CO2industry,CO2buildings,CO2transport,CO2supply,CO2land,Fgases,N2O))
+poyemis=gather(poyemis,variable,value,c(CH4,CO2industry,CO2buildings,CO2transport,CO2supply,CO2afolu,Fgases,N2O))
 poyemis$CCS<-NULL
 poyemis$CCSbio<-NULL
+poyemis$CO2agriculture<-NULL
 poyemis=data.table(poyemis)
-#poyemis[Region=="World"]$Model <- paste(poyemis[Region=="World"]$Model,' [',poyemis[Region=="World"]$Year,']',sep="")
-poyemis$Model <- paste(poyemis$Model,' [',poyemis$Year,']',sep="")
+#poyemis$model <- paste(poyemis$model,' [',poyemis$period,']',sep="")
 
 # Legend order
-poyemis$Variable=factor(poyemis$Variable, levels=c("CH4","Fgases","N2O","CO2buildings","CO2industry","CO2transport","CO2supply","CO2land"))
+poyemis$variable=factor(poyemis$variable, levels=c("CH4","Fgases","N2O","CO2buildings","CO2industry","CO2transport","CO2supply","CO2afolu"))
 
 #check if each scenario category has only one scenario
-check=poyemis[,list(number=length(unique(Scenario_original))),by=c('Model','Scenario','Region')]
+check=poyemis[,list(number=length(unique(scenario))),by=c('model','Category','region')]
 
 #Mean per scenario category per model
-poyemis=poyemis[,mean(value,na.rm=TRUE),by=c('Scenario','Region','Variable','Model','Year')]
+poyemis=poyemis[,mean(value,na.rm=TRUE),by=c('Category','region','variable','model','period')]
 setnames(poyemis,"V1","value")
 
+poyemis=poyemis[!model=="MESSAGEix-GLOBIOM_1.0"]
+
 #Stacked bar chart remaining emissions in poy - add phase-out year somewhere for regional graphs?
-library(ggplot2)
 library(gridExtra)
 # common theme
 ttheme = theme_bw() + 
   theme(axis.text.x=element_text(angle=30, size=18, hjust=0.75)) + theme(axis.text.y=element_text(size=18)) + theme(axis.title=element_text(size=18)) + theme(axis.title.y=element_text(size=14)) + theme(legend.text=element_text(size=18)) + theme(legend.title=element_text(size=18)) + theme(strip.text=element_text(size=18))
 
-Canada = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("Canada") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("Canada") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
+b1 = ggplot() +
+  geom_bar(data=poyemis[value>0&region%in%c("BRA","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemis[value<0&region%in%c("BRA","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_text(data=poyemis[region%in%c("BRA","EU","RUS")&variable=="CH4"],stat="identity",aes(x=model,y=980,label=period),size=6) +
+  facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
-ggsave(file=paste(out,"/Canada",".png",sep=""),Canada,height=12, width=12,dpi=500)
-#ggsave(file=paste(out,"/Canada_exPOLES",".png",sep=""),Canada,height=12, width=12,dpi=500)
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
+ggsave(file=paste(outdir,"/emissions_breakdown_poy_BRA-EU-RUS",".png",sep=""),b1,height=12, width=16,dpi=500)
 
-Brazil = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("Brazil") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("Brazil") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
+b2 = ggplot() +
+  geom_bar(data=poyemis[value>0&region%in%c("CAN","JPN","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemis[value<0&region%in%c("CAN","JPN","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_text(data=poyemis[region%in%c("CAN","JPN","TUR")&variable=="CH4"],stat="identity",aes(x=model,y=250,label=period),size=6) +
+  facet_grid(region~Category) + #scales="free_y"
   labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/Brazil",".png",sep=""),Brazil,height=12, width=12,dpi=500)
-#ggsave(file=paste(out,"/Brazil_exPOLES",".png",sep=""),Brazil,height=12, width=12,dpi=500)
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
+ggsave(file=paste(outdir,"/emissions_breakdown_poy_CAN-JPN-TUR",".png",sep=""),b2,height=12, width=16,dpi=500)
 
-Mexico = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("Mexico") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("Mexico") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
+b3 = ggplot() +
+  geom_bar(data=poyemis[value>0&region%in%c("CHN","IND","USA")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemis[value<0&region%in%c("CHN","IND","USA")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_text(data=poyemis[region%in%c("CHN","IND","USA")&variable=="CH4"],stat="identity",aes(x=model,y=1600,label=period),size=6) +
+  facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/Mexico",".png",sep=""),Mexico,height=12, width=12,dpi=500)
-#ggsave(file=paste(out,"/Mexico_exPOLES",".png",sep=""),Mexico,height=12, width=12,dpi=500)
-
-SouthKorea = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("South Korea") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("South Korea") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/South Korea",".png",sep=""),SouthKorea,height=12, width=12,dpi=500)
-#ggsave(file=paste(out,"/South Korea_exPOLES",".png",sep=""),SouthKorea,height=12, width=12,dpi=500)
-
-Turkey = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("Turkey") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("Turkey") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/Turkey",".png",sep=""),Turkey,height=12, width=12,dpi=500)
-#ggsave(file=paste(out,"/Turkey_exPOLES",".png",sep=""),Turkey,height=12, width=12,dpi=500)
-
-EU = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("EU") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("EU") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/EU",".png",sep=""),EU,height=12, width=12,dpi=500)
-#ggsave(file=paste(out,"/EU_exPOLES",".png",sep=""),EU,height=12, width=12,dpi=500)
-
-Indonesia = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("Indonesia") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("Indonesia") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/Indonesia",".png",sep=""),Indonesia,height=12, width=12,dpi=500)
-#ggsave(file=paste(out,"/Indonesia_exPOLES",".png",sep=""),Indonesia,height=12, width=12,dpi=500)
-
-Japan = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("Japan") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("Japan") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/Japan",".png",sep=""),Japan,height=12, width=12,dpi=500)
-#ggsave(file=paste(out,"/Japan_exPOLES",".png",sep=""),Japan,height=12, width=12,dpi=500)
-
-Russia = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("Russia") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("Russia") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/Russia",".png",sep=""),Russia,height=12, width=12,dpi=500)
-#ggsave(file=paste(out,"/Russia_exPOLES",".png",sep=""),Russia,height=12, width=12,dpi=500)
-
-USA = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("USA") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("USA") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/USA",".png",sep=""),USA,height=14, width=12,dpi=500)
-#ggsave(file=paste(out,"/USA_exPOLES",".png",sep=""),USA,height=14, width=12,dpi=500)
-
-China = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("China") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("China") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme + 
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/China",".png",sep=""),China,height=12, width=12,dpi=500)
-#ggsave(file=paste(out,"/China_exPOLES",".png",sep=""),China,height=12, width=12,dpi=500)
-
-India = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("India") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("India") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme +
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/India",".png",sep=""),India,height=12, width=12,dpi=500)
-#ggsave(file=paste(out,"/India_exPOLES",".png",sep=""),India,height=12, width=12,dpi=500)
-
-World = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("World") & Scenario %in% c("Delayed 450") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("World") & Scenario %in% c("Delayed 450") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme +
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00","CO2transport"="#4d4dff"))
-ggsave(file=paste(out,"/World",".png",sep=""),World,height=13, width=12,dpi=500)
-#ggsave(file=paste(out,"/World_exPOLES",".png",sep=""),World,height=13, width=12,dpi=500)
-
-ASIA = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("ASIA") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("ASIA") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
-ggsave(file=paste(out,"/ASIA",".png",sep=""),ASIA,height=12, width=12,dpi=500)
-
-LAM = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("LAM") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("LAM") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))+
-  ylim(-5000,3000)
-ggsave(file=paste(out,"/LAM",".png",sep=""),LAM,height=12, width=12,dpi=500)
-
-OECD = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("OECD90+EU") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("OECD90+EU") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))+
-  ylim(-5000,3000)
-ggsave(file=paste(out,"/OECD",".png",sep=""),OECD,height=12, width=12,dpi=500)
-
-MAF = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("MAF") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("MAF") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
-ggsave(file=paste(out,"/MAF",".png",sep=""),MAF,height=12, width=12,dpi=500)
-
-REF = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("REF") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("REF") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
-ggsave(file=paste(out,"/REF",".png",sep=""),REF,height=12, width=12,dpi=500)
-
-ROWO = ggplot() +
-  geom_bar(data=subset(poyemis,Region %in% c("ROWO") & value>0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  geom_bar(data=subset(poyemis,Region %in% c("ROWO") & value<0),
-           aes(x=Model,y=value,fill=Variable),stat="Identity") +
-  facet_grid(Scenario~Region) +
-  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2land"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
-ggsave(file=paste(out,"/ROWO",".png",sep=""),ROWO,height=12, width=12,dpi=500)
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
+ggsave(file=paste(outdir,"/emissions_breakdown_poy_CHN-IND-USA",".png",sep=""),b3,height=12, width=16,dpi=500)
 
