@@ -364,14 +364,19 @@ poyemis$Kyoto<-NULL
 poyemis$CCS=poyemis$CCS-poyemis$CCSbio
 poyemis$CCS=poyemis$CCS*-1
 poyemis$CCSbio=poyemis$CCSbio*-1
+poyemisccs=poyemis
 
-#Gather for plotting (exclude CCS because of double counting - plot separately?)
+#Gather for plotting (exclude CCS because of double counting - plot separately)
 poyemis=gather(poyemis,variable,value,c(CH4,CO2industry,CO2buildings,CO2transport,CO2supply,CO2afolu,Fgases,N2O))
 poyemis$CCS<-NULL
 poyemis$CCSbio<-NULL
 poyemis$CO2agriculture<-NULL
 poyemis=data.table(poyemis)
 #poyemis$model <- paste(poyemis$model,' [',poyemis$period,']',sep="")
+
+poyemisccs=data.table(gather(poyemisccs,variable,value,c(CCS,CCSbio)))
+poyemisccs=poyemisccs[ ,`:=`("CH4" = NULL, "CO2industry" = NULL, "CO2buildings"=NULL,"CO2transport"=NULL,"CO2supply"=NULL,"CO2afolu"=NULL,
+                        "Fgases"=NULL,"N2O"=NULL)]
 
 # Legend order
 poyemis$variable=factor(poyemis$variable, levels=c("CH4","Fgases","N2O","CO2buildings","CO2industry","CO2transport","CO2supply","CO2afolu"))
@@ -384,6 +389,7 @@ poyemis=poyemis[,mean(value,na.rm=TRUE),by=c('Category','region','variable','mod
 setnames(poyemis,"V1","value")
 
 poyemis=poyemis[!model=="MESSAGEix-GLOBIOM_1.0"]
+poyemisccs=poyemisccs[!model=="MESSAGEix-GLOBIOM_1.0"]
 
 #Stacked bar chart remaining emissions in poy - add phase-out year somewhere for regional graphs?
 library(gridExtra)
@@ -420,4 +426,34 @@ b3 = ggplot() +
   ttheme+
   scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
 ggsave(file=paste(outdir,"/emissions_breakdown_poy_CHN-IND-USA",".png",sep=""),b3,height=12, width=16,dpi=500)
+
+c1 = ggplot() +
+  geom_bar(data=poyemisccs[value>0&region%in%c("BRA","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemisccs[value<0&region%in%c("BRA","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_text(data=poyemisccs[region%in%c("BRA","EU","RUS")&variable=="CCS"],stat="identity",aes(x=model,y=0,label=period),size=6) +
+  facet_grid(region~Category) + #,scales="free_y"
+  labs(y=bquote("Carbon sequestration in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
+  ttheme+
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a"))
+ggsave(file=paste(outdir,"/CCS_breakdown_poy_BRA-EU-RUS",".png",sep=""),c1,height=12, width=16,dpi=500)
+
+c2 = ggplot() +
+  geom_bar(data=poyemisccs[value>0&region%in%c("CAN","JPN","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemisccs[value<0&region%in%c("CAN","JPN","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_text(data=poyemisccs[region%in%c("CAN","JPN","TUR")&variable=="CCS"],stat="identity",aes(x=model,y=0,label=period),size=6) +
+  facet_grid(region~Category) + #,scales="free_y"
+  labs(y=bquote("Carbon sequestration in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
+  ttheme+
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a"))
+ggsave(file=paste(outdir,"/CCS_breakdown_poy_CAN-JPN-TUR",".png",sep=""),c2,height=12, width=16,dpi=500)
+
+c3 = ggplot() +
+  geom_bar(data=poyemisccs[value>0&region%in%c("CHN","IND","USA")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemisccs[value<0&region%in%c("CHN","IND","USA")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_text(data=poyemisccs[region%in%c("CHN","IND","USA")&variable=="CCS"],stat="identity",aes(x=model,y=0,label=period),size=6) +
+  facet_grid(region~Category) + #,scales="free_y"
+  labs(y=bquote("Carbon sequestration in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
+  ttheme+
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a"))
+ggsave(file=paste(outdir,"/CCS_breakdown_poy_CHN-IND-USA",".png",sep=""),c3,height=12, width=16,dpi=500)
 
