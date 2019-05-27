@@ -307,7 +307,7 @@ ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,
 
 
 # Emissions in phase-out year ---------------------------------------------
-# Graph: Emissions in phase-out year (like Joeri’s) TODO plot CCS + CCSbio
+# Graph: Emissions in phase-out year (like Joeri’s)
 # En dus bijvoorbeeld ook de strategie waarlangs een regio neutraliteit krijgt (meer uit reductie emissies, over meer uit negatieve emissies).
 
 # select data
