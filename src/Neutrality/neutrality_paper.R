@@ -305,6 +305,35 @@ ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,
 # Mogelijk bevolkingsdichtheid of misschien productieve grond per persoon tegen jaar CO2 neutraliteit? Evt. ook iets van CCS capaciteit.
 #	TODO Graph: X indicator with effect on neutrality, e.g. afforestation  capacity; Y phase-out year 
 
+rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Population","GDP|MER",
+                    "Land Cover","Land Cover|Cropland","Land Cover|Cropland|Energy Crops","Land Cover|Forest|Afforestation and Reforestation",
+                    "Agricultural Production|Energy","Yield|Oilcrops",
+                    "Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|Land Use|Afforestation",
+                    "Investment|Energy Efficiency","Investment|Energy Supply|Electricity|Electricity Storage")
+      & Category%in%c("2 °C","2 °C (2030)","1.5 °C")]
+ghg=rd[variable %in% c("Emissions|Kyoto Gases")]
+
+# First calculate phase-out year (only for models with data until 2100)
+check=ghg[,list(unique(period)),by=c("model")]
+check=check[V1=="2100"]
+rd=rd[model%in%check$model]
+
+poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
+poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy$unit<-NULL
+poy=na.omit(poy)
+setnames(poy,"V1","period")
+
+
+### Calculate indicators to plot on X-axis
+## Population density
+
+## Non-CO2 share in 2015
+
+## productive area per capita
+
+
+# plot indicators vs. phase-out year
 
 # Emissions in phase-out year ---------------------------------------------
 # Graph: Emissions in phase-out year (like Joeri’s)
