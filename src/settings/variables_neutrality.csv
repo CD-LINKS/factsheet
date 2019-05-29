@@ -37,8 +37,16 @@ Trade|Primary Energy|Gas|Volume
 Trade|Primary Energy|Oil|Volume
 Carbon Sequestration|CCS|Biomass
 Carbon Sequestration|CCS
+Carbon Sequestration|Land Use|Afforestation
 Agricultural Production|Energy
 Agricultural Production|Energy|Residues
 Agricultural Production|Energy|Crops
 Agricultural Production|Energy|Crops|1st generation
 Agricultural Production|Energy|Crops|2nd generation
+Yield|Oilcrops
+Land Cover
+Land Cover|Cropland
+Land Cover|Cropland|Energy Crops
+Land Cover|Forest|Afforestation and Reforestation
+Investment|Energy Efficiency
+Investment|Energy Supply|Electricity|Electricity Storage
