@@ -108,10 +108,10 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
   cat("Processing data\n")
   
   # Change scenario names for some models to V4 to not mix up old global model results with new ones, while using latest version of other models (V3)
-  #Special case for RU_TIMES: no V3/V4 at all
+  # Special case for RU_TIMES: no V3/V4 at all
   all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO <- 
     paste(all[MODEL %in% c("RU-TIMES 3.2")]$SCENARIO,'_V4',sep="")
-  #Special case for GEM-E3: select the recGenTaxation scenarios for standard analysis
+  # Special case for GEM-E3: select the recGenTaxation scenarios for standard analysis
   all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDCi_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
     all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("INDCi_recGenTaxation_V4")]$SCENARIO,"INDCi_recGenTaxation_V4","INDCi_V4")
   all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("INDC2030i_1000_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
@@ -120,7 +120,10 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
     all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_1000_recGenTaxation_V4")]$SCENARIO,"NPi2020_1000_recGenTaxation_V4","NPi2020_1000_V4")
   all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
     all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO,"NPi2020_400_recGenTaxation_V4","NPi2020_400_V4")
-  #Rest: use latest version V3 for national (and some global) models, rename to V4
+  # Special case for IMAGE: for the effort sharing analysis use V5 (label as V4) because that one has 10 region level data (re-imported by Peter) - later use V5 for all models?
+  all[MODEL %in% c("IMAGE 3.0")]$SCENARIO <- str_replace_all(all[MODEL %in% c("IMAGE 3.0")]$SCENARIO,"_V4","_V4real")
+  all[MODEL %in% c("IMAGE 3.0")]$SCENARIO <- str_replace_all(all[MODEL %in% c("IMAGE 3.0")]$SCENARIO,"_V5","_V4")
+  # Rest: use latest version V3 for national (and some global) models, rename to V4
   all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","China TIMES","COPPE-COFFEE 1.0","COPPE-MSB_v2.0","DNE21+ V.14 (national)","GCAM-USA_CDLINKS","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1","REMIND-MAgPIE 1.7-3.0")]$SCENARIO <- str_replace_all(
     all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","China TIMES","COPPE-COFFEE 1.0","COPPE-MSB_v2.0","DNE21+ V.14 (national)","GCAM-USA_CDLINKS","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1","REMIND-MAgPIE 1.7-3.0")]$SCENARIO,"_V3","_V4")
   # Exclude Globiom and Magpie (used for food security analysis only), and AIM/CGE (newest scenarios are under AIM V2.1)
