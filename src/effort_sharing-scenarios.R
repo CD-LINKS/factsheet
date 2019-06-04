@@ -993,6 +993,18 @@ i3 = i3 + ylab(costratio$variable)
 i3 = i3 + xlab(finflowsstat$unit)
 ggsave(file=paste(outdir,"/costratio_financialflows_allmodels.png",sep=""),i3,width=20,height=12,dpi=200)
 
+i4 = ggplot(indicatorm[implementation=="flexibility"&period%in%c(2030,2050,2100)&!c(model=="REMIND 2.0"&regime=="AP")])
+i4 = i4 + geom_point(aes(x=value.x,y=value.y,colour=regime,alpha=period, shape=model),size=5)
+i4 = i4 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+i4 = i4 + scale_alpha_manual(values=c("2030"=0.4,"2050"=0.7,"2100"=1))
+i4 = i4 + scale_shape_manual(values=c("WITCH2016"=15,"REMIND 2.0"=16,"IMAGE 3.0"=17,"MESSAGEix-GLOBIOM_1.1"=18))
+i4 = i4 + geom_hline(aes(yintercept=1),size=1)
+i4 = i4 + geom_vline(aes(xintercept=100),size=1)
+i4 = i4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+i4 = i4 + ylab(costratio$variable)
+i4 = i4 + xlab(finflowsstat$unit)
+ggsave(file=paste(outdir,"/costratio_financialflows_allmodels_exclREMIND.png",sep=""),i4,width=20,height=12,dpi=200)
+
 # Socioeconomic impacts ---------------------------------------------------
 
 # TODO the % change in GDP, the % change in private consumption  or a welfare indicator such as equivalent variation and maybe also a % change in employment.
