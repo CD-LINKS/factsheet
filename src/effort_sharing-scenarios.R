@@ -123,6 +123,12 @@ msg4$variable<-"Trade|Emissions Allowances|Volume"
 native=native[!c(model%in%c("MESSAGEix-GLOBIOM_1.1","WITCH2016")&variable%in%c("Trade|Emissions Allowances|Value","Trade|Emissions Allowances|Volume"))]
 native=rbind(native,msg3,msg4)
 
+# REMIND use native model regions SSA and REF to complement missing R10 regions - TODO delete when region mapping is fixed
+remind=native[model=="REMIND 2.0"&region%in%c("SSA","REF")]
+remind$region=str_replace_all(remind$region,"SSA","R10AFRICA")
+remind$region=str_replace_all(remind$region,"REF","R10REF_ECON")
+data=rbind(data,remind)
+
 #add implementation and regime for easier selection
 data$implementation<-""
 data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_CO","NPi2020_1000_domestic_GF",
@@ -857,7 +863,7 @@ ggsave(file=paste(outdir,"/costs_GDP_relworld_discounted.png",sep=""),c5c,width=
 
 # costs Annex I fraction GDP / fraction GDP non-Annex I. Now for R10 (LIMITS) (Pacific OECD + Europe + North America) / rest (7). Previously R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF. 
 # to do for OECD countries / native model regions? not enough countries reported separately, and by not enough models... (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
-# todo check remind no Africa and Ref Econ??
+# TODO check REMIND AP very high...
 
 costratio=spread(costs[region%in%r10],region,value)
 costratio=costratio%>%mutate(R10nonOECD=(`R10AFRICA`+`R10CHINA+`+`R10INDIA+`+`R10LATIN_AM`+`R10MIDDLE_EAST`+`R10REF_ECON`+`R10REST_ASIA`)/7,
@@ -876,6 +882,15 @@ c2 = c2 + geom_hline(aes(yintercept = 1),size=1)
 c2 = c2 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 c2 = c2 + ylab(costratio$variable)
 ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECD.png",sep=""),c2,width=20,height=12,dpi=200)
+
+c2b = ggplot(costratio[period%in%c(2030,2050)&!c(model=="REMIND 2.0"&regime=="AP")])
+c2b = c2b + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
+c2b = c2b + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c2b = c2b + facet_grid(period~model)
+c2b = c2b + geom_hline(aes(yintercept = 1),size=1)
+c2b = c2b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c2b = c2b + ylab(costratio$variable)
+ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECD_exclREMIND.png",sep=""),c2b,width=20,height=12,dpi=200)
 
 # with discounted costs
 costratiodi=spread(costsdi[region%in%r10],region,value)
