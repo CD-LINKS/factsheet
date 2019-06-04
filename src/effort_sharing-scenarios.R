@@ -9,7 +9,7 @@ library(directlabels) # year labels for scatter plots
 library(stringr) #str_replace_all
 library(gridExtra) #arrangeGrob
 
-data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190531-115332",".csv"),header=TRUE))
+data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190604-191132",".csv"),header=TRUE))
 data <- data.table(invisible(melt(data,measure.vars=names(data)[grep("[0-9]+",names(data))],variable.name = "period",variable.factor=FALSE)))
 data$period <- as.numeric(data$period)
 data <- data[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -20,8 +20,8 @@ setnames(data, "VARIABLE", "variable")
 setnames(data, "UNIT", "unit")
 data=na.omit(data)
 data$variable <- factor(data$variable)
-# remove MESSAGE scenarios with wrong name, erroneously re-imported with R10 update
-data=data[!c(model=="MESSAGEix-GLOBIOM_1.1"&scenario%in%c("NPi2020_1000_flex_AP_V4","NPi2020_1000_flex_GF_V4","NPi2020_1000_flex_PCC_V4"))]
+# remove MESSAGE scenarios with wrong name, erroneously re-imported with R10 update - not needed with new snapshot excluding these
+# data=data[!c(model=="MESSAGEix-GLOBIOM_1.1"&scenario%in%c("NPi2020_1000_flex_AP_V4","NPi2020_1000_flex_GF_V4","NPi2020_1000_flex_PCC_V4"))]
   
 outdir <- "effort sharing"
 if(!file.exists(outdir)) {
@@ -124,10 +124,10 @@ native=native[!c(model%in%c("MESSAGEix-GLOBIOM_1.1","WITCH2016")&variable%in%c("
 native=rbind(native,msg3,msg4)
 
 # REMIND use native model regions SSA and REF to complement missing R10 regions - TODO delete when region mapping is fixed
-remind=native[model=="REMIND 2.0"&region%in%c("SSA","REF")]
-remind$region=str_replace_all(remind$region,"SSA","R10AFRICA")
-remind$region=str_replace_all(remind$region,"REF","R10REF_ECON")
-data=rbind(data,remind)
+# remind=native[model=="REMIND 2.0"&region%in%c("SSA","REF")]
+# remind$region=str_replace_all(remind$region,"SSA","R10AFRICA")
+# remind$region=str_replace_all(remind$region,"REF","R10REF_ECON")
+# data=rbind(data,remind)
 
 #add implementation and regime for easier selection
 data$implementation<-""
