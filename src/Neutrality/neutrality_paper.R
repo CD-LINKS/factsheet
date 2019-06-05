@@ -1,11 +1,11 @@
 # Load data ---------------------------------------------------------------
 setwd("~/disks/local/factsheet/src")
-config <-"config_xCut"
+config <-"config_neutrality"
 scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
 adjust <- "adjust_reporting_neutrality" # TODO to decide: remove MESSAGE for China due to region definition? and COFFEE & DNE for EU and DNE for China and India?
 addvars <- F
-datafile <-"cdlinks_compare_20190416-124844"
+datafile <-"cdlinks_compare_20190531-122548"
 source("load_data.R")
 
 outdir <- "Neutrality/graphs"
@@ -303,8 +303,9 @@ ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,
 # Mitigation strategies / why are some regions earlier or later ---------------------------------------------------
 # EU late vs. US early: space for afforestation (e.g. population density).  Check database for other reasons , e.g. non-CO2 share in 2015? 
 # Mogelijk bevolkingsdichtheid of misschien productieve grond per persoon tegen jaar CO2 neutraliteit? Evt. ook iets van CCS capaciteit.
-#	TODO Graph: X indicator with effect on neutrality, e.g. afforestation  capacity; Y phase-out year 
+#	TODO Graph: X indicator with effect on neutrality: CCS; Y phase-out year 
 
+### select data
 rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Population","GDP|MER",
                     "Land Cover","Land Cover|Cropland","Land Cover|Cropland|Energy Crops","Land Cover|Forest|Afforestation and Reforestation",
                     "Agricultural Production|Energy","Yield|Oilcrops",
@@ -313,27 +314,141 @@ rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emi
       & Category%in%c("2 °C","2 °C (2030)","1.5 °C")]
 ghg=rd[variable %in% c("Emissions|Kyoto Gases")]
 
-# First calculate phase-out year (only for models with data until 2100)
+### First calculate phase-out year (only for models with data until 2100)
 check=ghg[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 rd=rd[model%in%check$model]
+ghg=ghg[model%in%check$model]
 
 poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
 poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
 poy$unit<-NULL
-poy=na.omit(poy)
+poy[is.na(V1),]$V1=2105
 setnames(poy,"V1","period")
-
 
 ### Calculate indicators to plot on X-axis
 ## Population density
+popd=rd[variable%in%c("Population","Land Cover")]
+popd=spread(popd[,!c('unit'),with=FALSE],variable,value)
+popd=popd%>%mutate(density=Population/`Land Cover`)
+popd=data.table(gather(popd,variable,value,c("Population","Land Cover","density")))
+popd=popd[variable=="density"]
+popd$unit<-"persons/ha"
+
+# average over models
+popdm=popd[,list(mean(value,na.rm=TRUE)),by=c("Category","region","variable","unit","period")]
+setnames(popdm,"V1","value")
+
+poym=poy[,list(mean(period,na.rm=TRUE)),by=c("Category","region","variable")]
+setnames(poym,"V1","period")
+
+popden=merge(popd,poy,by=c("model","Category","region"))
+popdenm=merge(popdm,poym,by=c("Category","region"))
 
 ## Non-CO2 share in 2015
+nonco2=rd[variable%in%c("Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases")]
+nonco2=spread(nonco2[,!c('unit'),with=FALSE],variable,value)
+nonco2=nonco2%>%mutate(nonCO2=`Emissions|CH4`*25+`Emissions|N2O`*0.298+`Emissions|F-Gases`,nonCO2share=nonCO2/`Emissions|Kyoto Gases`*100)
+nonco2=data.table(gather(nonco2,variable,value,c("Emissions|CH4","Emissions|N2O","Emissions|F-Gases","nonCO2","nonCO2share","Emissions|Kyoto Gases")))
+nonco2=nonco2[variable=="nonCO2share"&period==2015]
+nonco2$unit <- "%"
+
+# average over models
+nonco2m=nonco2[,list(mean(value,na.rm=TRUE)),by=c("Category","region","variable","unit","period")]
+setnames(nonco2m,"V1","value")
+
+nonco2emis=merge(nonco2,poy,by=c("model","Category","region"))
+nonco2emism=merge(nonco2m,poym,by=c("Category","region"))
 
 ## productive area per capita
+prod=rd[variable%in%c("Land Cover|Cropland","Population")]
+prod=spread(prod[,!c('unit'),with=FALSE],variable,value)
+prod=prod%>%mutate(prodcap=`Land Cover|Cropland`/Population)
+prod=data.table(gather(prod,variable,value,c("Land Cover|Cropland","Population","prodcap")))
+prod=prod[variable=="prodcap"]
+prod$unit <- "ha/person"
 
+# average over models
+prodm=prod[,list(mean(value,na.rm=TRUE)),by=c("Category","region","variable","unit","period")]
+setnames(prodm,"V1","value")
 
-# plot indicators vs. phase-out year
+prodcap=merge(prod,poy,by=c("model","Category","region"))
+prodcapm=merge(prodm,poym,by=c("Category","region"))
+
+## Afforestation
+forest=rd[variable=="Land Cover|Forest|Afforestation and Reforestation"]
+afforest = merge(forest,poy,by=c("model","Category","region"))
+
+### plot indicators vs. phase-out year
+## Population density
+# per model
+pd = ggplot(popden[period.x==2015])
+pd = pd + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+pd = pd + facet_grid(model~Category)
+pd = pd + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100),limits=c(2020,2110))
+pd = pd + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                               strip.text=element_text(size=18))
+pd = pd + labs(x="Population density in 2015 (persons/ha)",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_vs_population-density_models",".png",sep=""),pd,height=12, width=16,dpi=500)
+
+# average over models
+pdm = ggplot(popdenm[period.x==2015])
+pdm = pdm + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+pdm = pdm + facet_grid(~Category,scales="fixed")
+pdm = pdm + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100),limits=c(2040,2110))
+pdm = pdm + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                               strip.text=element_text(size=18))
+pdm = pdm + labs(x="Population density in 2015 (persons/ha)",y="Phase-out year of GHG emissions")
+#pdm = pdm + geom_text(data=popdenm[period.y==2105],stat="identity",aes(x=value,y=2105,label="no phase-out"),size=6) #TODO how to calculate average without the no pase-out but show the no phase-out (marked as 2105)?
+ggsave(file=paste(outdir,"/poy_vs_population-density",".png",sep=""),pdm,height=12, width=16,dpi=500)
+
+## Non-CO2
+# per model
+nc = ggplot(nonco2emis)
+nc = nc + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+nc = nc + facet_grid(model~Category)
+nc = nc + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                             strip.text=element_text(size=18))
+nc = nc + labs(x="Non-CO2 GHG emissions share in 2015 (%)",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_vs_non-CO2-share_models",".png",sep=""),nc,height=12, width=16,dpi=500)
+
+# average over models
+ncm = ggplot(nonco2emism)
+ncm = ncm + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+ncm = ncm + facet_grid(~Category)
+ncm = ncm + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                             strip.text=element_text(size=18))
+ncm = ncm + labs(x="Non-CO2 GHG emissions share in 2015 (%)",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_vs_non-CO2-share",".png",sep=""),ncm,height=12, width=16,dpi=500)
+
+## Productive area per capita
+# per model
+pc = ggplot(prodcap[period.x==2015])
+pc = pc + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+pc = pc + facet_grid(model~Category)
+pc = pc + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                             strip.text=element_text(size=18))
+pc = pc + labs(x="Cropland area per capita in 2015 (ha/person)",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_vs_productive-area-capita_models",".png",sep=""),pc,height=12, width=16,dpi=500)
+
+# average over models
+pcm = ggplot(prodcapm[period.x==2015])
+pcm = pcm + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+pcm = pcm + facet_grid(~Category)
+pcm = pcm + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                               strip.text=element_text(size=18))
+pcm = pcm + labs(x="Cropland area per capita in 2015 (ha/person)",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_vs_productive-area-capita",".png",sep=""),pcm,height=12, width=16,dpi=500)
+
+## Afforestation
+# per model
+af = ggplot(afforest[period.x==2030])
+af = af + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+af = af + facet_grid(model~Category)
+af = af + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                             strip.text=element_text(size=18))
+af = af + labs(x="Afforestation and reforestation in 2030 (million ha)",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_vs_afforestation_models",".png",sep=""),af,height=12, width=16,dpi=500)
 
 # Emissions in phase-out year ---------------------------------------------
 # Graph: Emissions in phase-out year (like Joeri’s)
