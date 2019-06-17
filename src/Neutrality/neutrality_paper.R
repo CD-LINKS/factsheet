@@ -379,6 +379,10 @@ prodcapm=merge(prodm,poym,by=c("Category","region"))
 forest=rd[variable=="Land Cover|Forest|Afforestation and Reforestation"]
 afforest = merge(forest,poy,by=c("model","Category","region"))
 
+## CCS
+ccs = rd[variable=="Carbon Sequestration|CCS"]
+ccscap = merge(ccs,poy,by=c("model","Category","region"))
+
 ### plot indicators vs. phase-out year
 ## Population density
 # per model
@@ -449,6 +453,16 @@ af = af + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_
                              strip.text=element_text(size=18))
 af = af + labs(x="Afforestation and reforestation in 2030 (million ha)",y="Phase-out year of GHG emissions")
 ggsave(file=paste(outdir,"/poy_vs_afforestation_models",".png",sep=""),af,height=12, width=16,dpi=500)
+
+## CCS capacity
+# per model
+cc = ggplot(ccscap[period.x==2030])
+cc = cc + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+cc = cc + facet_grid(model~Category)
+cc = cc + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                             strip.text=element_text(size=18))
+cc = cc + labs(x="CCS in 2030 (MtCO2/year)",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_vs_ccs_models",".png",sep=""),cc,height=12, width=16,dpi=500)
 
 # Emissions in phase-out year ---------------------------------------------
 # Graph: Emissions in phase-out year (like Joeri’s)
