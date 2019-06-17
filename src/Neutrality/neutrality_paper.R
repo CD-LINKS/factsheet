@@ -446,7 +446,7 @@ ggsave(file=paste(outdir,"/poy_vs_productive-area-capita",".png",sep=""),pcm,hei
 
 ## Afforestation
 # per model
-af = ggplot(afforest[period.x==2030])
+af = ggplot(afforest[period.x==2030&!region=="World"])
 af = af + geom_point(aes(x=value,y=period.y,colour=region),size=3)
 af = af + facet_grid(model~Category)
 af = af + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
@@ -456,12 +456,12 @@ ggsave(file=paste(outdir,"/poy_vs_afforestation_models",".png",sep=""),af,height
 
 ## CCS capacity
 # per model
-cc = ggplot(ccscap[period.x==2030])
+cc = ggplot(ccscap[period.x==2100&!region=="World"])
 cc = cc + geom_point(aes(x=value,y=period.y,colour=region),size=3)
 cc = cc + facet_grid(model~Category)
 cc = cc + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
                              strip.text=element_text(size=18))
-cc = cc + labs(x="CCS in 2030 (MtCO2/year)",y="Phase-out year of GHG emissions")
+cc = cc + labs(x="CCS in 2100 (MtCO2/year)",y="Phase-out year of GHG emissions")
 ggsave(file=paste(outdir,"/poy_vs_ccs_models",".png",sep=""),cc,height=12, width=16,dpi=500)
 
 # Emissions in phase-out year ---------------------------------------------
