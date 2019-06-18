@@ -160,8 +160,9 @@ native[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO")]$
 data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA",
                       "R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA")] 
                       #"R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF","ARG","AUS","CAN","MEX","IDN","ROK","SAF","SAU","TUR",
+data$region=str_remove_all(data$region,"R10")
 #native=native[region%in%c("JPN","BRA","CHN","EEU","EU15","IND","INDIA","JAP","EUR","CHINA","EUROPE","USA","RUS")]
-r10=c("R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA")
+r10=c("AFRICA","CHINA+","EUROPE","INDIA+","LATIN_AM","MIDDLE_EAST","NORTH_AM","PAC_OECD","REF_ECON","REST_ASIA")
 
 #Order of regimes
 data$regime = factor(data$regime,levels=c("CO","AP","PCC","GF"))
@@ -259,7 +260,7 @@ AP8$check = ifelse(AP8$value==AP8$allowance,"same","diff")
 write.csv(AP8,paste(outdir,"/APfinalcheck.csv",sep=""))
 
 # Drivers: Population and GDP ---------------------------------------------
-drivers = data[variable%in%c("Population","GDP|PPP")&!region=="World"&!region%in%r10]
+drivers = data[variable%in%c("Population","GDP|PPP")&region%in%r10] #!region=="World"&!
 drivers[variable=="GDP|PPP"]$unit<-"billion US$2010/yr"
 drivers$variable<-paste(drivers$variable," (",drivers$unit, ")")
 
@@ -268,11 +269,14 @@ d = d + geom_line(aes(x=period,y=value,colour=model),size=2) #,linetype=model
 d = d + scale_colour_manual(values=c("DNE21+ V.14"="#241E4E","IMAGE 3.0"="#ECA27C","MESSAGEix-GLOBIOM_1.1"="#6B0504",
                                        "REMIND 2.0"="#73937E", "WITCH2016"="#515751"))
 d = d + facet_grid(variable~region,scales="free_y")
-d = d + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+d = d + labs(x="",y="")
+d = d + theme_bw() + theme(axis.text=element_text(size=22),strip.text=element_text(size=20),
+                           legend.text = element_text(size=22),legend.title = element_text(size=22),
+                           axis.text.x=element_text(angle=90)) #,axis.title = element_text(size=16)
 ggsave(file=paste(outdir,"/drivers.png",sep=""),d,width=20,height=12,dpi=200)
 
 # Initial allocation ------------------------------------------------------
-allocation = data[variable=="Emissions|GHG|Allowance Allocation"&!region=="World"&!region%in%r10]
+allocation = data[variable=="Emissions|GHG|Allowance Allocation"&region%in%r10] #!region=="World"&!
 
 #REMIND 2005, 2010 and 2015 reported zero - taking CO there
 remind=allocation[model=="REMIND 2.0"&period%in%c(2005,2010,2015,2020)&implementation=="domestic"]
@@ -287,11 +291,14 @@ allocation=rbind(allocation[!c(model=="REMIND 2.0"&period%in%c(2005,2010,2015,20
 a = ggplot(allocation[!regime=="GF"]) #[period%in%c(2050)]
 #a = a + geom_bar(stat="identity", aes(x=regime, y=value,fill=implementation),position="dodge")
 a = a + geom_line(aes(x=period,y=value,linetype=implementation,colour=regime),size=2)
+a = a + geom_hline(aes(yintercept = 1),size=1)
 a = a + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 a = a + facet_grid(region~model,scales="free_y")
-a = a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
-a = a + ylab(allocation$unit)
-ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=12,dpi=200)
+a = a + theme_bw() + theme(axis.text=element_text(size=22),strip.text=element_text(size=22),
+                           legend.text = element_text(size=20),legend.title = element_text(size=22),
+                           axis.title = element_text(size=22))
+a = a + ylab(allocation$unit) +xlab("")
+ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=14,dpi=200)
 
 a1 = ggplot(allocation[regime=="PCC"]) #[period%in%c(2050)]
 #a = a + geom_bar(stat="identity", aes(x=regime, y=value,fill=implementation),position="dodge")
@@ -306,12 +313,14 @@ ggsave(file=paste(outdir,"/Allowance allocation_PCC.png",sep=""),a1,width=20,hei
 # TODO reductions relative to baseline? (get NoPolicy from 'all' - only Kyoto Gases)
 # TODO check cumulative emissions in line with carbon budgets?
 
-e = ggplot(data[variable=="Emissions|Kyoto Gases"&!region%in%r10&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")&!regime=="GF"]) #&!region=="World"
+e = ggplot(data[variable=="Emissions|Kyoto Gases"&region%in%r10&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")&!regime=="GF"]) #&!region=="World"
 e = e + geom_line(aes(x=period,y=value,linetype=implementation,colour=regime),size=1)
 e = e + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 e = e + facet_grid(region~model,scales="free_y")
-e = e + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
-e = e + ylab(data[variable=="Emissions|Kyoto Gases"]$unit)
+e = e + theme_bw() + theme(axis.text=element_text(size=22),strip.text=element_text(size=20),
+                           legend.text = element_text(size=20),legend.title = element_text(size=22),
+                           axis.title = element_text(size=22))
+e = e + ylab(data[variable=="Emissions|Kyoto Gases"]$unit)+xlab("")
 ggsave(file=paste(outdir,"/GHGemissions.png",sep=""),e,width=20,height=12,dpi=200)
 
 #PCC only
@@ -866,10 +875,10 @@ ggsave(file=paste(outdir,"/costs_GDP_relworld_discounted.png",sep=""),c5c,width=
 # TODO check REMIND AP very high...
 
 costratio=spread(costs[region%in%r10],region,value)
-costratio=costratio%>%mutate(R10nonOECD=(`R10AFRICA`+`R10CHINA+`+`R10INDIA+`+`R10LATIN_AM`+`R10MIDDLE_EAST`+`R10REF_ECON`+`R10REST_ASIA`)/7,
-                             R10OECD = (`R10EUROPE`+`R10NORTH_AM`+`R10PAC_OECD`)/3,
+costratio=costratio%>%mutate(R10nonOECD=(`AFRICA`+`CHINA+`+`INDIA+`+`LATIN_AM`+`MIDDLE_EAST`+`REF_ECON`+`REST_ASIA`)/7,
+                             R10OECD = (`EUROPE`+`NORTH_AM`+`PAC_OECD`)/3,
                              ratio=ifelse(R10nonOECD==0&`R10OECD`==0,0,`R10OECD`/R10nonOECD))
-costratio=data.table(gather(costratio,region,value,c("ratio","R10OECD","R10nonOECD","R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA")))
+costratio=data.table(gather(costratio,region,value,c("ratio","R10OECD","R10nonOECD","AFRICA","CHINA+","EUROPE","INDIA+","LATIN_AM","MIDDLE_EAST","NORTH_AM","PAC_OECD","REF_ECON","REST_ASIA")))
 costratio=costratio[region=="ratio"]
 costratio$region<-"OECD/non-OECD"
 costratio$variable<-"%GDP-OECD/%GDP-non-OECD"
@@ -894,10 +903,10 @@ ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECD_exclREMIND.png",sep=""),c
 
 # with discounted costs
 costratiodi=spread(costsdi[region%in%r10],region,value)
-costratiodi=costratiodi%>%mutate(R10nonOECD=(`R10AFRICA`+`R10CHINA+`+`R10INDIA+`+`R10LATIN_AM`+`R10MIDDLE_EAST`+`R10REF_ECON`+`R10REST_ASIA`)/7,
-                                 R10OECD = (`R10EUROPE`+`R10NORTH_AM`+`R10PAC_OECD`)/3,
+costratiodi=costratiodi%>%mutate(R10nonOECD=(`AFRICA`+`CHINA+`+`INDIA+`+`LATIN_AM`+`MIDDLE_EAST`+`REF_ECON`+`REST_ASIA`)/7,
+                                 R10OECD = (`EUROPE`+`NORTH_AM`+`PAC_OECD`)/3,
                                  ratio=ifelse(R10nonOECD==0&`R10OECD`==0,0,`R10OECD`/R10nonOECD))
-costratiodi=data.table(gather(costratiodi,region,value,c("ratio","R10OECD","R10nonOECD","R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA")))
+costratiodi=data.table(gather(costratiodi,region,value,c("ratio","R10OECD","R10nonOECD","AFRICA","CHINA+","EUROPE","INDIA+","LATIN_AM","MIDDLE_EAST","NORTH_AM","PAC_OECD","REF_ECON","REST_ASIA")))
 costratiodi=costratiodi[region=="ratio"]
 costratiodi$region<-"OECD/non-OECD"
 costratiodi$variable<-"%GDP-OECD/%GDP-non-OECD"
