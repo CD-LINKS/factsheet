@@ -576,6 +576,17 @@ p2 = p2 + ylab(data[variable=="Price|Carbon"]$unit)
 p2 = p2 + ylim(0,2000)
 ggsave(file=paste(outdir,"/carbon price_2030.png",sep=""),p2,width=20,height=12,dpi=200)
 
+#only 2050
+p2a = ggplot(data[variable=="Price|Carbon"&region%in%r10&period==2050&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")]) #&regime%in%c("AP","CO")
+p2a = p2a + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+p2a = p2a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+p2a = p2a + facet_grid(implementation~model,scales="free_y")
+p2a = p2a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                               legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+p2a = p2a + ylab(data[variable=="Price|Carbon"]$unit) + xlab("")
+#p2a = p2a + ylim(0,2000)
+ggsave(file=paste(outdir,"/carbon price_2050.png",sep=""),p2a,width=20,height=12,dpi=200)
+
 #Separately for Japan
 p3 = ggplot(data[variable=="Price|Carbon"&!region%in%r10&period==2030&model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")]) #&regime%in%c("AP","CO")
 p3 = p3 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
@@ -699,6 +710,15 @@ ca = ca + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_
 ca = ca + ylab(costsdi$unit)
 ggsave(file=paste(outdir,"/costs_GDP_flexibility_discounted.png",sep=""),ca,width=20,height=12,dpi=200)
 
+cb = ggplot(costs[region%in%r10&period==2050&implementation=="flexibility"])
+cb = cb + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+cb = cb + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+cb = cb + facet_grid(regime~region,scale="free_y")
+cb = cb + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+cb = cb + ylab(costs$unit)+xlab("")
+ggsave(file=paste(outdir,"/costs_GDP_flexibility_2050.png",sep=""),cb,width=20,height=12,dpi=200)
+
 c1 = ggplot(costs[implementation=="domestic"&!region%in%r10])
 c1 = c1 + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable))
 c1 = c1 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
@@ -715,6 +735,16 @@ c1a = c1a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=elemen
 c1a = c1a + ylab(costsdi$unit)
 ggsave(file=paste(outdir,"/costs_GDP_domestic_discounted.png",sep=""),c1a,width=20,height=12,dpi=200)
 
+c1b = ggplot(costs[region%in%r10&period==2050&implementation=="domestic"])
+c1b = c1b + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+c1b = c1b + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+c1b = c1b + facet_grid(regime~region,scale="free_y")
+c1b = c1b + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+c1b = c1b + ylab(costs$unit) + xlab("")
+ggsave(file=paste(outdir,"/costs_GDP_domestic_2050.png",sep=""),c1b,width=20,height=12,dpi=200)
+
+# statistics over models
 costsstat=costs[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
                               min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime","region")]
 costsdistat=costsdi[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
