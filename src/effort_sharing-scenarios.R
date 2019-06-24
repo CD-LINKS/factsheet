@@ -388,14 +388,23 @@ ggsave(file=paste(outdir,"/emissiontargets2030_JPN.png",sep=""),e5,width=20,heig
 ###Value
 finflow = data[variable=="Trade|Emissions Allowances|Value"&region%in%r10]
 
-f = ggplot(finflow[period%in%c(2030,2050,2100)&implementation=="flexibility"&regime%in%c("AP","PCC")])
+f = ggplot(finflow[period%in%c(2050)&implementation=="flexibility"]) #2030,2100 &regime%in%c("AP","PCC")
 f = f + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
 f = f + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 f = f + facet_grid(period~model)
 f = f + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
                            axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
 f = f + ylab(finflow$unit)
-ggsave(file=paste(outdir,"/Trade-allowances-value.png",sep=""),f,width=20,height=12,dpi=200)
+ggsave(file=paste(outdir,"/Trade-allowances-value_2050.png",sep=""),f,width=20,height=12,dpi=200)
+
+fa = ggplot(finflow[period%in%c(2100)&implementation=="flexibility"]) #&regime%in%c("AP","PCC")
+fa = fa + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+fa = fa + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+fa = fa + facet_grid(period~model)
+fa = fa + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
+                           axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
+fa = fa + ylab(finflow$unit)
+ggsave(file=paste(outdir,"/Trade-allowances-value_2100.png",sep=""),fa,width=20,height=12,dpi=200)
 
 # per model
 for(mod in unique(finflow$model)){
@@ -750,13 +759,14 @@ costsstat=costs[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq
 costsdistat=costsdi[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
                       min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime","region")]
 
-c3 = ggplot(costsstat[!region%in%r10&period%in%c(2030,2050)])
+c3 = ggplot(costsstat[region%in%r10&period%in%c(2030,2050)])
 c3 = c3 + geom_bar(stat="identity", aes(x=region, y=median,fill=regime),position=position_dodge(width=0.66),width=0.66)
 c3 = c3 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 c3 = c3 + geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=regime),position=position_dodge(width=0.66),width=0.66)
 c3 = c3 + scale_colour_manual(values=c("AP"="black","CO"="black","GF"="black","PCC"="black"))
 c3 = c3 + facet_grid(implementation~period,scale="free_y")
-c3 = c3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c3 = c3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),
+                             legend.title = element_text(size=16),axis.title = element_text(size=16),axis.text.x=element_text(angle=90))
 c3 = c3 + ylab(costsstat$unit)
 ggsave(file=paste(outdir,"/costs_GDP_compare.png",sep=""),c3,width=20,height=12,dpi=200)
 
@@ -791,13 +801,14 @@ costsgdpdicu=merge(costsdicu,gdpdicu,by=c("scenario","model","region","unit","im
 costsgdpdicu$value = costsgdpdicu$value.x / costsgdpdicu$value.y *100
 costsgdpdicu$unit <- "%"
 
-c4 = ggplot(costsgdpdicu[!region%in%r10&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")])
+c4 = ggplot(costsgdpdicu[region%in%r10&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")])
 c4 = c4 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position=position_dodge(width=0.66),width=0.66)
 c4 = c4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 #c4 = c4 + geom_errorbar(aes(x=region,ymin=min,ymax=max,colour=regime),position=position_dodge(width=0.66),width=0.66)
 #c4 = c4 + scale_colour_manual(values=c("AP"="black","CO"="black","GF"="black","PCC"="black"))
 c4 = c4 + facet_grid(implementation~model,scale="free_y")
-c4 = c4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c4 = c4 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),
+                             legend.title = element_text(size=16),axis.title = element_text(size=16),axis.text.x=element_text(angle=90))
 c4 = c4 + ylab(costsgdpdicu$unit)
 ggsave(file=paste(outdir,"/costs_GDP_cumulative_discounted.png",sep=""),c4,width=20,height=12,dpi=200)
 
@@ -830,27 +841,33 @@ ggsave(file=paste(outdir,"/costs_GDP_cumulative_discounted_JPN.png",sep=""),c4a,
 # c4 = c4 + ylab(costsrel$unit)
 # ggsave(file=paste(outdir,"/costs_GDP_rel2020.png",sep=""),c4,width=20,height=12,dpi=200)
 
-#Relative to global average TODO for R10
-costsworld = spread(costs[!region%in%r10],region,value)
-costsworld = costsworld%>%mutate(BRAworld=BRA/World,CHNworld=CHN/World,EUworld=EU/World,INDworld=IND/World,JPNworld=JPN/World,RUSworld=RUS/World,USAworld=USA/World)
-costsworld=data.table(gather(costsworld,region,value,c("BRA","CHN","EU","IND","JPN","RUS","USA","World","BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")))
-costsworld=costsworld[region%in%c("BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")]
-costsworld$unit<-"fraction of world"  
-costsworld$region=str_replace_all(costsworld$region,"BRAworld","BRA")
-costsworld$region=str_replace_all(costsworld$region,"CHNworld","CHN")
-costsworld$region=str_replace_all(costsworld$region,"EUworld","EU")
-costsworld$region=str_replace_all(costsworld$region,"INDworld","IND")
-costsworld$region=str_replace_all(costsworld$region,"JPNworld","JPN")
-costsworld$region=str_replace_all(costsworld$region,"RUSworld","RUS")
-costsworld$region=str_replace_all(costsworld$region,"USAworld","USA")
+#Relative to global average 
+costsworld = spread(costs[region%in%c(r10,"World")],region,value)
+costsworld = costsworld%>%mutate(AFRICAworld=AFRICA/World,CHINAworld=`CHINA+`/World,EUROPEworld=EUROPE/World,INDIAworld=`INDIA+`/World,
+                                 LATIN_AMworld=LATIN_AM/World,MIDDLE_EASTworld=MIDDLE_EAST/World,NORTH_AMworld=NORTH_AM/World,PAC_OECDworld=PAC_OECD/World,
+                                 REF_ECONworld=REF_ECON/World,REST_ASIAworld=REST_ASIA/World) #BRAworld=BRA/World,CHNworld=CHN/World,EUworld=EU/World,INDworld=IND/World,JPNworld=JPN/World,RUSworld=RUS/World,USAworld=USA/World
+costsworld=data.table(gather(costsworld,region,value,c(r10,"AFRICAworld","CHINAworld","EUROPEworld","INDIAworld","LATIN_AMworld","MIDDLE_EASTworld",
+                                                       "NORTH_AMworld","PAC_OECDworld","REF_ECONworld","REST_ASIAworld"))) #"BRA","CHN","EU","IND","JPN","RUS","USA","World","BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld"
+costsworld=costsworld[region%in%c("AFRICAworld","CHINAworld","EUROPEworld","INDIAworld","LATIN_AMworld","MIDDLE_EASTworld","NORTH_AMworld","PAC_OECDworld","REF_ECONworld","REST_ASIAworld")] #"BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld"
+costsworld$unit<-"relative to world"  
+costsworld$region=str_replace_all(costsworld$region,"AFRICAworld","AFRICA")
+costsworld$region=str_replace_all(costsworld$region,"CHINAworld","CHNINA+")
+costsworld$region=str_replace_all(costsworld$region,"EUROPEworld","EUROPE")
+costsworld$region=str_replace_all(costsworld$region,"INDIAworld","INDIA+")
+costsworld$region=str_replace_all(costsworld$region,"LATIN_AMworld","LATIN_AM")
+costsworld$region=str_replace_all(costsworld$region,"MIDDLE_EASTworld","MIDDLE_EAST")
+costsworld$region=str_replace_all(costsworld$region,"NORTH_AMworld","NORTH_AM")
+costsworld$region=str_replace_all(costsworld$region,"PAC_OECDworld","PAC_OECD")
+costsworld$region=str_replace_all(costsworld$region,"REF_ECONworld","REF_ECON")
+costsworld$region=str_replace_all(costsworld$region,"REST_ASIAworld","REST_ASIA")
 costsworld<-na.omit(costsworld)
 
-# also for discounted costs
+# also for discounted costs TODO for R10
 costsworlddi = spread(costsdi[!region%in%r10],region,value)
 costsworlddi = costsworlddi%>%mutate(BRAworld=BRA/World,CHNworld=CHN/World,EUworld=EU/World,INDworld=IND/World,JPNworld=JPN/World,RUSworld=RUS/World,USAworld=USA/World)
 costsworlddi=data.table(gather(costsworlddi,region,value,c("BRA","CHN","EU","IND","JPN","RUS","USA","World","BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")))
 costsworlddi=costsworlddi[region%in%c("BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld")]
-costsworlddi$unit<-"fraction of world"  
+costsworlddi$unit<-"relative to world"  
 costsworlddi$region=str_replace_all(costsworlddi$region,"BRAworld","BRA")
 costsworlddi$region=str_replace_all(costsworlddi$region,"CHNworld","CHN")
 costsworlddi$region=str_replace_all(costsworlddi$region,"EUworld","EU")
@@ -862,22 +879,22 @@ costsworlddi<-na.omit(costsworlddi)
 
 c5 = ggplot(costsworld[period%in%c(2030,2050)&implementation=="flexibility"])
 c5 = c5 + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+c5 = c5 + geom_hline(aes(yintercept=1),size=1)
 c5 = c5 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 c5 = c5 + facet_grid(period~model)
-# c5 = c5 + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1)
-# c5 = c5 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-# c5 = c5 + facet_grid(implementation~region,scale="free_y")
-#c5 = c5 + ylim(-3,8)
-c5 = c5 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c5 = c5 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),
+                             legend.title = element_text(size=16),axis.title = element_text(size=16),axis.text.x=element_text(angle=90))
 c5 = c5 + ylab(costsworld$unit)
 c5 = c5 + ggtitle("Flexibility")
 ggsave(file=paste(outdir,"/costs_GDP_relworld_flexibility.png",sep=""),c5,width=20,height=12,dpi=200)
 
 c5a = ggplot(costsworld[period%in%c(2030,2050)&implementation=="domestic"])
 c5a = c5a + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
+c5a = c5a + geom_hline(aes(yintercept=1),size=1)
 c5a = c5a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 c5a = c5a + facet_grid(period~model)
-c5a = c5a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c5a = c5a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),
+                               legend.title = element_text(size=16),axis.title = element_text(size=16),axis.text.x=element_text(angle=90))
 c5a = c5a + ylab(costsworld$unit)
 c5a = c5a + ggtitle("Domestic")
 ggsave(file=paste(outdir,"/costs_GDP_relworld_domestic.png",sep=""),c5a,width=20,height=12,dpi=200)
@@ -887,7 +904,8 @@ c5b = c5b + geom_path(aes(x=period,y=value,colour=regime,linetype=model),size=1)
 c5b = c5b + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 c5b = c5b + facet_grid(implementation~region,scale="free_y")
 #c5 = c5 + ylim(-3,8)
-c5b = c5b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+c5b = c5b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),
+                               legend.title = element_text(size=16),axis.title = element_text(size=16),axis.text.x=element_text(angle=90))
 c5b = c5b + ylab(costsworld$unit)
 ggsave(file=paste(outdir,"/costs_GDP_relworld.png",sep=""),c5b,width=20,height=12,dpi=200)
 
