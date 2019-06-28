@@ -50,7 +50,10 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Emissions Intensity of GDP|PPP` ~ `Emissions|CO2|FFI`/`GDP|PPP` ' , newUnit='kg CO2/$US 2010')
     all <- calcVariable(all,'`Emissions per capita` ~ `Emissions|CO2|FFI`/`Population` ' , newUnit='t CO2/cap')
     all <- calcVariable(all,'`Carbon Intensity of GDP|MER` ~ `Emissions|CO2`/`GDP|MER` ' , newUnit='kg CO2/$US 2010')
-    all <- calcVariable(all,'`GHG Intensity of GDP|MER` ~ `Emissions|Kyoto Gases`/`GDP|MER` ' , newUnit='kg CO2e/$US 2010')
+    all <- calcVariable(all,'`Carbon Intensity of GDP|PPP` ~ `Emissions|CO2`/`GDP|PPP` ' , newUnit='kg CO2/$US 2010')
+    all <- calcVariable(all,'`Carbon Intensity of GDP|MER (excl AFOLU)` ~ `Emissions|CO2`/`GDP|MER` ' , newUnit='kg CO2/$US 2010')
+    all <- calcVariable(all,'`Carbon Intensity of GDP|PPP (excl AFOLU)` ~ `Emissions|CO2`/`GDP|PPP` ' , newUnit='kg CO2/$US 2010')
+    all <- calcVariable(all,'`GHG Intensity of GDP|PPP` ~ `Emissions|Kyoto Gases`/`GDP|PPP` ' , newUnit='kg CO2e/$US 2010')
     all <- calcVariable(all,'`LU Emissions per capita` ~ `Emissions|CO2|AFOLU`/`Population` ' , newUnit='t CO2/cap')
     all <- calcVariable(all,'`GHG emissions per capita` ~ `Emissions|Kyoto Gases`/`Population` ' , newUnit='t CO2eq/cap')
     all <- calcVariable(all,'`Final Energy per capita` ~ `Final Energy`/`Population` * 1000 ' , newUnit='GJ/cap')
@@ -143,22 +146,16 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Final Energy|Other Sector|Non-fossil share` ~ 100*((`Final Energy|Other Sector|Non-fossil`))/(`Final Energy|Other Sector`)' , newUnit='%')
     
     all <- calcVariable(all,'`Final Energy|Biomass|Excl. traditional` ~ (`Final Energy|Transportation|Liquids|Biomass`)+
-                                                      #(`Final Energy|Residential and Commercial|Solids|Biomass`)+
-                                                      #(`Final Energy|Industry|Solids|Biomass`)+
-                                                      #(`Final Energy|Other Sector|Solids|Biomass`)+
                                                       (`Final Energy|Solids|Biomass`)-(`Final Energy|Solids|Biomass|Traditional`)', newUnit='EJ/yr') 
     all <- calcVariable(all,'`Final Energy|Biomass` ~ (`Final Energy|Transportation|Liquids|Biomass`)+
-                                                      #(`Final Energy|Industry|Solids|Biomass`)+
-                                                      #(`Final Energy|Other Sector|Solids|Biomass`)+
-                                                      #(`Final Energy|Residential and Commercial|Solids|Biomass`)+
                                                       (`Final Energy|Solids|Biomass`)', newUnit='EJ/yr') 
-    all <- calcVariable(all,'`Final Energy|Other Renewables` ~ (`Final Energy|Solar`)+
-                                                               (`Final Energy|Wind`)+
-                                                               (`Final Energy|Geothermal`)', newUnit='EJ/yr') 
-
+    #Final Energy|Other Renewables includes renewable energy produced for small scale electricity and non-heat use (e.g. solar PV on roofs)
+    all <- calcVariable(all,'`Final Energy|Other Renewables` ~ (`Final Energy|Solar`) +
+                                                               (`Final Energy|Wind`) +
+                                                               (`Final Energy|Geothermal`)', newUnit='EJ/yr')     
     all <- calcVariable(all,'`Final Energy|Non-fossil` ~ (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Electricity`)+
                                                          (`Final Energy|Biomass|Excl. traditional`)+
-                                                         (`Final Energy|Other Renewables`)', 
+                                                         (`Final Energy|Other Renewables`)',
                                                          newUnit='EJ/yr') 
     all <- calcVariable(all,'`Final Energy|Fossil` ~ (`Final Energy`) - (`Final Energy|Non-fossil`)' , newUnit='EJ/yr')
     all <- calcVariable(all,'`Final Energy|Non-fossil share` ~ 100*(`Final Energy|Non-fossil`)/(`Final Energy`)' , newUnit='%')
@@ -193,7 +190,9 @@ add_variables <- function(all,scens){
     all <- calcPeak(all,'Emissions|CO2','Peak year|CO2')
     all <- calcPeak(all,'Emissions|Kyoto Gases','Peak year|Kyoto Gases')
     source("functions/calcRate.R")
-    all <- calcRate(all, c("Emissions Intensity of GDP|MER","Carbon Intensity of GDP|MER","GHG Intensity of GDP|MER","Carbon Intensity of FE","Energy Intensity of GDP|MER","Emissions|CO2|FFI","Renewables Share|Excl. Nuclear","GHG Intensity of FE"))
+    all <- calcRate(all, c("Emissions Intensity of GDP|MER","Carbon Intensity of FE","Energy Intensity of GDP|MER","Emissions|CO2|FFI","Renewables Share|Excl. Nuclear","GHG Intensity of FE"))
+    all <- calcRate(all, c("Carbon Intensity of GDP|MER","Carbon Intensity of GDP|MER (excl AFOLU)","GHG Intensity of GDP|MER", 
+                           "Carbon Intensity of GDP|PPP","Carbon Intensity of GDP|PPP (excl AFOLU)", "GHG Intensity of GDP|PPP"))
     #all <- overwrite(remind::calcCumulatedDiscount(all, discount = 0.05, nameVar = "GDP|MER"), all)
     
     all=all[!c(region=="Bunkers"&variable%in%c("GHG Intensity of FE","Emissions|Kyoto Gases|Excl. AFOLU CO2","Non-CO2 GHG per capita","GHG emissions per capita"))]

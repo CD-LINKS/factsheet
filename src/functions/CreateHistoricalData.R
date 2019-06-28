@@ -380,7 +380,6 @@ all_hist <- calcVariable(all_hist,'`Final Energy|Renewable` ~ (`Final Energy|Bio
                                                               (1/100)*(`Secondary Energy|Heat|Renewable share`)*(`Final Energy|Heat`)', 
                                                               newUnit='EJ/yr')
 all_hist <- calcVariable(all_hist,'`Final Energy|Non-fossil` ~ (`Final Energy|Biomass`)-(`Final Energy|Solids|Biomass|Traditional`)+ 
-                                                               #nuclear is zero (`Final Energy|Nuclear`)+
                                                                (`Final Energy|Other Renewables`)+
                                                                (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Electricity`)+
                                                                (1/100)*(`Secondary Energy|Heat|Non-fossil share`)*(`Final Energy|Heat`)', 

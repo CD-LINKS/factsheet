@@ -27,8 +27,10 @@ library(gridExtra) #arrangeGrob
 
 #source configuration file for region-specific data
 source("settings/config_WP2_3_indicators.R")
-cfg$infile <- "cdlinks_compare_20171028-093027"
+# previous round: cfg$infile <- "cdlinks_compare_20171028-093027"
+#cfg$infile <- "cdlinks_compare_20171028-093027"
 #cfg$infile <- "cdlinks_compare_20190123-155652"
+datafile <- "cdlinks_compare_20190403-172904"
 cfg$outdir    <- "WP2_output" #source function for factorizing data frames
 source("functions/factor.data.frame.R")
 # source functions process_data() and add_variables()

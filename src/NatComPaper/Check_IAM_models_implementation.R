@@ -69,7 +69,7 @@ NDCgrowth <- read.table("data/INDC growth rates protocol.csv", sep=";", header=T
 # settings
 regs_data<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World", "Bunkers")
 regs_check<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World")
-cats_check <- c("No policy", "National policies","NDC")
+cats_check <- c("No new policies", "National policies","NDC", "Carbon budget 1000", "Carbon budget 400")
 models_global <- filter(all_paper, Scope=="global", model != "AIM/CGE") %>% select(model) %>% unique() %>% as.matrix() %>% as.vector()
 models_national <- filter(all_paper, Scope=="national") %>% select(model) %>% unique()
 vars_GHG <- c("Emissions|Kyoto Gases", "Emissions|AFOLU", "Emissions|CO2", 
@@ -829,31 +829,6 @@ Drivers_NPi_median <- group_by(Drivers_NPi, driver, country) %>%
   as.data.frame()
 Drivers_NPi_median$country <- factor(Drivers_NPi_median$country, levels=regs_drivers)   
 
-#Drivers_NPi_models <- filter(Drivers_NPi, country=="USA", model=="IMAGE 3.0")
-Drivers_NPi_models <- Drivers_NPi
-p_drivers <- ggplot(data=Drivers_NPi_models) + geom_bar(aes(x=country, y=value, fill=driver), stat="identity", position=position_dodge(width=1), width=0.6) +
-             facet_wrap(~model, scales = "free_x") +
-             coord_flip() +
-             theme_bw() +
-             ggtitle("Decomposition drivers of change in total GHG emissions excluding AFOLU in National policies scenario") +
-             scale_fill_manual(values=c('moccasin', 'khaki4', 'khaki3', 'khaki2', 'khaki1', 'khaki','blue3'),
-                               labels=c("EM_growth_NPi"="Emission growth 2015-2030", "EM_history"="Difference with historical emissions", 
-                               "Polulation"="Population", "GDP_per_capita"="GDP per capita", "EM_per_GDP"="Emissions per GDP", 
-                               "Policy_implementation"="Policy impact", "Error_term"="Unexplained"))
-plot(p_drivers)
-
-p_drivers_median <- ggplot(data=Drivers_NPi_median) + 
-                    geom_bar(aes(x=country, y=median, fill=driver), stat="identity", position=position_dodge(width=1), width=0.6) +
-                    geom_errorbar(aes(x=country, ymin=min, ymax=max, group=interaction(driver, country)), width=.2,position=position_dodge(.9)) +
-                    coord_flip() +
-                    theme_bw() +
-                    ggtitle("Decomposition drivers of change in total GHG emissions excluding AFOLU in National policies scenario") +
-                    scale_fill_manual(values=c('moccasin', 'khaki4', 'khaki3', 'khaki2', 'khaki1', 'khaki4','blue3'),
-                                      labels=c("EM_growth_NPi"="Emission growth 2015-2030", "EM_history"="Difference with historical emissions", 
-                                               "Polulation"="Population", "GDP_per_capita"="GDP per capita", "EM_per_GDP"="Emissions per GDP", 
-                                               "Policy_implementation"="Policy impact", "Error_term"="Unexplained"))
-plot(p_drivers_median)
-
 p_drivers_median <- ggplot(data=Drivers_NPi_median) + 
   geom_bar(aes(x=driver, y=median, fill=driver), stat="identity", position=position_dodge(width=1), width=0.6) +
   geom_errorbar(aes(x=driver, ymin=min, ymax=max), width=.2,position=position_dodge(.9)) +
@@ -868,32 +843,133 @@ p_drivers_median <- ggplot(data=Drivers_NPi_median) +
                     guide = guide_legend(reverse=TRUE))
 plot(p_drivers_median)
 
+# ALTERNATIVE
+# decompostion of drivers NPi reduction relative to NoPolicy by 2030
+regs_drivers<- c("World", "USA", "RUS", "JPN", "IND", "EU", "CHN", "BRA")
+#drivers <- c("EM_growth_NPi", "EM_history", "Population", "GDP_per_capita", "EM_per_GDP", "Policy_implementation")
+drivers <- c("Error_term", "Policy_implementation", "EM_growth_NoPolicy", "EM_history","EM_growth_NPi")
 
-# read in drivers 2010
-Drivers_NPi_2010 <- read.table("data/Compare NPi ranges_2010.csv", sep=";", header=TRUE)
-Drivers_NPi_2010 <- filter(Drivers_NPi_2010, !(is.na(EM_growth_NPi)))
-Drivers_NPi_2010 <- gather(Drivers_NPi_2010, 3:ncol(Drivers_NPi_2010), key="driver", value=value)
-Drivers_NPi_2010$driver <- factor(Drivers_NPi_2010$driver, levels=drivers)    
+year_hist <- 2015
+vars_decomp <- c('Emissions|Kyoto Gases', 'Population', 'GDP|MER')
+scens_decomp <- c('No policy', 'National policies')
+decomposition_hist <- filter(all_hist, period==2015, variable=="Emissions|Kyoto Gases", region%in%regs_check) %>%
+  select(-unit, -Baseline, -Scope, -scenario)
+decomposition_projections <- filter(all_paper, Category%in%scens_decomp, period%in%c(2015, 2030), Scope=="global", 
+                                    model!='GEM-E3', variable%in%vars_decomp, region%in%regs_check) %>%
+  select(-unit, -Baseline, -Scope, -scenario)
 
-Drivers_NPi_median_2010 <- group_by(Drivers_NPi_2010, driver, country) %>%
+decomposition_hist_tmp <- decomposition_hist %>% 
+  gather(var_tmp, val_tmp, -(c(model,region, variable, Category, variable, period))) %>%
+  unite(temp, c(Category, variable, period), var_tmp) %>%
+  spread(temp, val_tmp)
+decomposition_projections_tmp <- decomposition_projections %>% 
+  gather(var_tmp, val_tmp, -(c(model,region, variable, Category, variable, period))) %>%
+  unite(temp, c(Category, variable, period), var_tmp) %>%
+  spread(temp, val_tmp)
+decomposition <- left_join(decomposition_hist_tmp, decomposition_projections_tmp, by=c('region')) %>%
+  rename(model=model.y) %>% select(-model.x) 
+decomposition <-  select(decomposition, model, region, everything())
+
+decomposition <- transmute(decomposition, model=model, region=region,
+                           EM_growth_NPi=`National policies_Emissions|Kyoto Gases_2030_value`-`National policies_Emissions|Kyoto Gases_2015_value`,
+                           EM_history=`National policies_Emissions|Kyoto Gases_2015_value`-`Historical_Emissions|Kyoto Gases_2015_value`,
+                           EM_growth_NoPolicy=`No policy_Emissions|Kyoto Gases_2030_value`-`No policy_Emissions|Kyoto Gases_2015_value`,
+                           Policy_implementation=`No policy_Emissions|Kyoto Gases_2030_value`-`National policies_Emissions|Kyoto Gases_2030_value`)
+decomposition <- mutate(decomposition, Error_term=EM_growth_NPi-EM_history-EM_growth_NoPolicy-Policy_implementation)
+decomposition <- gather(decomposition, EM_growth_NPi, EM_history, EM_growth_NoPolicy, Policy_implementation, Error_term, key="driver", value=value)
+
+decomposition$driver <- factor(decomposition$driver, levels=drivers)   
+decomposition$region <- factor(decomposition$region, levels=regs_drivers)
+
+decomposition_median <- group_by(decomposition, driver, region) %>%
   summarize(median=median(value),
             min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)) %>%
   as.data.frame()
-Drivers_NPi_median_2010$country <- factor(Drivers_NPi_median_2010$country, levels=regs_drivers)   
+decomposition_median$driver <- factor(decomposition_median$driver, levels=drivers)   
+decomposition_median$region <- factor(decomposition_median$region, levels=regs_drivers)
 
-p_drivers_median_2010 <- ggplot(data=Drivers_NPi_median_2010) + 
+
+p_drivers_median <- ggplot(data=decomposition_median) + 
   geom_bar(aes(x=driver, y=median, fill=driver), stat="identity", position=position_dodge(width=1), width=0.6) +
   geom_errorbar(aes(x=driver, ymin=min, ymax=max), width=.2,position=position_dodge(.9)) +
-  facet_wrap(~country, scales = "free_x") +
+  facet_wrap(~region, scales = "free_x") +
   coord_flip() +
   theme_bw() +
-  ggtitle("Decomposition drivers of change in total GHG emissions excluding AFOLU in National policies scenario relative to no policy scenario") +
-  scale_fill_manual(values=c('moccasin', 'khaki4', 'khaki3', 'khaki2', 'khaki1', 'khaki4','blue3'),
-                    labels=c("EM_growth_NPi"="Emission growth 2015-2030", "EM_history"="Difference with historical emissions", 
-                             "Polulation"="Population", "GDP_per_capita"="GDP per capita", "EM_per_GDP"="Emissions per GDP", 
-                             "Policy_implementation"="Policy impact", "Error_term"="Unexplained"),
-                    guide = guide_legend(reverse=TRUE))
-plot(p_drivers_median_2010)
+  scale_fill_manual(values=c('moccasin', 'khaki4', 'khaki3', 'khaki2', 'blue3'),
+                    labels=c("EM_growth_NPi"="Emission growth National policies scenario 2015-2030", 
+                             "EM_history"="Difference with historical emissions", 
+                             "EM_growth_NoPolicy"="Emission growth 2015-3030 No policy scenario",
+                             "Policy_implementation"="Policy impact", 
+                             "Error_term"="Unexplained"),
+                    guide = guide_legend(reverse=TRUE)
+                    ) +
+  scale_y_continuous(labels = comma) +
+  theme(axis.text.y=element_blank())
+plot(p_drivers_median)
+
+# only for World
+decomposition_world <- filter(decomposition, region=="World")
+decomposition_world <- mutate(decomposition_world, estimate="model")
+tmp <- read.table("NatComPaper/data/Additional_reductions.csv", sep=";", header=TRUE)
+decomposition_world <- rbind(decomposition_world, tmp)
+decomposition_world_median <- group_by(decomposition_world, driver, estimate, region) %>%
+  summarize(median=median(value),
+            min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)) %>%
+  as.data.frame()
+decomposition_world_median$driver <- factor(decomposition_world_median$driver, levels=drivers)   
+decomposition_world_median$region <- factor(decomposition_world_median$region, levels=regs_drivers)
+decomposition_world_median$estimate <- factor(decomposition_world_median$estimate, levels=c('outside', 'model'))
+
+# for error bar we need to sum the policy impact uncertainties
+decomposition_world_error <- spread(decomposition_world, key=estimate, value=value)
+decomposition_world_error[is.na(decomposition_world_error)] <- 0
+decomposition_world_error <- mutate(decomposition_world_error, value=model+outside) %>% select(-outside, -model)
+decomposition_world_error_median <- group_by(decomposition_world_error, driver, region) %>%
+  summarize(median=median(value),
+            min=quantile(value,prob=0.1),max=quantile(value,prob=0.9)) %>%
+  as.data.frame()
+decomposition_world_error_median$driver <- factor(decomposition_world_error_median$driver, levels=drivers)   
+decomposition_world_error_median$region <- factor(decomposition_world_error_median$region, levels=regs_drivers)
+
+p_drivers_world_median <- ggplot(data=decomposition_world_median) + 
+  #geom_bar(aes(x=driver, y=median, fill=driver), stat="identity", position=position_dodge(width=1), width=0.6) +
+  geom_bar(aes(x=driver, y=median, fill=interaction(driver, estimate)), stat="identity") +
+  geom_errorbar(data=decomposition_world_error_median, aes(x=driver, ymin=min, ymax=max), width=.2,position=position_dodge(.9)) +
+  coord_flip() +
+  theme_bw() +
+  scale_fill_manual(name = "Driver",
+                    values=c('moccasin', 'khaki4', 'khaki3', 'khaki2', 'khaki1', 'blue3'),
+                    breaks=c("EM_growth_NPi.model", 
+                             "EM_history.model", 
+                             "EM_growth_NoPolicy.model",
+                             "Policy_implementation.outside", 
+                             "Policy_implementation.model",
+                             "Error_term.model"),
+                    labels=c("EM_growth_NPi.model"="Emission growth National policies scenario", 
+                             "EM_history.model"="Historical calibration", 
+                             "EM_growth_NoPolicy.model"="Emission growth No policy scenario",
+                             "Policy_implementation.outside"="Policy impact not covered by model", 
+                             "Policy_implementation.model"="Policy impact",
+                             "Error_term.model"="Other")
+                    ) +
+  scale_y_continuous(labels = comma) +
+  
+  xlab("Decomposition of reductions") +
+  theme(axis.title.x = element_text(size = 24, face="bold")) +
+  theme(axis.text.x=element_text(size = 24, face="bold")) +
+  
+  #ylab("") +
+  ylab("Global emission growth from 2015 to 2030 (MtCO2eq)") +
+  theme(axis.title.y = element_text(size = 24, face="bold")) +
+  theme(axis.text.y=element_blank()) +
+  #theme(axis.text.y=element_text(size = 24, face="bold")) +
+  
+  theme(legend.position="right",
+        legend.text = element_text(size = 30),
+        legend.title = element_text(size = 30))
+plot(p_drivers_world_median)
+ggsave(file=paste("NatComPaper/graphs","/Figure1_methods.jpg",sep=""),p_drivers_world_median,width=20,height=12,dpi=200)
+
 
 # show differences SSP1, SSP2, SSP3
 

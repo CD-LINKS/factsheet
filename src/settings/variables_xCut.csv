@@ -138,6 +138,7 @@ Primary Energy|Secondary Energy Trade
 Primary Energy|Solar
 Primary Energy|Wind
 Land Cover|Forest
+Land Cover|Forest|Natural Forest
 Land Cover|Forest|Forestry|Harvested Area
 Land Cover|Cropland
 Land Cover|Cropland|Energy Crops
@@ -150,8 +151,8 @@ Primary Energy|Biomass|Traditional
 Carbon Sequestration|CCS
 Carbon Sequestration|CCS|Fossil
 Emissions|BC
+Emissions|OC
+Emissions|Sulfur
 Emissions|N2O|Energy
 Emissions|N2O|Other
 Emissions|NOx
-Emissions|OC
-Emissions|Sulfur

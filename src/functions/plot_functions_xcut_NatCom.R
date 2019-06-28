@@ -826,7 +826,7 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
            }
   # make selection in data
   dt_tmp2 <- dt_tmp1
-  dt_tmp1 <-filter(dt_tmp1, region %in% regs, Category%in% cats, variable%in% c(vars_stack, var_line), period %in% per,Scope=="global",!variable==TotalEmis_var) #[2:length(vars)]
+  dt_tmp1 <- filter(dt_tmp1, region %in% regs, Category%in% cats, variable%in% c(vars_stack, var_line), period %in% per,Scope=="global",!variable==TotalEmis_var) #[2:length(vars)]
   dt_tmp1 <- factor.data.frame(dt_tmp1)
   #dataframe for stack bar plots: use first scenario of each category-model combination, if multiple exists
   for (cat in cats){
@@ -861,7 +861,7 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
   if(quantiles){dtl=dtl[,list(min=quantile(value,prob=minprob),max=quantile(value,prob=maxprob)),by=c("Category","variable","region","period","Scope","unit")]
   }else{dtl=dtl[,list(min=min(value),max=max(value)),by=c("Category","variable","region","period","Scope","unit")]}
 
-  if(natpoints){dtn <- filter(dt, region %in% regs, Category%in% catsnat, variable==TotalEmis_var, period %in% per, Scope=="national")}
+  if(natpoints){dtn <- filter(dt_tmp2, region %in% regs, Category%in% catsnat, variable==TotalEmis_var, period %in% per, Scope=="national")}
 
   dta$Category <- factor(dta$Category, levels = cats, ordered = T )
   dtl$Category <- factor(dtl$Category, levels = cats, ordered = T )
@@ -870,7 +870,7 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
 
   p = ggplot() + ggplot2::theme_bw()
   p = p + geom_bar(data=dta,aes(Category, value, group = interaction(variable, region, Category), fill = variable), stat="identity", position="stack")
-  if(error_bar){ p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3)
+  if(error_bar){ p = p + geom_errorbar(data=dtl,aes(Category, ymin=min,ymax=max, group = interaction(variable, region, Category)),size=0.3, colour='grey')
   }
   if(natpoints){
   p = p + geom_point(data=dtn,aes(x=Category,y=value,shape=model, group=interaction(Category,region,variable)), size = 3,show.legend = F)
@@ -885,10 +885,13 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
     dtline <- group_by(dtline, Category, region) %>% summarize(value=median(value))
     max_axis_left <- max(dt[variable==TotalEmis_var & region%in%regs]$value)
     #max_axis_left <- NA
-    max_axis_right <- 100 #max(dtline$value)
+    max_axis_right <- 125 
+    #max_axis_right <- (dtline$value)
   
     #p = p + geom_point(data=dtline, aes(Category, value*(max_axis_left/max_axis_right),size=region), size=4, shape=8, show.legend=T)
-    p = p + geom_text(data=dtline, aes(Category, (value+5)*(max_axis_left/max_axis_right), label=paste0(format(round(dtline$value, digits=1), nsmall=1), "%"), angle=90), size=4)
+    p = p + geom_text(data=dtline, aes(Category, (value+5)*(max_axis_left/max_axis_right), 
+                      label=paste0(format(round(dtline$value, digits=1), nsmall=1), "%"), angle=90), 
+                      size=4, colour='black', fontface='bold', size=18, nudge_x=-0.25)
     #p = p + scale_size_discrete(name="Low carbon energy (EJ/yr)", labels=c("median % share"))
     #p = p + scale_y_continuous(name=lab, sec.axis = sec_axis(~ . * (1/100)*max_axis_right / max_axis_left , name = lab_line, labels=percent))
     p = p + scale_y_continuous(name=lab)
@@ -905,7 +908,6 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
                 axis.title = element_text(size=18),
                 legend.title = element_text(size=18),
                 legend.text = element_text(size=18))
-  #p = p + ylab("") + xlab("")
   p = p + xlab("")
   p = p + theme(legend.position = "right")
   if(title){p = p + ggtitle(Title)}

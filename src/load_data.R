@@ -40,11 +40,6 @@ if(!exists("addvars")){
 source(paste("settings/",config,".R",sep=""))
 
 #overwrite file to be used for analysis
-#cfg$infile    <- "cdlinks_compare_20190225-093329"
-#cfg$infile    <- "cdlinks_compare_20190123-155652"
-#cfg$infile    <-  "cdlinks_compare_20190222-175217"
-#cfg$infile    <-  "cdlinks_ssp1_ssp2_ssp3_compare_20190328-174943"
-#cfg$infile    <-  "cdlinks_compare_20190403-172904"
 cfg$infile<-datafile
 
 #source function for factorizing data frames
@@ -120,18 +115,24 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
     all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_1000_recGenTaxation_V4")]$SCENARIO,"NPi2020_1000_recGenTaxation_V4","NPi2020_1000_V4")
   all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
     all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO,"NPi2020_400_recGenTaxation_V4","NPi2020_400_V4")
+  
+  # FOR NATCOM paper we have also
+  # WITCH V5 --> V4
+  # COPPE-MSB --> skip V4 as these are not used, use V3. This works with current implementation
+  
   # Special case for IMAGE: for the effort sharing analysis use V5 (label as V4) because that one has 10 region level data (re-imported by Peter) - later use V5 for all models?
   all[MODEL %in% c("IMAGE 3.0")]$SCENARIO <- str_replace_all(all[MODEL %in% c("IMAGE 3.0")]$SCENARIO,"_V4","_V4real")
   all[MODEL %in% c("IMAGE 3.0")]$SCENARIO <- str_replace_all(all[MODEL %in% c("IMAGE 3.0")]$SCENARIO,"_V5","_V4")
   # Rest: use latest version V3 for national (and some global) models, rename to V4
   all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","China TIMES","COPPE-COFFEE 1.0","COPPE-MSB_v2.0","DNE21+ V.14 (national)","GCAM-USA_CDLINKS","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1","REMIND-MAgPIE 1.7-3.0")]$SCENARIO <- str_replace_all(
-    all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","China TIMES","COPPE-COFFEE 1.0","COPPE-MSB_v2.0","DNE21+ V.14 (national)","GCAM-USA_CDLINKS","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1","REMIND-MAgPIE 1.7-3.0")]$SCENARIO,"_V3","_V4")
+  all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","China TIMES","COPPE-COFFEE 1.0","COPPE-MSB_v2.0","DNE21+ V.14 (national)","GCAM-USA_CDLINKS","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1","REMIND-MAgPIE 1.7-3.0")]$SCENARIO,"_V3","_V4")
+
   # Exclude Globiom and Magpie (used for food security analysis only), and AIM/CGE (newest scenarios are under AIM V2.1)
   all <- all[!MODEL%in%c("MAgPIE 3.0","GLOBIOM 1.0","AIM/CGE")]
   # GEM-E3 used as global and national model
-  gem <- all[MODEL=="GEM-E3"&REGION=="EU"]
-  gem$MODEL <- "GEM-E3_EU"
-  all <- rbind(all,gem)
+  #gem <- all[MODEL=="GEM-E3"&REGION=="EU"]
+  #gem$MODEL <- "GEM-E3_EU"
+  #all <- rbind(all,gem)
  
   #### from raw wide format to long format with additional columns
   cat("- change format data\n")
@@ -144,13 +145,13 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
   ###### Manual changes before addition of calculated variables  
   cat("- make adjustments to data\n")
   source(paste(adjust,".R",sep=""))  
-all1<-all  
+ 
   #### add variables
   if(addvars){
     cat("- add variables to data\n")
     all <- add_variables(all,scens)
   }
-all2<-all
+
   #set scope to "national" for national models
   all[all$model %in% cfg$models_nat,]$Scope <- "national"
   #change model name for national models, so that they appear first
