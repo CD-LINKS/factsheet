@@ -116,11 +116,12 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
   all[MODEL %in% c("GEM-E3")&SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO <- str_replace_all(
     all[MODEL %in% c("GEM-E3")& SCENARIO%in%c("NPi2020_400_recGenTaxation_V4")]$SCENARIO,"NPi2020_400_recGenTaxation_V4","NPi2020_400_V4")
   
-  # FOR NATCOM paper we have also
-  # WITCH V5 --> V4
   # COPPE-MSB --> skip V4 as these are not used, use V3. This works with current implementation
   
   # Special case for IMAGE: for the effort sharing analysis use V5 (label as V4) because that one has 10 region level data (re-imported by Peter) - later use V5 for all models?
+  # Use V5 for WITCH2016 and IMAGE 3.0
+  all[MODEL %in% c("WITCH2016")]$SCENARIO <- str_replace_all(all[MODEL %in% c("WITCH2016")]$SCENARIO,"_V4","_Vx")
+  all[MODEL %in% c("WITCH2016")]$SCENARIO <- str_replace_all(all[MODEL %in% c("WITCH2016")]$SCENARIO,"_V5","_V4")
   all[MODEL %in% c("IMAGE 3.0")]$SCENARIO <- str_replace_all(all[MODEL %in% c("IMAGE 3.0")]$SCENARIO,"_V4","_V4real")
   all[MODEL %in% c("IMAGE 3.0")]$SCENARIO <- str_replace_all(all[MODEL %in% c("IMAGE 3.0")]$SCENARIO,"_V5","_V4")
   # Rest: use latest version V3 for national (and some global) models, rename to V4
