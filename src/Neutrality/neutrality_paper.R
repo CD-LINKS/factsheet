@@ -472,7 +472,7 @@ ggsave(file=paste(outdir,"/poy_vs_ccs_models",".png",sep=""),cc,height=12, width
 bd=np[variable %in% c("Emissions|CH4","Emissions|F-Gases","Emissions|Kyoto Gases","Emissions|N2O","Emissions|CO2","Emissions|CO2|AFOLU",
                         "Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand",
                         "Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Demand|Industry", #"Emissions|CO2|Energy|Demand|AFOFI",
-                        "Emissions|CO2|Energy|Demand|Transportation","Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass") 
+                        "Emissions|CO2|Energy|Demand|Transportation","Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|Land Use") 
       & Category%in%c("2 °C","2 °C (2030)","1.5 °C")]
 ghg=bd[variable %in% c("Emissions|Kyoto Gases")]
 
@@ -503,6 +503,7 @@ poyemis$N2O=poyemis$N2O*298/1000
 setnames(poyemis,"Emissions|CO2","CO2")
 setnames(poyemis,"Carbon Sequestration|CCS","CCS")
 setnames(poyemis,"Carbon Sequestration|CCS|Biomass","CCSbio")
+setnames(poyemis,"Carbon Sequestration|Land Use","CSland")
 setnames(poyemis,"Emissions|CO2|Energy and Industrial Processes","CO2ffi")
 setnames(poyemis,"Emissions|CO2|Energy|Demand","CO2demand")
 #setnames(poyemis,"Emissions|CO2|Energy|Demand|AFOFI","CO2agriculture") 
@@ -522,6 +523,7 @@ poyemis$Kyoto<-NULL
 poyemis$CCS=poyemis$CCS-poyemis$CCSbio
 poyemis$CCS=poyemis$CCS*-1
 poyemis$CCSbio=poyemis$CCSbio*-1
+poyemis$CSland=poyemis$CSland*-1
 poyemisccs=poyemis
 
 #Gather for plotting (exclude CCS because of double counting - plot separately)
@@ -532,7 +534,7 @@ poyemis$CO2agriculture<-NULL
 poyemis=data.table(poyemis)
 #poyemis$model <- paste(poyemis$model,' [',poyemis$period,']',sep="")
 
-poyemisccs=data.table(gather(poyemisccs,variable,value,c(CCS,CCSbio)))
+poyemisccs=data.table(gather(poyemisccs,variable,value,c(CCS,CCSbio,CSland)))
 poyemisccs=poyemisccs[ ,`:=`("CH4" = NULL, "CO2industry" = NULL, "CO2buildings"=NULL,"CO2transport"=NULL,"CO2supply"=NULL,"CO2afolu"=NULL,
                         "Fgases"=NULL,"N2O"=NULL)]
 
@@ -592,7 +594,7 @@ c1 = ggplot() +
   facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Carbon sequestration in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a"))
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CSland"="#009E73"))
 ggsave(file=paste(outdir,"/CCS_breakdown_poy_BRA-EU-RUS",".png",sep=""),c1,height=12, width=16,dpi=500)
 
 c2 = ggplot() +
@@ -602,7 +604,7 @@ c2 = ggplot() +
   facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Carbon sequestration in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a"))
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CSland"="#009E73"))
 ggsave(file=paste(outdir,"/CCS_breakdown_poy_CAN-JPN-TUR",".png",sep=""),c2,height=12, width=16,dpi=500)
 
 c3 = ggplot() +
@@ -612,6 +614,6 @@ c3 = ggplot() +
   facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Carbon sequestration in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a"))
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CSland"="#009E73"))
 ggsave(file=paste(outdir,"/CCS_breakdown_poy_CHN-IND-USA",".png",sep=""),c3,height=12, width=16,dpi=500)
 
