@@ -1067,23 +1067,34 @@ ggsave(file=paste(outdir,"/costratio_financialflows_allmodels_exclREMIND.png",se
 soc = data[variable%in%c("Employment","Employment|Agriculture","Employment|Industry","Employment|Service",
                          "Policy Cost|Equivalent Variation","Consumption")]
 
-#Employment: % change compared to 2015 / baseline (CO?)? stacked bar for sectors?
+###Employment: TODO % change compared to 2015 / baseline? (now CO)
 em = soc[variable%in%c("Employment","Employment|Agriculture","Employment|Industry","Employment|Service")]
+ema = em
 em = spread(em,regime,value)
 em = em%>%mutate(PCCrel=(PCC-CO)/CO*100,GFrel=(GF-CO)/CO*100,APrel=(AP-CO)/CO*100)
 em = data.table(gather(em,regime,value,c("AP","CO","GF","PCC","PCCrel","GFrel","APrel")))
 em = em[regime%in%c("PCCrel","GFrel","APrel")]
 
-emp = ggplot(emp) #TODO something with period
-emp = emp + geom_bar(aes(x=region,y=value,fill=regime),stat="identity",position="dodge")
-emp = emp + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-emp = emp + facet_grid(implementation~variable)
+#change relative to CO
+emp = ggplot(emp[period%in%c(2020,2030,2050)])
+emp = emp + geom_bar(aes(x=variable,y=value,fill=interaction(period,regime)),stat="identity",position="dodge")
+#emp = emp + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+emp = emp + facet_grid(implementation~region)
 emp = emp + theme_bw()+ theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
                                 axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
-emp = emp + xlab("") + ylab(soc[variable=="Employment"]$unit)
-ggsave(file=paste(outdir,"/employment.png",sep=""),emp,width=20,height=12,dpi=200)
+emp = emp + xlab("") + ylab("% (relative to CO)")
+ggsave(file=paste(outdir,"/employment_relativeCO.png",sep=""),emp,width=20,height=12,dpi=200)
 
-#Consumption - TODO %change?
+#absolute
+empl = ggplot(ema[period%in%c(2020,2030,2050)])
+empl = empl + geom_bar(aes(x=interaction(period,regime),y=value,fill=variable),stat="identity")
+empl = empl + facet_grid(implementation~region)
+empl = empl + theme_bw()+ theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
+                              axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
+empl = empl + xlab("") + ylab(soc[variable=="Employment"]$unit)
+ggsave(file=paste(outdir,"/employment_absolute.png",sep=""),empl,width=20,height=12,dpi=200)
+
+###Consumption
 cons = ggplot(soc[variable=="Consumption"&period==2050]) 
 cons = cons + geom_bar(aes(x=region,y=value,fill=regime),stat="identity",position="dodge")
 cons = cons + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
@@ -1093,7 +1104,22 @@ cons = cons + theme_bw()+ theme(axis.text=element_text(size=14),strip.text=eleme
 cons = cons + xlab("") + ylab(soc[variable=="Consumption"]$unit)
 ggsave(file=paste(outdir,"/Consumption_2050.png",sep=""),cons,width=20,height=12,dpi=200)
 
-#Equivalent variation
+coc = soc[variable=="Consumption"&period%in%c(2015,2020,2030,2050)]
+coc = spread(coc,period,value)
+coc = coc%>%mutate(`2020`= (`2020`-`2015`)/`2015`*100,`2030`= (`2030`-`2015`)/`2015`*100,`2050`= (`2050`-`2015`)/`2015`*100)
+coc = data.table(gather(coc,period,value,c(`2015`,`2020`,`2030`,`2050`)))
+coc = coc[!period==2015]
+
+con = ggplot(coc) 
+con = con + geom_bar(aes(x=period,y=value,fill=regime),stat="identity",position="dodge")
+con = con + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+con = con + facet_grid(implementation~region)
+con = con + theme_bw()+ theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
+                                axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
+con = con + xlab("") + ylab("% (relative to 2015)")
+ggsave(file=paste(outdir,"/Consumption_change.png",sep=""),con,width=20,height=12,dpi=200)
+
+###Equivalent variation
 ev = ggplot(soc[variable=="Policy Cost|Equivalent Variation"&period==2050]) 
 ev = ev + geom_bar(aes(x=region,y=value,fill=regime),stat="identity",position="dodge")
 ev = ev + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
