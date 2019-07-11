@@ -1063,19 +1063,45 @@ i4 = i4 + xlab(finflowsstat$unit)
 ggsave(file=paste(outdir,"/costratio_financialflows_allmodels_exclREMIND.png",sep=""),i4,width=20,height=12,dpi=200)
 
 # Socioeconomic impacts ---------------------------------------------------
-
 # TODO the % change in GDP, the % change in private consumption  or a welfare indicator such as equivalent variation and maybe also a % change in employment.
 soc = data[variable%in%c("Employment","Employment|Agriculture","Employment|Industry","Employment|Service",
                          "Policy Cost|Equivalent Variation","Consumption")]
 
-#Employment: % change compared to 2015 / baseline? stacked bar for sectors?
+#Employment: % change compared to 2015 / baseline (CO?)? stacked bar for sectors?
+em = soc[variable%in%c("Employment","Employment|Agriculture","Employment|Industry","Employment|Service")]
+em = spread(em,regime,value)
+em = em%>%mutate(PCCrel=(PCC-CO)/CO*100,GFrel=(GF-CO)/CO*100,APrel=(AP-CO)/CO*100)
+em = data.table(gather(em,regime,value,c("AP","CO","GF","PCC","PCCrel","GFrel","APrel")))
+em = em[regime%in%c("PCCrel","GFrel","APrel")]
 
-#Consumption
-cons = ggplot(soc[variable=="Consumption"&period%in%c(2005,2010,2020,2030,2040,2050,2060,2070,2080,2090,2100)]) #TODO fix zigzag
-cons = cons + geom_line(aes(x=period,y=value,colour=regime))
-cons = cons + facet_grid(model~implementation)
-cons = cons + theme_bw()
+emp = ggplot(emp) #TODO something with period
+emp = emp + geom_bar(aes(x=region,y=value,fill=regime),stat="identity",position="dodge")
+emp = emp + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+emp = emp + facet_grid(implementation~variable)
+emp = emp + theme_bw()+ theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
+                                axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
+emp = emp + xlab("") + ylab(soc[variable=="Employment"]$unit)
+ggsave(file=paste(outdir,"/employment.png",sep=""),emp,width=20,height=12,dpi=200)
+
+#Consumption - TODO %change?
+cons = ggplot(soc[variable=="Consumption"&period==2050]) 
+cons = cons + geom_bar(aes(x=region,y=value,fill=regime),stat="identity",position="dodge")
+cons = cons + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+cons = cons + facet_grid(implementation~model)
+cons = cons + theme_bw()+ theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
+                                axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
 cons = cons + xlab("") + ylab(soc[variable=="Consumption"]$unit)
+ggsave(file=paste(outdir,"/Consumption_2050.png",sep=""),cons,width=20,height=12,dpi=200)
+
+#Equivalent variation
+ev = ggplot(soc[variable=="Policy Cost|Equivalent Variation"&period==2050]) 
+ev = ev + geom_bar(aes(x=region,y=value,fill=regime),stat="identity",position="dodge")
+ev = ev + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+ev = ev + facet_grid(implementation~model)
+ev = ev + theme_bw()+ theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
+                                axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
+ev = ev + xlab("") + ylab(soc[variable=="Policy Cost|Equivalent Variation"]$unit)
+ggsave(file=paste(outdir,"/Equivalent_variation_2050.png",sep=""),ev,width=20,height=12,dpi=200)
 
 # Technologies employed ---------------------------------------------------
 
