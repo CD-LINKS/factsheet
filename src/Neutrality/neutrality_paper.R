@@ -34,7 +34,7 @@ all$Category=str_replace_all(all$Category,"2030_low","2 °C (2030)")
 
 # Data preparation --------------------------------------------------------
 np=data.table(all)
-np=np[Scope=="global"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5REF","R5OECD90+EU")]
+np=np[Scope=="global"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5REF","R5OECD90+EU")&!model=="COPPE-COFFEE 1.0"]
 
 # write output: overview of original scenarios per category, model and region
 u=np[,list(unique(scenario)),by=c("model","Category","region")]
@@ -67,13 +67,13 @@ poy$years=poy$poy-poy$world
 models=poy[,list(number=length(unique(model))),by=c('region','variable')]
 poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
-poy=poy[!number<2]
+poy=poy[!number<3]
 
 poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","unit","variable")])
 
 S = ggplot()
-S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
-S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
+S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]","SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
+S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]","SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
 S = S + coord_flip()
 S = S + facet_grid(.~Category, scales="free_y")
 S = S + geom_hline(yintercept=0)
@@ -160,7 +160,7 @@ poy$years=poy$poy-poy$world
 models=poy[,list(number=length(unique(model))),by=c('region','variable')]
 poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
-poy=poy[!number<2]
+poy=poy[!number<3]
 
 poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","variable")])
 
@@ -172,8 +172,8 @@ poy=rbind(poyrange1,poyrange2)
 
 # Plot
 S1 = ggplot()
-S1 = S1 + geom_errorbar(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
-S1 = S1 + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
+S1 = S1 + geom_errorbar(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,"SAF [2 models]","MEX [2 models]"
+S1 = S1 + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
 S1 = S1 + coord_flip()
 S1 = S1 + facet_grid(.~Category, scales="free_y")
 S1 = S1 + geom_hline(yintercept=0)
@@ -197,13 +197,13 @@ poy1=data.table(gather(poy1,variable,value,c("V1.y","V1.x","diff")))
 models=poy1[,list(number=length(unique(model))),by=c('region','variable')]
 poy1=merge(poy1, models, by=c('region','variable'))
 poy1$region <- paste(poy1$region,' [',poy1$number,' models]',sep="")
-poy1=poy1[!number<2]
+poy1=poy1[!number<3]
 
 poyrange1=data.table(poy1[,list(median=median(value),min=min(value),max=max(value)),by=c("Category","region","variable")]) #,"unit"
 
 S2 = ggplot()
-S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
-S2 = S2 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"&variable=="diff"], aes(y=median,x=region)) #,colour=variable
+S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]")&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable #,"SAF [2 models]","MEX [2 models]"
+S2 = S2 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]")&variable=="diff"], aes(y=median,x=region)) #,colour=variable
 #S2 = S2 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
 S2 = S2 + coord_flip()
 S2 = S2 + facet_grid(.~Category, scales="free_y")
@@ -260,6 +260,7 @@ poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
 poy=poy[!number<2]
 
 poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","variable")]) #,"unit"
+poyrange=poyrange[!number<3]
 
 a = ggplot()
 a = a + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
@@ -285,6 +286,7 @@ poy1$region <- paste(poy1$region,' [',poy1$number,' models]',sep="")
 poy1=poy1[!number<2]
 
 poyrange1=data.table(poy1[,list(median=median(value),min=min(value),max=max(value)),by=c("Category","region","variable")]) #,"unit"
+poyrange1=poyrange1[!number<3]
 
 a1 = ggplot()
 a1 = a1 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
@@ -311,7 +313,7 @@ rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emi
                     "Agricultural Production|Energy","Yield|Oilcrops",
                     "Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|Land Use|Afforestation",
                     "Investment|Energy Efficiency","Investment|Energy Supply|Electricity|Electricity Storage")
-      & Category%in%c("2 °C","2 °C (2030)","1.5 °C")]
+      & Category%in%c("2 °C","1.5 °C")] #"2 °C (2030)",
 ghg=rd[variable %in% c("Emissions|Kyoto Gases")]
 
 ### First calculate phase-out year (only for models with data until 2100)
