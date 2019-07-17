@@ -590,24 +590,24 @@ b3 = ggplot() +
 ggsave(file=paste(outdir,"/emissions_breakdown_poy_CHN-IND-USA",".png",sep=""),b3,height=12, width=16,dpi=500)
 
 c1 = ggplot() +
-  geom_bar(data=poyemisccs[value>0&region%in%c("BRA","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_bar(data=poyemisccs[value<0&region%in%c("BRA","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_text(data=poyemisccs[region%in%c("BRA","EU","RUS")&variable=="CCS"],stat="identity",aes(x=model,y=0,label=period),size=6) +
+  geom_bar(data=poyemisccs[value>0&region%in%c("JPN","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemisccs[value<0&region%in%c("JPN","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_text(data=poyemisccs[region%in%c("JPN","EU","RUS")&variable=="CCS"],stat="identity",aes(x=model,y=0,label=period),size=6) +
   facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Carbon sequestration in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
   scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CSland"="#009E73"))
-ggsave(file=paste(outdir,"/CCS_breakdown_poy_BRA-EU-RUS",".png",sep=""),c1,height=12, width=16,dpi=500)
+ggsave(file=paste(outdir,"/CCS_breakdown_poy_JPN-EU-RUS",".png",sep=""),c1,height=12, width=16,dpi=500)
 
 c2 = ggplot() +
-  geom_bar(data=poyemisccs[value>0&region%in%c("CAN","JPN","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_bar(data=poyemisccs[value<0&region%in%c("CAN","JPN","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_text(data=poyemisccs[region%in%c("CAN","JPN","TUR")&variable=="CCS"],stat="identity",aes(x=model,y=0,label=period),size=6) +
+  geom_bar(data=poyemisccs[value>0&region%in%c("CAN","BRA","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemisccs[value<0&region%in%c("CAN","BRA","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_text(data=poyemisccs[region%in%c("CAN","BRA","TUR")&variable=="CCS"],stat="identity",aes(x=model,y=0,label=period),size=6) +
   facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Carbon sequestration in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
   scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CSland"="#009E73"))
-ggsave(file=paste(outdir,"/CCS_breakdown_poy_CAN-JPN-TUR",".png",sep=""),c2,height=12, width=16,dpi=500)
+ggsave(file=paste(outdir,"/CCS_breakdown_poy_CAN-BRA-TUR",".png",sep=""),c2,height=12, width=16,dpi=500)
 
 c3 = ggplot() +
   geom_bar(data=poyemisccs[value>0&region%in%c("CHN","IND","USA")],aes(x=model,y=value,fill=variable),stat="Identity") +
