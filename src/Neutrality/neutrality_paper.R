@@ -3,7 +3,7 @@ setwd("~/disks/local/factsheet/src")
 config <-"config_neutrality"
 scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
-adjust <- "adjust_reporting_neutrality" # TODO to decide: remove MESSAGE for China due to region definition? and COFFEE & DNE for EU and DNE for China and India? and COFFEE for Japan?
+adjust <- "adjust_reporting_neutrality" # TODO to check: remove MESSAGE for China due to region definition? and COFFEE & DNE for EU and DNE for China and India? and COFFEE for Japan?
 addvars <- F
 datafile <-"cdlinks_compare_20190531-122548"
 source("load_data.R")
@@ -72,8 +72,8 @@ poy=poy[!number<3]
 poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","unit","variable")])
 
 S = ggplot()
-S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]","SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
-S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]","SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
+S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
+S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
 S = S + coord_flip()
 S = S + facet_grid(.~Category, scales="free_y")
 S = S + geom_hline(yintercept=0)
@@ -172,8 +172,8 @@ poy=rbind(poyrange1,poyrange2)
 
 # Plot
 S1 = ggplot()
-S1 = S1 + geom_errorbar(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,"SAF [2 models]","MEX [2 models]"
-S1 = S1 + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
+S1 = S1 + geom_errorbar(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,"SAF [2 models]","MEX [2 models]"
+S1 = S1 + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
 S1 = S1 + coord_flip()
 S1 = S1 + facet_grid(.~Category, scales="free_y")
 S1 = S1 + geom_hline(yintercept=0)
@@ -202,8 +202,8 @@ poy1=poy1[!number<3]
 poyrange1=data.table(poy1[,list(median=median(value),min=min(value),max=max(value)),by=c("Category","region","variable")]) #,"unit"
 
 S2 = ggplot()
-S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]")&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable #,"SAF [2 models]","MEX [2 models]"
-S2 = S2 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [7 models]")&variable=="diff"], aes(y=median,x=region)) #,colour=variable
+S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable #,"SAF [2 models]","MEX [2 models]"
+S2 = S2 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(y=median,x=region)) #,colour=variable
 #S2 = S2 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
 S2 = S2 + coord_flip()
 S2 = S2 + facet_grid(.~Category, scales="free_y")
@@ -257,10 +257,9 @@ poy$years=poy$poy-poy$world
 models=poy[,list(number=length(unique(model))),by=c('region','variable')]
 poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
-poy=poy[!number<2]
+poy=poy[!number<3]
 
 poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","variable")]) #,"unit"
-poyrange=poyrange[!number<3]
 
 a = ggplot()
 a = a + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
@@ -289,8 +288,8 @@ poyrange1=data.table(poy1[,list(median=median(value),min=min(value),max=max(valu
 poyrange1=poyrange1[!number<3]
 
 a1 = ggplot()
-a1 = a1 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
-a1 = a1 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"&variable=="diff"], aes(y=median,x=region)) #,colour=variable
+a1 = a1 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
+a1 = a1 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(y=median,x=region)) #,colour=variable
 #a1 = a1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
 a1 = a1 + coord_flip()
 a1 = a1 + facet_grid(.~Category, scales="free_y")
@@ -550,8 +549,8 @@ check=poyemis[,list(number=length(unique(scenario))),by=c('model','Category','re
 poyemis=poyemis[,mean(value,na.rm=TRUE),by=c('Category','region','variable','model','period')]
 setnames(poyemis,"V1","value")
 
-poyemis=poyemis[!model=="MESSAGEix-GLOBIOM_1.0"]
-poyemisccs=poyemisccs[!model=="MESSAGEix-GLOBIOM_1.0"]
+# poyemis=poyemis[!model=="MESSAGEix-GLOBIOM_1.0"]
+# poyemisccs=poyemisccs[!model=="MESSAGEix-GLOBIOM_1.0"]
 
 #Stacked bar chart remaining emissions in poy - add phase-out year somewhere for regional graphs?
 library(gridExtra)
