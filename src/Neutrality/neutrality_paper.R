@@ -475,7 +475,7 @@ bd=np[variable %in% c("Emissions|CH4","Emissions|F-Gases","Emissions|Kyoto Gases
                         "Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand",
                         "Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Demand|Industry", #"Emissions|CO2|Energy|Demand|AFOFI",
                         "Emissions|CO2|Energy|Demand|Transportation","Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|Land Use") 
-      & Category%in%c("2 °C","2 °C (2030)","1.5 °C")]
+      & Category%in%c("2 °C","1.5 °C")] # ,"2 °C (2030)"
 ghg=bd[variable %in% c("Emissions|Kyoto Gases")]
 
 # To make sure we only use the models with data until 2100, important for this indicator
