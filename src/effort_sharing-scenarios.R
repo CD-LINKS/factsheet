@@ -45,7 +45,7 @@ native$variable <- factor(native$variable)
 native=native[!c(model=="MESSAGEix-GLOBIOM_1.1"&scenario%in%c("NPi2020_1000_flex_AP_V4","NPi2020_1000_flex_GF_V4","NPi2020_1000_flex_PCC_V4"))]
 
 # Prepare data for use ----------------------------------------------------
-#IMAGE reporting only for effort sharing variables, need to get GDP and emissions from NPi2020_1000 (only works if 'all' exists in workspace - by running load_data)
+#IMAGE reporting only for effort sharing variables, need to get GDP and emissions from NPi2020_1000
 config <-"config_effortsharing"
 scencateg <- "scen_categ_V4"
 variables <- "variables_xCut"
@@ -62,9 +62,10 @@ image$Scope<-NULL
 setcolorder(image,c("model","scenario","region","variable","unit","period","value"))
 image$period<-as.numeric(image$period)
 image1=image
-image$scenario<-"NPi2020_1000_domestic_CO"
+image$scenario<-"NPi2020_1000_domestic_CO" #TODO use newly submitted CO scenarios
 image1$scenario<-"NPi2020_1000_flexibility_CO"
 data=rbind(data,image,image1)
+
 # IMAGE use CO GDP & population also for effort sharing scenarios
 ig <- data[model=="IMAGE 3.0"&variable%in%c("GDP|PPP","Population")&scenario=="NPi2020_1000_domestic_CO"] #,"GDP|MER"
 ig1=ig
@@ -80,6 +81,7 @@ ig4$scenario <- "NPi2020_1000_flexibility_PCC_V4"
 ig5$scenario <- "NPi2020_1000_domestic_GF_V4"
 ig6$scenario <- "NPi2020_1000_flexibility_GF_V4"
 data <- rbind(data,ig1,ig2,ig3,ig4,ig5,ig6)
+
 #IMAGE use CO emissions for all flexibility scenarios
 ie <- data[model=="IMAGE 3.0"&variable=="Emissions|Kyoto Gases"&scenario=="NPi2020_1000_flexibility_CO"]
 ie1=ie
@@ -89,10 +91,14 @@ ie1$scenario <- "NPi2020_1000_flexibility_AP_V4"
 ie2$scenario <- "NPi2020_1000_flexibility_PCC_V4"
 ie3$scenario <- "NPi2020_1000_flexibility_GF_V4"
 data <- rbind(data,ie1,ie2,ie3)
+
 # IMAGE use allowances as emissions for domestic scenarios
 ia <- data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"&scenario%in%c("NPi2020_1000_domestic_PCC_V4","NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_GF_V4")]
 ia$variable <- "Emissions|Kyoto Gases"
 data <- rbind(data,ia)
+
+# TODO IMAGE policy cost reporting: add trade|value to polic cost|area under MAC curve to get not only the domestic costs in the flexibility scenario
+
 
 # Read in NoPolicy (SSP2) baseline and cost-optimal scenario from 'all' for AP formula check (not available for AIM/CGE[Japan]?)
 nopolco = all[Category%in%c("NoPOL","2020_low")&!model=="MESSAGEix-GLOBIOM_1.0"]
@@ -129,7 +135,7 @@ native=rbind(native,msg3,msg4)
 # remind$region=str_replace_all(remind$region,"REF","R10REF_ECON")
 # data=rbind(data,remind)
 
-#add implementation and regime for easier selection
+#add implementation and regime for easier selection TODO add GEM-E3 revenue recycling tags when submitted
 data$implementation<-""
 data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_CO","NPi2020_1000_domestic_GF",
                    "NPi2020_1000_domestic_PCC", "NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_GF_V4",
