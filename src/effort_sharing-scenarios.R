@@ -9,7 +9,7 @@ library(directlabels) # year labels for scatter plots
 library(stringr) #str_replace_all
 library(gridExtra) #arrangeGrob
 
-data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190711-165302",".csv"),header=TRUE))
+data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190719-084128",".csv"),header=TRUE))
 data <- data.table(invisible(melt(data,measure.vars=names(data)[grep("[0-9]+",names(data))],variable.name = "period",variable.factor=FALSE)))
 data$period <- as.numeric(data$period)
 data <- data[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -30,7 +30,7 @@ if(!file.exists(outdir)) {
 
 
 # read native model region data -------------------------------------------
-native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190711-165401",".csv"),header=TRUE))
+native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190719-084718",".csv"),header=TRUE))
 native <- data.table(invisible(melt(native,measure.vars=names(native)[grep("[0-9]+",names(native))],variable.name = "period",variable.factor=FALSE)))
 native$period <- as.numeric(native$period)
 native <- native[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -41,8 +41,8 @@ setnames(native, "VARIABLE", "variable")
 setnames(native, "UNIT", "unit")
 native=na.omit(native)
 native$variable <- factor(native$variable)
-# remove MESSAGE scenarios with wrong name, erroneously re-imported with R10 update
-native=native[!c(model=="MESSAGEix-GLOBIOM_1.1"&scenario%in%c("NPi2020_1000_flex_AP_V4","NPi2020_1000_flex_GF_V4","NPi2020_1000_flex_PCC_V4"))]
+# remove MESSAGE scenarios with wrong name, erroneously re-imported with R10 update - not needed with new snapshot without these
+#native=native[!c(model=="MESSAGEix-GLOBIOM_1.1"&scenario%in%c("NPi2020_1000_flex_AP_V4","NPi2020_1000_flex_GF_V4","NPi2020_1000_flex_PCC_V4"))]
 
 # Prepare data for use ----------------------------------------------------
 #IMAGE reporting only for effort sharing variables, need to get GDP and emissions from NPi2020_1000
@@ -51,23 +51,23 @@ scencateg <- "scen_categ_V4"
 variables <- "variables_xCut"
 adjust <- "adjust_reporting_neutrality" #later use adjust reporting Mark? check what goes wrong first, and then need to explain what was done and why - prefer as little as possible adjustments for now, only used for the extra IMAGE CO data and baseline check anyway
 addvars <- F
-datafile <-"cdlinks_compare_20190531-122548"
+datafile <-"cdlinks_compare_20190614-101015"
 source("load_data.R")
 all=all[!duplicated(all)] #TODO check what goes wrong here: why is some data duplicated in load_data?
 
-image=all[model=="IMAGE 3.0"&scenario=="NPi2020_1000_V4"] #relabeled IMAGE V5 (the one with R10 level data) to V4 in load_data to make it work
+image=all[model=="IMAGE 3.0"&scenario=="NPi2020_1000_V4"&variable%in%c("Emissions|Kyoto Gases","GDP|PPP","Population")] #relabeled IMAGE V5 (the one with R10 level data) to V4 in load_data to make it work
 image$Baseline<-NULL
 image$Category<-NULL
 image$Scope<-NULL
 setcolorder(image,c("model","scenario","region","variable","unit","period","value"))
 image$period<-as.numeric(image$period)
 image1=image
-image$scenario<-"NPi2020_1000_domestic_CO" #TODO use newly submitted CO scenarios
-image1$scenario<-"NPi2020_1000_flexibility_CO"
+image$scenario<-"NPi2020_1000_domestic_CO_V4"
+image1$scenario<-"NPi2020_1000_flexibility_CO_V4"
 data=rbind(data,image,image1)
 
 # IMAGE use CO GDP & population also for effort sharing scenarios
-ig <- data[model=="IMAGE 3.0"&variable%in%c("GDP|PPP","Population")&scenario=="NPi2020_1000_domestic_CO"] #,"GDP|MER"
+ig <- data[model=="IMAGE 3.0"&variable%in%c("GDP|PPP","Population")&scenario=="NPi2020_1000_domestic_CO_V4"] #,"GDP|MER"
 ig1=ig
 ig2=ig
 ig3=ig
@@ -83,7 +83,7 @@ ig6$scenario <- "NPi2020_1000_flexibility_GF_V4"
 data <- rbind(data,ig1,ig2,ig3,ig4,ig5,ig6)
 
 #IMAGE use CO emissions for all flexibility scenarios
-ie <- data[model=="IMAGE 3.0"&variable=="Emissions|Kyoto Gases"&scenario=="NPi2020_1000_flexibility_CO"]
+ie <- data[model=="IMAGE 3.0"&variable=="Emissions|Kyoto Gases"&scenario=="NPi2020_1000_flexibility_CO_V4"]
 ie1=ie
 ie2=ie
 ie3=ie
@@ -97,8 +97,16 @@ ia <- data[model=="IMAGE 3.0"&variable=="Emissions|GHG|Allowance Allocation"&sce
 ia$variable <- "Emissions|Kyoto Gases"
 data <- rbind(data,ia)
 
-# TODO IMAGE policy cost reporting: add trade|value to polic cost|area under MAC curve to get not only the domestic costs in the flexibility scenario
-
+# IMAGE policy cost reporting: add trade|value to polic cost|area under MAC curve to get not only the domestic costs in the flexibility scenario
+ic = data[model=="IMAGE 3.0" & variable%in%c("Policy Cost|Area under MAC Curve","Trade|Emissions Allowances|Value")]
+ic = spread(ic[,!c('unit'),with=FALSE],variable,value)
+ic = ic %>% mutate(`Policy Cost|Area under MAC Curve`=`Policy Cost|Area under MAC Curve`-`Trade|Emissions Allowances|Value`)
+ic = data.table(gather(ic,variable,value,c("Policy Cost|Area under MAC Curve","Trade|Emissions Allowances|Value")))
+ic = ic[variable=="Policy Cost|Area under MAC Curve"]
+ic$unit <- unique(data[variable=="Policy Cost|Area under MAC Curve"]$unit)
+setcolorder(ic,c("model","scenario","region","variable","unit","period","value"))
+data=data[!c(model=="IMAGE 3.0"&variable=="Policy Cost|Area under MAC Curve")]
+data <- rbind(data,ic)
 
 # Read in NoPolicy (SSP2) baseline and cost-optimal scenario from 'all' for AP formula check (not available for AIM/CGE[Japan]?)
 nopolco = all[Category%in%c("NoPOL","2020_low")&!model=="MESSAGEix-GLOBIOM_1.0"]
@@ -138,29 +146,29 @@ native=rbind(native,msg3,msg4)
 #add implementation and regime for easier selection TODO add GEM-E3 revenue recycling tags when submitted
 data$implementation<-""
 data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_CO","NPi2020_1000_domestic_GF",
-                   "NPi2020_1000_domestic_PCC", "NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_GF_V4",
-                   "NPi2020_1000_domestic_PCC_V4")]$implementation<-"domestic"
+                   "NPi2020_1000_domestic_PCC", "NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_CO_V4",
+                   "NPi2020_1000_domestic_GF_V4","NPi2020_1000_domestic_PCC_V4")]$implementation<-"domestic"
 data[scenario%in%c("NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_PCC",
                    "NPi2020_1000_flexibility_AP_V4","NPi2020_1000_flexibility_GF_V4",
-                   "NPi2020_1000_flexibility_PCC_V4","NPi2020_1000_flexibility_CO")]$implementation<-"flexibility"
+                   "NPi2020_1000_flexibility_PCC_V4","NPi2020_1000_flexibility_CO","NPi2020_1000_flexibility_CO_V4")]$implementation<-"flexibility"
 data$regime<-""
 data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_AP_V4","NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_AP_V4")]$regime<-"AP"
 data[scenario%in%c("NPi2020_1000_domestic_PCC","NPi2020_1000_domestic_PCC_V4","NPi2020_1000_flexibility_PCC","NPi2020_1000_flexibility_PCC_V4")]$regime<-"PCC"
 data[scenario%in%c("NPi2020_1000_domestic_GF","NPi2020_1000_domestic_GF_V4","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_GF_V4")]$regime<-"GF"
-data[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO")]$regime<-"CO"
+data[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO","NPi2020_1000_domestic_CO_V4","NPi2020_1000_flexibility_CO_V4")]$regime<-"CO"
 
 native$implementation<-""
 native[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_CO","NPi2020_1000_domestic_GF",
-                   "NPi2020_1000_domestic_PCC", "NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_GF_V4",
-                   "NPi2020_1000_domestic_PCC_V4")]$implementation<-"domestic"
+                     "NPi2020_1000_domestic_PCC", "NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_CO_V4",
+                     "NPi2020_1000_domestic_GF_V4","NPi2020_1000_domestic_PCC_V4")]$implementation<-"domestic"
 native[scenario%in%c("NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_PCC",
-                   "NPi2020_1000_flexibility_AP_V4","NPi2020_1000_flexibility_GF_V4",
-                   "NPi2020_1000_flexibility_PCC_V4","NPi2020_1000_flexibility_CO")]$implementation<-"flexibility"
+                     "NPi2020_1000_flexibility_AP_V4","NPi2020_1000_flexibility_GF_V4",
+                     "NPi2020_1000_flexibility_PCC_V4","NPi2020_1000_flexibility_CO","NPi2020_1000_flexibility_CO_V4")]$implementation<-"flexibility"
 native$regime<-""
 native[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_AP_V4","NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_AP_V4")]$regime<-"AP"
 native[scenario%in%c("NPi2020_1000_domestic_PCC","NPi2020_1000_domestic_PCC_V4","NPi2020_1000_flexibility_PCC","NPi2020_1000_flexibility_PCC_V4")]$regime<-"PCC"
 native[scenario%in%c("NPi2020_1000_domestic_GF","NPi2020_1000_domestic_GF_V4","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_GF_V4")]$regime<-"GF"
-native[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO")]$regime<-"CO"
+native[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO","NPi2020_1000_domestic_CO_V4","NPi2020_1000_flexibility_CO_V4")]$regime<-"CO"
 
 #R5=data[region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA",
@@ -712,7 +720,7 @@ costsdi=merge(costsdi,costvars,by=c("model"))
 c = ggplot(costs[implementation=="flexibility"&!region%in%r10])
 c = c + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable),size=1)
 c = c + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-c = c + facet_grid(model~region,scale="free_y")
+c = c + facet_grid(model~region,scale="fixed")
 c = c + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 c = c + ylab(costs$unit)
 ggsave(file=paste(outdir,"/costs_GDP_flexibility.png",sep=""),c,width=20,height=12,dpi=200)
@@ -728,7 +736,7 @@ ggsave(file=paste(outdir,"/costs_GDP_flexibility_discounted.png",sep=""),ca,widt
 cb = ggplot(costs[region%in%r10&period==2050&implementation=="flexibility"])
 cb = cb + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
 cb = cb + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-cb = cb + facet_grid(regime~region,scale="free_y")
+cb = cb + facet_grid(regime~region,scale="fixed")
 cb = cb + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
                              legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
 cb = cb + ylab(costs$unit)+xlab("")
@@ -753,7 +761,7 @@ ggsave(file=paste(outdir,"/costs_GDP_domestic_discounted.png",sep=""),c1a,width=
 c1b = ggplot(costs[region%in%r10&period==2050&implementation=="domestic"])
 c1b = c1b + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
 c1b = c1b + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-c1b = c1b + facet_grid(regime~region,scale="free_y")
+c1b = c1b + facet_grid(regime~region,scale="fixed")
 c1b = c1b + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
                              legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
 c1b = c1b + ylab(costs$unit) + xlab("")
@@ -1069,20 +1077,20 @@ i4 = i4 + xlab(finflowsstat$unit)
 ggsave(file=paste(outdir,"/costratio_financialflows_allmodels_exclREMIND.png",sep=""),i4,width=20,height=12,dpi=200)
 
 # Socioeconomic impacts ---------------------------------------------------
-# TODO the % change in GDP, the % change in private consumption  or a welfare indicator such as equivalent variation and maybe also a % change in employment.
+# The % change in GDP, the % change in private consumption  or a welfare indicator such as equivalent variation and maybe also a % change in employment.
 soc = data[variable%in%c("Employment","Employment|Agriculture","Employment|Industry","Employment|Service",
                          "Policy Cost|Equivalent Variation","Consumption")]
 
-###Employment: TODO % change compared to 2015 / baseline? (now CO)
+###Employment: TODO % change compared to 2015 / baseline? (now CO - to check when flexibility CO is available)
 em = soc[variable%in%c("Employment","Employment|Agriculture","Employment|Industry","Employment|Service")]
 ema = em
-em = spread(em,regime,value)
-em = em%>%mutate(PCCrel=(PCC-CO)/CO*100,GFrel=(GF-CO)/CO*100,APrel=(AP-CO)/CO*100)
-em = data.table(gather(em,regime,value,c("AP","CO","GF","PCC","PCCrel","GFrel","APrel")))
-em = em[regime%in%c("PCCrel","GFrel","APrel")]
+em = spread(em[,!c('scenario'),with=FALSE],regime,value)
+em = em%>%mutate(PCCrel=(PCC-CO)/CO*100,APrel=(AP-CO)/CO*100) #GFrel=(GF-CO)/CO*100,
+em = data.table(gather(em,regime,value,c("AP","CO","PCC","PCCrel","APrel"))) #,"GF" "GFrel",
+em = em[regime%in%c("PCCrel","APrel")] #"GFrel",
 
 #change relative to CO
-emp = ggplot(emp[period%in%c(2020,2030,2050)])
+emp = ggplot(em[period%in%c(2020,2030,2050)])
 emp = emp + geom_bar(aes(x=variable,y=value,fill=interaction(period,regime)),stat="identity",position="dodge")
 #emp = emp + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 emp = emp + facet_grid(implementation~region)
@@ -1092,23 +1100,23 @@ emp = emp + xlab("") + ylab("% (relative to CO)")
 ggsave(file=paste(outdir,"/employment_relativeCO.png",sep=""),emp,width=20,height=12,dpi=200)
 
 #absolute
-empl = ggplot(ema[period%in%c(2020,2030,2050)])
-empl = empl + geom_bar(aes(x=interaction(period,regime),y=value,fill=variable),stat="identity")
-empl = empl + facet_grid(implementation~region)
+empl = ggplot(ema[period%in%c(2020,2030,2040,2050)&!variable=="Employment"&!region=="World"&implementation=="flexibility"])
+empl = empl + geom_bar(aes(x=period,y=value,fill=variable),stat="identity")
+empl = empl + facet_grid(regime~region)
 empl = empl + theme_bw()+ theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
                               axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
 empl = empl + xlab("") + ylab(soc[variable=="Employment"]$unit)
 ggsave(file=paste(outdir,"/employment_absolute.png",sep=""),empl,width=20,height=12,dpi=200)
 
 ###Consumption
-cons = ggplot(soc[variable=="Consumption"&period==2050]) 
+cons = ggplot(soc[variable=="Consumption"&period%in%c(2030,2050)&implementation=="flexibility"&!model=="AIM/CGE[Japan]"]) 
 cons = cons + geom_bar(aes(x=region,y=value,fill=regime),stat="identity",position="dodge")
 cons = cons + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-cons = cons + facet_grid(implementation~model)
+cons = cons + facet_grid(period~model)
 cons = cons + theme_bw()+ theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
                                 axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
 cons = cons + xlab("") + ylab(soc[variable=="Consumption"]$unit)
-ggsave(file=paste(outdir,"/Consumption_2050.png",sep=""),cons,width=20,height=12,dpi=200)
+ggsave(file=paste(outdir,"/Consumption_2030_2050.png",sep=""),cons,width=20,height=12,dpi=200)
 
 coc = soc[variable=="Consumption"&period%in%c(2015,2020,2030,2050)]
 coc = spread(coc,period,value)
@@ -1116,17 +1124,17 @@ coc = coc%>%mutate(`2020`= (`2020`-`2015`)/`2015`*100,`2030`= (`2030`-`2015`)/`2
 coc = data.table(gather(coc,period,value,c(`2015`,`2020`,`2030`,`2050`)))
 coc = coc[!period==2015]
 
-con = ggplot(coc) 
-con = con + geom_bar(aes(x=period,y=value,fill=regime),stat="identity",position="dodge")
+con = ggplot(coc[implementation=="flexibility"&!period==2020]) 
+con = con + geom_bar(aes(x=model,y=value,fill=regime),stat="identity",position="dodge")
 con = con + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-con = con + facet_grid(implementation~region)
+con = con + facet_grid(period~region)
 con = con + theme_bw()+ theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
                                 axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
 con = con + xlab("") + ylab("% (relative to 2015)")
 ggsave(file=paste(outdir,"/Consumption_change.png",sep=""),con,width=20,height=12,dpi=200)
 
 ###Equivalent variation
-ev = ggplot(soc[variable=="Policy Cost|Equivalent Variation"&period==2050]) 
+ev = ggplot(soc[variable=="Policy Cost|Equivalent Variation"&period==2050])  #&implementation=='flexibility'
 ev = ev + geom_bar(aes(x=region,y=value,fill=regime),stat="identity",position="dodge")
 ev = ev + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 ev = ev + facet_grid(implementation~model)
