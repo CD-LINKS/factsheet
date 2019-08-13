@@ -51,7 +51,7 @@ scencateg <- "scen_categ_V4"
 variables <- "variables_xCut"
 adjust <- "adjust_reporting_neutrality" #later use adjust reporting Mark? check what goes wrong first, and then need to explain what was done and why - prefer as little as possible adjustments for now, only used for the extra IMAGE CO data and baseline check anyway
 addvars <- F
-datafile <-"cdlinks_compare_20190614-101015" #TODO update when snapshot ready (check GEM-E3 NPi_V5)
+datafile <-"cdlinks_compare_20190813-112922"
 source("load_data.R")
 all=all[!duplicated(all)] #TODO check what goes wrong here: why is some data duplicated in load_data?
 
