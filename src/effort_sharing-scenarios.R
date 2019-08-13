@@ -9,7 +9,7 @@ library(directlabels) # year labels for scatter plots
 library(stringr) #str_replace_all
 library(gridExtra) #arrangeGrob
 
-data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190719-084128",".csv"),header=TRUE))
+data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20190813-093223",".csv"),header=TRUE))
 data <- data.table(invisible(melt(data,measure.vars=names(data)[grep("[0-9]+",names(data))],variable.name = "period",variable.factor=FALSE)))
 data$period <- as.numeric(data$period)
 data <- data[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -30,7 +30,7 @@ if(!file.exists(outdir)) {
 
 
 # read native model region data -------------------------------------------
-native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190719-084718",".csv"),header=TRUE))
+native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20190813-093306",".csv"),header=TRUE))
 native <- data.table(invisible(melt(native,measure.vars=names(native)[grep("[0-9]+",names(native))],variable.name = "period",variable.factor=FALSE)))
 native$period <- as.numeric(native$period)
 native <- native[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -51,7 +51,7 @@ scencateg <- "scen_categ_V4"
 variables <- "variables_xCut"
 adjust <- "adjust_reporting_neutrality" #later use adjust reporting Mark? check what goes wrong first, and then need to explain what was done and why - prefer as little as possible adjustments for now, only used for the extra IMAGE CO data and baseline check anyway
 addvars <- F
-datafile <-"cdlinks_compare_20190614-101015"
+datafile <-"cdlinks_compare_20190614-101015" #TODO update when snapshot ready (check GEM-E3 NPi_V5)
 source("load_data.R")
 all=all[!duplicated(all)] #TODO check what goes wrong here: why is some data duplicated in load_data?
 
@@ -143,32 +143,57 @@ native=rbind(native,msg3,msg4)
 # remind$region=str_replace_all(remind$region,"REF","R10REF_ECON")
 # data=rbind(data,remind)
 
-#add implementation and regime for easier selection TODO add GEM-E3 revenue recycling tags when submitted
+# GEM-E3 only use the recSocialSecurity scenarios (latest version) and use flexibility CO also as domestic
+data=data[!c(model=="GEM-E3"&scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_PCC"))]
+native=native[!c(model=="GEM-E3"&scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_PCC"))]
+
+gemco = data[model=="GEM-E3"&scenario=="NPi2020_1000_flexibility_CO_recSocialSecurity_V5"]
+gemco$scenario <-"NPi2020_1000_domestic_CO_recSocialSecurity_V5"
+data = rbind(data,gemco)
+gemcon = native[model=="GEM-E3"&scenario=="NPi2020_1000_flexibility_CO_recSocialSecurity_V5"]
+gemcon$scenario <-"NPi2020_1000_domestic_CO_recSocialSecurity_V5"
+native = rbind(native,gemcon)
+
+#add implementation and regime for easier selection
 data$implementation<-""
 data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_CO","NPi2020_1000_domestic_GF",
                    "NPi2020_1000_domestic_PCC", "NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_CO_V4",
-                   "NPi2020_1000_domestic_GF_V4","NPi2020_1000_domestic_PCC_V4")]$implementation<-"domestic"
+                   "NPi2020_1000_domestic_GF_V4","NPi2020_1000_domestic_PCC_V4",
+                   'NPi2020_1000_domestic_PCC_recSocialSecurity_V5',"NPi2020_1000_domestic_AP_recSocialSecurity_V5",
+                   "NPi2020_1000_domestic_CO_recSocialSecurity_V5")]$implementation<-"domestic"
 data[scenario%in%c("NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_PCC",
                    "NPi2020_1000_flexibility_AP_V4","NPi2020_1000_flexibility_GF_V4",
-                   "NPi2020_1000_flexibility_PCC_V4","NPi2020_1000_flexibility_CO","NPi2020_1000_flexibility_CO_V4")]$implementation<-"flexibility"
+                   "NPi2020_1000_flexibility_PCC_V4","NPi2020_1000_flexibility_CO","NPi2020_1000_flexibility_CO_V4",
+                   "NPi2020_1000_flexibility_PCC_recSocialSecurity_V5","NPi2020_1000_flexibility_CO_recSocialSecurity_V5",
+                   "NPi2020_1000_flexibility_AP_recSocialSecurity_V5")]$implementation<-"flexibility"
 data$regime<-""
-data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_AP_V4","NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_AP_V4")]$regime<-"AP"
-data[scenario%in%c("NPi2020_1000_domestic_PCC","NPi2020_1000_domestic_PCC_V4","NPi2020_1000_flexibility_PCC","NPi2020_1000_flexibility_PCC_V4")]$regime<-"PCC"
+data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_AP_V4","NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_AP_V4",
+                   "NPi2020_1000_domestic_AP_recSocialSecurity_V5","NPi2020_1000_flexibility_AP_recSocialSecurity_V5")]$regime<-"AP"
+data[scenario%in%c("NPi2020_1000_domestic_PCC","NPi2020_1000_domestic_PCC_V4","NPi2020_1000_flexibility_PCC","NPi2020_1000_flexibility_PCC_V4",
+                   'NPi2020_1000_domestic_PCC_recSocialSecurity_V5',"NPi2020_1000_flexibility_PCC_recSocialSecurity_V5")]$regime<-"PCC"
 data[scenario%in%c("NPi2020_1000_domestic_GF","NPi2020_1000_domestic_GF_V4","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_GF_V4")]$regime<-"GF"
-data[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO","NPi2020_1000_domestic_CO_V4","NPi2020_1000_flexibility_CO_V4")]$regime<-"CO"
+data[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO","NPi2020_1000_domestic_CO_V4","NPi2020_1000_flexibility_CO_V4",
+                   "NPi2020_1000_flexibility_CO_recSocialSecurity_V5","NPi2020_1000_domestic_CO_recSocialSecurity_V5")]$regime<-"CO"
 
 native$implementation<-""
 native[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_CO","NPi2020_1000_domestic_GF",
                      "NPi2020_1000_domestic_PCC", "NPi2020_1000_domestic_AP_V4","NPi2020_1000_domestic_CO_V4",
-                     "NPi2020_1000_domestic_GF_V4","NPi2020_1000_domestic_PCC_V4")]$implementation<-"domestic"
+                     "NPi2020_1000_domestic_GF_V4","NPi2020_1000_domestic_PCC_V4",
+                     'NPi2020_1000_domestic_PCC_recSocialSecurity_V5',"NPi2020_1000_domestic_AP_recSocialSecurity_V5",
+                     "NPi2020_1000_domestic_CO_recSocialSecurity_V5")]$implementation<-"domestic"
 native[scenario%in%c("NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_PCC",
                      "NPi2020_1000_flexibility_AP_V4","NPi2020_1000_flexibility_GF_V4",
-                     "NPi2020_1000_flexibility_PCC_V4","NPi2020_1000_flexibility_CO","NPi2020_1000_flexibility_CO_V4")]$implementation<-"flexibility"
+                     "NPi2020_1000_flexibility_PCC_V4","NPi2020_1000_flexibility_CO","NPi2020_1000_flexibility_CO_V4",
+                     "NPi2020_1000_flexibility_PCC_recSocialSecurity_V5","NPi2020_1000_flexibility_CO_recSocialSecurity_V5",
+                     "NPi2020_1000_flexibility_AP_recSocialSecurity_V5")]$implementation<-"flexibility"
 native$regime<-""
-native[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_AP_V4","NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_AP_V4")]$regime<-"AP"
-native[scenario%in%c("NPi2020_1000_domestic_PCC","NPi2020_1000_domestic_PCC_V4","NPi2020_1000_flexibility_PCC","NPi2020_1000_flexibility_PCC_V4")]$regime<-"PCC"
+native[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_AP_V4","NPi2020_1000_flexibility_AP","NPi2020_1000_flexibility_AP_V4",
+                   "NPi2020_1000_domestic_AP_recSocialSecurity_V5","NPi2020_1000_flexibility_AP_recSocialSecurity_V5")]$regime<-"AP"
+native[scenario%in%c("NPi2020_1000_domestic_PCC","NPi2020_1000_domestic_PCC_V4","NPi2020_1000_flexibility_PCC","NPi2020_1000_flexibility_PCC_V4",
+                   'NPi2020_1000_domestic_PCC_recSocialSecurity_V5',"NPi2020_1000_flexibility_PCC_recSocialSecurity_V5")]$regime<-"PCC"
 native[scenario%in%c("NPi2020_1000_domestic_GF","NPi2020_1000_domestic_GF_V4","NPi2020_1000_flexibility_GF","NPi2020_1000_flexibility_GF_V4")]$regime<-"GF"
-native[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO","NPi2020_1000_domestic_CO_V4","NPi2020_1000_flexibility_CO_V4")]$regime<-"CO"
+native[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO","NPi2020_1000_domestic_CO_V4","NPi2020_1000_flexibility_CO_V4",
+                   "NPi2020_1000_flexibility_CO_recSocialSecurity_V5","NPi2020_1000_domestic_CO_recSocialSecurity_V5")]$regime<-"CO"
 
 #R5=data[region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA",
@@ -1090,9 +1115,9 @@ em = data.table(gather(em,regime,value,c("AP","CO","PCC","PCCrel","APrel"))) #,"
 em = em[regime%in%c("PCCrel","APrel")] #"GFrel",
 
 #change relative to CO
-emp = ggplot(em[period%in%c(2020,2030,2050)])
-emp = emp + geom_bar(aes(x=variable,y=value,fill=interaction(period,regime)),stat="identity",position="dodge")
-#emp = emp + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+emp = ggplot(em[period%in%c(2050)&!region=="World"]) #[period%in%c(2020,2030,2050)]
+emp = emp + geom_bar(aes(x=variable,y=value,fill=regime),stat="identity",position="dodge")
+emp = emp + scale_fill_manual(values=c("APrel"="#003162","CO"="#b31b00","GF"="#b37400","PCCrel"="#4ed6ff"),labels=c("APrel"="AP","PCCrel"="PCC"))
 emp = emp + facet_grid(implementation~region)
 emp = emp + theme_bw()+ theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),
                                 axis.title = element_text(size=16),axis.text.x = element_text(angle=90))
