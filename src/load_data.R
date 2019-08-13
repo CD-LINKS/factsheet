@@ -118,12 +118,14 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
   
   # COPPE-MSB --> skip V4 as these are not used, use V3. This works with current implementation
   
-  # Special case for IMAGE: for the effort sharing analysis use V5 (label as V4) because that one has 10 region level data (re-imported by Peter) - later use V5 for all models?
+  # Special case for IMAGE and GEM-E3 (NPi only): for the effort sharing analysis use V5 (label as V4) because that one has 10 region level data (re-imported by Peter) - later use V5 for all models?
   # Use V5 for WITCH2016 and IMAGE 3.0
   all[MODEL %in% c("WITCH2016")]$SCENARIO <- str_replace_all(all[MODEL %in% c("WITCH2016")]$SCENARIO,"_V4","_Vx")
   all[MODEL %in% c("WITCH2016")]$SCENARIO <- str_replace_all(all[MODEL %in% c("WITCH2016")]$SCENARIO,"_V5","_V4")
   all[MODEL %in% c("IMAGE 3.0")]$SCENARIO <- str_replace_all(all[MODEL %in% c("IMAGE 3.0")]$SCENARIO,"_V4","_V4real")
   all[MODEL %in% c("IMAGE 3.0")]$SCENARIO <- str_replace_all(all[MODEL %in% c("IMAGE 3.0")]$SCENARIO,"_V5","_V4")
+  all[MODEL %in% c("GEM-E3")&SCENARIO=="NPi_V4"]$SCENARIO <- str_replace_all(all[MODEL %in% c("GEM-E3")&SCENARIO=="NPi_V4"]$SCENARIO,"_V4","_V4real")
+  all[MODEL %in% c("GEM-E3")&SCENARIO=="NPi_V5"]$SCENARIO <- str_replace_all(all[MODEL %in% c("GEM-E3")&SCENARIO=="NPi_V5"]$SCENARIO,"_V5","_V4")
   # Rest: use latest version V3 for national (and some global) models, rename to V4
   all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","China TIMES","COPPE-COFFEE 1.0","COPPE-MSB_v2.0","DNE21+ V.14 (national)","GCAM-USA_CDLINKS","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1","REMIND-MAgPIE 1.7-3.0")]$SCENARIO <- str_replace_all(
   all[MODEL %in% c("AIM/Enduse 3.0","AIM/Enduse[Japan]","China TIMES","COPPE-COFFEE 1.0","COPPE-MSB_v2.0","DNE21+ V.14 (national)","GCAM-USA_CDLINKS","India MARKAL","IPAC-AIM/technology V1.0","PRIMES_V1","REMIND-MAgPIE 1.7-3.0")]$SCENARIO,"_V3","_V4")
