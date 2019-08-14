@@ -329,7 +329,7 @@ setnames(poy,"V1","period")
 
 ### Calculate indicators to plot on X-axis
 ## Population density
-popd=rd[variable%in%c("Population","Land Cover")]
+popd=rd[variable%in%c("Population","Land Cover")&!c(model=="REMIND-MAgPIE 1.7-3.0"&region=="JPN")]
 popd=spread(popd[,!c('unit'),with=FALSE],variable,value)
 popd=popd%>%mutate(density=Population/`Land Cover`)
 popd=data.table(gather(popd,variable,value,c("Population","Land Cover","density")))
