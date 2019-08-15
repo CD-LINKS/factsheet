@@ -1171,3 +1171,160 @@ ggsave(file=paste(outdir,"/Equivalent_variation_2050.png",sep=""),ev,width=20,he
 # Technologies employed ---------------------------------------------------
 
 #National models? TODO
+
+# All figures in simple layout - 2050, flexibility only -------------------
+### 1. Drivers
+F1 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F1 = F1 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F1 = F1 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F1 = F1 + facet_grid(variable~region,scale="fixed")
+F1 = F1 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F1 = F1 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/drivers_flexibility_2050.png",sep=""),F1,width=20,height=12,dpi=200)
+
+### 2. Allowances
+F2 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F2 = F2 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F2 = F2 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F2 = F2 + facet_grid(regime~region,scale="fixed")
+F2 = F2 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F2 = F2 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/allowances_flexibility_2050.png",sep=""),F2,width=20,height=12,dpi=200)
+
+### 3. Emissions
+F3 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F3 = F3 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F3 = F3 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F3 = F3 + facet_grid(regime~region,scale="fixed")
+F3 = F3 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F3 = F3 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/emissions_flexibility_2050.png",sep=""),F3,width=20,height=12,dpi=200)
+
+### 4. Carbon price
+F4 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F4 = F4 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F4 = F4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F4 = F4 + facet_grid(regime~region,scale="fixed")
+F4 = F4 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F4 = F4 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/cprice_flexibility_2050.png",sep=""),F4,width=20,height=12,dpi=200)
+
+### 5. Costs relative to world
+F5 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F5 = F5 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F5 = F5 + geom_hline(aes(yintercept=1),size=1)
+F5 = F5 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F5 = F5 + facet_grid(regime~region,scale="fixed")
+F5 = F5 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F5 = F5 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/costsrelworld_flexibility_2050.png",sep=""),F5,width=20,height=12,dpi=200)
+
+### 6. Cost ratio OECD/non-OECD
+F6 = ggplot(costratio[period%in%c(2050)&implementation=="flexibility"])
+F6 = F6 + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
+F6 = F6 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F6 = F6 + facet_grid(period~model)
+F6 = F6 + geom_hline(aes(yintercept = 1),size=1)
+F6 = F6 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+F6 = F6 + ylab(costratio$variable)
+ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECD_flexibility_2050.png",sep=""),F6,width=20,height=12,dpi=200)
+
+### 7. Financial flows
+F7 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F7 = F7 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F7 = F7 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F7 = F7 + facet_grid(regime~region,scale="fixed")
+F7 = F7 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F7 = F7 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/financialflows_flexibility_2050.png",sep=""),F7,width=20,height=12,dpi=200)
+
+### 10. Equivalent variation
+F10 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F10 = F10 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F10 = F10 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F10 = F10 + facet_grid(regime~region,scale="fixed")
+F10 = F10 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F10 = F10 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/equivvariation_flexibility_2050.png",sep=""),F10,width=20,height=12,dpi=200)
+
+### 11. Consumption change
+F11 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F11 = F11 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F11 = F11 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F11 = F11 + facet_grid(regime~region,scale="fixed")
+F11 = F11 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F11 = F11 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/consumptionchange_flexibility_2050.png",sep=""),F11,width=20,height=12,dpi=200)
+
+### 12. Employment absolute
+F12 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F12 = F12 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F12 = F12 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F12 = F12 + facet_grid(regime~region,scale="fixed")
+F12 = F12 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F12 = F12 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/employment_flexibility_2050.png",sep=""),F12,width=20,height=12,dpi=200)
+
+### 13. Employment relative to CO
+F13 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F13 = F13 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F13 = F13 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F13 = F13 + facet_grid(regime~region,scale="fixed")
+F13 = F13 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F13 = F13 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/employmentrelCO_flexibility_2050.png",sep=""),F13,width=20,height=12,dpi=200)
+
+### 14. Costs %GDP (model statistics)
+F14 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F14 = F14 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F14 = F14 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F14 = F14 + facet_grid(regime~region,scale="fixed")
+F14 = F14 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F14 = F14 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/costsGDPstat_flexibility_2050.png",sep=""),F14,width=20,height=12,dpi=200)
+
+### 15. Cumulative discounted costs
+F15 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F15 = F15 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F15 = F15 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F15 = F15 + facet_grid(regime~region,scale="fixed")
+F15 = F15 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F15 = F15 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/cumuldisccosts_flexibility_2050.png",sep=""),F15,width=20,height=12,dpi=200)
+
+### 16. Financial flows 2100
+F16 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F16 = F16 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F16 = F16 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F16 = F16 + facet_grid(regime~region,scale="fixed")
+F16 = F16 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F16 = F16 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/financialflows_flexibility_2100.png",sep=""),F16,width=20,height=12,dpi=200)
+
+### 17. Ctax vs. reductions (compare national global)
+
+
+### 18. Compare national global other indicator
+F18 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+F18 = F18 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F18 = F18 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F18 = F18 + facet_grid(regime~region,scale="fixed")
+F18 = F18 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F18 = F18 + ylab(data$unit)+xlab("")
+ggsave(file=paste(outdir,"/natglobcomp_flexibility_2050.png",sep=""),F18,width=20,height=12,dpi=200)
+
+### 19. One figure to show time dimension
