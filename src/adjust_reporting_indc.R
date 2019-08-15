@@ -1,5 +1,6 @@
 # Collection of fixes for reporting issues and other adjustments --------------------------------
-#
+# First need it as a data table
+all=data.table(all)
 
 # Model-specific issues ---------------------------------------------------
 
