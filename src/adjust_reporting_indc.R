@@ -22,6 +22,23 @@ all <- rbind(all,tmp)
 all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Processes"&region=="RUS"]$value <-
   all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy"&region=="RUS"]$value
 
+#GCAM: add GDP from separate CSV
+gcam=invisible(fread(paste0("data/","GCAM_USA_CD-LINKS_GDP",".csv"),header=TRUE))
+gcam <- gather(gcam, 6:ncol(gcam), key="period", value=value)
+gcam$period <- as.numeric(gcam$period)
+setnames(gcam,"Region","region")
+setnames(gcam,"Model","model")
+setnames(gcam,"Variable","variable")
+setnames(gcam,"Unit","unit")
+setnames(gcam,"Scenario","scenario")
+gcam$Baseline<-"NoPOL_V4"
+gcam$Category<-"NPi"
+gcam$Scope<-"national"
+gcam$scenario<-"NPi_V4"
+gcam$model<-"GCAM-USA_CDLINKS"
+setcolorder(gcam,colnames(all))
+all <- rbind(all,gcam)
+
 #IPAC/AIM:
 # Baseline not NoPOL but NPi, because IPAC does not have NoPOL
 #all[model =="IPAC-AIM/technology V1.0"]$Baseline <- ""
