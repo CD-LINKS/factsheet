@@ -107,7 +107,7 @@ check=subset(check, subset=V1=="2100")
 dt=subset(dt, subset=model %in% check$model)
 
 # Read data for harmonisation
-har=fread("data/landuseinventory.csv",header=TRUE)
+har=fread("data/landuseinventory2019.csv",header=TRUE)
 har1=har[variable=="Emissions|CO2|AFOLU"]
 
 # Merge and calculate model deviation in 2010
