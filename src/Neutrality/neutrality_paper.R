@@ -346,6 +346,10 @@ setnames(poym,"V1","period")
 popden=merge(popd,poy,by=c("model","Category","region"))
 popdenm=merge(popdm,poym,by=c("Category","region"))
 
+# Calculate Pearson correlation
+popdencor = popden[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+popdenmcor = popdenm[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+
 ## Non-CO2 share in 2015
 nonco2=rd[variable%in%c("Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases")]
 nonco2=spread(nonco2[,!c('unit'),with=FALSE],variable,value)
@@ -360,6 +364,10 @@ setnames(nonco2m,"V1","value")
 
 nonco2emis=merge(nonco2,poy,by=c("model","Category","region"))
 nonco2emism=merge(nonco2m,poym,by=c("Category","region"))
+
+# Calculate Pearson correlation
+nonco2cor = nonco2emis[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+nonco2mcor = nonco2emism[,list(cor(value,period.y,method="pearson")),by=c("Category")]
 
 ## productive area per capita
 prod=rd[variable%in%c("Land Cover|Cropland","Population")]
@@ -376,13 +384,23 @@ setnames(prodm,"V1","value")
 prodcap=merge(prod,poy,by=c("model","Category","region"))
 prodcapm=merge(prodm,poym,by=c("Category","region"))
 
+# Calculate Pearson correlation
+prodcapcor = prodcap[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+prodcapmcor = prodcapm[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+
 ## Afforestation
 forest=rd[variable=="Land Cover|Forest|Afforestation and Reforestation"]
 afforest = merge(forest,poy,by=c("model","Category","region"))
 
+# Calculate Pearson correlation
+afforestcor = afforest[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+
 ## CCS
 ccs = rd[variable=="Carbon Sequestration|CCS"]
 ccscap = merge(ccs,poy,by=c("model","Category","region"))
+
+# Calculate Pearson correlation
+ccscor = ccscap[,list(cor(value,period.y,method="pearson")),by=c("Category")]
 
 ### plot indicators vs. phase-out year
 ## Population density
