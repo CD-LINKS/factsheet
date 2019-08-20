@@ -39,6 +39,10 @@ gcam$model<-"GCAM-USA_CDLINKS"
 setcolorder(gcam,colnames(all))
 all <- rbind(all,gcam)
 
+# India Markal and AIM/Enduse 3.0: convert GDP from Rupees to 2010 USD (divide by 36.1)
+all[model%in%c("India MARKAL", "AIM/Enduse 3.0")&variable%in%c("GDP|MER","GDP|PPP")]$value = 
+  all[model%in%c("India MARKAL", "AIM/Enduse 3.0")&variable%in%c("GDP|MER","GDP|PPP")]$value/36.1
+
 #IPAC/AIM:
 # Baseline not NoPOL but NPi, because IPAC does not have NoPOL
 #all[model =="IPAC-AIM/technology V1.0"]$Baseline <- ""
