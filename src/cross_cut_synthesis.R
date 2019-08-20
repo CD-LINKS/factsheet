@@ -61,7 +61,7 @@ ggsave(file=paste(cfg$outdir,"/natscens_gridarrange.png",sep=""),h,width=24,heig
 
 ### also for GDP
 vars = "GDP|MER"
-b<-plot_lineNationalScens(reg = "BRA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = "NPi", scensglob = "NPi",
+b<-plot_lineNationalScens(reg = "BRA", dt = all[!Category=="Historical"], vars = vars, scensnat = "NPi", scensglob = "NPi",
                           ylab = "GDP|MER (billion US$2010/yr)", title="Brazil (MSB)",file_pre = "GDP",nolegend=T)#,ylim=c(-300,1200)
 c<-plot_lineNationalScens(reg = "CHN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = "NPi", scensglob = "NPi",
                           ylab = "GDP|MER (billion US$2010/yr)", title="China (IPAC: -, CHN-TIMES: --)", file_pre = "GDP")
