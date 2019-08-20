@@ -30,7 +30,7 @@ process_data <- function(all,scens){
     all$variable <- factor(all$variable)
     
     #baseline scenarios will thus be exclude from loop over "Baselines of baselines"
-    all[all$Baseline=="-",]$Baseline <- NA
+    #all[all$Baseline=="-",]$Baseline <- NA
     all_check3 <- all
     return(all)
 }
