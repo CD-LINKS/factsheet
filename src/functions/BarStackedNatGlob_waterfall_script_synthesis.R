@@ -127,7 +127,7 @@ ydummy6<-data.frame("ydummy",sum(dtn_5_reduced[dtn_5_reduced$region == "ydummy",
 names(ydummy6)<-reduction
 dtn_6_reduced = rbind(dtn_6_reduced,ydummy6)
 
-dtn_all=bind_rows(dtn_1_stack_reduced,dtn_2_stack_reduced, dtn_3_reduced, dtn_4_reduced, dtn_5_reduced, dtn_6_reduced, dtn_7_stack_reduced) #dtn_1_reduced,dtn_2_reduced, dtn_7_reduced
+dtn_all=rbind(dtn_1_stack_reduced,dtn_2_stack_reduced, dtn_3_reduced, dtn_4_reduced, dtn_5_reduced, dtn_6_reduced, dtn_7_stack_reduced) #dtn_1_reduced,dtn_2_reduced, dtn_7_reduced
 dtn_all$alpha <- 0*dtn_all$value
 dtn_all[dtn_all$region !="ydummy",]$alpha <- 1
 dtn_all <- data.frame(dtn_all)
