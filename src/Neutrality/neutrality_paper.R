@@ -214,6 +214,21 @@ S2 = S2 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(
   theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_diff.png",sep=""),S2,width=12, height=8, dpi=120)
 
+# plot trajectories to understand differences
+dt = np[variable=="Emissions|Kyoto Gases"]%>% select(-scenario,-Baseline,-unit,-Scope)
+setcolorder(dt,colnames(dth))
+dt$landuse <- "Model data"
+dth$landuse <- "Inventory data"
+dthcomp = rbind(dt,dth)
+
+S3 = ggplot()
+S3 = S3 + geom_path(data=dthcomp[Category%in%c("2 °C","1.5 °C")&!region%in%c("World","ARG","AUS","MEX",'ROK',"SAF","SAU")],aes(x=period,y=value,colour=Category,linetype=landuse))
+S3 = S3 + facet_grid(region~model, scale="free_y")
+S3 = S3 + xlab("") + ylab("Emissions|Kyoto Gases (MtCO2eq/year)")
+S3 = S3 + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
+ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_trajectory.png",sep=""),S3,width=12, height=8, dpi=120)
+
 
 # Effect of allocation of negative emissions ------------------------------
 
