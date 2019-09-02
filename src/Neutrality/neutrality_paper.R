@@ -498,6 +498,41 @@ cc = cc + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_
 cc = cc + labs(x="CCS in 2100 (MtCO2/year)",y="Phase-out year of GHG emissions")
 ggsave(file=paste(outdir,"/poy_vs_ccs_models",".png",sep=""),cc,height=12, width=16,dpi=500)
 
+
+# Principal Component Analysis --------------------------------------------
+#select data and put in right format
+popdx = select(popd[period==2015],-scenario,-Baseline,-Scope)
+nonco2x = select(nonco2[period==2015],-scenario,-Baseline,-Scope)
+prodx = select(prod[period==2015],-scenario,-Baseline,-Scope)
+forestx = select(forest[period==2050],-scenario,-Baseline,-Scope)
+ccsx = select(ccs[period==2050],-scenario,-Baseline,-Scope)
+setnames(poy,"period","value")
+poy$period<-"x"
+poy$unit<-"Year"
+setcolorder(poy,colnames(ccsx))
+pca=rbind(popdx,nonco2x,prodx,forestx,ccsx,poy)
+pca=spread(pca[,!c('unit','period'),with=FALSE],variable,value)
+pca=gather(pca,variable,value,c(`Emissions|Kyoto Gases`))
+pca$variable<-NULL
+
+# Per model (??) TODO: value as rownames, like mtcars? Then drop model and other columns?
+pca=data.table(pca)
+pcaI = pca[model=="IMAGE 3.0"]
+pcaI$ID <-with(pcaI,paste0(Category,region,value))
+pcaA = pca[model=="AIM V2.1"]
+pcaM = pca[model=="MESSAGEix-GLOBIOM_1.1"]
+pcaP = pca[model=="POLES CDL"]
+pcaR = pca[model=="REMIND-MAgPIE 1.7-3.0"]
+pcaW = pca[model=="WITCH2016"]
+
+#plot
+library(ggbiplot)
+ggbiplot(pcaI.pca) #,ellipse=TRUE,obs.scale = 1, var.scale = 1,  labels=pcaI.region, groups=pcaI.Category #+
+  # scale_colour_manual(name="Origin", values= c("forest green", "red3", "dark blue"))+
+  # ggtitle("PCA of mtcars dataset")+
+  # theme_minimal()+
+  # theme(legend.position = "bottom")
+
 # Emissions in phase-out year ---------------------------------------------
 # Graph: Emissions in phase-out year (like Joeri’s)
 # En dus bijvoorbeeld ook de strategie waarlangs een regio neutraliteit krijgt (meer uit reductie emissies, over meer uit negatieve emissies).
