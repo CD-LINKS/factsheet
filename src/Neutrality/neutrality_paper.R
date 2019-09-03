@@ -500,7 +500,7 @@ ggsave(file=paste(outdir,"/poy_vs_ccs_models",".png",sep=""),cc,height=12, width
 
 
 # Principal Component Analysis --------------------------------------------
-#select data and put in right format
+#select data and put in right format TO DO add more explanatory variables and more scenarios for bigger dataset?
 popdx = select(popd[period==2015],-scenario,-Baseline,-Scope)
 nonco2x = select(nonco2[period==2015],-scenario,-Baseline,-Scope)
 prodx = select(prod[period==2015],-scenario,-Baseline,-Scope)
@@ -515,23 +515,47 @@ pca=spread(pca[,!c('unit','period'),with=FALSE],variable,value)
 pca=gather(pca,variable,value,c(`Emissions|Kyoto Gases`))
 pca$variable<-NULL
 
-# Per model (??) TODO: value as rownames, like mtcars? Then drop model and other columns?
+# Per model (??) 
 pca=data.table(pca)
+pca$ID <-with(pca,paste0(region,"-",value))
 pcaI = pca[model=="IMAGE 3.0"]
-pcaI$ID <-with(pcaI,paste0(Category,region,value))
+pcaI$ID <-with(pcaI,paste0(region,"-",value))
 pcaA = pca[model=="AIM V2.1"]
+pcaA$ID <-with(pcaA,paste0(region,"-",value))
 pcaM = pca[model=="MESSAGEix-GLOBIOM_1.1"]
+pcaM$ID <-with(pcaM,paste0(region,"-",value))
 pcaP = pca[model=="POLES CDL"]
+pcaP$ID <-with(pcaP,paste0(region,"-",value))
 pcaR = pca[model=="REMIND-MAgPIE 1.7-3.0"]
+pcaR$ID <-with(pcaR,paste0(region,"-",value))
 pcaW = pca[model=="WITCH2016"]
+pcaW$ID <-with(pcaW,paste0(region,"-",value))
 
-#plot
+# calculate principal components - TO DO fix what it does with NA columns / rows, then also do for all models at once?
+pcaI.pca <- prcomp(pcaI[,c(4:8)], center = TRUE,scale. = TRUE)
+summary(pcaI.pca)
+str(pcaI.pca)
+pcaA.pca <- prcomp(pcaA[,c(4:7)], center = TRUE,scale. = TRUE)
+summary(pcaA.pca)
+# pcaM.pca <- prcomp(pcaM[,c(4:8)], center = TRUE,scale. = TRUE)
+# summary(pcaM.pca)
+pcaP.pca <- prcomp(pcaP[,c(4:8)], center = TRUE,scale. = TRUE)
+summary(pcaP.pca)
+# pcaR.pca <- prcomp(pcaR[,c(4:7)], center = TRUE,scale. = TRUE)
+# summary(pcaR.pca)
+pcaW.pca <- prcomp(pcaW[,c(4:8)], center = TRUE,scale. = TRUE)
+summary(pcaW.pca)
+# pca.pca <- prcomp(pca[,c(4:8)], center = TRUE,scale. = TRUE)
+# summary(pca.pca)
+
+#plot TO DO for other models
 library(ggbiplot)
-ggbiplot(pcaI.pca) #,ellipse=TRUE,obs.scale = 1, var.scale = 1,  labels=pcaI.region, groups=pcaI.Category #+
-  # scale_colour_manual(name="Origin", values= c("forest green", "red3", "dark blue"))+
-  # ggtitle("PCA of mtcars dataset")+
-  # theme_minimal()+
-  # theme(legend.position = "bottom")
+pI = ggbiplot(pcaI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,  labels=pcaI$ID, groups=pcaI$Category)  +
+  scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
+  ggtitle("PCA of regional phase-out years in IMAGE")+
+  theme_bw()+
+  theme(legend.position = "bottom")
+ggsave(file=paste(outdir,"/PCA_IMAGE",".png",sep=""),pI,height=12, width=16,dpi=500)
 
 # Emissions in phase-out year ---------------------------------------------
 # Graph: Emissions in phase-out year (like Joeri’s)
