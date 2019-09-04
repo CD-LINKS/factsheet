@@ -44,6 +44,41 @@ write.csv(u,paste("Neutrality","/Scenario overview.csv",sep=""))
 # Regional phase-out years ------------------------------------------------
 # TODO: Graph like Joeri’s (something better than errorbars?)
 # See functions - pbl_colors.r?
+### Absolute ###
+ghg=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CO2","Emissions|CO2|Energy and Industrial Processes")]
+check=ghg[,list(unique(period)),by=c("model")]
+check=check[V1=="2100"]
+ghg=ghg[model%in%check$model]
+
+poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
+poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy[is.na(V1),]$V1=2105
+
+models=poy[,list(number=length(unique(model))),by=c('region','variable')]
+poy=merge(poy, models, by=c('region','variable'))
+poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
+poy=poy[!number<3]
+
+poyrange=data.table(poy[,list(median=median(V1),min=min(V1),max=max(V1)),by=c("Category","region","unit","variable")])
+poyrange = poyrange[order(Category,variable,median)]
+poyrange$region <- factor(poyrange$region, levels=unique(poyrange$region))
+
+# TODO fix vertical lines for world? Make error bars bigger (size= responds in a weird way)
+S = ggplot()
+S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
+S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
+S = S + coord_flip()
+S = S + facet_grid(.~Category, scales="free_y")
+#S = S + geom_hline(yintercept=poyrange[region=="World [6 models]"&variable=="Emissions|Kyoto Gases"&Category%in%c("2 °C","1.5 °C")]$median)
+S = S + ylab("Phase out year")
+S = S + theme_bw()
+S = S + theme(axis.text.y=element_text(angle=45, size=16))
+S = S + theme(strip.text.x=element_text(size=14))
+S = S + theme(axis.title=element_text(size=18))
+S = S + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
+S = S + theme(plot.title=element_text(size=18))
+S = S + theme(legend.position = "bottom")
+ggsave(file=paste(outdir,"/Phase_out_year.png",sep=""),S,width=11, height=8, dpi=120)
 
 ### relative to global ###
 ghg=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CO2","Emissions|CO2|Energy and Industrial Processes")]
