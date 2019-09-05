@@ -238,7 +238,7 @@ poyrange1=data.table(poy1[,list(median=median(value),min=min(value),max=max(valu
 
 S2 = ggplot()
 S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable #,"SAF [2 models]","MEX [2 models]"
-S2 = S2 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(y=median,x=region)) #,colour=variable
+S2 = S2 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(y=median,x=region,size=0.2),show.legend = F) #,colour=variable
 #S2 = S2 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
 S2 = S2 + coord_flip()
 S2 = S2 + facet_grid(.~Category, scales="free_y")
@@ -339,7 +339,7 @@ poyrange1=poyrange1[!number<3]
 
 a1 = ggplot()
 a1 = a1 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
-a1 = a1 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(y=median,x=region)) #,colour=variable
+a1 = a1 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(y=median,x=region,size=0.2),show.legend = F) #,colour=variable
 #a1 = a1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
 a1 = a1 + coord_flip()
 a1 = a1 + facet_grid(.~Category, scales="free_y")
