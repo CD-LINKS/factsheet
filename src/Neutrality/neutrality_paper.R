@@ -5,7 +5,7 @@ scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
 adjust <- "adjust_reporting_neutrality" # TODO to check: remove MESSAGE for China due to region definition? and COFFEE & DNE for EU and DNE for China and India? and COFFEE for Japan?
 addvars <- F
-datafile <-"cdlinks_compare_20190531-122548"
+datafile <-"cdlinks_compare_20190904-204536"
 source("load_data.R")
 
 outdir <- "Neutrality/graphs"
@@ -63,10 +63,12 @@ poyrange=data.table(poy[,list(median=median(V1),min=min(V1),max=max(V1)),by=c("C
 poyrange = poyrange[order(Category,variable,median)]
 poyrange$region <- factor(poyrange$region, levels=unique(poyrange$region))
 
-# TODO fix vertical lines for world? Make error bars bigger (size= responds in a weird way)
+# TODO fix vertical lines for world? Make error bars bigger (size= responds in a weird way) --> geom boxplot? then adjust settings. or pointrange
 S = ggplot()
-S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
-S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
+#S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
+S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max,y=median, x=region, colour=variable,size=5),position=position_dodge(width=0.66),fatten=0.5) #variable as fill? #,size=0.2
+#S = S + geom_boxplot(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=V1, x=region, colour=variable,fill=variable),position=position_dodge(width=0.66),width=0.66)
+#S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
 S = S + coord_flip()
 S = S + facet_grid(.~Category, scales="free_y")
 #S = S + geom_hline(yintercept=poyrange[region=="World [6 models]"&variable=="Emissions|Kyoto Gases"&Category%in%c("2 °C","1.5 °C")]$median)
