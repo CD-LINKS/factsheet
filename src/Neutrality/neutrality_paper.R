@@ -357,6 +357,7 @@ ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,
 # EU late vs. US early: space for afforestation (e.g. population density).  Check database for other reasons , e.g. non-CO2 share in 2015? 
 # Mogelijk bevolkingsdichtheid of misschien productieve grond per persoon tegen jaar CO2 neutraliteit? Evt. ook iets van CCS capaciteit.
 #	TODO Graph: X indicator with effect on neutrality: CCS; Y phase-out year 
+# TODO: add baseline growth, CO2 in transport/industry/buildings? Trade|Primary Energy|Biomass|Volume, land cover cropland share of total land cover - just test all variables
 
 ### select data
 rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Population","GDP|MER",
@@ -367,7 +368,7 @@ rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emi
       ] #"2 °C (2030)", & Category%in%c("2 °C","1.5 °C")
 ghg=rd[variable %in% c("Emissions|Kyoto Gases")]
 
-### First calculate phase-out year (only for models with data until 2100)
+### First calculate phase-out year (only for models with data until 2100) - TO DO take relative to global average?
 check=ghg[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 rd=rd[model%in%check$model]
@@ -376,7 +377,7 @@ ghg=ghg[model%in%check$model]
 poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
 poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
 poy$unit<-NULL
-poy[is.na(V1),]$V1=2105
+poy[is.na(V1),]$V1="No phase-out" #TO DO extrapolate to make a poy beyond 2100 estimate?
 setnames(poy,"V1","period")
 
 ### Calculate indicators to plot on X-axis
@@ -453,6 +454,22 @@ ccscap = merge(ccs,poy,by=c("model","Category","region"))
 
 # Calculate Pearson correlation
 ccscor = ccscap[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+
+## GDP per capita
+gdpcap=rd[variable%in%c("GDP|MER","Population")]
+gdpcap=spread(gdpcap[,!c('unit'),with=FALSE],variable,value)
+gdpcap=gdpcap%>%mutate(gdpcap=`GDP|MER`/Population*1000)
+gdpcap=data.table(gather(gdpcap,variable,value,c("GDP|MER","Population","gdpcap")))
+gdpcap=gdpcap[variable=="gdpcap"]
+gdpcap$unit <- "USD/person"
+
+# average over models
+gdpcapm=gdpcap[,list(mean(value,na.rm=TRUE)),by=c("Category","region","variable","unit","period")]
+setnames(gdpcapm,"V1","value")
+
+gdpcappoy=merge(gdpcap,poy,by=c("model","Category","region"))
+gdpcappoym=merge(gdpcapm,poym,by=c("Category","region"))
+
 
 ### plot indicators vs. phase-out year
 ## Population density
@@ -537,23 +554,25 @@ ccscor = ccscap[,list(cor(value,period.y,method="pearson")),by=c("Category")]
 
 
 # Principal Component Analysis --------------------------------------------
-#select data and put in right format TO DO add more explanatory variables and more scenarios for bigger dataset?
+#select data and put in right format TO DO add more explanatory variables for bigger dataset? also add ccs in 2015, 2020, etc.
 popdx = select(popd[period==2015],-scenario,-Baseline,-Scope)
 nonco2x = select(nonco2[period==2015],-scenario,-Baseline,-Scope)
 prodx = select(prod[period==2015],-scenario,-Baseline,-Scope)
 forestx = select(forest[period==2050],-scenario,-Baseline,-Scope)
 ccsx = select(ccs[period==2050],-scenario,-Baseline,-Scope)
+gdpcapx = select(gdpcap[period==2015],-scenario,-Baseline,-Scope)
 setnames(poy,"period","value")
 poy$period<-"x"
 poy$unit<-"Year"
 setcolorder(poy,colnames(ccsx))
-pca=rbind(popdx,nonco2x,prodx,forestx,ccsx,poy)
+pca=rbind(popdx,nonco2x,prodx,forestx,ccsx,gdpcapx,poy)
 pca=spread(pca[,!c('unit','period'),with=FALSE],variable,value)
 pca=gather(pca,variable,value,c(`Emissions|Kyoto Gases`))
 pca$variable<-NULL
 
 # Per model (??) 
 pca=data.table(pca)
+pca=pca[Category%in%c("2 °C","1.5 °C")&!region%in%c("World")] # TO DO omit.na
 pca$ID <-with(pca,paste0(region,"-",value))
 pcaI = pca[model=="IMAGE 3.0"]
 pcaI$ID <-with(pcaI,paste0(region,"-",value))
@@ -568,26 +587,26 @@ pcaR$ID <-with(pcaR,paste0(region,"-",value))
 pcaW = pca[model=="WITCH2016"]
 pcaW$ID <-with(pcaW,paste0(region,"-",value))
 
-# calculate principal components - TO DO fix what it does with NA columns / rows, then also do for all models at once?
-pcaI.pca <- prcomp(pcaI[,c(4:8)], center = TRUE,scale. = TRUE)
+# calculate principal components - TO DO fix what it does with NA columns / rows, then also do for all models at once
+pcaI.pca <- prcomp(pcaI[,c(4:9)], center = TRUE,scale. = TRUE)
 summary(pcaI.pca)
 str(pcaI.pca)
-pcaA.pca <- prcomp(pcaA[,c(4:7)], center = TRUE,scale. = TRUE)
+pcaA.pca <- prcomp(pcaA[,c(4:7,9)], center = TRUE,scale. = TRUE)
 summary(pcaA.pca)
 # pcaM.pca <- prcomp(pcaM[,c(4:8)], center = TRUE,scale. = TRUE)
 # summary(pcaM.pca)
-pcaP.pca <- prcomp(pcaP[,c(4:8)], center = TRUE,scale. = TRUE)
+pcaP.pca <- prcomp(pcaP[,c(4:9)], center = TRUE,scale. = TRUE)
 summary(pcaP.pca)
 # pcaR.pca <- prcomp(pcaR[,c(4:7)], center = TRUE,scale. = TRUE)
 # summary(pcaR.pca)
-pcaW.pca <- prcomp(pcaW[,c(4:8)], center = TRUE,scale. = TRUE)
+pcaW.pca <- prcomp(pcaW[,c(4:9)], center = TRUE,scale. = TRUE)
 summary(pcaW.pca)
 # pca.pca <- prcomp(pca[,c(4:8)], center = TRUE,scale. = TRUE)
 # summary(pca.pca)
 
-#plot TO DO for other models - check if multiple scenarios actually helps
+#plot TO DO for other models - then add circles for model like for scenario?
 library(ggbiplot)
-pI = ggbiplot(pcaI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,  labels=pcaI$ID, groups=pcaI$Category)  +
+pI = ggbiplot(pcaI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaI$ID, groups=pcaI$Category)  +
   #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
   ggtitle("PCA of regional phase-out years in IMAGE")+
   theme_bw()+
