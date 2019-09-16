@@ -42,7 +42,6 @@ write.csv(u,paste("Neutrality","/Scenario overview.csv",sep=""))
 
 
 # Regional phase-out years ------------------------------------------------
-# TODO: Graph like Joeri’s (something better than errorbars?)
 # See functions - pbl_colors.r?
 ### Absolute ###
 ghg=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CO2","Emissions|CO2|Energy and Industrial Processes")]
@@ -126,7 +125,6 @@ ggsave(file=paste(outdir,"/Phase_out_year_diffworld.png",sep=""),S,width=11, hei
 
 # Effect of LULUCF definitions --------------------------------------------
 #	Land CO2 in models vs. in inventories: effect on neutrality of different definitions 
-# TODO: new inventory data?
   # Phase-out year (model AFOLU data) ---------------------------------------
 poyrange1=poyrange[variable=="Emissions|Kyoto Gases"]
 poyrange1$variable<-"Model AFOLU data"
@@ -356,8 +354,7 @@ ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,
 # Mitigation strategies / why are some regions earlier or later ---------------------------------------------------
 # EU late vs. US early: space for afforestation (e.g. population density).  Check database for other reasons , e.g. non-CO2 share in 2015? 
 # Mogelijk bevolkingsdichtheid of misschien productieve grond per persoon tegen jaar CO2 neutraliteit? Evt. ook iets van CCS capaciteit.
-#	TODO Graph: X indicator with effect on neutrality: CCS; Y phase-out year 
-# TODO: add baseline growth, CO2 in transport/industry/buildings? Trade|Primary Energy|Biomass|Volume, land cover cropland share of total land cover - just test all variables
+# TODO: add baseline growth, CO2 in transport/industry/buildings? Trade|Primary Energy|Biomass|Volume - just test all variables
 
 ### select data
 rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Population","GDP|MER",
@@ -470,6 +467,36 @@ setnames(gdpcapm,"V1","value")
 gdpcappoy=merge(gdpcap,poy,by=c("model","Category","region"))
 gdpcappoym=merge(gdpcapm,poym,by=c("Category","region"))
 
+## Land cover cropland share of total
+cropshare=rd[variable%in%c("Land Cover","Land Cover|Cropland")]
+cropshare=spread(cropshare[,!c('unit'),with=FALSE],variable,value)
+cropshare=cropshare%>%mutate(cropshare=`Land Cover|Cropland`/`Land Cover`*100)
+cropshare=data.table(gather(cropshare,variable,value,c("Land Cover|Cropland","Land Cover","cropshare")))
+cropshare=cropshare[variable=="cropshare"]
+cropshare$unit <- "%"
+
+# average over models
+cropsharem=cropshare[,list(mean(value,na.rm=TRUE)),by=c("Category","region","variable","unit","period")]
+setnames(cropsharem,"V1","value")
+
+cropsharepoy=merge(cropshare,poy,by=c("model","Category","region"))
+cropsharepoym=merge(cropsharem,poym,by=c("Category","region"))
+
+## Baseline growth
+blg = ghg[Category=="No policy"&period%in%c(2015,2050,2100)]
+blg = spread(blg,period,value)
+blg = blg%>%mutate(blgrowth50=(`2050`-`2015`)/`2015`*100,blgrowth100=(`2100`-`2015`)/`2015`*100)
+blg = data.table(gather(blg,period,value,c(`2015`,`2050`,`2100`,"blgrowth50","blgrowth100")))
+blg = blg[period%in%c("blgrowth50","blgrowth100")]
+blg$unit <-"%"
+blg50=blg[period=="blgrowth50"]
+blg50$period<-2050
+blg50$variable <- "BaselineGHG2050"
+blg50$Category <- "1.5 °C" #TODO repeat for 2C
+blg100=blg[period=="blgrowth100"]
+blg100$period<-2100
+blg100$variable <- "BaselineGHG2100"
+blg100$Category <- "1.5 °C"
 
 ### plot indicators vs. phase-out year
 ## Population density
@@ -561,11 +588,14 @@ prodx = select(prod[period==2015],-scenario,-Baseline,-Scope)
 forestx = select(forest[period==2050],-scenario,-Baseline,-Scope)
 ccsx = select(ccs[period==2050],-scenario,-Baseline,-Scope)
 gdpcapx = select(gdpcap[period==2015],-scenario,-Baseline,-Scope)
+cropsharex = select(cropshare[period==2015],-scenario,-Baseline,-Scope)
+blg50x = select(blg50,-scenario,-Baseline,-Scope)
+blg100x = select(blg100,-scenario,-Baseline,-Scope)
 setnames(poy,"period","value")
 poy$period<-"x"
 poy$unit<-"Year"
 setcolorder(poy,colnames(ccsx))
-pca=rbind(popdx,nonco2x,prodx,forestx,ccsx,gdpcapx,poy)
+pca=rbind(popdx,nonco2x,prodx,forestx,ccsx,gdpcapx,cropsharex,blg50x,blg100x,poy)
 pca=spread(pca[,!c('unit','period'),with=FALSE],variable,value)
 pca=gather(pca,variable,value,c(`Emissions|Kyoto Gases`))
 pca$variable<-NULL
@@ -588,18 +618,18 @@ pcaW = pca[model=="WITCH2016"]
 pcaW$ID <-with(pcaW,paste0(region,"-",value))
 
 # calculate principal components - TO DO fix what it does with NA columns / rows, then also do for all models at once
-pcaI.pca <- prcomp(pcaI[,c(4:9)], center = TRUE,scale. = TRUE)
+pcaI.pca <- prcomp(pcaI[,c(4:12)], center = TRUE,scale. = TRUE)
 summary(pcaI.pca)
 str(pcaI.pca)
-pcaA.pca <- prcomp(pcaA[,c(4:7,9)], center = TRUE,scale. = TRUE)
+pcaA.pca <- prcomp(pcaA[,c(4:7,9:12)], center = TRUE,scale. = TRUE)
 summary(pcaA.pca)
 # pcaM.pca <- prcomp(pcaM[,c(4:8)], center = TRUE,scale. = TRUE)
 # summary(pcaM.pca)
-pcaP.pca <- prcomp(pcaP[,c(4:9)], center = TRUE,scale. = TRUE)
+pcaP.pca <- prcomp(pcaP[,c(4:12)], center = TRUE,scale. = TRUE)
 summary(pcaP.pca)
 # pcaR.pca <- prcomp(pcaR[,c(4:7)], center = TRUE,scale. = TRUE)
 # summary(pcaR.pca)
-pcaW.pca <- prcomp(pcaW[,c(4:9)], center = TRUE,scale. = TRUE)
+pcaW.pca <- prcomp(pcaW[,c(4:12)], center = TRUE,scale. = TRUE)
 summary(pcaW.pca)
 # pca.pca <- prcomp(pca[,c(4:8)], center = TRUE,scale. = TRUE)
 # summary(pca.pca)
