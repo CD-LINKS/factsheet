@@ -59,27 +59,29 @@ poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
 poy=poy[!number<3]
 
 poyrange=data.table(poy[,list(median=median(V1),min=min(V1),max=max(V1)),by=c("Category","region","unit","variable")])
-poyrange = poyrange[order(Category,variable,median)]
-poyrange$region <- factor(poyrange$region, levels=unique(poyrange$region))
+#poyrange = poyrange[order(Category,variable,median)]
+poyrange$region <- factor(poyrange$region, levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
+                                                    "RUS [3 models]","JPN [4 models]","IND [6 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #unique(poyrange$region)
+#poy=poy[order(Category,variable,V1)]
+poy$region<-factor(poy$region,levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
+                                       "RUS [3 models]","JPN [4 models]","IND [6 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #levels=unique(poy$region)
 
-# TODO fix vertical lines for world? Make error bars bigger (size= responds in a weird way) --> geom boxplot? then adjust settings. or pointrange
+# TODO fix vertical lines for world? 
 S = ggplot()
 #S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
-S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max,y=median, x=region, colour=variable,size=5),position=position_dodge(width=0.66),fatten=0.5) #variable as fill? #,size=0.2
+S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max,y=median, x=region, colour=variable),fatten=0.5,alpha=0.5,size=5,show.legend = F) #,position=position_dodge(width=0.66)
+S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")],aes(x=region,y=V1,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
 #S = S + geom_boxplot(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=V1, x=region, colour=variable,fill=variable),position=position_dodge(width=0.66),width=0.66)
 #S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
 S = S + coord_flip()
-S = S + facet_grid(.~Category, scales="free_y")
+S = S + facet_grid(Category~variable, scales="free_y")
 #S = S + geom_hline(yintercept=poyrange[region=="World [6 models]"&variable=="Emissions|Kyoto Gases"&Category%in%c("2 °C","1.5 °C")]$median)
 S = S + ylab("Phase out year")
-S = S + theme_bw()
-S = S + theme(axis.text.y=element_text(angle=45, size=16))
-S = S + theme(strip.text.x=element_text(size=14))
-S = S + theme(axis.title=element_text(size=18))
-S = S + theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))
-S = S + theme(plot.title=element_text(size=18))
-S = S + theme(legend.position = "bottom")
-ggsave(file=paste(outdir,"/Phase_out_year.png",sep=""),S,width=11, height=8, dpi=120)
+S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100))
+S = S + theme_bw() + theme(axis.text.y=element_text(angle=45, size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
+        theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
+        theme(legend.text=element_text(size=11),legend.title=element_text(size=12))
+ggsave(file=paste(outdir,"/Phase_out_year.png",sep=""),S,width=16, height=10, dpi=120)
 
 ### relative to global ###
 ghg=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CO2","Emissions|CO2|Energy and Industrial Processes")]
