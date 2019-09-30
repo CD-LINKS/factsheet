@@ -367,16 +367,29 @@ rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emi
       ] #"2 °C (2030)", & Category%in%c("2 °C","1.5 °C")
 ghg=rd[variable %in% c("Emissions|Kyoto Gases")]
 
-### First calculate phase-out year (only for models with data until 2100) - TO DO take relative to global average?
+### First calculate phase-out year (only for models with data until 2100) - TODO take relative to global average?
 check=ghg[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 rd=rd[model%in%check$model]
 ghg=ghg[model%in%check$model]
 
+## TODO extrapolate beyond 2100 to estimate phase-out year if not this century - find the right curve
+ghg$pred<-predict(lm(value~poly(period,3),data=ghg))
+#check
+p=ggplot(ghg[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"])
+p=p+geom_line(aes(x = period, y=value)) 
+p=p+geom_line(aes(x = period, y=pred), color="red")
+print(p)
+
+#extrapolate
+ghgex <- data.frame(Year=2005:2200)
+ghgex$value <- predict(lm(value ~ poly(period,3), data=ghg),newdata=ghgex)
+
+#calculate phase-out year - TODO use ghgex when ok
 poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
 poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
 poy$unit<-NULL
-poy[is.na(V1),]$V1="No phase-out" #TO DO extrapolate to make a poy beyond 2100 estimate?
+poy[is.na(V1),]$V1="No phase-out" #TODO not needed when extrapolation ok?
 setnames(poy,"V1","period")
 
 ### Calculate indicators to plot on X-axis
@@ -583,7 +596,7 @@ blg100$Category <- "1.5 °C"
 
 
 # Principal Component Analysis --------------------------------------------
-#select data and put in right format TO DO add more explanatory variables for bigger dataset? also add ccs in 2015, 2020, etc.
+#select data and put in right format TODO add more explanatory variables for bigger dataset? also add ccs in 2015, 2020, etc.
 popdx = select(popd[period==2015],-scenario,-Baseline,-Scope)
 nonco2x = select(nonco2[period==2015],-scenario,-Baseline,-Scope)
 prodx = select(prod[period==2015],-scenario,-Baseline,-Scope)
@@ -604,7 +617,7 @@ pca$variable<-NULL
 
 # Per model (??) 
 pca=data.table(pca)
-pca=pca[Category%in%c("2 °C","1.5 °C")&!region%in%c("World")] # TO DO omit.na
+pca=pca[Category%in%c("2 °C","1.5 °C")&!region%in%c("World")] # TODO omit.na
 pca$ID <-with(pca,paste0(region,"-",value))
 pcaI = pca[model=="IMAGE 3.0"]
 pcaI$ID <-with(pcaI,paste0(region,"-",value))
@@ -619,7 +632,7 @@ pcaR$ID <-with(pcaR,paste0(region,"-",value))
 pcaW = pca[model=="WITCH2016"]
 pcaW$ID <-with(pcaW,paste0(region,"-",value))
 
-# calculate principal components - TO DO fix what it does with NA columns / rows, then also do for all models at once
+# calculate principal components - TODO fix what it does with NA columns / rows, then also do for all models at once
 pcaI.pca <- prcomp(pcaI[,c(4:12)], center = TRUE,scale. = TRUE)
 summary(pcaI.pca)
 str(pcaI.pca)
@@ -636,7 +649,7 @@ summary(pcaW.pca)
 # pca.pca <- prcomp(pca[,c(4:8)], center = TRUE,scale. = TRUE)
 # summary(pca.pca)
 
-#plot TO DO for other models - then add circles for model like for scenario?
+#plot TODO for other models - then add circles for model like for scenario?
 library(ggbiplot)
 pI = ggbiplot(pcaI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaI$ID, groups=pcaI$Category)  +
   #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
