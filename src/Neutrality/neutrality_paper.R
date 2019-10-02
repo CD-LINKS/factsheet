@@ -374,16 +374,28 @@ rd=rd[model%in%check$model]
 ghg=ghg[model%in%check$model]
 
 ## TODO extrapolate beyond 2100 to estimate phase-out year if not this century - find the right curve
-ghg$pred<-predict(lm(value~poly(period,3),data=ghg))
+ghge=ghg[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] #TODO fix this so it works for all countries and models simultaneously: &region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"
+for(i in unique(ghge$region)){
+  for(j in unique(ghge$model)){
+    for(k in unique(ghge$Category)){
+      ghge[region%in%i&model%in%j&Category%in%k]$pred<-predict(lm(value~poly(period,3),data=ghge[region%in%i&model%in%j&Category%in%k]))
+      ghgex <- data.frame(period=2050:2200) # TODO use this here? Or use emission reduction rate?? Package broom?
+      ghgex$value <- predict(lm(value ~ poly(period,3), data=ghge),newdata=ghgex)
+}}}
+
 #check
 p=ggplot(ghg[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"])
-p=p+geom_line(aes(x = period, y=value)) 
-p=p+geom_line(aes(x = period, y=pred), color="red")
+p=p+geom_line(aes(x = period, y=value))
+p=p+geom_line(data=ghge[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"],aes(x = period, y=pred), color="red")
+p=p+geom_quantile(data=ghge[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"], method="rq", aes(x=period, y=value), formula=y ~ poly(x, 3, raw=TRUE), stat="quantile", quantiles = 0.5, lty = "dashed")
 print(p)
 
 #extrapolate
-ghgex <- data.frame(Year=2005:2200)
-ghgex$value <- predict(lm(value ~ poly(period,3), data=ghg),newdata=ghgex)
+ghgex <- data.frame(period=2050:2200)
+ghgex$value <- predict(lm(value ~ poly(period,3), data=ghge),newdata=ghgex)
+#check
+p=p+geom_line(data=ghgex,aes(x=period,y=value),color="green")
+print(p)
 
 #calculate phase-out year - TODO use ghgex when ok
 poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
