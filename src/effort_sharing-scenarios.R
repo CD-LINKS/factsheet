@@ -154,6 +154,19 @@ gemcon = native[model=="GEM-E3"&scenario=="NPi2020_1000_flexibility_CO_recSocial
 gemcon$scenario <-"NPi2020_1000_domestic_CO_recSocialSecurity_V5"
 native = rbind(native,gemcon)
 
+# TODO convert MER to PPP so calculation of costs as % of GDP|PPP works
+ppp = invisible(fread(paste0("data/","PPPcorrectionR10",".csv"),header=TRUE))
+ppp = gather(ppp,period,value,c(`2005`,`2010`,`2015`,`2020`,`2025`,`2030`,`2035`,`2040`,`2045`,`2050`,`2055`,`2060`,`2070`,`2080`,`2090`,`2100`))
+ppp$period = as.numeric(ppp$period)
+gemppp = data[model=="GEM-E3"&variable=="GDP|MER"&region%in%c("R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA")]
+gemppp = merge(gemppp,ppp,by=c("region","period"))
+gemppp = gemppp%>%mutate(value=value.x/value.y)
+gemppp$variable <- "GDP|PPP"
+gemppp$value.x<-NULL
+gemppp$value.y<-NULL
+setcolorder(gemppp,colnames(data))
+data=rbind(data,gemppp)
+
 #add implementation and regime for easier selection
 data$implementation<-""
 data[scenario%in%c("NPi2020_1000_domestic_AP","NPi2020_1000_domestic_CO","NPi2020_1000_domestic_GF",
@@ -201,6 +214,7 @@ data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA",
                       #"R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF","ARG","AUS","CAN","MEX","IDN","ROK","SAF","SAU","TUR",
 data$region=str_remove_all(data$region,"R10")
 #native=native[region%in%c("JPN","BRA","CHN","EEU","EU15","IND","INDIA","JAP","EUR","CHINA","EUROPE","USA","RUS")]
+#set constant to easily select data
 r10=c("AFRICA","CHINA+","EUROPE","INDIA+","LATIN_AM","MIDDLE_EAST","NORTH_AM","PAC_OECD","REF_ECON","REST_ASIA")
 
 #Order of regimes
@@ -708,7 +722,7 @@ costsd = costs
 costsd$discounted = ifelse(costsd$period>2019,costsd$value * (1/(1+0.05)^(costsd$period-2020)),costsd$value)
 
 # divide costs by GDP
-gdp = data[variable=="GDP|PPP"]
+gdp = data[variable=="GDP|PPP"] 
 gdp$unit <- unique(costs$unit)
 costs = rbind(costs,gdp)
 costs[variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve")]$variable<-"Policy Cost"
@@ -890,7 +904,7 @@ costsworld=data.table(gather(costsworld,region,value,c(r10,"AFRICAworld","CHINAw
 costsworld=costsworld[region%in%c("AFRICAworld","CHINAworld","EUROPEworld","INDIAworld","LATIN_AMworld","MIDDLE_EASTworld","NORTH_AMworld","PAC_OECDworld","REF_ECONworld","REST_ASIAworld")] #"BRAworld","CHNworld","EUworld","INDworld","JPNworld","RUSworld","USAworld"
 costsworld$unit<-"relative to world"  
 costsworld$region=str_replace_all(costsworld$region,"AFRICAworld","AFRICA")
-costsworld$region=str_replace_all(costsworld$region,"CHINAworld","CHNINA+")
+costsworld$region=str_replace_all(costsworld$region,"CHINAworld","CHINA+")
 costsworld$region=str_replace_all(costsworld$region,"EUROPEworld","EUROPE")
 costsworld$region=str_replace_all(costsworld$region,"INDIAworld","INDIA+")
 costsworld$region=str_replace_all(costsworld$region,"LATIN_AMworld","LATIN_AM")
@@ -1245,7 +1259,7 @@ F7 = F7 + ylab(finflow$unit)+xlab("")
 ggsave(file=paste(outdir,"/financialflows_flexibility_2050.png",sep=""),F7,width=20,height=12,dpi=200)
 
 ### 10. Equivalent variation
-F10 = ggplot(soc[variable=="Policy Cost|Equivalent Variation"&period==2050&implementation=="flexibility"]) #&region%in%r10 TODO put back when R10 GEM-E3 snapshot ready
+F10 = ggplot(soc[variable=="Policy Cost|Equivalent Variation"&period==2050&implementation=="flexibility"&region%in%r10]) #&region%in%r10 TODO put back when R10 GEM-E3 snapshot ready
 F10 = F10 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
 F10 = F10 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 F10 = F10 + facet_grid(regime~region,scale="fixed")
@@ -1265,7 +1279,7 @@ F11 = F11 + ylab("% (relative to 2015)")+xlab("")
 ggsave(file=paste(outdir,"/consumptionchange_flexibility_2050.png",sep=""),F11,width=20,height=12,dpi=200)
 
 ### 12. Employment absolute
-F12 = ggplot(ema[period==2050&implementation=="flexibility"]) #&region%in%r10 TODO put back when R10 GEM-E3 snapshot ready
+F12 = ggplot(ema[period==2050&implementation=="flexibility"&region%in%r10]) #&region%in%r10 TODO put back when R10 GEM-E3 snapshot ready
 F12 = F12 + geom_bar(aes(x=variable,y=value,fill=regime),stat="identity")
 F12 = F12 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 F12 = F12 + facet_grid(regime~region,scale="fixed")
@@ -1275,7 +1289,7 @@ F12 = F12 + ylab(ema$unit)+xlab("")
 ggsave(file=paste(outdir,"/employment_flexibility_2050.png",sep=""),F12,width=20,height=12,dpi=200)
 
 ### 13. Employment relative to CO
-F13 = ggplot(em[period==2050&implementation=="flexibility"&!region=="World"]) #&region%in%r10 TODO put back when R10 GEM-E3 snapshot ready
+F13 = ggplot(em[period==2050&implementation=="flexibility"&region%in%r10]) #&region%in%r10 TODO put back when R10 GEM-E3 snapshot ready
 F13 = F13 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
 F13 = F13 + scale_fill_manual(values=c("APrel"="#003162","CO"="#b31b00","GF"="#b37400","PCCrel"="#4ed6ff"),labels=c("APrel"="AP","PCCrel"="PCC"))
 F13 = F13 + facet_grid(regime~region,scale="fixed")
