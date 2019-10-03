@@ -154,13 +154,13 @@ gemcon = native[model=="GEM-E3"&scenario=="NPi2020_1000_flexibility_CO_recSocial
 gemcon$scenario <-"NPi2020_1000_domestic_CO_recSocialSecurity_V5"
 native = rbind(native,gemcon)
 
-# TODO convert MER to PPP so calculation of costs as % of GDP|PPP works
+# TODO convert MER to PPP so calculation of costs as % of GDP|PPP works (fix, now average of IMAGE regions in R10 region - should be weighted with GDP?)
 ppp = invisible(fread(paste0("data/","PPPcorrectionR10",".csv"),header=TRUE))
 ppp = gather(ppp,period,value,c(`2005`,`2010`,`2015`,`2020`,`2025`,`2030`,`2035`,`2040`,`2045`,`2050`,`2055`,`2060`,`2070`,`2080`,`2090`,`2100`))
 ppp$period = as.numeric(ppp$period)
 gemppp = data[model=="GEM-E3"&variable=="GDP|MER"&region%in%c("R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA")]
 gemppp = merge(gemppp,ppp,by=c("region","period"))
-gemppp = gemppp%>%mutate(value=value.x/value.y)
+gemppp = gemppp%>%mutate(value=value.x/value.y) #TODO add world as sum of caculated PPP for R10
 gemppp$variable <- "GDP|PPP"
 gemppp$value.x<-NULL
 gemppp$value.y<-NULL
