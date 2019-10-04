@@ -155,17 +155,23 @@ gemcon$scenario <-"NPi2020_1000_domestic_CO_recSocialSecurity_V5"
 native = rbind(native,gemcon)
 
 # TODO convert MER to PPP so calculation of costs as % of GDP|PPP works (fix, now average of IMAGE regions in R10 region - should be weighted with GDP?)
-ppp = invisible(fread(paste0("data/","PPPcorrectionR10",".csv"),header=TRUE))
-ppp = gather(ppp,period,value,c(`2005`,`2010`,`2015`,`2020`,`2025`,`2030`,`2035`,`2040`,`2045`,`2050`,`2055`,`2060`,`2070`,`2080`,`2090`,`2100`))
-ppp$period = as.numeric(ppp$period)
-gemppp = data[model=="GEM-E3"&variable=="GDP|MER"&region%in%c("R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA")]
-gemppp = merge(gemppp,ppp,by=c("region","period"))
-gemppp = gemppp%>%mutate(value=value.x/value.y) #TODO add world as sum of caculated PPP for R10
-gemppp$variable <- "GDP|PPP"
-gemppp$value.x<-NULL
-gemppp$value.y<-NULL
-setcolorder(gemppp,colnames(data))
-data=rbind(data,gemppp)
+# ppp = invisible(fread(paste0("data/","PPPcorrectionR10",".csv"),header=TRUE))
+# ppp = gather(ppp,period,value,c(`2005`,`2010`,`2015`,`2020`,`2025`,`2030`,`2035`,`2040`,`2045`,`2050`,`2055`,`2060`,`2070`,`2080`,`2090`,`2100`))
+# ppp$period = as.numeric(ppp$period)
+# gemppp = data[model=="GEM-E3"&variable=="GDP|MER"&region%in%c("R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA")]
+# gemppp = merge(gemppp,ppp,by=c("region","period"))
+# gemppp = gemppp%>%mutate(value=value.x/value.y) #TODO add world as sum of caculated PPP for R10
+# gemppp$variable <- "GDP|PPP"
+# gemppp$value.x<-NULL
+# gemppp$value.y<-NULL
+# setcolorder(gemppp,colnames(data))
+# data=rbind(data,gemppp)
+
+# Use GEM-E3 MER GDP as MER PPP for AP regime - TODO Zoi to report PPP data for the rest?
+gempppap = data[model=="GEM-E3"&variable=="GDP|MER"&scenario=="NPi2020_1000_flexibility_AP_recSocialSecurity_V5"&
+                  region%in%c("R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA","World")]
+gempppap$variable<-'GDP|PPP'
+data=rbind(data,gempppap)
 
 #add implementation and regime for easier selection
 data$implementation<-""
@@ -984,6 +990,23 @@ costratio=costratio[region=="ratio"]
 costratio$region<-"OECD/non-OECD"
 costratio$variable<-"%GDP-OECD/%GDP-non-OECD"
 
+# Now only for richest vs poorest region
+poorrich = data[variable%in%c("GDP|PPP","Population")&region%in%r10]
+poorrich$unit <-NULL
+poorrich = spread(poorrich, variable, value)
+poorrich = poorrich %>% mutate(gdpcap=`GDP|PPP`/Population)
+poorrich = data.table(gather(poorrich,variable,value,c("GDP|PPP","Population","gdpcap")))
+poorrich = poorrich[variable=="gdpcap"]
+poorrich = na.omit(poorrich)
+poorrich2 = poorrich[,list(poorest=region[which.min(value)],richest=region[which.max(value)]),by=c("model","period","implementation","regime")]
+
+costratiopr=spread(costs[region%in%c("AFRICA","NORTH_AM")],region,value)
+costratiopr=costratiopr%>%mutate(ratio=ifelse(AFRICA==0&`NORTH_AM`==0,0,`NORTH_AM`/AFRICA))
+costratiopr=data.table(gather(costratiopr,region,value,c("ratio","AFRICA","NORTH_AM")))
+costratiopr=costratiopr[region=="ratio"]
+costratiopr$region<-"North-America/Africa"
+costratiopr$variable<-"%GDP-NAM/%GDP-Africa"
+
 # c2 = ggplot(costratio[period%in%c(2030,2050)])
 # c2 = c2 + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
 # c2 = c2 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
@@ -1247,6 +1270,16 @@ F6 = F6 + geom_hline(aes(yintercept = 1),size=1)
 F6 = F6 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 F6 = F6 + ylab(costratio$variable)
 ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECD_flexibility_2050.png",sep=""),F6,width=20,height=12,dpi=200)
+
+### 6a. Cost ratio North America / Africa
+F6a = ggplot(costratiopr[period%in%c(2050)&implementation=="flexibility"])
+F6a = F6a + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
+F6a = F6a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F6a = F6a + facet_grid(period~model)
+F6a = F6a + geom_hline(aes(yintercept = 1),size=1)
+F6a = F6a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+F6a = F6a + ylab(costratiopr$variable)
+ggsave(file=paste(outdir,"/costratio_North-America_Africa_flexibility_2050.png",sep=""),F6a,width=20,height=12,dpi=200)
 
 ### 7. Financial flows
 F7 = ggplot(finflow[region%in%r10&period==2050&implementation=="flexibility"])
