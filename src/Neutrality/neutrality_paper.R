@@ -375,13 +375,23 @@ ghg=ghg[model%in%check$model]
 
 ## TODO extrapolate beyond 2100 to estimate phase-out year if not this century - find the right curve
 ghge=ghg[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] #TODO fix this so it works for all countries and models simultaneously: &region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"
+ghgextr = list()
 for(i in unique(ghge$region)){
   for(j in unique(ghge$model)){
     for(k in unique(ghge$Category)){
-      ghge[region%in%i&model%in%j&Category%in%k]$pred<-predict(lm(value~poly(period,3),data=ghge[region%in%i&model%in%j&Category%in%k]))
+      #ghge[region%in%i&model%in%j&Category%in%k]$pred<-predict(lm(value~poly(period,3),data=ghge[region%in%i&model%in%j&Category%in%k]))
       ghgex <- data.frame(period=2050:2200) # TODO use this here? Or use emission reduction rate?? Package broom?
-      ghgex$value <- predict(lm(value ~ poly(period,3), data=ghge),newdata=ghgex)
+      ghgex$model<-j
+      ghgex$region<-i
+      ghgex$Category<-k
+      ghgex$value <- predict(lm(value ~ poly(period,2), data=ghge),newdata=ghgex) #[region%in%i&model%in%j&Category%in%k]
+      #ghgextr[i,j,k] <- ghgex
 }}}
+ghgextr <- do.call(rbind, ghgextr)
+
+# for(i in 2050:2100){
+#   ghgex = ghgex %>% mutate(value=ifelse(is.na(value)==T,lag(value,default=as_double(value)[1]*rate,value)))
+# }
 
 #check
 p=ggplot(ghg[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"])
