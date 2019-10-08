@@ -990,6 +990,16 @@ costratio=costratio[region=="ratio"]
 costratio$region<-"OECD/non-OECD"
 costratio$variable<-"%GDP-OECD/%GDP-non-OECD"
 
+# For non-OECD excluding Middle East and Reforming Economies
+costratioex=spread(costs[region%in%r10&!region%in%c("MIDDLE_EAST","REF_ECON")],region,value)
+costratioex=costratioex%>%mutate(R10nonOECD=(`AFRICA`+`CHINA+`+`INDIA+`+`LATIN_AM`+`REST_ASIA`)/5,
+                             R10OECD = (`EUROPE`+`NORTH_AM`+`PAC_OECD`)/3,
+                             ratio=ifelse(R10nonOECD==0&`R10OECD`==0,0,`R10OECD`/R10nonOECD))
+costratioex=data.table(gather(costratioex,region,value,c("ratio","R10OECD","R10nonOECD","AFRICA","CHINA+","EUROPE","INDIA+","LATIN_AM","NORTH_AM","PAC_OECD","REST_ASIA")))
+costratioex=costratioex[region=="ratio"]
+costratioex$region<-"OECD/non-OECD"
+costratioex$variable<-"%GDP-OECD/%GDP-non-OECD (excluding Middle East & Reforming Economies)"
+
 # Now only for richest vs poorest region
 poorrich = data[variable%in%c("GDP|PPP","Population")&region%in%r10]
 poorrich$unit <-NULL
@@ -1280,6 +1290,16 @@ F6a = F6a + geom_hline(aes(yintercept = 1),size=1)
 F6a = F6a + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 F6a = F6a + ylab(costratiopr$variable)
 ggsave(file=paste(outdir,"/costratio_North-America_Africa_flexibility_2050.png",sep=""),F6a,width=20,height=12,dpi=200)
+
+### 6b. Cost ratio OECD / non-OECD excluding Middle East and reforming economies
+F6b = ggplot(costratioex[period%in%c(2050)&implementation=="flexibility"])
+F6b = F6b + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
+F6b = F6b + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F6b = F6b + facet_grid(period~model)
+F6b = F6b + geom_hline(aes(yintercept = 1),size=1)
+F6b = F6b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+F6b = F6b + ylab(costratioex$variable)
+ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECDexclME-REF_flexibility_2050.png",sep=""),F6b,width=20,height=12,dpi=200)
 
 ### 7. Financial flows
 F7 = ggplot(finflow[region%in%r10&period==2050&implementation=="flexibility"])
