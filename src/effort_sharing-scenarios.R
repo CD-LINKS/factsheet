@@ -732,6 +732,7 @@ gdp = data[variable=="GDP|PPP"]
 gdp$unit <- unique(costs$unit)
 costs = rbind(costs,gdp)
 costs[variable%in%c("Policy Cost|Additional Total Energy System Cost","Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve")]$variable<-"Policy Cost"
+costsraw=costs
 costs = spread(costs,variable,value) 
 costs = costs%>%mutate(CostGDP=`Policy Cost`/`GDP|PPP`*100)
 costs = data.table(gather(costs,variable,value,c("Policy Cost","GDP|PPP","CostGDP")))
@@ -979,26 +980,47 @@ costsworlddi<-na.omit(costsworlddi)
 
 # costs Annex I fraction GDP / fraction GDP non-Annex I. Now for R10 (LIMITS) (Pacific OECD + Europe + North America) / rest (7). Previously R5OECD90+EU / R5REF+R5ASIA+R5LAM+R5MAF. 
 # to do for OECD countries / native model regions? not enough countries reported separately, and by not enough models... (delete country filter in data preparation): JPN, AUS, CAN, EU, MEX, TUR, USA (non-OECD: ARG, BRA, CHN, IDN, IND, ROK, RUS, SAF, SAU). 
-# TODO check REMIND AP very high...
 
-costratio=spread(costs[region%in%r10],region,value)
-costratio=costratio%>%mutate(R10nonOECD=(`AFRICA`+`CHINA+`+`INDIA+`+`LATIN_AM`+`MIDDLE_EAST`+`REF_ECON`+`REST_ASIA`)/7,
-                             R10OECD = (`EUROPE`+`NORTH_AM`+`PAC_OECD`)/3,
-                             ratio=ifelse(R10nonOECD==0&`R10OECD`==0,0,`R10OECD`/R10nonOECD))
-costratio=data.table(gather(costratio,region,value,c("ratio","R10OECD","R10nonOECD","AFRICA","CHINA+","EUROPE","INDIA+","LATIN_AM","MIDDLE_EAST","NORTH_AM","PAC_OECD","REF_ECON","REST_ASIA")))
-costratio=costratio[region=="ratio"]
-costratio$region<-"OECD/non-OECD"
-costratio$variable<-"%GDP-OECD/%GDP-non-OECD"
+# shouldn't take average --> see calculation for excluding ME and REF
+# costratio=spread(costs[region%in%r10],region,value)
+# costratio=costratio%>%mutate(R10nonOECD=(`AFRICA`+`CHINA+`+`INDIA+`+`LATIN_AM`+`MIDDLE_EAST`+`REF_ECON`+`REST_ASIA`)/7,
+#                              R10OECD = (`EUROPE`+`NORTH_AM`+`PAC_OECD`)/3,
+#                              ratio=ifelse(R10nonOECD==0&`R10OECD`==0,0,`R10OECD`/R10nonOECD))
+# costratio=data.table(gather(costratio,region,value,c("ratio","R10OECD","R10nonOECD","AFRICA","CHINA+","EUROPE","INDIA+","LATIN_AM","MIDDLE_EAST","NORTH_AM","PAC_OECD","REF_ECON","REST_ASIA")))
+# costratio=costratio[region=="ratio"]
+# costratio$region<-"OECD/non-OECD"
+# costratio$variable<-"%GDP-OECD/%GDP-non-OECD"
 
-# For non-OECD excluding Middle East and Reforming Economies
-costratioex=spread(costs[region%in%r10&!region%in%c("MIDDLE_EAST","REF_ECON")],region,value)
-costratioex=costratioex%>%mutate(R10nonOECD=(`AFRICA`+`CHINA+`+`INDIA+`+`LATIN_AM`+`REST_ASIA`)/5,
-                             R10OECD = (`EUROPE`+`NORTH_AM`+`PAC_OECD`)/3,
-                             ratio=ifelse(R10nonOECD==0&`R10OECD`==0,0,`R10OECD`/R10nonOECD))
-costratioex=data.table(gather(costratioex,region,value,c("ratio","R10OECD","R10nonOECD","AFRICA","CHINA+","EUROPE","INDIA+","LATIN_AM","NORTH_AM","PAC_OECD","REST_ASIA")))
-costratioex=costratioex[region=="ratio"]
-costratioex$region<-"OECD/non-OECD"
-costratioex$variable<-"%GDP-OECD/%GDP-non-OECD (excluding Middle East & Reforming Economies)"
+# For non-OECD excluding Middle East and Reforming Economies -  with correct calculation: first add all policy costs, then GDP, then divide (not average)
+costssumpoor = costsraw[region%in%c("AFRICA","CHINA+","INDIA+","LATIN_AM","REST_ASIA"),list(total=sum(value)),by=c("variable","model","scenario","unit","period","implementation","regime")]
+costssumpoor$region <-"nonOECDexMEREF"
+costssumrich = costsraw[region%in%c("EUROPE","NORTH_AM","PAC_OECD"),list(total=sum(value)),by=c("variable","model","scenario","unit","period","implementation","regime")]
+costssumrich$region <-"OECD"
+
+costsgdppoor = spread(costssumpoor,variable,total)
+costsgdppoor = costsgdppoor%>%mutate(CostGDP=`Policy Cost`/`GDP|PPP`*100)
+costsgdppoor = data.table(gather(costsgdppoor,variable,value,c("Policy Cost","GDP|PPP","CostGDP")))
+costsgdppoor = costsgdppoor[variable%in%c("CostGDP")]
+costsgdppoor$unit <- '%'
+costsgdppoor=merge(costsgdppoor,costvars,by=c("model"))
+
+costsgdprich = spread(costssumrich,variable,total)
+costsgdprich = costsgdprich%>%mutate(CostGDP=`Policy Cost`/`GDP|PPP`*100)
+costsgdprich = data.table(gather(costsgdprich,variable,value,c("Policy Cost","GDP|PPP","CostGDP")))
+costsgdprich = costsgdprich[variable%in%c("CostGDP")]
+costsgdprich$unit <- '%'
+costsgdprich=merge(costsgdprich,costvars,by=c("model"))
+
+costratioex = rbind(costsgdppoor,costsgdprich)
+costratioex=spread(costratioex,region,value)
+costratioex=costratioex%>%mutate(ratio=ifelse(nonOECDexMEREF==0&OECD==0,0,OECD/nonOECDexMEREF),
+                                 diff=OECD-nonOECDexMEREF)
+costratioex=data.table(gather(costratioex,region,value,c("ratio","diff","OECD","nonOECDexMEREF")))
+costratioex=costratioex[region%in%c("ratio","diff")]
+costratioex[region=="ratio"]$variable<-"%GDP-OECD/%GDP-non-OECD (excluding Middle East & Reforming Economies)"
+costratioex[region=="ratio"]$region<-"OECD/non-OECD"
+costratioex[region=="diff"]$variable<-"%GDP-OECD minus %GDP-non-OECD (excluding Middle East & Reforming Economies)"
+costratioex[region=="diff"]$region<-"OECD-non-OECD"
 
 # Now only for richest vs poorest region
 poorrich = data[variable%in%c("GDP|PPP","Population")&region%in%r10]
@@ -1035,15 +1057,15 @@ costratiopr$variable<-"%GDP-NAM/%GDP-Africa"
 # c2b = c2b + ylab(costratio$variable)
 # ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECD_exclREMIND.png",sep=""),c2b,width=20,height=12,dpi=200)
 
-# with discounted costs
-costratiodi=spread(costsdi[region%in%r10],region,value)
-costratiodi=costratiodi%>%mutate(R10nonOECD=(`AFRICA`+`CHINA+`+`INDIA+`+`LATIN_AM`+`MIDDLE_EAST`+`REF_ECON`+`REST_ASIA`)/7,
-                                 R10OECD = (`EUROPE`+`NORTH_AM`+`PAC_OECD`)/3,
-                                 ratio=ifelse(R10nonOECD==0&`R10OECD`==0,0,`R10OECD`/R10nonOECD))
-costratiodi=data.table(gather(costratiodi,region,value,c("ratio","R10OECD","R10nonOECD","AFRICA","CHINA+","EUROPE","INDIA+","LATIN_AM","MIDDLE_EAST","NORTH_AM","PAC_OECD","REF_ECON","REST_ASIA")))
-costratiodi=costratiodi[region=="ratio"]
-costratiodi$region<-"OECD/non-OECD"
-costratiodi$variable<-"%GDP-OECD/%GDP-non-OECD"
+# with discounted costs TO DO for now cost ratio calculation
+# costratiodi=spread(costsdi[region%in%r10],region,value)
+# costratiodi=costratiodi%>%mutate(R10nonOECD=(`AFRICA`+`CHINA+`+`INDIA+`+`LATIN_AM`+`MIDDLE_EAST`+`REF_ECON`+`REST_ASIA`)/7,
+#                                  R10OECD = (`EUROPE`+`NORTH_AM`+`PAC_OECD`)/3,
+#                                  ratio=ifelse(R10nonOECD==0&`R10OECD`==0,0,`R10OECD`/R10nonOECD))
+# costratiodi=data.table(gather(costratiodi,region,value,c("ratio","R10OECD","R10nonOECD","AFRICA","CHINA+","EUROPE","INDIA+","LATIN_AM","MIDDLE_EAST","NORTH_AM","PAC_OECD","REF_ECON","REST_ASIA")))
+# costratiodi=costratiodi[region=="ratio"]
+# costratiodi$region<-"OECD/non-OECD"
+# costratiodi$variable<-"%GDP-OECD/%GDP-non-OECD"
 
 # c2a = ggplot(costratiodi[period%in%c(2030,2050)])
 # c2a = c2a + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
@@ -1056,7 +1078,7 @@ costratiodi$variable<-"%GDP-OECD/%GDP-non-OECD"
 
 # Cost ratio vs financial flows -------------------------------------------
 # model median
-costratiostat=costratio[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
+costratiostat=costratioex[region=="OECD-non-OECD",list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),minq=quantile(value,prob=0.1,na.rm = T),maxq=quantile(value,prob=0.9,na.rm = T),
                             min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("variable","unit","period","implementation","regime")]
 
 finflowsstat$period<-as.numeric(as.character(finflowsstat$period))
@@ -1090,7 +1112,7 @@ indicatorn$period<-as.factor(indicatorn$period)
 
 # per model
 finflows$period<-as.numeric(as.character(finflows$period))
-indicatorm=merge(finflows,costratio,by=c("implementation","regime","period","model"))
+indicatorm=merge(finflows,costratioex[region=="OECD-non-OECD"],by=c("implementation","regime","period","model"))
 indicatorm$period<-as.factor(indicatorm$period)
 
 # for(mod in unique(indicatorm$model)){  
@@ -1107,7 +1129,7 @@ indicatorm$period<-as.factor(indicatorm$period)
 # }
 
 finflowsnative$period<-as.numeric(as.character(finflowsnative$period))
-indicatormn=merge(finflowsnative,costratio,by=c("implementation","regime","period","model"))
+indicatormn=merge(finflowsnative,costratioex[region=="OECD-non-OECD"],by=c("implementation","regime","period","model"))
 indicatormn$period<-as.factor(indicatormn$period)
 
 # for(mod in unique(indicatormn$model)){  
@@ -1129,10 +1151,10 @@ i3 = i3 + geom_point(aes(x=value.x,y=value.y,colour=regime,alpha=period, shape=m
 i3 = i3 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 i3 = i3 + scale_alpha_manual(values=c("2030"=0.4,"2050"=0.7,"2100"=1))
 i3 = i3 + scale_shape_manual(values=c("WITCH2016"=15,"REMIND 2.0"=16,"IMAGE 3.0"=17,"MESSAGEix-GLOBIOM_1.1"=18))
-i3 = i3 + geom_hline(aes(yintercept=1),size=1)
+i3 = i3 + geom_hline(aes(yintercept=0),size=1)
 i3 = i3 + geom_vline(aes(xintercept=100),size=1)
 i3 = i3 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
-i3 = i3 + ylab(costratio$variable)
+i3 = i3 + ylab(costratioex[region=="OECD-non-OECD"]$variable)
 i3 = i3 + xlab(finflowsstat$unit)
 ggsave(file=paste(outdir,"/costratio_financialflows_allmodels.png",sep=""),i3,width=20,height=12,dpi=200)
 # 
@@ -1272,14 +1294,14 @@ F5 = F5 + ylab(costsworld$unit)+xlab("")
 ggsave(file=paste(outdir,"/costsrelworld_flexibility_2050.png",sep=""),F5,width=20,height=12,dpi=200)
 
 ### 6. Cost ratio OECD/non-OECD
-F6 = ggplot(costratio[period%in%c(2050)&implementation=="flexibility"])
-F6 = F6 + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
-F6 = F6 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-F6 = F6 + facet_grid(period~model)
-F6 = F6 + geom_hline(aes(yintercept = 1),size=1)
-F6 = F6 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
-F6 = F6 + ylab(costratio$variable)
-ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECD_flexibility_2050.png",sep=""),F6,width=20,height=12,dpi=200)
+# F6 = ggplot(costratio[period%in%c(2050)&implementation=="flexibility"])
+# F6 = F6 + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
+# F6 = F6 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+# F6 = F6 + facet_grid(period~model)
+# F6 = F6 + geom_hline(aes(yintercept = 1),size=1)
+# F6 = F6 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+# F6 = F6 + ylab(costratio$variable)
+# ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECD_flexibility_2050.png",sep=""),F6,width=20,height=12,dpi=200)
 
 ### 6a. Cost ratio North America / Africa
 F6a = ggplot(costratiopr[period%in%c(2050)&implementation=="flexibility"])
@@ -1292,14 +1314,24 @@ F6a = F6a + ylab(costratiopr$variable)
 ggsave(file=paste(outdir,"/costratio_North-America_Africa_flexibility_2050.png",sep=""),F6a,width=20,height=12,dpi=200)
 
 ### 6b. Cost ratio OECD / non-OECD excluding Middle East and reforming economies
-F6b = ggplot(costratioex[period%in%c(2050)&implementation=="flexibility"])
+F6b = ggplot(costratioex[period%in%c(2050)&implementation=="flexibility"&region=="OECD/non-OECD"])
 F6b = F6b + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
 F6b = F6b + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
 F6b = F6b + facet_grid(period~model)
 F6b = F6b + geom_hline(aes(yintercept = 1),size=1)
 F6b = F6b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
-F6b = F6b + ylab(costratioex$variable)
+F6b = F6b + ylab(costratioex[region=="OECD/non-OECD"]$variable)
 ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECDexclME-REF_flexibility_2050.png",sep=""),F6b,width=20,height=12,dpi=200)
+
+### 6c. Cost difference OECD / non-OECD excluding Middle East and reforming economies
+F6c = ggplot(costratioex[period%in%c(2050)&implementation=="flexibility"&region=="OECD-non-OECD"])
+F6c = F6c + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
+F6c = F6c + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F6c = F6c + facet_grid(period~model)
+F6c = F6c + geom_hline(aes(yintercept = 0),size=1)
+F6c = F6c + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+F6c = F6c + ylab(costratioex[region=="OECD-non-OECD"]$variable)
+ggsave(file=paste(outdir,"/costdiff_R10_OECD_non-OECDexclME-REF_flexibility_2050.png",sep=""),F6c,width=20,height=12,dpi=200)
 
 ### 7. Financial flows
 F7 = ggplot(finflow[region%in%r10&period==2050&implementation=="flexibility"])
