@@ -108,7 +108,8 @@ setcolorder(ic,c("model","scenario","region","variable","unit","period","value")
 data=data[!c(model=="IMAGE 3.0"&variable=="Policy Cost|Area under MAC Curve")]
 data <- rbind(data,ic)
 
-# Read in NoPolicy (SSP2) baseline and cost-optimal scenario from 'all' for AP formula check (not available for AIM/CGE[Japan]?)
+# Read in NoPolicy (SSP2) baseline and cost-optimal scenario from 'all' for AP formula check (not available for AIM/CGE[Japan]?) - TODO also needed for emissions
+# relative to baseline so check all the right versions are used, and for GEM-E3, use NPi
 nopolco = all[Category%in%c("NoPOL","2020_low")&!model=="MESSAGEix-GLOBIOM_1.0"]
 nopolco$implementation<-"flexibility"
 nopolco$regime<-""
@@ -214,11 +215,16 @@ native[scenario%in%c("NPi2020_1000_domestic_GF","NPi2020_1000_domestic_GF_V4","N
 native[scenario%in%c("NPi2020_1000_domestic_CO","NPi2020_1000_flexibility_CO","NPi2020_1000_domestic_CO_V4","NPi2020_1000_flexibility_CO_V4",
                    "NPi2020_1000_flexibility_CO_recSocialSecurity_V5","NPi2020_1000_domestic_CO_recSocialSecurity_V5")]$regime<-"CO"
 
+# Remove V4a scenarios MESSAGE (unless needed for comparison)
+data=na.omit(data)
+native=na.omit(native)
+  
 #R5=data[region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA",
                       "R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA")] 
                       #"R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF","ARG","AUS","CAN","MEX","IDN","ROK","SAF","SAU","TUR",
 data$region=str_remove_all(data$region,"R10")
+nopolco$region=str_remove_all(nopolco$region,"R10")
 #native=native[region%in%c("JPN","BRA","CHN","EEU","EU15","IND","INDIA","JAP","EUR","CHINA","EUROPE","USA","RUS")]
 #set constant to easily select data
 r10=c("AFRICA","CHINA+","EUROPE","INDIA+","LATIN_AM","MIDDLE_EAST","NORTH_AM","PAC_OECD","REF_ECON","REST_ASIA")
@@ -442,6 +448,10 @@ ggsave(file=paste(outdir,"/emissiontargets2050_JPN.png",sep=""),e4,width=20,heig
 # e5 = e5 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 # e5 = e5 + ylab(targets$unit)
 # ggsave(file=paste(outdir,"/emissiontargets2030_JPN.png",sep=""),e5,width=20,height=12,dpi=200)
+
+# Relative to baseline (only for flexibility) - TODO check baseline available on R10? otherwise resubmit? check right version (V5?) for GEM-E3 use NPi
+emisbl = rbind(data[variable=="Emissions|Kyoto Gases"&implementation=="flexibility"&region%in%r10],nopolco[regime=="Baseline"&variable=="Emissions|Kyoto Gases"&region%in%r10])
+emisbl = spread(emisbl[,!c('scenario'),with=FALSE],regime,value)
 
 # Trade ---------------------------------------------------------
 ###Value
