@@ -356,7 +356,7 @@ ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,
 # Mitigation strategies / why are some regions earlier or later ---------------------------------------------------
 # EU late vs. US early: space for afforestation (e.g. population density).  Check database for other reasons , e.g. non-CO2 share in 2015? 
 # Mogelijk bevolkingsdichtheid of misschien productieve grond per persoon tegen jaar CO2 neutraliteit? Evt. ook iets van CCS capaciteit.
-# TODO: add baseline growth, CO2 in transport/industry/buildings? Trade|Primary Energy|Biomass|Volume - just test all variables
+# TODO: add CO2 in transport/industry/buildings? Trade|Primary Energy|Biomass|Volume - just test all variables
 
 ### select data
 rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Population","GDP|MER",
@@ -367,51 +367,31 @@ rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emi
       ] #"2 °C (2030)", & Category%in%c("2 °C","1.5 °C")
 ghg=rd[variable %in% c("Emissions|Kyoto Gases")]
 
-### First calculate phase-out year (only for models with data until 2100) - TODO take relative to global average?
+### First calculate phase-out year (only for models with data until 2100)
 check=ghg[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 rd=rd[model%in%check$model]
 ghg=ghg[model%in%check$model]
 
-## TODO extrapolate beyond 2100 to estimate phase-out year if not this century - find the right curve
-ghge=ghg[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] #TODO fix this so it works for all countries and models simultaneously: &region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"
-ghgextr = list()
-for(i in unique(ghge$region)){
-  for(j in unique(ghge$model)){
-    for(k in unique(ghge$Category)){
-      #ghge[region%in%i&model%in%j&Category%in%k]$pred<-predict(lm(value~poly(period,3),data=ghge[region%in%i&model%in%j&Category%in%k]))
-      ghgex <- data.frame(period=2050:2200) # TODO use this here? Or use emission reduction rate?? Package broom?
-      ghgex$model<-j
-      ghgex$region<-i
-      ghgex$Category<-k
-      ghgex$value <- predict(lm(value ~ poly(period,2), data=ghge),newdata=ghgex) #[region%in%i&model%in%j&Category%in%k]
-      #ghgextr[i,j,k] <- ghgex
-}}}
-ghgextr <- do.call(rbind, ghgextr)
-
-# for(i in 2050:2100){
-#   ghgex = ghgex %>% mutate(value=ifelse(is.na(value)==T,lag(value,default=as_double(value)[1]*rate,value)))
-# }
+## Extrapolate beyond 2100 to estimate phase-out year if not this century
+ghge=ghg[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] 
+ghgextra=ghge[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region")]
+setnames(ghgextra,"V1","value")
+setnames(ghgextra,"V2","period")
 
 #check
-p=ggplot(ghg[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"])
-p=p+geom_line(aes(x = period, y=value))
-p=p+geom_line(data=ghge[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"],aes(x = period, y=pred), color="red")
-p=p+geom_quantile(data=ghge[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"], method="rq", aes(x=period, y=value), formula=y ~ poly(x, 3, raw=TRUE), stat="quantile", quantiles = 0.5, lty = "dashed")
+p=ggplot() #[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"]
+p=p+facet_grid(region~model)
+p=p+geom_line(data=ghg[Category%in%c("1.5 °C","2 °C")&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")], aes(x = period, y=value,linetype=Category))
+p=p+geom_line(data=ghgextra[region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")], aes(x = period, y=value,linetype=Category), color="red") #[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"]
+p=p+theme_bw()
 print(p)
 
-#extrapolate
-ghgex <- data.frame(period=2050:2200)
-ghgex$value <- predict(lm(value ~ poly(period,3), data=ghge),newdata=ghgex)
-#check
-p=p+geom_line(data=ghgex,aes(x=period,y=value),color="green")
-print(p)
-
-#calculate phase-out year - TODO use ghgex when ok
-poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
-poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
-poy$unit<-NULL
-poy[is.na(V1),]$V1="No phase-out" #TODO not needed when extrapolation ok?
+#calculate phase-out year
+poy=ghgextra[!duplicated(ghgextra[,list(model,Category,region),with=TRUE]),!c('value','period'),with=FALSE] #variable "Scope","Baseline","scenario"
+poy=merge(poy,ghgextra[value<=0,min(period),by=c('model','Category','region')],by=c('model','Category','region'),all=TRUE) #,'variable'
+#poy$unit<-NULL
+poy[is.na(V1),]$V1="No phase-out" #TODO also with extrapolation some NA - check what it does in PCA?
 setnames(poy,"V1","period")
 
 ### Calculate indicators to plot on X-axis
@@ -631,6 +611,7 @@ blg100x = select(blg100,-scenario,-Baseline,-Scope)
 setnames(poy,"period","value")
 poy$period<-"x"
 poy$unit<-"Year"
+poy$variable<-"Emissions|Kyoto Gases"
 setcolorder(poy,colnames(ccsx))
 pca=rbind(popdx,nonco2x,prodx,forestx,ccsx,gdpcapx,cropsharex,blg50x,blg100x,poy)
 pca=spread(pca[,!c('unit','period'),with=FALSE],variable,value)
