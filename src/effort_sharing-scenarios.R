@@ -109,8 +109,12 @@ data=data[!c(model=="IMAGE 3.0"&variable=="Policy Cost|Area under MAC Curve")]
 data <- rbind(data,ic)
 
 # Read in NoPolicy (SSP2) baseline and cost-optimal scenario from 'all' for AP formula check (not available for AIM/CGE[Japan]?) - TODO also needed for emissions
-# relative to baseline so check all the right versions are used, and for GEM-E3, use NPi
+# relative to baseline so check all the right versions are used
 nopolco = all[Category%in%c("NoPOL","2020_low")&!model=="MESSAGEix-GLOBIOM_1.0"]
+#for GEM-E3, use NPi as NoPolicy not available
+nopolGEM = all[Category=="NPi"&model=="GEM-E3"]
+nopolGEM$Category <- "NoPOL"
+nopolco=rbind(nopolco,nopolGEM)
 nopolco$implementation<-"flexibility"
 nopolco$regime<-""
 nopolco[Category=="NoPOL"]$regime<-"Baseline"
@@ -449,9 +453,16 @@ ggsave(file=paste(outdir,"/emissiontargets2050_JPN.png",sep=""),e4,width=20,heig
 # e5 = e5 + ylab(targets$unit)
 # ggsave(file=paste(outdir,"/emissiontargets2030_JPN.png",sep=""),e5,width=20,height=12,dpi=200)
 
-# Relative to baseline (only for flexibility) - TODO check baseline available on R10? otherwise resubmit? check right version (V5?) for GEM-E3 use NPi
+# Relative to baseline (only for flexibility) - TODO check baseline available on R10 - resubmit (REMIND &DNE). check right version (V5?) 
 emisbl = rbind(data[variable=="Emissions|Kyoto Gases"&implementation=="flexibility"&region%in%r10],nopolco[regime=="Baseline"&variable=="Emissions|Kyoto Gases"&region%in%r10])
 emisbl = spread(emisbl[,!c('scenario'),with=FALSE],regime,value)
+emisbl = emisbl%>%mutate(COrel=(CO-Baseline)/Baseline*100,APrel=(AP-Baseline)/Baseline*100,PCCrel=(PCC-Baseline)/Baseline*100,GFrel=(GF-Baseline)/Baseline*100)
+emisbl = data.table(gather(emisbl,regime,value,c("CO","AP","PCC","GF","Baseline","COrel","APrel","PCCrel","GFrel")))
+emisbl = na.omit(emisbl)
+emisbl = emisbl[regime%in%c("COrel","APrel","PCCrel","GFrel")]
+emisbl$unit <- "% relative to baseline"
+emisbl$regime=str_remove_all(emisbl$regime,"rel")
+emisbl$regime = factor(emisbl$regime,levels=c("CO","AP","PCC","GF"))
 
 # Trade ---------------------------------------------------------
 ###Value
@@ -1281,6 +1292,17 @@ F3 = F3 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_
                              legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
 F3 = F3 + ylab(data[variable=="Emissions|Kyoto Gases"]$unit)+xlab("")
 ggsave(file=paste(outdir,"/emissions_flexibility_2050.png",sep=""),F3,width=20,height=12,dpi=200)
+
+### 3a. Emissions relative to baseline
+F3a = ggplot(emisbl[period==2050])
+F3a = F3a + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F3a = F3a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F3a = F3a + facet_grid(regime~region,scale="fixed")
+F3a = F3a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F3a = F3a + ylab(emisbl$unit)+xlab("")
+ggsave(file=paste(outdir,"/emissions_relBaseline_flexibility_2050.png",sep=""),F3a,width=20,height=12,dpi=200)
+
 
 ### 4. Carbon price
 F4 = ggplot(data[variable=="Price|Carbon"&region%in%r10&period==2050&implementation=="flexibility"])
