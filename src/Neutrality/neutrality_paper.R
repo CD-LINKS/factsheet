@@ -49,16 +49,23 @@ check=ghg[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 ghg=ghg[model%in%check$model]
 
-poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
-poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
-poy[is.na(V1),]$V1=2105
+library(Hmisc)
+## Extrapolate beyond 2100 to estimate phase-out year if not this century
+ghge=ghg[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] 
+ghgextra=ghge[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
+setnames(ghgextra,"V1","value")
+setnames(ghgextra,"V2","period")
+
+poy=ghgextra[!duplicated(ghgextra[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE] #"Scope","Baseline","scenario"
+poy=merge(poy,ghgextra[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy[is.na(V1),]$V1="No phase-out"
 
 models=poy[,list(number=length(unique(model))),by=c('region','variable')]
 poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
 poy=poy[!number<3]
 
-poyrange=data.table(poy[,list(median=median(V1),min=min(V1),max=max(V1)),by=c("Category","region","unit","variable")])
+poyrange=data.table(poy[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","unit","variable")])
 #poyrange = poyrange[order(Category,variable,median)]
 poyrange$region <- factor(poyrange$region, levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
                                                     "RUS [3 models]","JPN [4 models]","IND [6 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #unique(poyrange$region)
@@ -66,18 +73,28 @@ poyrange$region <- factor(poyrange$region, levels=c("BRA [3 models]","CAN [3 mod
 poy$region<-factor(poy$region,levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
                                        "RUS [3 models]","JPN [4 models]","IND [6 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #levels=unique(poy$region)
 
+# For plotting, including the ones with phase-out after 2100 or no phase-out at all
+poy$label <-""
+poy[V1>2100]$label <-">2100"
+poy[is.na(V1),]$label <- "NA"
+poy$showyear <- poy$V1
+poy[V1>2100]$showyear <- 2105
+poy[is.na(V1),]$showyear <- 2110
+
 # TODO fix vertical lines for world? 
 S = ggplot()
 #S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
 S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max,y=median, x=region, colour=variable),fatten=0.5,alpha=0.5,size=5,show.legend = F) #,position=position_dodge(width=0.66)
-S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")],aes(x=region,y=V1,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
+S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")],aes(x=region,y=showyear,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
+S = S + geom_text(data=poy,stat="identity",aes(x=region,y=showyear,label=label),size=4)
 #S = S + geom_boxplot(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=V1, x=region, colour=variable,fill=variable),position=position_dodge(width=0.66),width=0.66)
 #S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
 S = S + coord_flip()
 S = S + facet_grid(Category~variable, scales="free_y")
-#S = S + geom_hline(yintercept=poyrange[region=="World [6 models]"&variable=="Emissions|Kyoto Gases"&Category%in%c("2 °C","1.5 °C")]$median)
+#S = S + geom_hline(yintercept=poyrange[region=="World [6 models]"&Category%in%c("2 °C","1.5 °C")]$median) #&variable=="Emissions|Kyoto Gases"
 S = S + ylab("Phase out year")
-S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100))
+S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
+#S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110,2120,2130,2140,2150,2160,2170,2180,2190,2200))
 S = S + theme_bw() + theme(axis.text.y=element_text(angle=45, size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
         theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
         theme(legend.text=element_text(size=11),legend.title=element_text(size=12))
@@ -177,10 +194,16 @@ dtm=data.table(dtm)
 dth=dtm[variable=="Emissions|Kyoto Gases|Harmo"]
 dth$variable<-"Emissions|Kyoto Gases"
 
-# Calculate phase-out year
-poy=dth[!duplicated(dth[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE]
-poy=merge(poy,dth[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
-poy[is.na(V1),]$V1=2105
+# Calculate phase-out year 
+## Extrapolate beyond 2100 to estimate phase-out year if not this century
+dthe=dth[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] 
+dthextra=dthe[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
+setnames(dthextra,"V1","value")
+setnames(dthextra,"V2","period")
+
+poy=dthextra[!duplicated(dthextra[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE]
+poy=merge(poy,dthextra[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy[is.na(V1),]$V1<-"No phase-out"
 poyinventory=poy
 
 # Relative to global
@@ -199,7 +222,7 @@ poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
 poy=poy[!number<3]
 
-poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","variable")])
+poyrange=data.table(poy[,list(median=median(years,na.rm=T),min=min(years,na.rm=T),max=max(years,na.rm=T)),by=c("Category","region","variable")])
 
 poyrange2=poyrange
 poyrange2$variable<-"Inventory AFOLU data"
@@ -236,7 +259,7 @@ poy1=merge(poy1, models, by=c('region','variable'))
 poy1$region <- paste(poy1$region,' [',poy1$number,' models]',sep="")
 poy1=poy1[!number<3]
 
-poyrange1=data.table(poy1[,list(median=median(value),min=min(value),max=max(value)),by=c("Category","region","variable")]) #,"unit"
+poyrange1=data.table(poy1[,list(median=median(value,na.rm=T),min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("Category","region","variable")]) #,"unit"
 
 S2 = ggplot()
 S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable #,"SAF [2 models]","MEX [2 models]"
@@ -293,9 +316,15 @@ check=allocation[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 allocation=allocation[model%in%check$model]
 
-poy=allocation[!duplicated(allocation[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
-poy=merge(poy,allocation[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
-poy[is.na(V1),]$V1=2105
+## Extrapolate beyond 2100 to estimate phase-out year if not this century
+allocatione=allocation[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] 
+allocationextra=allocatione[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
+setnames(allocationextra,"V1","value")
+setnames(allocationextra,"V2","period")
+
+poy=allocationextra[!duplicated(allocationextra[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE] #,"Scope","Baseline","scenario"
+poy=merge(poy,allocationextra[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy[is.na(V1),]$V1="No phase-out"
 poy1=poy
 world=poy[region=="World"]
 poy=merge(poy,world, by=c("model","Category","variable")) #,"unit"
@@ -311,7 +340,7 @@ poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
 poy=poy[!number<3]
 
-poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","variable")]) #,"unit"
+poyrange=data.table(poy[,list(median=median(years,na.rm=T),min=min(years,na.rm=T),max=max(years,na.rm=T)),by=c("Category","region","variable")]) #,"unit"
 
 a = ggplot()
 a = a + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
@@ -336,8 +365,12 @@ poy1=merge(poy1, models, by=c('region','variable'))
 poy1$region <- paste(poy1$region,' [',poy1$number,' models]',sep="")
 poy1=poy1[!number<2]
 
-poyrange1=data.table(poy1[,list(median=median(value),min=min(value),max=max(value)),by=c("Category","region","variable")]) #,"unit"
-poyrange1=poyrange1[!number<3]
+poyrange1=data.table(poy1[,list(median=median(value,na.rm=T),min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("Category","region","variable","number")]) #,"unit"
+poyrange1=poyrange1[!number<2]
+#For display
+poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$median<-100
+poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$min<-100
+poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$max<-100
 
 a1 = ggplot()
 a1 = a1 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
@@ -346,6 +379,8 @@ a1 = a1 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="W
 a1 = a1 + coord_flip()
 a1 = a1 + facet_grid(.~Category, scales="free_y")
 a1 = a1 + geom_hline(yintercept=0)
+a1 = a1 + scale_y_continuous(limits=c(-80,90),breaks=c(-80,-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60,70,80,90))
+a1 = a1 + geom_text(data=poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"],stat="identity",aes(x=region,y=50,label="2077 > No phase-out"),size=6)
 a1 = a1 + ylab("Phase-out year difference due to BECCS allocation (<0: earlier if based on biomass production)")
 #a1 = a1 + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
 a1 = a1 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
