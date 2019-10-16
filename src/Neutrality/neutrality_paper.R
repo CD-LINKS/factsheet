@@ -55,6 +55,9 @@ ghge=ghg[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")]
 ghgextra=ghge[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
 setnames(ghgextra,"V1","value")
 setnames(ghgextra,"V2","period")
+ghg = select(ghg,-scenario,-Baseline,-Scope,-unit)
+setcolorder(ghgextra,colnames(ghg))
+ghgextra=rbind(ghgextra[period%in%c(2101:2200)],ghg[Category%in%c("1.5 °C","2 °C")])
 
 poy=ghgextra[!duplicated(ghgextra[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE] #"Scope","Baseline","scenario"
 poy=merge(poy,ghgextra[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
@@ -65,7 +68,7 @@ poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
 poy=poy[!number<3]
 
-poyrange=data.table(poy[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","unit","variable")])
+poyrange=data.table(poy[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","variable")]) #"unit"
 #poyrange = poyrange[order(Category,variable,median)]
 poyrange$region <- factor(poyrange$region, levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
                                                     "RUS [3 models]","JPN [4 models]","IND [6 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #unique(poyrange$region)
@@ -81,19 +84,25 @@ poy$showyear <- poy$V1
 poy[V1>2100]$showyear <- 2105
 poy[is.na(V1),]$showyear <- 2110
 
+poyrange$label <-""
+poyrange[max>2100]$label <- ">2100"
+poyrange$showyear <- poyrange$max
+poyrange[max>2100]$showyear <- 2105
+
 # TODO fix vertical lines for world? 
 S = ggplot()
 #S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
-S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max,y=median, x=region, colour=variable),fatten=0.5,alpha=0.5,size=5,show.legend = F) #,position=position_dodge(width=0.66)
+S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=showyear,y=median, x=region, colour=variable),fatten=0.5,alpha=0.5,size=5,show.legend = F) #,position=position_dodge(width=0.66)
 S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")],aes(x=region,y=showyear,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
-S = S + geom_text(data=poy,stat="identity",aes(x=region,y=showyear,label=label),size=4)
+S = S + geom_text(data=poy[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
+S = S + geom_text(data=poyrange[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
 #S = S + geom_boxplot(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=V1, x=region, colour=variable,fill=variable),position=position_dodge(width=0.66),width=0.66)
 #S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
 S = S + coord_flip()
 S = S + facet_grid(Category~variable, scales="free_y")
 #S = S + geom_hline(yintercept=poyrange[region=="World [6 models]"&Category%in%c("2 °C","1.5 °C")]$median) #&variable=="Emissions|Kyoto Gases"
 S = S + ylab("Phase out year")
-S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
+S = S + scale_y_continuous(limits=c(2030,2110),breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
 #S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110,2120,2130,2140,2150,2160,2170,2180,2190,2200))
 S = S + theme_bw() + theme(axis.text.y=element_text(angle=45, size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
         theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
@@ -200,6 +209,9 @@ dthe=dth[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")]
 dthextra=dthe[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
 setnames(dthextra,"V1","value")
 setnames(dthextra,"V2","period")
+dth = select(dth,-scenario,-Baseline,-Scope)
+setcolorder(dthextra,colnames(dth))
+dthextra=rbind(dthextra[period%in%c(2101:2200)],dth)
 
 poy=dthextra[!duplicated(dthextra[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE]
 poy=merge(poy,dthextra[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
@@ -321,6 +333,9 @@ allocatione=allocation[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")]
 allocationextra=allocatione[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
 setnames(allocationextra,"V1","value")
 setnames(allocationextra,"V2","period")
+allocation = select(allocation,-scenario,-Baseline,-Scope)
+setcolorder(allocationextra,colnames(allocation))
+allocationextra=rbind(allocationextra[period%in%c(2101:2200)],allocation)
 
 poy=allocationextra[!duplicated(allocationextra[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE] #,"Scope","Baseline","scenario"
 poy=merge(poy,allocationextra[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
@@ -413,6 +428,9 @@ ghge=ghg[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")]
 ghgextra=ghge[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region")]
 setnames(ghgextra,"V1","value")
 setnames(ghgextra,"V2","period")
+ghg = select(ghg,-scenario,-Baseline,-Scope,-unit,-variable)
+setcolorder(ghgextra,colnames(ghg))
+ghgextra=rbind(ghgextra[period%in%c(2101:2200)],ghg)
 
 #check
 p=ggplot() #[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"]
@@ -442,7 +460,7 @@ popd$unit<-"persons/ha"
 popdm=popd[,list(mean(value,na.rm=TRUE)),by=c("Category","region","variable","unit","period")]
 setnames(popdm,"V1","value")
 
-poym=poy[,list(mean(period,na.rm=TRUE)),by=c("Category","region","variable")]
+poym=poy[,list(mean(period,na.rm=TRUE)),by=c("Category","region")] #,"variable"
 setnames(poym,"V1","period")
 
 popden=merge(popd,poy,by=c("model","Category","region"))
