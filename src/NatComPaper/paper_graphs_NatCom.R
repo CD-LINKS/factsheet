@@ -857,3 +857,13 @@ p_drivers_world_median <- ggplot(data=decomposition_world_median) +
         legend.title = element_text(size = 30))
 plot(p_drivers_world_median)
 ggsave(file=paste("NatComPaper/graphs","/Figure1_methods.jpg",sep=""),p_drivers_world_median,width=20,height=12,dpi=300)
+
+# reviewer question --> check diff NPi and NPi_update
+emis_npi <- filter(NPi_indicators$EMISCO2EQ, region=="EU", year>=2010, year<=2030, main_sector=="Total", GHG_Category=="EMISCO2EQ") %>%
+            mutate(scenario="NPi")
+emis_npi_update <- filter(NPi_update_indicators$EMISCO2EQ, region=="EU", year>=2010, year<=2030, main_sector=="Total", GHG_Category=="EMISCO2EQ") %>%
+            mutate(scenario="NPi_update")
+emis <- rbind(emis_npi, emis_npi_update)
+fig_emis <- ggplot(data=emis) + geom_line(aes(year, value, colour=scenario), size=2) +
+            ylim(0, NA)
+plot(fig_emis)

@@ -151,6 +151,7 @@ source('functions/Process_TIMER_output.R')
 # Read no policy scenario
 NoPolicy <- ImportTimerScenario('NoPolicy','NoPolicy', Rundir, Project, TIMERGeneration, Policy=TRUE)
 NPi <- ImportTimerScenario('NPi','NPi', Rundir, Project, TIMERGeneration, Policy=TRUE)
+NPi_update <- ImportTimerScenario('NPi_update','NPi', Rundir, Project, TIMERGeneration, Policy=TRUE)
 INDCi <- ImportTimerScenario('INDCi','INDCi', Rundir, Project, TIMERGeneration, Policy=TRUE)
 NPi2020_1600 <- ImportTimerScenario('NPi2020_1600','NPi2020_1600', Rundir, Project, TIMERGeneration, Policy=TRUE)
 NPi2020_1000 <- ImportTimerScenario('NPi2020_1000','NPi2020_1000', Rundir, Project, TIMERGeneration, Policy=TRUE)
@@ -159,6 +160,7 @@ INDC2030i_1000 <- ImportTimerScenario('INDC2030i_1000','INDC2030i_1000', Rundir,
 
 NoPolicy_indicators <- ProcessTimerScenario(NoPolicy, Rundir, Project, Policy=TRUE)
 NPi_indicators <- ProcessTimerScenario(NPi, Rundir, Project, Policy=TRUE)
+NPi_update_indicators <- ProcessTimerScenario(NPi_update, Rundir, Project, Policy=TRUE)
 INDCi_indicators <- ProcessTimerScenario(INDCi, Rundir, Project, Policy=TRUE)
 NPi2020_1600_indicators <- ProcessTimerScenario(NPi2020_1600, Rundir, Project, Policy=TRUE)
 NPi2020_1000_indicators <- ProcessTimerScenario(NPi2020_1000, Rundir, Project, Policy=TRUE)

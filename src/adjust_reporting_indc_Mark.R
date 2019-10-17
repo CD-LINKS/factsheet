@@ -332,18 +332,6 @@ if(dim(tmp1)[1]!=0 & "Secondary Energy|Electricity|Coal" %in% unique(tmp1$variab
   tmp1=tmp1[variable=="Secondary Energy|Electricity|Coal|w/ CCS"]
   all <- rbind(all,tmp1)} 
 
-#Adding "Secondary Energy|Electricity|Gas|w/ CCS" to scenarios that don't report them, but have "Secondary Energy|Electricity|Gas" and "Secondary Energy|Electricity|Gas|w/o CCS"
-tmp1 <- all[model %in% setdiff(unique(all[variable=="Secondary Energy|Electricity|Gas|w/o CCS"]$model),unique(all[variable=="Secondary Energy|Electricity|Gas|w/ CCS"]$model)) &
-              variable %in% c("Secondary Energy|Electricity|Gas","Secondary Energy|Electricity|Gas|w/o CCS")]
-if(dim(tmp1)[1]!=0 & "Secondary Energy|Electricity|Gas" %in% unique(tmp1$variable)){
-  tmp=spread(tmp1,variable, value)
-  tmp=na.omit(tmp)
-  tmp=tmp %>% mutate(`Secondary Energy|Electricity|Gas|w/ CCS`=`Secondary Energy|Electricity|Gas` - `Secondary Energy|Electricity|Gas|w/o CCS`)
-  tmp1=gather(tmp, variable, value, c(`Secondary Energy|Electricity|Gas|w/ CCS`,`Secondary Energy|Electricity|Gas`, `Secondary Energy|Electricity|Gas|w/o CCS`))
-  tmp1=data.table(tmp1)
-  tmp1=tmp1[variable=="Secondary Energy|Electricity|Gas|w/ CCS"]
-  all <- rbind(all,tmp1)} 
-
 # .................................................................................................................................
 # .................................................................................................................................
 
