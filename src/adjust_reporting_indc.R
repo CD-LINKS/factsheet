@@ -1,5 +1,6 @@
 # Collection of fixes for reporting issues and other adjustments --------------------------------
-#
+# First need it as a data table
+all=data.table(all)
 
 # Model-specific issues ---------------------------------------------------
 
@@ -20,6 +21,27 @@ all <- rbind(all,tmp)
 #RU-TIMES: problem with Energy and Industrial Processes (probably only industrial processes??)
 all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy and Industrial Processes"&region=="RUS"]$value <-
   all[model=="RU-TIMES 3.2"&variable=="Emissions|CO2|Energy"&region=="RUS"]$value
+
+#GCAM: add GDP from separate CSV
+gcam=invisible(fread(paste0("data/","GCAM_USA_CD-LINKS_GDP",".csv"),header=TRUE))
+gcam <- gather(gcam, 6:ncol(gcam), key="period", value=value)
+gcam$period <- as.numeric(gcam$period)
+setnames(gcam,"Region","region")
+setnames(gcam,"Model","model")
+setnames(gcam,"Variable","variable")
+setnames(gcam,"Unit","unit")
+setnames(gcam,"Scenario","scenario")
+gcam$Baseline<-"NoPOL_V4"
+gcam$Category<-"NPi"
+gcam$Scope<-"national"
+gcam$scenario<-"NPi_V4"
+gcam$model<-"GCAM-USA_CDLINKS"
+setcolorder(gcam,colnames(all))
+all <- rbind(all,gcam)
+
+# India Markal and AIM/Enduse 3.0: convert GDP from Rupees to 2010 USD (divide by 36.1)
+all[model%in%c("India MARKAL", "AIM/Enduse 3.0")&variable%in%c("GDP|MER","GDP|PPP")]$value = 
+  all[model%in%c("India MARKAL", "AIM/Enduse 3.0")&variable%in%c("GDP|MER","GDP|PPP")]$value/36.1
 
 #IPAC/AIM:
 # Baseline not NoPOL but NPi, because IPAC does not have NoPOL

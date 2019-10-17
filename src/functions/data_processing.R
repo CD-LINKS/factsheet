@@ -30,7 +30,7 @@ process_data <- function(all,scens){
     all$variable <- factor(all$variable)
     
     #baseline scenarios will thus be exclude from loop over "Baselines of baselines"
-    all[all$Baseline=="-",]$Baseline <- NA
+    #all[all$Baseline=="-",]$Baseline <- NA
     all_check3 <- all
     return(all)
 }
@@ -150,9 +150,7 @@ add_variables <- function(all,scens){
     all <- calcVariable(all,'`Final Energy|Biomass` ~ (`Final Energy|Transportation|Liquids|Biomass`)+
                                                       (`Final Energy|Solids|Biomass`)', newUnit='EJ/yr') 
     #Final Energy|Other Renewables includes renewable energy produced for small scale electricity and non-heat use (e.g. solar PV on roofs)
-    all <- calcVariable(all,'`Final Energy|Other Renewables` ~ (`Final Energy|Solar`) +
-                                                               (`Final Energy|Wind`) +
-                                                               (`Final Energy|Geothermal`)', newUnit='EJ/yr')     
+    all <- calcVariable(all,'`Final Energy|Other Renewables` ~ (`Final Energy|Solar`) + (`Final Energy|Geothermal`)', newUnit='EJ/yr') #(`Final Energy|Wind`) does not exist in database!
     all <- calcVariable(all,'`Final Energy|Non-fossil` ~ (1/100)*(`Secondary Energy|Electricity|Non-fossil share`)*(`Final Energy|Electricity`)+
                                                          (`Final Energy|Biomass|Excl. traditional`)+
                                                          (`Final Energy|Other Renewables`)',
@@ -189,7 +187,7 @@ add_variables <- function(all,scens){
     source("functions/calcPeak.R")
     all <- calcPeak(all,'Emissions|CO2','Peak year|CO2')
     all <- calcPeak(all,'Emissions|Kyoto Gases','Peak year|Kyoto Gases')
-    source("functions/calcRate.R")
+    source("functions/calcRate.R") #TODO check what goes wrong here?
     all <- calcRate(all, c("Emissions Intensity of GDP|MER","Carbon Intensity of FE","Energy Intensity of GDP|MER","Emissions|CO2|FFI","Renewables Share|Excl. Nuclear","GHG Intensity of FE"))
     all <- calcRate(all, c("Carbon Intensity of GDP|MER","Carbon Intensity of GDP|MER (excl AFOLU)","GHG Intensity of GDP|MER", 
                            "Carbon Intensity of GDP|PPP","Carbon Intensity of GDP|PPP (excl AFOLU)", "GHG Intensity of GDP|PPP"))
@@ -218,7 +216,7 @@ add_variables <- function(all,scens){
     #vars <- c("Emissions|CO2", "Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2")
     all <- rbind(all, calcRel2BaseYear(df=all,vars=vars,baseyear=2010))
 
-    all <- calcVariable(all,'`Reduction rel to 2010` ~ 100.0 - `Emissions|CO2|FFI|rel2010` * 100 ' , newUnit='%')
+    all <- calcVariable(all,'`Reduction rel to 2010` ~ 100.0 - `Emissions|CO2|FFI|rel2010` * 100 ' , newUnit='%') #TODO and here?
     all <- rbind(all,hist)
     return(all)
 }

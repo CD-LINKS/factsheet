@@ -3,24 +3,24 @@ plot_lineNationalScens <- function(reg, dt, vars, scensnat, scensglob, out=cfg$o
 
   dt$period = as.numeric(dt$period)
 
-  dtn <- filter(dt, region == reg, variable %in% vars, Scope == "national",scenario %in% scensnat) %>%
+  dtn <- filter(dt, region == reg, variable %in% vars, Scope == "national",Category %in% scensnat) %>%
     factor.data.frame()
-  dtg <- filter(dt, region == reg, variable %in% vars, Scope == "global", scenario %in% scensglob) %>%
+  dtg <- filter(dt, region == reg, variable %in% vars, Scope == "global", Category %in% scensglob) %>%
     factor.data.frame() %>% as.data.table()
 
-  dtn$scenario <- factor(dtn$scenario, levels = scensnat)
+  dtn$Category <- factor(dtn$Category, levels = scensnat)
 
-  minmax=dtg[,list(ymax=max(value),ymin=min(value)),by=c('region','period','scenario','variable')]
+  minmax=dtg[,list(ymax=max(value),ymin=min(value)),by=c('region','period','Category','variable')]
   minmax=minmax[period %in% c(2005, seq (2010, 2050, by= 10))]
 
-  minmax<-minmax[order(region, scenario, period),]
+  minmax<-minmax[order(region, Category, period),]
 
 
 
   p = ggplot()
-  p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax, fill=scenario),alpha=.2)
-  p = p + geom_path(data=dtg,aes(x=period,y=value,group=paste(model,scenario)), color = "grey75", size = 0.3, show.legend = F )
-  p = p + geom_path(data=dtn,aes(x=period,y=value,linetype=model, color = scenario, group=paste(model,scenario)), size = 1.5)
+  p = p + geom_ribbon(data=minmax,aes(x=period,ymin=ymin,ymax=ymax, fill=Category),alpha=.2)
+  p = p + geom_path(data=dtg,aes(x=period,y=value,group=paste(model,Category)), color = "grey75", size = 0.3, show.legend = F )
+  p = p + geom_path(data=dtn,aes(x=period,y=value,linetype=model, color = Category, group=paste(model,Category)), size = 1.5)
   p = p + scale_colour_manual(values=plotstyle(union(scensnat, scensglob)) )
   if(nolegend){p = p + scale_linetype_manual(values = c("solid", "dashed"),
                                              labels =  plotstyle(as.character(unique(dtn$model)), out = "legend"),guide=FALSE)

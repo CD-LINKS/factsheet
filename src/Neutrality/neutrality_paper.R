@@ -3,9 +3,9 @@ setwd("~/disks/local/factsheet/src")
 config <-"config_neutrality"
 scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
-adjust <- "adjust_reporting_neutrality" # TODO to decide: remove MESSAGE for China due to region definition? and COFFEE & DNE for EU and DNE for China and India?
+adjust <- "adjust_reporting_neutrality" # TODO to check: remove MESSAGE for China due to region definition? and COFFEE & DNE for EU and DNE for China and India? and COFFEE for Japan?
 addvars <- F
-datafile <-"cdlinks_compare_20190531-122548"
+datafile <-"cdlinks_compare_20190904-204536"
 source("load_data.R")
 
 outdir <- "Neutrality/graphs"
@@ -34,7 +34,7 @@ all$Category=str_replace_all(all$Category,"2030_low","2 °C (2030)")
 
 # Data preparation --------------------------------------------------------
 np=data.table(all)
-np=np[Scope=="global"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5REF","R5OECD90+EU")]
+np=np[Scope=="global"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5REF","R5OECD90+EU")&!model=="COPPE-COFFEE 1.0"]
 
 # write output: overview of original scenarios per category, model and region
 u=np[,list(unique(scenario)),by=c("model","Category","region")]
@@ -42,8 +42,72 @@ write.csv(u,paste("Neutrality","/Scenario overview.csv",sep=""))
 
 
 # Regional phase-out years ------------------------------------------------
-# TODO: Graph like Joeri’s (something better than errorbars?)
 # See functions - pbl_colors.r?
+### Absolute ###
+ghg=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CO2","Emissions|CO2|Energy and Industrial Processes")]
+check=ghg[,list(unique(period)),by=c("model")]
+check=check[V1=="2100"]
+ghg=ghg[model%in%check$model]
+
+library(Hmisc)
+## Extrapolate beyond 2100 to estimate phase-out year if not this century
+ghge=ghg[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] 
+ghgextra=ghge[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
+setnames(ghgextra,"V1","value")
+setnames(ghgextra,"V2","period")
+ghg = select(ghg,-scenario,-Baseline,-Scope,-unit)
+setcolorder(ghgextra,colnames(ghg))
+ghgextra=rbind(ghgextra[period%in%c(2101:2200)],ghg[Category%in%c("1.5 °C","2 °C")])
+
+poy=ghgextra[!duplicated(ghgextra[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE] #"Scope","Baseline","scenario"
+poy=merge(poy,ghgextra[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy[is.na(V1),]$V1="No phase-out"
+
+models=poy[,list(number=length(unique(model))),by=c('region','variable')]
+poy=merge(poy, models, by=c('region','variable'))
+poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
+poy=poy[!number<3]
+
+poyrange=data.table(poy[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","variable")]) #"unit"
+#poyrange = poyrange[order(Category,variable,median)]
+poyrange$region <- factor(poyrange$region, levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
+                                                    "RUS [3 models]","JPN [4 models]","IND [6 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #unique(poyrange$region)
+#poy=poy[order(Category,variable,V1)]
+poy$region<-factor(poy$region,levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
+                                       "RUS [3 models]","JPN [4 models]","IND [6 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #levels=unique(poy$region)
+
+# For plotting, including the ones with phase-out after 2100 or no phase-out at all
+poy$label <-""
+poy[V1>2100]$label <-">2100"
+poy[is.na(V1),]$label <- "NA"
+poy$showyear <- poy$V1
+poy[V1>2100]$showyear <- 2105
+poy[is.na(V1),]$showyear <- 2110
+
+poyrange$label <-""
+poyrange[max>2100]$label <- ">2100"
+poyrange$showyear <- poyrange$max
+poyrange[max>2100]$showyear <- 2105
+
+# TODO fix vertical lines for world? 
+S = ggplot()
+#S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
+S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=showyear,y=median, x=region, colour=variable),fatten=0.5,alpha=0.5,size=5,show.legend = F) #,position=position_dodge(width=0.66)
+S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")],aes(x=region,y=showyear,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
+S = S + geom_text(data=poy[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
+S = S + geom_text(data=poyrange[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
+#S = S + geom_boxplot(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=V1, x=region, colour=variable,fill=variable),position=position_dodge(width=0.66),width=0.66)
+#S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
+S = S + coord_flip()
+S = S + facet_grid(Category~variable, scales="free_y")
+#S = S + geom_hline(yintercept=poyrange[region=="World [6 models]"&Category%in%c("2 °C","1.5 °C")]$median) #&variable=="Emissions|Kyoto Gases"
+S = S + ylab("Phase out year")
+S = S + scale_y_continuous(limits=c(2030,2110),breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
+#S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110,2120,2130,2140,2150,2160,2170,2180,2190,2200))
+S = S + theme_bw() + theme(axis.text.y=element_text(angle=45, size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
+        theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
+        theme(legend.text=element_text(size=11),legend.title=element_text(size=12))
+ggsave(file=paste(outdir,"/Phase_out_year.png",sep=""),S,width=16, height=10, dpi=120)
 
 ### relative to global ###
 ghg=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CO2","Emissions|CO2|Energy and Industrial Processes")]
@@ -67,13 +131,13 @@ poy$years=poy$poy-poy$world
 models=poy[,list(number=length(unique(model))),by=c('region','variable')]
 poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
-poy=poy[!number<2]
+poy=poy[!number<3]
 
 poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","unit","variable")])
 
 S = ggplot()
-S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
-S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
+S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
+S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
 S = S + coord_flip()
 S = S + facet_grid(.~Category, scales="free_y")
 S = S + geom_hline(yintercept=0)
@@ -89,7 +153,6 @@ ggsave(file=paste(outdir,"/Phase_out_year_diffworld.png",sep=""),S,width=11, hei
 
 # Effect of LULUCF definitions --------------------------------------------
 #	Land CO2 in models vs. in inventories: effect on neutrality of different definitions 
-# TODO: new inventory data?
   # Phase-out year (model AFOLU data) ---------------------------------------
 poyrange1=poyrange[variable=="Emissions|Kyoto Gases"]
 poyrange1$variable<-"Model AFOLU data"
@@ -107,7 +170,7 @@ check=subset(check, subset=V1=="2100")
 dt=subset(dt, subset=model %in% check$model)
 
 # Read data for harmonisation
-har=fread("data/landuseinventory.csv",header=TRUE)
+har=fread("data/landuseinventory2019.csv",header=TRUE)
 har1=har[variable=="Emissions|CO2|AFOLU"]
 
 # Merge and calculate model deviation in 2010
@@ -140,10 +203,19 @@ dtm=data.table(dtm)
 dth=dtm[variable=="Emissions|Kyoto Gases|Harmo"]
 dth$variable<-"Emissions|Kyoto Gases"
 
-# Calculate phase-out year
-poy=dth[!duplicated(dth[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE]
-poy=merge(poy,dth[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
-poy[is.na(V1),]$V1=2105
+# Calculate phase-out year 
+## Extrapolate beyond 2100 to estimate phase-out year if not this century
+dthe=dth[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] 
+dthextra=dthe[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
+setnames(dthextra,"V1","value")
+setnames(dthextra,"V2","period")
+dth = select(dth,-scenario,-Baseline,-Scope)
+setcolorder(dthextra,colnames(dth))
+dthextra=rbind(dthextra[period%in%c(2101:2200)],dth)
+
+poy=dthextra[!duplicated(dthextra[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE]
+poy=merge(poy,dthextra[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy[is.na(V1),]$V1<-"No phase-out"
 poyinventory=poy
 
 # Relative to global
@@ -160,9 +232,9 @@ poy$years=poy$poy-poy$world
 models=poy[,list(number=length(unique(model))),by=c('region','variable')]
 poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
-poy=poy[!number<2]
+poy=poy[!number<3]
 
-poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","variable")])
+poyrange=data.table(poy[,list(median=median(years,na.rm=T),min=min(years,na.rm=T),max=max(years,na.rm=T)),by=c("Category","region","variable")])
 
 poyrange2=poyrange
 poyrange2$variable<-"Inventory AFOLU data"
@@ -172,8 +244,8 @@ poy=rbind(poyrange1,poyrange2)
 
 # Plot
 S1 = ggplot()
-S1 = S1 + geom_errorbar(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
-S1 = S1 + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
+S1 = S1 + geom_errorbar(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,"SAF [2 models]","MEX [2 models]"
+S1 = S1 + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66))
 S1 = S1 + coord_flip()
 S1 = S1 + facet_grid(.~Category, scales="free_y")
 S1 = S1 + geom_hline(yintercept=0)
@@ -197,13 +269,13 @@ poy1=data.table(gather(poy1,variable,value,c("V1.y","V1.x","diff")))
 models=poy1[,list(number=length(unique(model))),by=c('region','variable')]
 poy1=merge(poy1, models, by=c('region','variable'))
 poy1$region <- paste(poy1$region,' [',poy1$number,' models]',sep="")
-poy1=poy1[!number<2]
+poy1=poy1[!number<3]
 
-poyrange1=data.table(poy1[,list(median=median(value),min=min(value),max=max(value)),by=c("Category","region","variable")]) #,"unit"
+poyrange1=data.table(poy1[,list(median=median(value,na.rm=T),min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("Category","region","variable")]) #,"unit"
 
 S2 = ggplot()
-S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
-S2 = S2 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [8 models]"&variable=="diff"], aes(y=median,x=region)) #,colour=variable
+S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable #,"SAF [2 models]","MEX [2 models]"
+S2 = S2 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(y=median,x=region,size=0.2),show.legend = F) #,colour=variable
 #S2 = S2 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
 S2 = S2 + coord_flip()
 S2 = S2 + facet_grid(.~Category, scales="free_y")
@@ -213,6 +285,21 @@ S2 = S2 + ylab("Phase-out year difference due to inventory vs. model LULUCF (<0:
 S2 = S2 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
   theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_diff.png",sep=""),S2,width=12, height=8, dpi=120)
+
+# plot trajectories to understand differences
+dt = np[variable=="Emissions|Kyoto Gases"]%>% select(-scenario,-Baseline,-unit,-Scope)
+setcolorder(dt,colnames(dth))
+dt$landuse <- "Model data"
+dth$landuse <- "Inventory data"
+dthcomp = rbind(dt,dth)
+
+S3 = ggplot()
+S3 = S3 + geom_path(data=dthcomp[Category%in%c("2 °C","1.5 °C")&!region%in%c("World","ARG","AUS","MEX",'ROK',"SAF","SAU")],aes(x=period,y=value,colour=Category,linetype=landuse))
+S3 = S3 + facet_grid(region~model, scale="free_y")
+S3 = S3 + xlab("") + ylab("Emissions|Kyoto Gases (MtCO2eq/year)")
+S3 = S3 + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
+ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_trajectory.png",sep=""),S3,width=12, height=8, dpi=120)
 
 
 # Effect of allocation of negative emissions ------------------------------
@@ -241,9 +328,18 @@ check=allocation[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 allocation=allocation[model%in%check$model]
 
-poy=allocation[!duplicated(allocation[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
-poy=merge(poy,allocation[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
-poy[is.na(V1),]$V1=2105
+## Extrapolate beyond 2100 to estimate phase-out year if not this century
+allocatione=allocation[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] 
+allocationextra=allocatione[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
+setnames(allocationextra,"V1","value")
+setnames(allocationextra,"V2","period")
+allocation = select(allocation,-scenario,-Baseline,-Scope)
+setcolorder(allocationextra,colnames(allocation))
+allocationextra=rbind(allocationextra[period%in%c(2101:2200)],allocation)
+
+poy=allocationextra[!duplicated(allocationextra[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE] #,"Scope","Baseline","scenario"
+poy=merge(poy,allocationextra[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+poy[is.na(V1),]$V1="No phase-out"
 poy1=poy
 world=poy[region=="World"]
 poy=merge(poy,world, by=c("model","Category","variable")) #,"unit"
@@ -257,9 +353,9 @@ poy$years=poy$poy-poy$world
 models=poy[,list(number=length(unique(model))),by=c('region','variable')]
 poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
-poy=poy[!number<2]
+poy=poy[!number<3]
 
-poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","variable")]) #,"unit"
+poyrange=data.table(poy[,list(median=median(years,na.rm=T),min=min(years,na.rm=T),max=max(years,na.rm=T)),by=c("Category","region","variable")]) #,"unit"
 
 a = ggplot()
 a = a + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
@@ -284,15 +380,22 @@ poy1=merge(poy1, models, by=c('region','variable'))
 poy1$region <- paste(poy1$region,' [',poy1$number,' models]',sep="")
 poy1=poy1[!number<2]
 
-poyrange1=data.table(poy1[,list(median=median(value),min=min(value),max=max(value)),by=c("Category","region","variable")]) #,"unit"
+poyrange1=data.table(poy1[,list(median=median(value,na.rm=T),min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("Category","region","variable","number")]) #,"unit"
+poyrange1=poyrange1[!number<2]
+#For display
+poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$median<-100
+poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$min<-100
+poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$max<-100
 
 a1 = ggplot()
-a1 = a1 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
-a1 = a1 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"&variable=="diff"], aes(y=median,x=region)) #,colour=variable
+a1 = a1 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
+a1 = a1 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(y=median,x=region,size=0.2),show.legend = F) #,colour=variable
 #a1 = a1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
 a1 = a1 + coord_flip()
 a1 = a1 + facet_grid(.~Category, scales="free_y")
 a1 = a1 + geom_hline(yintercept=0)
+a1 = a1 + scale_y_continuous(limits=c(-80,90),breaks=c(-80,-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60,70,80,90))
+a1 = a1 + geom_text(data=poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"],stat="identity",aes(x=region,y=50,label="2077 > No phase-out"),size=6)
 a1 = a1 + ylab("Phase-out year difference due to BECCS allocation (<0: earlier if based on biomass production)")
 #a1 = a1 + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
 a1 = a1 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
@@ -303,7 +406,7 @@ ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,
 # Mitigation strategies / why are some regions earlier or later ---------------------------------------------------
 # EU late vs. US early: space for afforestation (e.g. population density).  Check database for other reasons , e.g. non-CO2 share in 2015? 
 # Mogelijk bevolkingsdichtheid of misschien productieve grond per persoon tegen jaar CO2 neutraliteit? Evt. ook iets van CCS capaciteit.
-#	TODO Graph: X indicator with effect on neutrality: CCS; Y phase-out year 
+# TODO: add CO2 in transport/industry/buildings? Trade|Primary Energy|Biomass|Volume - just test all variables
 
 ### select data
 rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Population","GDP|MER",
@@ -311,7 +414,7 @@ rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emi
                     "Agricultural Production|Energy","Yield|Oilcrops",
                     "Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|Land Use|Afforestation",
                     "Investment|Energy Efficiency","Investment|Energy Supply|Electricity|Electricity Storage")
-      & Category%in%c("2 °C","2 °C (2030)","1.5 °C")]
+      ] #"2 °C (2030)", & Category%in%c("2 °C","1.5 °C")
 ghg=rd[variable %in% c("Emissions|Kyoto Gases")]
 
 ### First calculate phase-out year (only for models with data until 2100)
@@ -320,15 +423,33 @@ check=check[V1=="2100"]
 rd=rd[model%in%check$model]
 ghg=ghg[model%in%check$model]
 
-poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
-poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
-poy$unit<-NULL
-poy[is.na(V1),]$V1=2105
+## Extrapolate beyond 2100 to estimate phase-out year if not this century
+ghge=ghg[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] 
+ghgextra=ghge[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region")]
+setnames(ghgextra,"V1","value")
+setnames(ghgextra,"V2","period")
+ghg = select(ghg,-scenario,-Baseline,-Scope,-unit,-variable)
+setcolorder(ghgextra,colnames(ghg))
+ghgextra=rbind(ghgextra[period%in%c(2101:2200)],ghg)
+
+#check
+p=ggplot() #[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"]
+p=p+facet_grid(region~model)
+p=p+geom_line(data=ghg[Category%in%c("1.5 °C","2 °C")&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")], aes(x = period, y=value,linetype=Category))
+p=p+geom_line(data=ghgextra[region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")], aes(x = period, y=value,linetype=Category), color="red") #[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"]
+p=p+theme_bw()
+print(p)
+
+#calculate phase-out year
+poy=ghgextra[!duplicated(ghgextra[,list(model,Category,region),with=TRUE]),!c('value','period'),with=FALSE] #variable "Scope","Baseline","scenario"
+poy=merge(poy,ghgextra[value<=0,min(period),by=c('model','Category','region')],by=c('model','Category','region'),all=TRUE) #,'variable'
+#poy$unit<-NULL
+poy[is.na(V1),]$V1="No phase-out" #TODO also with extrapolation some NA - check what it does in PCA?
 setnames(poy,"V1","period")
 
 ### Calculate indicators to plot on X-axis
 ## Population density
-popd=rd[variable%in%c("Population","Land Cover")]
+popd=rd[variable%in%c("Population","Land Cover")&!c(model=="REMIND-MAgPIE 1.7-3.0"&region=="JPN")]
 popd=spread(popd[,!c('unit'),with=FALSE],variable,value)
 popd=popd%>%mutate(density=Population/`Land Cover`)
 popd=data.table(gather(popd,variable,value,c("Population","Land Cover","density")))
@@ -339,11 +460,15 @@ popd$unit<-"persons/ha"
 popdm=popd[,list(mean(value,na.rm=TRUE)),by=c("Category","region","variable","unit","period")]
 setnames(popdm,"V1","value")
 
-poym=poy[,list(mean(period,na.rm=TRUE)),by=c("Category","region","variable")]
+poym=poy[,list(mean(period,na.rm=TRUE)),by=c("Category","region")] #,"variable"
 setnames(poym,"V1","period")
 
 popden=merge(popd,poy,by=c("model","Category","region"))
 popdenm=merge(popdm,poym,by=c("Category","region"))
+
+# Calculate Pearson correlation
+popdencor = popden[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+popdenmcor = popdenm[,list(cor(value,period.y,method="pearson")),by=c("Category")]
 
 ## Non-CO2 share in 2015
 nonco2=rd[variable%in%c("Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|Kyoto Gases")]
@@ -360,6 +485,10 @@ setnames(nonco2m,"V1","value")
 nonco2emis=merge(nonco2,poy,by=c("model","Category","region"))
 nonco2emism=merge(nonco2m,poym,by=c("Category","region"))
 
+# Calculate Pearson correlation
+nonco2cor = nonco2emis[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+nonco2mcor = nonco2emism[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+
 ## productive area per capita
 prod=rd[variable%in%c("Land Cover|Cropland","Population")]
 prod=spread(prod[,!c('unit'),with=FALSE],variable,value)
@@ -375,94 +504,215 @@ setnames(prodm,"V1","value")
 prodcap=merge(prod,poy,by=c("model","Category","region"))
 prodcapm=merge(prodm,poym,by=c("Category","region"))
 
+# Calculate Pearson correlation
+prodcapcor = prodcap[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+prodcapmcor = prodcapm[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+
 ## Afforestation
 forest=rd[variable=="Land Cover|Forest|Afforestation and Reforestation"]
 afforest = merge(forest,poy,by=c("model","Category","region"))
+
+# Calculate Pearson correlation
+afforestcor = afforest[,list(cor(value,period.y,method="pearson")),by=c("Category")]
 
 ## CCS
 ccs = rd[variable=="Carbon Sequestration|CCS"]
 ccscap = merge(ccs,poy,by=c("model","Category","region"))
 
+# Calculate Pearson correlation
+ccscor = ccscap[,list(cor(value,period.y,method="pearson")),by=c("Category")]
+
+## GDP per capita
+gdpcap=rd[variable%in%c("GDP|MER","Population")]
+gdpcap=spread(gdpcap[,!c('unit'),with=FALSE],variable,value)
+gdpcap=gdpcap%>%mutate(gdpcap=`GDP|MER`/Population*1000)
+gdpcap=data.table(gather(gdpcap,variable,value,c("GDP|MER","Population","gdpcap")))
+gdpcap=gdpcap[variable=="gdpcap"]
+gdpcap$unit <- "USD/person"
+
+# average over models
+gdpcapm=gdpcap[,list(mean(value,na.rm=TRUE)),by=c("Category","region","variable","unit","period")]
+setnames(gdpcapm,"V1","value")
+
+gdpcappoy=merge(gdpcap,poy,by=c("model","Category","region"))
+gdpcappoym=merge(gdpcapm,poym,by=c("Category","region"))
+
+## Land cover cropland share of total
+cropshare=rd[variable%in%c("Land Cover","Land Cover|Cropland")]
+cropshare=spread(cropshare[,!c('unit'),with=FALSE],variable,value)
+cropshare=cropshare%>%mutate(cropshare=`Land Cover|Cropland`/`Land Cover`*100)
+cropshare=data.table(gather(cropshare,variable,value,c("Land Cover|Cropland","Land Cover","cropshare")))
+cropshare=cropshare[variable=="cropshare"]
+cropshare$unit <- "%"
+
+# average over models
+cropsharem=cropshare[,list(mean(value,na.rm=TRUE)),by=c("Category","region","variable","unit","period")]
+setnames(cropsharem,"V1","value")
+
+cropsharepoy=merge(cropshare,poy,by=c("model","Category","region"))
+cropsharepoym=merge(cropsharem,poym,by=c("Category","region"))
+
+## Baseline growth
+blg = ghg[Category=="No policy"&period%in%c(2015,2050,2100)]
+blg = spread(blg,period,value)
+blg = blg%>%mutate(blgrowth50=(`2050`-`2015`)/`2015`*100,blgrowth100=(`2100`-`2015`)/`2015`*100)
+blg = data.table(gather(blg,period,value,c(`2015`,`2050`,`2100`,"blgrowth50","blgrowth100")))
+blg = blg[period%in%c("blgrowth50","blgrowth100")]
+blg$unit <-"%"
+blg50=blg[period=="blgrowth50"]
+blg50$period<-2050
+blg50$variable <- "BaselineGHG2050"
+blg50$Category <- "1.5 °C" #TODO repeat for 2C
+blg100=blg[period=="blgrowth100"]
+blg100$period<-2100
+blg100$variable <- "BaselineGHG2100"
+blg100$Category <- "1.5 °C"
+
 ### plot indicators vs. phase-out year
 ## Population density
 # per model
-pd = ggplot(popden[period.x==2015])
-pd = pd + geom_point(aes(x=value,y=period.y,colour=region),size=3)
-pd = pd + facet_grid(model~Category)
-pd = pd + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100),limits=c(2020,2110))
-pd = pd + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
-                               strip.text=element_text(size=18))
-pd = pd + labs(x="Population density in 2015 (persons/ha)",y="Phase-out year of GHG emissions")
-ggsave(file=paste(outdir,"/poy_vs_population-density_models",".png",sep=""),pd,height=12, width=16,dpi=500)
+# pd = ggplot(popden[period.x==2015])
+# pd = pd + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+# pd = pd + facet_grid(model~Category)
+# pd = pd + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100),limits=c(2020,2110))
+# pd = pd + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+#                                strip.text=element_text(size=18))
+# pd = pd + labs(x="Population density in 2015 (persons/ha)",y="Phase-out year of GHG emissions")
+# ggsave(file=paste(outdir,"/poy_vs_population-density_models",".png",sep=""),pd,height=12, width=16,dpi=500)
+# 
+# # average over models
+# pdm = ggplot(popdenm[period.x==2015])
+# pdm = pdm + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+# pdm = pdm + facet_grid(~Category,scales="fixed")
+# pdm = pdm + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100),limits=c(2040,2110))
+# pdm = pdm + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+#                                strip.text=element_text(size=18))
+# pdm = pdm + labs(x="Population density in 2015 (persons/ha)",y="Phase-out year of GHG emissions")
+# #pdm = pdm + geom_text(data=popdenm[period.y==2105],stat="identity",aes(x=value,y=2105,label="no phase-out"),size=6) #TODO how to calculate average without the no pase-out but show the no phase-out (marked as 2105)?
+# ggsave(file=paste(outdir,"/poy_vs_population-density",".png",sep=""),pdm,height=12, width=16,dpi=500)
+# 
+# ## Non-CO2
+# # per model
+# nc = ggplot(nonco2emis)
+# nc = nc + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+# nc = nc + facet_grid(model~Category)
+# nc = nc + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+#                              strip.text=element_text(size=18))
+# nc = nc + labs(x="Non-CO2 GHG emissions share in 2015 (%)",y="Phase-out year of GHG emissions")
+# ggsave(file=paste(outdir,"/poy_vs_non-CO2-share_models",".png",sep=""),nc,height=12, width=16,dpi=500)
+# 
+# # average over models
+# ncm = ggplot(nonco2emism)
+# ncm = ncm + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+# ncm = ncm + facet_grid(~Category)
+# ncm = ncm + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+#                              strip.text=element_text(size=18))
+# ncm = ncm + labs(x="Non-CO2 GHG emissions share in 2015 (%)",y="Phase-out year of GHG emissions")
+# ggsave(file=paste(outdir,"/poy_vs_non-CO2-share",".png",sep=""),ncm,height=12, width=16,dpi=500)
+# 
+# ## Productive area per capita
+# # per model
+# pc = ggplot(prodcap[period.x==2015])
+# pc = pc + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+# pc = pc + facet_grid(model~Category)
+# pc = pc + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+#                              strip.text=element_text(size=18))
+# pc = pc + labs(x="Cropland area per capita in 2015 (ha/person)",y="Phase-out year of GHG emissions")
+# ggsave(file=paste(outdir,"/poy_vs_productive-area-capita_models",".png",sep=""),pc,height=12, width=16,dpi=500)
+# 
+# # average over models
+# pcm = ggplot(prodcapm[period.x==2015])
+# pcm = pcm + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+# pcm = pcm + facet_grid(~Category)
+# pcm = pcm + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+#                                strip.text=element_text(size=18))
+# pcm = pcm + labs(x="Cropland area per capita in 2015 (ha/person)",y="Phase-out year of GHG emissions")
+# ggsave(file=paste(outdir,"/poy_vs_productive-area-capita",".png",sep=""),pcm,height=12, width=16,dpi=500)
+# 
+# ## Afforestation
+# # per model
+# af = ggplot(afforest[period.x==2030&!region=="World"])
+# af = af + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+# af = af + facet_grid(model~Category)
+# af = af + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+#                              strip.text=element_text(size=18))
+# af = af + labs(x="Afforestation and reforestation in 2030 (million ha)",y="Phase-out year of GHG emissions")
+# ggsave(file=paste(outdir,"/poy_vs_afforestation_models",".png",sep=""),af,height=12, width=16,dpi=500)
+# 
+# ## CCS capacity
+# # per model
+# cc = ggplot(ccscap[period.x==2100&!region=="World"])
+# cc = cc + geom_point(aes(x=value,y=period.y,colour=region),size=3)
+# cc = cc + facet_grid(model~Category)
+# cc = cc + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+#                              strip.text=element_text(size=18))
+# cc = cc + labs(x="CCS in 2100 (MtCO2/year)",y="Phase-out year of GHG emissions")
+# ggsave(file=paste(outdir,"/poy_vs_ccs_models",".png",sep=""),cc,height=12, width=16,dpi=500)
 
-# average over models
-pdm = ggplot(popdenm[period.x==2015])
-pdm = pdm + geom_point(aes(x=value,y=period.y,colour=region),size=3)
-pdm = pdm + facet_grid(~Category,scales="fixed")
-pdm = pdm + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100),limits=c(2040,2110))
-pdm = pdm + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
-                               strip.text=element_text(size=18))
-pdm = pdm + labs(x="Population density in 2015 (persons/ha)",y="Phase-out year of GHG emissions")
-#pdm = pdm + geom_text(data=popdenm[period.y==2105],stat="identity",aes(x=value,y=2105,label="no phase-out"),size=6) #TODO how to calculate average without the no pase-out but show the no phase-out (marked as 2105)?
-ggsave(file=paste(outdir,"/poy_vs_population-density",".png",sep=""),pdm,height=12, width=16,dpi=500)
 
-## Non-CO2
-# per model
-nc = ggplot(nonco2emis)
-nc = nc + geom_point(aes(x=value,y=period.y,colour=region),size=3)
-nc = nc + facet_grid(model~Category)
-nc = nc + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
-                             strip.text=element_text(size=18))
-nc = nc + labs(x="Non-CO2 GHG emissions share in 2015 (%)",y="Phase-out year of GHG emissions")
-ggsave(file=paste(outdir,"/poy_vs_non-CO2-share_models",".png",sep=""),nc,height=12, width=16,dpi=500)
+# Principal Component Analysis --------------------------------------------
+#select data and put in right format TODO add more explanatory variables for bigger dataset? also add ccs in 2015, 2020, etc.
+popdx = select(popd[period==2015],-scenario,-Baseline,-Scope)
+nonco2x = select(nonco2[period==2015],-scenario,-Baseline,-Scope)
+prodx = select(prod[period==2015],-scenario,-Baseline,-Scope)
+forestx = select(forest[period==2050],-scenario,-Baseline,-Scope)
+ccsx = select(ccs[period==2050],-scenario,-Baseline,-Scope)
+gdpcapx = select(gdpcap[period==2015],-scenario,-Baseline,-Scope)
+cropsharex = select(cropshare[period==2015],-scenario,-Baseline,-Scope)
+blg50x = select(blg50,-scenario,-Baseline,-Scope)
+blg100x = select(blg100,-scenario,-Baseline,-Scope)
+setnames(poy,"period","value")
+poy$period<-"x"
+poy$unit<-"Year"
+poy$variable<-"Emissions|Kyoto Gases"
+setcolorder(poy,colnames(ccsx))
+pca=rbind(popdx,nonco2x,prodx,forestx,ccsx,gdpcapx,cropsharex,blg50x,blg100x,poy)
+pca=spread(pca[,!c('unit','period'),with=FALSE],variable,value)
+pca=gather(pca,variable,value,c(`Emissions|Kyoto Gases`))
+pca$variable<-NULL
 
-# average over models
-ncm = ggplot(nonco2emism)
-ncm = ncm + geom_point(aes(x=value,y=period.y,colour=region),size=3)
-ncm = ncm + facet_grid(~Category)
-ncm = ncm + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
-                             strip.text=element_text(size=18))
-ncm = ncm + labs(x="Non-CO2 GHG emissions share in 2015 (%)",y="Phase-out year of GHG emissions")
-ggsave(file=paste(outdir,"/poy_vs_non-CO2-share",".png",sep=""),ncm,height=12, width=16,dpi=500)
+# Per model (??) 
+pca=data.table(pca)
+pca=pca[Category%in%c("2 °C","1.5 °C")&!region%in%c("World")] # TODO omit.na
+pca$ID <-with(pca,paste0(region,"-",value))
+pcaI = pca[model=="IMAGE 3.0"]
+pcaI$ID <-with(pcaI,paste0(region,"-",value))
+pcaA = pca[model=="AIM V2.1"]
+pcaA$ID <-with(pcaA,paste0(region,"-",value))
+pcaM = pca[model=="MESSAGEix-GLOBIOM_1.1"]
+pcaM$ID <-with(pcaM,paste0(region,"-",value))
+pcaP = pca[model=="POLES CDL"]
+pcaP$ID <-with(pcaP,paste0(region,"-",value))
+pcaR = pca[model=="REMIND-MAgPIE 1.7-3.0"]
+pcaR$ID <-with(pcaR,paste0(region,"-",value))
+pcaW = pca[model=="WITCH2016"]
+pcaW$ID <-with(pcaW,paste0(region,"-",value))
 
-## Productive area per capita
-# per model
-pc = ggplot(prodcap[period.x==2015])
-pc = pc + geom_point(aes(x=value,y=period.y,colour=region),size=3)
-pc = pc + facet_grid(model~Category)
-pc = pc + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
-                             strip.text=element_text(size=18))
-pc = pc + labs(x="Cropland area per capita in 2015 (ha/person)",y="Phase-out year of GHG emissions")
-ggsave(file=paste(outdir,"/poy_vs_productive-area-capita_models",".png",sep=""),pc,height=12, width=16,dpi=500)
+# calculate principal components - TODO fix what it does with NA columns / rows, then also do for all models at once
+pcaI.pca <- prcomp(pcaI[,c(4:12)], center = TRUE,scale. = TRUE)
+summary(pcaI.pca)
+str(pcaI.pca)
+pcaA.pca <- prcomp(pcaA[,c(4:7,9:12)], center = TRUE,scale. = TRUE)
+summary(pcaA.pca)
+# pcaM.pca <- prcomp(pcaM[,c(4:8)], center = TRUE,scale. = TRUE)
+# summary(pcaM.pca)
+pcaP.pca <- prcomp(pcaP[,c(4:12)], center = TRUE,scale. = TRUE)
+summary(pcaP.pca)
+# pcaR.pca <- prcomp(pcaR[,c(4:7)], center = TRUE,scale. = TRUE)
+# summary(pcaR.pca)
+pcaW.pca <- prcomp(pcaW[,c(4:12)], center = TRUE,scale. = TRUE)
+summary(pcaW.pca)
+# pca.pca <- prcomp(pca[,c(4:8)], center = TRUE,scale. = TRUE)
+# summary(pca.pca)
 
-# average over models
-pcm = ggplot(prodcapm[period.x==2015])
-pcm = pcm + geom_point(aes(x=value,y=period.y,colour=region),size=3)
-pcm = pcm + facet_grid(~Category)
-pcm = pcm + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
-                               strip.text=element_text(size=18))
-pcm = pcm + labs(x="Cropland area per capita in 2015 (ha/person)",y="Phase-out year of GHG emissions")
-ggsave(file=paste(outdir,"/poy_vs_productive-area-capita",".png",sep=""),pcm,height=12, width=16,dpi=500)
-
-## Afforestation
-# per model
-af = ggplot(afforest[period.x==2030&!region=="World"])
-af = af + geom_point(aes(x=value,y=period.y,colour=region),size=3)
-af = af + facet_grid(model~Category)
-af = af + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
-                             strip.text=element_text(size=18))
-af = af + labs(x="Afforestation and reforestation in 2030 (million ha)",y="Phase-out year of GHG emissions")
-ggsave(file=paste(outdir,"/poy_vs_afforestation_models",".png",sep=""),af,height=12, width=16,dpi=500)
-
-## CCS capacity
-# per model
-cc = ggplot(ccscap[period.x==2100&!region=="World"])
-cc = cc + geom_point(aes(x=value,y=period.y,colour=region),size=3)
-cc = cc + facet_grid(model~Category)
-cc = cc + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
-                             strip.text=element_text(size=18))
-cc = cc + labs(x="CCS in 2100 (MtCO2/year)",y="Phase-out year of GHG emissions")
-ggsave(file=paste(outdir,"/poy_vs_ccs_models",".png",sep=""),cc,height=12, width=16,dpi=500)
+#plot TODO for other models - then add circles for model like for scenario?
+library(ggbiplot)
+pI = ggbiplot(pcaI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaI$ID, groups=pcaI$Category)  +
+  #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
+  ggtitle("PCA of regional phase-out years in IMAGE")+
+  theme_bw()+
+  theme(legend.position = "bottom")
+ggsave(file=paste(outdir,"/PCA_IMAGE",".png",sep=""),pI,height=12, width=16,dpi=500)
 
 # Emissions in phase-out year ---------------------------------------------
 # Graph: Emissions in phase-out year (like Joeri’s)
@@ -472,8 +722,8 @@ ggsave(file=paste(outdir,"/poy_vs_ccs_models",".png",sep=""),cc,height=12, width
 bd=np[variable %in% c("Emissions|CH4","Emissions|F-Gases","Emissions|Kyoto Gases","Emissions|N2O","Emissions|CO2","Emissions|CO2|AFOLU",
                         "Emissions|CO2|Energy and Industrial Processes","Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand",
                         "Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Demand|Industry", #"Emissions|CO2|Energy|Demand|AFOFI",
-                        "Emissions|CO2|Energy|Demand|Transportation","Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass") 
-      & Category%in%c("2 °C","2 °C (2030)","1.5 °C")]
+                        "Emissions|CO2|Energy|Demand|Transportation","Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|Land Use") 
+      & Category%in%c("2 °C","1.5 °C")] # ,"2 °C (2030)"
 ghg=bd[variable %in% c("Emissions|Kyoto Gases")]
 
 # To make sure we only use the models with data until 2100, important for this indicator
@@ -503,6 +753,7 @@ poyemis$N2O=poyemis$N2O*298/1000
 setnames(poyemis,"Emissions|CO2","CO2")
 setnames(poyemis,"Carbon Sequestration|CCS","CCS")
 setnames(poyemis,"Carbon Sequestration|CCS|Biomass","CCSbio")
+setnames(poyemis,"Carbon Sequestration|Land Use","CSland")
 setnames(poyemis,"Emissions|CO2|Energy and Industrial Processes","CO2ffi")
 setnames(poyemis,"Emissions|CO2|Energy|Demand","CO2demand")
 #setnames(poyemis,"Emissions|CO2|Energy|Demand|AFOFI","CO2agriculture") 
@@ -517,27 +768,30 @@ poyemis$CO2<-NULL
 poyemis$CO2ffi<-NULL
 poyemis$CO2demand<-NULL
 poyemis$Kyoto<-NULL
+poyemis$nonCO2 <- poyemis$CH4+poyemis$N2O+poyemis$Fgases
+poyemis$CO2demand <- poyemis$CO2transport+poyemis$CO2buildings+poyemis$CO2industry
 
 #CCS: calculating CCS without bio from total to avoid double counting, and converting to negative emissions (stored amounts reported as positive numbers)
 poyemis$CCS=poyemis$CCS-poyemis$CCSbio
 poyemis$CCS=poyemis$CCS*-1
 poyemis$CCSbio=poyemis$CCSbio*-1
+poyemis$CSland=poyemis$CSland*-1
 poyemisccs=poyemis
 
 #Gather for plotting (exclude CCS because of double counting - plot separately)
-poyemis=gather(poyemis,variable,value,c(CH4,CO2industry,CO2buildings,CO2transport,CO2supply,CO2afolu,Fgases,N2O))
+poyemis=gather(poyemis,variable,value,c(CO2demand,CO2supply,CO2afolu,nonCO2)) #CH4,CO2industry,CO2buildings,CO2transport,CO2supply,CO2afolu,Fgases,N2O
 poyemis$CCS<-NULL
 poyemis$CCSbio<-NULL
 poyemis$CO2agriculture<-NULL
 poyemis=data.table(poyemis)
 #poyemis$model <- paste(poyemis$model,' [',poyemis$period,']',sep="")
 
-poyemisccs=data.table(gather(poyemisccs,variable,value,c(CCS,CCSbio)))
+poyemisccs=data.table(gather(poyemisccs,variable,value,c(CCS,CCSbio,CSland)))
 poyemisccs=poyemisccs[ ,`:=`("CH4" = NULL, "CO2industry" = NULL, "CO2buildings"=NULL,"CO2transport"=NULL,"CO2supply"=NULL,"CO2afolu"=NULL,
                         "Fgases"=NULL,"N2O"=NULL)]
 
 # Legend order
-poyemis$variable=factor(poyemis$variable, levels=c("CH4","Fgases","N2O","CO2buildings","CO2industry","CO2transport","CO2supply","CO2afolu"))
+poyemis$variable=factor(poyemis$variable, levels=c("nonCO2","CO2demand","CO2supply","CO2afolu")) #CH4 Fgases N2O CO2buildings CO2industry CO2transport CO2supply CO2afolu
 
 #check if each scenario category has only one scenario
 check=poyemis[,list(number=length(unique(scenario))),by=c('model','Category','region')]
@@ -546,8 +800,8 @@ check=poyemis[,list(number=length(unique(scenario))),by=c('model','Category','re
 poyemis=poyemis[,mean(value,na.rm=TRUE),by=c('Category','region','variable','model','period')]
 setnames(poyemis,"V1","value")
 
-poyemis=poyemis[!model=="MESSAGEix-GLOBIOM_1.0"]
-poyemisccs=poyemisccs[!model=="MESSAGEix-GLOBIOM_1.0"]
+# poyemis=poyemis[!model=="MESSAGEix-GLOBIOM_1.0"]
+# poyemisccs=poyemisccs[!model=="MESSAGEix-GLOBIOM_1.0"]
 
 #Stacked bar chart remaining emissions in poy - add phase-out year somewhere for regional graphs?
 library(gridExtra)
@@ -558,52 +812,53 @@ ttheme = theme_bw() +
 b1 = ggplot() +
   geom_bar(data=poyemis[value>0&region%in%c("BRA","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
   geom_bar(data=poyemis[value<0&region%in%c("BRA","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_text(data=poyemis[region%in%c("BRA","EU","RUS")&variable=="CH4"],stat="identity",aes(x=model,y=980,label=period),size=6) +
+  geom_text(data=poyemis[region%in%c("BRA","EU","RUS")&variable=="nonCO2"],stat="identity",aes(x=model,y=980,label=period),size=6) +
   facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
+  scale_fill_manual(values=c("nonCO2"="#E69F00","CO2demand"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec"))
+  # "CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"
 ggsave(file=paste(outdir,"/emissions_breakdown_poy_BRA-EU-RUS",".png",sep=""),b1,height=12, width=16,dpi=500)
 
 b2 = ggplot() +
   geom_bar(data=poyemis[value>0&region%in%c("CAN","JPN","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
   geom_bar(data=poyemis[value<0&region%in%c("CAN","JPN","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_text(data=poyemis[region%in%c("CAN","JPN","TUR")&variable=="CH4"],stat="identity",aes(x=model,y=250,label=period),size=6) +
+  geom_text(data=poyemis[region%in%c("CAN","JPN","TUR")&variable=="nonCO2"],stat="identity",aes(x=model,y=250,label=period),size=6) +
   facet_grid(region~Category) + #scales="free_y"
   labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
+  scale_fill_manual(values=c("nonCO2"="#E69F00","CO2demand"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec"))
 ggsave(file=paste(outdir,"/emissions_breakdown_poy_CAN-JPN-TUR",".png",sep=""),b2,height=12, width=16,dpi=500)
 
 b3 = ggplot() +
   geom_bar(data=poyemis[value>0&region%in%c("CHN","IND","USA")],aes(x=model,y=value,fill=variable),stat="Identity") +
   geom_bar(data=poyemis[value<0&region%in%c("CHN","IND","USA")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_text(data=poyemis[region%in%c("CHN","IND","USA")&variable=="CH4"],stat="identity",aes(x=model,y=1600,label=period),size=6) +
+  geom_text(data=poyemis[region%in%c("CHN","IND","USA")&variable=="nonCO2"],stat="identity",aes(x=model,y=1600,label=period),size=6) +
   facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CH4"="#E69F00","CO2buildings"="#72bcd4","CO2industry"="#0080ff","CO2transport"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec","Fgases"="#b36200","N2O"="#D55E00"))
+  scale_fill_manual(values=c("nonCO2"="#E69F00","CO2demand"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec"))
 ggsave(file=paste(outdir,"/emissions_breakdown_poy_CHN-IND-USA",".png",sep=""),b3,height=12, width=16,dpi=500)
 
 c1 = ggplot() +
-  geom_bar(data=poyemisccs[value>0&region%in%c("BRA","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_bar(data=poyemisccs[value<0&region%in%c("BRA","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_text(data=poyemisccs[region%in%c("BRA","EU","RUS")&variable=="CCS"],stat="identity",aes(x=model,y=0,label=period),size=6) +
+  geom_bar(data=poyemisccs[value>0&region%in%c("JPN","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemisccs[value<0&region%in%c("JPN","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_text(data=poyemisccs[region%in%c("JPN","EU","RUS")&variable=="CCS"],stat="identity",aes(x=model,y=0,label=period),size=6) +
   facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Carbon sequestration in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a"))
-ggsave(file=paste(outdir,"/CCS_breakdown_poy_BRA-EU-RUS",".png",sep=""),c1,height=12, width=16,dpi=500)
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CSland"="#009E73"))
+ggsave(file=paste(outdir,"/CCS_breakdown_poy_JPN-EU-RUS",".png",sep=""),c1,height=12, width=16,dpi=500)
 
 c2 = ggplot() +
-  geom_bar(data=poyemisccs[value>0&region%in%c("CAN","JPN","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_bar(data=poyemisccs[value<0&region%in%c("CAN","JPN","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_text(data=poyemisccs[region%in%c("CAN","JPN","TUR")&variable=="CCS"],stat="identity",aes(x=model,y=0,label=period),size=6) +
+  geom_bar(data=poyemisccs[value>0&region%in%c("CAN","BRA","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemisccs[value<0&region%in%c("CAN","BRA","TUR")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_text(data=poyemisccs[region%in%c("CAN","BRA","TUR")&variable=="CCS"],stat="identity",aes(x=model,y=0,label=period),size=6) +
   facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Carbon sequestration in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a"))
-ggsave(file=paste(outdir,"/CCS_breakdown_poy_CAN-JPN-TUR",".png",sep=""),c2,height=12, width=16,dpi=500)
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CSland"="#009E73"))
+ggsave(file=paste(outdir,"/CCS_breakdown_poy_CAN-BRA-TUR",".png",sep=""),c2,height=12, width=16,dpi=500)
 
 c3 = ggplot() +
   geom_bar(data=poyemisccs[value>0&region%in%c("CHN","IND","USA")],aes(x=model,y=value,fill=variable),stat="Identity") +
@@ -612,6 +867,6 @@ c3 = ggplot() +
   facet_grid(region~Category) + #,scales="free_y"
   labs(y=bquote("Carbon sequestration in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+
-  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a"))
+  scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CSland"="#009E73"))
 ggsave(file=paste(outdir,"/CCS_breakdown_poy_CHN-IND-USA",".png",sep=""),c3,height=12, width=16,dpi=500)
 
