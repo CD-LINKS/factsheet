@@ -5,7 +5,7 @@ scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
 adjust <- "adjust_reporting_neutrality" # TODO to check: remove MESSAGE for China due to region definition? and COFFEE & DNE for EU and DNE for China and India? and COFFEE for Japan?
 addvars <- F
-datafile <-"cdlinks_compare_20190904-204536"
+datafile <-"cdlinks_compare_20191017-143619"
 source("load_data.R")
 
 outdir <- "Neutrality/graphs"
@@ -448,7 +448,7 @@ poy[is.na(V1),]$V1="No phase-out" #TODO also with extrapolation some NA - check 
 setnames(poy,"V1","period")
 
 ### Calculate indicators to plot on X-axis
-## Population density
+## Population density #TODO for MESSAGE interpolate 2010-2020 to get 2015 for indicators that need it (population density, nonCO2, productive area per capita, gdp per capita, crop share)
 popd=rd[variable%in%c("Population","Land Cover")&!c(model=="REMIND-MAgPIE 1.7-3.0"&region=="JPN")]
 popd=spread(popd[,!c('unit'),with=FALSE],variable,value)
 popd=popd%>%mutate(density=Population/`Land Cover`)
