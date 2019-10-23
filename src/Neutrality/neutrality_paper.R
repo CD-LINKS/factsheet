@@ -13,6 +13,8 @@ if(!file.exists(outdir)) {
   dir.create(outdir, recursive = TRUE)
 }
 
+library(Hmisc)
+
 # Change scenario names for paper -----------------------------------------
 all$Category=str_replace_all(all$Category,"NoPOL","No policy")
 all$Category=str_replace_all(all$Category,"INDC","NDC")
@@ -49,7 +51,6 @@ check=ghg[,list(unique(period)),by=c("model")]
 check=check[V1=="2100"]
 ghg=ghg[model%in%check$model]
 
-library(Hmisc)
 ## Extrapolate beyond 2100 to estimate phase-out year if not this century
 ghge=ghg[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] 
 ghgextra=ghge[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
@@ -448,8 +449,27 @@ poy[is.na(V1),]$V1="No phase-out" #TODO also with extrapolation some NA - check 
 setnames(poy,"V1","period")
 
 ### Calculate indicators to plot on X-axis
-## Population density #TODO for MESSAGE interpolate 2010-2020 to get 2015 for indicators that need it (population density, nonCO2, productive area per capita, gdp per capita, crop share)
-popd=rd[variable%in%c("Population","Land Cover")&!c(model=="REMIND-MAgPIE 1.7-3.0"&region=="JPN")]
+## First interpolate to get 2015 data for MESSAGE, needed for some indicators TODO move to adjust reporting?
+mes=spread(rd[period%in%c(2010,2020)&model=="MESSAGEix-GLOBIOM_1.1"],period,value)
+mes = mes%>%mutate(`2015`=(`2010`+`2020`)/2)
+mes = data.table(gather(mes,period,value,c(`2010`,`2015`,`2020`)))
+mes = mes[period==2015]
+rd = rbind(rd,mes)
+
+mesg=spread(ghg[period%in%c(2010,2020)&model=="MESSAGEix-GLOBIOM_1.1"],period,value)
+mesg = mesg%>%mutate(`2015`=(`2010`+`2020`)/2)
+mesg = data.table(gather(mesg,period,value,c(`2010`,`2015`,`2020`)))
+mesg = mesg[period==2015]
+ghg = rbind(ghg,mesg)
+
+## and replace 0 land cover for Japan in REMIND with POLES' value TODO move to adjust reporting?
+land = rd[variable%in%c("Land Cover","Land Cover|Cropland")&region=="JPN"&model=="POLES CDL"]
+land$model <-"REMIND-MAgPIE 1.7-3.0"
+rd=rd[!c(model=="REMIND-MAgPIE 1.7-3.0"&region=="JPN"&variable%in%c("Land Cover","Land Cover|Cropland"))]
+rd=rbind(rd,land)
+
+## Population density 
+popd=rd[variable%in%c("Population","Land Cover")] #&!c(model=="REMIND-MAgPIE 1.7-3.0"&region=="JPN")
 popd=spread(popd[,!c('unit'),with=FALSE],variable,value)
 popd=popd%>%mutate(density=Population/`Land Cover`)
 popd=data.table(gather(popd,variable,value,c("Population","Land Cover","density")))
@@ -510,6 +530,14 @@ prodcapmcor = prodcapm[,list(cor(value,period.y,method="pearson")),by=c("Categor
 
 ## Afforestation
 forest=rd[variable=="Land Cover|Forest|Afforestation and Reforestation"]
+#add 0 for AIM and REMIND (not reported) to make PCA work
+aimforest = rd[variable=="Population" & model=="AIM V2.1"]
+aimforest$value<-0
+aimforest$variable<-"Land Cover|Forest|Afforestation and Reforestation"
+remindforest = rd[variable=="Population" & model=="REMIND-MAgPIE 1.7-3.0"]
+remindforest$value<-0
+remindforest$variable<-"Land Cover|Forest|Afforestation and Reforestation"
+forest=rbind(forest,aimforest,remindforest)
 afforest = merge(forest,poy,by=c("model","Category","region"))
 
 # Calculate Pearson correlation
@@ -562,11 +590,17 @@ blg$unit <-"%"
 blg50=blg[period=="blgrowth50"]
 blg50$period<-2050
 blg50$variable <- "BaselineGHG2050"
-blg50$Category <- "1.5 °C" #TODO repeat for 2C
+blg50copy = blg50
+blg50$Category <- "1.5 °C" 
+blg50copy$Category <- "2 °C"
 blg100=blg[period=="blgrowth100"]
 blg100$period<-2100
 blg100$variable <- "BaselineGHG2100"
+blg100copy = blg100
 blg100$Category <- "1.5 °C"
+blg100copy$Category <- "2 °C"
+blg50 = rbind(blg50,blg50copy)
+blg100 = rbind(blg100,blg100copy)
 
 ### plot indicators vs. phase-out year
 ## Population density
@@ -659,8 +693,12 @@ forestx = select(forest[period==2050],-scenario,-Baseline,-Scope)
 ccsx = select(ccs[period==2050],-scenario,-Baseline,-Scope)
 gdpcapx = select(gdpcap[period==2015],-scenario,-Baseline,-Scope)
 cropsharex = select(cropshare[period==2015],-scenario,-Baseline,-Scope)
-blg50x = select(blg50,-scenario,-Baseline,-Scope)
-blg100x = select(blg100,-scenario,-Baseline,-Scope)
+blg50x = blg50
+blg100x = blg100
+setcolorder(blg50x,colnames(popdx))
+setcolorder(blg100x,colnames(popdx))
+# blg50x = select(blg50,-scenario,-Baseline,-Scope)
+# blg100x = select(blg100,-scenario,-Baseline,-Scope)
 setnames(poy,"period","value")
 poy$period<-"x"
 poy$unit<-"Year"
@@ -673,7 +711,7 @@ pca$variable<-NULL
 
 # Per model (??) 
 pca=data.table(pca)
-pca=pca[Category%in%c("2 °C","1.5 °C")&!region%in%c("World")] # TODO omit.na
+pca=pca[Category%in%c("2 °C","1.5 °C")&!region%in%c("World")]
 pca$ID <-with(pca,paste0(region,"-",value))
 pcaI = pca[model=="IMAGE 3.0"]
 pcaI$ID <-with(pcaI,paste0(region,"-",value))
@@ -688,7 +726,7 @@ pcaR$ID <-with(pcaR,paste0(region,"-",value))
 pcaW = pca[model=="WITCH2016"]
 pcaW$ID <-with(pcaW,paste0(region,"-",value))
 
-# calculate principal components - TODO fix what it does with NA columns / rows, then also do for all models at once
+# calculate principal components - TODO fix what it does with remaining NA phase-out year
 pcaI.pca <- prcomp(pcaI[,c(4:12)], center = TRUE,scale. = TRUE)
 summary(pcaI.pca)
 str(pcaI.pca)
@@ -704,8 +742,11 @@ pcaW.pca <- prcomp(pcaW[,c(4:12)], center = TRUE,scale. = TRUE)
 summary(pcaW.pca)
 # pca.pca <- prcomp(pca[,c(4:8)], center = TRUE,scale. = TRUE)
 # summary(pca.pca)
+pca.pca <- prcomp(pca[,c(4:12)], center = TRUE,scale. = TRUE)
+summary(pca.pca)
+str(pca.pca)
 
-#plot TODO for other models - then add circles for model like for scenario?
+#plot TODO for other models individually?
 library(ggbiplot)
 pI = ggbiplot(pcaI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaI$ID, groups=pcaI$Category)  +
   #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
@@ -713,6 +754,13 @@ pI = ggbiplot(pcaI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaI$ID,
   theme_bw()+
   theme(legend.position = "bottom")
 ggsave(file=paste(outdir,"/PCA_IMAGE",".png",sep=""),pI,height=12, width=16,dpi=500)
+
+pall = ggbiplot(pca.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pca$ID, groups=pca$model)  +
+  #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
+  ggtitle("PCA of regional phase-out years")+
+  theme_bw()+
+  theme(legend.position = "bottom")
+ggsave(file=paste(outdir,"/PCA_all",".png",sep=""),pall,height=12, width=16,dpi=500)
 
 # Emissions in phase-out year ---------------------------------------------
 # Graph: Emissions in phase-out year (like Joeri’s)
