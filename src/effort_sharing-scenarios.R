@@ -579,7 +579,7 @@ finflowsnativestat=finflowsnative[,list(median=median(value,na.rm=T),mean=mean(v
 # ggsave(file=paste(outdir,"/Trade-carbon_value-net exports.png",sep=""),f4,width=20,height=12,dpi=200)
 
 ###Volume
-trade = data[variable=="Trade|Emissions Allowances|Volume"&!region%in%r10]
+trade = data[variable=="Trade|Emissions Allowances|Volume"&region%in%r10]
 
 # t = ggplot(trade[period%in%c(2030,2050,2100)&implementation=="flexibility"&regime%in%c("AP","PCC")])
 # t = t + geom_bar(stat="identity", aes(x=region, y=value,fill=regime),position="dodge")
@@ -761,6 +761,14 @@ costs = costs[variable%in%c("CostGDP")]
 costs$unit <- '%'
 setnames(costvars,"variable","costvariable")
 costs=merge(costs,costvars,by=c("model"))
+
+# for GDP loss only
+gdploss = rbind(data[variable=="Policy Cost|GDP Loss"],gdp)
+gdploss = spread(gdploss,variable,value) 
+gdploss = gdploss%>%mutate(CostGDP=`Policy Cost|GDP Loss`/`GDP|PPP`*100)
+gdploss = data.table(gather(gdploss,variable,value,c("Policy Cost|GDP Loss","GDP|PPP","CostGDP")))
+gdploss = gdploss[variable%in%c("CostGDP")]
+gdploss$unit <- '%'
 
 # also for discounted costs (with discounted GDP)
 gdpd = gdp
@@ -1263,6 +1271,7 @@ coc = coc[!period==2015]
 #National models? TODO
 
 # All figures in simple layout - 2050, flexibility only -------------------
+# TODO: everything relative to baseline / base year?
 ### 1. Drivers
 F1 = ggplot(drivers[region%in%r10&period==2050&implementation=="flexibility"&regime=="PCC"])
 F1 = F1 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
@@ -1325,6 +1334,17 @@ F5 = F5 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_
 F5 = F5 + ylab(costsworld$unit)+xlab("")
 ggsave(file=paste(outdir,"/costsrelworld_flexibility_2050.png",sep=""),F5,width=20,height=12,dpi=200)
 
+### 5a. GDP loss (not yet relative to world - TODO?)
+F5a = ggplot(gdploss[region%in%r10&period==2050&implementation=="flexibility"& model%in%unique(data[variable=="Policy Cost|GDP Loss"]$model)])
+F5a = F5a + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+#F5a = F5a + geom_hline(aes(yintercept=1),size=1)
+F5a = F5a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F5a = F5a + facet_grid(regime~region,scale="fixed")
+F5a = F5a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F5a = F5a + ylab(gdploss$unit)+xlab("")
+ggsave(file=paste(outdir,"/GDPloss_flexibility_2050.png",sep=""),F5a,width=20,height=12,dpi=200)
+
 ### 6. Cost ratio OECD/non-OECD
 # F6 = ggplot(costratio[period%in%c(2050)&implementation=="flexibility"])
 # F6 = F6 + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
@@ -1365,7 +1385,7 @@ F6c = F6c + theme_bw() + theme(axis.text=element_text(size=14),strip.text=elemen
 F6c = F6c + ylab(costratioex[region=="OECD-non-OECD"]$variable)
 ggsave(file=paste(outdir,"/costdiff_R10_OECD_non-OECDexclME-REF_flexibility_2050.png",sep=""),F6c,width=20,height=12,dpi=200)
 
-### 7. Financial flows
+### 7. Financial flows ($)
 F7 = ggplot(finflow[region%in%r10&period==2050&implementation=="flexibility"])
 F7 = F7 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
 F7 = F7 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
@@ -1374,6 +1394,16 @@ F7 = F7 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_
                              legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
 F7 = F7 + ylab(finflow$unit)+xlab("")
 ggsave(file=paste(outdir,"/financialflows_flexibility_2050.png",sep=""),F7,width=20,height=12,dpi=200)
+
+### 7a. Financial flows (Mt)
+F7a = ggplot(trade[period==2050&implementation=="flexibility"]) #region%in%r10&
+F7a = F7a + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F7a = F7a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F7a = F7a + facet_grid(regime~region,scale="fixed")
+F7a = F7a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F7a = F7a + ylab(trade$unit)+xlab("")
+ggsave(file=paste(outdir,"/financialflows_Mt_flexibility_2050.png",sep=""),F7a,width=20,height=12,dpi=200)
 
 ### 10. Equivalent variation
 F10 = ggplot(soc[variable=="Policy Cost|Equivalent Variation"&period==2050&implementation=="flexibility"&region%in%r10]) #&region%in%r10 TODO put back when R10 GEM-E3 snapshot ready
