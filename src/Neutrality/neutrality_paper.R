@@ -404,17 +404,19 @@ a1 = a1 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(
 ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,width=12, height=8, dpi=120)
 
 
-# Mitigation strategies / why are some regions earlier or later ---------------------------------------------------
+# Mitigation strategies / why are some regions earlier or later aka PCA prep---------------------------------------------------
 # EU late vs. US early: space for afforestation (e.g. population density).  Check database for other reasons , e.g. non-CO2 share in 2015? 
 # Mogelijk bevolkingsdichtheid of misschien productieve grond per persoon tegen jaar CO2 neutraliteit? Evt. ook iets van CCS capaciteit.
-# TODO: add CO2 in transport/industry/buildings? Trade|Primary Energy|Biomass|Volume - just test all variables
+# TODO: add CO2 in transport/industry/buildings per capita instead of/next to share of total? Trade|Primary Energy|Biomass|Volume - just test all variables
 
 ### select data
-rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Population","GDP|MER",
-                    "Land Cover","Land Cover|Cropland","Land Cover|Cropland|Energy Crops","Land Cover|Forest|Afforestation and Reforestation",
+rd=np[variable%in%c("Emissions|Kyoto Gases","Emissions|CH4","Emissions|N2O","Emissions|F-Gases","Emissions|CO2","Population","GDP|MER",
+                    "Land Cover","Land Cover|Cropland","Land Cover|Cropland|Energy Crops","Land Cover|Forest|Afforestation and Reforestation","Land Cover|Forest",
                     "Agricultural Production|Energy","Yield|Oilcrops",
                     "Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|Land Use|Afforestation",
-                    "Investment|Energy Efficiency","Investment|Energy Supply|Electricity|Electricity Storage")
+                    "Investment|Energy Efficiency","Investment|Energy Supply|Electricity|Electricity Storage",
+                    "Emissions|CO2|Energy|Supply|Electricity","Secondary Energy|Electricity",
+                    "Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Demand|Industry")
       ] #"2 °C (2030)", & Category%in%c("2 °C","1.5 °C")
 ghg=rd[variable %in% c("Emissions|Kyoto Gases")]
 
@@ -580,6 +582,14 @@ setnames(cropsharem,"V1","value")
 cropsharepoy=merge(cropshare,poy,by=c("model","Category","region"))
 cropsharepoym=merge(cropsharem,poym,by=c("Category","region"))
 
+## Land cover forest share of total
+forestshare=rd[variable%in%c("Land Cover","Land Cover|Forest")]
+forestshare=spread(forestshare[,!c('unit'),with=FALSE],variable,value)
+forestshare=forestshare%>%mutate(forestshare=`Land Cover|Forest`/`Land Cover`*100)
+forestshare=data.table(gather(forestshare,variable,value,c("Land Cover|Forest","Land Cover","forestshare")))
+forestshare=forestshare[variable=="forestshare"]
+forestshare$unit <- "%"
+
 ## Baseline growth
 blg = ghg[Category=="No policy"&period%in%c(2015,2050,2100)]
 blg = spread(blg,period,value)
@@ -602,6 +612,45 @@ blg100copy$Category <- "2 °C"
 blg50 = rbind(blg50,blg50copy)
 blg100 = rbind(blg100,blg100copy)
 
+## Emissions intensity electricity sector
+emisint=rd[variable%in%c("Emissions|CO2|Energy|Supply|Electricity","Secondary Energy|Electricity")]
+emisint=spread(emisint[,!c('unit'),with=FALSE],variable,value)
+emisint=emisint%>%mutate(emisint=`Emissions|CO2|Energy|Supply|Electricity`/`Secondary Energy|Electricity`)
+emisint=data.table(gather(emisint,variable,value,c("Emissions|CO2|Energy|Supply|Electricity","Secondary Energy|Electricity","emisint")))
+emisint=emisint[variable=="emisint"]
+emisint$unit <- "Mt CO2 / EJ"
+
+## Emissions per capita
+emiscap=rd[variable%in%c("Emissions|Kyoto Gases","Population")]
+emiscap=spread(emiscap[,!c('unit'),with=FALSE],variable,value)
+emiscap=emiscap%>%mutate(emiscap=`Emissions|Kyoto Gases`/Population)
+emiscap=data.table(gather(emiscap,variable,value,c("Emissions|Kyoto Gases","Population","emiscap")))
+emiscap=emiscap[variable=="emiscap"]
+emiscap$unit <- "tCO2e/person"
+
+## Emissions share demand sectors
+transportshare=rd[variable%in%c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2")]
+transportshare=spread(transportshare[,!c('unit'),with=FALSE],variable,value)
+transportshare=transportshare%>%mutate(transportshare=`Emissions|CO2|Energy|Demand|Transportation`/`Emissions|CO2`*100)
+transportshare=data.table(gather(transportshare,variable,value,c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2","transportshare")))
+transportshare=transportshare[variable=="transportshare"]
+transportshare$unit <- "%"
+
+buildingshare=rd[variable%in%c("Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2")]
+buildingshare=spread(buildingshare[,!c('unit'),with=FALSE],variable,value)
+buildingshare=buildingshare%>%mutate(buildingshare=`Emissions|CO2|Energy|Demand|Residential and Commercial`/`Emissions|CO2`*100)
+buildingshare=data.table(gather(buildingshare,variable,value,c("Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2","buildingshare")))
+buildingshare=buildingshare[variable=="buildingshare"]
+buildingshare$unit <- "%"
+
+industryshare=rd[variable%in%c("Emissions|CO2|Energy|Demand|Industry","Emissions|CO2")]
+industryshare=spread(industryshare[,!c('unit'),with=FALSE],variable,value)
+industryshare=industryshare%>%mutate(industryshare=`Emissions|CO2|Energy|Demand|Industry`/`Emissions|CO2`*100)
+industryshare=data.table(gather(industryshare,variable,value,c("Emissions|CO2|Energy|Demand|Industry","Emissions|CO2","industryshare")))
+industryshare=industryshare[variable=="industryshare"]
+industryshare$unit <- "%"
+
+# Old: plot indicators vs. phase-out year ---------------------------------
 ### plot indicators vs. phase-out year
 ## Population density
 # per model
@@ -693,6 +742,12 @@ forestx = select(forest[period==2050],-scenario,-Baseline,-Scope)
 ccsx = select(ccs[period==2050],-scenario,-Baseline,-Scope)
 gdpcapx = select(gdpcap[period==2015],-scenario,-Baseline,-Scope)
 cropsharex = select(cropshare[period==2015],-scenario,-Baseline,-Scope)
+forestsharex = select(forestshare[period==2015],-scenario,-Baseline,-Scope)
+emisintx = select(emisint[period==2015],-scenario,-Baseline,-Scope)
+emiscapx = select(emiscap[period==2015],-scenario,-Baseline,-Scope)
+industrysharex = select(industryshare[period==2015],-scenario,-Baseline,-Scope)
+buildingsharex = select(buildingshare[period==2015],-scenario,-Baseline,-Scope)
+transportsharex = select(transportshare[period==2015],-scenario,-Baseline,-Scope)
 blg50x = blg50
 blg100x = blg100
 setcolorder(blg50x,colnames(popdx))
@@ -704,56 +759,56 @@ poy$period<-"x"
 poy$unit<-"Year"
 poy$variable<-"Emissions|Kyoto Gases"
 setcolorder(poy,colnames(ccsx))
-pca=rbind(popdx,nonco2x,prodx,forestx,ccsx,gdpcapx,cropsharex,blg50x,blg100x,poy)
+pca=rbind(popdx,nonco2x,prodx,forestx,ccsx,gdpcapx,cropsharex,forestsharex,emisintx,emiscapx,transportsharex,buildingsharex,industrysharex,blg50x,blg100x,poy)
 pca=spread(pca[,!c('unit','period'),with=FALSE],variable,value)
 pca=gather(pca,variable,value,c(`Emissions|Kyoto Gases`))
 pca$variable<-NULL
 
-# Per model (??) 
+# For all models together and per individual model 
 pca=data.table(pca)
 pca=pca[Category%in%c("2 °C","1.5 °C")&!region%in%c("World")]
 pca$ID <-with(pca,paste0(region,"-",value))
-pcaI = pca[model=="IMAGE 3.0"]
-pcaI$ID <-with(pcaI,paste0(region,"-",value))
-pcaA = pca[model=="AIM V2.1"]
-pcaA$ID <-with(pcaA,paste0(region,"-",value))
-pcaM = pca[model=="MESSAGEix-GLOBIOM_1.1"]
-pcaM$ID <-with(pcaM,paste0(region,"-",value))
-pcaP = pca[model=="POLES CDL"]
-pcaP$ID <-with(pcaP,paste0(region,"-",value))
-pcaR = pca[model=="REMIND-MAgPIE 1.7-3.0"]
-pcaR$ID <-with(pcaR,paste0(region,"-",value))
-pcaW = pca[model=="WITCH2016"]
-pcaW$ID <-with(pcaW,paste0(region,"-",value))
+# pcaI = pca[model=="IMAGE 3.0"]
+# pcaI$ID <-with(pcaI,paste0(region,"-",value))
+# pcaA = pca[model=="AIM V2.1"]
+# pcaA$ID <-with(pcaA,paste0(region,"-",value))
+# pcaM = pca[model=="MESSAGEix-GLOBIOM_1.1"]
+# pcaM$ID <-with(pcaM,paste0(region,"-",value))
+# pcaP = pca[model=="POLES CDL"]
+# pcaP$ID <-with(pcaP,paste0(region,"-",value))
+# pcaR = pca[model=="REMIND-MAgPIE 1.7-3.0"]
+# pcaR$ID <-with(pcaR,paste0(region,"-",value))
+# pcaW = pca[model=="WITCH2016"]
+# pcaW$ID <-with(pcaW,paste0(region,"-",value))
 
 # calculate principal components - TODO fix what it does with remaining NA phase-out year
-pcaI.pca <- prcomp(pcaI[,c(4:12)], center = TRUE,scale. = TRUE)
-summary(pcaI.pca)
-str(pcaI.pca)
-pcaA.pca <- prcomp(pcaA[,c(4:7,9:12)], center = TRUE,scale. = TRUE)
-summary(pcaA.pca)
-# pcaM.pca <- prcomp(pcaM[,c(4:8)], center = TRUE,scale. = TRUE)
-# summary(pcaM.pca)
-pcaP.pca <- prcomp(pcaP[,c(4:12)], center = TRUE,scale. = TRUE)
-summary(pcaP.pca)
-# pcaR.pca <- prcomp(pcaR[,c(4:7)], center = TRUE,scale. = TRUE)
-# summary(pcaR.pca)
-pcaW.pca <- prcomp(pcaW[,c(4:12)], center = TRUE,scale. = TRUE)
-summary(pcaW.pca)
+# pcaI.pca <- prcomp(pcaI[,c(4:12)], center = TRUE,scale. = TRUE)
+# summary(pcaI.pca)
+# str(pcaI.pca)
+# pcaA.pca <- prcomp(pcaA[,c(4:7,9:12)], center = TRUE,scale. = TRUE)
+# summary(pcaA.pca)
+# # pcaM.pca <- prcomp(pcaM[,c(4:8)], center = TRUE,scale. = TRUE)
+# # summary(pcaM.pca)
+# pcaP.pca <- prcomp(pcaP[,c(4:12)], center = TRUE,scale. = TRUE)
+# summary(pcaP.pca)
+# # pcaR.pca <- prcomp(pcaR[,c(4:7)], center = TRUE,scale. = TRUE)
+# # summary(pcaR.pca)
+# pcaW.pca <- prcomp(pcaW[,c(4:12)], center = TRUE,scale. = TRUE)
+# summary(pcaW.pca)
 # pca.pca <- prcomp(pca[,c(4:8)], center = TRUE,scale. = TRUE)
 # summary(pca.pca)
-pca.pca <- prcomp(pca[,c(4:12)], center = TRUE,scale. = TRUE)
+pca.pca <- prcomp(pca[,c(4:18)], center = TRUE,scale. = TRUE)
 summary(pca.pca)
 str(pca.pca)
 
 #plot TODO for other models individually?
 library(ggbiplot)
-pI = ggbiplot(pcaI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaI$ID, groups=pcaI$Category)  +
-  #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
-  ggtitle("PCA of regional phase-out years in IMAGE")+
-  theme_bw()+
-  theme(legend.position = "bottom")
-ggsave(file=paste(outdir,"/PCA_IMAGE",".png",sep=""),pI,height=12, width=16,dpi=500)
+# pI = ggbiplot(pcaI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaI$ID, groups=pcaI$Category)  +
+#   #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
+#   ggtitle("PCA of regional phase-out years in IMAGE")+
+#   theme_bw()+
+#   theme(legend.position = "bottom")
+# ggsave(file=paste(outdir,"/PCA_IMAGE",".png",sep=""),pI,height=12, width=16,dpi=500)
 
 pall = ggbiplot(pca.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pca$ID, groups=pca$model)  +
   #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
