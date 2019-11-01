@@ -172,8 +172,8 @@ native = rbind(native,gemcon)
 # setcolorder(gemppp,colnames(data))
 # data=rbind(data,gemppp)
 
-# Use GEM-E3 MER GDP as MER PPP for AP regime - TODO Zoi to report PPP data for the rest?
-gempppap = data[model=="GEM-E3"&variable=="GDP|MER"&scenario=="NPi2020_1000_flexibility_AP_recSocialSecurity_V5"&
+# Use GEM-E3 MER GDP as MER PPP for AP regime - TODO Zoi to report PPP data for the rest? Now using MER for all regimes
+gempppap = data[model=="GEM-E3"&variable=="GDP|MER"&#scenario=="NPi2020_1000_flexibility_AP_recSocialSecurity_V5"&
                   region%in%c("R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA","World")]
 gempppap$variable<-'GDP|PPP'
 data=rbind(data,gempppap)
@@ -330,6 +330,15 @@ write.csv(AP8,paste(outdir,"/APfinalcheck.csv",sep=""))
 
 # Drivers: Population and GDP ---------------------------------------------
 drivers = data[variable%in%c("Population","GDP|PPP")&region%in%r10] #!region=="World"&!
+
+driversrby = spread(drivers[period%in%c(2010,2050)],period,value)
+driversrby=driversrby%>%mutate(rel2050=(`2050`-`2010`)/`2010`*100)
+driversrby=data.table(gather(driversrby,period,value,c("2010","2050","rel2050")))
+driversrby=driversrby[period%in%c("rel2050")]
+driversrby$unit<-"% relative to 2010"  
+driversrby$variable<-paste(driversrby$variable," (",driversrby$unit, ")")
+driversrby$period=str_replace_all(driversrby$period,"rel2050","2050")
+
 drivers[variable=="GDP|PPP"]$unit<-"billion US$2010/yr"
 drivers$variable<-paste(drivers$variable," (",drivers$unit, ")")
 
@@ -379,7 +388,6 @@ ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=1
 # ggsave(file=paste(outdir,"/Allowance allocation_PCC.png",sep=""),a1,width=20,height=12,dpi=200)
 
 # Emissions ---------------------------------------------------------------
-# TODO reductions relative to baseline? (get NoPolicy from 'all' - only Kyoto Gases)
 # TODO check cumulative emissions in line with carbon budgets?
 
 # e = ggplot(data[variable=="Emissions|Kyoto Gases"&region%in%r10&!model%in%c("AIM/CGE[Japan]","AIM/Enduse[Japan]")&!regime=="GF"]) #&!region=="World"
@@ -453,7 +461,7 @@ ggsave(file=paste(outdir,"/emissiontargets2050_JPN.png",sep=""),e4,width=20,heig
 # e5 = e5 + ylab(targets$unit)
 # ggsave(file=paste(outdir,"/emissiontargets2030_JPN.png",sep=""),e5,width=20,height=12,dpi=200)
 
-# Relative to baseline (only for flexibility) - TODO check baseline available on R10 - resubmit (REMIND &DNE). check right version (V5?) 
+# Relative to baseline (only for flexibility) - TODO check baseline available on R10 - resubmit (REMIND)
 emisbl = rbind(data[variable=="Emissions|Kyoto Gases"&implementation=="flexibility"&region%in%r10],nopolco[regime=="Baseline"&variable=="Emissions|Kyoto Gases"&region%in%r10])
 emisbl = spread(emisbl[,!c('scenario'),with=FALSE],regime,value)
 emisbl = emisbl%>%mutate(COrel=(CO-Baseline)/Baseline*100,APrel=(AP-Baseline)/Baseline*100,PCCrel=(PCC-Baseline)/Baseline*100,GFrel=(GF-Baseline)/Baseline*100)
@@ -769,6 +777,15 @@ gdploss = gdploss%>%mutate(CostGDP=`Policy Cost|GDP Loss`/`GDP|PPP`*100)
 gdploss = data.table(gather(gdploss,variable,value,c("Policy Cost|GDP Loss","GDP|PPP","CostGDP")))
 gdploss = gdploss[variable%in%c("CostGDP")]
 gdploss$unit <- '%'
+
+# relative to 2010
+# gdplossrby = spread(gdploss[period%in%c(2010,2050)],period,value)
+# gdplossrby=gdplossrby%>%mutate(rel2050=(`2050`-`2010`)/`2010`*100)
+# gdplossrby=data.table(gather(gdplossrby,period,value,c("2010","2050","rel2050")))
+# gdplossrby=gdplossrby[period%in%c("rel2050")]
+# gdplossrby$unit<-"% relative to 2010"  
+# #gdplossrby$variable<-paste(gdplossrby$variable," (",gdplossrby$unit, ")")
+# gdplossrby$period=str_replace_all(gdplossrby$period,"rel2050","2050")
 
 # also for discounted costs (with discounted GDP)
 gdpd = gdp
@@ -1281,6 +1298,15 @@ F1 = F1 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_
                              legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
 F1 = F1 + ylab("")+xlab("")
 ggsave(file=paste(outdir,"/drivers_flexibility_2050.png",sep=""),F1,width=20,height=12,dpi=200)
+
+F1a = ggplot(driversrby[region%in%r10&period==2050&implementation=="flexibility"&regime=="PCC"])
+F1a = F1a + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+F1a = F1a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F1a = F1a + facet_grid(variable~region,scale="free_y")
+F1a = F1a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F1a = F1a + ylab("")+xlab("")
+ggsave(file=paste(outdir,"/drivers_flexibility_2050_vs2010.png",sep=""),F1a,width=20,height=12,dpi=200)
 
 ### 2. Allowances
 F2 = ggplot(allocation[region%in%r10&period==2050&implementation=="flexibility"])
