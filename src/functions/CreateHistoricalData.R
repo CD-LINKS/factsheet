@@ -455,6 +455,12 @@ IEA_balance <- filter(all_hist, model=="History", variable %in% vars_IEA_balance
 IEA_balance$value <- format(IEA_balance$value, scientific=FALSE)
 write.table(IEA_balance, file="data/IEA_balance.csv", sep=";", row.names=F)  
 
+# CHANGE TO WB DATA
+# BOTH PPP and MER
+# PPP data in file API_NY.GDP.MKTP.PP.KD_DS2_en_csv_v2_317913.csv
+# https://data.worldbank.org/indicator/NY.GDP.MKTP.PP.CD
+# MER data in file API_NY.GDP.MKTP.KD_DS2_en_csv_v2_316073.csv
+# https://data.worldbank.org/indicator/NY.GDP.MKTP.KD
 # CO2-intensity (MtCO2e/US(2005))
 source("../../TIMER_output/functions/mym2r.R")
 regions_IMAGE = c("CAN","USA","MEX","RCAM","BRA","RSAM","NAF","WAF","EAF","SAF","WEU","CEU","TUR","UKR","STAN","RUS","ME","IND","KOR","CHN","SEAS","INDO","JPN","OCE","RSAS","RSAF","dummy","World")

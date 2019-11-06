@@ -891,7 +891,7 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
     #p = p + geom_point(data=dtline, aes(Category, value*(max_axis_left/max_axis_right),size=region), size=4, shape=8, show.legend=T)
     p = p + geom_text(data=dtline, aes(Category, (value+5)*(max_axis_left/max_axis_right), 
                       label=paste0(format(round(dtline$value, digits=1), nsmall=1), "%"), angle=90), 
-                      size=4, colour='black', fontface='bold', size=18, nudge_x=-0.25)
+                      size=6, colour='black', fontface='bold', size=18, nudge_x=-0.25)
     #p = p + scale_size_discrete(name="Low carbon energy (EJ/yr)", labels=c("median % share"))
     #p = p + scale_y_continuous(name=lab, sec.axis = sec_axis(~ . * (1/100)*max_axis_right / max_axis_left , name = lab_line, labels=percent))
     p = p + scale_y_continuous(name=lab)
