@@ -42,7 +42,7 @@ if (keep_original == TRUE){
   cat("load original data\n")
   adjust <- "adjust_reporting_empty"
   rm(all);
-  source('load_data.R')
+  source('load_data_NatCom_paper.R')
   all_paper_before_adj <- all 
   all_paper_before_adj$period <- as.integer(all_paper_before_adj$period)
   # Change scenario names 
@@ -75,7 +75,7 @@ assign(paste0("all_paper_before_adj_", datafile), all_paper_before_adj)
 cat("load adjusted data\n")
 adjust <- "adjust_reporting_indc_Mark"
 rm(all); rm(all_paper)
-source('load_data.R')
+source('load_data_NatCom_paper.R')
 all_paper <- all
 all_paper$Category=str_replace_all(all_paper$Category,"NoPOL","No new policies")
 all_paper$Category=str_replace_all(all_paper$Category,"INDC","NDC")
@@ -89,9 +89,23 @@ all_paper$Category=str_replace_all(all_paper$Category,"2030_high","Carbon budget
 all_paper$period <- as.integer(all_paper$period)
 all_paper$model=str_replace_all(all_paper$model,"\\*COPPE-MSB_v2.0","*BLUES")
 write.table(all_paper, "NatComPaper/data/all_paper.csv", sep=";", row.names = F)
+
 all_paper_emissions <- filter(all_paper, grepl("Emissions\\|", variable))
 write.table(all_paper_emissions, "NatComPaper/data/all_paper_emissions.csv", sep=";", row.names = F)
 
+all_paper_emissions_IMAGE <- filter(all_paper_emissions, model=="IMAGE 3.0")
+write.table(all_paper_emissions_IMAGE, "NatComPaper/data/all_paper_emissions_IMAGE.csv", sep=";", row.names = F)
+
+all_paper_energy <- filter(all_paper, grepl("Energy\\|", variable))
+write.table(all_paper_energy, "NatComPaper/data/all_paper_energy.csv", sep=";", row.names = F)
+
+all_paper_energy_IMAGE <- filter(all_paper_energy, model=="IMAGE 3.0")
+write.table(all_paper_energy_IMAGE, "NatComPaper/data/all_paper_energy_IMAGE.csv", sep=";", row.names = F)
+
+all_paper_final_energy <- filter(all_paper, grepl("Final Energy\\|", variable))
+write.table(all_paper_energy, "NatComPaper/data/all_paper_final_energy.csv", sep=";", row.names = F)
+all_paper_secondary_energy <- filter(all_paper, grepl("Secondary Energy\\|", variable))
+write.table(all_paper_energy, "NatComPaper/data/all_paper_secondary_energy.csv", sep=";", row.names = F)
 
 # additional adjustments
 #all_paper<-all_paper[model!="GEM-E3_EU"]
@@ -192,7 +206,7 @@ keep_original <- TRUE
 if (keep_original == TRUE){
   cat("load SSP data\n")
   adjust <- "adjust_reporting_empty"
-  source('load_data.R')
+  source('load_data_NatCom_paper.R')
   all_import_SSP <- all 
   all_import_SSP$period <- as.integer(all_import_SSP$period)
   # Change scenario names 

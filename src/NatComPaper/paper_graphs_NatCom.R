@@ -85,7 +85,7 @@ write.table(all_fig1b_h, "NatComPaper/data/data_fig1b_h.csv", sep=";", row.names
 # Total GHG emissions broken up into CO2 (energy/industry), CO2 (land use), CH4, N2O, F-gases for seven large countries for NoPolicy, NPi and INDCi
 # Left panel (a) global total ghg emissions
 # Righ panel (b-h) GHG emissions per country, split up per greenhouse gas
-a1<-plot_funnel2(reg="World",dt=all_fig1a,vars=c("Emissions|Kyoto Gases"),cats=cats_a1,start_scen=2010, title="Kyoto greenhouse gas emissions",
+a1<-plot_funnel2(reg="World",dt=all_fig1a,vars=c("Emissions|Kyoto Gases"),cats=cats_a1,start_scen=2010, title="Global greenhouse gas emissions",
                 file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(1990,2032),ylim=c(20,71),range=T,median=T,linetypemanual=F,
                 dt_hist=all_hist_fig1a, hist=T)
 regs_fig1 <- c("BRA")
@@ -334,7 +334,7 @@ ggsave(file=paste("NatComPaper/graphs","/Figure1_alt_GHG_FE_NatCom.jpg",sep=""),
 
 cats_fig3 <- c('National policies', 'Carbon budget 1000', 'Carbon budget 400')
 regs_fig3 <- c("World", "CHN",  "USA", "EU",  "IND", "BRA", "JAP", "RUS")
-vars_fig3 <- c("Emissions|Kyoto Gases", "Final Energy|Non-fossil share", "Final Energy intensity of GDP")
+vars_fig3 <- c("Emissions|Kyoto Gases", "Final Energy|Non-fossil share", "Final Energy intensity of GDP", "Mitigation Costs")
 
 gaps <- c("2C", "1.5C")
 
@@ -370,11 +370,11 @@ Gap_stat <- filter(data_fig3_stat, period==2030) %>%
 
 reg_labels <- c("World"="World", "BRA"="Brazil",  "CHN"="China", "EU"="EU",  "IND"="India", "JPN"="Japan", "RUS"="Russia", "USA"="USA")
 var_labels <- c("Emissions|Kyoto Gases"="GHG emissions (MtCO2eq))", "Final Energy|Non-fossil share"="Low carbon share (%)", 
-                "Final Energy intensity of GDP"="Energy intensity (TJ/US$2010)")
+                "Final Energy intensity of GDP"="Energy intensity (TJ/US$2010)", "Mitigation Costs"="Mitigation costs per GDP")
 colours_fig3 <- brewer.pal(5,"Accent")
 names(colours_fig3) <- levels(cats_fig3)
 data_fig3_stat <- mutate(data_fig3_stat, ymin=0)
-data_fig3_stat <- mutate(data_fig3_stat, ymax=ifelse(variable=="Emissions|Kyoto Gases", NA, ifelse(variable=="Final Energy|Non-fossil share", 60, 17.5)))
+data_fig3_stat <- mutate(data_fig3_stat, ymax=ifelse(variable=="Emissions|Kyoto Gases", NA, ifelse(variable=="Final Energy|Non-fossil share", 60, ifelse(variable=="Low carbon share (%)", 17.5, 6))))
 
 fig3 <- ggplot(data=data_fig3_stat) + geom_line(aes(period, median, colour=Category), size=2) + 
                    geom_ribbon(aes(x=period,ymin=perc_10,ymax=perc_90,fill=Category),alpha=.15, show.legend = F) +
@@ -382,7 +382,7 @@ fig3 <- ggplot(data=data_fig3_stat) + geom_line(aes(period, median, colour=Categ
                                 arrow=arrow(length = unit(0.25, "cm")), size=1)+#, color="dark blue") +
                    geom_segment(data=Gap_stat, mapping=aes(x=2031, y=start_median, xend=2031, yend=start_median-gap_1.5C_median), 
                                 arrow=arrow(length = unit(0.25, "cm")), size=1)+#, color="dark blue") +
-                   facet_wrap(variable~region, scales = "free_y", nrow=3, labeller=labeller(variable = var_labels, region=reg_labels)) +
+                   facet_wrap(variable~region, scales = "free_y", nrow=4, labeller=labeller(variable = var_labels, region=reg_labels)) +
                    #facet_grid(variable~region, scales = "free_y", labeller=labeller(variable = var_labels, region=reg_labels)) +
                    #ylim(0,NA) +
                    #https://stackoverflow.com/questions/42588238/setting-individual-y-axis-limits-with-facet-wrap-not-with-scales-free-y/42590452
