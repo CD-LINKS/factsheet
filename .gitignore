@@ -4,3 +4,13 @@
 .Ruserdata
 /src/data/CDLINKS_stocktaking_compare_regions_2016-03-29.csv
 /src/data/CDLINKS_stocktaking_compare_regions_2016-03-29.Rdata
+factsheet.Rproj
+Cbudget.csv
+Cbudgetrange.csv
+Cintensity.csv
+Cintensity_rateofchange.csv
+Cintensity_rateofchange_range.csv
+Cintensityrange.csv
+GHGemissions.csv
+GHGemissionsrange.csv
+effort sharing
