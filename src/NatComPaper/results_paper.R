@@ -135,3 +135,11 @@ Ambition_gap_1_5C_rel_stat <- select(Ambition_gap_1_5C_rel, -`National policies`
                                       mean=mean(reduction, na.rm=T), min=min(reduction, na.rm=T), max=max(reduction, na.rm=T)) %>%
                             arrange(variable)
 write.table(Ambition_gap_1_5C_rel_stat, "NatComPaper/data/results_paper/Ambition_gap_1_5C_rel_stat.csv", row.names=F, sep=";")
+
+# mitigation costs
+mitigation_costs <- filter(all_paper_results, Category%in%c('National policies', 'Carbon budget 1000', 'Carbon budget 400'), period==2030, region!="Bunkers",
+                           variable%in%c("Mitigation Costs"))
+mitigation_costs_stat <- group_by(mitigation_costs, Category, region, period, unit, variable) %>%
+                         summarise(median=median(value, na.rm=T), perc_10=quantile(value, probs=0.1, na.rm=T), perc_90=quantile(value, probs=0.9, na.rm=T),
+                         mean=mean(value, na.rm=T), min=min(value, na.rm=T), max=max(value, na.rm=T))
+write.table(mitigation_costs_stat, "NatComPaper/data/results_paper/mitigation_costs.csv", row.names=F, sep=";")

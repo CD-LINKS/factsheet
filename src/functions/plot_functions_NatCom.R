@@ -434,7 +434,7 @@ plot_funnel2 <- function(reg, dt, vars, cats, start_scen, out=cfg$outdir, title=
                                                                           color=Category),size=1.3)}
   # Plot lines for national models
   #p = p + geom_path(data=dt[region==reg & Scope=="national"],aes(x=period,y=value,color=Category,linetype=model),size=2,show.legend = FALSE)
-  p = p + scale_linetype_manual(values=cfg$man_lines,name="Model")
+  #####p = p + scale_linetype_manual(values=cfg$man_lines,name="Model")
   #p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario", guide = guide_legend(reverse=TRUE))
   #p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario", guide = guide_legend(reverse=TRUE))
   #p = p + scale_linetype_manual(values=plotstyle(unique(dt$model)), name="Model")
@@ -467,6 +467,7 @@ plot_funnel2 <- function(reg, dt, vars, cats, start_scen, out=cfg$outdir, title=
                 legend.text=element_text(size=18),
                 legend.title=element_text(size=18),
                 plot.title=element_text(size=18))
+  p = p + theme(legend.position = c(0.575,0.25))
   p = p + theme(legend.position = c(0.575,0.25)) +
                 ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=12, height=8, dpi=120)
   return(p)
