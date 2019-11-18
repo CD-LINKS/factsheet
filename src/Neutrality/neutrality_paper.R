@@ -90,18 +90,17 @@ poyrange[max>2100]$label <- ">2100"
 poyrange$showyear <- poyrange$max
 poyrange[max>2100]$showyear <- 2105
 
-# TODO fix vertical lines for world? 
 S = ggplot()
 #S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
 S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=showyear,y=median, x=region, colour=variable),alpha=0.5,size=5,fatten=1,show.legend = F) #,position=position_dodge(width=0.66)
 S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")],aes(x=region,y=showyear,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
 S = S + geom_text(data=poy[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
 S = S + geom_text(data=poyrange[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
+S = S + geom_hline(data=poyrange[region=="World [6 models]"&Category%in%c("2 °C","1.5 °C")], aes(yintercept=median),linetype="dotted") 
 #S = S + geom_boxplot(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=V1, x=region, colour=variable,fill=variable),position=position_dodge(width=0.66),width=0.66)
 #S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
 S = S + coord_flip()
 S = S + facet_grid(Category~variable, scales="free_y")
-#S = S + geom_hline(yintercept=poyrange[region=="World [6 models]"&Category%in%c("2 °C","1.5 °C")]$median) #&variable=="Emissions|Kyoto Gases"
 S = S + ylab("Phase out year")
 S = S + scale_y_continuous(limits=c(2030,2110),breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
 #S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110,2120,2130,2140,2150,2160,2170,2180,2190,2200))
