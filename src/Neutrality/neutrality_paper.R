@@ -72,10 +72,10 @@ poy=poy[!number<3]
 poyrange=data.table(poy[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","variable")]) #"unit"
 #poyrange = poyrange[order(Category,variable,median)]
 poyrange$region <- factor(poyrange$region, levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
-                                                    "RUS [3 models]","JPN [4 models]","IND [6 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #unique(poyrange$region)
+                                                    "RUS [3 models]","JPN [4 models]","IND [5 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #unique(poyrange$region)
 #poy=poy[order(Category,variable,V1)]
 poy$region<-factor(poy$region,levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
-                                       "RUS [3 models]","JPN [4 models]","IND [6 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #levels=unique(poy$region)
+                                       "RUS [3 models]","JPN [4 models]","IND [5 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #levels=unique(poy$region)
 
 # For plotting, including the ones with phase-out after 2100 or no phase-out at all
 poy$label <-""
@@ -287,10 +287,11 @@ S2 = S2 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(
 ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_diff.png",sep=""),S2,width=12, height=8, dpi=120)
 
 # plot trajectories to understand differences
+np = np[Scope=="global"]
 dt = np[variable=="Emissions|Kyoto Gases"]%>% select(-scenario,-Baseline,-unit,-Scope)
-setcolorder(dt,colnames(dth))
 dt$landuse <- "Model data"
 dth$landuse <- "Inventory data"
+setcolorder(dt,colnames(dth))
 dthcomp = rbind(dt,dth)
 
 S3 = ggplot()
