@@ -849,6 +849,15 @@ cb = cb + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_
 cb = cb + ylab(costs$unit)+xlab("")
 ggsave(file=paste(outdir,"/costs_GDP_flexibility_2050.png",sep=""),cb,width=20,height=12,dpi=200)
 
+cb1 = ggplot(costs[region%in%r10&period==2050&implementation=="flexibility"])
+cb1 = cb1 + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
+cb1 = cb1 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+cb1 = cb1 + facet_grid(region~model,scale="free_y")
+cb1 = cb1 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+cb1 = cb1 + ylab(costs$unit)+xlab("")
+ggsave(file=paste(outdir,"/costs_GDP_flexibility_2050_layout.png",sep=""),cb1,width=20,height=12,dpi=200)
+
 # c1 = ggplot(costs[implementation=="domestic"&!region%in%r10])
 # c1 = c1 + geom_path(aes(x=period,y=value,colour=regime,linetype=costvariable))
 # c1 = c1 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
