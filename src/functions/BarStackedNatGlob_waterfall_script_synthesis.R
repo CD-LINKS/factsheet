@@ -18,9 +18,9 @@ file.prefix <- "Waterfall_"
 
 #scensglob = c("NPi1000")
 #catsglob <- c("NPi1000","NPi")
-catsnat <- c( "NPi1000","NPi")
+catsnat <- c( "NPi400","NPi")
 
-labcat <- c("NPi1000","NPi")
+labcat <- c("NPi400","NPi")
 
 natmods <- unique(all[Scope=="national"]$model)
   #setdiff(unique(all$model),grep("\\*",unique(all$model),value = T))
@@ -35,7 +35,7 @@ reference_cat <- catsnat[2]
 
 
 for(icat in c(1)){
-  for(ireg in c(3)){ #now for NPi400 manually doing ireg in c(1) for BRA and c(5) for EU (and for all scenarios, CHN 2, IND 3, RUS 4, JPN 6, usa 7) instead of c(1,2,3,4,5,6,7)
+  for(ireg in c(1)){ #now for NPi400 manually doing ireg in c(1) for BRA and c(5) for EU (and for all scenarios, CHN 2, IND 3, RUS 4, JPN 6, usa 7) instead of c(1,2,3,4,5,6,7)
   tt = c("2010", "2050")
   #if(icat == 2) {catsnat[1] <- "2030_high"}
   for(iper in c(1,2)){
