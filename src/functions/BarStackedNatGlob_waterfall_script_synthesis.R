@@ -18,9 +18,9 @@ file.prefix <- "Waterfall_"
 
 #scensglob = c("NPi1000")
 #catsglob <- c("NPi1000","NPi")
-catsnat <- c( "NPi400","NPi")
+catsnat <- c( "NDC1000","NPi")
 
-labcat <- c("NPi400","NPi")
+labcat <- c("NDC1000","NPi")
 
 natmods <- unique(all[Scope=="national"]$model)
   #setdiff(unique(all$model),grep("\\*",unique(all$model),value = T))
