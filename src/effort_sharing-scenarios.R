@@ -1635,3 +1635,82 @@ F5a = F5a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=elemen
                                legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
 F5a = F5a + ylab(gdploss$unit)+xlab("")
 ggsave(file=paste(outdir,"/GDPloss_flexibility_2050_layout.png",sep=""),F5a,width=20,height=12,dpi=200)
+
+# Selected figures in new layout not model comparison -------------------
+### 5. Costs relative to world
+costsworldrange=data.table(costsworld[,list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
+                                      by=c("unit","period","implementation","regime","variable","region")])
+F5 = ggplot(costsworld[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
+F5 = F5 + geom_pointrange(data=costsworldrange[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"],
+                          aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F5 = F5 + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F5 = F5 + geom_hline(aes(yintercept=1),size=1)
+F5 = F5 + coord_flip()
+F5 = F5 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F5 = F5 + facet_grid(region~.,scale="free_y")
+F5 = F5 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
+F5 = F5 + ylab(costsworld$unit)+xlab("")
+ggsave(file=paste(outdir,"/costsrelworld_flexibility_2050_layoutmodel.png",sep=""),F5,width=20,height=12,dpi=200)
+
+### 7. Financial flows ($)
+F7 = ggplot(finflow[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
+F7 = F7 + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
+F7 = F7 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F7 = F7 + facet_grid(region~model,scale="free_y")
+F7 = F7 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F7 = F7 + ylab(finflow$unit)+xlab("")
+ggsave(file=paste(outdir,"/financialflows_flexibility_2050_layout.png",sep=""),F7,width=20,height=12,dpi=200)
+
+### 7a. Financial flows (Mt)
+F7a = ggplot(trade[period==2050&implementation=="flexibility"&!regime=="GF"]) #region%in%r10&
+F7a = F7a + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
+F7a = F7a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F7a = F7a + facet_grid(region~model,scale="free_y")
+F7a = F7a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                               legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F7a = F7a + ylab(trade$unit)+xlab("")
+ggsave(file=paste(outdir,"/financialflows_Mt_flexibility_2050_layout.png",sep=""),F7a,width=20,height=12,dpi=200)
+
+### 14. Costs %GDP (model statistics)
+F14 = ggplot(costsstat[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
+F14 = F14 + geom_bar(aes(x=regime,y=median,fill=regime),stat="identity",position=position_dodge(width=0.66),width=0.66)
+F14 = F14 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F14 = F14 + geom_errorbar(aes(x=regime,ymin=min,ymax=max,colour=regime),stat="identity",position=position_dodge(width=0.66),width=0.66)
+F14 = F14 + scale_colour_manual(values=c("AP"="black","CO"="black","GF"="black","PCC"="black"))
+F14 = F14 + facet_grid(region~implementation,scale="free_y")
+F14 = F14 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                               legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F14 = F14 + ylab(costsstat$unit)+xlab("")
+ggsave(file=paste(outdir,"/costsGDPstat_flexibility_2050_layout.png",sep=""),F14,width=20,height=12,dpi=200)
+
+### 15. Cumulative discounted costs
+F15 = ggplot(costsgdpdicu[region%in%r10&implementation=="flexibility"&!regime=="GF"])
+F15 = F15 + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
+F15 = F15 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F15 = F15 + facet_grid(region~model,scale="free_y")
+F15 = F15 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                               legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F15 = F15 + ylab(costsgdpdicu$unit)+xlab("")
+ggsave(file=paste(outdir,"/cumuldisccosts_flexibility_2050_layout.png",sep=""),F15,width=20,height=12,dpi=200)
+
+### 4. Carbon price
+F4 = ggplot(data[variable=="Price|Carbon"&region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
+F4 = F4 + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
+F4 = F4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F4 = F4 + facet_grid(region~model,scale="free_y")
+F4 = F4 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F4 = F4 + ylab(data[variable=="Price|Carbon"]$unit)+xlab("")
+ggsave(file=paste(outdir,"/cprice_flexibility_2050_layout.png",sep=""),F4,width=20,height=12,dpi=200)
+
+### 5a. GDP loss (not yet relative to world - TODO?)
+F5a = ggplot(gdploss[region%in%r10&period==2050&implementation=="flexibility"& model%in%unique(data[variable=="Policy Cost|GDP Loss"]$model)&!regime=="GF"])
+F5a = F5a + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
+F5a = F5a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F5a = F5a + facet_grid(region~model,scale="free_y")
+F5a = F5a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                               legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+F5a = F5a + ylab(gdploss$unit)+xlab("")
+ggsave(file=paste(outdir,"/GDPloss_flexibility_2050_layout.png",sep=""),F5a,width=20,height=12,dpi=200)
