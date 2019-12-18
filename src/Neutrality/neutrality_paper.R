@@ -276,13 +276,13 @@ poyrange1=data.table(poy1[,list(median=median(value,na.rm=T),min=min(value,na.rm
 S2 = ggplot()
 S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable #,"SAF [2 models]","MEX [2 models]"
 S2 = S2 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(y=median,x=region,size=0.2),show.legend = F) #,colour=variable
-#S2 = S2 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
+S2 = S2 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"&variable=="diff"], aes(y=value,x=region,colour=model,shape=model),size=3)
 S2 = S2 + coord_flip()
 S2 = S2 + facet_grid(.~Category, scales="free_y")
 S2 = S2 + geom_hline(yintercept=0)
-S2 = S2 + ylab("Phase-out year difference due to inventory vs. model LULUCF (<0: earlier if based on inventory)")
+S2 = S2 + ylab("Phase-out year difference due to inventory vs. model LULUCF (<0: earlier if based on inventory)")+xlab("")
 #S2 = S2 + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
-S2 = S2 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+S2 = S2 + theme_bw()+ theme(axis.text.y=element_text(size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ #angle=45, 
   theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_diff.png",sep=""),S2,width=12, height=8, dpi=120)
 
@@ -391,15 +391,15 @@ poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$max<-100
 a1 = ggplot()
 a1 = a1 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
 a1 = a1 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(y=median,x=region,size=0.2),show.legend = F) #,colour=variable
-#a1 = a1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
+a1 = a1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"&variable=="diff"], aes(y=value,x=region,colour=model,shape=model),size=3)
 a1 = a1 + coord_flip()
 a1 = a1 + facet_grid(.~Category, scales="free_y")
 a1 = a1 + geom_hline(yintercept=0)
 a1 = a1 + scale_y_continuous(limits=c(-80,90),breaks=c(-80,-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60,70,80,90))
 a1 = a1 + geom_text(data=poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"],stat="identity",aes(x=region,y=50,label="2077 > No phase-out"),size=6)
-a1 = a1 + ylab("Phase-out year difference due to BECCS allocation (<0: earlier if based on biomass production)")
+a1 = a1 + ylab("Phase-out year difference due to BECCS allocation (<0: earlier if based on biomass production)")+xlab("")
 #a1 = a1 + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
-a1 = a1 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+a1 = a1 + theme_bw()+ theme(axis.text.y=element_text(size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ #angle=45,
   theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,width=12, height=8, dpi=120)
 
