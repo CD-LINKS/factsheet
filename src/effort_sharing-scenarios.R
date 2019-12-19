@@ -1416,14 +1416,14 @@ F6a = F6a + ylab(costratiopr$variable)
 ggsave(file=paste(outdir,"/costratio_North-America_Africa_flexibility_2050.png",sep=""),F6a,width=20,height=12,dpi=200)
 
 ### 6b. Cost ratio OECD / non-OECD excluding Middle East and reforming economies
-F6b = ggplot(costratioex[period%in%c(2050)&implementation=="flexibility"&region=="OECD/non-OECD"])
-F6b = F6b + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
-F6b = F6b + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-F6b = F6b + facet_grid(period~model)
-F6b = F6b + geom_hline(aes(yintercept = 1),size=1)
-F6b = F6b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
-F6b = F6b + ylab(costratioex[region=="OECD/non-OECD"]$variable)
-ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECDexclME-REF_flexibility_2050.png",sep=""),F6b,width=20,height=12,dpi=200)
+# F6b = ggplot(costratioex[period%in%c(2050)&implementation=="flexibility"&region=="OECD/non-OECD"])
+# F6b = F6b + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
+# F6b = F6b + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+# F6b = F6b + facet_grid(period~model)
+# F6b = F6b + geom_hline(aes(yintercept = 1),size=1)
+# F6b = F6b + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+# F6b = F6b + ylab(costratioex[region=="OECD/non-OECD"]$variable)
+# ggsave(file=paste(outdir,"/costratio_R10_OECD_non-OECDexclME-REF_flexibility_2050.png",sep=""),F6b,width=20,height=12,dpi=200)
 
 ### 6c. Cost difference OECD / non-OECD excluding Middle East and reforming economies
 F6c = ggplot(costratioex[period%in%c(2050)&implementation=="flexibility"&region=="OECD-non-OECD"&!regime=="GF"])
@@ -1654,16 +1654,23 @@ F5 = F5 + ylab(costsworld$unit)+xlab("")
 ggsave(file=paste(outdir,"/costsrelworld_flexibility_2050_layoutmodel.png",sep=""),F5,width=20,height=12,dpi=200)
 
 ### 7. Financial flows ($)
-F7 = ggplot(finflow[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
-F7 = F7 + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
-F7 = F7 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-F7 = F7 + facet_grid(region~model,scale="free_y")
-F7 = F7 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
-                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
-F7 = F7 + ylab(finflow$unit)+xlab("")
-ggsave(file=paste(outdir,"/financialflows_flexibility_2050_layout.png",sep=""),F7,width=20,height=12,dpi=200)
+finflowrange=data.table(finflow[,list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
+                                      by=c("unit","period","implementation","regime","variable","region")])
 
-### 7a. Financial flows (Mt)
+F7 = ggplot(finflow[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
+F7 = F7 + geom_pointrange(data=finflowrange[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"],
+                          aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F7 = F7 + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F7 = F7 + geom_hline(aes(yintercept=1),size=1)
+F7 = F7 + coord_flip()
+F7 = F7 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F7 = F7 + facet_grid(region~.,scale="free_y")
+F7 = F7 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
+F7 = F7 + ylab(finflow$unit)+xlab("")
+ggsave(file=paste(outdir,"/financialflows_flexibility_2050_layoutmodel.png",sep=""),F7,width=20,height=12,dpi=200)
+
+### 7a. Financial flows (Mt) TODO continue here
 F7a = ggplot(trade[period==2050&implementation=="flexibility"&!regime=="GF"]) #region%in%r10&
 F7a = F7a + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
 F7a = F7a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
@@ -1714,3 +1721,17 @@ F5a = F5a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=elemen
                                legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
 F5a = F5a + ylab(gdploss$unit)+xlab("")
 ggsave(file=paste(outdir,"/GDPloss_flexibility_2050_layout.png",sep=""),F5a,width=20,height=12,dpi=200)
+
+### 6c. Cost difference OECD / non-OECD excluding Middle East and reforming economies
+costratioexrange=data.table(costratioex[,list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
+                                      by=c("unit","period","implementation","regime","variable","region")])
+
+F6c = ggplot(costratioex[period%in%c(2050)&implementation=="flexibility"&region=="OECD-non-OECD"&!regime=="GF"])
+F6c = F6c + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
+F6c = F6c + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F6c = F6c + facet_grid(period~model)
+F6c = F6c + geom_hline(aes(yintercept = 0),size=1)
+F6c = F6c + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
+F6c = F6c + ylab(costratioex[region=="OECD-non-OECD"]$variable)
+ggsave(file=paste(outdir,"/costdiff_R10_OECD_non-OECDexclME-REF_flexibility_2050.png",sep=""),F6c,width=20,height=12,dpi=200)
+
