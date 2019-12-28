@@ -1,0 +1,1177 @@
+scenario;Category;Baseline;model;region;period;Scope;value;unit;variable
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2010;Global;195;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2015;Global;203;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2020;Global;211;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2025;Global;217;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2030;Global;223;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2035;Global;227;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2040;Global;230;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2045;Global;232;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2050;Global;232;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2060;Global;229;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2070;Global;222;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2080;Global;212;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2090;Global;200;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2100;Global;188;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2010;Global;1349;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2015;Global;1371;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2020;Global;1387;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2025;Global;1394;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2030;Global;1390;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2035;Global;1375;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2040;Global;1349;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2045;Global;1315;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2050;Global;1273;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2060;Global;1174;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2070;Global;1068;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2080;Global;962;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2090;Global;862;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2100;Global;777;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2010;Global;1225;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2015;Global;1308;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2020;Global;1388;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2025;Global;1462;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2030;Global;1529;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2035;Global;1590;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2040;Global;1646;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2045;Global;1695;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2050;Global;1734;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2060;Global;1779;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2070;Global;1781;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2080;Global;1748;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2090;Global;1684;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2100;Global;1603;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2010;Global;127;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2015;Global;126;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2020;Global;125;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2025;Global;123;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2030;Global;120;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2035;Global;118;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2040;Global;115;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2045;Global;112;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2050;Global;109;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2060;Global;102;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2070;Global;96;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2080;Global;89;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2090;Global;82;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2100;Global;75;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2010;Global;143;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2015;Global;143;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2020;Global;142;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2025;Global;141;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2030;Global;140;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2035;Global;138;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2040;Global;138;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2045;Global;137;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2050;Global;137;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2060;Global;135;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2070;Global;133;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2080;Global;131;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2090;Global;127;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2100;Global;123;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2010;Global;314;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2015;Global;327;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2020;Global;340;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2025;Global;352;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2030;Global;365;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2035;Global;376;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2040;Global;387;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2045;Global;396;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2050;Global;405;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2060;Global;424;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2070;Global;440;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2080;Global;452;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2090;Global;458;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2100;Global;460;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2010;Global;6871;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2015;Global;7248;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2020;Global;7614;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2025;Global;7955;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2030;Global;8264;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2035;Global;8542;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2040;Global;8787;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2045;Global;8996;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2050;Global;9166;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2060;Global;9376;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2070;Global;9441;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2080;Global;9384;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2090;Global;9225;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2100;Global;8999;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2010;Global;195;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2015;Global;203;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2020;Global;211;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2025;Global;217;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2030;Global;223;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2035;Global;227;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2040;Global;230;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2045;Global;232;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2050;Global;232;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2060;Global;229;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2070;Global;222;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2080;Global;212;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2090;Global;200;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2100;Global;188;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2010;Global;1349;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2015;Global;1371;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2020;Global;1387;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2025;Global;1394;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2030;Global;1390;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2035;Global;1375;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2040;Global;1349;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2045;Global;1315;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2050;Global;1273;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2060;Global;1174;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2070;Global;1068;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2080;Global;962;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2090;Global;862;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2100;Global;777;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2010;Global;1225;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2015;Global;1308;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2020;Global;1388;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2025;Global;1462;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2030;Global;1529;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2035;Global;1590;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2040;Global;1646;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2045;Global;1695;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2050;Global;1734;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2060;Global;1779;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2070;Global;1781;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2080;Global;1748;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2090;Global;1684;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2100;Global;1603;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2010;Global;127;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2015;Global;126;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2020;Global;125;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2025;Global;123;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2030;Global;120;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2035;Global;118;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2040;Global;115;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2045;Global;112;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2050;Global;109;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2060;Global;102;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2070;Global;96;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2080;Global;89;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2090;Global;82;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2100;Global;75;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2010;Global;143;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2015;Global;143;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2020;Global;142;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2025;Global;141;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2030;Global;140;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2035;Global;138;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2040;Global;138;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2045;Global;137;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2050;Global;137;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2060;Global;135;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2070;Global;133;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2080;Global;131;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2090;Global;127;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2100;Global;123;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2010;Global;314;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2015;Global;327;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2020;Global;340;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2025;Global;352;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2030;Global;365;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2035;Global;376;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2040;Global;387;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2045;Global;396;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2050;Global;405;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2060;Global;424;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2070;Global;440;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2080;Global;452;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2090;Global;458;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2100;Global;460;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2010;Global;6871;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2015;Global;7248;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2020;Global;7614;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2025;Global;7955;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2030;Global;8264;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2035;Global;8542;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2040;Global;8787;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2045;Global;8996;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2050;Global;9166;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2060;Global;9376;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2070;Global;9441;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2080;Global;9384;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2090;Global;9225;million;Population
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2100;Global;8999;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2010;Global;195;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2015;Global;203;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2020;Global;211;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2025;Global;217;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2030;Global;223;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2035;Global;227;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2040;Global;230;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2045;Global;232;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2050;Global;232;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2060;Global;229;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2070;Global;222;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2080;Global;212;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2090;Global;200;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2100;Global;188;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2010;Global;1349;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2015;Global;1371;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2020;Global;1387;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2025;Global;1394;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2030;Global;1390;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2035;Global;1375;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2040;Global;1349;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2045;Global;1315;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2050;Global;1273;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2060;Global;1174;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2070;Global;1068;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2080;Global;962;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2090;Global;862;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2100;Global;777;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2010;Global;1225;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2015;Global;1308;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2020;Global;1388;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2025;Global;1462;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2030;Global;1529;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2035;Global;1590;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2040;Global;1646;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2045;Global;1695;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2050;Global;1734;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2060;Global;1779;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2070;Global;1781;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2080;Global;1748;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2090;Global;1684;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2100;Global;1603;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2010;Global;127;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2015;Global;126;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2020;Global;125;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2025;Global;123;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2030;Global;120;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2035;Global;118;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2040;Global;115;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2045;Global;112;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2050;Global;109;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2060;Global;102;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2070;Global;96;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2080;Global;89;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2090;Global;82;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2100;Global;75;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2010;Global;143;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2015;Global;143;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2020;Global;142;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2025;Global;141;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2030;Global;140;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2035;Global;138;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2040;Global;138;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2045;Global;137;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2050;Global;137;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2060;Global;135;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2070;Global;133;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2080;Global;131;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2090;Global;127;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2100;Global;123;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2010;Global;314;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2015;Global;327;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2020;Global;340;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2025;Global;352;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2030;Global;365;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2035;Global;376;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2040;Global;387;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2045;Global;396;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2050;Global;405;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2060;Global;424;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2070;Global;440;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2080;Global;452;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2090;Global;458;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2100;Global;460;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2010;Global;6871;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2015;Global;7248;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2020;Global;7614;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2025;Global;7955;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2030;Global;8264;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2035;Global;8542;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2040;Global;8787;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2045;Global;8996;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2050;Global;9166;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2060;Global;9376;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2070;Global;9441;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2080;Global;9384;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2090;Global;9225;million;Population
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2100;Global;8999;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2010;Global;195;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2015;Global;203;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2020;Global;211;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2025;Global;217;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2030;Global;223;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2035;Global;227;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2040;Global;230;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2045;Global;232;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2050;Global;232;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2060;Global;229;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2070;Global;222;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2080;Global;212;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2090;Global;200;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2100;Global;188;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2010;Global;1349;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2015;Global;1371;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2020;Global;1387;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2025;Global;1394;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2030;Global;1390;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2035;Global;1375;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2040;Global;1349;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2045;Global;1315;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2050;Global;1273;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2060;Global;1174;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2070;Global;1068;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2080;Global;962;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2090;Global;862;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2100;Global;777;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2010;Global;1225;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2015;Global;1308;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2020;Global;1388;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2025;Global;1462;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2030;Global;1529;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2035;Global;1590;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2040;Global;1646;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2045;Global;1695;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2050;Global;1734;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2060;Global;1779;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2070;Global;1781;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2080;Global;1748;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2090;Global;1684;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2100;Global;1603;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2010;Global;127;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2015;Global;126;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2020;Global;125;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2025;Global;123;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2030;Global;120;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2035;Global;118;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2040;Global;115;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2045;Global;112;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2050;Global;109;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2060;Global;102;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2070;Global;96;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2080;Global;89;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2090;Global;82;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2100;Global;75;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2010;Global;143;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2015;Global;143;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2020;Global;142;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2025;Global;141;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2030;Global;140;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2035;Global;138;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2040;Global;138;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2045;Global;137;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2050;Global;137;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2060;Global;135;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2070;Global;133;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2080;Global;131;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2090;Global;127;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2100;Global;123;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2010;Global;314;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2015;Global;327;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2020;Global;340;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2025;Global;352;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2030;Global;365;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2035;Global;376;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2040;Global;387;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2045;Global;396;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2050;Global;405;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2060;Global;424;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2070;Global;440;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2080;Global;452;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2090;Global;458;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2100;Global;460;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2010;Global;6871;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2015;Global;7248;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2020;Global;7614;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2025;Global;7955;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2030;Global;8264;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2035;Global;8542;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2040;Global;8787;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2045;Global;8996;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2050;Global;9166;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2060;Global;9376;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2070;Global;9441;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2080;Global;9384;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2090;Global;9225;million;Population
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2100;Global;8999;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2010;Global;195;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2015;Global;203;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2020;Global;211;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2025;Global;217;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2030;Global;223;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2035;Global;227;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2040;Global;230;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2045;Global;232;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2050;Global;232;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2060;Global;229;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2070;Global;222;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2080;Global;212;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2090;Global;200;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2100;Global;188;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2010;Global;1349;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2015;Global;1371;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2020;Global;1387;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2025;Global;1394;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2030;Global;1390;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2035;Global;1375;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2040;Global;1349;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2045;Global;1315;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2050;Global;1273;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2060;Global;1174;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2070;Global;1068;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2080;Global;962;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2090;Global;862;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2100;Global;777;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2010;Global;1225;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2015;Global;1308;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2020;Global;1388;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2025;Global;1462;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2030;Global;1529;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2035;Global;1590;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2040;Global;1646;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2045;Global;1695;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2050;Global;1734;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2060;Global;1779;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2070;Global;1781;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2080;Global;1748;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2090;Global;1684;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2100;Global;1603;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2010;Global;127;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2015;Global;126;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2020;Global;125;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2025;Global;123;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2030;Global;120;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2035;Global;118;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2040;Global;115;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2045;Global;112;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2050;Global;109;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2060;Global;102;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2070;Global;96;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2080;Global;89;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2090;Global;82;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2100;Global;75;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2010;Global;143;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2015;Global;143;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2020;Global;142;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2025;Global;141;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2030;Global;140;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2035;Global;138;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2040;Global;138;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2045;Global;137;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2050;Global;137;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2060;Global;135;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2070;Global;133;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2080;Global;131;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2090;Global;127;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2100;Global;123;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2010;Global;314;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2015;Global;327;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2020;Global;340;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2025;Global;352;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2030;Global;365;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2035;Global;376;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2040;Global;387;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2045;Global;396;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2050;Global;405;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2060;Global;424;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2070;Global;440;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2080;Global;452;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2090;Global;458;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2100;Global;460;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2010;Global;6871;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2015;Global;7248;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2020;Global;7614;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2025;Global;7955;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2030;Global;8264;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2035;Global;8542;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2040;Global;8787;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2045;Global;8996;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2050;Global;9166;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2060;Global;9376;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2070;Global;9441;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2080;Global;9384;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2090;Global;9225;million;Population
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2100;Global;8999;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2010;Global;195;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2015;Global;203;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2020;Global;211;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2025;Global;217;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2030;Global;223;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2035;Global;227;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2040;Global;230;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2045;Global;232;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2050;Global;232;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2060;Global;229;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2070;Global;222;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2080;Global;212;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2090;Global;200;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2100;Global;188;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2010;Global;1349;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2015;Global;1371;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2020;Global;1387;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2025;Global;1394;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2030;Global;1390;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2035;Global;1375;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2040;Global;1349;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2045;Global;1315;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2050;Global;1273;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2060;Global;1174;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2070;Global;1068;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2080;Global;962;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2090;Global;862;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2100;Global;777;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2010;Global;1225;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2015;Global;1308;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2020;Global;1388;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2025;Global;1462;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2030;Global;1529;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2035;Global;1590;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2040;Global;1646;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2045;Global;1695;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2050;Global;1734;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2060;Global;1779;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2070;Global;1781;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2080;Global;1748;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2090;Global;1684;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2100;Global;1603;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2010;Global;127;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2015;Global;126;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2020;Global;125;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2025;Global;123;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2030;Global;120;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2035;Global;118;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2040;Global;115;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2045;Global;112;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2050;Global;109;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2060;Global;102;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2070;Global;96;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2080;Global;89;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2090;Global;82;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2100;Global;75;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2010;Global;143;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2015;Global;143;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2020;Global;142;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2025;Global;141;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2030;Global;140;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2035;Global;138;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2040;Global;138;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2045;Global;137;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2050;Global;137;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2060;Global;135;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2070;Global;133;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2080;Global;131;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2090;Global;127;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2100;Global;123;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2010;Global;314;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2015;Global;327;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2020;Global;340;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2025;Global;352;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2030;Global;365;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2035;Global;376;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2040;Global;387;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2045;Global;396;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2050;Global;405;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2060;Global;424;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2070;Global;440;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2080;Global;452;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2090;Global;458;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2100;Global;460;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2010;Global;6871;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2015;Global;7248;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2020;Global;7614;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2025;Global;7955;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2030;Global;8264;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2035;Global;8542;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2040;Global;8787;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2045;Global;8996;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2050;Global;9166;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2060;Global;9376;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2070;Global;9441;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2080;Global;9384;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2090;Global;9225;million;Population
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2100;Global;8999;million;Population
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2010;Global;1214.918288;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2015;Global;1428.720135;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2020;Global;1713.195804;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2025;Global;1988.848254;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2030;Global;2254.238339;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2035;Global;2516.4506;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2040;Global;2790.742389;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2045;Global;3103.323375;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2050;Global;3447.040804;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2060;Global;4156.588133;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2070;Global;4771.85459;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2080;Global;5351.267768;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2090;Global;5920.863684;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;BRA;2100;Global;6492.338148;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2010;Global;4518.245629;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2015;Global;7422.884143;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2020;Global;10878.23054;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2025;Global;14337.49121;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2030;Global;17367.78144;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2035;Global;19830.27155;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2040;Global;21814.15299;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2045;Global;23450.3786;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2050;Global;24681.51461;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2060;Global;26138.89726;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2070;Global;26785.54483;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2080;Global;26867.7623;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2090;Global;26571.58412;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;CHN;2100;Global;26154.21299;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2010;Global;1381.251071;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2015;Global;2100.875818;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2020;Global;3134.845705;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2025;Global;4440.246085;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2030;Global;5848.707101;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2035;Global;7284.140448;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2040;Global;8729.626166;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2045;Global;10175.85315;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2050;Global;11656.79986;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2060;Global;14840.61342;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2070;Global;18212.88652;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2080;Global;21454.88244;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2090;Global;24526.84447;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;IND;2100;Global;27417.83372;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2010;Global;5149.308539;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2015;Global;5296.033998;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2020;Global;5451.456638;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2025;Global;5674.329762;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2030;Global;5907.206614;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2035;Global;6110.357449;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2040;Global;6287.504384;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2045;Global;6465.50715;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2050;Global;6637.703834;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2060;Global;7014.325267;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2070;Global;7379.954714;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2080;Global;7685.238102;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2090;Global;7984.691391;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;JPN;2100;Global;8295.677974;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2010;Global;1007.210081;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2015;Global;1248.300267;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2020;Global;1465.00463;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2025;Global;1668.088251;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2030;Global;1856.229349;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2035;Global;2030.319173;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2040;Global;2192.822645;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2045;Global;2335.909998;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2050;Global;2461.4894;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2060;Global;2756.37517;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2070;Global;3113.369181;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2080;Global;3445.765711;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2090;Global;3762.412132;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;RUS;2100;Global;4078.200349;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2010;Global;14477.42765;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2015;Global;15986.07566;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2020;Global;17981.80254;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2025;Global;20016.61627;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2030;Global;21984.27309;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2035;Global;23972.48455;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2040;Global;25977.14117;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2045;Global;27985.48503;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2050;Global;29897.92784;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2060;Global;33864.6215;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2070;Global;38132.28529;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2080;Global;42326.51548;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2090;Global;46369.18886;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;USA;2100;Global;50214.99051;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2010;Global;55461.3298;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2015;Global;65304.42388;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2020;Global;77561.22589;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2025;Global;90906.455;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2030;Global;104252.2521;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2035;Global;117321.4482;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2040;Global;130247.4957;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2045;Global;143127.9882;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2050;Global;155830.4289;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2060;Global;182017.5167;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2070;Global;209945.7393;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2080;Global;238748.036;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2090;Global;268714.7255;billion US$2010/yr OR local currency;GDP|MER
+NoPolicy_V4;NoPOL;;COPPE-COFFEE 1.0;World;2100;Global;299877.0984;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2010;Global;1214.918288;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2015;Global;1428.720135;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2020;Global;1713.195804;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2025;Global;1988.848254;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2030;Global;2254.238339;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2035;Global;2516.4506;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2040;Global;2790.742389;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2045;Global;3103.323375;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2050;Global;3447.040804;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2060;Global;4156.588133;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2070;Global;4771.85459;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2080;Global;5351.267768;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2090;Global;5920.863684;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2100;Global;6492.338148;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2010;Global;4518.245629;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2015;Global;7422.884143;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2020;Global;10878.23054;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2025;Global;14337.49121;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2030;Global;17367.78144;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2035;Global;19830.27155;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2040;Global;21814.15299;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2045;Global;23450.3786;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2050;Global;24681.51461;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2060;Global;26138.89726;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2070;Global;26785.54483;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2080;Global;26867.7623;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2090;Global;26571.58412;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2100;Global;26154.21299;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2010;Global;1381.251071;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2015;Global;2100.875818;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2020;Global;3134.845705;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2025;Global;4440.246085;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2030;Global;5848.707101;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2035;Global;7284.140448;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2040;Global;8729.626166;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2045;Global;10175.85315;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2050;Global;11656.79986;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2060;Global;14840.61342;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2070;Global;18212.88652;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2080;Global;21454.88244;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2090;Global;24526.84447;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2100;Global;27417.83372;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2010;Global;5149.308539;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2015;Global;5296.033998;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2020;Global;5451.456638;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2025;Global;5674.329762;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2030;Global;5907.206614;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2035;Global;6110.357449;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2040;Global;6287.504384;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2045;Global;6465.50715;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2050;Global;6637.703834;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2060;Global;7014.325267;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2070;Global;7379.954714;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2080;Global;7685.238102;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2090;Global;7984.691391;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2100;Global;8295.677974;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2010;Global;1007.210081;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2015;Global;1248.300267;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2020;Global;1465.00463;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2025;Global;1668.088251;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2030;Global;1856.229349;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2035;Global;2030.319173;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2040;Global;2192.822645;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2045;Global;2335.909998;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2050;Global;2461.4894;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2060;Global;2756.37517;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2070;Global;3113.369181;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2080;Global;3445.765711;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2090;Global;3762.412132;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2100;Global;4078.200349;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2010;Global;14477.42765;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2015;Global;15986.07566;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2020;Global;17981.80254;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2025;Global;20016.61627;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2030;Global;21984.27309;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2035;Global;23972.48455;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2040;Global;25977.14117;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2045;Global;27985.48503;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2050;Global;29897.92784;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2060;Global;33864.6215;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2070;Global;38132.28529;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2080;Global;42326.51548;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2090;Global;46369.18886;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2100;Global;50214.99051;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2010;Global;55461.3298;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2015;Global;65304.42388;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2020;Global;77561.22589;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2025;Global;90906.455;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2030;Global;104252.2521;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2035;Global;117321.4482;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2040;Global;130247.4957;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2045;Global;143127.9882;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2050;Global;155830.4289;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2060;Global;182017.5167;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2070;Global;209945.7393;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2080;Global;238748.036;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2090;Global;268714.7255;billion US$2010/yr OR local currency;GDP|MER
+NPi_V4;NPi;NoPolicy_V4;COPPE-COFFEE 1.0;World;2100;Global;299877.0984;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2010;Global;1214.918288;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2015;Global;1428.720135;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2020;Global;1713.195804;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2025;Global;1988.848254;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2030;Global;2254.238339;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2035;Global;2516.4506;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2040;Global;2790.742389;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2045;Global;3103.323375;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2050;Global;3447.040804;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2060;Global;4156.588133;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2070;Global;4771.85459;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2080;Global;5351.267768;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2090;Global;5920.863684;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2100;Global;6492.338148;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2010;Global;4518.245629;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2015;Global;7422.884143;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2020;Global;10878.23054;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2025;Global;14337.49121;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2030;Global;17367.78144;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2035;Global;19830.27155;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2040;Global;21814.15299;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2045;Global;23450.3786;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2050;Global;24681.51461;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2060;Global;26138.89726;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2070;Global;26785.54483;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2080;Global;26867.7623;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2090;Global;26571.58412;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2100;Global;26154.21299;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2010;Global;1381.251071;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2015;Global;2100.875818;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2020;Global;3134.845705;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2025;Global;4440.246085;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2030;Global;5848.707101;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2035;Global;7284.140448;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2040;Global;8729.626166;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2045;Global;10175.85315;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2050;Global;11656.79986;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2060;Global;14840.61342;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2070;Global;18212.88652;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2080;Global;21454.88244;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2090;Global;24526.84447;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2100;Global;27417.83372;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2010;Global;5149.308539;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2015;Global;5296.033998;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2020;Global;5451.456638;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2025;Global;5674.329762;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2030;Global;5907.206614;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2035;Global;6110.357449;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2040;Global;6287.504384;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2045;Global;6465.50715;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2050;Global;6637.703834;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2060;Global;7014.325267;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2070;Global;7379.954714;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2080;Global;7685.238102;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2090;Global;7984.691391;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2100;Global;8295.677974;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2010;Global;1007.210081;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2015;Global;1248.300267;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2020;Global;1465.00463;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2025;Global;1668.088251;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2030;Global;1856.229349;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2035;Global;2030.319173;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2040;Global;2192.822645;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2045;Global;2335.909998;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2050;Global;2461.4894;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2060;Global;2756.37517;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2070;Global;3113.369181;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2080;Global;3445.765711;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2090;Global;3762.412132;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2100;Global;4078.200349;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2010;Global;14477.42765;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2015;Global;15986.07566;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2020;Global;17981.80254;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2025;Global;20016.61627;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2030;Global;21984.27309;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2035;Global;23972.48455;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2040;Global;25977.14117;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2045;Global;27985.48503;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2050;Global;29897.92784;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2060;Global;33864.6215;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2070;Global;38132.28529;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2080;Global;42326.51548;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2090;Global;46369.18886;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2100;Global;50214.99051;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2010;Global;55461.3298;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2015;Global;65304.42388;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2020;Global;77561.22589;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2025;Global;90906.455;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2030;Global;104252.2521;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2035;Global;117321.4482;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2040;Global;130247.4957;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2045;Global;143127.9882;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2050;Global;155830.4289;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2060;Global;182017.5167;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2070;Global;209945.7393;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2080;Global;238748.036;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2090;Global;268714.7255;billion US$2010/yr OR local currency;GDP|MER
+INDCi_V4;INDC;NoPolicy_V4;COPPE-COFFEE 1.0;World;2100;Global;299877.0984;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2010;Global;1214.918287;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2015;Global;1428.720135;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2020;Global;1724.590325;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2025;Global;1997.478351;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2030;Global;2253.748039;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2035;Global;2496.59083;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2040;Global;2745.83712;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2045;Global;2986.675193;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2050;Global;3317.47292;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2060;Global;3962.267906;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2070;Global;4505.421355;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2080;Global;5004.333721;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2090;Global;5484.234441;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2100;Global;5956.257291;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2010;Global;4518.245634;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2015;Global;7422.88564;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2020;Global;10887.81729;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2025;Global;14314.54934;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2030;Global;17217.67717;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2035;Global;19409.32266;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2040;Global;21064.11702;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2045;Global;22166.10608;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2050;Global;23329.81826;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2060;Global;24362.25254;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2070;Global;24615.95557;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2080;Global;24346.34366;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2090;Global;23741.36762;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2100;Global;23041.77749;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2010;Global;1381.251072;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2015;Global;2100.876305;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2020;Global;3160.592803;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2025;Global;4468.006732;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2030;Global;5869.160388;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2035;Global;7264.985177;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2040;Global;8639.097127;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2045;Global;9907.86136;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2050;Global;11349.80578;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2060;Global;14353.86278;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2070;Global;17498.43091;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2080;Global;20476.22307;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2090;Global;23252.45314;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2100;Global;25820.43927;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2010;Global;5149.308534;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2015;Global;5296.034491;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2020;Global;5498.878512;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2025;Global;5733.231877;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2030;Global;5989.435046;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2035;Global;6216.170756;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2040;Global;6410.404606;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2045;Global;6597.301428;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2050;Global;6773.008205;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2060;Global;6836.14336;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2070;Global;7155.566293;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2080;Global;7413.319062;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2090;Global;7662.642293;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2100;Global;7920.221988;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2010;Global;1007.210081;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2015;Global;1248.30026;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2020;Global;1459.76558;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2025;Global;1639.506238;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2030;Global;1776.044339;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2035;Global;1867.158375;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2040;Global;1919.152893;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2045;Global;1836.222446;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2050;Global;1934.938456;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2060;Global;2040.242161;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2070;Global;2169.914833;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2080;Global;2261.343251;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2090;Global;2324.961621;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2100;Global;2372.939454;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2010;Global;14477.42764;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2015;Global;15986.0705;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2020;Global;17978.66511;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2025;Global;20003.81108;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2030;Global;21933.48728;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2035;Global;23839.45522;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2040;Global;25717.53335;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2045;Global;27450.74805;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2050;Global;29326.64856;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2060;Global;33058.14211;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2070;Global;37045.16155;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2080;Global;40922.07242;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2090;Global;44615.01516;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2100;Global;48082.97984;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2010;Global;55461.32981;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2015;Global;65304.42214;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2020;Global;77409.49;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2025;Global;90652.8046;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2030;Global;103634.8155;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2035;Global;115895.8218;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2040;Global;127634.6864;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2045;Global;137840.0058;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2050;Global;150011.1027;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2060;Global;172921.7341;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2070;Global;197298.5156;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2080;Global;221865.7445;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2090;Global;246837.112;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_400_V4;2020_verylow;NoPolicy_V4;COPPE-COFFEE 1.0;World;2100;Global;272187.0109;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2010;Global;1214.918287;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2015;Global;1428.720135;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2020;Global;1725.186479;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2025;Global;1999.73008;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2030;Global;2262.097798;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2035;Global;2519.505555;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2040;Global;2785.742512;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2045;Global;3075.405122;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2050;Global;3370.231416;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2060;Global;4041.189059;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2070;Global;4613.322456;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2080;Global;5144.43552;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2090;Global;5660.053585;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2100;Global;6171.504457;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2010;Global;4518.245634;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2015;Global;7422.88564;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2020;Global;10895.62227;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2025;Global;14342.76478;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2030;Global;17336.6679;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2035;Global;19724.61353;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2040;Global;21560.71086;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2045;Global;22939.54324;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2050;Global;23817.37414;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2060;Global;25000.31479;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2070;Global;25391.61609;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2080;Global;25243.69934;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2090;Global;24744.03898;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2100;Global;24139.39848;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2010;Global;1381.251072;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2015;Global;2100.876305;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2020;Global;3159.334195;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2025;Global;4468.028835;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2030;Global;5880.62396;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2035;Global;7314.136206;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2040;Global;8737.885505;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2045;Global;10118.05262;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2050;Global;11446.80516;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2060;Global;14507.36605;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2070;Global;17723.22871;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2080;Global;20783.4453;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2090;Global;23651.59448;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2100;Global;26319.59661;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2010;Global;5149.308534;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2015;Global;5296.034491;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2020;Global;5491.455978;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2025;Global;5722.042449;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2030;Global;5970.278294;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2035;Global;6192.019899;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2040;Global;6393.133022;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2045;Global;6596.368167;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2050;Global;6780.422838;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2060;Global;6826.400852;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2070;Global;7143.330758;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2080;Global;7398.532183;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2090;Global;7645.177139;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2100;Global;7899.916108;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2010;Global;1007.210081;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2015;Global;1248.30026;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2020;Global;1471.151617;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2025;Global;1659.638839;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2030;Global;1822.59084;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2035;Global;1964.435984;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2040;Global;2076.526013;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2045;Global;2134.935364;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2050;Global;2107.251568;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2060;Global;2269.826646;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2070;Global;2466.129369;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2080;Global;2625.438505;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2090;Global;2757.486175;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2100;Global;2875.056655;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2010;Global;14477.42764;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2015;Global;15986.0705;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2020;Global;17985.43387;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2025;Global;20017.10381;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2030;Global;21975.4711;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2035;Global;23947.89009;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2040;Global;25906.77493;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2045;Global;27811.49839;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2050;Global;29555.20059;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2060;Global;33380.49288;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2070;Global;37479.0571;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2080;Global;41481.80479;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2090;Global;45313.11615;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2100;Global;48930.21446;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2010;Global;55461.32981;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2015;Global;65304.42214;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2020;Global;77450.69201;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2025;Global;90757.93651;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2030;Global;104009.0949;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2035;Global;116899.7988;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2040;Global;129413.3404;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2045;Global;141412.1045;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2050;Global;152327.1573;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2060;Global;176242.0319;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2070;Global;201930.6067;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2080;Global;228071.3205;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2090;Global;254907.5396;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1000_V4;2020_low;NoPolicy_V4;COPPE-COFFEE 1.0;World;2100;Global;282433.3463;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2010;Global;1214.918287;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2015;Global;1428.720135;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2020;Global;1705.26493;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2025;Global;1981.239114;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2030;Global;2247.236195;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2035;Global;2510.208671;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2040;Global;2786.681645;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2045;Global;3105.711363;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2050;Global;3466.992247;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2060;Global;4126.588933;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2070;Global;4730.556785;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2080;Global;5297.275801;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2090;Global;5852.639953;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;BRA;2100;Global;6408.239284;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2010;Global;4518.245634;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2015;Global;7422.88564;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2020;Global;10852.89124;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2025;Global;14309.70405;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2030;Global;17345.54707;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2035;Global;19833.90812;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2040;Global;21884.93805;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2045;Global;23653.18127;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2050;Global;25091.44256;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2060;Global;25597.68748;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2070;Global;26121.41202;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2080;Global;26092.17943;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2090;Global;25696.79735;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;CHN;2100;Global;25187.54871;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2010;Global;1381.251072;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2015;Global;2100.876305;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2020;Global;3118.409746;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2025;Global;4419.820111;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2030;Global;5822.885592;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2035;Global;7255.449667;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2040;Global;8707.76312;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2045;Global;10183.38792;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2050;Global;11740.63896;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2060;Global;14707.49623;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2070;Global;18017.02387;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2080;Global;21185.94254;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2090;Global;24175.79179;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;IND;2100;Global;26976.74499;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2010;Global;5149.308534;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2015;Global;5296.034491;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2020;Global;5424.564831;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2025;Global;5641.519023;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2030;Global;5863.382013;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2035;Global;6053.931081;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2040;Global;6215.519839;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2045;Global;6378.744954;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2050;Global;6544.301562;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2060;Global;6891.253054;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2070;Global;7224.84365;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2080;Global;7497.121392;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2090;Global;7761.717115;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;JPN;2100;Global;8035.520613;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2010;Global;1007.210081;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2015;Global;1248.30026;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2020;Global;1461.491486;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2025;Global;1672.423836;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2030;Global;1874.75604;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2035;Global;2068.266593;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2040;Global;2262.56548;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2045;Global;2462.726182;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2050;Global;2706.503393;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2060;Global;2417.828773;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2070;Global;2660.328562;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2080;Global;2868.189506;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2090;Global;3050.744986;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;RUS;2100;Global;3221.258222;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2010;Global;14477.42764;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2015;Global;15986.0705;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2020;Global;17979.49234;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2025;Global;20017.35005;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2030;Global;21993.85066;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2035;Global;23997.16914;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2040;Global;26037.83256;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2045;Global;28115.47225;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2050;Global;30134.74259;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2060;Global;33530.08405;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2070;Global;37680.69746;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2080;Global;41742.29272;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2090;Global;45638.45823;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;USA;2100;Global;49325.61785;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2010;Global;55461.32981;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2015;Global;65304.42214;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2020;Global;77642.2148;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2025;Global;90992.92312;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2030;Global;104370.658;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2035;Global;117526.3628;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2040;Global;130683.2782;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2045;Global;144085.9883;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2050;Global;157905.7463;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2060;Global;178528.4446;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2070;Global;205066.963;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2080;Global;232198.3648;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2090;Global;260179.7535;billion US$2010/yr OR local currency;GDP|MER
+NPi2020_1600_V4;2020_high;NoPolicy_V4;COPPE-COFFEE 1.0;World;2100;Global;289017.6952;billion US$2010/yr OR local currency;GDP|MER
