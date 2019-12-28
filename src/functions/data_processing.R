@@ -187,6 +187,9 @@ add_variables <- function(all,scens){
     source("functions/calcPeak.R")
     all <- calcPeak(all,'Emissions|CO2','Peak year|CO2')
     all <- calcPeak(all,'Emissions|Kyoto Gases','Peak year|Kyoto Gases')
+    source("functions/calcZeroEmissionsYear.R")
+    all <- calcZeroEmissionsYear(all,'Emissions|CO2','Zero Emissions Year|CO2')
+    all <- calcZeroEmissionsYear(all,'Emissions|Kyoto Gases','Zero Emissions Year|Kyoto Gases')
     source("functions/calcRate.R") #TODO check what goes wrong here?
     all <- calcRate(all, c("Emissions Intensity of GDP|MER","Carbon Intensity of FE","Energy Intensity of GDP|MER","Emissions|CO2|FFI","Renewables Share|Excl. Nuclear","GHG Intensity of FE"))
     all <- calcRate(all, c("Carbon Intensity of GDP|MER","Carbon Intensity of GDP|MER (excl AFOLU)","GHG Intensity of GDP|MER", 

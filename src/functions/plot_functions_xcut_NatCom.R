@@ -820,8 +820,8 @@ plot_stackbar_ghg <- function(regs, dt, vars_stack, var_line="", cats, catsnat,
   # to use historical, we need to set the data to 2030, while Category is "Historical"
   dt_tmp1 <- dt
   if(hist){dt_tmp1[dt_tmp1$Category%in%c("Historical", "2005", "2010", "2015")]$period<-per
-           dt_tmp1[dt_tmp1$Category=="2010"]$period<-per
-           dt_tmp1[dt_tmp1$Category=="2015"]$period<-per
+           dt_tmp1[dt_tmp1$Category=="2010_hist"]$period<-per
+           dt_tmp1[dt_tmp1$Category=="2015_hist"]$period<-per
            dt_hist<-filter(dt_tmp1, model=="History", variable==TotalEmis_var, region %in% regs)
            }
   # make selection in data

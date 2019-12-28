@@ -50,7 +50,7 @@ var.labels_fig1b_h <- c("Emissions|CO2|Energy|Supply"="CO2 energy supply",
                         "Emissions|CO2|Industry"="CO2 industry",
                         "Emissions|CO2|AFOLU"="AFOLU CO2",
                         "Emissions|Non-CO2"="Non-CO2")
-cats_a1 <- c("No new policies","National policies", "NDC")
+cats_a1 <- c("No new policies","National policies", "NDC", "Carbon budget 1000", "Carbon budget 400")
 TotalEmis_var_fig1 = "Emissions|Kyoto Gases"
 legend_name_fig1 <- "Greenhouse gas"
 lab_fig1b_h <- bquote("Mt"~CO[2]~eq)
@@ -67,7 +67,7 @@ all_fig1a <- rbind(all_fig1a, all_hist_fig1a)
 all_fig1a$Category <- factor(all_fig1a$Category, levels=cats_a1)
 
 # All GHG emissions are in GtCO2eq
-all_fig1b_h <- all_paper[variable%in%c(vars_fig1b_h,TotalEmis_var_fig1)]
+all_fig1b_h <- filter(all_paper, variable%in%c(vars_fig1b_h,TotalEmis_var_fig1))
 all_fig1b_h=data.table(all_fig1b_h)
 all_fig1b_h[variable=="Emissions|CH4"]$value<-all_fig1b_h[variable=="Emissions|CH4"]$value*GWP_CH4
 all_fig1b_h[variable=="Emissions|CH4"]$unit<-"GtCO2eq/yr"
@@ -82,11 +82,17 @@ all_fig1b_h_hist[period==2015]$Scope <- "global"
 all_fig1b_h <- rbind(all_fig1b_h, all_fig1b_h_hist)
 write.table(all_fig1b_h, "NatComPaper/data/data_fig1b_h.csv", sep=";", row.names=F)
 
+# 2C and 1.5C scenario names are different in graph
+#cats_a1_labels <- c("No new policies"="No new policies","National policies"="National policies", "NDC"="NDC", 
+#                    "Carbon budget 1000"="2° C", "Carbon budget 400"="1.5° C")
+cats_a1_labels <- c("No new policies","National policies", "NDC", "2° C", "1.5° C")
+
 # Total GHG emissions broken up into CO2 (energy/industry), CO2 (land use), CH4, N2O, F-gases for seven large countries for NoPolicy, NPi and INDCi
 # Left panel (a) global total ghg emissions
 # Righ panel (b-h) GHG emissions per country, split up per greenhouse gas
-a1<-plot_funnel2(reg="World",dt=all_fig1a,vars=c("Emissions|Kyoto Gases"),cats=cats_a1,start_scen=2010, title="Global greenhouse gas emissions",
-                file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(1990,2032),ylim=c(20,71),range=T,median=T,linetypemanual=F,
+
+a1<-plot_funnel2(reg="World",dt=all_fig1a,vars=c("Emissions|Kyoto Gases"),cats=cats_a1,cats_labels=cats_a1_labels ,start_scen=2010, title="Global greenhouse gas emissions",
+                file_pre="1a_GHG_funnel",glob_lines=T,xlim=c(1990,2034),ylim=c(0,71),range=T,median=T,linetypemanual=F,
                 dt_hist=all_hist_fig1a, hist=T)
 regs_fig1 <- c("BRA")
 b1<-plot_stackbar_ghg(regs=regs_fig1, dt=all_fig1b_h, vars_stack=vars_fig1b_h, var_line="", cats=cats_stack_fig1, catsnat=catsnat_fig1, 
@@ -114,19 +120,19 @@ e1<-plot_stackbar_ghg(regs=regs_fig1, dt=all_fig1b_h, vars_stack=vars_fig1b_h,va
 
 regs_fig1 <- c("USA")
 f1<-plot_stackbar_ghg(regs=regs_fig1, dt=all_fig1b_h, vars_stack=vars_fig1b_h,var_line="", cats = cats_stack_fig1, catsnat=catsnat_fig1, 
-                      per=c(2030), file_pre="1b_USA_2030", lab = "", title=T, Title="USA", 
+                      per=c(2030), file_pre="1b_USA_2030", lab = "", title=T, Title="United States", 
                       linegraph=F, hist=T,labels=T,x_labels=T,var.labels=var.labels_fig1b_h, legend_name=legend_name_fig1, TotalEmis_var=TotalEmis_var_fig1,
                       natpoints=T, error_bar=T,quantiles=T)
 
 regs_fig1 <- c("EU")
 g1<-plot_stackbar_ghg(regs=regs_fig1, dt=all_fig1b_h, vars_stack=vars_fig1b_h,var_line="", cats = cats_stack_fig1, catsnat=catsnat_fig1, 
-                      per=c(2030), file_pre="1b_EUE_2030", lab = "", title=T, Title="EU", 
+                      per=c(2030), file_pre="1b_EUE_2030", lab = "", title=T, Title="European Union", 
                       linegraph=F, hist=T,labels=T,x_labels=T,var.labels=var.labels_fig1b_h, legend_name=legend_name_fig1, TotalEmis_var=TotalEmis_var_fig1,
                       natpoints=T, error_bar=T,quantiles=T)
 
 regs_fig1 <- c("RUS")
 h1<-plot_stackbar_ghg(regs=regs_fig1, dt=all_fig1b_h, vars_stack=vars_fig1b_h,var_line="", cats = cats_stack_fig1, catsnat=catsnat_fig1, 
-                      per=c(2030), file_pre="1b_RUS_2030", lab = "", title=T, Title="Russia", 
+                      per=c(2030), file_pre="1b_RUS_2030", lab = "", title=T, Title="Russian Federation", 
                       linegraph=F, hist=T,labels=T,x_labels=T,var.labels=var.labels_fig1b_h, legend_name=legend_name_fig1, TotalEmis_var=TotalEmis_var_fig1,
                       natpoints=T, error_bar=T,quantiles=T)
 
@@ -168,7 +174,7 @@ TotalEmis_var_fig2 <- c("Final Energy")
 #all_fig2 <- filter(all_paper, Scope=="global", variable %in% c(vars_stack_fig2, vars_line_fig2,TotalEmis_var_fig2), Category %in% cats_stack_fig2, 
 #                   period==2030, region %in% regs_paper, !is.na(value))
 all_fig2 <- filter(all_paper, variable %in% c(vars_stack_fig2, vars_line_fig2,TotalEmis_var_fig2), Category %in% cats_stack_fig2, 
-                   region %in% regs_paper, !is.na(value), model!="GEM-E3")
+                   region %in% regs_paper, !is.na(value))
 all_fig2 <- as.data.table(all_fig2)
 all_fig2[variable==vars_line_fig2]$value <- all_fig2[variable==vars_line_fig2]$value
 all_fig2_tmp<-all_fig2
@@ -217,7 +223,7 @@ e2<-plot_stackbar_ghg(regs=regs_fig2, dt=all_fig2, vars=vars_stack_fig2,var_line
 
 regs_fig2 <- c("USA")
 f2<-plot_stackbar_ghg(regs=regs_fig2, dt=all_fig2, vars=vars_stack_fig2,var_line=vars_line_fig2, cats = cats_stack_fig2, catsnat=catsnat_fig2, 
-                      per=c(2030), file_pre="2b_USA2030", lab = "", title=T, Title="USA", 
+                      per=c(2030), file_pre="2b_USA2030", lab = "", title=T, Title="United States", 
                       linegraph=T, hist=T,labels=T,x_labels=T,var.labels=var.labels_fig2, legend_name=legend_name_fig2, TotalEmis_var=TotalEmis_var_fig2,
                       natpoints=T, error_bar=T,quantiles=T, color_brewer_palette = palette_fig2)
 
@@ -229,7 +235,7 @@ g2<-plot_stackbar_ghg(regs=regs_fig2, dt=all_fig2, vars=vars_stack_fig2,var_line
 
 regs_fig2 <- c("RUS")
 h2<-plot_stackbar_ghg(regs=regs_fig2, dt=all_fig2, vars=vars_stack_fig2,var_line=vars_line_fig2, cats = cats_stack_fig2, catsnat=catsnat_fig2, 
-                      per=c(2030), file_pre="2b_RUS_2030", lab = "", title=T, Title="Russia", 
+                      per=c(2030), file_pre="2b_RUS_2030", lab = "", title=T, Title="Russian Federation", 
                       linegraph=T, hist=T,labels=T,x_labels=T,var.labels=var.labels_fig2, legend_name=legend_name_fig2, TotalEmis_var=TotalEmis_var_fig2,
                       natpoints=T, error_bar=T,quantiles=T, color_brewer_palette = palette_fig2)
 
@@ -368,7 +374,8 @@ Gap_stat <- filter(data_fig3_stat, period==2030) %>%
                    gap_1.5C_median=`National policies`-`Carbon budget 400`) %>%
                    select(-`National policies`, -`Carbon budget 1000`, -`Carbon budget 400`)
 
-reg_labels <- c("World"="World", "BRA"="Brazil",  "CHN"="China", "EU"="EU",  "IND"="India", "JPN"="Japan", "RUS"="Russia", "USA"="USA")
+reg_labels <- c("World"="World", "BRA"="Brazil",  "CHN"="China", "EU"="European Union",  "IND"="India", "JPN"="Japan", "RUS"="Russian Federation", 
+                "USA"="United States")
 var_labels <- c("Emissions|Kyoto Gases"="GHG emissions (MtCO2eq))", "Final Energy|Non-fossil share"="Low carbon share (%)", 
                 "Final Energy intensity of GDP"="Energy intensity (TJ/US$2010)", "Mitigation Costs"="Mitigation costs per GDP")
 colours_fig3 <- brewer.pal(5,"Accent")
@@ -398,8 +405,8 @@ fig3 <- ggplot(data=data_fig3_stat) + geom_line(aes(period, median, colour=Categ
                    theme_bw() +
                    theme(axis.text.x = element_text(size=16, angle = 90, hjust = 1)) +
                    theme(axis.text.y = element_text(size=16)) +
-                   theme(strip.text.x = element_text(size=16, face="bold"),
-                         strip.text.y = element_text(size=16, face="bold"),
+                   theme(strip.text.x = element_text(size=14, face="bold"),
+                         strip.text.y = element_text(size=14, face="bold"),
                          strip.background = element_rect(colour="black", fill="white")) +
                    theme(legend.title = element_text(size = 20, face = "bold"),
                          legend.text=element_text(size=16))
@@ -426,8 +433,8 @@ v_emireg <- all_paper %>%
   #mutate(value = value / 1000, unit = "GtCO2/yr") %>%
   factor.data.frame()
 v_emireg=data.table(v_emireg)
-national=v_emireg[Scope=="national"]
-v_emireg =  spread(v_emireg[Scope=="global"],key = region, value = value,fill=0) 
+national=filter(v_emireg,Scope=="national")
+v_emireg =  spread(filter(v_emireg,Scope=="global"),key = region, value = value,fill=0) 
 v_emireg = v_emireg%>%mutate (RoW = `World` - `BRA` - `CHN` - `IND` - `EU` - `JPN` - `USA` - `RUS` )%>%
   gather(region,value,`RoW`, `World`, `BRA`, `CHN`, `IND`, `EU`, `JPN`, `USA`, `RUS`)%>%
   filter(!value==0)
@@ -506,6 +513,7 @@ b=ggplot() +
                                                                            "Carbon budget 1000"="2° C", 
                                                                            "Carbon budget 400"="1.5° C")) +
   theme(axis.text.x  = element_blank() )
+plot(b)
 ggsave(file=paste0("NatComPaper/graphs","/","Figure4_NatCom.jpg"),b,
        width=24, height=22, unit="cm", dpi=300, bg = "transparent")
 
@@ -762,8 +770,8 @@ scens_decomp <- c('No new policies', 'National policies')
 decomposition_hist <- filter(all_hist, period==2015, variable=="Emissions|Kyoto Gases", region%in%regs_drivers) %>%
   select(-unit, -Baseline, -Scope, -scenario)
 decomposition_projections <- filter(all_paper, Category%in%scens_decomp, period%in%c(2015, 2030), Scope=="global", 
-                                    model!='GEM-E3', variable%in%vars_decomp, region%in%regs_drivers) %>%
-  select(-unit, -Baseline, -Scope, -scenario)
+                                    model != "GEM-E3", variable%in%vars_decomp, region%in%regs_drivers) %>% # exclude GEM-E3 as this model has no no new policies scenario
+                             select(-unit, -Baseline, -Scope, -scenario)
 
 decomposition_hist_tmp <- decomposition_hist %>% 
   gather(var_tmp, val_tmp, -(c(model,region, variable, Category, variable, period))) %>%

@@ -993,3 +993,11 @@ x1 <-filter(all_paper_before_adj, model=="DNE21+ V.14", region%in%c("World","R5M
 write.table(x1, "data/tmp.csv", sep=";", row.names=F)
 x2<-filter(x1, region!="World") %>% group_by(period, variable) %>% summarize(value=sum(value))
 View(x2)
+
+# check projections until 2100
+x <- filter(all_paper, variable=="Emissions|Kyoto Gases", Category %in% c('National policies', 'NDC'), region=="World")
+ggplot(data=x) + 
+  geom_line(aes(x=period, y=value, colour=model)) +
+  facet_wrap(~Category) +
+  ylim(0,NA) +
+  theme_bw()

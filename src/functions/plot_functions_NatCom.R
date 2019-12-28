@@ -387,7 +387,7 @@ plot_bar_facet2 <- function(reg, dt, vars, cats, year=2030, out=cfg$outdir, lab=
 ####################### plot_funnel2 ########################
 #############################################################
 
-plot_funnel2 <- function(reg, dt, vars, cats, start_scen, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA,glob_lines=F,range=F,
+plot_funnel2 <- function(reg, dt, vars, cats, cats_labels, start_scen, out=cfg$outdir, title="Title", file_pre="def",ylim=NA,xlim=NA,glob_lines=F,range=F,
                         median=F,linetypemanual=T, dt_hist, hist=F, UNEP_table=F, save_graph=F){
   #if (vars %in% c("Emissions|Kyoto Gases")) {
   #  dt$value <- dt$value/1000
@@ -438,15 +438,15 @@ plot_funnel2 <- function(reg, dt, vars, cats, start_scen, out=cfg$outdir, title=
   #p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario", guide = guide_legend(reverse=TRUE))
   #p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario", guide = guide_legend(reverse=TRUE))
   #p = p + scale_linetype_manual(values=plotstyle(unique(dt$model)), name="Model")
-  p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario")
-  p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario")
+  p = p + scale_colour_manual(values=plotstyle(cats),name="Scenario", labels=cats_labels)
+  p = p + scale_fill_manual(values=plotstyle(cats),name="Scenario", labels=cats_labels)
   
-  if (range & length(unique(dt$Category))==3){
+  if (range & length(unique(dt$Category))==5){
     p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[1]], stat="identity", aes(x=2030, xend=2030, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
     p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[2]], stat="identity", aes(x=2030.5, xend=2030.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
     p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[3]], stat="identity", aes(x=2031, xend=2031, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-    #p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[4]], stat="identity", aes(x=2031.5, xend=2031.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
-    #p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2032, xend=2032, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+    p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[4]], stat="identity", aes(x=2031.5, xend=2031.5, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
+    p = p + geom_segment(data=minmax[period %in% c(2030) & Category %in% unique(minmax$Category)[5]], stat="identity", aes(x=2032, xend=2032, y=ymin, yend=ymax, size=1.5, colour=Category), show.legend=FALSE) 
     }
   if (!all(is.na(ylim))){p = p + ylim(ylim)} #manual y-axis limits
   if (!all(is.na(xlim))){p = p + xlim(xlim)} #manual x-axis limits
@@ -467,8 +467,8 @@ plot_funnel2 <- function(reg, dt, vars, cats, start_scen, out=cfg$outdir, title=
                 legend.text=element_text(size=18),
                 legend.title=element_text(size=18),
                 plot.title=element_text(size=18))
-  p = p + theme(legend.position = c(0.575,0.25))
-  p = p + theme(legend.position = c(0.575,0.25)) +
+  #p = p + theme(legend.position = c(0.575,0.25))
+  p = p + theme(legend.position = c(0.4,0.26)) +
                 ggsave(file=paste0(out,"/",file_pre,"_",reg,cfg$format),p, width=12, height=8, dpi=120)
   return(p)
 }

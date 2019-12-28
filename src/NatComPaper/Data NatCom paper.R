@@ -88,6 +88,7 @@ all_paper$Category=str_replace_all(all_paper$Category,"2030_low","Carbon budget 
 all_paper$Category=str_replace_all(all_paper$Category,"2030_high","Carbon budget 1600 (2030)")
 all_paper$period <- as.integer(all_paper$period)
 all_paper$model=str_replace_all(all_paper$model,"\\*COPPE-MSB_v2.0","*BLUES")
+all_paper <- filter(all_paper, model!="MESSAGEix-GLOBIOM_1.0") # in download used for paper, accidentally this older version of MESSAGE was included
 write.table(all_paper, "NatComPaper/data/all_paper.csv", sep=";", row.names = F)
 
 all_paper_emissions <- filter(all_paper, grepl("Emissions\\|", variable))
@@ -109,11 +110,11 @@ write.table(all_paper_energy, "NatComPaper/data/all_paper_secondary_energy.csv",
 
 # additional adjustments
 #all_paper<-all_paper[model!="GEM-E3_EU"]
-all_paper<-all_paper[model!="AIM/CGE"]
-all_paper<-all_paper[!(model=="COPPE-COFFEE 1.0" & region=="EU")]
-all_paper<-all_paper[!(model=="MESSAGEix-GLOBIOM_1.0" & region=="EU")]
-all_paper<-all_paper[!(model=="MESSAGEix-GLOBIOM_1.0" & region=="USA")]
-all_paper<-all_paper[!(model=="MESSAGEix-GLOBIOM_1.1")]
+all_paper<-filter(all_paper,model!="AIM/CGE")
+all_paper<-filter(all_paper, !(model=="COPPE-COFFEE 1.0" & region=="EU"))
+all_paper<-filter(all_paper, !(model=="MESSAGEix-GLOBIOM_1.1" & region=="EU"))
+all_paper<-filter(all_paper,!(model=="MESSAGEix-GLOBIOM_1.1" & region=="USA"))
+all_paper<-filter(all_paper, !(model=="MESSAGEix-GLOBIOM_1.0"))
 
 all_paper1 <- all_paper
 
