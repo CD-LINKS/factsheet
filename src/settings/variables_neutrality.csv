@@ -1,0 +1,55 @@
+variable
+Price|Carbon
+GDP|PPP
+GDP|MER
+Population
+Emissions|Kyoto Gases
+Emissions|CO2
+Emissions|CO2|Energy
+Emissions|CO2|Industrial Processes
+Emissions|CO2|Energy|Demand
+Emissions|CO2|Energy|Supply
+Emissions|CO2|Energy|Supply|Electricity
+Emissions|CO2|Energy and Industrial Processes
+Emissions|CO2|Energy|Demand|AFOFI
+Emissions|CO2|Energy|Demand|Industry
+Emissions|CO2|Energy|Demand|Transportation
+Emissions|CO2|Energy|Demand|Residential and Commercial
+Emissions|CO2|AFOLU
+Emissions|CH4|AFOLU
+Emissions|N2O|AFOLU
+Emissions|CH4
+Emissions|N2O
+Emissions|F-Gases
+Emissions|HFC
+Emissions|PFC
+Emissions|SF6
+Emissions|NH3
+Emissions|N2O|Energy
+Emissions|N2O|Other
+Emissions|CH4|Energy|Supply
+Emissions|CH4|Energy|Demand|Industry
+Emissions|CH4|Energy|Demand|Residential and Commercial
+Emissions|CH4|Energy|Demand|Transportation
+Trade|Primary Energy|Biomass|Volume
+Trade|Primary Energy|Coal|Volume
+Trade|Primary Energy|Gas|Volume
+Trade|Primary Energy|Oil|Volume
+Carbon Sequestration|CCS|Biomass
+Carbon Sequestration|CCS
+Carbon Sequestration|Land Use|Afforestation
+Carbon Sequestration|Land Use
+Agricultural Production|Energy
+Agricultural Production|Energy|Residues
+Agricultural Production|Energy|Crops
+Agricultural Production|Energy|Crops|1st generation
+Agricultural Production|Energy|Crops|2nd generation
+Yield|Oilcrops
+Land Cover
+Land Cover|Cropland
+Land Cover|Cropland|Energy Crops
+Land Cover|Forest|Afforestation and Reforestation
+Land Cover|Forest
+Investment|Energy Efficiency
+Investment|Energy Supply|Electricity|Electricity Storage
+Secondary Energy|Electricity

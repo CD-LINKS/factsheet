@@ -1,0 +1,406 @@
+---
+title: "Country Scenario Overview: `r cfg$rname`"
+date: \today
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 5
+    number_sections: true
+---
+  
+  This is the national scenario overview for `r cfg$rname`, it contains graphs for the most important national indicators.
+  
+\section{National results}
+
+\subsection{GDP and Population over time in Baseline scenarios}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+#general setting for the whole sheet:
+#all scenarios with national model scenarios available
+if(cfg$r=="JPN"){
+  indc_cats <- c("NoPOL","NPi","INDC","2020_low","2030_high")
+} else  {
+  indc_cats <- c("NoPOL","NPi","INDC","2030_low","2030_high","2020_verylow")
+}
+  nat_cats <- intersect(unique(all[Scope=="national"]$Category),indc_cats)
+
+plot_line(reg=cfg$r,dt=all,vars=c("GDP|MER","Population"),cats=c("INDC"),title="Socio-Economic Indicators",file_pre="gdp_pop_line")   
+
+invisible(dev.off())
+
+```
+
+\subsection{Macro economic results}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars=c("Policy Cost|Consumption Loss","Policy Cost|GDP Loss","Policy Cost|Area under MAC Curve")
+cats=c("2030_high")
+
+#if(dim(all[Scope=="national" & variable %in% vars & cats %in% cats])[1]>0){
+plot_line(reg=cfg$r,dt=all,vars=vars,cats=cats,title="Policy Costs in INDC2030i_1600 scenarios",file_pre="cons_gdp_loss_line")   
+#}
+
+invisible(dev.off())
+
+```
+
+\subsection{Key energy system characteristics}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars <- c('Final Energy','Primary Energy','Emissions|CO2|FFI')#'Population')
+cats <- nat_cats
+
+plot_funnel(reg=cfg$r,dt=all[period<=2050],vars=vars,cats=cats,title="Key energy system characteristics",file_pre="fe_pe_co2_funnel",glob_lines=T,xlim=c(2000,2050))   
+
+
+invisible(dev.off())
+
+```
+
+\subsection{Kyoto gas emissions over time}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases"),cats=nat_cats,title="Kyoto gas emissions",file_pre="GHG_funnel",glob_lines=T,xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```
+
+\subsection{Kyoto gas emissions over time - detailed}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Excl. AFOLU CO2","Emissions|CO2|AFOLU"),cats=nat_cats,title="Kyoto gas emissions including/excluding AFOLU CO2",file_pre="GHG_AFOLU_funnel",glob_lines=T,xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```
+
+\subsection{Kaya Factors over time}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+if (!identical(character(0),intersect(nat_cats,c("NoPOL","2020_low","2030_low")) )){
+vars <- c("GDP per capita|MER","Energy Intensity of GDP|MER","Carbon Intensity of FE","Emissions per capita")
+cats <- nat_cats #intersect(nat_cats,c("NoPOL","2020_low","2030_low"))
+
+plot_funnel(reg=cfg$r,dt=all[period<=2050],vars=vars,cats=cats,title="Kaya factors",file_pre="kaya_funnel",glob_lines=T,xlim=c(2000,2050))   
+}
+invisible(dev.off())
+
+```
+
+\subsection{Rates of change 2030-2050}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+if (!identical(character(0),intersect(nat_cats,c("INDC","2020_low","2030_low")) )){
+vars <- c("Rate of Change| Energy Intensity of GDP|MER","Rate of Change| Carbon Intensity of FE","Rate of Change| Emissions|CO2|FFI","Rate of Change| Emissions Intensity of GDP|MER")
+cats <- nat_cats #intersect(nat_cats,c("INDC","2020_low","2030_low"))
+
+plot_bar_facet(reg=cfg$r,dt=all[period=="2030-2050"],vars=vars,cats=cats,lab="Rate of change (%/year; 2030-2050)",file_pre="rate_of_change_30-50_bar")   
+}
+invisible(dev.off())
+
+```
+
+\subsection{Rates of change 2050-2100}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+if (!identical(character(0),intersect(nat_cats,c("INDC","2020_low","2030_low")) )){
+vars <- c("Rate of Change| Energy Intensity of GDP|MER","Rate of Change| Carbon Intensity of FE","Rate of Change| Emissions|CO2|FFI","Rate of Change| Emissions Intensity of GDP|MER")
+cats <- nat_cats #intersect(nat_cats,c("INDC","2020_low","2030_low"))
+
+plot_bar_facet(reg=cfg$r,dt=all[period=="2050-2100"],vars=vars,cats=cats,lab="Rate of change (%/year; 2050-2100)",file_pre="rate_of_change_50-100_bar")   
+}
+invisible(dev.off())
+
+```
+
+\subsection{Carbon budget 2011-2050}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+vars <- c("Carbon budget|Energy and Industry")
+cats <- indc_cats
+
+plot_bar(reg=cfg$r,dt=all[period==2050],vars=vars,cats=cats,lab="Carbon budget|Energy and Industry (Gt CO2; 2011-2050)",file_pre="carbon_budget_enin_bar50",ref_line=T)
+
+invisible(dev.off())
+
+```
+\subsection{Carbon budget 2011-2100}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+vars <- c("Carbon budget|Energy and Industry")
+cats <- indc_cats
+
+plot_bar(reg=cfg$r,dt=all[period==2100],vars=vars,cats=cats,lab="Carbon budget|Energy and Industry (Gt CO2; 2011-2100)",file_pre="carbon_budget_enin_bar",ref_line=T)
+
+invisible(dev.off())
+
+```
+\subsection{Carbon budget 2051-2100}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+vars <- c("Carbon budget|Energy and Industry")
+cats <- indc_cats
+
+plot_bar(reg=cfg$r,dt=all[period==2105],vars=vars,cats=cats,lab="Carbon budget|Energy and Industry (Gt CO2; 2051-2100)",file_pre="carbon_budget_enin_bar",ref_line=F)
+
+tab <- all[variable=="Carbon budget|Energy and Industry"]
+tab <- data.frame(period=tab$period, Category =tab$Category, value =tab$value, model = tab$model)
+tab <- dcast(tab,Category + value ~ period)
+
+invisible(dev.off())
+
+```
+
+\subsection{Peak year CO2}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+vars <- c("Peak year|CO2")
+cats <- indc_cats
+
+plot_point(reg=cfg$r,dt=all,vars="Peak year|CO2",cats=cats,lab="Peak year CO2 emissions",file_pre="peak_CO2_point",ref_line=F)
+
+invisible(dev.off())
+
+```
+
+\subsection{Peak year Kyoto Gases}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+vars <- c("Peak year|Kyoto Gases")
+cats <- indc_cats
+
+plot_point(reg=cfg$r,dt=all,vars="Peak year|Kyoto Gases",cats=cats,lab="Peak year Kyoto Gas emissions",file_pre="peak_Kyoto_point",ref_line=F)
+
+invisible(dev.off())
+
+```
+
+\subsection{Elasticity of models: relative abatement as function of Carbon price}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+if (!identical(character(0),intersect(nat_cats,c("2020_low","2030_low","2030_high")) )){
+  # Please specify exactly two variables and assign them to x and y
+  vars <- c(x="Price|Carbon",y="relative Abatement|CO2")
+  cats <- intersect(nat_cats,c("2020_low","2030_low","2030_high"))
+  if (dim(all[Scope=="national" & variable=="Price|Carbon"])[1]!=0){
+    plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Relative Abatement",file_pre="relAb_co2pr_scatter",xlog=T,xlim=c(10,1000))   
+  }
+}
+invisible(dev.off())
+
+```
+
+\subsection{Elasticity of models: Carbon Intensity vs. Energy Intensity}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+if (!identical(character(0),intersect(nat_cats,c("2020_low","2030_low","2030_high")) )){
+# Please specify exactly two variables and assign them to x and y
+vars <- c(x="Energy intensity rel. to Base",y="Carbon intensity rel. to Base")
+cats <- intersect(nat_cats,c("2020_low","2030_low","2030_high"))
+plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Carbon Intensity vs. Energy Intensity",file_pre="ci_ei_scatter")   
+}
+invisible(dev.off())
+
+```
+
+\subsection{Final Energy over GDP}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+if (!identical(character(0),intersect(nat_cats,c("NoPOL","2020_low","2030_low","2030_high","INDC")) )){
+# Please specify exactly two variables and assign them to x and y
+vars <- c(x="GDP|MER",y="Final Energy")
+cats <- intersect(nat_cats,c("NoPOL","2020_low","2030_low","2030_high","INDC"))
+plot_scatter(reg=cfg$r,dt=all[period<=2050],vars_to_spread=vars,cats=cats,title="Socio-Economic Indicators",file_pre="gdp_fe_scatter")   
+}
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Primary Energy}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# Please specify exactly two variables and assign them to x and y
+vars <- c("Primary Energy","Primary Energy|Coal|w/o CCS","Primary Energy|Coal|w/ CCS","Primary Energy|Gas|w/o CCS","Primary Energy|Gas|w/ CCS","Primary Energy|Oil|w/o CCS","Primary Energy|Oil|w/ CCS","Primary Energy|Biomass|w/o CCS","Primary Energy|Biomass|w/ CCS","Primary Energy|Nuclear","Primary Energy|Hydro","Primary Energy|Wind","Primary Energy|Solar","Primary Energy|Geothermal","Primary Energy|Other","Primary Energy|Secondary Energy Trade")
+#plot all scenarios with national model scenarios available
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Primary Energy (EJ/yr)",file_pre="pe_area",xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+# \subsection{Energy Mix - Primary Energy shares}
+# For ternary plots, 
+#vars_to_spread <- c(x="Primary Energy|Coal",y="Primary Energy|Oil",z="Primary Energy|Non-Biomass Renewables")
+#cats <- c("NoPOL","NPi2020_1000")
+#plot_ternary(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="pe_tern",yearmax=2050)   
+
+#invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Electricity}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# Please specify exactly two variables and assign them to x and y
+vars <- c("Secondary Energy|Electricity","Secondary Energy|Electricity|Coal|w/o CCS","Secondary Energy|Electricity|Coal|w/ CCS","Secondary Energy|Electricity|Gas|w/o CCS","Secondary Energy|Electricity|Gas|w/ CCS","Secondary Energy|Electricity|Oil","Secondary Energy|Electricity|Biomass|w/o CCS","Secondary Energy|Electricity|Biomass|w/ CCS","Secondary Energy|Electricity|Nuclear","Secondary Energy|Electricity|Hydro","Secondary Energy|Electricity|Wind","Secondary Energy|Electricity|Solar","Secondary Energy|Electricity|Geothermal","Secondary Energy|Electricity|Other")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Electricity Generation (EJ/yr)",file_pre="ele_area",xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy by carrier}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy","Final Energy|Electricity","Final Energy|Gases","Final Energy|Heat","Final Energy|Hydrogen","Final Energy|Liquids","Final Energy|Other","Final Energy|Solids")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_c_area",xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy by sector}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy","Final Energy|Transportation","Final Energy|Residential and Commercial","Final Energy|Industry","Final Energy|Other Sector","Final Energy|Non-Energy Use")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_s_area")   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy in Industry}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy|Industry","Final Energy|Industry|Electricity","Final Energy|Industry|Gases","Final Energy|Industry|Heat","Final Energy|Industry|Hydrogen","Final Energy|Industry|Liquids","Final Energy|Industry|Other","Final Energy|Industry|Solids")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_industry_area")   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy in Residential and Commercial}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy|Residential and Commercial","Final Energy|Residential and Commercial|Electricity","Final Energy|Residential and Commercial|Gases","Final Energy|Residential and Commercial|Heat","Final Energy|Residential and Commercial|Hydrogen","Final Energy|Residential and Commercial|Liquids","Final Energy|Residential and Commercial|Other", "Final Energy|Residential and Commercial|Solids")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_buildings_area")   
+
+invisible(dev.off())
+
+```
+
+\subsection{Energy Mix - Final Energy in Transportation}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Final Energy|Transportation","Final Energy|Transportation|Electricity","Final Energy|Transportation|Gases","Final Energy|Transportation|Hydrogen","Final Energy|Transportation|Liquids","Final Energy|Transportation|Other")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Final Energy (EJ/yr)",file_pre="fe_transport_area")   
+
+invisible(dev.off())
+
+```
+
+\subsection{Carbon sequestration - CCS}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Carbon Sequestration|CCS","Carbon Sequestration|CCS|Biomass","Carbon Sequestration|CCS|Fossil","Carbon Sequestration|CCS|Industrial Processes")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Carbon sequestration (Mt CO2/yr)",file_pre="cs_CCS_area")   
+
+invisible(dev.off())
+```
+
+\subsection{Carbon sequestration - Land use}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Carbon Sequestration|Land Use","Carbon Sequestration|Land Use|Afforestation","Carbon Sequestration|Land Use|Biochar","Carbon Sequestration|Land Use|Soil Carbon Management")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Carbon sequestration (Mt CO2/yr)",file_pre="cs_landuse_area")   
+
+invisible(dev.off())
+```
+
+\subsection{Land use - land cover}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Land Cover","Land Cover|Built-up Area","Land Cover|Cropland", "Land Cover|Forest", "Land Cover|Pasture", "Land Cover|Other Arable Land", "Land Cover|Other Land")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Land cover (million ha)",file_pre="Land_cover_area")   
+
+invisible(dev.off())
+```
+
+\subsection{Land use - Cropland}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Land Cover|Cropland","Land Cover|Cropland|Cereals","Land Cover|Cropland|Irrigated", "Land Cover|Cropland|Double-cropped", "Land Cover|Cropland|Rainfed", "Land Cover|Cropland|Energy Crops")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Land cover cropland (million ha)",file_pre="Cropland_area")   
+
+invisible(dev.off())
+```
+
+\subsection{Land use - Agricultural production}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+# For area plots, the first entry in vars is interpreted as the total (line_plot on top)
+vars <- c("Agricultural Production","Agricultural Production|Energy","Agricultural Production|Non-Energy")
+cats <- nat_cats
+plot_area(reg=cfg$r,dt=all,vars=vars,cats=cats,lab="Agricultural Production (million t DM/yr)",file_pre="agri_prod_area")   
+
+invisible(dev.off())
+```
+
+\subsection{Land use - Yields}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+vars <- c("Yield|Cereal","Yield|Oilcrops","Yield|Sugarcrops")
+cats <- nat_cats
+plot_funnel(reg=cfg$r,dt=all,vars=vars,cats=cats,title="Yield (t DM/ha/yr)",file_pre="yield_funnel",glob_lines=T,xlim=c(2000,2050))   
+
+invisible(dev.off())
+```
+
+\subsection{Land use - Kyoto gas emissions}
+
+```{r, echo=FALSE,results = 'hide',cache=FALSE, message=FALSE, warning=FALSE,fig.width=8, fig.height=10, dpi=200}
+
+plot_funnel(reg=cfg$r,dt=all,vars=c("Emissions|CO2|AFOLU","Emissions|CH4|AFOLU","Emissions|N2O|AFOLU"),cats=nat_cats,title="Land use Kyoto gas emissions",file_pre="LU_emis_funnel",glob_lines=T,xlim=c(2000,2050))   
+
+invisible(dev.off())
+
+```

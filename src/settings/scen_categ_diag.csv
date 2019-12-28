@@ -1,0 +1,15 @@
+scenario;Category;Baseline
+DIAG-BFC1000 ;DIAG-BFC1000 ;DIAG-Base 
+DIAG-BFC1800;DIAG-BFC1800;DIAG-Base 
+DIAG-Base ;DIAG-Base ;-
+DIAG-C0to30-const;DIAG-C0to30-const;DIAG-Base 
+DIAG-C0to30-gr5 ;DIAG-C0to30-gr5 ;DIAG-Base 
+DIAG-C0to80-const;DIAG-C0to80-const;DIAG-Base 
+DIAG-C0to80-gr5 ;DIAG-C0to80-gr5 ;DIAG-Base 
+DIAG-C0to80-late ;DIAG-C0to80-late ;DIAG-Base 
+DIAG-C30-const ;DIAG-C30-const ;DIAG-Base 
+DIAG-C30-gr5 ;DIAG-C30-gr5 ;DIAG-Base 
+DIAG-C30-hybrid ;DIAG-C30-hybrid ;DIAG-Base 
+DIAG-C80-const ;DIAG-C80-const ;DIAG-Base 
+DIAG-C80-gr5 ;DIAG-C80-gr5 ;DIAG-Base 
+DIAG-C80-lin;DIAG-C80-lin;DIAG-Base 

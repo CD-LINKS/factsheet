@@ -1,0 +1,244 @@
+variable
+Policy Cost|Area under MAC Curve
+Policy Cost|Consumption Loss
+Policy Cost|GDP Loss
+Price|Carbon
+GDP|PPP
+GDP|MER
+Emissions|CO2
+Primary Energy
+Emissions|Kyoto Gases
+Emissions|CO2|Energy
+Emissions|CO2|Industrial Processes
+Population
+Secondary Energy|Electricity
+Secondary Energy|Electricity|Non-Biomass Renewables
+Secondary Energy|Electricity|Nuclear
+Secondary Energy|Electricity|Biomass|w/ CCS
+Secondary Energy|Electricity|Biomass|w/o CCS
+Secondary Energy|Electricity|Coal
+Secondary Energy|Electricity|Coal|w/ CCS
+Secondary Energy|Electricity|Coal|w/o CCS
+Secondary Energy|Electricity|Gas
+Secondary Energy|Electricity|Gas|w/ CCS
+Secondary Energy|Electricity|Gas|w/o CCS
+Secondary Energy|Electricity|Oil
+Secondary Energy|Electricity|Oil|w/ CCS
+Secondary Energy|Electricity|Oil|w/o CCS
+Emissions|CO2|AFOLU
+Emissions|CH4|AFOLU
+Emissions|N2O|AFOLU
+Carbon Sequestration|CCS|Biomass
+Cumulative Capacity|Electricity|Biomass|w/ CCS
+Cumulative Capacity|Electricity|Biomass|w/o CCS
+Cumulative Capacity|Electricity|Coal
+Cumulative Capacity|Electricity|Coal|w/ CCS
+Cumulative Capacity|Electricity|Coal|w/o CCS
+Cumulative Capacity|Electricity|Gas
+Cumulative Capacity|Electricity|Gas|w/ CCS
+Cumulative Capacity|Electricity|Gas|w/o CCS
+Cumulative Capacity|Electricity|Geothermal
+Cumulative Capacity|Electricity|Nuclear
+Cumulative Capacity|Electricity|Oil
+Cumulative Capacity|Electricity|Solar
+Cumulative Capacity|Electricity|Solar|CSP
+Cumulative Capacity|Electricity|Solar|PV
+Cumulative Capacity|Electricity|Wind
+Cumulative Capacity|Electricity|Wind|Offshore
+Cumulative Capacity|Electricity|Wind|Onshore
+Cumulative Extraction|Coal
+Cumulative Extraction|Gas
+Cumulative Extraction|Oil
+Investment|Energy Demand
+Investment|Energy Supply
+Investment|Energy Supply|Electricity
+Investment|Energy Supply|Electricity|Fossil
+Investment|Energy Supply|Electricity|Non-fossil
+Investment|Energy Supply|Electricity|Nuclear
+Investment|Energy Supply|Electricity|Renewables
+Investment|Energy Supply|Electricity|w/ CCS
+Trade|Primary Energy|Biomass|Volume
+Trade|Primary Energy|Coal|Volume
+Trade|Primary Energy|Gas|Volume
+Trade|Primary Energy|Oil|Volume
+Emissions|CH4
+Emissions|N2O
+Emissions|BC
+Emissions|CO
+Emissions|F-Gases
+Emissions|HFC
+Emissions|PFC
+Emissions|SF6
+Emissions|NH3
+Emissions|NOx
+Emissions|OC
+Emissions|Sulfur
+Emissions|VOC
+Final Energy
+Final Energy|Electricity
+Final Energy|Gases
+Final Energy|Geothermal
+Final Energy|Heat
+Final Energy|Hydrogen
+Final Energy|Industry
+Final Energy|Industry|Electricity
+Final Energy|Industry|Gases
+Final Energy|Industry|Hydrogen
+Final Energy|Industry|Liquids
+Final Energy|Industry|Other
+Final Energy|Industry|Solids
+Final Energy|Liquids
+Final Energy|Residential and Commercial
+Final Energy|Residential and Commercial|Electricity
+Final Energy|Residential and Commercial|Gases
+Final Energy|Residential and Commercial|Hydrogen
+Final Energy|Residential and Commercial|Liquids
+Final Energy|Residential and Commercial|Other
+Final Energy|Solar
+Final Energy|Solids
+Final Energy|Solids|Biomass
+Final Energy|Solids|Biomass|Traditional
+Final Energy|Solids|Coal
+Final Energy|Transportation
+Final Energy|Transportation|Electricity
+Final Energy|Transportation|Freight
+Final Energy|Transportation|Gases
+Final Energy|Transportation|Hydrogen
+Final Energy|Transportation|Liquids
+Final Energy|Transportation|Liquids|Biomass
+Final Energy|Transportation|Liquids|Oil
+Final Energy|Transportation|Other
+Final Energy|Transportation|Passenger
+Final Energy|Non-Energy Use
+Final Energy|Other Sector
+Primary Energy
+Primary Energy|Biomass
+Primary Energy|Biomass|w/ CCS
+Primary Energy|Biomass|w/o CCS
+Primary Energy|Coal
+Primary Energy|Coal|w/ CCS
+Primary Energy|Coal|w/o CCS
+Primary Energy|Gas
+Primary Energy|Gas|w/ CCS
+Primary Energy|Gas|w/o CCS
+Primary Energy|Geothermal
+Primary Energy|Hydro
+Primary Energy|Non-Biomass Renewables
+Primary Energy|Nuclear
+Primary Energy|Oil
+Primary Energy|Oil|w/ CCS
+Primary Energy|Oil|w/o CCS
+Primary Energy|Other
+Primary Energy|Secondary Energy Trade
+Primary Energy|Solar
+Primary Energy|Wind
+Final Energy|Other
+Emissions|CO2|Energy|Demand
+Emissions|CO2|Energy|Supply
+Emissions|CO2|Energy|Supply|Electricity
+Emissions|CO2|Energy and Industrial Processes
+Secondary Energy|Electricity|Biomass
+Secondary Energy|Electricity|Geothermal
+Secondary Energy|Electricity|Hydro
+Secondary Energy|Electricity|Ocean
+Secondary Energy|Electricity|Solar
+Secondary Energy|Electricity|Wind
+Secondary Energy|Electricity|Other
+Secondary Energy|Electricity|Fossil|w/o CCS
+Final Energy|Industry|Heat
+Final Energy|Residential and Commercial|Heat
+Final Energy|Residential and Commercial|Solids
+Final Energy|Residential and Commercial|Solids|Biomass
+Final Energy|Residential and Commercial|Solids|Biomass|Traditional
+Final Energy|Residential and Commercial|Solids|Coal
+Final Energy|Transportation|Liquids|Coal
+Final Energy|Transportation|Liquids|Natural Gas
+Capital Cost|Electricity|Biomass|w/ CCS
+Capital Cost|Electricity|Biomass|w/ CCS|1
+Capital Cost|Electricity|Coal|w/ CCS
+Capital Cost|Electricity|Coal|w/ CCS|1 
+Capital Cost|Electricity|Coal|w/ CCS|2 
+Capital Cost|Electricity|Gas|w/ CCS
+Capital Cost|Electricity|Gas|w/ CCS|1 
+Capital Cost|Electricity|Gas|w/ CCS|2
+Capital Cost|Hydrogen|Biomass|w/ CCS
+Capital Cost|Hydrogen|Coal|w/ CCS
+Capital Cost|Hydrogen|Gas|w/ CCS
+Capital Cost|Liquids|Biomass|w/ CCS
+Capital Cost|Liquids|Coal|w/ CCS
+Capital Cost|Liquids|Gas|w/ CCS
+Efficiency|Electricity|Biomass|w/ CCS
+Efficiency|Electricity|Biomass|w/ CCS|1
+Efficiency|Electricity|Coal|w/ CCS|1 
+Efficiency|Electricity|Coal|w/ CCS|2 
+Efficiency|Electricity|Gas|w/ CCS|1
+Efficiency|Electricity|Gas|w/ CCS|2
+Efficiency|Hydrogen|Biomass|w/ CCS
+Efficiency|Hydrogen|Coal|w/ CCS
+Efficiency|Hydrogen|Gas|w/ CCS
+Efficiency|Liquids|Biomass|w/ CCS
+Efficiency|Liquids|Coal|w/ CCS
+Efficiency|Liquids|Gas|w/ CCS
+Lifetime|Electricity|Biomass|w/ CCS
+Lifetime|Electricity|Coal|w/ CCS
+Lifetime|Electricity|Coal|w/ CCS|1 
+Lifetime|Electricity|Coal|w/ CCS|2
+Lifetime|Electricity|Gas|w/ CCS
+Lifetime|Electricity|Gas|w/ CCS|1
+Lifetime|Electricity|Gas|w/ CCS|2
+Lifetime|Hydrogen|Biomass|w/ CCS
+Lifetime|Hydrogen|Coal|w/ CCS
+Lifetime|Hydrogen|Gas|w/ CCS
+Lifetime|Liquids|Biomass|w/ CCS
+Lifetime|Liquids|Coal|w/ CCS
+Lifetime|Liquids|Gas|w/ CCS
+OM Cost|Fixed|Electricity|Biomass|w/ CCS
+OM Cost|Fixed|Electricity|Coal|w/ CCS
+OM Cost|Fixed|Electricity|Coal|w/ CCS|1 
+OM Cost|Fixed|Electricity|Coal|w/ CCS|2
+OM Cost|Fixed|Electricity|Gas|w/ CCS
+OM Cost|Fixed|Electricity|Gas|w/ CCS|1 
+OM Cost|Fixed|Electricity|Gas|w/ CCS|2
+OM Cost|Fixed|Hydrogen|Biomass|w/ CCS
+OM Cost|Fixed|Hydrogen|Coal|w/ CCS
+OM Cost|Fixed|Hydrogen|Gas|w/ CCS
+OM Cost|Fixed|Liquids|Biomass|w/ CCS
+OM Cost|Fixed|Liquids|Coal|w/ CCS
+OM Cost|Fixed|Liquids|Gas|w/ CCS
+Carbon Sequestration|CCS
+Carbon Sequestration|CCS|Fossil
+Carbon Sequestration|CCS|Industrial Processes
+Carbon Sequestration|Land Use
+Carbon Sequestration|Land Use|Afforestation
+Carbon Sequestration|Land Use|Biochar
+Carbon Sequestration|Land Use|Soil Carbon Management
+Land Cover|Built-up Area
+Land Cover|Cropland
+Land Cover|Forest
+Land Cover|Pasture
+Land Cover|Other Arable Land
+Land Cover|Other Land
+Land Cover|Cropland|Cereals
+Land Cover|Cropland|Irrigated
+Land Cover|Cropland|Double-cropped
+Land Cover|Cropland|Rainfed
+Land Cover|Cropland|Energy Crops
+Yield|Cereal
+Yield|Oilcrops
+Yield|Sugarcrops
+Agricultural Production
+Agricultural Production|Energy
+Agricultural Production|Non-Energy
+Emissions|N2O|Energy
+Emissions|N2O|Other
+Emissions|CH4|Energy|Supply
+Emissions|CH4|Energy|Demand|Industry
+Emissions|CH4|Energy|Demand|Residential and Commercial
+Emissions|CH4|Energy|Demand|Transportation
+Emissions|HFC
+Emissions|PFC
+Emissions|SF6
+Emissions|CO2|Energy|Demand|AFOFI
+Emissions|CO2|Energy|Demand|Industry
+Emissions|CO2|Energy|Demand|Transportation
+Emissions|CO2|Energy|Demand|Residential and Commercial

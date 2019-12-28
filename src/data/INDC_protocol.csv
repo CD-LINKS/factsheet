@@ -1,0 +1,82 @@
+region;variable;value;unit;baseyear;period;class
+ARG;Emissions|Kyoto Gases;110;%;2010;2030;INDC target relative to 2010 including LULUCF
+AUS;Emissions|Kyoto Gases;70;%;2010;2030;INDC target relative to 2010 including LULUCF
+BRA;Emissions|Kyoto Gases;80;%;2010;2025;INDC target relative to 2010 including LULUCF
+CAN;Emissions|Kyoto Gases;56;%;2010;2030;INDC target relative to 2010 including LULUCF
+EU;Emissions|Kyoto Gases;68;%;2010;2030;INDC target relative to 2010 including LULUCF
+IDN;Emissions|Kyoto Gases;79;%;2010;2030;INDC target relative to 2010 including LULUCF
+JPN;Emissions|Kyoto Gases;89;%;2010;2030;INDC target relative to 2010 including LULUCF
+MEX;Emissions|Kyoto Gases;85;%;2010;2030;INDC target relative to 2010 including LULUCF
+RUS;Emissions|Kyoto Gases;106;%;2010;2030;INDC target relative to 2010 including LULUCF
+SAF;Emissions|Kyoto Gases;97;%;2010;2030;INDC target relative to 2010 including LULUCF
+TUR;Emissions|Kyoto Gases;254;%;2010;2030;INDC target relative to 2010 including LULUCF
+USA;Emissions|Kyoto Gases;68;%;2010;2025;INDC target relative to 2010 including LULUCF
+ARG;Emissions|Kyoto Gases|Excl. AFOLU CO2;107;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+AUS;Emissions|Kyoto Gases|Excl. AFOLU CO2;64;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+BRA;Emissions|Kyoto Gases|Excl. AFOLU CO2;117;%;2010;2025;INDC target relative to 2010 excluding LULUCF
+CAN;Emissions|Kyoto Gases|Excl. AFOLU CO2;74;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+EU;Emissions|Kyoto Gases|Excl. AFOLU CO2;69;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+IDN;Emissions|Kyoto Gases|Excl. AFOLU CO2;148;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+JPN;Emissions|Kyoto Gases|Excl. AFOLU CO2;85;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+KOR;Emissions|Kyoto Gases|Excl. AFOLU CO2;84;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+MEX;Emissions|Kyoto Gases|Excl. AFOLU CO2;87;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+RUS;Emissions|Kyoto Gases|Excl. AFOLU CO2;119;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+SAR;Emissions|Kyoto Gases|Excl. AFOLU CO2;162;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+SAF;Emissions|Kyoto Gases|Excl. AFOLU CO2;103;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+TUR;Emissions|Kyoto Gases|Excl. AFOLU CO2;207;%;2010;2030;INDC target relative to 2010 excluding LULUCF
+USA;Emissions|Kyoto Gases|Excl. AFOLU CO2;79;%;2010;2025;INDC target relative to 2010 excluding LULUCF
+ARG;Emissions|Kyoto Gases;112;%;2005;2030;INDC target relative to 2005 including LULUCF
+AUS;Emissions|Kyoto Gases;67;%;2005;2030;INDC target relative to 2005 including LULUCF
+BRA;Emissions|Kyoto Gases;62;%;2005;2025;INDC target relative to 2005 including LULUCF
+BRA;Emissions|Kyoto Gases;57;%;2005;2030;Indicative INDC target 2030 relative to 2005 including LULUCF
+CAN;Emissions|Kyoto Gases;51;%;2005;2030;INDC target relative to 2005 including LULUCF
+EU;Emissions|Kyoto Gases;62;%;2005;2030;INDC target relative to 2005 including LULUCF
+IDN;Emissions|Kyoto Gases;93;%;2005;2030;INDC target relative to 2005 including LULUCF
+JPN;Emissions|Kyoto Gases;75;%;2005;2030;INDC target relative to 2005 including LULUCF
+MEX;Emissions|Kyoto Gases;90;%;2005;2030;INDC target relative to 2005 including LULUCF
+RUS;Emissions|Kyoto Gases;102;%;2005;2030;INDC target relative to 2005 including LULUCF
+SAF;Emissions|Kyoto Gases;105;%;2005;2030;INDC target relative to 2005 including LULUCF
+TUR;Emissions|Kyoto Gases;294;%;2005;2030;INDC target relative to 2005 including LULUCF
+USA;Emissions|Kyoto Gases;65;%;2005;2025;INDC target relative to 2005 including LULUCF
+ARG;Emissions|Kyoto Gases|Excl. AFOLU CO2;107;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+AUS;Emissions|Kyoto Gases|Excl. AFOLU CO2;66;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+BRA;Emissions|Kyoto Gases|Excl. AFOLU CO2;129;%;2005;2025;INDC target relative to 2005 excluding LULUCF
+CAN;Emissions|Kyoto Gases|Excl. AFOLU CO2;71;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+EU;Emissions|Kyoto Gases|Excl. AFOLU CO2;63;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+IDN;Emissions|Kyoto Gases|Excl. AFOLU CO2;173;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+JPN;Emissions|Kyoto Gases|Excl. AFOLU CO2;79;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+KOR;Emissions|Kyoto Gases|Excl. AFOLU CO2;92;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+MEX;Emissions|Kyoto Gases|Excl. AFOLU CO2;92;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+RUS;Emissions|Kyoto Gases|Excl. AFOLU CO2;123;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+SAR;Emissions|Kyoto Gases|Excl. AFOLU CO2;211;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+SAF;Emissions|Kyoto Gases|Excl. AFOLU CO2;111;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+TUR;Emissions|Kyoto Gases|Excl. AFOLU CO2;252;%;2005;2030;INDC target relative to 2005 excluding LULUCF
+USA;Emissions|Kyoto Gases|Excl. AFOLU CO2;74;%;2005;2025;INDC target relative to 2005 excluding LULUCF
+ARG;Emissions|Kyoto Gases;469;Mt CO2-equiv/yr;;2030;INDC target absolute emissions including LULUCF
+AUS;Emissions|Kyoto Gases;400.35;Mt CO2-equiv/yr;;2030;INDC target absolute emissions including LULUCF
+BRA;Emissions|Kyoto Gases;1300;Mt CO2-equiv/yr;;2025;INDC target absolute emissions including LULUCF
+BRA;Emissions|Kyoto Gases;1200;Mt CO2-equiv/yr;;2030;INDC target absolute emissions including LULUCF
+CAN;Emissions|Kyoto Gases;517.08;Mt CO2-equiv/yr;;2030;INDC target absolute emissions including LULUCF
+EU;Emissions|Kyoto Gases;3092.82;Mt CO2-equiv/yr;;2030;INDC target absolute emissions including LULUCF
+IDN;Emissions|Kyoto Gases;1699.79;Mt CO2-equiv/yr;;2030;INDC target absolute emissions including LULUCF
+JPN;Emissions|Kyoto Gases;1002.92;Mt CO2-equiv/yr;;2030;INDC target absolute emissions including LULUCF
+MEX;Emissions|Kyoto Gases;622.72;Mt CO2-equiv/yr;;2030;INDC target absolute emissions including LULUCF
+RUS;Emissions|Kyoto Gases;2357.45;Mt CO2-equiv/yr;;2030;INDC target absolute emissions including LULUCF
+SAF;Emissions|Kyoto Gases;506;Mt CO2-equiv/yr;;2030;INDC target absolute emissions including LULUCF
+TUR;Emissions|Kyoto Gases;928.25;Mt CO2-equiv/yr;;2030;INDC target absolute emissions including LULUCF
+USA;Emissions|Kyoto Gases;4542.84;Mt CO2-equiv/yr;;2025;INDC target absolute emissions including LULUCF
+ARG;Emissions|Kyoto Gases|Excl. AFOLU CO2;353.86;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+AUS;Emissions|Kyoto Gases|Excl. AFOLU CO2;366.8;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+BRA;Emissions|Kyoto Gases|Excl. AFOLU CO2;1300;Mt CO2-equiv/yr;;2025;INDC target absolute emissions excluding LULUCF
+BRA;Emissions|Kyoto Gases|Excl. AFOLU CO2;1200;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+CAN;Emissions|Kyoto Gases|Excl. AFOLU CO2;545.08;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+EU;Emissions|Kyoto Gases|Excl. AFOLU CO2;3375.76;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+IDN;Emissions|Kyoto Gases|Excl. AFOLU CO2;1261.02;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+JPN;Emissions|Kyoto Gases|Excl. AFOLU CO2;1078.92;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+KOR;Emissions|Kyoto Gases|Excl. AFOLU CO2;535.88;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+MEX;Emissions|Kyoto Gases|Excl. AFOLU CO2;622.72;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+RUS;Emissions|Kyoto Gases|Excl. AFOLU CO2;2825.6;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+SAR;Emissions|Kyoto Gases|Excl. AFOLU CO2;1030;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+SAF;Emissions|Kyoto Gases|Excl. AFOLU CO2;532.08;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+TUR;Emissions|Kyoto Gases|Excl. AFOLU CO2;869.55;Mt CO2-equiv/yr;;2030;INDC target absolute emissions excluding LULUCF
+USA;Emissions|Kyoto Gases|Excl. AFOLU CO2;5512.84;Mt CO2-equiv/yr;;2025;INDC target absolute emissions excluding LULUCF
