@@ -5,7 +5,7 @@ scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
 adjust <- "adjust_reporting_neutrality" # TODO to check: remove MESSAGE for China due to region definition? and COFFEE & DNE for EU and DNE for China and India? and COFFEE for Japan?
 addvars <- F
-datafile <-"cdlinks_compare_20191017-143619"
+datafile <-"cdlinks_compare_20191118-083136"
 source("load_data.R")
 
 outdir <- "Neutrality/graphs"
@@ -72,10 +72,10 @@ poy=poy[!number<3]
 poyrange=data.table(poy[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","variable")]) #"unit"
 #poyrange = poyrange[order(Category,variable,median)]
 poyrange$region <- factor(poyrange$region, levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
-                                                    "RUS [3 models]","JPN [4 models]","IND [6 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #unique(poyrange$region)
+                                                    "RUS [3 models]","JPN [4 models]","IND [5 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #unique(poyrange$region)
 #poy=poy[order(Category,variable,V1)]
 poy$region<-factor(poy$region,levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
-                                       "RUS [3 models]","JPN [4 models]","IND [6 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #levels=unique(poy$region)
+                                       "RUS [3 models]","JPN [4 models]","IND [5 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #levels=unique(poy$region)
 
 # For plotting, including the ones with phase-out after 2100 or no phase-out at all
 poy$label <-""
@@ -90,18 +90,17 @@ poyrange[max>2100]$label <- ">2100"
 poyrange$showyear <- poyrange$max
 poyrange[max>2100]$showyear <- 2105
 
-# TODO fix vertical lines for world? 
 S = ggplot()
 #S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
-S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=showyear,y=median, x=region, colour=variable),fatten=0.5,alpha=0.5,size=5,show.legend = F) #,position=position_dodge(width=0.66)
+S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=showyear,y=median, x=region, colour=variable),alpha=0.5,size=5,fatten=1,show.legend = F) #,position=position_dodge(width=0.66)
 S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")],aes(x=region,y=showyear,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
 S = S + geom_text(data=poy[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
 S = S + geom_text(data=poyrange[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
+S = S + geom_hline(data=poyrange[region=="World [6 models]"&Category%in%c("2 °C","1.5 °C")], aes(yintercept=median),linetype="dotted") 
 #S = S + geom_boxplot(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=V1, x=region, colour=variable,fill=variable),position=position_dodge(width=0.66),width=0.66)
 #S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
 S = S + coord_flip()
 S = S + facet_grid(Category~variable, scales="free_y")
-#S = S + geom_hline(yintercept=poyrange[region=="World [6 models]"&Category%in%c("2 °C","1.5 °C")]$median) #&variable=="Emissions|Kyoto Gases"
 S = S + ylab("Phase out year")
 S = S + scale_y_continuous(limits=c(2030,2110),breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
 #S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110,2120,2130,2140,2150,2160,2170,2180,2190,2200))
@@ -277,21 +276,22 @@ poyrange1=data.table(poy1[,list(median=median(value,na.rm=T),min=min(value,na.rm
 S2 = ggplot()
 S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable #,"SAF [2 models]","MEX [2 models]"
 S2 = S2 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(y=median,x=region,size=0.2),show.legend = F) #,colour=variable
-#S2 = S2 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
+S2 = S2 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"&variable=="diff"], aes(y=value,x=region,colour=model,shape=model),size=3)
 S2 = S2 + coord_flip()
 S2 = S2 + facet_grid(.~Category, scales="free_y")
 S2 = S2 + geom_hline(yintercept=0)
-S2 = S2 + ylab("Phase-out year difference due to inventory vs. model LULUCF (<0: earlier if based on inventory)")
+S2 = S2 + ylab("Phase-out year difference due to inventory vs. model LULUCF (<0: earlier if based on inventory)")+xlab("")
 #S2 = S2 + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
-S2 = S2 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+S2 = S2 + theme_bw()+ theme(axis.text.y=element_text(size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ #angle=45, 
   theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_diff.png",sep=""),S2,width=12, height=8, dpi=120)
 
 # plot trajectories to understand differences
+np = np[Scope=="global"]
 dt = np[variable=="Emissions|Kyoto Gases"]%>% select(-scenario,-Baseline,-unit,-Scope)
-setcolorder(dt,colnames(dth))
 dt$landuse <- "Model data"
 dth$landuse <- "Inventory data"
+setcolorder(dt,colnames(dth))
 dthcomp = rbind(dt,dth)
 
 S3 = ggplot()
@@ -391,15 +391,15 @@ poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$max<-100
 a1 = ggplot()
 a1 = a1 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
 a1 = a1 + geom_point(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(y=median,x=region,size=0.2),show.legend = F) #,colour=variable
-#a1 = a1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"], aes(y=poy,x=region,colour=model,shape=variable),size=2)
+a1 = a1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World [6 models]"&variable=="diff"], aes(y=value,x=region,colour=model,shape=model),size=3)
 a1 = a1 + coord_flip()
 a1 = a1 + facet_grid(.~Category, scales="free_y")
 a1 = a1 + geom_hline(yintercept=0)
 a1 = a1 + scale_y_continuous(limits=c(-80,90),breaks=c(-80,-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60,70,80,90))
 a1 = a1 + geom_text(data=poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"],stat="identity",aes(x=region,y=50,label="2077 > No phase-out"),size=6)
-a1 = a1 + ylab("Phase-out year difference due to BECCS allocation (<0: earlier if based on biomass production)")
+a1 = a1 + ylab("Phase-out year difference due to BECCS allocation (<0: earlier if based on biomass production)")+xlab("")
 #a1 = a1 + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
-a1 = a1 + theme_bw()+ theme(axis.text.y=element_text(angle=45, size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+a1 = a1 + theme_bw()+ theme(axis.text.y=element_text(size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ #angle=45,
   theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,width=12, height=8, dpi=120)
 

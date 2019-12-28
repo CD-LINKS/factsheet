@@ -29,7 +29,7 @@ scensnat <- c("NPi","NPi1000","NDC1000","NPi400")
 # All national line plots in one grid -------------------------------------
 vars = "Emissions|CO2|Energy"
 b<-plot_lineNationalScens(reg = "BRA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
-                          ylab = "Energy CO2 [MtCO2]", title="Brazil (MSB)",file_pre = "EneCO2",nolegend=T,ylim=c(-300,1200))
+                          ylab = "Energy CO2 [MtCO2]", title="Brazil (MSB)",file_pre = "EneCO2",nolegend=T,ylim=c(-1200,1200))
 c<-plot_lineNationalScens(reg = "CHN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]", title="China (IPAC: -, CHN-TIMES: --)", file_pre = "EneCO2")
 e<-plot_lineNationalScens(reg = "EU", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,

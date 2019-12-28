@@ -72,7 +72,7 @@ all<-rbind(all,tmp1)
 # To do/decide:
 # Removing MESSAGE model for India, as MESSAGE has South Asia (including Afghanistan, Bangladesh, Bhutan, Maldives, Nepal, Pakistan, Sri Lanka), not India separately
 India = all[region=="IND"]
-India = India[!model=="MESSAGE V.4"]
+India = India[!model=="MESSAGEix-GLOBIOM_1.1"]
 all=rbind(subset(all, !region=="IND"),India)
 
 # Removing MESSAGE model for China, as MESSAGE has CPA (including Cambodia, Hong Kong, Korea, Lao, Macau, Mongolia, Taiwan, Viet Nam), not China separately
