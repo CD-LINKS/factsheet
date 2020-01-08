@@ -100,12 +100,13 @@ S = S + geom_hline(data=poyrange[region=="World [6 models]"&Category%in%c("2 °C
 #S = S + geom_boxplot(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=V1, x=region, colour=variable,fill=variable),position=position_dodge(width=0.66),width=0.66)
 #S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
 S = S + coord_flip()
-S = S + facet_grid(Category~variable, scales="free_y")
-S = S + ylab("Phase out year")
+S = S + facet_grid(Category~variable, scales="free_y", 
+                   labeller=labeller(variable=c("Emissions|CO2"="CO2 (all)","Emissions|CO2|Energy and Industrial Processes"="CO2 (fossil&cement)","Emissions|Kyoto Gases"="Kyoto gases")))
+S = S + ylab("Phase out year")+xlab("")
 S = S + scale_y_continuous(limits=c(2030,2110),breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
 #S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110,2120,2130,2140,2150,2160,2170,2180,2190,2200))
-S = S + theme_bw() + theme(axis.text.y=element_text(angle=45, size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
-        theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
+S = S + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
+        theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
         theme(legend.text=element_text(size=11),legend.title=element_text(size=12))
 ggsave(file=paste(outdir,"/Phase_out_year.png",sep=""),S,width=16, height=10, dpi=120)
 
