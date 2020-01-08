@@ -70,12 +70,16 @@ poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
 poy=poy[!number<3]
 
 poyrange=data.table(poy[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","variable")]) #"unit"
+
+# change order for plotting
 #poyrange = poyrange[order(Category,variable,median)]
 poyrange$region <- factor(poyrange$region, levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
                                                     "RUS [3 models]","JPN [4 models]","IND [5 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #unique(poyrange$region)
 #poy=poy[order(Category,variable,V1)]
 poy$region<-factor(poy$region,levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
                                        "RUS [3 models]","JPN [4 models]","IND [5 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #levels=unique(poy$region)
+poyrange$Category <- factor(poyrange$Category,levels=c("2 °C","1.5 °C"))
+poy$Category <- factor(poy$Category,levels=c("2 °C","1.5 °C"))
 
 # For plotting, including the ones with phase-out after 2100 or no phase-out at all
 poy$label <-""
@@ -273,6 +277,9 @@ poy1$region <- paste(poy1$region,' [',poy1$number,' models]',sep="")
 poy1=poy1[!number<3]
 
 poyrange1=data.table(poy1[,list(median=median(value,na.rm=T),min=min(value,na.rm=T),max=max(value,na.rm=T)),by=c("Category","region","variable")]) #,"unit"
+#change plot order
+poyrange1$Category <- factor(poyrange1$Category,levels=c("2 °C","1.5 °C"))
+poy1$Category <- factor(poy1$Category,levels=c("2 °C","1.5 °C"))
 
 S2 = ggplot()
 S2 = S2 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable #,"SAF [2 models]","MEX [2 models]"
@@ -388,6 +395,10 @@ poyrange1=poyrange1[!number<2]
 poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$median<-100
 poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$min<-100
 poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$max<-100
+
+#change plot order
+poyrange1$Category <- factor(poyrange1$Category,levels=c("2 °C","1.5 °C"))
+poy1$Category <- factor(poy1$Category,levels=c("2 °C","1.5 °C"))
 
 a1 = ggplot()
 a1 = a1 + geom_errorbar(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region=="World [5 models]"&variable=="diff"], aes(ymin=min,ymax=max, x=region)) #, colour=variable
@@ -906,6 +917,9 @@ setnames(poyemis,"V1","value")
 
 # poyemis=poyemis[!model=="MESSAGEix-GLOBIOM_1.0"]
 # poyemisccs=poyemisccs[!model=="MESSAGEix-GLOBIOM_1.0"]
+
+#change plot order
+poyemis$Category <- factor(poyemis$Category,levels=c("2 °C","1.5 °C"))
 
 #Stacked bar chart remaining emissions in poy - add phase-out year somewhere for regional graphs?
 library(gridExtra)
