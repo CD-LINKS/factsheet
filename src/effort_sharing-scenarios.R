@@ -1307,10 +1307,6 @@ coc = coc[!period==2015]
 # ev = ev + xlab("") + ylab(soc[variable=="Policy Cost|Equivalent Variation"]$unit)
 # ggsave(file=paste(outdir,"/Equivalent_variation_2050.png",sep=""),ev,width=20,height=12,dpi=200)
 
-# Technologies employed ---------------------------------------------------
-
-#National models? TODO
-
 # All figures in simple layout - 2050, flexibility only -------------------
 # TODO: everything relative to baseline / base year?
 ### 1. Drivers
@@ -1653,12 +1649,42 @@ F5 = F5 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_
 F5 = F5 + ylab(costsworld$unit)+xlab("")
 ggsave(file=paste(outdir,"/costsrelworld_flexibility_2050_layoutmodel.png",sep=""),F5,width=20,height=12,dpi=200)
 
+### 5a. GDP loss
+gdplossrange=data.table(gdploss[!model%in%c("DNE21+ V.14","IMAGE 3.0"),list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
+                                by=c("unit","period","implementation","regime","variable","region")])
+F5a = ggplot(gdploss[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"&!model%in%c("DNE21+ V.14","IMAGE 3.0")])
+F5a = F5a + geom_pointrange(data=gdplossrange[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"],
+                            aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F5a = F5a + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F5a = F5a + coord_flip()
+F5a = F5a + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F5a = F5a + facet_grid(region~.,scale="free_y")
+F5a = F5a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                               legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
+F5a = F5a + ylab(gdploss$unit)+xlab("")
+ggsave(file=paste(outdir,"/GDPloss_flexibility_2050_layoutmodel.png",sep=""),F5a,width=20,height=12,dpi=200)
+
+### 6c. Cost difference OECD / non-OECD excluding Middle East and reforming economies
+costratioexrange=data.table(costratioex[,list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
+                                        by=c("unit","period","implementation","regime","variable","region")])
+F6c = ggplot(costratioex[region=="OECD-non-OECD"&period==2050&implementation=="flexibility"&!regime=="GF"])
+F6c = F6c + geom_pointrange(data=costratioexrange[region=="OECD-non-OECD"&period==2050&implementation=="flexibility"&!regime=="GF"],
+                          aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F6c = F6c + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F6c = F6c + geom_hline(aes(yintercept=0),size=1)
+F6c = F6c + coord_flip()
+F6c = F6c + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F6c = F6c + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
+F6c = F6c + ylab(costratioex[region=="OECD-non-OECD"]$variable)+xlab("")
+ggsave(file=paste(outdir,"/costdiff_R10_OECD_non-OECDexclME-REF_flexibility_2050_layoutmodel.png",sep=""),F6c,width=20,height=12,dpi=200)
+
 ### 7. Financial flows ($)
 finflowrange=data.table(finflow[,list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
                                       by=c("unit","period","implementation","regime","variable","region")])
 
-F7 = ggplot(finflow[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
-F7 = F7 + geom_pointrange(data=finflowrange[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"],
+F7 = ggplot(finflow[region%in%r10&period==2050&implementation=="flexibility"&!regime%in%c("GF","CO")])
+F7 = F7 + geom_pointrange(data=finflowrange[region%in%r10&period==2050&implementation=="flexibility"&!regime%in%c("GF","CO")],
                           aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
 F7 = F7 + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
 F7 = F7 + geom_hline(aes(yintercept=1),size=1)
@@ -1670,17 +1696,53 @@ F7 = F7 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_
 F7 = F7 + ylab(finflow$unit)+xlab("")
 ggsave(file=paste(outdir,"/financialflows_flexibility_2050_layoutmodel.png",sep=""),F7,width=20,height=12,dpi=200)
 
-### 7a. Financial flows (Mt) TODO continue here
-F7a = ggplot(trade[period==2050&implementation=="flexibility"&!regime=="GF"]) #region%in%r10&
-F7a = F7a + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
-F7a = F7a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-F7a = F7a + facet_grid(region~model,scale="free_y")
-F7a = F7a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
-                               legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
-F7a = F7a + ylab(trade$unit)+xlab("")
-ggsave(file=paste(outdir,"/financialflows_Mt_flexibility_2050_layout.png",sep=""),F7a,width=20,height=12,dpi=200)
+### 7a. Financial flows (Mt)
+traderange=data.table(trade[,list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
+                                by=c("unit","period","implementation","regime","variable","region")])
 
-### 14. Costs %GDP (model statistics)
+F7a = ggplot(trade[region%in%r10&period==2050&implementation=="flexibility"&!regime%in%c("GF","CO")])
+F7a = F7a + geom_pointrange(data=traderange[region%in%r10&period==2050&implementation=="flexibility"&!regime%in%c("GF","CO")],
+                          aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F7a = F7a + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F7a = F7a + geom_hline(aes(yintercept=1),size=1)
+F7a = F7a + coord_flip()
+F7a = F7a + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F7a = F7a + facet_grid(region~.,scale="free_y")
+F7a = F7a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
+F7a = F7a + ylab(trade$unit)+xlab("")
+ggsave(file=paste(outdir,"/financialflows_Mt_flexibility_2050_layoutmodel.png",sep=""),F7a,width=20,height=12,dpi=200)
+
+### 7b. Total financial flows
+F7b = ggplot(finflows[period==2050&implementation=="flexibility"&!regime%in%c("GF","CO")])
+F7b = F7b + geom_pointrange(data=finflowsstat[period==2050&implementation=="flexibility"&!regime%in%c("GF","CO")],
+                            aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F7b = F7b + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F7b = F7b + geom_hline(aes(yintercept=1),size=1)
+F7b = F7b + coord_flip()
+F7b = F7b + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F7b = F7b + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                               legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
+F7b = F7b + ylab(finflows$unit)+xlab("")
+ggsave(file=paste(outdir,"/Total_financialflows_flexibility_layoutmodel.png",sep=""),F7b,width=20,height=12,dpi=200)
+
+### 15. Cumulative discounted costs
+costsgdpdicurange=data.table(costsgdpdicu[,list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
+                                          by=c("unit","implementation","regime","region")])
+F15 = ggplot(costsgdpdicu[region%in%r10&implementation=="flexibility"&!regime=="GF"])
+F15 = F15 + geom_pointrange(data=costsgdpdicurange[region%in%r10&implementation=="flexibility"&!regime=="GF"],
+                            aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F15 = F15 + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F15 = F15 + geom_hline(aes(yintercept=1),size=1)
+F15 = F15 + coord_flip()
+F15 = F15 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F15 = F15 + facet_grid(region~.,scale="free_y")
+F15 = F15 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                               legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
+F15 = F15 + ylab(costsgdpdicu$unit)+xlab("")
+ggsave(file=paste(outdir,"/cumuldisccosts_flexibility_2050_layoutmodel.png",sep=""),F15,width=20,height=12,dpi=200)
+
+### 14. Costs %GDP (model statistics)  TODO continue here
 F14 = ggplot(costsstat[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
 F14 = F14 + geom_bar(aes(x=regime,y=median,fill=regime),stat="identity",position=position_dodge(width=0.66),width=0.66)
 F14 = F14 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
@@ -1692,16 +1754,6 @@ F14 = F14 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=elemen
 F14 = F14 + ylab(costsstat$unit)+xlab("")
 ggsave(file=paste(outdir,"/costsGDPstat_flexibility_2050_layout.png",sep=""),F14,width=20,height=12,dpi=200)
 
-### 15. Cumulative discounted costs
-F15 = ggplot(costsgdpdicu[region%in%r10&implementation=="flexibility"&!regime=="GF"])
-F15 = F15 + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
-F15 = F15 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-F15 = F15 + facet_grid(region~model,scale="free_y")
-F15 = F15 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
-                               legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
-F15 = F15 + ylab(costsgdpdicu$unit)+xlab("")
-ggsave(file=paste(outdir,"/cumuldisccosts_flexibility_2050_layout.png",sep=""),F15,width=20,height=12,dpi=200)
-
 ### 4. Carbon price
 F4 = ggplot(data[variable=="Price|Carbon"&region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
 F4 = F4 + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
@@ -1711,27 +1763,3 @@ F4 = F4 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_
                              legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
 F4 = F4 + ylab(data[variable=="Price|Carbon"]$unit)+xlab("")
 ggsave(file=paste(outdir,"/cprice_flexibility_2050_layout.png",sep=""),F4,width=20,height=12,dpi=200)
-
-### 5a. GDP loss (not yet relative to world - TODO?)
-F5a = ggplot(gdploss[region%in%r10&period==2050&implementation=="flexibility"& model%in%unique(data[variable=="Policy Cost|GDP Loss"]$model)&!regime=="GF"])
-F5a = F5a + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
-F5a = F5a + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-F5a = F5a + facet_grid(region~model,scale="free_y")
-F5a = F5a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
-                               legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
-F5a = F5a + ylab(gdploss$unit)+xlab("")
-ggsave(file=paste(outdir,"/GDPloss_flexibility_2050_layout.png",sep=""),F5a,width=20,height=12,dpi=200)
-
-### 6c. Cost difference OECD / non-OECD excluding Middle East and reforming economies
-costratioexrange=data.table(costratioex[,list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
-                                      by=c("unit","period","implementation","regime","variable","region")])
-
-F6c = ggplot(costratioex[period%in%c(2050)&implementation=="flexibility"&region=="OECD-non-OECD"&!regime=="GF"])
-F6c = F6c + geom_bar(stat="identity", aes(x=implementation, y=value,fill=regime),position="dodge")
-F6c = F6c + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-F6c = F6c + facet_grid(period~model)
-F6c = F6c + geom_hline(aes(yintercept = 0),size=1)
-F6c = F6c + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
-F6c = F6c + ylab(costratioex[region=="OECD-non-OECD"]$variable)
-ggsave(file=paste(outdir,"/costdiff_R10_OECD_non-OECDexclME-REF_flexibility_2050.png",sep=""),F6c,width=20,height=12,dpi=200)
-
