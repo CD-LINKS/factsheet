@@ -1009,10 +1009,11 @@ pathsrange$variable = factor(pathsrange$variable,levels=c("Emissions|Kyoto Gases
 p = ggplot(data=pathsrange[region%in%c("USA","IND")])
 p = p + geom_line(aes(x=period,y=mean,colour=Category))
 p = p + geom_ribbon(aes(x=period,ymin=min,ymax=max,fill=Category),alpha=0.3)
-p = p + facet_grid(variable~region, scale="free_y")
+p = p + facet_grid(variable~region, scale="free_y",labeller=labeller(variable=c("Emissions|CO2"="CO2","Emissions|CO2|Allocation"="CO2 (allocation)",
+                                                                                "Emissions|Kyoto Gases"="GHG","Emissions|Kyoto Gases|Inventory"="GHG (inventory)")))
 p = p + geom_hline(yintercept=0)
 p = p + xlab("") + ylab("Emissions (MtCO2eq/year)")
-p = p + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
-  theme(axis.text.x = element_text(size=14))+ theme(plot.title=element_text(size=18))
+p = p + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(size=14))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Pathways_IND_USA.png",sep=""),p,width=12, height=8, dpi=120)
 
