@@ -988,3 +988,31 @@ c3 = ggplot() +
   scale_fill_manual(values=c("CCS"="#999999","CCSbio"="#9aff9a","CSland"="#009E73"))
 ggsave(file=paste(outdir,"/CCS_breakdown_poy_CHN-IND-USA",".png",sep=""),c3,height=12, width=16,dpi=500)
 
+
+
+# Pathways (mitigation strategies) ----------------------------------------
+setcolorder(dthextra,colnames(ghgextra))
+setcolorder(allocationextra,colnames(ghgextra))
+dthextra$variable = paste(dthextra$variable,"|Inventory",sep="")
+paths=rbind(ghgextra,dthextra,allocationextra[variable=="Emissions|CO2|Allocation"])
+
+# calculate mean/range
+pathsrange=data.table(paths[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),min=min(value,na.rm=T),max=max(value,na.rm=T)),
+                            by=c("Category","region","variable","period")])
+pathsrange=pathsrange[!Category=="2 °C (2030)"&!variable=="Emissions|CO2|Energy and Industrial Processes"&period%in%c(2010,2020,2030,2040,2050,2060,2070,2080,2090,2100)]
+
+#To change plot order: 2, 1.5, USA, IND, GHG, GHG inventory, CO2, CO2 allocation
+pathsrange$Category = factor(pathsrange$Category,levels=c("2 °C","1.5 °C"))
+pathsrange$region = factor(pathsrange$region,levels=c("USA","IND"))
+pathsrange$variable = factor(pathsrange$variable,levels=c("Emissions|Kyoto Gases","Emissions|Kyoto Gases|Inventory","Emissions|CO2","Emissions|CO2|Allocation"))
+
+p = ggplot(data=pathsrange[region%in%c("USA","IND")])
+p = p + geom_line(aes(x=period,y=mean,colour=Category))
+p = p + geom_ribbon(aes(x=period,ymin=min,ymax=max,fill=Category),alpha=0.3)
+p = p + facet_grid(variable~region, scale="free_y")
+p = p + geom_hline(yintercept=0)
+p = p + xlab("") + ylab("Emissions (MtCO2eq/year)")
+p = p + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(size=14))+ theme(plot.title=element_text(size=18))
+ggsave(file=paste(outdir,"/Pathways_IND_USA.png",sep=""),p,width=12, height=8, dpi=120)
+
