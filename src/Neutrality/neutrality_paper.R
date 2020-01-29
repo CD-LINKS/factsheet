@@ -133,6 +133,11 @@ setnames(poy,"region.x","region")
 poy$diff=ifelse(poy$poy<poy$world,"earlier",ifelse(poy$poy>poy$world,"later","same"))
 poy$years=poy$poy-poy$world
 
+# prep something needed for PCA
+poyclass = poy[variable=="Emissions|Kyoto Gases" & Category%in%c("2 °C","1.5 °C")&!region=="World"]
+poyclass = select(poyclass,-variable,-unit,-poy,-world,-years)
+
+# continue with plotting relative to global
 models=poy[,list(number=length(unique(model))),by=c('region','variable')]
 poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
@@ -780,6 +785,7 @@ pca$variable<-NULL
 pca=data.table(pca)
 pca=pca[Category%in%c("2 °C","1.5 °C")&!region%in%c("World")]
 pca$ID <-with(pca,paste0(region,"-",value))
+pca=merge(pca,poyclass,by=c("Category","model","region"))
 # pcaI = pca[model=="IMAGE 3.0"]
 # pcaI$ID <-with(pcaI,paste0(region,"-",value))
 # pcaA = pca[model=="AIM V2.1"]
@@ -822,12 +828,12 @@ library(ggbiplot)
 #   theme(legend.position = "bottom")
 # ggsave(file=paste(outdir,"/PCA_IMAGE",".png",sep=""),pI,height=12, width=16,dpi=500)
 
-pall = ggbiplot(pca.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pca$ID, groups=pca$model)  +
+pall = ggbiplot(pca.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pca$ID, groups=pca$diff)  + #groups=pca$model (try Category, diff, model, region, value?)
   #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
   ggtitle("PCA of regional phase-out years")+
   theme_bw()+
   theme(legend.position = "bottom")
-ggsave(file=paste(outdir,"/PCA_all",".png",sep=""),pall,height=12, width=16,dpi=500)
+ggsave(file=paste(outdir,"/PCA_all_early-late-grouping",".png",sep=""),pall,height=12, width=16,dpi=500)
 
 # Emissions in phase-out year ---------------------------------------------
 # Graph: Emissions in phase-out year (like Joeri’s)
