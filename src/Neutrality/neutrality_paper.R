@@ -828,7 +828,7 @@ library(ggbiplot)
 #   theme(legend.position = "bottom")
 # ggsave(file=paste(outdir,"/PCA_IMAGE",".png",sep=""),pI,height=12, width=16,dpi=500)
 
-pall = ggbiplot(pca.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pca$ID, groups=pca$diff)  + #groups=pca$model (try Category, diff, model, region, value?)
+pall = ggbiplot(pca.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pca$ID, groups=pca$diff)  +  #,choices=c(3,4) #groups=pca$model (try Category, diff, model, region, value?)
   #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
   ggtitle("PCA of regional phase-out years")+
   theme_bw()+
