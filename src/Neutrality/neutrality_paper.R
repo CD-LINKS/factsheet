@@ -835,6 +835,42 @@ pall = ggbiplot(pca.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pca$ID,
   theme(legend.position = "bottom")
 ggsave(file=paste(outdir,"/PCA_all_early-late-grouping",".png",sep=""),pall,height=12, width=16,dpi=500)
 
+# With a different package
+#install.packages(c("FactoMineR","factoextra"))
+library("FactoMineR")
+library("factoextra")
+library("corrplot")
+pca.active <- pca[,4:18]
+res.pca <- PCA(pca.active)
+print(res.pca)
+eig.val <- get_eigenvalue(res.pca)
+eig.val
+fviz_eig(res.pca,addlabels = T,ylim=c(0,50))
+var <- get_pca_var(res.pca)
+var
+head(var$coord)
+head(var$cos2)
+head(var$contrib)
+fviz_pca_var(res.pca,col.var="black")
+corrplot(var$cos2,is.corr=F)
+fviz_cos2(res.pca,choice="var",axes=1:2)
+fviz_pca_var(res.pca, col.var = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+             repel = TRUE # Avoid text overlapping
+)
+corrplot(var$contrib, is.corr=FALSE)
+# Contributions of variables to PC1
+fviz_contrib(res.pca, choice = "var", axes = 1, top = 10)
+# Contributions of variables to PC2
+fviz_contrib(res.pca, choice = "var", axes = 2, top = 10)
+fviz_contrib(res.pca, choice = "var", axes = 1:2, top = 10)
+fviz_pca_var(res.pca, col.var = "contrib",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07")
+)
+
+# TODO continute with this http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/112-pca-principal-component-analysis-essentials/
+# from color by groups
+
 # Emissions in phase-out year ---------------------------------------------
 # Graph: Emissions in phase-out year (like Joeri’s)
 # En dus bijvoorbeeld ook de strategie waarlangs een regio neutraliteit krijgt (meer uit reductie emissies, over meer uit negatieve emissies).
