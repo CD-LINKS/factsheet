@@ -455,8 +455,8 @@ ghgextra=rbind(ghgextra[period%in%c(2101:2200)],ghg)
 #check
 p=ggplot() #[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"]
 p=p+facet_grid(region~model)
-p=p+geom_line(data=ghg[Category%in%c("1.5 °C","2 °C")&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")], aes(x = period, y=value,linetype=Category))
-p=p+geom_line(data=ghgextra[region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")], aes(x = period, y=value,linetype=Category), color="red") #[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"]
+p=p+geom_line(data=ghg[Category%in%c("1.5 °C","2 °C")&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")], aes(x = period, y=value,linetype=Category),color="black")
+p=p+geom_line(data=ghgextra[Category%in%c("1.5 °C","2 °C")&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")], aes(x = period, y=value,linetype=Category), color="red") #[region=="CHN"&model=="AIM V2.1"&Category=="1.5 °C"]
 p=p+theme_bw()
 print(p)
 
@@ -466,6 +466,17 @@ poy=merge(poy,ghgextra[value<=0,min(period),by=c('model','Category','region')],b
 #poy$unit<-NULL
 poy[is.na(V1),]$V1="No phase-out" #TODO also with extrapolation some NA - check what it does in PCA?
 setnames(poy,"V1","period")
+
+#add classification earlier/later/same as global average (for PCA plotting)
+world=poy[region=="World"]
+poy=merge(poy,world, by=c("model","Category"))
+setnames(poy,"period.x","poy")
+setnames(poy,"period.y","world")
+poy$region.y<-NULL
+setnames(poy,"region.x","region")
+poy$diff=ifelse(is.na(poy$poy),"No phase-out",ifelse(poy$poy<poy$world,"earlier",ifelse(poy$poy>poy$world,"later","same")))
+poyclass = poy[Category%in%c("2 °C","1.5 °C")&!region=="World"]
+poyclass = select(poyclass,-poy,-world)
 
 ### Calculate indicators to plot on X-axis
 ## First interpolate to get 2015 data for MESSAGE, needed for some indicators TODO move to adjust reporting?
@@ -481,11 +492,11 @@ mesg = data.table(gather(mesg,period,value,c(`2010`,`2015`,`2020`)))
 mesg = mesg[period==2015]
 ghg = rbind(ghg,mesg)
 
-## and replace 0 land cover for Japan in REMIND with POLES' value TODO move to adjust reporting?
-land = rd[variable%in%c("Land Cover","Land Cover|Cropland")&region=="JPN"&model=="POLES CDL"]
-land$model <-"REMIND-MAgPIE 1.7-3.0"
-rd=rd[!c(model=="REMIND-MAgPIE 1.7-3.0"&region=="JPN"&variable%in%c("Land Cover","Land Cover|Cropland"))]
-rd=rbind(rd,land)
+## and replace 0 land cover for Japan in REMIND with POLES' value TODO move to adjust reporting? --> not used as REMIND is removed anyway, due to missing afforestation data
+# land = rd[variable%in%c("Land Cover","Land Cover|Cropland")&region=="JPN"&model=="POLES CDL"]
+# land$model <-"REMIND-MAgPIE 1.7-3.0"
+# rd=rd[!c(model=="REMIND-MAgPIE 1.7-3.0"&region=="JPN"&variable%in%c("Land Cover","Land Cover|Cropland"))]
+# rd=rbind(rd,land)
 
 ## Population density 
 popd=rd[variable%in%c("Population","Land Cover")] #&!c(model=="REMIND-MAgPIE 1.7-3.0"&region=="JPN")
@@ -549,21 +560,26 @@ prodcapmcor = prodcapm[,list(cor(value,period.y,method="pearson")),by=c("Categor
 
 ## Afforestation
 forest=rd[variable=="Land Cover|Forest|Afforestation and Reforestation"]
-#add 0 for AIM and REMIND (not reported) to make PCA work
-aimforest = rd[variable=="Population" & model=="AIM V2.1"]
-aimforest$value<-0
-aimforest$variable<-"Land Cover|Forest|Afforestation and Reforestation"
-remindforest = rd[variable=="Population" & model=="REMIND-MAgPIE 1.7-3.0"]
-remindforest$value<-0
-remindforest$variable<-"Land Cover|Forest|Afforestation and Reforestation"
-forest=rbind(forest,aimforest,remindforest)
+#add 0 for AIM and REMIND (not reported) to make PCA work --> removing these models as afforestation is not 0 in many countries
+# aimforest = rd[variable=="Population" & model=="AIM V2.1"]
+# aimforest$value<-0
+# aimforest$variable<-"Land Cover|Forest|Afforestation and Reforestation"
+# remindforest = rd[variable=="Population" & model=="REMIND-MAgPIE 1.7-3.0"]
+# remindforest$value<-0
+# remindforest$variable<-"Land Cover|Forest|Afforestation and Reforestation"
+# forest=rbind(forest,aimforest,remindforest)
 afforest = merge(forest,poy,by=c("model","Category","region"))
 
 # Calculate Pearson correlation
 afforestcor = afforest[,list(cor(value,period.y,method="pearson")),by=c("Category")]
 
 ## CCS
-ccs = rd[variable=="Carbon Sequestration|CCS"]
+ccs = rd[variable%in%c("Carbon Sequestration|CCS","Emissions|Kyoto Gases")]
+ccs = spread(ccs[,!c('unit'),with=FALSE],variable,value)
+ccs = ccs%>%mutate(CCSshare=abs(`Carbon Sequestration|CCS`/(`Emissions|Kyoto Gases`+`Carbon Sequestration|CCS`)*100))
+ccs = data.table(gather(ccs,variable,value,c("Carbon Sequestration|CCS","Emissions|Kyoto Gases","CCSshare")))
+ccs = ccs[variable=="CCSshare"]
+ccs$unit <-"%"
 ccscap = merge(ccs,poy,by=c("model","Category","region"))
 
 # Calculate Pearson correlation
@@ -771,35 +787,120 @@ setcolorder(blg50x,colnames(popdx))
 setcolorder(blg100x,colnames(popdx))
 # blg50x = select(blg50,-scenario,-Baseline,-Scope)
 # blg100x = select(blg100,-scenario,-Baseline,-Scope)
-setnames(poy,"period","value")
+setnames(poy,"poy","value")
 poy$period<-"x"
 poy$unit<-"Year"
 poy$variable<-"Emissions|Kyoto Gases"
+poy$world<-NULL
+poy$diff<-NULL #add this later because columns need to be the same
 setcolorder(poy,colnames(ccsx))
 pca=rbind(popdx,nonco2x,prodx,forestx,ccsx,gdpcapx,cropsharex,forestsharex,emisintx,emiscapx,transportsharex,buildingsharex,industrysharex,blg50x,blg100x,poy)
+#same but without phase-out years as rows for scatter plot
+scat=rbind(popdx,nonco2x,prodx,forestx,ccsx,gdpcapx,cropsharex,forestsharex,emisintx,emiscapx,transportsharex,buildingsharex,industrysharex,blg50x,blg100x)
+#continue with pca dataset - separately for model median and all models on one big pile
+pcamedian=data.table(pca[!model%in%c("AIM V2.1","REMIND-MAgPIE 1.7-3.0"),list(value=median(value,na.rm=T)),by=c("Category","region","period","variable","unit")])
+scatmedian=data.table(scat[!model%in%c("AIM V2.1","REMIND-MAgPIE 1.7-3.0"),list(value=median(value,na.rm=T)),by=c("Category","region","period","variable","unit")])
+#put in right format: all models
 pca=spread(pca[,!c('unit','period'),with=FALSE],variable,value)
-pca=gather(pca,variable,value,c(`Emissions|Kyoto Gases`))
+pca=data.table(gather(pca,variable,value,c(`Emissions|Kyoto Gases`)))
 pca$variable<-NULL
+pca=pca[!model%in%c("AIM V2.1","REMIND-MAgPIE 1.7-3.0")] #add when they do add afforestation reporting?
+#put in right format: median
+pcamedian=spread(pcamedian[,!c('unit','period'),with=FALSE],variable,value)
+pcamedian=data.table(gather(pcamedian,variable,value,c(`Emissions|Kyoto Gases`)))
+pcamedian$variable<-NULL
 
-# For all models together and per individual model 
-pca=data.table(pca)
+# First: all scatterplots for visual inspection
+poyscat=poy
+poyscat$variable<- NULL
+poyscat$unit<- NULL
+poyscat$period<- NULL
+setnames(poyscat,"value","poy")
+scat=merge(scat, poyscat, by=c("Category","model","region"))
+poyscatmedian=poyscat[,list(poy=median(poy,na.rm=T)),by=c("Category","region")]
+scatmedian=merge(scatmedian,poyscatmedian,by=c("Category","region"))
+
+library(RColorBrewer)
+nb.cols <- 17
+mycolors <- colorRampPalette(brewer.pal(9, "Set1"))(nb.cols)
+
+s = ggplot(scat[Category%in%c("2 °C","1.5 °C")&!region=="World"])
+s = s + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=3)
+s = s + scale_color_manual(values=mycolors)
+#s = s + geom_text(aes(x=value,y=poy,label=region))
+s = s + facet_wrap(~variable,scales="free_x",nrow=3,ncol=5)
+s = s + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100,2120,2140),limits=c(2020,2150))
+s = s + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                               strip.text=element_text(size=18))
+s = s + labs(x="",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_scatterplot_models",".png",sep=""),s,height=14, width=18,dpi=500)
+
+#separately for 1.5 and 2 C
+s1 = ggplot(scat[Category%in%c("1.5 °C")&!region=="World"])
+s1 = s1 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=3)
+s1 = s1 + scale_color_manual(values=mycolors)
+#s = s + geom_text(aes(x=value,y=poy,label=region))
+s1 = s1 + facet_wrap(~variable,scales="free_x",nrow=3,ncol=5)
+s1 = s1 + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100,2120,2140),limits=c(2020,2150))
+s1 = s1 + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                           strip.text=element_text(size=18))
+s1 = s1 + labs(x="",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_scatterplot_models_1p5",".png",sep=""),s1,height=14, width=18,dpi=500)
+
+s2 = ggplot(scat[Category%in%c("2 °C")&!region=="World"])
+s2 = s2 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=3)
+s2 = s2 + scale_color_manual(values=mycolors)
+#s = s + geom_text(aes(x=value,y=poy,label=region))
+s2 = s2 + facet_wrap(~variable,scales="free_x",nrow=3,ncol=5)
+s2 = s2 + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100,2120,2140),limits=c(2020,2150))
+s2 = s2 + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                             strip.text=element_text(size=18))
+s2 = s2 + labs(x="",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_scatterplot_models_2",".png",sep=""),s2,height=14, width=18,dpi=500)
+
+# and for median
+s3 = ggplot(scatmedian[Category%in%c("2 °C","1.5 °C")&!region=="World"])
+s3 = s3 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=3)
+s3 = s3 + scale_color_manual(values=mycolors)
+#s3 = s3 + geom_text(aes(x=value,y=poy,label=region))
+s3 = s3 + facet_wrap(~variable,scales="free_x",nrow=3,ncol=5)
+s3 = s3 + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100,2120,2140),limits=c(2020,2150))
+s3 = s3 + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                           strip.text=element_text(size=18))
+s3 = s3 + labs(x="",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_scatterplot_median",".png",sep=""),s3,height=14, width=18,dpi=500)
+
+# Continue with PCA: For all models together and per individual model / median
+#pca=data.table(pca)
 pca=pca[Category%in%c("2 °C","1.5 °C")&!region%in%c("World")]
 pca$ID <-with(pca,paste0(region,"-",value))
 pca=merge(pca,poyclass,by=c("Category","model","region"))
+
+#split out different groups
+pcaP = pca[model=="POLES CDL"]
+pcaP$ID <-with(pcaP,paste0(region,"-",value))
+pca=pca[region%in%c("BRA","CAN","TUR","USA","EU","RUS","JPN","IND","CHN","IDN")]
+pcaPI = pca[model%in%c("IMAGE 3.0","POLES CDL")]
+pcanoNA = na.omit(pca)
+pcamedian=pcamedian[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","TUR","USA","EU","RUS","JPN","IND","CHN","IDN")]
+pcamedian$ID <-with(pcamedian,paste0(region,"-",value))
+pcamedian1=pcamedian[Category%in%c("1.5 °C")]
+pcamedian2=pcamedian[Category%in%c("2 °C")]
+#TODO add early late grouping for median
+
+#old: per model
 # pcaI = pca[model=="IMAGE 3.0"]
 # pcaI$ID <-with(pcaI,paste0(region,"-",value))
 # pcaA = pca[model=="AIM V2.1"]
 # pcaA$ID <-with(pcaA,paste0(region,"-",value))
 # pcaM = pca[model=="MESSAGEix-GLOBIOM_1.1"]
 # pcaM$ID <-with(pcaM,paste0(region,"-",value))
-# pcaP = pca[model=="POLES CDL"]
-# pcaP$ID <-with(pcaP,paste0(region,"-",value))
 # pcaR = pca[model=="REMIND-MAgPIE 1.7-3.0"]
 # pcaR$ID <-with(pcaR,paste0(region,"-",value))
 # pcaW = pca[model=="WITCH2016"]
 # pcaW$ID <-with(pcaW,paste0(region,"-",value))
 
-# calculate principal components - TODO fix what it does with remaining NA phase-out year
+#old: per model --- calculate principal components - TODO fix what it does with remaining NA phase-out year
 # pcaI.pca <- prcomp(pcaI[,c(4:12)], center = TRUE,scale. = TRUE)
 # summary(pcaI.pca)
 # str(pcaI.pca)
@@ -807,17 +908,56 @@ pca=merge(pca,poyclass,by=c("Category","model","region"))
 # summary(pcaA.pca)
 # # pcaM.pca <- prcomp(pcaM[,c(4:8)], center = TRUE,scale. = TRUE)
 # # summary(pcaM.pca)
-# pcaP.pca <- prcomp(pcaP[,c(4:12)], center = TRUE,scale. = TRUE)
-# summary(pcaP.pca)
 # # pcaR.pca <- prcomp(pcaR[,c(4:7)], center = TRUE,scale. = TRUE)
 # # summary(pcaR.pca)
 # pcaW.pca <- prcomp(pcaW[,c(4:12)], center = TRUE,scale. = TRUE)
 # summary(pcaW.pca)
 # pca.pca <- prcomp(pca[,c(4:8)], center = TRUE,scale. = TRUE)
 # summary(pca.pca)
+
+#only POLES, all regions
+pcaP.pca <- prcomp(pcaP[,c(4:18)], center = TRUE,scale. = TRUE)
+POLESsum=data.frame(summary(pcaP.pca)$importance)
+POLESrot=pcaP.pca$rotation
+POLESpca=rbind(POLESrot,POLESsum)
+write.csv(POLESpca,paste("Neutrality","/POLESpca.csv",sep=""))
+# all models, 10 regions
 pca.pca <- prcomp(pca[,c(4:18)], center = TRUE,scale. = TRUE)
-summary(pca.pca)
-str(pca.pca)
+#summary(pca.pca)
+#str(pca.pca)
+allsum=data.frame(summary(pca.pca)$importance)
+allrot=pca.pca$rotation
+allpca=rbind(allrot,allsum)
+write.csv(allpca,paste("Neutrality","/allpca.csv",sep=""))
+#all models, 10 regions, omit NA phase-out
+pcanoNA.pca <- prcomp(pcanoNA[,c(4:18)], center = TRUE,scale. = TRUE)
+noNAsum=data.frame(summary(pcanoNA.pca)$importance)
+noNArot=pcanoNA.pca$rotation
+noNApca=rbind(noNArot,noNAsum)
+write.csv(noNApca,paste("Neutrality","/noNApca.csv",sep=""))
+#model median, 10 regions
+pcamedian.pca<-prcomp(pcamedian[,c(3:17)], center = TRUE,scale. = TRUE)
+mediansum=data.frame(summary(pcamedian.pca)$importance)
+medianrot=pcamedian.pca$rotation
+medianpca=rbind(medianrot,mediansum)
+write.csv(medianpca,paste("Neutrality","/medianpca.csv",sep=""))
+#separately for 1.5 and 2C
+pcamedian1.pca<-prcomp(pcamedian1[,c(3:17)], center = TRUE,scale. = TRUE)
+median1sum=data.frame(summary(pcamedian1.pca)$importance)
+median1rot=pcamedian1.pca$rotation
+median1pca=rbind(median1rot,median1sum)
+write.csv(median1pca,paste("Neutrality","/median1pca.csv",sep=""))
+pcamedian2.pca<-prcomp(pcamedian2[,c(3:17)], center = TRUE,scale. = TRUE)
+median2sum=data.frame(summary(pcamedian2.pca)$importance)
+median2rot=pcamedian2.pca$rotation
+median2pca=rbind(median2rot,median2sum)
+write.csv(median2pca,paste("Neutrality","/median2pca.csv",sep=""))
+#only POLES and IMAGE, 10 regions
+pcaPI.pca <- prcomp(pcaPI[,c(4:18)], center = TRUE,scale. = TRUE)
+POLESIMAGEsum=data.frame(summary(pcaPI.pca)$importance)
+POLESIMAGErot=pcaPI.pca$rotation
+POLESIMAGEpca=rbind(POLESIMAGErot,POLESIMAGEsum)
+write.csv(POLESIMAGEpca,paste("Neutrality","/POLESIMAGEpca.csv",sep=""))
 
 #plot TODO for other models individually?
 library(ggbiplot)
@@ -834,6 +974,49 @@ pall = ggbiplot(pca.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pca$ID,
   theme_bw()+
   theme(legend.position = "bottom")
 ggsave(file=paste(outdir,"/PCA_all_early-late-grouping",".png",sep=""),pall,height=12, width=16,dpi=500)
+
+pPI = ggbiplot(pcaPI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaPI$ID, groups=pcaPI$diff)  +  #,choices=c(3,4) #groups=pca$model (try Category, diff, model, region, value?)
+  #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
+  ggtitle("PCA of regional phase-out years")+
+  theme_bw()+
+  theme(legend.position = "bottom")
+ggsave(file=paste(outdir,"/PCA_POLES-IMAGE_early-late-grouping",".png",sep=""),pPI,height=12, width=16,dpi=500)
+
+pP = ggbiplot(pcaP.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaP$ID, groups=pcaP$diff)  +  #,choices=c(3,4) #groups=pca$model (try Category, diff, model, region, value?)
+  #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
+  ggtitle("PCA of regional phase-out years")+
+  theme_bw()+
+  theme(legend.position = "bottom")
+ggsave(file=paste(outdir,"/PCA_POLES_early-late-grouping",".png",sep=""),pP,height=12, width=16,dpi=500)
+
+pnoNA = ggbiplot(pcanoNA.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcanoNA$ID, groups=pcanoNA$diff)  +  #,choices=c(3,4) #groups=pca$model (try Category, diff, model, region, value?)
+  #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
+  ggtitle("PCA of regional phase-out years")+
+  theme_bw()+
+  theme(legend.position = "bottom")
+ggsave(file=paste(outdir,"/PCA_noNA_early-late-grouping",".png",sep=""),pnoNA,height=12, width=16,dpi=500)
+
+#to add early / late grouping TODO
+pmedian = ggbiplot(pcamedian.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcamedian$ID, groups=pcamedian$Category)  +  #,choices=c(3,4) #groups=pca$model (try Category, diff, model, region, value?)
+  #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
+  ggtitle("PCA of regional phase-out years")+
+  theme_bw()+
+  theme(legend.position = "bottom")
+ggsave(file=paste(outdir,"/PCA_median_scenario-grouping",".png",sep=""),pmedian,height=12, width=16,dpi=500)
+
+pmedian1 = ggbiplot(pcamedian1.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcamedian1$ID)  +  #,choices=c(3,4) #groups=pca$model (try Category, diff, model, region, value?)
+  #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
+  ggtitle("PCA of regional phase-out years")+
+  theme_bw()+
+  theme(legend.position = "bottom")
+ggsave(file=paste(outdir,"/PCA_median_1p5",".png",sep=""),pmedian1,height=12, width=16,dpi=500)
+
+pmedian2 = ggbiplot(pcamedian2.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcamedian2$ID)  +  #,choices=c(3,4) #groups=pca$model (try Category, diff, model, region, value?)
+  #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
+  ggtitle("PCA of regional phase-out years")+
+  theme_bw()+
+  theme(legend.position = "bottom")
+ggsave(file=paste(outdir,"/PCA_median_2",".png",sep=""),pmedian2,height=12, width=16,dpi=500)
 
 # With a different package
 #install.packages(c("FactoMineR","factoextra"))
