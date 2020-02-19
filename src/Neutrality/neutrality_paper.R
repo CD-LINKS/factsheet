@@ -617,6 +617,10 @@ cropsharepoym=merge(cropsharem,poym,by=c("Category","region"))
 
 ## Land cover forest share of total
 forestshare=rd[variable%in%c("Land Cover","Land Cover|Forest")]
+#temporary fix: put POLES forest cover for SAU at 2010 value (rather than negative values, incorrect). TODO: replace with new reported data after response Jacques
+forestpoles=forestshare[model=="POLES CDL" & variable=="Land Cover|Forest" & region=="SAU"]
+forestpoles$value=forestpoles[period==2010&Category=="2 °C"]$value
+forestshare=rbind(forestshare[!c(model=="POLES CDL"&region=="SAU"&variable=="Land Cover|Forest")],forestpoles)
 forestshare=spread(forestshare[,!c('unit'),with=FALSE],variable,value)
 forestshare=forestshare%>%mutate(forestshare=`Land Cover|Forest`/`Land Cover`*100)
 forestshare=data.table(gather(forestshare,variable,value,c("Land Cover|Forest","Land Cover","forestshare")))
@@ -1053,6 +1057,11 @@ fviz_pca_var(res.pca, col.var = "contrib",
 
 # TODO continute with this http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/112-pca-principal-component-analysis-essentials/
 # from color by groups
+
+
+# Regression with top 5 variables based on PCA, scatterplots, Lass --------
+model <- lm(value ~ BaselineGHG2100 + forestshare + cropshare + gdpcap + transportshare, data = pca)
+summary(model)
 
 # Emissions in phase-out year ---------------------------------------------
 # Graph: Emissions in phase-out year (like Joeri’s)
