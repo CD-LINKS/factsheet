@@ -1089,7 +1089,7 @@ s5 = s5 + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100,2120,2140),limits
 s5 = s5 + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
                            strip.text=element_text(size=18))
 s5 = s5 + labs(x="",y="Phase-out year of GHG emissions")
-ggsave(file=paste(outdir,"/poy_scatterplot_models",".png",sep=""),s5,height=14, width=18,dpi=500)
+ggsave(file=paste(outdir,"/poy_scatterplot_models_top6",".png",sep=""),s5,height=14, width=18,dpi=500)
 
 
 # Emissions in phase-out year ---------------------------------------------
