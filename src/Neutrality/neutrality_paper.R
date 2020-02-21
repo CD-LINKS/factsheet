@@ -1060,9 +1060,37 @@ fviz_pca_var(res.pca, col.var = "contrib",
 # from color by groups
 
 
-# Regression with top 5 variables based on PCA, scatterplots, Lass --------
-model <- lm(value ~ BaselineGHG2100 + forestshare + cropshare + gdpcap + transportshare, data = pca)
+# Regression with top 5 variables based on PCA, scatterplots, Lasso --------
+model <- lm(value ~ scale(BaselineGHG2100) + scale(forestshare) + scale(cropshare) + scale(gdpcap) + scale(transportshare), data = pca)
 summary(model)
+
+#check difference with other top 5: only the one from Lasso
+model <- lm(value ~ scale(BaselineGHG2100) + scale(forestshare) + scale(cropshare) + scale(`Land Cover|Forest|Afforestation and Reforestation`) + scale(transportshare), data = pca)
+summary(model)
+
+#check difference with other top 5: only the one from PCA
+model <- lm(value ~ scale(BaselineGHG2100) + scale(forestshare) + scale(cropshare) + scale(emisint) + scale(BaselineGHG2050), data = pca)
+summary(model)
+
+#check difference with other top 5: only the one from scatterplots
+model <- lm(value ~ scale(BaselineGHG2100) + scale(forestshare) + scale(nonCO2share) + scale(CCSshare) + scale(transportshare), data = pca)
+summary(model)
+
+# New scatterplots only for the top 5, including straight line fit
+s5 = ggplot(scat[Category%in%c("2 °C","1.5 °C")&!region=="World"&variable%in%c("forestshare","BaselineGHG2100","transportshare","CCSshare","cropshare","gdpcap")])
+s5 = s5 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=3)
+#s5 = s5 + abline(lm(scat$poy~scat$value))
+s5 = s5 + geom_quantile(method="rq",aes(x=value,y=poy),formula=y~x, stat="quantile", quantiles = 0.5, lty = "solid")
+s5 = s5 + geom_quantile(method="rq",aes(x=value,y=poy),formula=y~x, stat="quantile", quantiles = c(0.1,0.9), lty = "dashed")
+s5 = s5 + scale_color_manual(values=mycolors)
+#s = s + geom_text(aes(x=value,y=poy,label=region))
+s5 = s5 + facet_wrap(~variable,scales="free_x",nrow=2,ncol=3)
+s5 = s5 + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100,2120,2140),limits=c(2020,2150))
+s5 = s5 + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                           strip.text=element_text(size=18))
+s5 = s5 + labs(x="",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_scatterplot_models",".png",sep=""),s5,height=14, width=18,dpi=500)
+
 
 # Emissions in phase-out year ---------------------------------------------
 # Graph: Emissions in phase-out year (like Joeri’s)
