@@ -617,9 +617,10 @@ cropsharepoym=merge(cropsharem,poym,by=c("Category","region"))
 
 ## Land cover forest share of total
 forestshare=rd[variable%in%c("Land Cover","Land Cover|Forest")]
-#temporary fix: put POLES forest cover for SAU at 2010 value (rather than negative values, incorrect). TODO: replace with new reported data after response Jacques
+#temporary fix: put POLES forest cover for SAU at 0 (rather than negative values, incorrect), as instructed by Jacques
 forestpoles=forestshare[model=="POLES CDL" & variable=="Land Cover|Forest" & region=="SAU"]
-forestpoles$value=forestpoles[period==2010&Category=="2 °C"]$value
+#forestpoles$value=forestpoles[period==2010&Category=="2 °C"]$value
+forestpoles$value <- 0
 forestshare=rbind(forestshare[!c(model=="POLES CDL"&region=="SAU"&variable=="Land Cover|Forest")],forestpoles)
 forestshare=spread(forestshare[,!c('unit'),with=FALSE],variable,value)
 forestshare=forestshare%>%mutate(forestshare=`Land Cover|Forest`/`Land Cover`*100)
