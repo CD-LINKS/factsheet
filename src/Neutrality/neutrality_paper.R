@@ -1061,20 +1061,34 @@ fviz_pca_var(res.pca, col.var = "contrib",
 
 
 # Regression with top 5 variables based on PCA, scatterplots, Lasso --------
-model <- lm(value ~ scale(BaselineGHG2100) + scale(forestshare) + scale(cropshare) + scale(gdpcap) + scale(transportshare), data = pca)
+model <- lm(value ~ scale(BaselineGHG2100) + scale(forestshare) + scale(cropshare) + scale(prodcap) + scale(transportshare), data = pcaPI)
 summary(model)
 
 #check difference with other top 5: only the one from Lasso
-model <- lm(value ~ scale(BaselineGHG2100) + scale(forestshare) + scale(cropshare) + scale(`Land Cover|Forest|Afforestation and Reforestation`) + scale(transportshare), data = pca)
+model <- lm(value ~ scale(BaselineGHG2100) + scale(forestshare) + scale(cropshare) + scale(`Land Cover|Forest|Afforestation and Reforestation`) + scale(transportshare), data = pcaPI)
 summary(model)
 
 #check difference with other top 5: only the one from PCA
-model <- lm(value ~ scale(BaselineGHG2100) + scale(forestshare) + scale(cropshare) + scale(emisint) + scale(BaselineGHG2050), data = pca)
+model <- lm(value ~ scale(prodcap) + scale(gdpcap) + scale(buildingshare) + scale(transportshare) + scale(emisint), data = pcaPI)
 summary(model)
 
 #check difference with other top 5: only the one from scatterplots
-model <- lm(value ~ scale(BaselineGHG2100) + scale(forestshare) + scale(nonCO2share) + scale(CCSshare) + scale(transportshare), data = pca)
+model <- lm(value ~ scale(BaselineGHG2100) + scale(forestshare) + scale(nonCO2share) + scale(CCSshare) + scale(transportshare), data = pcaPI)
 summary(model)
+
+# Hans method: 3 models, with x1-x5, x6-x10, x11-x15, then lm with the most important ones
+model1<- lm(value ~ scale(density) + scale(nonCO2share) + scale(prodcap) + scale(`Land Cover|Forest|Afforestation and Reforestation`) + scale(CCSshare), data = pcaPI)
+summary(model1)
+
+model2<- lm(value ~ scale(gdpcap) + scale(cropshare) + scale(forestshare) + scale(emisint) + scale(emiscap), data = pcaPI)
+summary(model2)
+
+model3<- lm(value ~ scale(transportshare) + scale(buildingshare) + scale(industryshare) + scale(BaselineGHG2050) + scale(BaselineGHG2100), data = pcaPI)
+summary(model3)
+
+#combined model
+model4<- lm(value ~ scale(CCSshare)+scale(transportshare)+scale(`Land Cover|Forest|Afforestation and Reforestation`)+scale(forestshare),data=pcaPI)
+summary(model4)
 
 # New scatterplots only for the top 5, including straight line fit
 s5 = ggplot(scat[Category%in%c("2 °C","1.5 °C")&!region=="World"&variable%in%c("forestshare","BaselineGHG2100","transportshare","CCSshare","cropshare","gdpcap")])
