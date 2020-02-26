@@ -987,6 +987,13 @@ pPI = ggbiplot(pcaPI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaPI$
   theme(legend.position = "bottom")
 ggsave(file=paste(outdir,"/PCA_POLES-IMAGE_early-late-grouping",".png",sep=""),pPI,height=12, width=16,dpi=500)
 
+pPI2 = ggbiplot(pcaPI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaPI$ID, groups=pcaPI$diff,choices=c(3,4) )  +  ##groups=pca$model (try Category, diff, model, region, value?)
+  #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
+  ggtitle("PCA of regional phase-out years")+
+  theme_bw()+
+  theme(legend.position = "bottom")
+ggsave(file=paste(outdir,"/PCA_POLES-IMAGE_PC3-4_early-late-grouping",".png",sep=""),pPI2,height=12, width=16,dpi=500)
+
 pP = ggbiplot(pcaP.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaP$ID, groups=pcaP$diff)  +  #,choices=c(3,4) #groups=pca$model (try Category, diff, model, region, value?)
   #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
   ggtitle("PCA of regional phase-out years")+
@@ -1028,7 +1035,7 @@ ggsave(file=paste(outdir,"/PCA_median_2",".png",sep=""),pmedian2,height=12, widt
 library("FactoMineR")
 library("factoextra")
 library("corrplot")
-pca.active <- pca[,4:18]
+pca.active <- pcaPI[,4:18]
 res.pca <- PCA(pca.active)
 print(res.pca)
 eig.val <- get_eigenvalue(res.pca)
