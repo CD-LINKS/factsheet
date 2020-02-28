@@ -1243,6 +1243,16 @@ b3 = ggplot() +
   scale_fill_manual(values=c("nonCO2"="#E69F00","CO2demand"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec"))
 ggsave(file=paste(outdir,"/emissions_breakdown_poy_CHN-IND-USA",".png",sep=""),b3,height=12, width=16,dpi=500)
 
+b4 = ggplot() +
+  geom_bar(data=poyemis[value>0&region%in%c("BRA","CHN","IND","USA")&model%in%c("IMAGE 3.0","POLES CDL")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemis[value<0&region%in%c("BRA","CHN","IND","USA")&model%in%c("IMAGE 3.0","POLES CDL")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_text(data=poyemis[region%in%c("BRA","CHN","IND","USA")&variable=="nonCO2"&model%in%c("IMAGE 3.0","POLES CDL")],stat="identity",aes(x=model,y=1600,label=period),size=6) +
+  facet_grid(region~Category) + #,scales="free_y"
+  labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
+  ttheme+
+  scale_fill_manual(values=c("nonCO2"="#E69F00","CO2demand"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec"))
+ggsave(file=paste(outdir,"/emissions_breakdown_poy_BRA-CHN-IND-USA",".png",sep=""),b4,height=12, width=16,dpi=500)
+
 c1 = ggplot() +
   geom_bar(data=poyemisccs[value>0&region%in%c("JPN","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
   geom_bar(data=poyemisccs[value<0&region%in%c("JPN","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
