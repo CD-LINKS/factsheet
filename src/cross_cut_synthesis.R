@@ -29,7 +29,7 @@ scensnat <- c("NPi","NPi1000","NDC1000","NPi400")
 # All national line plots in one grid -------------------------------------
 vars = "Emissions|CO2|Energy"
 b<-plot_lineNationalScens(reg = "BRA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
-                          ylab = "Energy CO2 [MtCO2]", title="Brazil (MSB)",file_pre = "EneCO2",nolegend=T,ylim=c(-1200,1200))
+                          ylab = "Energy CO2 [MtCO2]", title="Brazil (BLUES)",file_pre = "EneCO2",nolegend=T,ylim=c(-1200,1200))
 c<-plot_lineNationalScens(reg = "CHN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]", title="China (IPAC: -, CHN-TIMES: --)", file_pre = "EneCO2")
 e<-plot_lineNationalScens(reg = "EU", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
@@ -62,7 +62,7 @@ ggsave(file=paste(cfg$outdir,"/natscens_gridarrange.png",sep=""),h,width=24,heig
 ### also for GDP
 vars = "GDP|MER"
 b<-plot_lineNationalScens(reg = "BRA", dt = all[!Category=="Historical"], vars = vars, scensnat = "NPi", scensglob = "NPi",
-                          ylab = "GDP|MER (billion US$2010/yr)", title="Brazil (MSB)",file_pre = "GDP",nolegend=T)#,ylim=c(-300,1200)
+                          ylab = "GDP|MER (billion US$2010/yr)", title="Brazil (BLUES)",file_pre = "GDP",nolegend=T)#,ylim=c(-300,1200)
 c<-plot_lineNationalScens(reg = "CHN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = "NPi", scensglob = "NPi",
                           ylab = "GDP|MER (billion US$2010/yr)", title="China (IPAC: -, CHN-TIMES: --)", file_pre = "GDP")
 e<-plot_lineNationalScens(reg = "EU", dt = filter(all, Category != "Historical"), vars = vars, scensnat = "NPi", scensglob = "NPi",
