@@ -875,6 +875,18 @@ s3 = s3 + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_
 s3 = s3 + labs(x="",y="Phase-out year of GHG emissions")
 ggsave(file=paste(outdir,"/poy_scatterplot_median",".png",sep=""),s3,height=14, width=18,dpi=500)
 
+# Only for 10 countries, POLES & IMAGE
+s4 = ggplot(scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")])
+s4 = s4 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=3)
+s4 = s4 + scale_color_manual(values=mycolors)
+#s4 = s4 + geom_text(aes(x=value,y=poy,label=region))
+s4 = s4 + facet_wrap(~variable,scales="free_x",nrow=3,ncol=5)
+s4 = s4 + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100,2120,2140),limits=c(2020,2150))
+s4 = s4 + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
+                           strip.text=element_text(size=18))
+s4 = s4 + labs(x="",y="Phase-out year of GHG emissions")
+ggsave(file=paste(outdir,"/poy_scatterplot_PI_10regions",".png",sep=""),s4,height=14, width=18,dpi=500)
+
 # Continue with PCA: For all models together and per individual model / median
 #pca=data.table(pca)
 pca=pca[Category%in%c("2 °C","1.5 °C")&!region%in%c("World")]
