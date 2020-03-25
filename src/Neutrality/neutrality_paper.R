@@ -306,6 +306,13 @@ dt$landuse <- "Model data"
 dth$landuse <- "Inventory data"
 setcolorder(dt,colnames(dth))
 dthcomp = rbind(dt,dth)
+dthcomp$model <- str_replace_all(dthcomp$model,"AIM V2.1","AIM")
+dthcomp$model <- str_replace_all(dthcomp$model,"V.14","")
+dthcomp$model <- str_replace_all(dthcomp$model,"IMAGE 3.0","IMAGE")
+dthcomp$model <- str_replace_all(dthcomp$model,"MESSAGEix-GLOBIOM_1.1","MESSAGEix")
+dthcomp$model <- str_replace_all(dthcomp$model,"POLES CDL","POLES")
+dthcomp$model <- str_replace_all(dthcomp$model,"REMIND-MAgPIE 1.7-3.0","REMIND")
+dthcomp$model <- str_replace_all(dthcomp$model,"WITCH2016","WITCH")
 
 S3 = ggplot()
 S3 = S3 + geom_path(data=dthcomp[Category%in%c("2 °C","1.5 °C")&!region%in%c("World","ARG","AUS","MEX",'ROK',"SAF","SAU")],aes(x=period,y=value,colour=Category,linetype=landuse))
