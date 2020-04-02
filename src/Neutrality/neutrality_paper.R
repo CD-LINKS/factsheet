@@ -98,6 +98,7 @@ S = ggplot()
 #S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
 S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=showyear,y=median, x=region, colour=variable),alpha=0.5,size=5,fatten=1,show.legend = F) #,position=position_dodge(width=0.66)
 S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")],aes(x=region,y=showyear,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
+S = S + guides(colour=F)
 S = S + geom_text(data=poy[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
 S = S + geom_text(data=poyrange[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
 S = S + geom_hline(data=poyrange[region=="World [6 models]"&Category%in%c("2 °C","1.5 °C")], aes(yintercept=median),linetype="dotted") 
@@ -111,7 +112,7 @@ S = S + scale_y_continuous(limits=c(2030,2110),breaks=c(2030,2040,2050,2060,2070
 #S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110,2120,2130,2140,2150,2160,2170,2180,2190,2200))
 S = S + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
         theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
-        theme(legend.text=element_text(size=11),legend.title=element_text(size=12))
+        theme(legend.text=element_text(size=16),legend.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Phase_out_year.png",sep=""),S,width=16, height=10, dpi=120)
 
 ### relative to global ###
