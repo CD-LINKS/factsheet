@@ -63,6 +63,7 @@ ghgextra=rbind(ghgextra[period%in%c(2101:2200)],ghg[Category%in%c("1.5 Â°C","2 Â
 poy=ghgextra[!duplicated(ghgextra[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE] #"Scope","Baseline","scenario"
 poy=merge(poy,ghgextra[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
 poy[is.na(V1),]$V1="No phase-out"
+poymodel=poy
 
 models=poy[,list(number=length(unique(model))),by=c('region','variable')]
 poy=merge(poy, models, by=c('region','variable'))
@@ -124,7 +125,7 @@ ghg=ghg[model%in%check$model]
 poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
 poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
 poy[is.na(V1),]$V1=2105
-poymodel=poy
+
 world=poy[region=="World"]
 poy=merge(poy,world, by=c("model","Category","variable","unit"))
 setnames(poy,"V1.x","poy")
