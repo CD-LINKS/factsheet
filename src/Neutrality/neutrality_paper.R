@@ -179,7 +179,7 @@ poyrange1=poyrange[variable=="Emissions|Kyoto Gases"]
 poyrange1$variable<-"Model AFOLU data"
 poyrange1$unit<-NULL
 
-  # Phase-out year (inventory AFOLU data) -------------------------------------------
+# Phase-out year (inventory AFOLU data) -------------------------------------------
 dt=np[variable %in% c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU") & Category %in% c("2 °C","1.5 °C")] 
 dt$scenario<-NULL
 dt$Baseline<-NULL
