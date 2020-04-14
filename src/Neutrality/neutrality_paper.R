@@ -336,7 +336,7 @@ S3 = S3 + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.tex
 ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_trajectory.png",sep=""),S3,width=12, height=8, dpi=120)
 
 S3b = ggplot()
-S3b = S3b + geom_line(data=dthcomp[period%in%c(2100:2200)&Category%in%c("2 °C","1.5 °C")&!region%in%c("World","ARG","AUS","MEX",'ROK',"SAF","SAU")],aes(x=period,y=value,colour=Category,linetype=landuse))
+S3b = S3b + geom_line(data=dthcomp[period%in%c(2100:2200)&Category%in%c("2 °C","1.5 °C")&!region%in%c("World","ARG","AUS","MEX",'ROK',"SAF","SAU")&!model=="POLES"],aes(x=period,y=value,colour=Category,linetype=landuse))
 S3b = S3b + facet_grid(region~model, scale="free_y")
 S3b = S3b + xlab("") + ylab("Emissions|Kyoto Gases (MtCO2eq/year)")
 S3b = S3b + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
@@ -439,12 +439,12 @@ a1 = a1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region=="World 
 a1 = a1 + coord_flip()
 a1 = a1 + facet_grid(.~Category, scales="free_y")
 a1 = a1 + geom_hline(yintercept=0)
-a1 = a1 + scale_y_continuous(limits=c(-80,90),breaks=c(-80,-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60,70,80,90))
+a1 = a1 + scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
 a1 = a1 + geom_text(data=poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"],stat="identity",aes(x=region,y=50,label="2077 > No phase-out"),size=6)
 a1 = a1 + ylab("Difference in phase-out year due to BECCS allocation (<0: earlier if based on biomass production)")+xlab("")
 #a1 = a1 + scale_y_continuous(breaks=c(-70,-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60))
 a1 = a1 + theme_bw()+ theme(axis.text.y=element_text(size=16))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ #angle=45,
-          theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))+
+          theme(axis.text.x = element_text(hjust = 1, size=14))+ theme(plot.title=element_text(size=18))+ #angle = 60, 
           theme(legend.text=element_text(size=16),legend.title=element_text(size=18),legend.position = "bottom")
 ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff.png",sep=""),a1,width=14, height=8, dpi=120)
 
