@@ -154,7 +154,7 @@ poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
 poy=poy[!number<3]
 
-poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","unit","variable")])
+poyrange=data.table(poy[,list(median=median(years),min=min(years),max=max(years)),by=c("Category","region","variable")])#,"unit"
 
 S = ggplot()
 S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill?
@@ -177,7 +177,7 @@ ggsave(file=paste(outdir,"/Phase_out_year_diffworld.png",sep=""),S,width=11, hei
   # Phase-out year (model AFOLU data) ---------------------------------------
 poyrange1=poyrange[variable=="Emissions|Kyoto Gases"]
 poyrange1$variable<-"Model AFOLU data"
-poyrange1$unit<-NULL
+#poyrange1$unit<-NULL
 
 # Phase-out year (inventory AFOLU data) -------------------------------------------
 dt=np[variable %in% c("Emissions|Kyoto Gases","Emissions|CO2|AFOLU") & Category %in% c("2 °C","1.5 °C")] 
@@ -312,12 +312,13 @@ S2 = S2 + theme_bw()+ theme(axis.text.y=element_text(size=16))+ theme(strip.text
 ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_diff.png",sep=""),S2,width=14, height=8, dpi=120)
 
 # plot trajectories to understand differences
-np = np[Scope=="global"]
-dt = np[variable=="Emissions|Kyoto Gases"]%>% select(-scenario,-Baseline,-unit,-Scope)
-dt$landuse <- "Model data"
-dth$landuse <- "Inventory data"
-setcolorder(dt,colnames(dth))
-dthcomp = rbind(dt,dth)
+# np = np[Scope=="global"]
+# dt = np[variable=="Emissions|Kyoto Gases"]%>% select(-scenario,-Baseline,-unit,-Scope)
+# dt$landuse <- "Model data"
+ghgextra$landuse <- "Model data"
+dthextra$landuse <- "Inventory data"
+setcolorder(ghgextra,colnames(dthextra))
+dthcomp = rbind(ghgextra[variable=="Emissions|Kyoto Gases"],dthextra)
 dthcomp$model <- str_replace_all(dthcomp$model,"AIM V2.1","AIM")
 dthcomp$model <- str_replace_all(dthcomp$model,"V.14","")
 dthcomp$model <- str_replace_all(dthcomp$model,"IMAGE 3.0","IMAGE")
@@ -327,13 +328,20 @@ dthcomp$model <- str_replace_all(dthcomp$model,"REMIND-MAgPIE 1.7-3.0","REMIND")
 dthcomp$model <- str_replace_all(dthcomp$model,"WITCH2016","WITCH")
 
 S3 = ggplot()
-S3 = S3 + geom_path(data=dthcomp[Category%in%c("2 °C","1.5 °C")&!region%in%c("World","ARG","AUS","MEX",'ROK',"SAF","SAU")],aes(x=period,y=value,colour=Category,linetype=landuse))
+S3 = S3 + geom_line(data=dthcomp[period%in%c(2010:2100)&Category%in%c("2 °C","1.5 °C")&!region%in%c("World","ARG","AUS","MEX",'ROK',"SAF","SAU")],aes(x=period,y=value,colour=Category,linetype=landuse))
 S3 = S3 + facet_grid(region~model, scale="free_y")
 S3 = S3 + xlab("") + ylab("Emissions|Kyoto Gases (MtCO2eq/year)")
 S3 = S3 + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
   theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_trajectory.png",sep=""),S3,width=12, height=8, dpi=120)
 
+S3b = ggplot()
+S3b = S3b + geom_line(data=dthcomp[period%in%c(2100:2200)&Category%in%c("2 °C","1.5 °C")&!region%in%c("World","ARG","AUS","MEX",'ROK',"SAF","SAU")],aes(x=period,y=value,colour=Category,linetype=landuse))
+S3b = S3b + facet_grid(region~model, scale="free_y")
+S3b = S3b + xlab("") + ylab("Emissions|Kyoto Gases (MtCO2eq/year)")
+S3b = S3b + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
+ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_trajectory_2200.png",sep=""),S3b,width=12, height=8, dpi=120)
 
 # Effect of allocation of negative emissions ------------------------------
 
