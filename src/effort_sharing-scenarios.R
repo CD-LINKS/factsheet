@@ -9,7 +9,7 @@ library(directlabels) # year labels for scatter plots
 library(stringr) #str_replace_all
 library(gridExtra) #arrangeGrob
 
-data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20191008-105619",".csv"),header=TRUE))
+data=invisible(fread(paste0("data/","cdlinks_effort_sharing_compare_20191106-092239",".csv"),header=TRUE))
 data <- data.table(invisible(melt(data,measure.vars=names(data)[grep("[0-9]+",names(data))],variable.name = "period",variable.factor=FALSE)))
 data$period <- as.numeric(data$period)
 data <- data[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -30,7 +30,7 @@ if(!file.exists(outdir)) {
 
 
 # read native model region data -------------------------------------------
-native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20191008-105659",".csv"),header=TRUE))
+native=invisible(fread(paste0("data/","cdlinks_effort_sharing_native_20191106-092312",".csv"),header=TRUE))
 native <- data.table(invisible(melt(native,measure.vars=names(native)[grep("[0-9]+",names(native))],variable.name = "period",variable.factor=FALSE)))
 native$period <- as.numeric(native$period)
 native <- native[!period %in% c(1950,1955,1960,1965,1970,1975,1980,1985,1990,1995,2000,2001,2002,2003,2004,2006,2007,2008,2009,2011,2012,2013,2014,2016,2017,2018,2019,2021,2022,2023,2024,2026,2027,2028,2029,2031,2032,2033,2034,2036,2037,2038,2039,2041,2042,2043,2044,2046,2047,2048,2049,2051,2052,2053,2054,2056,2057,2058,2059,2061,2062,2063,2064,2066,2067,2068,2069,2071,2072,2073,2074,2076,2077,2078,2079,2081,2082,2083,2084,2086,2087,2088,2089,2091,2092,2093,2094,2096,2097,2098,2099,2101,2102,2103,2104,2106,2107,2108,2109)]
@@ -51,7 +51,7 @@ scencateg <- "scen_categ_V4"
 variables <- "variables_xCut"
 adjust <- "adjust_reporting_neutrality" #later use adjust reporting Mark? check what goes wrong first, and then need to explain what was done and why - prefer as little as possible adjustments for now, only used for the extra IMAGE CO data and baseline check anyway
 addvars <- F
-datafile <-"cdlinks_compare_20191119-134837"
+datafile <-"cdlinks_compare_20191119-134837" #update to 20200112-151052 ?
 source("load_data.R")
 all=all[!duplicated(all)] #TODO check what goes wrong here: why is some data duplicated in load_data?
 
@@ -1523,18 +1523,18 @@ F16 = F16 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=elemen
 F16 = F16 + ylab(finflow$unit)+xlab("")
 ggsave(file=paste(outdir,"/financialflows_flexibility_2100.png",sep=""),F16,width=20,height=12,dpi=200)
 
-### 17. Ctax vs. reductions (compare national global) TODO
+### 17. Ctax vs. reductions (compare national global) 
 
 
-### 18. Compare national global other indicator TODO
-F18 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
-F18 = F18 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
-F18 = F18 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-F18 = F18 + facet_grid(regime~region,scale="fixed")
-F18 = F18 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
-                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
-F18 = F18 + ylab(data$unit)+xlab("")
-ggsave(file=paste(outdir,"/natglobcomp_flexibility_2050.png",sep=""),F18,width=20,height=12,dpi=200)
+### 18. Compare national global other indicator 
+# F18 = ggplot(data[region%in%r10&period==2050&implementation=="flexibility"])
+# F18 = F18 + geom_bar(aes(x=model,y=value,fill=regime),stat="identity")
+# F18 = F18 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+# F18 = F18 + facet_grid(regime~region,scale="fixed")
+# F18 = F18 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+#                              legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+# F18 = F18 + ylab(data$unit)+xlab("")
+# ggsave(file=paste(outdir,"/natglobcomp_flexibility_2050.png",sep=""),F18,width=20,height=12,dpi=200)
 
 ### 19. One figure to show time dimension TODO
 
@@ -1633,6 +1633,7 @@ F5a = F5a + ylab(gdploss$unit)+xlab("")
 ggsave(file=paste(outdir,"/GDPloss_flexibility_2050_layout.png",sep=""),F5a,width=20,height=12,dpi=200)
 
 # Selected figures in new layout not model comparison -------------------
+# TODO for all: dthcomp$model <- str_replace_all(dthcomp$model,"WITCH2016","WITCH")  (but then for region names)?
 ### 5. Costs relative to world
 costsworldrange=data.table(costsworld[,list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
                                       by=c("unit","period","implementation","regime","variable","region")])
@@ -1742,24 +1743,31 @@ F15 = F15 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=elemen
 F15 = F15 + ylab(costsgdpdicu$unit)+xlab("")
 ggsave(file=paste(outdir,"/cumuldisccosts_flexibility_2050_layoutmodel.png",sep=""),F15,width=20,height=12,dpi=200)
 
-### 14. Costs %GDP (model statistics)  TODO continue here
-F14 = ggplot(costsstat[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
-F14 = F14 + geom_bar(aes(x=regime,y=median,fill=regime),stat="identity",position=position_dodge(width=0.66),width=0.66)
-F14 = F14 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-F14 = F14 + geom_errorbar(aes(x=regime,ymin=min,ymax=max,colour=regime),stat="identity",position=position_dodge(width=0.66),width=0.66)
-F14 = F14 + scale_colour_manual(values=c("AP"="black","CO"="black","GF"="black","PCC"="black"))
-F14 = F14 + facet_grid(region~implementation,scale="free_y")
+### 14. Costs %GDP (model statistics)  
+F14 = ggplot(costsstat[region%in%r10&implementation=="flexibility"&!regime=="GF"&period==2050])
+F14 = F14 + geom_pointrange(aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+#F14 = F14 + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F14 = F14 + geom_hline(aes(yintercept=1),size=1)
+F14 = F14 + coord_flip()
+F14 = F14 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F14 = F14 + facet_grid(region~.,scale="free_y")
 F14 = F14 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
-                               legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+                               legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
 F14 = F14 + ylab(costsstat$unit)+xlab("")
-ggsave(file=paste(outdir,"/costsGDPstat_flexibility_2050_layout.png",sep=""),F14,width=20,height=12,dpi=200)
+ggsave(file=paste(outdir,"/costsGDPstat_flexibility_2050_layoutmodel.png",sep=""),F14,width=20,height=12,dpi=200)
 
 ### 4. Carbon price
-F4 = ggplot(data[variable=="Price|Carbon"&region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
-F4 = F4 + geom_bar(aes(x=regime,y=value,fill=regime),stat="identity")
-F4 = F4 + scale_fill_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
-F4 = F4 + facet_grid(region~model,scale="free_y")
+cpricerange=data.table(data[variable=="Price|Carbon",list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
+                                          by=c("unit","implementation","regime","region","period")])
+F4 = ggplot(data[variable=="Price|Carbon"&region%in%r10&implementation=="flexibility"&!regime=="GF"&period==2050])
+F4 = F4 + geom_pointrange(data=cpricerange[region%in%r10&implementation=="flexibility"&!regime=="GF"&period==2050],
+                            aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F4 = F4 + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F4 = F4 + geom_hline(aes(yintercept=1),size=1)
+F4 = F4 + coord_flip()
+F4 = F4 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F4 = F4 + facet_grid(region~.,scale="free_y")
 F4 = F4 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
-                             legend.title = element_text(size=20),axis.title = element_text(size=20),axis.text.x=element_text(angle=90))
+                               legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
 F4 = F4 + ylab(data[variable=="Price|Carbon"]$unit)+xlab("")
-ggsave(file=paste(outdir,"/cprice_flexibility_2050_layout.png",sep=""),F4,width=20,height=12,dpi=200)
+ggsave(file=paste(outdir,"/cprice_flexibility_2050_layoutmodel.png",sep=""),F4,width=20,height=12,dpi=200)
