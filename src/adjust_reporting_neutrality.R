@@ -95,11 +95,14 @@ if(dim(tmp1)[1]!=0 & "Agricultural Production|Energy|Crops" %in% unique(tmp1$var
 
 
 # Fix historical CO2 AFOLU emissions IMAGE --------------------------------
-image=all[model=="IMAGE 3.0"&variable%in%c("Emissions|CO2|AFOLU","Emissions|Kyoto Gases")&Category%in%c("2020_verylow","2020_low")&period%in%c(2005,2010)]
-image=spread(image[,!c('scenario'),with=FALSE],Category,value)
-image=image%>%mutate(`2020_low`=`2020_verylow`)
-image$`2020_verylow`<-NULL
-image=data.table(gather(image,Category,value,c("2020_low")))
-image$scenario<-"NPi2020_1000_V4"
+image=all[model=="IMAGE 3.0"&variable%in%c("Emissions|CO2|AFOLU","Emissions|Kyoto Gases")&Category%in%c("2020_verylow","2020_low","NoPOL")&period%in%c(2005,2010)]
+image=spread(image[,!c('scenario','Baseline'),with=FALSE],Category,value)
+image=image%>%mutate(`2020_low`=`NoPOL`,`2020_verylow`=`NoPOL`)
+image$`NoPOL`<-NULL
+image=data.table(gather(image,Category,value,c("2020_low","2020_verylow")))
+image$scenario<-""
+image$Baseline<-"NoPolicy_V4"
+image[Category=="2020_low"]$scenario<-"NPi2020_1000_V4"
+image[Category=="2020_verylow"]$scenario<-"NPi2020_400_V4"
 setcolorder(image,colnames(all))
-all <- rbind(all[!c(model=="IMAGE 3.0"&variable%in%c("Emissions|CO2|AFOLU","Emissions|Kyoto Gases")&Category%in%c("2020_low")&period%in%c(2005,2010))],image)
+all <- rbind(all[!c(model=="IMAGE 3.0"&variable%in%c("Emissions|CO2|AFOLU","Emissions|Kyoto Gases")&Category%in%c("2020_low","2020_verylow")&period%in%c(2005,2010))],image)
