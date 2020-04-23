@@ -547,10 +547,6 @@ poyrange1=data.table(poy1[,list(median=median(value,na.rm=T),min=min(value,na.rm
 poyrange1=poyrange1[!number<2]
 
 ##For display
-# poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$median<-100
-# poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$min<-100
-# poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"]$max<-100
-
 #change plot order
 poyrange1$Category <- factor(poyrange1$Category,levels=c("2 °C","1.5 °C"))
 poy1$Category <- factor(poy1$Category,levels=c("2 °C","1.5 °C"))
@@ -566,13 +562,29 @@ g1 = g1 + geom_hline(yintercept=0)
 g1 = g1 + coord_flip()
 g1 = g1 + facet_grid(.~Category, scales="free_y")
 g1 = g1 + ylab("Difference in phase-out year due to GWP (<0: earlier if based on AR5 instead of AR4)")+xlab("")
-#g1 = g1 + scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
-#g1 = g1 + geom_text(data=poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"],stat="identity",aes(x=region,y=50,label="2077 > No phase-out"),size=6)
 g1 = g1 + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
   theme(legend.text=element_text(size=16),legend.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Phase_out_year_GWP_diff_layout.png",sep=""),g1,width=16, height=10, dpi=120)
 
+
+# Combined figure definitions ---------------------------------------------
+library(gridExtra)
+S2a=S2a+theme(legend.position = "right")
+tmp<-ggplot_gtable(ggplot_build(S2a))
+leg<-which(sapply(tmp$grobs,function(x) x$name) =="guide-box")
+legend<-tmp$grobs[[leg]]
+S2a=S2a+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+g1=g1+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+a1a=a1a+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+text<-textGrob("Difference in phase-out year due to \n 1) inventory vs. model LULUCF (top-left): <0 earlier if based on inventory, \n 2) BECCS allocation (top-right): <0 earlier if based on biomass production, \n 3) GWP (bottom-left): <0 earlier if based on AR5 instead of AR4",
+               gp=gpar(fontsize=20))
+S2a=S2a+ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
+g1=g1+ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
+a1a=a1a+ylab("")
+lay<-rbind(c(1,2),c(1,2),c(3,4),c(3,5))
+h=grid.arrange(S2a,a1a,g1,text,legend,layout_matrix=lay)
+ggsave(file=paste(outdir,"/poy_effect_definitions_grid.png",sep=""),h,width=24,height=14,dpi=200)
 
 # Mitigation strategies / why are some regions earlier or later aka PCA prep---------------------------------------------------
 # EU late vs. US early: space for afforestation (e.g. population density).  Check database for other reasons , e.g. non-CO2 share in 2015? 
