@@ -1550,6 +1550,8 @@ ggsave(file=paste(outdir,"/CCS_breakdown_poy_CHN-IND-USA",".png",sep=""),c3,heig
 
 # Pathways (mitigation strategies) ----------------------------------------
 setcolorder(dthextra,colnames(ghgextra))
+ghgextra$landuse<-NULL
+dthextra$landuse<-NULL
 setcolorder(allocationextra,colnames(ghgextra))
 dthextra$variable = paste(dthextra$variable,"|Inventory",sep="")
 paths=rbind(ghgextra,dthextra,allocationextra[variable=="Emissions|CO2|Allocation"])
@@ -1557,7 +1559,7 @@ paths=rbind(ghgextra,dthextra,allocationextra[variable=="Emissions|CO2|Allocatio
 # calculate mean/range
 pathsrange=data.table(paths[,list(median=median(value,na.rm=T),mean=mean(value,na.rm=T),min=min(value,na.rm=T),max=max(value,na.rm=T)),
                             by=c("Category","region","variable","period")])
-pathsrange=pathsrange[!Category=="2 °C (2030)"&!variable=="Emissions|CO2|Energy and Industrial Processes"&period%in%c(2010,2020,2030,2040,2050,2060,2070,2080,2090,2100)]
+pathsrange=pathsrange[region%in%c("USA","IND")&!Category=="2 °C (2030)"&!variable=="Emissions|CO2|Energy and Industrial Processes"&period%in%c(2010,2020,2030,2040,2050,2060,2070,2080,2090,2100)]
 
 #To change plot order: 2, 1.5, USA, IND, GHG, GHG inventory, CO2, CO2 allocation
 pathsrange$Category = factor(pathsrange$Category,levels=c("2 °C","1.5 °C"))
