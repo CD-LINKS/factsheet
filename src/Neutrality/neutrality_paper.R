@@ -553,9 +553,9 @@ poy1$Category <- factor(poy1$Category,levels=c("2 °C","1.5 °C"))
 
 #plot
 g1 = ggplot()
-g1 = g1 + geom_pointrange(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&gwp=="diff"], 
+g1 = g1 + geom_pointrange(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","MEX [2 models]","SAF [2 models]")&gwp=="diff"], 
                             aes(ymin=min,ymax=max,y=median, x=region),alpha=0.5,size=5,fatten=1,show.legend = F,colour="#66b2ff") 
-g1 = g1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&gwp=="diff"],
+g1 = g1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","MEX [2 models]","SAF [2 models]")&gwp=="diff"],
                        aes(x=region,y=value,shape=model),size=3) #,colour=model
 g1 = g1 + guides(colour=F)
 g1 = g1 + geom_hline(yintercept=0) 
@@ -570,18 +570,25 @@ ggsave(file=paste(outdir,"/Phase_out_year_GWP_diff_layout.png",sep=""),g1,width=
 
 # Combined figure definitions ---------------------------------------------
 library(gridExtra)
-S2a=S2a+theme(legend.position = "right")
+library(grid)
+S2a=S2a+theme(legend.position = "right",legend.title=element_text(size=26),legend.text=element_text(size=24))
 tmp<-ggplot_gtable(ggplot_build(S2a))
 leg<-which(sapply(tmp$grobs,function(x) x$name) =="guide-box")
 legend<-tmp$grobs[[leg]]
-S2a=S2a+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
-g1=g1+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
-a1a=a1a+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
+S2a=S2a+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
+g1=g1+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
+a1a=a1a+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
 text<-textGrob("Difference in phase-out year due to \n 1) inventory vs. model LULUCF (top-left): <0 earlier if based on inventory, \n 2) BECCS allocation (top-right): <0 earlier if based on biomass production, \n 3) GWP (bottom-left): <0 earlier if based on AR5 instead of AR4",
-               gp=gpar(fontsize=20))
+               gp=gpar(fontsize=24))
 S2a=S2a+ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
-g1=g1+ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
+g1=g1+ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80)) 
 a1a=a1a+ylab("")
+g1=g1+geom_text(aes(x="BRA [3 models]",y=-40,label="Earlier"),stat="identity",data=poyrange1,size=10)
+g1=g1+geom_text(aes(x="BRA [3 models]",y=40,label="Later"),stat="identity",data=poyrange1,size=10)
+S2a=S2a+geom_text(aes(x="BRA [3 models]",y=-40,label="Earlier"),stat="identity",data=poyrange1,size=10)
+S2a=S2a+geom_text(aes(x="BRA [3 models]",y=40,label="Later"),stat="identity",data=poyrange1,size=10)
+a1a=a1a+geom_text(aes(x="USA [5 models]",y=-60,label="Earlier"),stat="identity",data=poyrange1,size=10)
+a1a=a1a+geom_text(aes(x="USA [5 models]",y=60,label="Later"),stat="identity",data=poyrange1,size=10)
 lay<-rbind(c(1,2),c(1,2),c(3,4),c(3,5))
 h=grid.arrange(S2a,a1a,g1,text,legend,layout_matrix=lay)
 ggsave(file=paste(outdir,"/poy_effect_definitions_grid.png",sep=""),h,width=24,height=14,dpi=200)
