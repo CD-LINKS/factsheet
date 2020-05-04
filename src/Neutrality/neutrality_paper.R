@@ -1347,6 +1347,15 @@ summary(model17)
 model20<- lm(value ~ scale(`Land Cover|Forest|Afforestation and Reforestation`)+scale(nonCO2share)+scale(CCSshare)+scale(gdpcap)+scale(transportshare),data=pcaPI)
 summary(model20)
 
+# and with Kaj selection top 6
+model21<- lm(value ~ scale(density)+scale(emisint)+scale(CCSshare)+scale(gdpcap)+scale(transportshare)+scale(BaselineGHG2050),data=pcaPI1)
+summary(model21)
+
+model22<- lm(value ~ scale(`Land Cover|Forest|Afforestation and Reforestation`)+scale(BaselineGHG2050)+scale(CCSshare)+scale(gdpcap)+scale(BaselineGHG2100)+scale(forestshare),data=pcaPI2)
+summary(model22)
+
+model23<- lm(value ~ scale(`Land Cover|Forest|Afforestation and Reforestation`)+scale(nonCO2share)+scale(CCSshare)+scale(gdpcap)+scale(transportshare)+scale(forestshare),data=pcaPI)
+summary(model23)
 
 # New scatterplots only for the top 4, including straight line fit
 s5 = ggplot(scat[Category%in%c("2 °C","1.5 °C")&region%in%unique(pcaPI$region)&model%in%c("IMAGE 3.0","POLES CDL")
