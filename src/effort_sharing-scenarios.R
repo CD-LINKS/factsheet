@@ -1650,6 +1650,19 @@ F5 = F5 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_
 F5 = F5 + ylab(costsworld$unit)+xlab("")
 ggsave(file=paste(outdir,"/costsrelworld_flexibility_2050_layoutmodel.png",sep=""),F5,width=20,height=12,dpi=200)
 
+F5x = ggplot(costsworld[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
+F5x = F5x + geom_pointrange(data=costsworldrange[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"],
+                          aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F5x = F5x + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F5x = F5x + geom_hline(aes(yintercept=1),size=1)
+F5x = F5x + coord_flip()
+F5x = F5x + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F5x = F5x + facet_wrap(~region,ncol=5,scale="free_x")
+F5x = F5x + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
+F5x = F5x + ylab(costsworld$unit)+xlab("")
+ggsave(file=paste(outdir,"/costsrelworld_flexibility_2050_layoutmodel_wrap.png",sep=""),F5x,width=20,height=12,dpi=200)
+
 ### 5a. GDP loss
 gdplossrange=data.table(gdploss[!model%in%c("DNE21+ V.14","IMAGE 3.0"),list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
                                 by=c("unit","period","implementation","regime","variable","region")])
