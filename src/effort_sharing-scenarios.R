@@ -1663,6 +1663,18 @@ F5x = F5x + theme_bw() + theme(axis.text=element_text(size=18),strip.text=elemen
 F5x = F5x + ylab(costsworld$unit)+xlab("")
 ggsave(file=paste(outdir,"/costsrelworld_flexibility_2050_layoutmodel_wrap.png",sep=""),F5x,width=20,height=12,dpi=200)
 
+F5y = ggplot(costsworld[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"])
+F5y = F5y + geom_pointrange(data=costsworldrange[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"],
+                          aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F5y = F5y + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F5y = F5y + geom_hline(aes(yintercept=1),size=1)
+F5y = F5y + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F5y = F5y + facet_grid(.~region,scale="free_y")
+F5y = F5y + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),legend.position = "bottom") #,axis.text.x=element_text(angle=90)
+F5y = F5y + ylab(costsworld$unit)+xlab("")
+ggsave(file=paste(outdir,"/costsrelworld_flexibility_2050_layoutmodel_horiz.png",sep=""),F5y,width=20,height=12,dpi=200)
+
 ### 5a. GDP loss
 gdplossrange=data.table(gdploss[!model%in%c("DNE21+ V.14","IMAGE 3.0"),list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
                                 by=c("unit","period","implementation","regime","variable","region")])
@@ -1677,6 +1689,17 @@ F5a = F5a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=elemen
                                legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
 F5a = F5a + ylab(gdploss$unit)+xlab("")
 ggsave(file=paste(outdir,"/GDPloss_flexibility_2050_layoutmodel.png",sep=""),F5a,width=20,height=12,dpi=200)
+
+F5ay = ggplot(gdploss[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"&!model%in%c("DNE21+ V.14","IMAGE 3.0")])
+F5ay = F5ay + geom_pointrange(data=gdplossrange[region%in%r10&period==2050&implementation=="flexibility"&!regime=="GF"],
+                            aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F5ay = F5ay + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F5ay = F5ay + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F5ay = F5ay + facet_grid(.~region,scale="free_y")
+F5ay = F5ay + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                               legend.title = element_text(size=20),axis.title = element_text(size=20),legend.position = "bottom") #,axis.text.x=element_text(angle=90)
+F5ay = F5ay + ylab(gdploss$unit)+xlab("")
+ggsave(file=paste(outdir,"/GDPloss_flexibility_2050_layoutmodel_horiz.png",sep=""),F5ay,width=20,height=12,dpi=200)
 
 ### 6c. Cost difference OECD / non-OECD excluding Middle East and reforming economies
 costratioexrange=data.table(costratioex[,list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
@@ -1710,6 +1733,18 @@ F7 = F7 + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_
 F7 = F7 + ylab(finflow$unit)+xlab("")
 ggsave(file=paste(outdir,"/financialflows_flexibility_2050_layoutmodel.png",sep=""),F7,width=20,height=12,dpi=200)
 
+F7y = ggplot(finflow[region%in%r10&period==2050&implementation=="flexibility"&!regime%in%c("GF","CO")])
+F7y = F7y + geom_pointrange(data=finflowrange[region%in%r10&period==2050&implementation=="flexibility"&!regime%in%c("GF","CO")],
+                          aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F7y = F7y + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F7y = F7y + geom_hline(aes(yintercept=1),size=1)
+F7y = F7y + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F7y = F7y + facet_grid(.~region,scale="free_y")
+F7y = F7y + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                             legend.title = element_text(size=20),axis.title = element_text(size=20),legend.position = "bottom") #,axis.text.x=element_text(angle=90)
+F7y = F7y + ylab(finflow$unit)+xlab("")
+ggsave(file=paste(outdir,"/financialflows_flexibility_2050_layoutmodel_horiz.png",sep=""),F7y,width=20,height=12,dpi=200)
+
 ### 7a. Financial flows (Mt)
 traderange=data.table(trade[,list(median=median(value, na.rm=T),min=min(value, na.rm=T),max=max(value, na.rm=T)),
                                 by=c("unit","period","implementation","regime","variable","region")])
@@ -1726,6 +1761,19 @@ F7a = F7a + theme_bw() + theme(axis.text=element_text(size=18),strip.text=elemen
                              legend.title = element_text(size=20),axis.title = element_text(size=20)) #,axis.text.x=element_text(angle=90)
 F7a = F7a + ylab(trade$unit)+xlab("")
 ggsave(file=paste(outdir,"/financialflows_Mt_flexibility_2050_layoutmodel.png",sep=""),F7a,width=20,height=12,dpi=200)
+
+
+F7ay = ggplot(trade[region%in%r10&period==2050&implementation=="flexibility"&!regime%in%c("GF","CO")])
+F7ay = F7ay + geom_pointrange(data=traderange[region%in%r10&period==2050&implementation=="flexibility"&!regime%in%c("GF","CO")],
+                            aes(ymin=min,ymax=max,y=median, x=regime, colour=regime),alpha=0.5,size=5,fatten=1,show.legend = F)
+F7ay = F7ay + geom_point(aes(x=regime,y=value,shape=model,colour=regime),size=3)
+F7ay = F7ay + geom_hline(aes(yintercept=1),size=1)
+F7ay = F7ay + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+F7ay = F7ay + facet_grid(.~region,scale="free_y")
+F7ay = F7ay + theme_bw() + theme(axis.text=element_text(size=18),strip.text=element_text(size=18),legend.text = element_text(size=18),
+                               legend.title = element_text(size=20),axis.title = element_text(size=20),legend.position = "bottom") #,axis.text.x=element_text(angle=90)
+F7ay = F7ay + ylab(trade$unit)+xlab("")
+ggsave(file=paste(outdir,"/financialflows_Mt_flexibility_2050_layoutmodel_horiz.png",sep=""),F7ay,width=20,height=12,dpi=200)
 
 ### 7b. Total financial flows
 F7b = ggplot(finflows[period==2050&implementation=="flexibility"&!regime%in%c("GF","CO")])
