@@ -229,6 +229,11 @@ message2 = message
 message2$implementation <- "domestic"
 data=rbind(data,message,message2)
 
+#And use emissions as allocation for CO
+ma = message[variable=="Emissions|Kyoto Gases"]
+ma$variable <- "Emissions|GHG|Allowance Allocation"
+data=rbind(data,ma)
+
 #R5=data[region%in%c("R5ASIA","R5LAM","R5MAF","R5OECD90+EU","R5REF")]
 data=data[region%in%c("World","JPN","BRA","CHN","EU","IND","RUS","USA",
                       "R10AFRICA","R10CHINA+","R10EUROPE","R10INDIA+","R10LATIN_AM","R10MIDDLE_EAST","R10NORTH_AM","R10PAC_OECD","R10REF_ECON","R10REST_ASIA")] 
@@ -392,6 +397,24 @@ ggsave(file=paste(outdir,"/Allowance allocation.png",sep=""),a,width=20,height=1
 # a1 = a1 + theme_bw() + theme(axis.text=element_text(size=14),strip.text=element_text(size=14),legend.text = element_text(size=14),legend.title = element_text(size=16),axis.title = element_text(size=16))
 # a1 = a1 + ylab(allocation$unit)
 # ggsave(file=paste(outdir,"/Allowance allocation_PCC.png",sep=""),a1,width=20,height=12,dpi=200)
+
+alloc30 = allocation[period==2030]
+allocationrel=merge(allocation,alloc30,by=c("model","scenario","region","variable","unit","implementation","regime"))
+allocationrel=allocationrel%>%mutate(value=value.x/value.y)
+setnames(allocationrel,"unit","unit.xy")
+allocationrel$unit <-"Fraction of 2030 allocation"
+
+a2 = ggplot(allocationrel[!regime=="GF"]) #[period%in%c(2050)]
+a2 = a2 + geom_line(aes(x=period.x,y=value,linetype=implementation,colour=regime),size=2)
+a2 = a2 + geom_hline(aes(yintercept = 1),size=1)
+a2 = a2 + xlim(2020,2100)
+a2 = a2 + scale_colour_manual(values=c("AP"="#003162","CO"="#b31b00","GF"="#b37400","PCC"="#4ed6ff"))
+a2 = a2 + facet_grid(model~region,scales="free_y")
+a2 = a2 + theme_bw() + theme(axis.text=element_text(size=22),strip.text=element_text(size=22),
+                           legend.text = element_text(size=20),legend.title = element_text(size=22),
+                           axis.title = element_text(size=22),axis.text.x=element_text(angle=90))
+a2 = a2 + ylab(allocationrel$unit) +xlab("")
+ggsave(file=paste(outdir,"/Allowance allocation_new.png",sep=""),a2,width=24,height=16,dpi=200)
 
 # Emissions ---------------------------------------------------------------
 # TODO check cumulative emissions in line with carbon budgets?
