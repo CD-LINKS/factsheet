@@ -131,7 +131,8 @@ if (file.exists(paste0("data/",cfg$infile,reg,"_proc.Rdata")) & !b.procdata) {
   # Rest: use latest version V3 for national (and some global) models, rename to V4
   all[MODEL %in% c("AIM/Enduse[Japan]","China TIMES","COPPE-COFFEE 1.0","DNE21+ V.14 (national)","GCAM-USA_CDLINKS","IPAC-AIM/technology V1.0","PRIMES_V1","REMIND-MAgPIE 1.7-3.0")]$SCENARIO <- str_replace_all(
   all[MODEL %in% c("AIM/Enduse[Japan]","China TIMES","COPPE-COFFEE 1.0","DNE21+ V.14 (national)","GCAM-USA_CDLINKS","IPAC-AIM/technology V1.0","PRIMES_V1","REMIND-MAgPIE 1.7-3.0")]$SCENARIO,"_V3","_V4")
-  all[MODEL == "GCAM-USA_CDLINKS" & VARIABLE %in%c("Population","GDP|MER")]$SCENARIO <- str_replace_all(all[MODEL == "GCAM-USA_CDLINKS" & VARIABLE %in%c("Population","GDP|MER")]$SCENARIO,"_V2","V4")
+  all[MODEL == "GCAM-USA_CDLINKS" & VARIABLE %in%c("Population","GDP|MER")&SCENARIO%in%c("INDC2030_high","INDC2030_low","NPi","NPi2020_high","NPi2020_low","NoPOL")]$SCENARIO <- 
+    paste(all[MODEL == "GCAM-USA_CDLINKS" & VARIABLE %in%c("Population","GDP|MER")&SCENARIO%in%c("INDC2030_high","INDC2030_low","NPi","NPi2020_high","NPi2020_low","NoPOL")]$SCENARIO,"_V4",sep="")
 
   # Exclude Globiom and Magpie (used for food security analysis only), and AIM/CGE (newest scenarios are under AIM V2.1)
   all <- all[!MODEL%in%c("MAgPIE 3.0","GLOBIOM 1.0","AIM/CGE")]
