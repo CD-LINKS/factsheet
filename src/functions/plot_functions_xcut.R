@@ -42,18 +42,18 @@ plot_boxplot <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, titl
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
     p = p + ggtitle(paste0(dtg$variable[1], " [", dtg$unit[1],"] - ",as.character(year)))
-    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,"_refpol",cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,"_refpol",cfg$format),p, width=9, height=6, dpi=300)
   }  else if(b.multivar)  {
     p = p + ggtitle(paste0("'",cats[1],"'"," - ", as.character(year)))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
-    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p, width=9, height=6, dpi=300)
   }  else   {
     p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"] - ",cats[1]," - ", as.character(year)))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
                   plot.title = element_text(size = 13) ) #hjust = 1, 
     ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p,
-           width=6.5, height=6, dpi=120)
+           width=6.5, height=6, dpi=300)
   }
   return(p)
 }
@@ -97,18 +97,18 @@ plot_boxplot_yr <- function(regs, dt, vars, cats, years, out=cfg$outdir, title="
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
     p = p + ggtitle(paste0(dtg$variable[1], " [", dtg$unit[1],"] - ",as.character(year)))
-    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,"_refpol",cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,"_refpol",cfg$format),p, width=9, height=6, dpi=300)
   }  else if(b.multivar)  {
     p = p + ggtitle(paste0("'",cats[1],"'"," - ", as.character(year)))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
-    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p, width=9, height=6, dpi=300)
   }  else   {
     p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"] - ",cats[1]))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
                   plot.title = element_text(size = 13) )
     ggsave(file=paste0(out,"/multireg_boxplot_",file_pre,cfg$format),p,
-           width=8, height=6, dpi=120)
+           width=8, height=6, dpi=300)
   }
   return(p)
 }
@@ -158,13 +158,13 @@ plot_boxplot_multiScenNat <- function(regs, dt, vars, catsnat, catglob, year = 2
 
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
-    ggsave(file=paste0(out,"/boxplotMultiReg_MultiNatiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/boxplotMultiReg_MultiNatiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=300)
   }  else   {
     p = p + ggtitle(paste0( var.labels[1], " -- ", as.character(year)))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
     ggsave(file=paste0(out,"/boxplotMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
-           width=6.5, height=6, dpi=120)
+           width=6.5, height=6, dpi=300)
   }
   return(p)
 }
@@ -217,13 +217,13 @@ plot_boxplot_multiScenNat_yr <- function(regs, dt, vars, catsnat, catglob, years
     
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
-    ggsave(file=paste0(out,"/boxplotMultiReg_MultiNatiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/boxplotMultiReg_MultiNatiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=300)
   }  else   {
     p = p + ggtitle(paste0( var.labels[1]))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
     ggsave(file=paste0(out,"/boxplotMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
-           width=6.5, height=6, dpi=120)
+           width=6.5, height=6, dpi=300)
   }
   return(p)
 }
@@ -261,7 +261,7 @@ plot_stackbar <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="Title"
   p = p + ylab(lab) + xlab("Models")
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
   p = p + scale_fill_manual(values=plotstyle(vars), labels=plotstyle(vars,out="legend"), name=strsplit(vars[1], "|", fixed=T)[[1]][1])
-  ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
+  ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=300)
   return(p)
 }
 
@@ -304,7 +304,7 @@ plot_scatter_xcut <- function(reg, dt, vars_to_spread, cats, out=cfg$outdir, tit
   if (ylog){p = p + scale_y_log10(limits=ylim)} #y-axis logarithmic
   if (xlog){p = p + scale_x_log10(limits=xlim)} #x-axis logarithmic
   p = p + theme(legend.position = "bottom") + ggplot2::theme_bw(base_size = 15)
-  ggsave(file=paste0(out,"/",file_pre,"_",reg[1],cfg$format),p, width=8, height=6, dpi=120)
+  ggsave(file=paste0(out,"/",file_pre,"_",reg[1],cfg$format),p, width=8, height=6, dpi=300)
   return(p)
 }
 
@@ -346,17 +346,17 @@ plot_boxplot2 <- function(regs, dt, vars, cats, out=cfg$outdir, title="Title", f
   {
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
-    ggsave(file=paste0(out,"/multireg_boxplot2_",file_pre,"_refpol",cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot2_",file_pre,"_refpol",cfg$format),p, width=9, height=6, dpi=300)
   }  else if(b.multivar)  {
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
-    ggsave(file=paste0(out,"/multireg_boxplot2_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot2_",file_pre,cfg$format),p, width=9, height=6, dpi=300)
   }  else   {
     p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"]   --    "))
     p = p + theme(axis.text.x  = element_text(angle=0, vjust=0.5, hjust = 0.5, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
     ggsave(file=paste0(out,"/multireg_boxplot2_",file_pre,cfg$format),p,
-           width=6.5, height=6, dpi=120)
+           width=6.5, height=6, dpi=300)
   }
   return(p)
 }
@@ -405,13 +405,13 @@ plot_boxplot3 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
     p = p + ggtitle(paste0( dtg$region, "--" , as.character(year)))
-    ggsave(file=paste0(out,"/multireg_boxplot3_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot3_",file_pre,cfg$format),p, width=9, height=6, dpi=300)
   }  else   {
     p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"]   --    ", as.character(year)))
     p = p + theme(axis.text.x  = element_text(angle=0, vjust=0.5, hjust = 0.5, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
     ggsave(file=paste0(out,"/multireg_boxplot3_",file_pre,cfg$format),p,
-           width=6.5, height=6, dpi=120)
+           width=6.5, height=6, dpi=300)
   }
   return(p)
 }
@@ -459,13 +459,13 @@ plot_boxplot4 <- function(regs, dt, vars, cats, year = 2050, out=cfg$outdir, tit
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 14),
                   plot.title = element_text( size = 18) )
     p = p + ggtitle(paste0( dtg$region, "--" , as.character(year)))
-    ggsave(file=paste0(out,"/multireg_boxplot4_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/multireg_boxplot4_",file_pre,cfg$format),p, width=9, height=6, dpi=300)
   }  else   {
     p = p + ggtitle(paste0( dtg$variable[1], " [", dtg$unit[1],"]   --    ", as.character(year)))
     p = p + theme(axis.text.x  = element_text(angle=0, vjust=0.5, hjust = 0.5, size = 11),
                   plot.title = element_text(hjust = 1, size = 13) )
     ggsave(file=paste0(out,"/multireg_boxplot4_",file_pre,cfg$format),p,
-           width=6.5, height=6, dpi=120)
+           width=6.5, height=6, dpi=300)
   }
   return(p)
 }
@@ -557,7 +557,7 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
                   plot.title = element_text( size = 18) )}
     p = p + theme_bw()
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
-    ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=120)
+    ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p, width=9, height=6, dpi=300)
   }  else   {
     p = p + ggtitle(paste0( var.labels[1]))
     if(increasefont){
@@ -583,10 +583,10 @@ plot_pointrange_multiScen_yr <- function(regs, dt, vars, catsnat, catglob, years
                       plot.title=element_text(size=22))}else{
       p = p + theme(axis.text.x=element_text(angle=45,vjust=0.5))}
       ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
-             width=10, height=6, dpi=120) 
+             width=10, height=6, dpi=300) 
     }else{
       ggsave(file=paste0(out,"/pointrangeMultiReg_MultiNatiScen_",file_pre,cfg$format),p,
-                                 width=6.5, height=6, dpi=120)}
+                                 width=6.5, height=6, dpi=300)}
   }
   return(p)
 }
@@ -695,7 +695,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
                   legend.text = element_text(size=18),
                   strip.text = element_text(size=18))
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
-    ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=120)
+    ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=300)
   } else {
   if(b.multivar)  {
     
@@ -707,7 +707,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
                   legend.text = element_text(size=18),
                   strip.text = element_text(size=18))
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
-    ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=120)
+    ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=300)
   }  else   {
     if(b.multireg){
       p = p + theme(axis.text.x  = element_text(size = 18,angle=90), #angle=90, vjust=0.5, hjust = 1, 
@@ -718,7 +718,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
                     legend.text = element_text(size=18),
                     strip.text = element_text(size=18))
       p = p + guides(colour=guide_legend(override.aes=list(size=1)))
-      ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=120)
+      ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p, width=12, height=8, dpi=300)
     }else{
     #p = p + ggtitle(paste0( var.labels[1]))
     p = p + theme(axis.text.x  = element_text(angle=90, vjust=0.5, hjust = 1, size = 18),
@@ -730,7 +730,7 @@ plot_pointrange_multiScen_glob <- function(regs, dt, vars, cats, catsnat, years,
                   strip.text = element_text(size=18))
     p = p + guides(colour=guide_legend(override.aes=list(size=1)))
     ggsave(file=paste0(out,"/pointrangeMultiReg_MultiScen_",file_pre,cfg$format),p,
-           width=12, height=12, dpi=120)
+           width=12, height=12, dpi=300)
   }}}
   return(p)
 }
@@ -812,7 +812,7 @@ plot_stackbar_regions <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
   if(colour){p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"),name="Region")}
   else{p = p + scale_fill_brewer(palette="Spectral")}
-  ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
+  ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=300)
   return(p)
 }
 
@@ -890,7 +890,7 @@ plot_stackbar_ghg <- function(regs, dt, vars, cats, catsnat, per, out=cfg$outdir
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
   if(labels){p = p + scale_fill_brewer(palette="Spectral",labels=var.labels,name="Variable")}else{p = p + scale_fill_brewer(palette="Spectral",name="Variable")}
   #p = p + scale_fill_manual(values=plotstyle(regs), labels=plotstyle(regs,out="legend"), name=strsplit(regs[1], "|", fixed=T)[[1]][1])
-  ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=120)
+  ggsave(file=paste0(out,"/",file_pre,"_",per,cfg$format),p, width=7, height=8, dpi=300)
   return(p)
 }
 
@@ -942,6 +942,6 @@ plot_stackbar_diff <- function(regs, dt, vars, cats, per, out=cfg$outdir, lab="y
   if(title){p = p + ggtitle(Title)}
   if (!all(is.na(ylim))){p = p + scale_y_continuous(limits=ylim,breaks=ybreaks)} #manual y-axis limits
   if(labels){p = p + scale_fill_brewer(palette="Paired",labels=scen.labels,name="Scenario")}else{p = p + scale_fill_brewer(palette="Paired",name="Scenario")}
-  ggsave(file=paste0(out,"/",file_pre,"_",cfg$format),p, width=10, height=8, dpi=120)
+  ggsave(file=paste0(out,"/",file_pre,"_",cfg$format),p, width=10, height=8, dpi=300)
   return(p)
 }
