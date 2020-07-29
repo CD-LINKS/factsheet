@@ -71,6 +71,9 @@ poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
 poy=poy[!number<3]
 
 poyrange=data.table(poy[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","variable")]) #"unit"
+#save for fig 2d:
+poyrange2=data.table(poymodel[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","variable")]) #"unit"
+medequity=poyrange2[variable=="Emissions|Kyoto Gases"]
 
 # change order for plotting
 #poyrange = poyrange[order(Category,variable,median)]
@@ -569,9 +572,39 @@ ggsave(file=paste(outdir,"/Phase_out_year_GWP_diff_layout.png",sep=""),g1,width=
 
 
 # Effect of equity --------------------------------------------------------
-equity=fread("data/RDP_equity_range.csv",header=TRUE)
+equity=fread("data/RDP_equity_range.csv",header=TRUE) #TODO maybe include all approaches to show as points, instead of only range?
 equity$Category=str_replace_all(equity$Category,"2C","2 °C")
 equity$Category=str_replace_all(equity$Category,"1.5C","1.5 °C")
+equity$approach<-NULL
+equity <- spread(equity,range,value)
+
+# model median for cost-optimal:
+medequity$min<-NULL
+medequity$max<-NULL
+
+equity=merge(medequity,equity,by=c("Category","region","variable"))
+# difference between equity range and model median CO - to do: add Nicole as median equity instead of diffmed, or median approach from RDP?
+equity=equity%>%mutate(diffmin=min-median,diffmax=max-median,diffmed=(diffmin+diffmax)/2)
+
+##For display
+#change plot order
+equity$Category <- factor(equity$Category,levels=c("2 °C","1.5 °C"))
+
+#plot
+e1 = ggplot()
+e1 = e1 + geom_pointrange(data=equity[Category%in%c("2 °C","1.5 °C")], 
+                          aes(ymin=diffmin,ymax=diffmax,y=diffmed, x=region),alpha=0.5,size=5,fatten=1,show.legend = F,colour="#66b2ff") 
+# e1 = e1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","MEX [2 models]","SAF [2 models]")&gwp=="diff"],
+#                      aes(x=region,y=value,shape=model),size=3) #,colour=model
+e1 = e1 + guides(colour=F)
+e1 = e1 + geom_hline(yintercept=0) 
+e1 = e1 + coord_flip()
+e1 = e1 + facet_grid(.~Category, scales="free_y")
+e1 = e1 + ylab("Difference in phase-out year due to equity (<0: earlier if based on equity range instead of cost-optimal)")+xlab("")
+e1 = e1 + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
+  theme(legend.text=element_text(size=16),legend.title=element_text(size=18))
+ggsave(file=paste(outdir,"/Phase_out_year_equity_diff_layout.png",sep=""),e1,width=16, height=10, dpi=120)
 
 # Combined figure definitions ---------------------------------------------
 library(gridExtra)
@@ -583,18 +616,22 @@ legend<-tmp$grobs[[leg]]
 S2a=S2a+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
 g1=g1+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
 a1a=a1a+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
+e1 = e1+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
 text<-textGrob("Difference in phase-out year due to \n 1) inventory vs. model LULUCF (top-left): <0 earlier if based on inventory, \n 2) BECCS allocation (top-right): <0 earlier if based on biomass production, \n 3) GWP (bottom-left): <0 earlier if based on AR5 instead of AR4",
                gp=gpar(fontsize=24))
 S2a=S2a+ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
 g1=g1+ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80)) 
 a1a=a1a+ylab("")
+e1 = e1 +ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
 g1=g1+geom_text(aes(x="BRA [3 models]",y=-40,label="Earlier"),stat="identity",data=poyrange1,size=10)
 g1=g1+geom_text(aes(x="BRA [3 models]",y=40,label="Later"),stat="identity",data=poyrange1,size=10)
 S2a=S2a+geom_text(aes(x="BRA [3 models]",y=-40,label="Earlier"),stat="identity",data=poyrange1,size=10)
 S2a=S2a+geom_text(aes(x="BRA [3 models]",y=40,label="Later"),stat="identity",data=poyrange1,size=10)
 a1a=a1a+geom_text(aes(x="USA [5 models]",y=-60,label="Earlier"),stat="identity",data=poyrange1,size=10)
 a1a=a1a+geom_text(aes(x="USA [5 models]",y=60,label="Later"),stat="identity",data=poyrange1,size=10)
-lay<-rbind(c(1,2),c(1,2),c(3,4),c(3,5))
+e1=e1+geom_text(aes(x="BRA",y=-20,label="Earlier"),stat="identity",data=poyrange1,size=10)
+e1=e1+geom_text(aes(x="BRA",y=20,label="Later"),stat="identity",data=poyrange1,size=10)
+lay<-rbind(c(1,2),c(1,2),c(3,4),c(3,5)) # TODO change to include equity
 h=grid.arrange(S2a,a1a,g1,text,legend,layout_matrix=lay)
 ggsave(file=paste(outdir,"/poy_effect_definitions_grid.png",sep=""),h,width=24,height=14,dpi=200)
 
