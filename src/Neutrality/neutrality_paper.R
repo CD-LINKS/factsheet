@@ -568,6 +568,11 @@ g1 = g1 + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.te
 ggsave(file=paste(outdir,"/Phase_out_year_GWP_diff_layout.png",sep=""),g1,width=16, height=10, dpi=120)
 
 
+# Effect of equity --------------------------------------------------------
+equity=fread("data/RDP_equity_range.csv",header=TRUE)
+equity$Category=str_replace_all(equity$Category,"2C","2 °C")
+equity$Category=str_replace_all(equity$Category,"1.5C","1.5 °C")
+
 # Combined figure definitions ---------------------------------------------
 library(gridExtra)
 library(grid)
