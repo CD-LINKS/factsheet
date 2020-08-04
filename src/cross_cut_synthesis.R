@@ -29,7 +29,7 @@ scensnat <- c("NPi","NPi1000","NDC1000","NPi400")
 # All national line plots in one grid -------------------------------------
 vars = "Emissions|CO2|Energy"
 b<-plot_lineNationalScens(reg = "BRA", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
-                          ylab = "Energy CO2 [MtCO2]", title="Brazil (MSB)",file_pre = "EneCO2",nolegend=T,ylim=c(-1200,1200))
+                          ylab = "Energy CO2 [MtCO2]", title="Brazil (BLUES)",file_pre = "EneCO2",nolegend=T,ylim=c(-1200,1200))
 c<-plot_lineNationalScens(reg = "CHN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
                           ylab = "Energy CO2 [MtCO2]", title="China (IPAC: -, CHN-TIMES: --)", file_pre = "EneCO2")
 e<-plot_lineNationalScens(reg = "EU", dt = filter(all, Category != "Historical"), vars = vars, scensnat = scensnat, scensglob = scensglob,
@@ -57,12 +57,12 @@ r=r+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.t
 u=u+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
 lay<-rbind(c(1,2,3,4),c(5,6,7,8))
 h=grid.arrange(b,c,e,i,j,r,u,legend,layout_matrix=lay)
-ggsave(file=paste(cfg$outdir,"/natscens_gridarrange.png",sep=""),h,width=24,height=14,dpi=200)
+ggsave(file=paste(cfg$outdir,"/natscens_gridarrange.png",sep=""),h,width=24,height=14,dpi=300)
 
 ### also for GDP
 vars = "GDP|MER"
 b<-plot_lineNationalScens(reg = "BRA", dt = all[!Category=="Historical"], vars = vars, scensnat = "NPi", scensglob = "NPi",
-                          ylab = "GDP|MER (billion US$2010/yr)", title="Brazil (MSB)",file_pre = "GDP",nolegend=T)#,ylim=c(-300,1200)
+                          ylab = "GDP|MER (billion US$2010/yr)", title="Brazil (BLUES)",file_pre = "GDP",nolegend=T)#,ylim=c(-300,1200)
 c<-plot_lineNationalScens(reg = "CHN", dt = filter(all, Category != "Historical"), vars = vars, scensnat = "NPi", scensglob = "NPi",
                           ylab = "GDP|MER (billion US$2010/yr)", title="China (IPAC: -, CHN-TIMES: --)", file_pre = "GDP")
 e<-plot_lineNationalScens(reg = "EU", dt = filter(all, Category != "Historical"), vars = vars, scensnat = "NPi", scensglob = "NPi",
@@ -90,7 +90,7 @@ r=r+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.t
 u=u+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
 lay<-rbind(c(1,2,3,4),c(5,6,7,8))
 h=grid.arrange(b,c,e,i,j,r,u,legend,layout_matrix=lay)
-ggsave(file=paste(cfg$outdir,"/natscens_GDP_gridarrange.png",sep=""),h,width=24,height=14,dpi=200)
+ggsave(file=paste(cfg$outdir,"/natscens_GDP_gridarrange.png",sep=""),h,width=24,height=14,dpi=300)
 
 # Pointrange graphs -------------------------------------------------------
 # Set regions and categories ----------------------------------------------
@@ -232,7 +232,7 @@ b1=b1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),le
 c1=c1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 d1=d1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 g=arrangeGrob(a1,b1,c1,d1,ncol=2)
-ggsave(file=paste(cfg$outdir,"/sectors_CO2_2030.png",sep=""),g,width=24,height=18,dpi=200)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_2030.png",sep=""),g,width=24,height=18,dpi=300)
 
 #2050-CO2
 a2<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Transportation","Emissions|CO2|Energy|Demand|Industry","Emissions|CO2|Energy|Demand|Residential and Commercial","Emissions|CO2|Energy|Supply"),
@@ -253,7 +253,7 @@ b2=b2+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),le
 c2=c2+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 d2=d2+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 h=arrangeGrob(a2,b2,c2,d2,ncol=2)
-ggsave(file=paste(cfg$outdir,"/sectors_CO2_2050.png",sep=""),h,width=24,height=18,dpi=200)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_2050.png",sep=""),h,width=24,height=18,dpi=300)
 
 ## Per capita
 #2030-CO2/cap
@@ -274,7 +274,7 @@ b1=b1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),le
 c1=c1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 d1=d1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 g=arrangeGrob(a1,b1,c1,d1,ncol=2)
-ggsave(file=paste(cfg$outdir,"/sectors_CO2_capita_2030.png",sep=""),g,width=24,height=18,dpi=200)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_capita_2030.png",sep=""),g,width=24,height=18,dpi=300)
 
 #2050-CO2/cap
 a1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Transport CO2 per capita","Industry CO2 per capita","Buildings CO2 per capita","Energy supply CO2 per capita"),
@@ -294,7 +294,7 @@ b1=b1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),le
 c1=c1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 d1=d1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 g=arrangeGrob(a1,b1,c1,d1,ncol=2)
-ggsave(file=paste(cfg$outdir,"/sectors_CO2_capita_2050.png",sep=""),g,width=24,height=18,dpi=200)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_capita_2050.png",sep=""),g,width=24,height=18,dpi=300)
 
 
 ##Relative to 2010
@@ -316,7 +316,7 @@ b1=b1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),le
 c1=c1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 d1=d1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 g=arrangeGrob(a1,b1,c1,d1,ncol=2)
-ggsave(file=paste(cfg$outdir,"/sectors_CO2_rel2010_2030.png",sep=""),g,width=24,height=18,dpi=200)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_rel2010_2030.png",sep=""),g,width=24,height=18,dpi=300)
 
 #2050-CO2/2010
 a1<-plot_pointrange_multiScen_yr(regs=regs,dt=all,vars=c("Emissions|CO2|Energy|Demand|Industry|rel2010","Emissions|CO2|Energy|Demand|Residential and Commercial|rel2010","Emissions|CO2|Energy|Demand|Transportation|rel2010","Emissions|CO2|Energy|Supply|rel2010"),
@@ -336,7 +336,7 @@ b1=b1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),le
 c1=c1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 d1=d1+theme(axis.text=element_text(size=16),legend.text=element_text(size=14),legend.title=element_text(size=16),plot.title=element_text(size=18),strip.text=element_text(size=16))
 g=arrangeGrob(a1,b1,c1,d1,ncol=2)
-ggsave(file=paste(cfg$outdir,"/sectors_CO2_rel2010_2050.png",sep=""),g,width=24,height=18,dpi=200)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_rel2010_2050.png",sep=""),g,width=24,height=18,dpi=300)
 
 #### Final Energy ####
 # "Final Energy|Industry|rel2010"
@@ -355,7 +355,7 @@ ggsave(file=paste(cfg$outdir,"/sectors_CO2_rel2010_2050.png",sep=""),g,width=24,
 # d1=d1+theme(legend.position = "none")+theme(axis.text=element_text(size=16),plot.title = element_text(size=18))
 # lay<-rbind(c(1,2,1,2),c(3,4,5,5))
 # h=grid.arrange(a1,b1,c1,d1,legend,layout_matrix=lay)
-# ggsave(file=paste(cfg$outdir,"/sectors_CO2_2030_grid.png",sep=""),h,width=24,height=14,dpi=200)
+# ggsave(file=paste(cfg$outdir,"/sectors_CO2_2030_grid.png",sep=""),h,width=24,height=14,dpi=300)
 
 # Sectors: waterfall plot -------------------------------------------------
 regs <- c("BRA","CHN", "IND", "RUS", "EU","JPN","USA")
@@ -399,7 +399,7 @@ d = d + theme(axis.text.x=element_text(size=16,angle=90),axis.text.y=element_tex
 d = d + ylab("CO2 emissions (MtCO2/year)") + ggtitle("NPi400")+ xlab("")
 
 e=arrangeGrob(a,b,c,d,ncol=2)
-ggsave(file=paste(cfg$outdir,"/sectors_CO2_stackbar.png",sep=""),e,width=24,height=18,dpi=200)
+ggsave(file=paste(cfg$outdir,"/sectors_CO2_stackbar.png",sep=""),e,width=24,height=18,dpi=300)
 
 # Waterfall - to be done
 # # NPi400 vs. NPi, Brazil
@@ -531,7 +531,7 @@ ggsave(file=paste(cfg$outdir,"/sectors_CO2_stackbar.png",sep=""),e,width=24,heig
 # print(b5)
 # 
 # B=arrangeGrob(b3,b5,ncol=2)
-# ggsave(file=paste(cfg$outdir,"/Brazil_waterfalls_easy.png",sep=""),B,width=24,height=14,dpi=200)
+# ggsave(file=paste(cfg$outdir,"/Brazil_waterfalls_easy.png",sep=""),B,width=24,height=14,dpi=300)
 
 # Christoph's script ------------------------------------------------------
 ### Christoph's script!
