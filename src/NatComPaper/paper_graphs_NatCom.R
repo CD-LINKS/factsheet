@@ -189,7 +189,7 @@ all_fig2_hist[period==2015]$Scope <- "global"
 all_fig2 <- rbind(all_fig2, all_fig2_hist)
 all_fig2_stat <- group_by(all_fig2, Category, region, period, variable) %>% summarise(median=median(value, na.rm=T))
 
-palette_fig2 <- "Blues"
+palette_fig2 <- "Paired"
 source("functions/plot_functions_xcut_NatCom.R")
 regs_fig2 <- c("World")
 a2<-plot_stackbar_ghg(regs=regs_fig2, dt=all_fig2, vars=vars_stack_fig2,var_line=vars_line_fig2, cats = cats_stack_fig2, catsnat=catsnat_fig2, 
@@ -385,10 +385,14 @@ data_fig3_stat <- mutate(data_fig3_stat, ymax=ifelse(variable=="Emissions|Kyoto 
 
 fig3 <- ggplot(data=data_fig3_stat) + geom_line(aes(period, median, colour=Category), size=2) + 
                    geom_ribbon(aes(x=period,ymin=perc_10,ymax=perc_90,fill=Category),alpha=.15, show.legend = F) +
-                   geom_segment(data=Gap_stat, mapping=aes(x=2032, y=start_median, xend=2032, yend=start_median-gap_2C_median), 
-                                arrow=arrow(length = unit(0.25, "cm")), size=1)+#, color="dark blue") +
-                   geom_segment(data=Gap_stat, mapping=aes(x=2031, y=start_median, xend=2031, yend=start_median-gap_1.5C_median), 
-                                arrow=arrow(length = unit(0.25, "cm")), size=1)+#, color="dark blue") +
+                   #geom_segment(data=Gap_stat, mapping=aes(x=2032, y=start_median, xend=2032, yend=start_median-gap_2C_median), 
+                  #              arrow=arrow(length = unit(0.25, "cm")), size=1)+#, color="dark blue") +
+                  # geom_segment(data=Gap_stat, mapping=aes(x=2031, y=start_median, xend=2031, yend=start_median-gap_1.5C_median), 
+                  #              arrow=arrow(length = unit(0.25, "cm")), size=1)+#, color="dark blue") +
+  geom_segment(data=Gap_stat, mapping=aes(x=2032, y=start_median, xend=2032, yend=start_median-gap_2C_median), 
+               arrow=arrow(length = unit(0.25, "cm")), size=1, linetype="dashed", lineend="round", linejoin="round") +
+  geom_segment(data=Gap_stat, mapping=aes(x=2031, y=start_median, xend=2031, yend=start_median-gap_1.5C_median), 
+               arrow=arrow(length = unit(0.25, "cm")), size=1, linetype="solid", lineend="round", linejoin="round") +
                    facet_wrap(variable~region, scales = "free_y", nrow=4, labeller=labeller(variable = var_labels, region=reg_labels)) +
                    #facet_grid(variable~region, scales = "free_y", labeller=labeller(variable = var_labels, region=reg_labels)) +
                    #ylim(0,NA) +
@@ -396,9 +400,11 @@ fig3 <- ggplot(data=data_fig3_stat) + geom_line(aes(period, median, colour=Categ
                    geom_blank(aes(y = data_fig3_stat$ymin))+
                    geom_blank(aes(y = data_fig3_stat$ymax))+
                    xlab("") + ylab("") +
-                   scale_linetype_discrete(name="Median gap with", breaks=gaps, labels=c("2° C high probability", "1.5° C")) +                 
+                   #scale_linetype_manual(name="Median gap with", breaks=gaps, labels=c("2C"=" 2° C", "1.5C"="1.5° C")) +
+                   scale_linetype_manual(name="Median gap with", breaks=gaps, values=c("2° C","1.5° C")) +
                    scale_colour_manual(name= "Scenario", values=colours_fig3, labels=c("National policies"="National policies", "Carbon budget 1000"="2° C", "Carbon budget 400"="1.5° C"),
                                        guide = guide_legend(reverse=TRUE)) +
+                   
                    scale_fill_manual(values=colours_fig3) +
   
                    guides(color = guide_legend(order = 1), linetype = guide_legend(order = 0)) +
@@ -411,6 +417,7 @@ fig3 <- ggplot(data=data_fig3_stat) + geom_line(aes(period, median, colour=Categ
                    theme(legend.title = element_text(size = 20, face = "bold"),
                          legend.text=element_text(size=16))
 plot(fig3)
+#ggsave(file=paste("NatComPaper/graphs","/test2.jpg",sep=""),fig3,width=20,height=12,dpi=300)
 ggsave(file=paste("NatComPaper/graphs","/Figure3_NatCom.jpg",sep=""),fig3,width=20,height=12,dpi=300)
 write.table(data_fig3_stat, "NatComPaper/data/table_fig3_total.csv", sep=";", row.names=F)
 write.table(Gap_stat, "NatComPaper/data/table_fig3_gap.csv", sep=";", row.names=F)

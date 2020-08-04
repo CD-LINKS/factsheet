@@ -99,6 +99,8 @@ all_indicators<-all_indicators[!(model=="MESSAGEix-GLOBIOM_1.1")]
 # CHECK why does COPPE data has 'Global' for scope instead of 'global'?
 all_indicators$Scope=str_replace_all(all_indicators$Scope,"Global","global")
 
+# CHECK --> Category is not included --> structure should be equal to all_paper
+
 #regs_paper <- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA")
 #vars_RoW <- c("Emissions|Kyoto Gases", "Emissions|CO2", "Emissions|CO2|Energy and Industrial Processes", "Emissions|CO2|AFOLU", 
 #              "Emissions|CH4", "Emissions|N2O", "Emissions|F-Gases", 

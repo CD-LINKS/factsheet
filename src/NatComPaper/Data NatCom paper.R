@@ -146,7 +146,7 @@ assign(paste0("all_paper_", datafile), all_paper)
 
 # III. Retrieve historical data
 rm(all_hist); rm(all_hist_paper)
-source('functions/CreateHistoricalData.R')
+source('functions/CreateHistoricalData_CD_LINKS.R')
 all_hist_paper <- all_hist
 all_hist_paper$period <- as.integer(all_hist_paper$period)
 all_hist_paper$period <- as.integer(all_hist_paper$period)
