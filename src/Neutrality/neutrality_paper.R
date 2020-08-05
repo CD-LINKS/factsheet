@@ -589,6 +589,7 @@ equity=equity%>%mutate(diffmin=min-median,diffmax=max-median,diffmed=(diffmin+di
 ##For display
 #change plot order
 equity$Category <- factor(equity$Category,levels=c("2 °C","1.5 °C"))
+equity$region<-paste(equity$region,' [','median]',sep="")
 
 #plot
 e1 = ggplot()
@@ -617,7 +618,7 @@ S2a=S2a+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),
 g1=g1+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
 a1a=a1a+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
 e1 = e1+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
-text<-textGrob("Difference in phase-out year due to \n 1) inventory vs. model LULUCF (top-left): <0 earlier if based on inventory, \n 2) BECCS allocation (top-right): <0 earlier if based on biomass production, \n 3) GWP (bottom-left): <0 earlier if based on AR5 instead of AR4",
+text<-textGrob("Difference in phase-out year due to \n 1) inventory vs. model LULUCF (top-left): <0 earlier if based on inventory, \n 2) BECCS allocation (top-right): <0 earlier if based on biomass production, \n 3) GWP (bottom-left): <0 earlier if based on AR5 instead of AR4, \n 4) Equity (bottom-right): <0 earlier if based on equity range instead of cost-optimal",
                gp=gpar(fontsize=24))
 S2a=S2a+ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
 g1=g1+ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80)) 
@@ -629,10 +630,10 @@ S2a=S2a+geom_text(aes(x="BRA [3 models]",y=-40,label="Earlier"),stat="identity",
 S2a=S2a+geom_text(aes(x="BRA [3 models]",y=40,label="Later"),stat="identity",data=poyrange1,size=10)
 a1a=a1a+geom_text(aes(x="USA [5 models]",y=-60,label="Earlier"),stat="identity",data=poyrange1,size=10)
 a1a=a1a+geom_text(aes(x="USA [5 models]",y=60,label="Later"),stat="identity",data=poyrange1,size=10)
-e1=e1+geom_text(aes(x="BRA",y=-20,label="Earlier"),stat="identity",data=poyrange1,size=10)
-e1=e1+geom_text(aes(x="BRA",y=20,label="Later"),stat="identity",data=poyrange1,size=10)
-lay<-rbind(c(1,2),c(1,2),c(3,4),c(3,5)) # TODO change to include equity
-h=grid.arrange(S2a,a1a,g1,text,legend,layout_matrix=lay)
+e1=e1+geom_text(aes(x="BRA [median]",y=-20,label="Earlier"),stat="identity",data=poyrange1,size=10)
+e1=e1+geom_text(aes(x="BRA [median]",y=20,label="Later"),stat="identity",data=poyrange1,size=10)
+lay<-rbind(c(1,2),c(1,2),c(3,4),c(3,4),c(5,6)) #3 panel: lay<-rbind(c(1,2),c(1,2),c(3,4),c(3,5)) 
+h=grid.arrange(S2a,a1a,g1,e1,text,legend,layout_matrix=lay)
 ggsave(file=paste(outdir,"/poy_effect_definitions_grid.png",sep=""),h,width=24,height=14,dpi=200)
 
 # Mitigation strategies / why are some regions earlier or later aka PCA prep---------------------------------------------------
