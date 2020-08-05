@@ -178,25 +178,35 @@ IEA_products <- c(IEA_coal_product, IEA_crude_oil_product, IEA_light_oil_product
                   "HYDRO", IEA_other_ren_product, IEA_biomass_product, "ELECTR", "HEAT")
 IEA_EU <- c("AUSTRIA", "BELGIUM", "BULGARIA", "CROATIA", "CYPRUS", "CZECH", "DENMARK", "ESTONIA", "FINLAND", "FRANCE", "GERMANY", "GREECE", "HUNGARY", "IRELAND", "ITALY", 
             "LATVIA", "LITHUANIA", "LUXEMBOU", "MALTA", "NETHLAND", "POLAND", "PORTUGAL", "ROMANIA", "SLOVAKIA", "SLOVENIA", "SPAIN", "SWEDEN", "UK")
+IEA_WEU <- c("AUSTRIA", "BELGIUM", "DENMARK", "FINLAND", "FRANCE", "GERMANY", "GIBRALTAR", "GREECE", "ICELAND", "IRELAND", "ITALY", "LUXEMBOU", "NETHLAND", "NORWAY", "PORTUGAL", "SPAIN", "SWEDEN", "SWITLAND", "UK", "MALTA")
+IEA_CEU <- c("ALBANIA", "BOSNIAHERZ", "BULGARIA", "CROATIA", "CYPRUS", "CZECH","ESTONIA","HUNGARY","LATVIA", "LITHUANIA", "FYROM", "POLAND", "ROMANIA", "SERBIA", "MONTENEGRO", "SLOVAKIA", "SLOVENIA")
+IEA_WEU_add_to_EU <- c("GIBRALTAR","ICELAND","NORWAY","SWITLAND","MALTA")
+IEA_CEU_add_to_EU <- c("ALBANIA", "BOSNIAHERZ", "FYROM","SERBIA", "MONTENEGRO")
 IEA_China <- c("CHINA", "HONGKONG", "MONGOLIA", "TAIPEI")
 IEA_Bunkers <- c("WORLDAV", "WORLDMAR")
-regions_IEA_IAM_import <- c("BRAZIL",  "INDIA", "JAPAN", "RUSSIA", "USA", "CANADA", "TURKEY", "WORLD", IEA_EU, IEA_China, IEA_Bunkers, "WORLDAV", "WORLDMAR")
-#regions_IEA_IAM <- c("BRAZIL",  "CHINA+", "EU28", "INDIA", "JAPAN", "RUSSIA", "USA", "CANADA", "TURKEY", "BUNKERS", "WORLD")
-regions_IEA_IAM <- c("BRAZIL",  "CHINA+", "EU28", "INDIA", "JAPAN", "RUSSIA", "USA", "CANADA", "TURKEY", "WORLD", "BUNKERS")
+regions_IEA_import <- c("BRAZIL",  "INDIA", "JAPAN", "RUSSIA", "USA", "CANADA", "TURKEY", "WORLD", IEA_EU, IEA_WEU_add_to_EU, IEA_CEU_add_to_EU, IEA_China, IEA_Bunkers, "WORLDAV", "WORLDMAR")
+#regions_IEA <- c("BRAZIL",  "CHINA+", "EU28", "INDIA", "JAPAN", "RUSSIA", "USA", "CANADA", "TURKEY", "BUNKERS", "WORLD")
+regions_IEA <- c("BRAZIL",  "CHINA+", "EU28", "WEU", "CEU", "INDIA", "JAPAN", "RUSSIA", "USA", "CANADA", "TURKEY", "WORLD", "BUNKERS")
 
 # IEA
 IEA_energy_import <- read.csv("data/IEA-tj-1990-2015-v2.csv", header=TRUE, sep=",")
 IEA_energy <- rename(IEA_energy_import, region=COUNTRY, period=Year, unit=UNIT, value=VALUE) %>%
   select(region, FLOW, PRODUCT, period, value, unit)
 # detect missing records and add zero's (necassary for CalVariables function)
-IEA_empty <- CreateEmptyIEA_energy(IEA_energy, regions_IEA_IAM_import, IEA_flows_import, c(IEA_products))
+IEA_empty <- CreateEmptyIEA_energy(IEA_energy, regions_IEA_import, IEA_flows_import, c(IEA_products))
 IEA_tmp <- anti_join(IEA_empty, IEA_energy, by=c('region', 'FLOW', 'PRODUCT', 'period', 'unit'))
 IEA_energy <- rbind(IEA_energy, IEA_tmp)
 
-# Add EU28, CHINA+ and BUNKERS regions
+# Add EU28, WEU, CEU, CHINA+ and BUNKERS regions
 IEA_energy_EU <- filter(IEA_energy, region %in% IEA_EU) %>% group_by(FLOW, PRODUCT, period, unit)
 IEA_energy_EU <- summarise(IEA_energy_EU, value=sum(value)) %>% ungroup() %>% mutate(region = "EU28") %>%
                  select(region, FLOW, PRODUCT, period, unit, value)
+IEA_energy_WEU <- filter(IEA_energy, region %in% IEA_WEU) %>% group_by(FLOW, PRODUCT, period, unit)
+IEA_energy_WEU <- summarise(IEA_energy_WEU, value=sum(value)) %>% ungroup() %>% mutate(region = "WEU") %>%
+                  select(region, FLOW, PRODUCT, period, unit, value)
+IEA_energy_CEU <- filter(IEA_energy, region %in% IEA_CEU) %>% group_by(FLOW, PRODUCT, period, unit)
+IEA_energy_CEU <- summarise(IEA_energy_CEU, value=sum(value)) %>% ungroup() %>% mutate(region = "CEU") %>%
+                  select(region, FLOW, PRODUCT, period, unit, value)
 IEA_energy_China <- filter(IEA_energy, region %in% IEA_China) %>% group_by(FLOW, PRODUCT, period, unit)
 IEA_energy_China <- summarise(IEA_energy_China, value=sum(value)) %>% ungroup() %>% mutate(region = "CHINA+") %>%
                     select(region, FLOW, PRODUCT, period, unit, value)
@@ -207,12 +217,14 @@ IEA_energy_bunkers <- filter(IEA_energy, region %in% IEA_Bunkers) %>%
                       mutate(region="BUNKERS") %>%
                       select(region, FLOW, PRODUCT, period, unit, value)
 IEA_energy <- rbind(IEA_energy, IEA_energy_EU) %>% 
+              rbind(IEA_energy_WEU) %>%
+              rbind(IEA_energy_CEU) %>%
               rbind(IEA_energy_China) %>%
               rbind(IEA_energy_bunkers) %>%
               arrange(region, FLOW, PRODUCT, period)
 
-# Only select CD-LINKS countries and use same region names
-IEA_energy <- filter(IEA_energy, region %in% regions_IEA_IAM)
+# Only select defined countries and use same region names
+IEA_energy <- filter(IEA_energy, region %in% regions_IEA)
 IEA_energy$region=str_replace_all(IEA_energy$region,"BRAZIL","BRA")
 IEA_energy$region=str_replace_all(IEA_energy$region,"CHINA\\+","CHN")
 IEA_energy$region=str_replace_all(IEA_energy$region,"INDIA","IND")

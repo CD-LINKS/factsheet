@@ -20,7 +20,9 @@ regs_paper<- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World", "Bunk
 regs_paper_excl_bunkers <- c( "BRA",  "CHN", "EU",  "IND", "JPN", "RUS", "USA", "World")
 
 all_paper_results <- filter(all_paper, Scope=="global", period>=2010, period<=2050, region%in%regs_paper) %>%
-                     select(-Baseline, -scenario, -Scope)# Data processing ---------------------------------------------------------
+                     select(-Baseline, -scenario, -Scope)
+
+# Data processing ---------------------------------------------------------
 
 
 # results in 2030
