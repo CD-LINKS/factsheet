@@ -178,13 +178,20 @@ ggsave(file=paste(outdir,"/Phase_out_year_diffworld.png",sep=""),S,width=11, hei
 # SI table peak year etc --------------------------------------------------
 # Negative emissions in 2100, also 2030/2050 reduction targets, peak year
 SItable=np[variable%in%c("Emissions|Kyoto Gases","Carbon Sequestration|CCS","Carbon Sequestration|Land Use")]  #,"Carbon Sequestration|Direct Air Capture","Carbon Sequestration|Enhanced Weathering","Carbon Sequestration|Other"
+
+#calculate negative emissions
 SItable=spread(SItable[,!c('unit'),with=FALSE],variable,value)
 SItable[is.na(SItable)] <- 0
 SItable=SItable%>%mutate(Negative_emissions=`Carbon Sequestration|CCS`+`Carbon Sequestration|Land Use`)
 SItable=data.table(gather(SItable,variable,value,c('Negative_emissions','Carbon Sequestration|CCS','Carbon Sequestration|Land Use','Emissions|Kyoto Gases')))
-SItable=SItable[variable%in%c("Emissions|Kyoto Gases","Negative_emissions")]
-NegEmis2100 = SItable[period==2100&variable=="Negative_emissions",list(min=min(value,na.rm=T),max=max(value,na.rm=T),med=median(value,na.rm=T)),by=c("Category","region","variable","unit","period","Scope")]
+NegEmis2100 = SItable[period==2100&variable=="Negative_emissions",list(min=min(value,na.rm=T),max=max(value,na.rm=T),med=median(value,na.rm=T)),by=c("Category","region","variable","period","Scope")]
 
+#calculate peak year
+peak = SItable[variable=="Emissions|Kyoto Gases",list(value=as.numeric(period[which.max(value)])),by=c('scenario','Category','Baseline','model','region','Scope','variable')]
+
+#calculate reduction targets
+
+#collect and summarise min/median/max
 
 # Effect of LULUCF definitions --------------------------------------------
 #	Land CO2 in models vs. in inventories: effect on neutrality of different definitions 
