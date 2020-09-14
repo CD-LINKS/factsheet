@@ -184,14 +184,32 @@ SItable=spread(SItable[,!c('unit'),with=FALSE],variable,value)
 SItable[is.na(SItable)] <- 0
 SItable=SItable%>%mutate(Negative_emissions=`Carbon Sequestration|CCS`+`Carbon Sequestration|Land Use`)
 SItable=data.table(gather(SItable,variable,value,c('Negative_emissions','Carbon Sequestration|CCS','Carbon Sequestration|Land Use','Emissions|Kyoto Gases')))
-NegEmis2100 = SItable[period==2100&variable=="Negative_emissions",list(min=min(value,na.rm=T),max=max(value,na.rm=T),med=median(value,na.rm=T)),by=c("Category","region","variable","period","Scope")]
+NegEmis2100 = SItable[period==2100&variable=="Negative_emissions"&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","World","IDN","RUS")&Category%in%c("1.5 °C","2 °C"),list(min=min(value,na.rm=T),max=max(value,na.rm=T),med=median(value,na.rm=T)),by=c("Category","region","variable","period","Scope")]
+write.csv(NegEmis2100,paste("Neutrality","/SItableNegEmis.csv",sep=""))
 
 #calculate peak year
 peak = SItable[variable=="Emissions|Kyoto Gases",list(value=as.numeric(period[which.max(value)])),by=c('scenario','Category','Baseline','model','region','Scope','variable')]
+peakrange=peak[region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","World","IDN","RUS")&Category%in%c("1.5 °C","2 °C"),list(min=min(value,na.rm=T),max=max(value,na.rm=T),med=median(value,na.rm=T)),by=c("Category","region","variable","Scope")]
+write.csv(peakrange,paste("Neutrality","/SItablePeak.csv",sep=""))
 
 #calculate reduction targets
+mesg=spread(SItable[period%in%c(2010,2020)&model=="MESSAGEix-GLOBIOM_1.1"],period,value)
+mesg = mesg%>%mutate(`2015`=(`2010`+`2020`)/2)
+mesg = data.table(gather(mesg,period,value,c(`2010`,`2015`,`2020`)))
+mesg = mesg[period==2015]
+SItable = rbind(SItable,mesg)
 
-#collect and summarise min/median/max
+emisrel = SItable[period%in%c(2015,2030,2050)&variable=="Emissions|Kyoto Gases"]
+emisrel = spread(emisrel,period,value)
+emisrel = emisrel%>%mutate(rel2050=(`2050`-`2015`)/`2015`*100,rel2030=(`2030`-`2015`)/`2015`*100)
+emisrel = data.table(gather(emisrel,period,value,c(`2015`,`2050`,`2030`,"rel2050","rel2030")))
+emisrel = emisrel[period%in%c("rel2050","rel2030")]
+emisrel$unit <-"%"
+emisrel$variable <-"GHG emissions relative to 2015"
+emisrel[period=="rel2050"]$period<-2050
+emisrel[period=="rel2030"]$period<-2030
+emisrelrange=emisrel[region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","World","IDN","RUS")&Category%in%c("1.5 °C","2 °C"),list(min=min(value,na.rm=T),max=max(value,na.rm=T),med=median(value,na.rm=T)),by=c("Category","region","variable","Scope","period")]
+write.csv(emisrelrange,paste("Neutrality","/SItableRelEmis.csv",sep=""))
 
 # Effect of LULUCF definitions --------------------------------------------
 #	Land CO2 in models vs. in inventories: effect on neutrality of different definitions 
