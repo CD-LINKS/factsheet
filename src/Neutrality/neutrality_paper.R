@@ -67,7 +67,8 @@ poymodel=poy
 
 models=poy[,list(number=length(unique(model))),by=c('region','variable')]
 poy=merge(poy, models, by=c('region','variable'))
-poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
+#poy$region <- paste(poy$region,' [',poy$number,' models]',sep="")
+poy$region <- paste(poy$region,' [',poy$number,']',sep="")
 poy=poy[!number<3]
 
 poyrange=data.table(poy[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","variable")]) #"unit"
@@ -77,35 +78,38 @@ medequity=poyrange2[variable=="Emissions|Kyoto Gases"]
 
 # change order for plotting
 #poyrange = poyrange[order(Category,variable,median)]
-poyrange$region <- factor(poyrange$region, levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
-                                                    "RUS [3 models]","JPN [4 models]","IND [5 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #unique(poyrange$region)
+poyrange$region <- factor(poyrange$region, levels=c("BRA [3]","CAN [3]","TUR [3]","USA [6]","EU [6]",
+                                                    "RUS [3]","JPN [4]","IND [5]","CHN [6]","IDN [3]","World [6]")) #unique(poyrange$region)
 #poy=poy[order(Category,variable,V1)]
-poy$region<-factor(poy$region,levels=c("BRA [3 models]","CAN [3 models]","TUR [3 models]","USA [6 models]","EU [6 models]",
-                                       "RUS [3 models]","JPN [4 models]","IND [5 models]","CHN [6 models]","IDN [3 models]","World [6 models]")) #levels=unique(poy$region)
+poy$region<-factor(poy$region,levels=c("BRA [3]","CAN [3]","TUR [3]","USA [6]","EU [6]",
+                                       "RUS [3]","JPN [4]","IND [5]","CHN [6]","IDN [3]","World [6]")) #levels=unique(poy$region)
 poyrange$Category <- factor(poyrange$Category,levels=c("2 °C","1.5 °C"))
 poy$Category <- factor(poy$Category,levels=c("2 °C","1.5 °C"))
 
 # For plotting, including the ones with phase-out after 2100 or no phase-out at all
 poy$label <-""
-poy[V1>2100]$label <-">2100"
-poy[is.na(V1),]$label <- "NA"
+poy[V1>2100]$label <-"*"
+poy[is.na(V1),]$label <- "#"
 poy$showyear <- poy$V1
 poy[V1>2100]$showyear <- 2105
 poy[is.na(V1),]$showyear <- 2110
 
 poyrange$label <-""
-poyrange[max>2100]$label <- ">2100"
+poyrange[max>2100]$label <- "*"
 poyrange$showyear <- poyrange$max
 poyrange[max>2100]$showyear <- 2105
 
+# poy$region=c("World [6]"="World [6 models]","IDN [3]"="Indonesia [3]","CHN [6]"="China [6]","IND [5]"="India [5]","JPN [4]"="Japan [4]","RUS [3]"="Russia [3]","EU [6]"="EU [6]",
+#                     "USA [6]"="USA [6]","TUR [3]"="Turkey [3]","CAN [3]"="Canada [3]","BRA [3]"="Brazil [3]")
+
 S = ggplot()
 #S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
-S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=showyear,y=median, x=region, colour=variable),alpha=0.5,size=5,fatten=1,show.legend = F) #,position=position_dodge(width=0.66)
-S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")],aes(x=region,y=showyear,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
+S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2]","MEX [2]")], aes(ymin=min,ymax=showyear,y=median, x=region, colour=variable),alpha=0.5,size=5,fatten=1,show.legend = F) #,position=position_dodge(width=0.66)
+S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2]","MEX [2]")],aes(x=region,y=showyear,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
 S = S + guides(colour=F)
-S = S + geom_text(data=poy[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
-S = S + geom_text(data=poyrange[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=4)
-S = S + geom_hline(data=poyrange[region=="World [6 models]"&Category%in%c("2 °C","1.5 °C")], aes(yintercept=median),linetype="dotted") 
+S = S + geom_text(data=poy[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=10)
+S = S + geom_text(data=poyrange[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=10)
+S = S + geom_hline(data=poyrange[region=="World [6]"&Category%in%c("2 °C","1.5 °C")], aes(yintercept=median),linetype="dotted") 
 #S = S + geom_boxplot(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=V1, x=region, colour=variable,fill=variable),position=position_dodge(width=0.66),width=0.66)
 #S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
 S = S + coord_flip()
@@ -114,9 +118,9 @@ S = S + facet_grid(Category~variable, scales="free_y",
 S = S + ylab("Phase out year")+xlab("")
 S = S + scale_y_continuous(limits=c(2030,2110),breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
 #S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110,2120,2130,2140,2150,2160,2170,2180,2190,2200))
-S = S + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
-        theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
-        theme(legend.text=element_text(size=16),legend.title=element_text(size=18))
+S = S + theme_bw() + theme(axis.text.y=element_text(size=20)) + theme(strip.text=element_text(size=20)) + theme(axis.title=element_text(size=20)) +
+        theme(axis.text.x = element_text(angle = 90, hjust = 1, size=20)) + theme(plot.title=element_text(size=20)) + theme(legend.position = "bottom") +
+        theme(legend.text=element_text(size=20),legend.title=element_text(size=20))
 ggsave(file=paste(outdir,"/Phase_out_year.png",sep=""),S,width=16, height=10, dpi=120)
 
 ### relative to global ###
