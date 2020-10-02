@@ -363,11 +363,12 @@ S2a = S2a + geom_pointrange(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!reg
                         aes(ymin=min,ymax=max,y=median, x=region),alpha=0.5,size=5,fatten=1,show.legend = F,colour="#0080ff") 
 S2a = S2a + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"],
                    aes(x=region,y=value,shape=model),size=3) #,colour=model
+S2a=S2a+geom_text(data=poyrange1[Category%in%c("2 °C")&!region%in%c("World [6 models]")&variable=="diff"],aes(x="USA [6 models]",y=-70),label ="a)",size=10)
 S2a = S2a + guides(colour=F)
 S2a = S2a + geom_hline(yintercept=0) 
 S2a = S2a + coord_flip()
 S2a = S2a + facet_grid(.~Category, scales="free_y")
-S2a = S2a + ylab("Difference in phase-out year due to inventory vs. model LULUCF (<0: earlier if based on inventory)")+xlab("")
+S2a = S2a + ylab("Difference in phase-out year between default and sensitivity case (years)")+xlab("") #Difference in phase-out year due to inventory vs. model LULUCF (<0: earlier if based on inventory)
 #S2a = S2a + scale_y_continuous(limits=c(2030,2110),breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
 S2a = S2a + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
@@ -516,11 +517,12 @@ a1a = a1a + geom_pointrange(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!reg
                             aes(ymin=min,ymax=max,y=median, x=region),alpha=0.5,size=5,fatten=1,show.legend = F,colour="#fe868e") 
 a1a = a1a + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [5 models]")&variable=="diff"],
                        aes(x=region,y=value,shape=model),size=3) #,colour=model
+a1a=a1a+geom_text(data=poyrange1[Category%in%c("2 °C")&!region%in%c("World [5 models]")&variable=="diff"],aes(x="TUR [2 models]",y=-70),label ="b)",size=10)
 a1a = a1a + guides(colour=F)
 a1a = a1a + geom_hline(yintercept=0) 
 a1a = a1a + coord_flip()
 a1a = a1a + facet_grid(.~Category, scales="free_y")
-a1a = a1a + ylab("Difference in phase-out year due to BECCS allocation (<0: earlier if based on biomass production)")+xlab("")
+a1a = a1a + ylab("Difference in phase-out year between default and sensitivity case (years)")+xlab("") #Difference in phase-out year due to BECCS allocation (<0: earlier if based on biomass production)
 a1a = a1a + scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
 a1a = a1a + geom_text(data=poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"],stat="identity",aes(x=region,y=50,label="2077 > No phase-out"),size=6)
 a1a = a1a + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
@@ -604,11 +606,12 @@ g1 = g1 + geom_pointrange(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!regio
                             aes(ymin=min,ymax=max,y=median, x=region),alpha=0.5,size=5,fatten=1,show.legend = F,colour="#66b2ff") 
 g1 = g1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","MEX [2 models]","SAF [2 models]")&gwp=="diff"],
                        aes(x=region,y=value,shape=model),size=3) #,colour=model
+g1=g1+geom_text(data=poyrange1[Category%in%c("2 °C")&!region%in%c("World [6 models]","MEX [2 models]","SAF [2 models]")&gwp=="diff"],aes(x="USA [6 models]",y=-70),label ="c)",size=10)
 g1 = g1 + guides(colour=F)
 g1 = g1 + geom_hline(yintercept=0) 
 g1 = g1 + coord_flip()
 g1 = g1 + facet_grid(.~Category, scales="free_y")
-g1 = g1 + ylab("Difference in phase-out year due to GWP (<0: earlier if based on AR5 instead of AR4)")+xlab("")
+g1 = g1 + ylab("Difference in phase-out year between default and sensitivity case (years)")+xlab("") #Difference in phase-out year due to GWP (<0: earlier if based on AR5 instead of AR4)
 g1 = g1 + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
   theme(legend.text=element_text(size=16),legend.title=element_text(size=18))
@@ -641,11 +644,12 @@ e1 = e1 + geom_pointrange(data=equity[Category%in%c("2 °C","1.5 °C")],
                           aes(ymin=diffmin,ymax=diffmax,y=diffmed, x=region),alpha=0.5,size=5,fatten=1,show.legend = F,colour="#66b2ff") 
 # e1 = e1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","MEX [2 models]","SAF [2 models]")&gwp=="diff"],
 #                      aes(x=region,y=value,shape=model),size=3) #,colour=model
+e1=e1+geom_text(data=equity[Category%in%c("2 °C")],aes(x="USA [median]",y=-70),label ="d)",size=10)
 e1 = e1 + guides(colour=F)
 e1 = e1 + geom_hline(yintercept=0) 
 e1 = e1 + coord_flip()
 e1 = e1 + facet_grid(.~Category, scales="free_y")
-e1 = e1 + ylab("Difference in phase-out year due to equity (<0: earlier if based on equity range instead of cost-optimal)")+xlab("")
+e1 = e1 + ylab("Difference in phase-out year between default and sensitivity case (years)")+xlab("") #Difference in phase-out year due to equity (<0: earlier if based on equity range instead of cost-optimal)
 e1 = e1 + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
   theme(legend.text=element_text(size=16),legend.title=element_text(size=18))
@@ -664,10 +668,10 @@ a1a=a1a+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),
 e1 = e1+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
 text<-textGrob("Difference in phase-out year due to \n 1) inventory vs. model LULUCF (top-left): <0 earlier if based on inventory, \n 2) BECCS allocation (top-right): <0 earlier if based on biomass production, \n 3) GWP (bottom-left): <0 earlier if based on AR5 instead of AR4, \n 4) Equity (bottom-right): <0 earlier if based on equity range instead of cost-optimal",
                gp=gpar(fontsize=24))
-S2a=S2a+ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
-g1=g1+ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80)) 
-a1a=a1a+ylab("")
-e1 = e1 +ylab("")+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80))
+S2a=S2a+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80)) #+ylab("")
+g1=g1+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80)) #+ylab("")
+#a1a=a1a+ylab("")
+e1 = e1+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80)) # +ylab("")
 g1=g1+geom_text(aes(x="BRA [3 models]",y=-40,label="Earlier"),stat="identity",data=poyrange1,size=10)
 g1=g1+geom_text(aes(x="BRA [3 models]",y=40,label="Later"),stat="identity",data=poyrange1,size=10)
 S2a=S2a+geom_text(aes(x="BRA [3 models]",y=-40,label="Earlier"),stat="identity",data=poyrange1,size=10)
