@@ -622,6 +622,7 @@ ggsave(file=paste(outdir,"/Phase_out_year_GWP_diff_layout.png",sep=""),g1,width=
 equity=fread("data/RDP_equity_range.csv",header=TRUE) #TODO maybe include all approaches to show as points, instead of only range?
 equity$Category=str_replace_all(equity$Category,"2C","2 °C")
 equity$Category=str_replace_all(equity$Category,"1.5C","1.5 °C")
+equity[region=="EU28"]$region<-"EU"
 equity$approach<-NULL
 equity <- spread(equity,range,value)
 
