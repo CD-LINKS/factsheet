@@ -1481,17 +1481,28 @@ ghg=bd[variable %in% c("Emissions|Kyoto Gases")]
 # To make sure we only use the models with data until 2100, important for this indicator
 check=ghg[,list(unique(period)), by=c("model")]
 check=subset(check, subset=V1=="2100")
-ghg=subset(ghg, subset=model %in% check$model)
+#ghg=subset(ghg, subset=model %in% check$model)
+
+## Extrapolate beyond 2100 to estimate phase-out year if not this century
+bd2=bd[model%in%check$model]
+bde=bd2[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] 
+bdextra=bde[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
+setnames(bdextra,"V1","value")
+setnames(bdextra,"V2","period")
+bd2 = select(bd2,-scenario,-Baseline,-Scope,-unit)
+setcolorder(bdextra,colnames(bd2))
+bdextra=rbind(bdextra[period%in%c(2101:2200)&!c(model=="MESSAGEix-GLOBIOM_1.1"&period==2110)],bd2[Category%in%c("1.5 °C","2 °C")])
+bdextraGHG=bdextra[variable=="Emissions|Kyoto Gases"]
 
 # Calculate phase-out year
-poy=ghg[!duplicated(ghg[,list(model,Category,region,variable),with=TRUE]),!c('value','period',"Scope","Baseline","scenario"),with=FALSE]
-poy=merge(poy,ghg[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
-poy$unit<-NULL
+poy=bdextraGHG[!duplicated(bdextraGHG[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE] #"Scope","Baseline",,"scenario"
+poy=merge(poy,bdextraGHG[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
+#poy$unit<-NULL
 poy=na.omit(poy)
 setnames(poy,"V1","period")
 
 #selection for merge
-emis=spread(bd[,!c('unit'),with=FALSE],variable,value)
+emis=spread(bdextra,variable,value) #[,!c('unit'),with=FALSE]
 poyemis=merge(poy,emis, by=c('model','Category','region','period'))
 poyemis$variable<-NULL
 
