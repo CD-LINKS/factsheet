@@ -1689,3 +1689,42 @@ p = p + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text=
   theme(axis.text.x = element_text(size=14))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Pathways_IND_USA.png",sep=""),p,width=12, height=8, dpi=120)
 
+
+
+# Model fingerprint -------------------------------------------------------
+modelGHG = bd[variable%in%c("Emissions|CH4","Emissions|F-Gases","Emissions|N2O","Emissions|CO2|AFOLU","Emissions|CO2|Energy|Supply","Emissions|CO2|Energy|Demand")]
+modelGHG = modelGHG[model%in%check$model]
+modelGHG = spread(modelGHG[,!c('unit'),with=FALSE],variable,value)
+setnames(modelGHG,"Emissions|CH4","CH4")
+setnames(modelGHG,"Emissions|N2O","N2O")
+modelGHG$CH4 = modelGHG$CH4*25
+modelGHG$N2O = modelGHG$N2O*298/1000
+setnames(modelGHG,"Emissions|CO2|Energy|Demand","CO2demand")
+setnames(modelGHG,"Emissions|CO2|Energy|Supply","CO2supply")
+setnames(modelGHG,"Emissions|CO2|AFOLU","CO2afolu")
+setnames(modelGHG,"Emissions|F-Gases","Fgases")
+modelGHG$nonCO2 <- modelGHG$CH4+modelGHG$N2O+modelGHG$Fgases
+modelGHG = data.table(gather(modelGHG,variable,value,c('CH4','CO2afolu','CO2demand','CO2supply','Fgases','N2O','nonCO2')))
+modelGHG = modelGHG[variable%in%c('CO2afolu','CO2demand','CO2supply','nonCO2')]
+
+m = ggplot(data=modelGHG[Category=="2 °C"&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")])
+m = m + geom_line(aes(x=period,y=value,colour=variable),size=1.5)
+m = m + scale_colour_manual(values=c("nonCO2"="#E69F00","CO2demand"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec"))
+m = m + facet_grid(region~model, scale="free_y",labeller = labeller(model=c("AIM V2.1"="AIM","IMAGE 3.0"="IMAGE","MESSAGEix-GLOBIOM_1.1"="MESSAGE","POLES CDL"="POLES","REMIND-MAgPIE 1.7-3.0"="REMIND","WITCH2016"="WITCH")))
+m = m + xlim(2015,2100)
+m = m + geom_hline(yintercept=0)
+m = m + xlab("") + ylab("Emissions (MtCO2eq/year)")
+m = m + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(size=14,angle=90))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
+ggsave(file=paste(outdir,"/Pathways_models_SI.png",sep=""),m,width=16, height=10, dpi=120)
+
+# m1 = ggplot(data=np[variable%in%c("")&Category=="2 °C"&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")])
+# m1 = m1 + geom_line(aes(x=period,y=value,colour=variable),size=1.5)
+# m1 = m1 + scale_colour_manual(values=c("nonCO2"="#E69F00","CO2demand"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec"))
+# m1 = m1 + facet_grid(region~model, scale="free_y",labeller = labeller(model=c("AIM V2.1"="AIM","IMAGE 3.0"="IMAGE","MESSAGEix-GLOBIOM_1.1"="MESSAGE","POLES CDL"="POLES","REMIND-MAgPIE 1.7-3.0"="REMIND","WITCH2016"="WITCH")))
+# m1 = m1 + xlim(2015,2100)
+# m1 = m1 + geom_hline(yintercept=0)
+# m1 = m1 + xlab("") + ylab("Emissions (MtCO2eq/year)")
+# m1 = m1 + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
+#   theme(axis.text.x = element_text(size=14,angle=90))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
+# ggsave(file=paste(outdir,"/Pathways_models_SI.png",sep=""),m1,width=16, height=10, dpi=120)
