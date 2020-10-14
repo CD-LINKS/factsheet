@@ -1728,3 +1728,9 @@ ggsave(file=paste(outdir,"/Pathways_models_SI.png",sep=""),m,width=16, height=10
 # m1 = m1 + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
 #   theme(axis.text.x = element_text(size=14,angle=90))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
 # ggsave(file=paste(outdir,"/Pathways_models_SI.png",sep=""),m1,width=16, height=10, dpi=120)
+
+# Indicators: share REN, negative emissions, energy demand, rate of change
+source("functions/calcVariable.R")
+np <- calcVariable(np,'`Wind and Solar Share` ~ ( `Secondary Energy|Electricity|Solar` + `Secondary Energy|Electricity|Wind` ) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
+source("functions/calcRate.R") 
+np <- calcRate(np, c("Wind and Solar Share"))
