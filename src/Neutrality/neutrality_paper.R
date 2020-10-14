@@ -5,7 +5,7 @@ scencateg <- "scen_categ_V4"
 variables <- "variables_neutrality"
 adjust <- "adjust_reporting_neutrality" # TODO to check: remove MESSAGE for China due to region definition? and COFFEE & DNE for EU and DNE for China and India? and COFFEE for Japan?
 addvars <- F
-datafile <-"cdlinks_compare_20191118-083136"
+datafile <-"cdlinks_compare_20191118-083136" # backup because file went missing: 20191119-134837
 source("load_data.R")
 
 outdir <- "Neutrality/graphs"
@@ -1486,6 +1486,7 @@ check=subset(check, subset=V1=="2100")
 ## Extrapolate beyond 2100 to estimate phase-out year if not this century
 bd2=bd[model%in%check$model]
 bde=bd2[period%in%c(2050:2100)&Category%in%c("1.5 °C","2 °C")] 
+bde$period=as.numeric(bde$period)
 bdextra=bde[,list(approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$y,approxExtrap(x=period,y=value,xout=seq(2050,2200),method="linear")$x),by=c("Category","model","region","variable")]
 setnames(bdextra,"V1","value")
 setnames(bdextra,"V2","period")
@@ -1732,5 +1733,33 @@ ggsave(file=paste(outdir,"/Pathways_models_SI.png",sep=""),m,width=16, height=10
 # Indicators: share REN, negative emissions, energy demand, rate of change
 source("functions/calcVariable.R")
 np <- calcVariable(np,'`Wind and Solar Share` ~ ( `Secondary Energy|Electricity|Solar` + `Secondary Energy|Electricity|Wind` ) / `Secondary Energy|Electricity` * 100 ' , newUnit='%')
+np <- calcVariable(np,'`Carbon sequestration` ~ (`Carbon Sequestration|Land Use` + `Carbon Sequestration|CCS`)',newUnit = 'MtCO2/year')
 source("functions/calcRate.R") 
-np <- calcRate(np, c("Wind and Solar Share"))
+np <- calcRate(np, c("Wind and Solar Share","Carbon sequestration"))
+
+fp = np[Category%in%c("1.5 °C","2 °C")&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")&variable%in%c("Rate of Change| Wind and Solar Share","Rate of Change| Carbon sequestration")&model%in%check$model]
+ren=np[variable=="Wind and Solar Share"&Category%in%c("1.5 °C","2 °C")&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")&model%in%check$model]
+ren$period=as.numeric(ren$period)
+
+f = ggplot(data=fp[variable=="Rate of Change| Wind and Solar Share"&period%in%c('2020-2050','2050-2100')]) #Category=="2 °C"&
+f = f + geom_bar(aes(x=period,y=value,fill=Category),size=1.5,stat="identity",position="dodge") #fill = variable
+#f = f + scale_fill_manual(values=c("nonCO2"="#E69F00","CO2demand"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec"))
+f = f + facet_grid(region~model, scale="free_y",labeller = labeller(model=c("AIM V2.1"="AIM","IMAGE 3.0"="IMAGE","MESSAGEix-GLOBIOM_1.1"="MESSAGE","POLES CDL"="POLES","REMIND-MAgPIE 1.7-3.0"="REMIND","WITCH2016"="WITCH")))
+f = f + xlab("") + ylab("Rate of change (%/year, CAGR) in the share of wind+solar in electricity production")
+f = f + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(size=14,angle=90))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
+ggsave(file=paste(outdir,"/Fingerprint_models_SI.png",sep=""),f,width=16, height=10, dpi=120)
+
+rocws = fp[variable=="Rate of Change| Wind and Solar Share"&period=="2020-2050"&Category=="2 °C"]
+rocws$value = round(rocws$value,digits=1)
+
+f1 = ggplot(data=ren)
+f1 = f1 +geom_line(aes(x=period,y=value,colour=Category),size=1.5)
+f1 = f1 + facet_grid(region~model,scale="free_y",labeller = labeller(model=c("AIM V2.1"="AIM","IMAGE 3.0"="IMAGE","MESSAGEix-GLOBIOM_1.1"="MESSAGE","POLES CDL"="POLES","REMIND-MAgPIE 1.7-3.0"="REMIND","WITCH2016"="WITCH")))
+f1 = f1 + geom_text(data=rocws,aes(x=2050,y=10,label=value),size=7)
+f1 = f1 + geom_text(data=poy[variable=="Emissions|Kyoto Gases"&Category=="2 °C"&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")],aes(x=2090,y=10,label=period),size=7)
+f1 = f1 + xlim(2015,2100)
+f1 = f1 + xlab("") + ylab("Share of solar + wind in electricity production (%)")
+f1 = f1 + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(size=14,angle=90))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
+ggsave(file=paste(outdir,"/solarwindshare_models_SI.png",sep=""),f1,width=16, height=10, dpi=120)
