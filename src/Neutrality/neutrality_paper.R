@@ -85,6 +85,8 @@ poy$region<-factor(poy$region,levels=c("BRA [3]","CAN [3]","TUR [3]","USA [6]","
                                        "RUS [3]","JPN [4]","IND [5]","CHN [6]","IDN [3]","World [6]")) #levels=unique(poy$region)
 
 #TODO fix this
+# poy$region<-factor(poy$region,levels=c("Brazil [3]","Canada [3]","Turkey [3]","USA [6]","EU [6]","Russia [3]",
+#                                        "Japan [4]","India [5]","China [6]","Indonesia [3]","World [6]"))
 # poy$region<-factor(poy$region,levels=c("BRA [3]"="Brazil [3]","CAN [3]"="Canada [3]","TUR [3]"="Turkey [3]","USA [6]"="USA [6]","EU [6]"="EU [6]","RUS [3]"="Russia [3]",
 #                                        "JPN [4]"="Japan [4]","IND [5]"="India [5]","CHN [6]"="China [6]","IDN [3]"="Indonesia [3]","World [6]"="World [6 models]"))
 # poyrange$region<-factor(poyrange$region,levels=c("BRA [3]"="Brazil [3]","CAN [3]"="Canada [3]","TUR [3]"="Turkey [3]","USA [6]"="USA [6]","EU [6]"="EU [6]","RUS [3]"="Russia [3]",
