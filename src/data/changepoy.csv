@@ -1,0 +1,45 @@
+region;Category;variable;change
+Brazil [3];2deg;Emissions|Kyoto Gases;no
+Canada [3];2deg;Emissions|Kyoto Gases;yes
+Turkey [3];2deg;Emissions|Kyoto Gases;yes
+USA [6];2deg;Emissions|Kyoto Gases;no
+EU [6];2deg;Emissions|Kyoto Gases;yes
+Russia [3];2deg;Emissions|Kyoto Gases;yes
+Japan [4];2deg;Emissions|Kyoto Gases;no
+India [5];2deg;Emissions|Kyoto Gases;no
+Indonesia [3];2deg;Emissions|Kyoto Gases;yes
+China [6];2deg;Emissions|Kyoto Gases;yes
+World [6];2deg;Emissions|Kyoto Gases;no
+Brazil [3];15deg;Emissions|Kyoto Gases;no
+Canada [3];15deg;Emissions|Kyoto Gases;yes
+Turkey [3];15deg;Emissions|Kyoto Gases;yes
+USA [6];15deg;Emissions|Kyoto Gases;no
+EU [6];15deg;Emissions|Kyoto Gases;yes
+Russia [3];15deg;Emissions|Kyoto Gases;yes
+Japan [4];15deg;Emissions|Kyoto Gases;no
+India [5];15deg;Emissions|Kyoto Gases;no
+Indonesia [3];15deg;Emissions|Kyoto Gases;yes
+China [6];15deg;Emissions|Kyoto Gases;yes
+World [6];15deg;Emissions|Kyoto Gases;no
+Brazil [3];2deg;Emissions|CO2;no
+Canada [3];2deg;Emissions|CO2;yes
+Turkey [3];2deg;Emissions|CO2;yes
+USA [6];2deg;Emissions|CO2;no
+EU [6];2deg;Emissions|CO2;yes
+Russia [3];2deg;Emissions|CO2;yes
+Japan [4];2deg;Emissions|CO2;no
+India [5];2deg;Emissions|CO2;yes
+Indonesia [3];2deg;Emissions|CO2;no
+China [6];2deg;Emissions|CO2;yes
+World [6];2deg;Emissions|CO2;no
+Brazil [3];15deg;Emissions|CO2;no
+Canada [3];15deg;Emissions|CO2;yes
+Turkey [3];15deg;Emissions|CO2;yes
+USA [6];15deg;Emissions|CO2;no
+EU [6];15deg;Emissions|CO2;yes
+Russia [3];15deg;Emissions|CO2;yes
+Japan [4];15deg;Emissions|CO2;no
+India [5];15deg;Emissions|CO2;yes
+Indonesia [3];15deg;Emissions|CO2;no
+China [6];15deg;Emissions|CO2;yes
+World [6];15deg;Emissions|CO2;no
