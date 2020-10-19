@@ -400,16 +400,18 @@ S3 = ggplot()
 S3 = S3 + geom_line(data=dthcomp[period%in%c(2010:2100)&Category%in%c("2 °C","1.5 °C")&!region%in%c("World","ARG","AUS","MEX",'ROK',"SAF","SAU")],aes(x=period,y=value,colour=Category,linetype=landuse))
 S3 = S3 + facet_grid(region~model, scale="free_y")
 S3 = S3 + xlab("") + ylab("Emissions|Kyoto Gases (MtCO2eq/year)")
-S3 = S3 + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
-  theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
+S3 = S3 + theme_bw() + theme(axis.text.y=element_text(size=12))+ theme(strip.text=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size=16))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+
+  theme(legend.title=element_text(size=20))
 ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_trajectory.png",sep=""),S3,width=12, height=8, dpi=120)
 
 S3b = ggplot()
 S3b = S3b + geom_line(data=dthcomp[period%in%c(2100:2200)&Category%in%c("2 °C","1.5 °C")&!region%in%c("World","ARG","AUS","MEX",'ROK',"SAF","SAU")&!model=="POLES"],aes(x=period,y=value,colour=Category,linetype=landuse))
 S3b = S3b + facet_grid(region~model, scale="free_y")
 S3b = S3b + xlab("") + ylab("Emissions|Kyoto Gases (MtCO2eq/year)")
-S3b = S3b + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text.x=element_text(size=14))+ theme(axis.title=element_text(size=18))+ 
-  theme(axis.text.x = element_text(angle = 60, hjust = 1, size=14))+ theme(plot.title=element_text(size=18))
+S3b = S3b + theme_bw() + theme(axis.text.y=element_text(size=12))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=20))+ 
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size=16))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+
+  theme(legend.title=element_text(size=20))
 ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_trajectory_2200.png",sep=""),S3b,width=12, height=8, dpi=120)
 
 # Effect of allocation of negative emissions ------------------------------
@@ -1098,6 +1100,10 @@ library(RColorBrewer)
 nb.cols <- 17
 mycolors <- colorRampPalette(brewer.pal(9, "Set1"))(nb.cols)
 
+# GDP per capita divide by 1000 for readability
+scat[variable=="gdpcap"]$value=scat[variable=="gdpcap"]$value/1000
+scat[variable=="gdpcap"]$unit <- "1000 USD/person"
+
 s = ggplot(scat[Category%in%c("2 °C","1.5 °C")&!region=="World"])
 s = s + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=3)
 s = s + scale_color_manual(values=mycolors)
@@ -1111,24 +1117,54 @@ ggsave(file=paste(outdir,"/poy_scatterplot_models",".png",sep=""),s,height=14, w
 
 #separately for 1.5 and 2 C
 s1 = ggplot(scat[Category%in%c("1.5 °C")&!region=="World"])
-s1 = s1 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=3)
-s1 = s1 + scale_color_manual(values=mycolors)
-#s = s + geom_text(aes(x=value,y=poy,label=region))
-s1 = s1 + facet_wrap(~variable,scales="free_x",nrow=3,ncol=5)
+s1 = s1 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=4)
+s1 = s1 + scale_color_manual(values=mycolors,labels=c("ARG"="Argentina","AUS"="Australia","BRA"="Brazil","CAN"="Canada","CHN"="China","EU"="EU","IND"="India","MEX"="Mexico","ROK"="Korea","SAF"="South Africa","JPN"="Japan","TUR"="Turkey","USA"="USA","IDN"="Indonesia","RUS"="Russia","SAU"="Saudi Arabia"))
+s1 = s1 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&!variable%in%c("density","prodcap","emisint","gdpcap","Land Cover|Forest|Afforestation and Reforestation")],
+                    aes(x=10,y=2020,label=unit),size=7)
+s1 = s1 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("prodcap")],
+                    aes(x=0.5,y=2020,label=unit),size=7)
+s1 = s1 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("density")],
+                    aes(x=1,y=2020,label=unit),size=7)
+s1 = s1 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("emisint")],
+                    aes(x=100,y=2020,label=unit),size=7)
+s1 = s1 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("gdpcap","Land Cover|Forest|Afforestation and Reforestation")],
+                    aes(x=20,y=2020,label=unit),size=7)
+s1 = s1 + facet_wrap(~variable,scales="free_x",nrow=3,ncol=5,labeller = labeller(variable=c("density"="a) Population density","gdpcap"="f) GDP per capita","emiscap"="j) GHG emissions per capita",
+                                                                                            "BaselineGHG2050"="n) Baseline growth 2050","BaselineGHG2100"="o) Baseline growth 2100",
+                                                                                            "transportshare"="k) Transport % in CO2","buildingshare"="l) Buildings % in CO2",
+                                                                                            "industryshare"="m) Industry % in CO2","emisint"="i) Emis. intensity electricity",
+                                                                                            "nonCO2share"="b) Non-CO2 emissions share","prodcap"="c) Productive area per capita","cropshare"="g) Cropland % total land cover",
+                                                                                            "forestshare"="h) Forest % of total land cover","CCSshare"="e) CCS % of total emissions",
+                                                                                            "Land Cover|Forest|Afforestation and Reforestation"="d) Afforestation&reforestation")))
 s1 = s1 + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100,2120,2140),limits=c(2020,2150))
-s1 = s1 + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
-                           strip.text=element_text(size=18))
+s1 = s1 + theme_bw() + theme(axis.text=element_text(size=18),axis.title=element_text(size=20),legend.text=element_text(size=20),legend.title=element_text(size=22),
+                           strip.text=element_text(size=16))
 s1 = s1 + labs(x="",y="Phase-out year of GHG emissions")
 ggsave(file=paste(outdir,"/poy_scatterplot_models_1p5",".png",sep=""),s1,height=14, width=18,dpi=500)
 
 s2 = ggplot(scat[Category%in%c("2 °C")&!region=="World"])
-s2 = s2 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=3)
-s2 = s2 + scale_color_manual(values=mycolors)
-#s = s + geom_text(aes(x=value,y=poy,label=region))
-s2 = s2 + facet_wrap(~variable,scales="free_x",nrow=3,ncol=5)
+s2 = s2 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=4)
+s2 = s2 + scale_color_manual(values=mycolors,labels=c("ARG"="Argentina","AUS"="Australia","BRA"="Brazil","CAN"="Canada","CHN"="China","EU"="EU","IND"="India","MEX"="Mexico","ROK"="Korea","SAF"="South Africa","JPN"="Japan","TUR"="Turkey","USA"="USA","IDN"="Indonesia","RUS"="Russia","SAU"="Saudi Arabia"))
+s2 = s2 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&!variable%in%c("density","prodcap","emisint","gdpcap","Land Cover|Forest|Afforestation and Reforestation")],
+                    aes(x=10,y=2020,label=unit),size=7)
+s2 = s2 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("prodcap")],
+                    aes(x=0.5,y=2020,label=unit),size=7)
+s2 = s2 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("density")],
+                    aes(x=1,y=2020,label=unit),size=7)
+s2 = s2 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("emisint")],
+                    aes(x=100,y=2020,label=unit),size=7)
+s2 = s2 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("gdpcap","Land Cover|Forest|Afforestation and Reforestation")],
+                    aes(x=20,y=2020,label=unit),size=7)
+s2 = s2 + facet_wrap(~variable,scales="free_x",nrow=3,ncol=5,labeller = labeller(variable=c("density"="a) Population density","gdpcap"="f) GDP per capita","emiscap"="j) GHG emissions per capita",
+                                                                                            "BaselineGHG2050"="n) Baseline growth 2050","BaselineGHG2100"="o) Baseline growth 2100",
+                                                                                            "transportshare"="k) Transport % in CO2","buildingshare"="l) Buildings % in CO2",
+                                                                                            "industryshare"="m) Industry % in CO2","emisint"="i) Emis. intensity electricity",
+                                                                                            "nonCO2share"="b) Non-CO2 emissions share","prodcap"="c) Productive area per capita","cropshare"="g) Cropland % total land cover",
+                                                                                            "forestshare"="h) Forest % of total land cover","CCSshare"="e) CCS % of total emissions",
+                                                                                            "Land Cover|Forest|Afforestation and Reforestation"="d) Afforestation&reforestation")))
 s2 = s2 + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100,2120,2140),limits=c(2020,2150))
-s2 = s2 + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
-                             strip.text=element_text(size=18))
+s2 = s2 +  theme_bw() + theme(axis.text=element_text(size=18),axis.title=element_text(size=20),legend.text=element_text(size=20),legend.title=element_text(size=22),
+                              strip.text=element_text(size=16))
 s2 = s2 + labs(x="",y="Phase-out year of GHG emissions")
 ggsave(file=paste(outdir,"/poy_scatterplot_models_2",".png",sep=""),s2,height=14, width=18,dpi=500)
 
@@ -1145,10 +1181,6 @@ s3 = s3 + labs(x="",y="Phase-out year of GHG emissions")
 ggsave(file=paste(outdir,"/poy_scatterplot_median",".png",sep=""),s3,height=14, width=18,dpi=500)
 
 # Only for 10 countries, POLES & IMAGE
-# GDP per capita divide by 1000 for readability
-scat[variable=="gdpcap"]$value=scat[variable=="gdpcap"]$value/1000
-scat[variable=="gdpcap"]$unit <- "1000 USD/person"
-
 s4 = ggplot(scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")])
 s4 = s4 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=4)
 s4 = s4 + scale_color_manual(values=mycolors,labels=c("BRA"="Brazil","CAN"="Canada","CHN"="China","EU"="EU","IND"="India","JPN"="Japan","TUR"="Turkey","USA"="USA","IDN"="Indonesia","RUS"="Russia"))
@@ -1281,17 +1313,17 @@ pall = ggbiplot(pca.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pca$ID,
   theme(legend.position = "bottom")
 ggsave(file=paste(outdir,"/PCA_all_early-late-grouping",".png",sep=""),pall,height=12, width=16,dpi=500)
 
-pPI = ggbiplot(pcaPI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaPI$ID, groups=pcaPI$diff)  +  #,choices=c(3,4) #groups=pca$model (try Category, diff, model, region, value?)
+pPI = ggbiplot(pcaPI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaPI$ID, groups=pcaPI$diff,labels.size = 6,varname.size=6)  +  #,choices=c(3,4) #groups=pca$model (try Category, diff, model, region, value?)
   #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
   ggtitle("PCA of regional phase-out years")+
-  theme_bw()+
+  theme_bw()+ theme(axis.text=element_text(size=18),axis.title=element_text(size=20),plot.title = element_text(size=24),legend.text=element_text(size=20),legend.title=element_text(size=22))+
   theme(legend.position = "bottom")
 ggsave(file=paste(outdir,"/PCA_POLES-IMAGE_early-late-grouping",".png",sep=""),pPI,height=12, width=16,dpi=500)
 
-pPI2 = ggbiplot(pcaPI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaPI$ID, groups=pcaPI$diff,choices=c(3,4) )  +  ##groups=pca$model (try Category, diff, model, region, value?)
+pPI2 = ggbiplot(pcaPI.pca,ellipse=TRUE,obs.scale = 1, var.scale = 1,labels=pcaPI$ID, groups=pcaPI$diff,choices=c(3,4),labels.size = 6,varname.size=6 )  +  ##groups=pca$model (try Category, diff, model, region, value?)
   #scale_colour_manual(name="Scenario", values= c("forest green", "dark blue"))+
   ggtitle("PCA of regional phase-out years")+
-  theme_bw()+
+  theme_bw()+ theme(axis.text=element_text(size=18),axis.title=element_text(size=20),plot.title = element_text(size=24),legend.text=element_text(size=20),legend.title=element_text(size=22))+
   theme(legend.position = "bottom")
 ggsave(file=paste(outdir,"/PCA_POLES-IMAGE_PC3-4_early-late-grouping",".png",sep=""),pPI2,height=12, width=16,dpi=500)
 
@@ -1364,7 +1396,7 @@ fviz_pca_var(res.pca, col.var = "contrib",
              gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07")
 )
 
-# TODO continute with this http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/112-pca-principal-component-analysis-essentials/
+# TODO continue with this http://www.sthda.com/english/articles/31-principal-component-methods-in-r-practical-guide/112-pca-principal-component-analysis-essentials/
 # from color by groups
 
 
@@ -1711,8 +1743,8 @@ p = p + facet_grid(variable~region, scale="free_y",labeller=labeller(variable=c(
                                                                                 "Emissions|Kyoto Gases"="GHG","Emissions|Kyoto Gases|Inventory"="GHG (inventory)")))
 p = p + geom_hline(yintercept=0)
 p = p + xlab("") + ylab("Emissions (MtCO2eq/year)")
-p = p + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
-  theme(axis.text.x = element_text(size=14))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
+p = p + theme_bw() + theme(axis.text.y=element_text(size=18))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(size=18))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Pathways_IND_USA.png",sep=""),p,width=12, height=8, dpi=120)
 
 
@@ -1740,8 +1772,8 @@ m = m + facet_grid(region~model, scale="free_y",labeller = labeller(model=c("AIM
 m = m + xlim(2015,2100)
 m = m + geom_hline(yintercept=0)
 m = m + xlab("") + ylab("Emissions (MtCO2eq/year)")
-m = m + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
-  theme(axis.text.x = element_text(size=14,angle=90))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
+m = m + theme_bw() + theme(axis.text.y=element_text(size=16))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(size=16,angle=90))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
 ggsave(file=paste(outdir,"/Pathways_models_SI.png",sep=""),m,width=16, height=10, dpi=120)
 
 # m1 = ggplot(data=np[variable%in%c("")&Category=="2 °C"&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")])
@@ -1785,6 +1817,6 @@ f1 = f1 + geom_text(data=rocws,aes(x=2050,y=10,label=value),size=7)
 f1 = f1 + geom_text(data=poy[variable=="Emissions|Kyoto Gases"&Category=="2 °C"&region%in%c("BRA","CAN","CHN","EU","IDN","IND","JPN","RUS","TUR","USA")],aes(x=2090,y=10,label=period),size=7)
 f1 = f1 + xlim(2015,2100)
 f1 = f1 + xlab("") + ylab("Share of solar + wind in electricity production (%)")
-f1 = f1 + theme_bw() + theme(axis.text.y=element_text(size=14))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
-  theme(axis.text.x = element_text(size=14,angle=90))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
+f1 = f1 + theme_bw() + theme(axis.text.y=element_text(size=16))+ theme(strip.text=element_text(size=16))+ theme(axis.title=element_text(size=18))+ 
+  theme(axis.text.x = element_text(size=16,angle=90))+ theme(plot.title=element_text(size=18))+theme(legend.text=element_text(size=18))+theme(legend.title=element_text(size=18))
 ggsave(file=paste(outdir,"/solarwindshare_models_SI.png",sep=""),f1,width=16, height=10, dpi=120)
