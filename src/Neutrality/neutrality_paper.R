@@ -1647,7 +1647,7 @@ b5 = ggplot() +
   geom_bar(data=poyemis[Category=="1.5 °C"&value<0&region%in%c("BRA","CHN","IND","USA")&model%in%c("IMAGE 3.0","POLES CDL")],aes(x=model,y=value,fill=variable),stat="Identity") +
   geom_text(data=poyemis[Category=="1.5 °C"&region%in%c("BRA","CHN","IND","USA")&variable=="nonCO2"&model%in%c("IMAGE 3.0","POLES CDL")],stat="identity",aes(x=model,y=1600,label=period),size=6) +
   geom_hline(yintercept=0,size=1,linetype="dashed")+
-  facet_grid(region~Category) + #,scales="free_y"
+  facet_grid(region~Category,labeller=labeller(region=c("BRA"="a) Brazil","CHN"="b) China","IND"='c) India',"USA"="d) USA"))) + #,scales="free_y"
   labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
   ttheme+theme(axis.title.y = element_text(size=22), legend.title=element_text(size=20),legend.text=element_text(size=22), 
                axis.text.x = element_text(angle=0))+
