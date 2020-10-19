@@ -60,10 +60,21 @@ ghg = select(ghg,-scenario,-Baseline,-Scope,-unit)
 setcolorder(ghgextra,colnames(ghg))
 ghgextra=rbind(ghgextra[period%in%c(2101:2200)],ghg[Category%in%c("1.5 °C","2 °C")])
 
+# calculate phase-out year
 poy=ghgextra[!duplicated(ghgextra[,list(model,Category,region,variable),with=TRUE]),!c('value','period'),with=FALSE] #"Scope","Baseline","scenario"
 poy=merge(poy,ghgextra[value<=0,min(period),by=c('model','Category','region','variable')],by=c('model','Category','region','variable'),all=TRUE)
 poy[is.na(V1),]$V1="No phase-out"
 poymodel=poy
+
+# Spell out country names and attach number of models
+poy[region=="BRA"]$region<-"Brazil"
+poy[region=="CAN"]$region<-"Canada"
+poy[region=="TUR"]$region<-"Turkey"
+poy[region=="RUS"]$region<-"Russia"
+poy[region=="JPN"]$region<-"Japan"
+poy[region=="IND"]$region<-"India"
+poy[region=="CHN"]$region<-"China"
+poy[region=="IDN"]$region<-"Indonesia"
 
 models=poy[,list(number=length(unique(model))),by=c('region','variable')]
 poy=merge(poy, models, by=c('region','variable'))
@@ -71,27 +82,17 @@ poy=merge(poy, models, by=c('region','variable'))
 poy$region <- paste(poy$region,' [',poy$number,']',sep="")
 poy=poy[!number<3]
 
+# calculate statistics
 poyrange=data.table(poy[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","variable")]) #"unit"
 #save for fig 2d:
 poyrange2=data.table(poymodel[,list(median=median(V1, na.rm=T),min=min(V1, na.rm=T),max=max(V1, na.rm=T)),by=c("Category","region","variable")]) #"unit"
 medequity=poyrange2[variable=="Emissions|Kyoto Gases"]
 
 # change order for plotting
-#poyrange = poyrange[order(Category,variable,median)]
-poyrange$region <- factor(poyrange$region, levels=c("BRA [3]","CAN [3]","TUR [3]","USA [6]","EU [6]",
-                                                    "RUS [3]","JPN [4]","IND [5]","CHN [6]","IDN [3]","World [6]")) #unique(poyrange$region)
-#poy=poy[order(Category,variable,V1)]
-poy$region<-factor(poy$region,levels=c("BRA [3]","CAN [3]","TUR [3]","USA [6]","EU [6]",
-                                       "RUS [3]","JPN [4]","IND [5]","CHN [6]","IDN [3]","World [6]")) #levels=unique(poy$region)
-
-#TODO fix this
-# poy$region<-factor(poy$region,levels=c("Brazil [3]","Canada [3]","Turkey [3]","USA [6]","EU [6]","Russia [3]",
-#                                        "Japan [4]","India [5]","China [6]","Indonesia [3]","World [6]"))
-# poy$region<-factor(poy$region,levels=c("BRA [3]"="Brazil [3]","CAN [3]"="Canada [3]","TUR [3]"="Turkey [3]","USA [6]"="USA [6]","EU [6]"="EU [6]","RUS [3]"="Russia [3]",
-#                                        "JPN [4]"="Japan [4]","IND [5]"="India [5]","CHN [6]"="China [6]","IDN [3]"="Indonesia [3]","World [6]"="World [6 models]"))
-# poyrange$region<-factor(poyrange$region,levels=c("BRA [3]"="Brazil [3]","CAN [3]"="Canada [3]","TUR [3]"="Turkey [3]","USA [6]"="USA [6]","EU [6]"="EU [6]","RUS [3]"="Russia [3]",
-#                                                  "JPN [4]"="Japan [4]","IND [5]"="India [5]","CHN [6]"="China [6]","IDN [3]"="Indonesia [3]","World [6]"="World [6 models]"))
-
+poyrange$region <- factor(poyrange$region, levels=c("Brazil [3]","Canada [3]","Turkey [3]","USA [6]","EU [6]",
+                                                    "Russia [3]","Japan [4]","India [5]","China [6]","Indonesia [3]","World [6]")) #unique(poyrange$region)
+poy$region<-factor(poy$region,levels=c("Brazil [3]","Canada [3]","Turkey [3]","USA [6]","EU [6]",
+                                       "Russia [3]","Japan [4]","India [5]","China [6]","Indonesia [3]","World [6]")) #levels=unique(poy$region)
 poyrange$Category <- factor(poyrange$Category,levels=c("2 °C","1.5 °C"))
 poy$Category <- factor(poy$Category,levels=c("2 °C","1.5 °C"))
 
@@ -108,22 +109,24 @@ poyrange[max>2100]$label <- "*"
 poyrange$showyear <- poyrange$max
 poyrange[max>2100]$showyear <- 2105
 
+# read file with table 1 asterisk information to include in graph
+change=fread("data/changepoy.csv",header=TRUE)
+change[Category=="15deg"]$Category<-"1.5 °C"
+change[Category=="2deg"]$Category<-"2 °C"
+
 S = ggplot()
-#S = S + geom_errorbar(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(ymin=min,ymax=max, x=region, colour=variable),position=position_dodge(width=0.66),width=0.66) #variable as fill? #,size=0.2
 S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2]","MEX [2]")], aes(ymin=min,ymax=showyear,y=median, x=region, colour=variable),alpha=0.5,size=5,fatten=1,show.legend = F) #,position=position_dodge(width=0.66)
 S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2]","MEX [2]")],aes(x=region,y=showyear,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
+S = S + geom_point(data=change[change=="yes"],aes(x=region,y=2030),shape=5,size=2)
 S = S + guides(colour=F)
 S = S + geom_text(data=poy[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=10)
 S = S + geom_text(data=poyrange[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=10)
 S = S + geom_hline(data=poyrange[region=="World [6]"&Category%in%c("2 °C","1.5 °C")], aes(yintercept=median),linetype="dotted") 
-#S = S + geom_boxplot(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=V1, x=region, colour=variable,fill=variable),position=position_dodge(width=0.66),width=0.66)
-#S = S + geom_point(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2 models]","MEX [2 models]")], aes(y=median,x=region,colour=variable),position=position_dodge(width=0.66)) #,size=0.2
 S = S + coord_flip()
 S = S + facet_grid(Category~variable, scales="free_y", 
                    labeller=labeller(variable=c("Emissions|CO2"="CO2 (all)","Emissions|CO2|Energy and Industrial Processes"="CO2 (fossil&cement)","Emissions|Kyoto Gases"="Kyoto gases")))
 S = S + ylab("Phase out year")+xlab("")
 S = S + scale_y_continuous(limits=c(2030,2110),breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
-#S = S + scale_y_continuous(breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110,2120,2130,2140,2150,2160,2170,2180,2190,2200))
 S = S + theme_bw() + theme(axis.text.y=element_text(size=20)) + theme(strip.text=element_text(size=20)) + theme(axis.title=element_text(size=20)) +
         theme(axis.text.x = element_text(angle = 90, hjust = 1, size=20)) + theme(plot.title=element_text(size=20)) + theme(legend.position = "bottom") +
         theme(legend.text=element_text(size=20),legend.title=element_text(size=20))
