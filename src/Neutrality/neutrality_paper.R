@@ -1145,14 +1145,34 @@ s3 = s3 + labs(x="",y="Phase-out year of GHG emissions")
 ggsave(file=paste(outdir,"/poy_scatterplot_median",".png",sep=""),s3,height=14, width=18,dpi=500)
 
 # Only for 10 countries, POLES & IMAGE
+# GDP per capita divide by 1000 for readability
+scat[variable=="gdpcap"]$value=scat[variable=="gdpcap"]$value/1000
+scat[variable=="gdpcap"]$unit <- "1000 USD/person"
+
 s4 = ggplot(scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")])
-s4 = s4 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=3)
-s4 = s4 + scale_color_manual(values=mycolors)
+s4 = s4 + geom_point(aes(x=value,y=poy,colour=region,shape=Category),size=4)
+s4 = s4 + scale_color_manual(values=mycolors,labels=c("BRA"="Brazil","CAN"="Canada","CHN"="China","EU"="EU","IND"="India","JPN"="Japan","TUR"="Turkey","USA"="USA","IDN"="Indonesia","RUS"="Russia"))
 #s4 = s4 + geom_text(aes(x=value,y=poy,label=region))
-s4 = s4 + facet_wrap(~variable,scales="free_x",nrow=3,ncol=5)
+s4 = s4 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&!variable%in%c("density","prodcap","emisint","gdpcap","Land Cover|Forest|Afforestation and Reforestation")],
+                    aes(x=10,y=2020,label=unit),size=7)
+s4 = s4 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("prodcap")],
+                    aes(x=0.5,y=2020,label=unit),size=7)
+s4 = s4 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("density")],
+                    aes(x=1,y=2020,label=unit),size=7)
+s4 = s4 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("emisint")],
+                    aes(x=100,y=2020,label=unit),size=7)
+s4 = s4 + geom_text(data=scat[Category%in%c("2 °C","1.5 °C")&region%in%c("BRA","CAN","CHN","EU","IND","JPN","TUR","USA","IDN","RUS")&model%in%c("IMAGE 3.0","POLES CDL")&variable%in%c("gdpcap","Land Cover|Forest|Afforestation and Reforestation")],
+                    aes(x=20,y=2020,label=unit),size=7)
+s4 = s4 + facet_wrap(~variable,scales="free_x",nrow=3,ncol=5,labeller = labeller(variable=c("density"="a) Population density","gdpcap"="f) GDP per capita","emiscap"="j) GHG emissions per capita",
+                                                                                            "BaselineGHG2050"="n) Baseline growth 2050","BaselineGHG2100"="o) Baseline growth 2100",
+                                                                                            "transportshare"="k) Transport % in CO2","buildingshare"="l) Buildings % in CO2",
+                                                                                            "industryshare"="m) Industry % in CO2","emisint"="i) Emis. intensity electricity",
+                                                                                            "nonCO2share"="b) Non-CO2 emissions share","prodcap"="c) Productive area per capita","cropshare"="g) Cropland % total land cover",
+                                                                                            "forestshare"="h) Forest % of total land cover","CCSshare"="e) CCS % of total emissions",
+                                                                                            "Land Cover|Forest|Afforestation and Reforestation"="d) Afforestation&reforestation")))
 s4 = s4 + scale_y_continuous(breaks=c(2020,2040,2060,2080,2100),limits=c(2020,2100)) #,2120,2140 # 2150
-s4 = s4 + theme_bw() + theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),legend.title=element_text(size=18),
-                           strip.text=element_text(size=18))
+s4 = s4 + theme_bw() + theme(axis.text=element_text(size=18),axis.title=element_text(size=20),legend.text=element_text(size=20),legend.title=element_text(size=22),
+                           strip.text=element_text(size=16))
 s4 = s4 + labs(x="",y="Phase-out year of GHG emissions")
 ggsave(file=paste(outdir,"/poy_scatterplot_PI_10regions",".png",sep=""),s4,height=14, width=18,dpi=500)
 
