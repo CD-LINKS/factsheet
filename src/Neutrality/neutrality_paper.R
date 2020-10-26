@@ -1678,15 +1678,15 @@ b4 = ggplot() +
 ggsave(file=paste(outdir,"/emissions_breakdown_poy_BRA-CHN-IND-USA",".png",sep=""),b4,height=12, width=16,dpi=500)
 
 b5 = ggplot() +
-  geom_bar(data=poyemis[Category=="1.5 °C"&value>0&region%in%c("BRA","CHN","IND","USA")&model%in%c("IMAGE 3.0","POLES CDL")],aes(x=model,y=value,fill=variable),stat="Identity") +
-  geom_bar(data=poyemis[Category=="1.5 °C"&value<0&region%in%c("BRA","CHN","IND","USA")&model%in%c("IMAGE 3.0","POLES CDL")],aes(x=model,y=value,fill=variable),stat="Identity") +
+  geom_bar(data=poyemis[Category=="1.5 °C"&value>0&region%in%c("BRA","CHN","IND","USA")&model%in%c("IMAGE 3.0","POLES CDL")],aes(x=model,y=value,fill=variable),stat="Identity",width = 0.5) +
+  geom_bar(data=poyemis[Category=="1.5 °C"&value<0&region%in%c("BRA","CHN","IND","USA")&model%in%c("IMAGE 3.0","POLES CDL")],aes(x=model,y=value,fill=variable),stat="Identity",width = 0.5) +
   geom_text(data=poyemis[Category=="1.5 °C"&region%in%c("BRA","CHN","IND","USA")&variable=="nonCO2"&model%in%c("IMAGE 3.0","POLES CDL")],stat="identity",aes(x=model,y=1600,label=period),size=6) +
   geom_hline(yintercept=0,size=1,linetype="dashed")+
   facet_grid(region~Category,labeller=labeller(region=c("BRA"="a) Brazil","CHN"="b) China","IND"='c) India',"USA"="d) USA"))) + #,scales="free_y"
   labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+theme(axis.title.y = element_text(size=22), legend.title=element_text(size=20),legend.text=element_text(size=22), 
-               axis.text.x = element_text(angle=0))+
-  scale_fill_manual(values=c("nonCO2"="#E69F00","CO2demand"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec"))
+  ttheme+theme(axis.title.y = element_text(size=22), legend.title=element_text(size=20),legend.text=element_text(size=16), 
+               axis.text.x = element_text(angle=0), legend.position = "bottom")+
+  scale_fill_manual(values=c("nonCO2"="#E69F00","CO2demand"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec"),labels=c("nonCO2"="Non-CO2 GHG","CO2demand"="CO2 from industry, buildings, transport","CO2supply"="CO2 from energy supply","CO2afolu"="CO2 from agriculture and land use"),name=NULL)
 ggsave(file=paste(outdir,"/emissions_breakdown_poy_BRA-CHN-IND-USA_1p5",".png",sep=""),b5,height=12, width=14,dpi=500)
 
 c1 = ggplot() +
