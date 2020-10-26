@@ -645,6 +645,9 @@ equity=equity%>%mutate(diffmin=min-median,diffmax=max-median,diffmed=(diffmin+di
 #change plot order
 equity$Category <- factor(equity$Category,levels=c("2 °C","1.5 °C"))
 equity$region<-paste(equity$region,' [','median]',sep="")
+#leave out cases where extrapolated POY >2100 while RDP =2100 (which could also be >2100)
+equity[max==2100&median>2100]$diffmax<-0
+equity[max==2100&median>2100]$diffmed<-0
 
 #plot
 e1 = ggplot()
