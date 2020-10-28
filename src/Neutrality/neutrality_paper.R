@@ -651,7 +651,7 @@ equity[max==2100&median>2100]$diffmed<-0
 
 #plot
 e1 = ggplot()
-e1 = e1 + geom_pointrange(data=equity[Category%in%c("2 °C","1.5 °C")], 
+e1 = e1 + geom_pointrange(data=equity[Category%in%c("2 °C","1.5 °C")&!c(Category=="2 °C"&region%in%c("TUR [median]","IND [median]"))], #leave out India and Turkey for 2C instead of presenting median as zero, because one range is unknown so can't present median
                           aes(ymin=diffmin,ymax=diffmax,y=diffmed, x=region),alpha=0.5,size=5,fatten=1,show.legend = F,colour="#66b2ff") 
 # e1 = e1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","MEX [2 models]","SAF [2 models]")&gwp=="diff"],
 #                      aes(x=region,y=value,shape=model),size=3) #,colour=model
