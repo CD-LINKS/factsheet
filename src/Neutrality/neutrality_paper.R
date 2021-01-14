@@ -116,7 +116,7 @@ change[Category=="2deg"]$Category<-"2 °C"
 
 S = ggplot()
 S = S + geom_pointrange(data=poyrange[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2]","MEX [2]")], aes(ymin=min,ymax=showyear,y=median, x=region, colour=variable),alpha=0.5,size=5,fatten=1,show.legend = F) #,position=position_dodge(width=0.66)
-S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2]","MEX [2]")],aes(x=region,y=showyear,shape=model,colour=variable),size=3) #,position=position_dodge(width=0.66)
+S = S + geom_point(data=poy[Category%in%c("2 °C","1.5 °C")&!region%in%c("SAF [2]","MEX [2]")],aes(x=region,y=showyear,shape=model,colour=variable),size=4) #,position=position_dodge(width=0.66)
 S = S + geom_point(data=change[change=="yes"],aes(x=region,y=2030),shape=5,size=2)
 S = S + guides(colour=F)
 S = S + geom_text(data=poy[Category%in%c("2 °C","1.5 °C")],stat="identity",aes(x=region,y=showyear,label=label),size=10)
@@ -367,7 +367,7 @@ S2a = ggplot()
 S2a = S2a + geom_pointrange(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"], 
                         aes(ymin=min,ymax=max,y=median, x=region),alpha=0.5,size=5,fatten=1,show.legend = F,colour="#0080ff") 
 S2a = S2a + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]")&variable=="diff"],
-                   aes(x=region,y=value,shape=model),size=3) #,colour=model
+                   aes(x=region,y=value,shape=model),size=4) #,colour=model
 S2a=S2a+geom_text(data=poyrange1[Category%in%c("2 °C")&!region%in%c("World [6 models]")&variable=="diff"],aes(x="USA [6 models]",y=-70),label ="a)",size=10)
 S2a = S2a + guides(colour=F)
 S2a = S2a + geom_hline(yintercept=0) 
@@ -523,7 +523,7 @@ a1a = ggplot()
 a1a = a1a + geom_pointrange(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [5 models]")&variable=="diff"], 
                             aes(ymin=min,ymax=max,y=median, x=region),alpha=0.5,size=5,fatten=1,show.legend = F,colour="#fe868e") 
 a1a = a1a + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [5 models]")&variable=="diff"],
-                       aes(x=region,y=value,shape=model),size=3) #,colour=model
+                       aes(x=region,y=value,shape=model),size=4) #,colour=model
 a1a=a1a+geom_text(data=poyrange1[Category%in%c("2 °C")&!region%in%c("World [5 models]")&variable=="diff"],aes(x="TUR [2 models]",y=-70),label ="b)",size=10)
 a1a = a1a + guides(colour=F)
 a1a = a1a + geom_hline(yintercept=0) 
@@ -612,7 +612,7 @@ g1 = ggplot()
 g1 = g1 + geom_pointrange(data=poyrange1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","MEX [2 models]","SAF [2 models]")&gwp=="diff"], 
                             aes(ymin=min,ymax=max,y=median, x=region),alpha=0.5,size=5,fatten=1,show.legend = F,colour="#66b2ff") 
 g1 = g1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","MEX [2 models]","SAF [2 models]")&gwp=="diff"],
-                       aes(x=region,y=value,shape=model),size=3) #,colour=model
+                       aes(x=region,y=value,shape=model),size=4) #,colour=model
 g1=g1+geom_text(data=poyrange1[Category%in%c("2 °C")&!region%in%c("World [6 models]","MEX [2 models]","SAF [2 models]")&gwp=="diff"],aes(x="USA [6 models]",y=-70),label ="c)",size=10)
 g1 = g1 + guides(colour=F)
 g1 = g1 + geom_hline(yintercept=0) 
@@ -677,7 +677,7 @@ S2a=S2a+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),
 g1=g1+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
 a1a=a1a+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
 e1 = e1+theme(legend.position = "none")+theme(axis.text.y=element_text(size=20),axis.text.x=element_text(size=22),strip.text=element_text(size=24))
-text<-textGrob("Difference in phase-out year due to \n 1) inventory vs. model LULUCF (top-left): <0 earlier if based on inventory, \n 2) BECCS allocation (top-right): <0 earlier if based on biomass production, \n 3) GWP (bottom-left): <0 earlier if based on AR5 instead of AR4, \n 4) Equity (bottom-right): <0 earlier if based on equity range instead of cost-optimal",
+text<-textGrob("Difference in phase-out year due to \n a) inventory vs. model LULUCF (top-left): <0 earlier if based on inventory, \n b) BECCS allocation (top-right): <0 earlier if based on biomass production, \n c) GWP (bottom-left): <0 earlier if based on AR5 instead of AR4, \n d) Equity (bottom-right): <0 earlier if based on equity range instead of cost-optimal",
                gp=gpar(fontsize=24))
 S2a=S2a+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80)) #+ylab("")
 g1=g1+scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40,60,80)) #+ylab("")
@@ -687,6 +687,7 @@ g1=g1+geom_text(aes(x="BRA [3 models]",y=-40,label="Earlier"),stat="identity",da
 g1=g1+geom_text(aes(x="BRA [3 models]",y=40,label="Later"),stat="identity",data=poyrange1,size=10)
 S2a=S2a+geom_text(aes(x="BRA [3 models]",y=-40,label="Earlier"),stat="identity",data=poyrange1,size=10)
 S2a=S2a+geom_text(aes(x="BRA [3 models]",y=40,label="Later"),stat="identity",data=poyrange1,size=10)
+#S2a=S2a+geom_text(aes(x="USA [6 models]",y=40,label="No difference between default and sensitivity"),stat="identity",data=poyrange1,size=4) # data=poyrange1[Category%in%c("2 °C")],
 a1a=a1a+geom_text(aes(x="USA [5 models]",y=-60,label="Earlier"),stat="identity",data=poyrange1,size=10)
 a1a=a1a+geom_text(aes(x="USA [5 models]",y=60,label="Later"),stat="identity",data=poyrange1,size=10)
 e1=e1+geom_text(aes(x="BRA [median]",y=-20,label="Earlier"),stat="identity",data=poyrange1,size=10)
