@@ -652,7 +652,7 @@ equity[max==2100&median>2100]$diffmed<-0
 #plot
 e1 = ggplot()
 e1 = e1 + geom_pointrange(data=equity[Category%in%c("2 °C","1.5 °C")&!c(Category=="2 °C"&region%in%c("TUR [median]","IND [median]"))], #leave out India and Turkey for 2C instead of presenting median as zero, because one range is unknown so can't present median
-                          aes(ymin=diffmin,ymax=diffmax,y=diffmed, x=region),alpha=0.5,size=5,fatten=1,show.legend = F,colour="#66b2ff") 
+                          aes(ymin=diffmin,ymax=diffmax,y=diffmed, x=region),alpha=0.5,size=5,fatten=0,show.legend = F,colour="#66b2ff") 
 # e1 = e1 + geom_point(data=poy1[Category%in%c("2 °C","1.5 °C")&!region%in%c("World [6 models]","MEX [2 models]","SAF [2 models]")&gwp=="diff"],
 #                      aes(x=region,y=value,shape=model),size=3) #,colour=model
 e1=e1+geom_text(data=equity[Category%in%c("2 °C")],aes(x="USA [median]",y=-70),label ="d)",size=10)
@@ -1681,14 +1681,14 @@ ggsave(file=paste(outdir,"/emissions_breakdown_poy_BRA-CHN-IND-USA",".png",sep="
 b5 = ggplot() +
   geom_bar(data=poyemis[Category=="1.5 °C"&value>0&region%in%c("BRA","CHN","IND","USA")&model%in%c("IMAGE 3.0","POLES CDL")],aes(x=model,y=value,fill=variable),stat="Identity",width = 0.5) +
   geom_bar(data=poyemis[Category=="1.5 °C"&value<0&region%in%c("BRA","CHN","IND","USA")&model%in%c("IMAGE 3.0","POLES CDL")],aes(x=model,y=value,fill=variable),stat="Identity",width = 0.5) +
-  geom_text(data=poyemis[Category=="1.5 °C"&region%in%c("BRA","CHN","IND","USA")&variable=="nonCO2"&model%in%c("IMAGE 3.0","POLES CDL")],stat="identity",aes(x=model,y=1600,label=period),size=6) +
+  geom_text(data=poyemis[Category=="1.5 °C"&region%in%c("BRA","CHN","IND","USA")&variable=="nonCO2"&model%in%c("IMAGE 3.0","POLES CDL")],stat="identity",aes(x=model,y=1600,label=period),size=10) +
   geom_hline(yintercept=0,size=1,linetype="dashed")+
-  facet_grid(region~Category,labeller=labeller(region=c("BRA"="a) Brazil","CHN"="b) China","IND"='c) India',"USA"="d) USA"))) + #,scales="free_y"
+  facet_grid(Category~region,labeller=labeller(region=c("BRA"="a) Brazil","CHN"="b) China","IND"='c) India',"USA"="d) USA"))) + #,scales="free_y"
   labs(y=bquote("Emissions in phase-out year (Mt"~CO[2]~"eq/year)"),x="") +
-  ttheme+theme(axis.title.y = element_text(size=22), legend.title=element_text(size=20),legend.text=element_text(size=16), 
-               axis.text.x = element_text(angle=0), legend.position = "bottom")+
+  ttheme+theme(axis.title.y = element_text(size=26), legend.title=element_text(size=26),legend.text=element_text(size=24), 
+               axis.text.x = element_text(angle=0,size=24),axis.text.y=element_text(size=24),strip.text=element_text(size=24), legend.position = "bottom")+ #
   scale_fill_manual(values=c("nonCO2"="#E69F00","CO2demand"="#4d4dff","CO2afolu"="#009E73","CO2supply"="#c1e1ec"),labels=c("nonCO2"="Non-CO2 GHG","CO2demand"="CO2 from industry, buildings, transport","CO2supply"="CO2 from energy supply","CO2afolu"="CO2 from agriculture and land use"),name=NULL)
-ggsave(file=paste(outdir,"/emissions_breakdown_poy_BRA-CHN-IND-USA_1p5",".png",sep=""),b5,height=12, width=14,dpi=500)
+ggsave(file=paste(outdir,"/emissions_breakdown_poy_BRA-CHN-IND-USA_1p5",".png",sep=""),b5,height=10, width=20,dpi=500)
 
 c1 = ggplot() +
   geom_bar(data=poyemisccs[value>0&region%in%c("JPN","EU","RUS")],aes(x=model,y=value,fill=variable),stat="Identity") +
