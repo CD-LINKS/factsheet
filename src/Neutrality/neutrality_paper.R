@@ -129,7 +129,7 @@ S = S + ylab("Phase out year")+xlab("")
 S = S + scale_y_continuous(limits=c(2030,2110),breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
 S = S + theme_bw() + theme(axis.text.y=element_text(size=20)) + theme(strip.text=element_text(size=20)) + theme(axis.title=element_text(size=20)) +
         theme(axis.text.x = element_text(angle = 90, hjust = 1, size=20)) + theme(plot.title=element_text(size=20)) + theme(legend.position = "bottom") +
-        theme(legend.text=element_text(size=20),legend.title=element_text(size=20))
+        theme(legend.text=element_text(size=20),legend.title=element_text(size=20))+theme(axis.text.y=element_text(hjust=0))
 ggsave(file=paste(outdir,"/Phase_out_year.png",sep=""),S,width=16, height=10, dpi=120)
 
 ### relative to global ###
@@ -377,7 +377,7 @@ S2a = S2a + ylab("Difference in phase-out year between default and sensitivity c
 #S2a = S2a + scale_y_continuous(limits=c(2030,2110),breaks=c(2030,2040,2050,2060,2070,2080,2090,2100,2110))
 S2a = S2a + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
-  theme(legend.text=element_text(size=16),legend.title=element_text(size=18))
+  theme(legend.text=element_text(size=16),legend.title=element_text(size=18))+theme(axis.text.y=element_text(hjust=0))
 ggsave(file=paste(outdir,"/Phase_out_year_LULUCF_diff_layout.png",sep=""),S2a,width=16, height=10, dpi=120)
 
 # plot trajectories to understand differences
@@ -534,7 +534,7 @@ a1a = a1a + scale_y_continuous(limits=c(-80,90),breaks=c(-80,-60,-40,-20,0,20,40
 a1a = a1a + geom_text(data=poyrange1[region=="RUS [2 models]"&Category=="2 °C"&variable=="diff"],stat="identity",aes(x=region,y=50,label="2077 > No phase-out"),size=6)
 a1a = a1a + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
-  theme(legend.text=element_text(size=16),legend.title=element_text(size=18))
+  theme(legend.text=element_text(size=16),legend.title=element_text(size=18))+theme(axis.text.y=element_text(hjust=0))
 ggsave(file=paste(outdir,"/Phase_out_year_allocation_BECCS_diff_layout.png",sep=""),a1a,width=16, height=10, dpi=120)
 
 
@@ -621,7 +621,7 @@ g1 = g1 + facet_grid(.~Category, scales="free_y")
 g1 = g1 + ylab("Difference in phase-out year between default and sensitivity case (years)")+xlab("") #Difference in phase-out year due to GWP (<0: earlier if based on AR5 instead of AR4)
 g1 = g1 + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
-  theme(legend.text=element_text(size=16),legend.title=element_text(size=18))
+  theme(legend.text=element_text(size=16),legend.title=element_text(size=18))+theme(axis.text.y=element_text(hjust=0))
 ggsave(file=paste(outdir,"/Phase_out_year_GWP_diff_layout.png",sep=""),g1,width=16, height=10, dpi=120)
 
 
@@ -663,7 +663,7 @@ e1 = e1 + facet_grid(.~Category, scales="free_y")
 e1 = e1 + ylab("Difference in phase-out year between default and sensitivity case (years)")+xlab("") #Difference in phase-out year due to equity (<0: earlier if based on equity range instead of cost-optimal)
 e1 = e1 + theme_bw() + theme(axis.text.y=element_text(size=16)) + theme(strip.text=element_text(size=14)) + theme(axis.title=element_text(size=18)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size=14)) + theme(plot.title=element_text(size=18)) + theme(legend.position = "bottom") +
-  theme(legend.text=element_text(size=16),legend.title=element_text(size=18))
+  theme(legend.text=element_text(size=16),legend.title=element_text(size=18))+theme(axis.text.y=element_text(hjust=0))
 ggsave(file=paste(outdir,"/Phase_out_year_equity_diff_layout.png",sep=""),e1,width=16, height=10, dpi=120)
 
 # Combined figure definitions ---------------------------------------------
