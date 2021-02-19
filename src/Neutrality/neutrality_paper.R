@@ -42,6 +42,10 @@ np=np[Scope=="global"&!region%in%c("R5ASIA","R5LAM","R5MAF","R5REF","R5OECD90+EU
 u=np[,list(unique(scenario)),by=c("model","Category","region")]
 write.csv(u,paste("Neutrality","/Scenario overview.csv",sep=""))
 
+# save source data for paper
+npsave = spread(np,period,value)
+npsave=npsave[ ,`:=`("Baseline" = NULL, "Scope" = NULL)]
+write.csv(npsave,paste("Neutrality","/Source data.csv",sep=""))
 
 # Regional phase-out years ------------------------------------------------
 # See functions - pbl_colors.r?
