@@ -1692,6 +1692,10 @@ ggsave(file=paste(outdir,"/emissions_breakdown_poy_BRA-CHN-IND-USA",".png",sep="
 poyemisF4=poyemis
 poyemisF4[model=="IMAGE 3.0"]$model<-"IMAGE"
 poyemisF4[model=="POLES CDL"]$model<-"POLES"
+# Manually change displayed phase-out year for Brazil - IMAGE - 1.5 C into >2100 to avoid confusion 
+poyemisF4$period = as.character(poyemisF4$period)
+poyemisF4[model=="IMAGE"&region=="BRA"&Category=="1.5 °C"]$period <- ">2100"
+
 b5 = ggplot() +
   geom_bar(data=poyemisF4[Category=="1.5 °C"&value>0&region%in%c("BRA","CHN","IND","USA")&model%in%c("IMAGE","POLES")],aes(x=model,y=value,fill=variable),stat="Identity",width = 0.5) +
   geom_bar(data=poyemisF4[Category=="1.5 °C"&value<0&region%in%c("BRA","CHN","IND","USA")&model%in%c("IMAGE","POLES")],aes(x=model,y=value,fill=variable),stat="Identity",width = 0.5) +
